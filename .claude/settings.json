@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find . -name .* -type f)",
+      "Bash(/Users/adamkahirov/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/start-server.sh --project-dir /Users/adamkahirov/Desktop/code/countrivo)",
+      "Bash(/Users/adamkahirov/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.6/skills/brainstorming/scripts/stop-server.sh /Users/adamkahirov/Desktop/code/countrivo/.superpowers/brainstorm/61000-1774893332)",
+      "Bash(npm -v)",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
+      "Bash(npx create-next-app@latest /Users/adamkahirov/Desktop/code/countrivo --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --no-turbopack)",
+      "Bash(printf nnnn:*)",
+      "Bash(yes n:*)"
+    ]
+  }
+}
