@@ -1,0 +1,171 @@
+"use client";
+
+import { useReducer, useCallback } from "react";
+import {
+  createOddOneOut,
+  answerRound,
+  nextRound,
+  type OddOneOutState,
+} from "@/lib/game-logic/odd-one-out/engine";
+import { getDailyRng } from "@/lib/daily-seed";
+import { mulberry32 } from "@/lib/seeded-random";
+import { cn } from "@/lib/utils";
+import { GameOverScreen } from "@/components/game/game-over-screen";
+
+interface OddBoardProps {
+  mode: "daily" | "practice";
+}
+
+function init(mode: "daily" | "practice"): OddOneOutState {
+  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  return createOddOneOut(rng);
+}
+
+type Action =
+  | { type: "ANSWER"; index: number }
+  | { type: "NEXT" }
+  | { type: "RESET" };
+
+function reducer(state: OddOneOutState, action: Action): OddOneOutState {
+  switch (action.type) {
+    case "ANSWER": return answerRound(state, action.index);
+    case "NEXT": return nextRound(state);
+    case "RESET": return init("practice");
+    default: return state;
+  }
+}
+
+export function OddBoard({ mode }: OddBoardProps) {
+  const [state, dispatch] = useReducer(reducer, mode, init);
+
+  const round = state.rounds[state.currentRound];
+
+  const handlePick = useCallback((idx: number) => {
+    if (state.phase !== "playing") return;
+    dispatch({ type: "ANSWER", index: idx });
+  }, [state.phase]);
+
+  if (state.phase === "results") {
+    return (
+      <GameOverScreen
+        title="Odd One Out Complete!"
+        score={`${state.score} / ${state.rounds.length}`}
+        subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
+        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+      >
+        <div className="w-full max-w-md space-y-3">
+          {state.rounds.map((r, i) => {
+            const chosen = state.answers[i];
+            const isCorrect = chosen === r.oddIndex;
+            return (
+              <div
+                key={i}
+                className={cn(
+                  "p-3 rounded-lg border",
+                  isCorrect
+                    ? "border-correct/30 bg-correct/5"
+                    : "border-incorrect/30 bg-incorrect/5"
+                )}
+              >
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-sm">{isCorrect ? "✓" : "✗"}</span>
+                  <div className="flex gap-1">
+                    {r.countries.map((c, ci) => (
+                      <span
+                        key={c.iso3}
+                        className={cn(
+                          "text-lg",
+                          ci === r.oddIndex && "underline"
+                        )}
+                      >
+                        {c.flagEmoji}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <p className="text-xs text-text-muted">{r.traitDescription}</p>
+              </div>
+            );
+          })}
+        </div>
+      </GameOverScreen>
+    );
+  }
+
+  if (!round) return null;
+
+  const isFeedback = state.phase === "feedback";
+  const chosen = state.answers[state.currentRound];
+
+  return (
+    <div className="flex flex-col gap-6">
+      {/* Progress */}
+      <div className="flex items-center justify-between text-sm text-text-muted">
+        <span>
+          Round <span className="font-bold text-text">{state.currentRound + 1}</span> of{" "}
+          {state.rounds.length}
+        </span>
+        <span>Score: <span className="font-bold text-text">{state.score}</span></span>
+      </div>
+
+      <div className="text-center">
+        <h2 className="text-lg font-bold">Which one doesn&apos;t belong?</h2>
+        <p className="text-sm text-text-muted mt-1">
+          Three share a trait. Pick the odd one out.
+        </p>
+      </div>
+
+      {/* Country cards */}
+      <div className="grid grid-cols-2 gap-3">
+        {round.countries.map((country, idx) => {
+          const isOdd = idx === round.oddIndex;
+          const isChosen = chosen === idx;
+
+          return (
+            <button
+              key={country.iso3}
+              onClick={() => handlePick(idx)}
+              disabled={isFeedback}
+              className={cn(
+                "flex flex-col items-center p-5 rounded-xl border-2 transition-all",
+                !isFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
+                isFeedback && isOdd && "border-correct bg-correct/10",
+                isFeedback && isChosen && !isOdd && "border-incorrect bg-incorrect/10",
+                isFeedback && !isOdd && !isChosen && "border-border opacity-50"
+              )}
+            >
+              <span className="text-4xl mb-2">{country.flagEmoji}</span>
+              <span className="font-medium text-sm text-center">{country.displayName}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Feedback */}
+      {isFeedback && (
+        <div className="space-y-4">
+          <div className={cn(
+            "text-center p-4 rounded-xl border",
+            chosen === round.oddIndex
+              ? "border-correct/30 bg-correct/5"
+              : "border-incorrect/30 bg-incorrect/5"
+          )}>
+            <p className="font-bold mb-1">
+              {chosen === round.oddIndex ? "Correct!" : "Wrong!"}
+            </p>
+            <p className="text-sm text-text-muted">
+              {round.traitDescription}
+            </p>
+          </div>
+
+          <button
+            onClick={() => dispatch({ type: "NEXT" })}
+            className="mx-auto block px-8 py-3 bg-brand text-white font-semibold rounded-xl hover:bg-brand-dark transition-colors"
+          >
+            {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
