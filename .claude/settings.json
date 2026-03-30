@@ -37,7 +37,10 @@
       "Bash(ls /Users/adamkahirov/Desktop/code/countrivo/src/data/*.json)",
       "Bash(ls /Users/adamkahirov/Desktop/code/countrivo/scripts/*.ts)",
       "Bash(ls -d /Users/adamkahirov/Desktop/code/countrivo/src/app/games/*/)",
-      "Bash(echo *.png)"
+      "Bash(echo *.png)",
+      "Bash(vercel --yes)",
+      "Bash(vercel --yes --scope ataladams-projects)",
+      "Bash(vercel domains:*)"
     ]
   }
 }

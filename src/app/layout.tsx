@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import Link from "next/link";
@@ -15,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://countrivo.com"),
   title: {
     default: "Countrivo — Free Geography Games, Country Quizzes & Daily Challenges",
     template: "%s | Countrivo",
@@ -53,6 +56,24 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-surface text-text font-sans">
+        {/* Structured data for the website */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Countrivo",
+              url: "https://countrivo.com",
+              description: "Free geography games online. Daily challenges, flag quizzes, country rankings, and strategy puzzles.",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://countrivo.com/countries?q={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
         <Header />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-border bg-surface-muted">
@@ -96,6 +117,8 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

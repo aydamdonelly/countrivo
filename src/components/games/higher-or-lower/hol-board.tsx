@@ -33,16 +33,19 @@ function reducer(state: HoLState, action: Action): HoLState {
 export function HoLBoard({ mode }: HoLBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [showReveal, setShowReveal] = useState(false);
+  const [lastChoice, setLastChoice] = useState<"higher" | "lower" | null>(null);
 
   const round = state.rounds[state.currentRound];
 
   const handleGuess = useCallback((choice: "higher" | "lower") => {
     if (showReveal) return;
+    setLastChoice(choice);
     setShowReveal(true);
     setTimeout(() => {
       dispatch({ type: "GUESS", choice });
       setShowReveal(false);
-    }, 1200);
+      setLastChoice(null);
+    }, 1500);
   }, [showReveal]);
 
   if (state.phase === "gameover") {
@@ -58,56 +61,85 @@ export function HoLBoard({ mode }: HoLBoardProps) {
 
   if (!round) return null;
 
+  const isCorrectGuess = lastChoice === round.answer;
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between text-sm text-text-muted">
-        <span>🔥 Streak: <span className="font-bold text-text">{state.streak}</span></span>
-        <span>{round.category.emoji} {round.category.label}</span>
+    <div className="flex flex-col gap-8">
+      {/* Streak counter */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-2xl">🔥</span>
+          <span className={cn(
+            "font-extrabold font-mono transition-all",
+            state.streak > 0 ? "text-4xl text-brand" : "text-3xl text-text-muted"
+          )}>
+            {state.streak}
+          </span>
+        </div>
+        <span className="text-base text-text-muted font-medium">
+          {round.category.emoji} {round.category.label}
+        </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      {/* Country cards */}
+      <div className="grid grid-cols-2 gap-4 sm:gap-6">
         {/* Left country - value shown */}
-        <div className="flex flex-col items-center p-6 rounded-xl border-2 border-border bg-surface-muted">
-          <span className="text-5xl mb-3">{round.left.flagEmoji}</span>
-          <span className="font-bold text-sm">{round.left.displayName}</span>
-          <span className="text-lg font-mono font-bold mt-2">
+        <div className={cn(
+          "flex flex-col items-center p-6 sm:p-8 rounded-xl border-2 transition-all",
+          showReveal && isCorrectGuess ? "border-correct/50 bg-correct/5" : "border-border bg-surface-muted",
+          showReveal && !isCorrectGuess ? "border-incorrect/50 bg-incorrect/5" : ""
+        )}>
+          <span className="text-7xl sm:text-8xl mb-3">{round.left.flagEmoji}</span>
+          <span className="font-bold text-base sm:text-lg text-center">{round.left.displayName}</span>
+          <span className="text-2xl sm:text-3xl font-mono font-extrabold mt-3 text-text">
             {formatStat(round.leftValue, round.category.unit)}
           </span>
         </div>
 
-        {/* Right country - value hidden */}
-        <div className="flex flex-col items-center p-6 rounded-xl border-2 border-brand/30 bg-brand/5">
-          <span className="text-5xl mb-3">{round.right.flagEmoji}</span>
-          <span className="font-bold text-sm">{round.right.displayName}</span>
+        {/* Right country - value hidden until reveal */}
+        <div className={cn(
+          "flex flex-col items-center p-6 sm:p-8 rounded-xl border-2 transition-all",
+          !showReveal && "border-brand/30 bg-brand/5",
+          showReveal && isCorrectGuess && "border-correct bg-correct/10",
+          showReveal && !isCorrectGuess && "border-incorrect bg-incorrect/10"
+        )}>
+          <span className="text-7xl sm:text-8xl mb-3">{round.right.flagEmoji}</span>
+          <span className="font-bold text-base sm:text-lg text-center">{round.right.displayName}</span>
           {showReveal ? (
-            <span className="text-lg font-mono font-bold mt-2">
+            <span className={cn(
+              "text-2xl sm:text-3xl font-mono font-extrabold mt-3",
+              isCorrectGuess ? "text-correct" : "text-incorrect"
+            )}>
               {formatStat(round.rightValue, round.category.unit)}
             </span>
           ) : (
-            <span className="text-lg font-bold mt-2 text-text-muted">?</span>
+            <span className="text-3xl font-bold mt-3 text-brand">?</span>
           )}
         </div>
       </div>
 
-      <p className="text-center text-sm text-text-muted">
+      <p className="text-center text-lg text-text-muted">
         Is <span className="font-bold text-text">{round.right.displayName}</span>&apos;s{" "}
-        {round.category.label.toLowerCase()} higher or lower?
+        <span className="font-bold text-text">{round.category.label.toLowerCase()}</span> higher or lower?
       </p>
 
+      {/* Higher / Lower buttons */}
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={() => handleGuess("higher")}
           disabled={showReveal}
-          className="p-4 rounded-xl border-2 border-correct/30 bg-correct/5 hover:border-correct hover:bg-correct/10 font-bold transition-all"
+          className="py-6 px-4 rounded-xl border-2 border-correct/30 bg-correct/5 hover:border-correct hover:bg-correct/10 font-bold text-xl transition-all w-full disabled:opacity-60"
         >
-          ⬆️ Higher
+          <span className="block text-2xl mb-1">⬆️</span>
+          Higher
         </button>
         <button
           onClick={() => handleGuess("lower")}
           disabled={showReveal}
-          className="p-4 rounded-xl border-2 border-incorrect/30 bg-incorrect/5 hover:border-incorrect hover:bg-incorrect/10 font-bold transition-all"
+          className="py-6 px-4 rounded-xl border-2 border-incorrect/30 bg-incorrect/5 hover:border-incorrect hover:bg-incorrect/10 font-bold text-xl transition-all w-full disabled:opacity-60"
         >
-          ⬇️ Lower
+          <span className="block text-2xl mb-1">⬇️</span>
+          Lower
         </button>
       </div>
     </div>

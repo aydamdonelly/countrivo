@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#g)"/>
+  <text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-size="60" font-family="system-ui, sans-serif" font-weight="900" fill="white">C</text>
+  <circle cx="50" cy="50" r="48" fill="none" stroke="white" stroke-width="3" opacity="0.3"/>
+  <!-- Globe lines -->
+  <ellipse cx="50" cy="50" rx="30" ry="48" fill="none" stroke="white" stroke-width="1.5" opacity="0.15"/>
+  <line x1="2" y1="50" x2="98" y2="50" stroke="white" stroke-width="1.5" opacity="0.15"/>
+</svg>

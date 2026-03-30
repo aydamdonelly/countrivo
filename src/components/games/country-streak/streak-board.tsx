@@ -36,7 +36,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
       setState((s) => answerStreak(s, idx, rngRef.current));
       setShowFeedback(false);
       setSelectedIdx(null);
-    }, 600);
+    }, 800);
   }, [showFeedback]);
 
   const handleReset = useCallback(() => {
@@ -56,16 +56,25 @@ export function StreakBoard({ mode }: StreakBoardProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between text-sm text-text-muted">
-        <span>🔥 Streak: <span className="font-bold text-text text-lg">{state.streak}</span></span>
+    <div className="flex flex-col gap-8">
+      {/* Streak counter */}
+      <div className="flex items-center justify-center gap-3">
+        <span className="text-3xl">🔥</span>
+        <span className={cn(
+          "font-extrabold font-mono transition-all",
+          state.streak > 0 ? "text-6xl text-brand" : "text-4xl text-text-muted"
+        )}>
+          {state.streak}
+        </span>
       </div>
 
-      <div className="text-center py-8">
-        <span className="text-8xl">{currentCountry.flagEmoji}</span>
-        <p className="text-text-muted text-sm mt-4">Which country is this?</p>
+      {/* Flag */}
+      <div className="text-center py-4">
+        <span className="text-[10rem] leading-none block">{currentCountry.flagEmoji}</span>
+        <p className="text-text-muted text-lg mt-6 font-medium">Which country is this?</p>
       </div>
 
+      {/* Options */}
       <div className="grid grid-cols-1 gap-3">
         {state.options.map((option, idx) => {
           const isCorrect = idx === state.correctIndex;
@@ -77,14 +86,17 @@ export function StreakBoard({ mode }: StreakBoardProps) {
               onClick={() => handleAnswer(idx)}
               disabled={showFeedback}
               className={cn(
-                "p-4 rounded-xl border-2 text-left font-medium transition-all",
+                "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
                 !showFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"
               )}
             >
-              {option.displayName}
+              <span className="flex items-center gap-3">
+                <span className="text-2xl">{option.flagEmoji}</span>
+                <span>{option.displayName}</span>
+              </span>
             </button>
           );
         })}

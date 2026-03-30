@@ -45,32 +45,52 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
       dispatch({ type: "ANSWER", idx });
       setShowFeedback(false);
       setSelectedIdx(null);
-    }, 800);
+    }, 1200);
   }, [showFeedback]);
 
   if (state.phase === "results") {
+    const pct = Math.round((state.score / state.questions.length) * 100);
     return (
       <GameOverScreen
         title="Capital Match Complete!"
         score={`${state.score} / ${state.questions.length}`}
+        subtitle={`${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
       />
     );
   }
 
+  const progress = ((state.currentQuestion) / state.questions.length) * 100;
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between text-sm text-text-muted">
-        <span>Question <span className="font-bold text-text">{state.currentQuestion + 1}</span> of {state.questions.length}</span>
-        <span>Score: <span className="font-bold text-text">{state.score}</span></span>
+    <div className="flex flex-col gap-8">
+      {/* Progress bar */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between text-base text-text-muted">
+          <span>
+            Question <span className="font-bold text-text text-lg">{state.currentQuestion + 1}</span> of {state.questions.length}
+          </span>
+          <span className="text-lg">
+            Score: <span className="font-bold text-brand">{state.score}</span>
+          </span>
+        </div>
+        <div className="w-full h-3 bg-surface-muted rounded-full overflow-hidden">
+          <div
+            className="h-full bg-brand rounded-full transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
       </div>
 
+      {/* Country display */}
       <div className="text-center py-6">
-        <span className="text-6xl mb-3 block">{currentQ.country.flagEmoji}</span>
-        <h2 className="text-2xl font-bold">{currentQ.country.displayName}</h2>
-        <p className="text-text-muted text-sm mt-1">What is the capital?</p>
+        <span className="text-[10rem] leading-none mb-4 block">{currentQ.country.flagEmoji}</span>
+        <h2 className="text-3xl font-bold">{currentQ.country.displayName}</h2>
+        <p className="text-text-muted text-base mt-2">{currentQ.country.continent}</p>
+        <p className="text-text-muted text-lg mt-3 font-medium">What is the capital?</p>
       </div>
 
+      {/* Options */}
       <div className="grid grid-cols-1 gap-3">
         {currentQ.options.map((option, idx) => {
           const isCorrect = idx === currentQ.correctIndex;
@@ -82,7 +102,7 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
               onClick={() => handleAnswer(idx)}
               disabled={showFeedback}
               className={cn(
-                "p-4 rounded-xl border-2 text-left font-medium transition-all",
+                "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
                 !showFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
@@ -90,6 +110,12 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
               )}
             >
               {option}
+              {/* Show correct answer label when user got it wrong */}
+              {showFeedback && isCorrect && selectedIdx !== idx && (
+                <span className="block text-sm text-correct font-bold mt-1">
+                  Correct answer
+                </span>
+              )}
             </button>
           );
         })}

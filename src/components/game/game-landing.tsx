@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+interface RelatedGame {
+  href: string;
+  emoji: string;
+  name: string;
+}
+
 interface GameLandingProps {
   emoji: string;
   title: string;
@@ -7,7 +13,17 @@ interface GameLandingProps {
   playHref: string;
   rules: string[];
   hasDailyMode?: boolean;
+  relatedGames?: RelatedGame[];
 }
+
+const DEFAULT_RELATED: RelatedGame[] = [
+  { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
+  { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
+  { href: "/games/flag-quiz", emoji: "🏁", name: "Flag Quiz" },
+  { href: "/games/capital-match", emoji: "🏛️", name: "Capital Match" },
+  { href: "/games/population-sort", emoji: "📊", name: "Population Sort" },
+  { href: "/games/country-streak", emoji: "🔥", name: "Country Streak" },
+];
 
 export function GameLanding({
   emoji,
@@ -16,24 +32,31 @@ export function GameLanding({
   playHref,
   rules,
   hasDailyMode = true,
+  relatedGames,
 }: GameLandingProps) {
+  const related = (relatedGames ?? DEFAULT_RELATED).filter(
+    (g) => g.href !== playHref.replace("/play", "")
+  );
+
   return (
-    <div className="max-w-lg mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <span className="text-5xl mb-3 block">{emoji}</span>
-        <h1 className="text-3xl font-bold">{title}</h1>
-        <p className="text-text-muted mt-2 max-w-md mx-auto">{description}</p>
+    <div className="max-w-5xl mx-auto">
+      {/* Hero */}
+      <div className="bg-surface-muted border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
+        <span className="text-7xl mb-4 block">{emoji}</span>
+        <h1 className="text-4xl sm:text-5xl font-extrabold">{title}</h1>
+        <p className="text-text-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
       </div>
 
-      <div className="flex flex-col gap-4">
+      {/* Action buttons */}
+      <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
         {hasDailyMode && (
           <Link
             href={`${playHref}?mode=daily`}
-            className="block p-6 rounded-xl border-2 border-brand/30 bg-brand/5 hover:border-brand hover:bg-brand/10 transition-all text-center"
+            className="block py-5 px-8 rounded-xl border-2 border-brand/30 bg-brand/5 hover:border-brand hover:bg-brand/10 transition-all text-center"
           >
-            <div className="text-2xl mb-2">📅</div>
-            <h2 className="text-lg font-bold">Daily Challenge</h2>
-            <p className="text-sm text-text-muted mt-1">
+            <div className="text-3xl mb-2">📅</div>
+            <h2 className="text-xl font-bold">Daily Challenge</h2>
+            <p className="text-base text-text-muted mt-1">
               Same puzzle for everyone. One attempt per day.
             </p>
           </Link>
@@ -41,26 +64,48 @@ export function GameLanding({
 
         <Link
           href={`${playHref}?mode=practice`}
-          className="block p-6 rounded-xl border-2 border-border hover:border-brand/30 hover:bg-surface-muted transition-all text-center"
+          className="block py-5 px-8 rounded-xl border-2 border-border hover:border-brand/30 hover:bg-surface-muted transition-all text-center"
         >
-          <div className="text-2xl mb-2">🔄</div>
-          <h2 className="text-lg font-bold">Practice</h2>
-          <p className="text-sm text-text-muted mt-1">
+          <div className="text-3xl mb-2">🔄</div>
+          <h2 className="text-xl font-bold">Practice</h2>
+          <p className="text-base text-text-muted mt-1">
             Random content. Unlimited plays.
           </p>
         </Link>
       </div>
 
-      <div className="mt-10 p-6 bg-surface-muted rounded-xl">
-        <h3 className="font-bold mb-3">How to Play</h3>
-        <ol className="space-y-2 text-sm text-text-muted">
+      {/* How to Play */}
+      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface-muted rounded-xl max-w-xl mx-auto">
+        <h3 className="font-bold text-xl mb-4">How to Play</h3>
+        <ol className="space-y-3 text-base text-text-muted">
           {rules.map((rule, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="font-bold text-text shrink-0">{i + 1}.</span>
+            <li key={i} className="flex gap-3">
+              <span className="w-7 h-7 rounded-full bg-brand/10 text-brand font-bold text-sm flex items-center justify-center shrink-0">
+                {i + 1}
+              </span>
               {rule}
             </li>
           ))}
         </ol>
+      </div>
+
+      {/* Related games */}
+      <div className="mt-12 px-4 pb-8">
+        <h3 className="font-bold text-lg text-text-muted uppercase tracking-wide mb-4 text-center">
+          More Games
+        </h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
+          {related.slice(0, 6).map((g) => (
+            <Link
+              key={g.href}
+              href={g.href}
+              className="game-card p-5 border border-border bg-surface text-center"
+            >
+              <span className="text-3xl block mb-2">{g.emoji}</span>
+              <span className="text-base font-bold">{g.name}</span>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

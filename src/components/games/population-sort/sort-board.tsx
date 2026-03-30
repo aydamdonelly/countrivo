@@ -58,7 +58,7 @@ export function SortBoard({ mode }: SortBoardProps) {
           subtitle={`Sorted by ${state.category.label}`}
           onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
         >
-          <div className="w-full max-w-md space-y-2">
+          <div className="w-full max-w-xl space-y-3">
             {state.correctOrder.map((countryIdx, rank) => {
               const country = state.countries[countryIdx];
               const userRank = state.userOrder.indexOf(countryIdx);
@@ -69,14 +69,16 @@ export function SortBoard({ mode }: SortBoardProps) {
                 <div
                   key={country.iso3}
                   className={cn(
-                    "flex items-center gap-3 p-3 rounded-lg border",
+                    "flex items-center gap-4 p-4 rounded-xl border-2",
                     isCorrect ? "border-correct/30 bg-correct/5" : "border-incorrect/30 bg-incorrect/5"
                   )}
                 >
-                  <span className="font-bold text-sm w-6 text-center">{rank + 1}</span>
-                  <span className="text-2xl">{country.flagEmoji}</span>
-                  <span className="font-medium flex-1">{country.displayName}</span>
-                  <span className="text-sm font-mono text-text-muted">
+                  <span className="w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center font-bold text-lg shrink-0">
+                    {rank + 1}
+                  </span>
+                  <span className="text-3xl">{country.flagEmoji}</span>
+                  <span className="font-bold text-lg flex-1">{country.displayName}</span>
+                  <span className="text-base font-mono text-text-muted">
                     {value ? formatStat(value, state.category.unit) : "N/A"}
                   </span>
                 </div>
@@ -89,38 +91,38 @@ export function SortBoard({ mode }: SortBoardProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8">
       <div className="text-center">
-        <p className="text-sm text-text-muted">
-          Sort by <span className="font-bold text-text">{state.category.emoji} {state.category.label}</span> — highest first
+        <p className="text-lg text-text-muted">
+          Sort by <span className="font-bold text-text text-xl">{state.category.emoji} {state.category.label}</span> — highest first
         </p>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {state.userOrder.map((countryIdx, position) => {
           const country = state.countries[countryIdx];
           return (
             <div
               key={country.iso3}
-              className="flex items-center gap-2 p-3 rounded-xl border border-border bg-surface"
+              className="flex items-center gap-3 p-5 rounded-xl border-2 border-border bg-surface"
             >
-              <span className="font-bold text-sm text-text-muted w-6 text-center">
+              <span className="w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center font-bold text-lg shrink-0">
                 {position + 1}
               </span>
-              <span className="text-2xl">{country.flagEmoji}</span>
-              <span className="font-medium flex-1">{country.displayName}</span>
-              <div className="flex flex-col gap-0.5">
+              <span className="text-3xl sm:text-4xl">{country.flagEmoji}</span>
+              <span className="font-bold text-lg flex-1">{country.displayName}</span>
+              <div className="flex flex-col gap-1">
                 <button
                   onClick={() => handleMoveUp(position)}
                   disabled={position === 0}
-                  className="px-2 py-0.5 text-xs rounded border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors"
+                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors leading-none"
                 >
                   ▲
                 </button>
                 <button
                   onClick={() => handleMoveDown(position)}
                   disabled={position === state.userOrder.length - 1}
-                  className="px-2 py-0.5 text-xs rounded border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors"
+                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors leading-none"
                 >
                   ▼
                 </button>
@@ -130,12 +132,14 @@ export function SortBoard({ mode }: SortBoardProps) {
         })}
       </div>
 
-      <button
-        onClick={() => dispatch({ type: "SUBMIT" })}
-        className="mx-auto px-8 py-3 bg-brand text-white font-semibold rounded-xl hover:bg-brand-dark transition-colors"
-      >
-        Submit Order
-      </button>
+      <div className="flex justify-center">
+        <button
+          onClick={() => dispatch({ type: "SUBMIT" })}
+          className="w-full sm:w-auto px-12 py-5 bg-brand text-white font-bold text-xl rounded-xl hover:bg-brand-dark transition-colors"
+        >
+          Submit Order
+        </button>
+      </div>
     </div>
   );
 }
