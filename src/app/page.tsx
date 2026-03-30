@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAllGames } from "@/lib/data/games";
 import { getAllCountries } from "@/lib/data/countries";
 import { getAllCategories } from "@/lib/data/categories";
+import { HeroGlobe } from "@/components/layout/hero-globe";
 
 export default function HomePage() {
   const games = getAllGames();
@@ -12,44 +13,67 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero — full width, bold */}
-      <section className="relative overflow-hidden bg-surface-dark text-text-inverse">
-        <div className="absolute inset-0 opacity-10 pointer-events-none" aria-hidden>
-          <div className="text-[12rem] leading-none tracking-tighter font-black text-white/5 select-none whitespace-nowrap overflow-hidden">
-            🇧🇷 🇩🇪 🇯🇵 🇳🇬 🇫🇷 🇮🇳 🇦🇺 🇰🇷 🇲🇽 🇬🇧 🇨🇦 🇮🇹 🇪🇬 🇦🇷 🇹🇭
-          </div>
+      {/* ═══ HERO ═══ */}
+      <section className="relative overflow-hidden bg-surface-dark text-text-inverse min-h-130 sm:min-h-140 lg:min-h-150 flex items-center">
+        {/* Globe illustration on the right */}
+        <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 hidden md:block pointer-events-none" aria-hidden>
+          <HeroGlobe />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
-          <div className="max-w-3xl">
+
+        {/* Floating flag particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+          <span className="absolute text-5xl opacity-15 top-[10%] left-[5%] animate-float-slow">🇧🇷</span>
+          <span className="absolute text-4xl opacity-10 top-[20%] right-[15%] animate-float-medium">🇯🇵</span>
+          <span className="absolute text-6xl opacity-10 bottom-[15%] left-[60%] animate-float-slow">🇩🇪</span>
+          <span className="absolute text-4xl opacity-15 bottom-[25%] left-[15%] animate-float-medium">🇫🇷</span>
+          <span className="absolute text-5xl opacity-10 top-[60%] right-[8%] animate-float-slow">🇮🇳</span>
+          <span className="absolute text-3xl opacity-15 top-[5%] left-[45%] animate-float-medium">🇦🇺</span>
+          <span className="absolute text-4xl opacity-10 bottom-[5%] right-[35%] animate-float-slow">🇲🇽</span>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 w-full">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/80 mb-6">
+              <span className="w-2 h-2 bg-brand rounded-full animate-pulse" />
+              New daily challenge available
+            </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
               How well do you
               <br />
               <span className="text-brand">know the world?</span>
             </h1>
-            <p className="mt-6 text-lg sm:text-xl text-white/70 max-w-xl leading-relaxed">
+            <p className="mt-6 text-lg sm:text-xl text-white/60 max-w-lg leading-relaxed">
               {games.length} free geography games. Daily challenges, country stats,
               flag quizzes, and strategy puzzles. No account needed.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/games/country-draft/play?mode=daily"
-                className="px-6 py-3.5 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors shadow-lg shadow-brand/25"
+                className="px-7 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-all shadow-lg shadow-brand/25 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
               >
                 Play Today&apos;s Challenge
               </Link>
               <Link
                 href="/games"
-                className="px-6 py-3.5 bg-white/10 text-white font-semibold text-lg rounded-xl hover:bg-white/20 transition-colors backdrop-blur-sm"
+                className="px-7 py-4 bg-white/10 text-white font-semibold text-lg rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm"
               >
                 Browse All Games
               </Link>
+            </div>
+            {/* Quick stats inline */}
+            <div className="mt-10 flex items-center gap-6 text-sm text-white/40">
+              <span><strong className="text-white/70">{games.length}</strong> games</span>
+              <span className="w-1 h-1 rounded-full bg-white/20" />
+              <span><strong className="text-white/70">{countries.length}</strong> countries</span>
+              <span className="w-1 h-1 rounded-full bg-white/20" />
+              <span><strong className="text-white/70">{categories.length}</strong> stats</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Flagship game — prominent card */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+      {/* ═══ FLAGSHIP GAME ═══ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
         <Link
           href={flagship.route}
           className="game-card block bg-surface border border-border p-6 sm:p-8 lg:p-10 shadow-xl group"
@@ -69,9 +93,9 @@ export default function HomePage() {
                 {flagship.description}
               </p>
               <div className="flex items-center gap-6 mt-4 text-sm text-text-muted">
-                <span className="flex items-center gap-1.5">⏱ {flagship.estimatedTime}</span>
-                <span className="flex items-center gap-1.5 capitalize">📊 {flagship.difficulty}</span>
-                <span className="flex items-center gap-1.5">📅 Daily + Practice</span>
+                <span>⏱ {flagship.estimatedTime}</span>
+                <span className="capitalize">📊 {flagship.difficulty}</span>
+                <span>📅 Daily + Practice</span>
               </div>
             </div>
             <div className="hidden lg:flex items-center shrink-0">
@@ -83,7 +107,7 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* All Games Grid */}
+      {/* ═══ ALL GAMES ═══ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
         <div className="flex items-end justify-between mb-8">
           <div>
@@ -101,27 +125,23 @@ export default function HomePage() {
               href={game.route}
               className="game-card bg-surface border border-border p-5 group"
             >
-              <div className="flex items-start gap-3">
-                <span className="text-3xl shrink-0">{game.emoji}</span>
-                <div className="min-w-0">
-                  <h3 className="font-bold group-hover:text-brand transition-colors">
-                    {game.title}
-                  </h3>
-                  <p className="text-sm text-text-muted mt-1 line-clamp-2">
-                    {game.shortDescription}
-                  </p>
-                  <div className="flex items-center gap-3 mt-3 text-xs text-text-muted">
-                    <span className="px-2 py-0.5 bg-surface-muted rounded-md">{game.estimatedTime}</span>
-                    <span className="px-2 py-0.5 bg-surface-muted rounded-md capitalize">{game.difficulty}</span>
-                  </div>
-                </div>
+              <span className="text-4xl block mb-3">{game.emoji}</span>
+              <h3 className="text-lg font-bold group-hover:text-brand transition-colors">
+                {game.title}
+              </h3>
+              <p className="text-sm text-text-muted mt-1 line-clamp-2">
+                {game.shortDescription}
+              </p>
+              <div className="flex items-center gap-3 mt-4 text-xs text-text-muted">
+                <span className="px-2 py-0.5 bg-surface-muted rounded-md">{game.estimatedTime}</span>
+                <span className="px-2 py-0.5 bg-surface-muted rounded-md capitalize">{game.difficulty}</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* SEO content — "What is Countrivo?" + stats + internal links */}
+      {/* ═══ SEO CONTENT + STATS ═══ */}
       <section className="bg-surface-muted border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
@@ -172,7 +192,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Popular countries for internal linking / SEO */}
+          {/* Popular countries */}
           <div className="mt-16 pt-12 border-t border-border">
             <h3 className="text-lg font-bold mb-6">Popular Countries</h3>
             <div className="flex flex-wrap gap-2">
@@ -203,7 +223,7 @@ export default function HomePage() {
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="p-4 bg-surface border border-border rounded-xl">
+    <div className="p-5 bg-surface border border-border rounded-xl">
       <div className="text-3xl font-extrabold text-brand">{value}</div>
       <div className="text-sm text-text-muted mt-1">{label}</div>
     </div>
