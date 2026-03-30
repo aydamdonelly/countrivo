@@ -40,7 +40,8 @@
       "Bash(echo *.png)",
       "Bash(vercel --yes)",
       "Bash(vercel --yes --scope ataladams-projects)",
-      "Bash(vercel domains:*)"
+      "Bash(vercel domains:*)",
+      "Bash(vercel --prod --yes --scope ataladams-projects)"
     ]
   }
 }
