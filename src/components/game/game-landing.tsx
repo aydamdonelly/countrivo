@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
 
 interface RelatedGame {
   href: string;
@@ -14,6 +15,7 @@ interface GameLandingProps {
   rules: string[];
   hasDailyMode?: boolean;
   relatedGames?: RelatedGame[];
+  category?: string;
 }
 
 const DEFAULT_RELATED: RelatedGame[] = [
@@ -33,6 +35,7 @@ export function GameLanding({
   rules,
   hasDailyMode = true,
   relatedGames,
+  category = "quiz",
 }: GameLandingProps) {
   const related = (relatedGames ?? DEFAULT_RELATED).filter(
     (g) => g.href !== playHref.replace("/play", "")
@@ -40,6 +43,13 @@ export function GameLanding({
 
   return (
     <div className="max-w-5xl mx-auto">
+      <GameJsonLd
+        name={`${title} — Countrivo`}
+        description={description}
+        url={playHref.replace("/play", "")}
+        genre={`Geography ${category}`}
+        playMode={hasDailyMode ? "SinglePlayer" : "SinglePlayer"}
+      />
       {/* Hero */}
       <div className="bg-surface-muted border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
         <span className="text-7xl mb-4 block">{emoji}</span>

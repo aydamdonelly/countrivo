@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
 
 export const metadata: Metadata = {
   title: "Country Draft — Assign Countries to Stats | Free Strategy Geography Game",
@@ -10,6 +11,13 @@ export const metadata: Metadata = {
 export default function CountryDraftPage() {
   return (
     <>
+      <GameJsonLd
+        name="Country Draft — Countrivo"
+        description="8 countries, 8 stat categories. Assign each country to the category where it ranks highest globally. Beat the mathematically optimal solution."
+        url="/games/country-draft"
+        genre="Geography Strategy"
+        playMode="SinglePlayer"
+      />
       {/* Hero */}
       <section className="bg-surface-dark text-text-inverse">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">

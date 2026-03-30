@@ -1,0 +1,128 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Country Lists & Rankings — Countrivo",
+  description:
+    "Explore curated country lists and rankings: largest countries, most populated nations, richest economies, and countries by continent.",
+};
+
+const lists = [
+  {
+    href: "/lists/largest-countries",
+    title: "Largest Countries by Area",
+    description: "The 50 biggest countries in the world ranked by total land and water area in square kilometers.",
+    emoji: "🗺️",
+  },
+  {
+    href: "/lists/most-populated-countries",
+    title: "Most Populated Countries",
+    description: "The 50 most populated countries in the world ranked by total population.",
+    emoji: "👥",
+  },
+  {
+    href: "/lists/richest-countries",
+    title: "Richest Countries by GDP per Capita",
+    description: "The 50 wealthiest countries ranked by GDP per capita in current US dollars.",
+    emoji: "💰",
+  },
+  {
+    href: "/lists/countries-in-europe",
+    title: "Countries in Europe",
+    description: "Complete list of all European countries with capitals, population, and area.",
+    emoji: "🇪🇺",
+  },
+  {
+    href: "/lists/countries-in-asia",
+    title: "Countries in Asia",
+    description: "Complete list of all Asian countries with capitals, population, and area.",
+    emoji: "🌏",
+  },
+  {
+    href: "/lists/countries-in-africa",
+    title: "Countries in Africa",
+    description: "Complete list of all African countries with capitals, population, and area.",
+    emoji: "🌍",
+  },
+  {
+    href: "/lists/countries-in-americas",
+    title: "Countries in the Americas",
+    description: "Complete list of all countries in North and South America with capitals, population, and area.",
+    emoji: "🌎",
+  },
+];
+
+export default function ListsIndexPage() {
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
+        Country Lists & Rankings
+      </h1>
+      <div className="mt-6 max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+        <p>
+          Browse curated lists of countries organized by size, population, wealth,
+          and geography. Each list includes up-to-date statistics sourced from the
+          World Bank, the United Nations, and other authoritative datasets covering
+          all 243 recognized countries and territories.
+        </p>
+        <p>
+          Whether you are researching for school, settling a debate, or just
+          curious about the world, these rankings give you a clear, sortable view
+          of how countries compare on the metrics that matter most.
+        </p>
+      </div>
+
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {lists.map((list) => (
+          <Link
+            key={list.href}
+            href={list.href}
+            className="group bg-surface border border-border rounded-xl p-6 hover:border-brand/30 transition-colors"
+          >
+            <span className="text-3xl block mb-3">{list.emoji}</span>
+            <h2 className="text-lg font-bold group-hover:text-brand transition-colors">
+              {list.title}
+            </h2>
+            <p className="text-sm text-text-muted mt-2 leading-relaxed">
+              {list.description}
+            </p>
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-16 pt-8 border-t border-border">
+        <h2 className="text-xl font-bold mb-4">Test Your Knowledge</h2>
+        <p className="text-text-secondary mb-6">
+          Think you know these rankings by heart? Put your geography skills to
+          the test with our free games.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/games/flag-quiz"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Flag Quiz
+          </Link>
+          <Link
+            href="/games/country-draft"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Country Draft
+          </Link>
+          <Link
+            href="/games/higher-or-lower"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Higher or Lower
+          </Link>
+          <Link
+            href="/games"
+            className="px-4 py-2 bg-surface-muted text-text-secondary font-semibold rounded-lg hover:text-text transition-colors"
+          >
+            All Games →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

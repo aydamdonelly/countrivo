@@ -1,0 +1,173 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { getCountriesByContinent } from "@/lib/data/countries";
+import { getStatValue } from "@/lib/data/ranks";
+import { formatNumber } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "All Countries in the Americas — Complete List with Stats",
+  description:
+    "Complete list of every country in North and South America with flag, capital, population, and area. From the US and Brazil to small Caribbean nations.",
+};
+
+export default function CountriesInAmericasPage() {
+  const countries = getCountriesByContinent("Americas");
+  const rows = countries
+    .map((country) => ({
+      country,
+      population: getStatValue(country.iso3, "population"),
+      area: getStatValue(country.iso3, "area-km2"),
+    }))
+    .sort((a, b) => {
+      const popA = a.population ?? 0;
+      const popB = b.population ?? 0;
+      return popB - popA;
+    });
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+      <Link
+        href="/lists"
+        className="text-sm font-medium text-brand hover:text-brand-dark transition-colors"
+      >
+        ← All Lists
+      </Link>
+
+      <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight">
+        All Countries in the Americas
+      </h1>
+
+      <div className="mt-6 max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+        <p>
+          The Americas span two continents — North America and South
+          America — connected by the narrow isthmus of Central America and dotted
+          with Caribbean island nations. Together they contain{" "}
+          {countries.length} countries and territories, stretching from
+          Canada&apos;s Arctic north to the southern tip of Chile and Argentina.
+        </p>
+        <p>
+          The United States and Brazil are the dominant nations by both population
+          and economic output, but the Americas also include some of the
+          world&apos;s smallest countries by area, like Saint Kitts and Nevis and
+          Grenada. Latin America and the Caribbean represent one of the most
+          culturally and linguistically diverse regions on Earth, with Spanish,
+          Portuguese, English, French, and Dutch all spoken as official languages.
+        </p>
+        <p>
+          Below is the complete list of countries in the Americas sorted by
+          population, with each nation&apos;s capital, total population, and area.
+        </p>
+      </div>
+
+      <p className="mt-6 text-sm text-text-muted">
+        {countries.length} countries and territories
+      </p>
+
+      {/* Table */}
+      <div className="mt-6 overflow-x-auto">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b border-border text-sm text-text-muted">
+              <th className="py-3 pr-4 font-semibold">Country</th>
+              <th className="py-3 pr-4 font-semibold">Capital</th>
+              <th className="py-3 pr-4 font-semibold text-right">Population</th>
+              <th className="py-3 font-semibold text-right">Area (km²)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(({ country, population, area }) => (
+              <tr
+                key={country.iso3}
+                className="border-b border-border/50 hover:bg-surface-muted/50 transition-colors"
+              >
+                <td className="py-3 pr-4">
+                  <Link
+                    href={`/countries/${country.slug}`}
+                    className="inline-flex items-center gap-2 font-medium hover:text-brand transition-colors"
+                  >
+                    <span className="text-lg shrink-0">{country.flagEmoji}</span>
+                    {country.displayName}
+                  </Link>
+                </td>
+                <td className="py-3 pr-4 text-text-secondary text-sm">
+                  {country.capital || "—"}
+                </td>
+                <td className="py-3 pr-4 text-right font-mono text-sm">
+                  {population !== null ? formatNumber(population) : "—"}
+                </td>
+                <td className="py-3 text-right font-mono text-sm">
+                  {area !== null ? formatNumber(area) : "—"}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Game CTAs */}
+      <div className="mt-12 bg-surface-muted border border-border rounded-xl p-6">
+        <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
+        <p className="text-sm text-text-secondary mb-4">
+          How many countries in the Americas can you name? Try these games.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/games/continent-sprint"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Continent Sprint
+          </Link>
+          <Link
+            href="/games/flag-quiz"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Flag Quiz
+          </Link>
+          <Link
+            href="/games/capital-match"
+            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+          >
+            Capital Match
+          </Link>
+        </div>
+      </div>
+
+      {/* See also */}
+      <div className="mt-12 pt-8 border-t border-border">
+        <h2 className="text-lg font-bold mb-4">See Also</h2>
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/lists/countries-in-europe"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+          >
+            Countries in Europe
+          </Link>
+          <Link
+            href="/lists/countries-in-asia"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+          >
+            Countries in Asia
+          </Link>
+          <Link
+            href="/lists/countries-in-africa"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+          >
+            Countries in Africa
+          </Link>
+          <Link
+            href="/lists/richest-countries"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+          >
+            Richest Countries
+          </Link>
+          <Link
+            href="/lists/most-populated-countries"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+          >
+            Most Populated Countries
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

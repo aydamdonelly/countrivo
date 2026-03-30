@@ -97,8 +97,10 @@ export default function RootLayout({
                 <div className="space-y-2 text-sm text-text-muted">
                   <Link href="/countries" className="block hover:text-text transition-colors">All Countries</Link>
                   <Link href="/categories" className="block hover:text-text transition-colors">Stat Rankings</Link>
-                  <Link href="/categories/population" className="block hover:text-text transition-colors">Population Ranking</Link>
-                  <Link href="/categories/gdp-per-capita" className="block hover:text-text transition-colors">GDP per Capita</Link>
+                  <Link href="/lists/most-populated-countries" className="block hover:text-text transition-colors">Most Populated</Link>
+                  <Link href="/lists/largest-countries" className="block hover:text-text transition-colors">Largest Countries</Link>
+                  <Link href="/lists/richest-countries" className="block hover:text-text transition-colors">Richest Countries</Link>
+                  <Link href="/lists" className="block hover:text-text transition-colors text-brand font-medium">All Lists →</Link>
                 </div>
               </div>
               <div>
