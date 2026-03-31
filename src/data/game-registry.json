@@ -166,5 +166,19 @@
     "isFlagship": false,
     "availableModes": ["practice", "versus"],
     "route": "/games/supremacy"
+  },
+  {
+    "slug": "borderline",
+    "title": "Borderline",
+    "shortDescription": "Race through borders to reach a target country",
+    "description": "Start at a random country and navigate through borders to reach your target. Beat the optimal path or race a friend in real-time.",
+    "emoji": "🗺️",
+    "difficulty": "medium",
+    "estimatedTime": "2-5 min",
+    "category": "strategy",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["practice", "versus"],
+    "route": "/games/borderline"
   }
 ]
