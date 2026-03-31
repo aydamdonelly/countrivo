@@ -41,7 +41,9 @@
       "Bash(vercel --yes)",
       "Bash(vercel --yes --scope ataladams-projects)",
       "Bash(vercel domains:*)",
-      "Bash(vercel --prod --yes --scope ataladams-projects)"
+      "Bash(vercel --prod --yes --scope ataladams-projects)",
+      "Bash(head -5 /Users/adamkahirov/Desktop/code/countrivo/src/app/countries/[slug]/page.tsx)",
+      "Bash(wc -l /Users/adamkahirov/Desktop/code/countrivo/src/app/countries/[slug]/page.tsx)"
     ]
   }
 }
