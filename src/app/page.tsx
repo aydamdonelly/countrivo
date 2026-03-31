@@ -1,231 +1,201 @@
+import type { Metadata } from "next";
+import type { SVGProps } from "react";
 import Link from "next/link";
-import { getAllGames } from "@/lib/data/games";
-import { getAllCountries } from "@/lib/data/countries";
-import { getAllCategories } from "@/lib/data/categories";
-import { HeroGlobe } from "@/components/layout/hero-globe";
+import { getFlagshipGame, getAllGames } from "@/lib/data/games";
+import {
+  IconTarget,
+  IconScale,
+  IconPath,
+  IconBolt,
+  IconFlag,
+  IconChevronDouble,
+  IconBars,
+  IconPin,
+  IconCheck,
+  IconClock,
+  IconSearch,
+  IconChain,
+  IconGlobe,
+  IconHash,
+  IconArrowRight,
+} from "@/components/icons";
+
+export const metadata: Metadata = {
+  title: "Countrivo — Geography Games & Country Quizzes",
+  description:
+    "14 free geography games: flag quizzes, country drafts, stat ranking puzzles, capital matching, and daily challenges. 243 countries, zero sign-up.",
+};
+
+/* ── icon map ── */
+const GAME_ICONS: Record<string, React.ComponentType<SVGProps<SVGSVGElement>>> = {
+  "country-draft": IconTarget,
+  "flag-quiz": IconFlag,
+  "higher-or-lower": IconChevronDouble,
+  "capital-match": IconPin,
+  "population-sort": IconBars,
+  "country-streak": IconBolt,
+  "border-buddies": IconChain,
+  "continent-sprint": IconGlobe,
+  "stat-guesser": IconHash,
+  "speed-flags": IconClock,
+  "odd-one-out": IconSearch,
+  supremacy: IconScale,
+  borderline: IconPath,
+  blitz: IconBolt,
+};
+
+/* ── hardcoded VS games (Task 23 will register them) ── */
+const VS_SLUGS = ["supremacy", "borderline", "blitz"];
+
+const VS_GAMES = [
+  {
+    slug: "supremacy",
+    title: "Supremacy",
+    desc: "Draft countries head-to-head and outlast your rival.",
+  },
+  {
+    slug: "borderline",
+    title: "Borderline",
+    desc: "Race to connect a chain of bordering countries first.",
+  },
+  {
+    slug: "blitz",
+    title: "Blitz",
+    desc: "Speed-round flag quiz — fastest correct answer wins.",
+  },
+];
 
 export default function HomePage() {
-  const games = getAllGames();
-  const flagship = games.find((g) => g.isFlagship)!;
-  const otherGames = games.filter((g) => !g.isFlagship);
-  const countries = getAllCountries();
-  const categories = getAllCategories();
+  const flagship = getFlagshipGame();
+  const allGames = getAllGames();
+  const soloGames = allGames.filter(
+    (g) => !g.isFlagship && !VS_SLUGS.includes(g.slug),
+  );
 
   return (
-    <>
+    <div className="max-w-[430px] mx-auto px-5 pb-16">
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-bg text-bg min-h-130 sm:min-h-140 lg:min-h-150 flex items-center">
-        {/* Globe illustration on the right */}
-        <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 hidden md:block pointer-events-none" aria-hidden>
-          <HeroGlobe />
-        </div>
-
-        {/* Floating flag particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-          <span className="absolute text-5xl opacity-15 top-[10%] left-[5%]">🇧🇷</span>
-          <span className="absolute text-4xl opacity-10 top-[20%] right-[15%]">🇯🇵</span>
-          <span className="absolute text-6xl opacity-10 bottom-[15%] left-[60%]">🇩🇪</span>
-          <span className="absolute text-4xl opacity-15 bottom-[25%] left-[15%]">🇫🇷</span>
-          <span className="absolute text-5xl opacity-10 top-[60%] right-[8%]">🇮🇳</span>
-          <span className="absolute text-3xl opacity-15 top-[5%] left-[45%]">🇦🇺</span>
-          <span className="absolute text-4xl opacity-10 bottom-[5%] right-[35%]">🇲🇽</span>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 w-full">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/80 mb-6">
-              <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
-              New daily challenge available
-            </div>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
-              How well do you
-              <br />
-              <span className="text-gold">know the world?</span>
-            </h1>
-            <p className="mt-6 text-lg sm:text-xl text-white/60 max-w-lg leading-relaxed">
-              {games.length} free geography games. Daily challenges, country stats,
-              flag quizzes, and strategy puzzles. No account needed.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/games/country-draft/play?mode=daily"
-                className="px-7 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-all shadow-lg shadow-gold/25 hover:shadow-xl hover:shadow-gold/30 hover:-translate-y-0.5"
-              >
-                Play Today&apos;s Challenge
-              </Link>
-              <Link
-                href="/games"
-                className="px-7 py-4 bg-white/10 text-white font-semibold text-lg rounded-xl hover:bg-white/20 transition-all backdrop-blur-sm"
-              >
-                Browse All Games
-              </Link>
-            </div>
-            {/* Quick stats inline */}
-            <div className="mt-10 flex items-center gap-6 text-sm text-white/40">
-              <span><strong className="text-white/70">{games.length}</strong> games</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
-              <span><strong className="text-white/70">{countries.length}</strong> countries</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
-              <span><strong className="text-white/70">{categories.length}</strong> stats</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══ FLAGSHIP GAME ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
+      <section className="mt-6 mb-8">
+        <p className="text-xs font-semibold text-gold">Today&apos;s challenge</p>
+        <h1 className="font-serif text-[30px] text-cream leading-tight mt-1">
+          {flagship.title}
+        </h1>
+        <p className="text-sm text-cream-muted mt-2 leading-relaxed">
+          {flagship.description}
+        </p>
         <Link
-          href={flagship.route}
-          className="game-card block bg-surface border border-border p-6 sm:p-8 lg:p-10 shadow-xl group"
+          href={`${flagship.route}/play?mode=daily`}
+          className="inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 bg-gold text-bg text-sm font-semibold rounded-md hover:opacity-90 transition-opacity"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10">
-            <div className="text-6xl lg:text-7xl shrink-0">{flagship.emoji}</div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-2xl sm:text-3xl font-extrabold group-hover:text-gold transition-colors">
-                  {flagship.title}
-                </h2>
-                <span className="px-2.5 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase tracking-wide">
-                  Featured
-                </span>
-              </div>
-              <p className="text-cream-muted text-lg leading-relaxed max-w-2xl">
-                {flagship.description}
-              </p>
-              <div className="flex items-center gap-6 mt-4 text-sm text-cream-muted">
-                <span>⏱ {flagship.estimatedTime}</span>
-                <span className="capitalize">📊 {flagship.difficulty}</span>
-                <span>📅 Daily + Practice</span>
-              </div>
-            </div>
-            <div className="hidden lg:flex items-center shrink-0">
-              <span className="px-6 py-3 bg-gold-dim text-gold font-bold rounded-xl group-hover:bg-gold group-hover:text-white transition-all">
-                Play Now →
-              </span>
-            </div>
-          </div>
+          Play today <IconArrowRight width={14} height={14} />
         </Link>
       </section>
 
-      {/* ═══ ALL GAMES ═══ */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <h2 className="text-3xl font-extrabold">All Games</h2>
-            <p className="text-cream-muted mt-1">{games.length} geography games to test your knowledge</p>
-          </div>
-          <Link href="/games" className="text-sm font-semibold text-gold hover:text-gold transition-colors hidden sm:block">
-            View all →
-          </Link>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 stagger-children">
-          {otherGames.map((game) => (
-            <Link
-              key={game.slug}
-              href={game.route}
-              className="game-card bg-surface border border-border p-5 group"
-            >
-              <span className="text-4xl block mb-3">{game.emoji}</span>
-              <h3 className="text-lg font-bold group-hover:text-gold transition-colors">
-                {game.title}
-              </h3>
-              <p className="text-sm text-cream-muted mt-1 line-clamp-2">
-                {game.shortDescription}
-              </p>
-              <div className="flex items-center gap-3 mt-4 text-xs text-cream-muted">
-                <span className="px-2 py-0.5 bg-surface rounded-md">{game.estimatedTime}</span>
-                <span className="px-2 py-0.5 bg-surface rounded-md capitalize">{game.difficulty}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* ── divider ── */}
+      <div className="h-px bg-border" />
 
-      {/* ═══ SEO CONTENT + STATS ═══ */}
-      <section className="bg-surface border-t border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            <div>
-              <h2 className="text-3xl font-extrabold mb-6">
-                Free Geography Games Online
-              </h2>
-              <div className="space-y-4 text-cream-muted leading-relaxed">
-                <p>
-                  Countrivo is a free collection of browser-based geography games.
-                  Test your knowledge of world countries, flags, capitals, population
-                  rankings, and dozens of other statistics — no downloads or accounts required.
-                </p>
-                <p>
-                  Play our flagship <strong>Country Draft</strong> game, where you assign
-                  countries to stat categories and compete against the mathematically
-                  optimal solution. Or try <strong>Flag Quiz</strong>, <strong>Higher
-                  or Lower</strong>, <strong>Capital Match</strong>, and {otherGames.length - 3} more games.
-                </p>
-                <p>
-                  Every game has a daily challenge with the same puzzle for all players,
-                  plus unlimited practice mode. Share your results and compete with friends.
-                </p>
-              </div>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold mb-6 text-cream-muted uppercase tracking-wide">Platform Stats</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <StatCard value={games.length.toString()} label="Geography Games" />
-                <StatCard value={countries.length.toString()} label="Countries Covered" />
-                <StatCard value={categories.length.toString()} label="Stat Categories" />
-                <StatCard value="Daily" label="New Challenges" />
-              </div>
-              <div className="mt-8">
-                <h3 className="text-lg font-bold mb-4 text-cream-muted uppercase tracking-wide">Explore</h3>
-                <div className="flex flex-wrap gap-2">
-                  {["Europe", "Asia", "Africa", "Americas", "Oceania"].map((c) => (
-                    <Link
-                      key={c}
-                      href={`/countries?continent=${c}`}
-                      className="px-3 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
-                    >
-                      {c}
-                    </Link>
-                  ))}
+      {/* ═══ VERSUS ═══ */}
+      <section className="mt-6">
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="text-[13px] font-bold text-cream uppercase tracking-wide">
+            Versus
+          </h2>
+          <span className="flex items-center gap-1 text-[11px] text-cream-muted">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            Live
+          </span>
+        </div>
+
+        <div className="flex flex-col gap-2.5">
+          {VS_GAMES.map((vs) => {
+            const Ico = GAME_ICONS[vs.slug] ?? IconGlobe;
+            return (
+              <Link
+                key={vs.slug}
+                href={`/games/${vs.slug}`}
+                className="flex items-center gap-3.5 bg-surface/70 border border-border rounded-lg px-4 py-3.5 group"
+              >
+                <Ico
+                  width={22}
+                  height={22}
+                  className="text-gold shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="font-serif text-[17px] text-cream leading-tight">
+                    {vs.title}
+                  </p>
+                  <p className="text-xs text-cream-muted truncate">
+                    {vs.desc}
+                  </p>
                 </div>
-              </div>
-            </div>
-          </div>
+                <IconArrowRight
+                  width={14}
+                  height={14}
+                  className="text-cream-muted shrink-0 group-hover:text-cream transition-colors"
+                />
+              </Link>
+            );
+          })}
+        </div>
 
-          {/* Popular countries */}
-          <div className="mt-16 pt-12 border-t border-border">
-            <h3 className="text-lg font-bold mb-6">Popular Countries</h3>
-            <div className="flex flex-wrap gap-2">
-              {["united-states", "germany", "japan", "brazil", "france", "india",
-                "united-kingdom", "australia", "canada", "south-korea", "mexico",
-                "italy", "spain", "russia", "china", "nigeria", "egypt", "turkey",
-                "argentina", "thailand"].map((slug) => {
-                const country = countries.find((c) => c.slug === slug);
-                if (!country) return null;
-                return (
-                  <Link
-                    key={slug}
-                    href={`/countries/${slug}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-border transition-colors"
-                  >
-                    <span>{country.flagEmoji}</span>
-                    <span>{country.displayName}</span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
+        {/* ── Join code row ── */}
+        <div className="flex items-center gap-2.5 mt-4">
+          <label className="text-[13px] font-bold text-cream uppercase tracking-wide shrink-0">
+            Code
+          </label>
+          <input
+            type="text"
+            maxLength={4}
+            placeholder="_ _ _ _"
+            className="flex-1 bg-surface/70 border border-border rounded-md px-3 py-2 text-sm text-cream tracking-[6px] placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/60 transition-colors text-center"
+          />
+          <button
+            type="button"
+            className="shrink-0 px-4 py-2 text-sm font-semibold text-gold border border-gold-dim rounded-md hover:bg-gold-dim/20 transition-colors"
+          >
+            Join
+          </button>
         </div>
       </section>
-    </>
-  );
-}
 
-function StatCard({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="p-5 bg-surface border border-border rounded-xl">
-      <div className="text-3xl font-extrabold text-gold">{value}</div>
-      <div className="text-sm text-cream-muted mt-1">{label}</div>
+      {/* ── divider ── */}
+      <div className="h-px bg-border mt-6" />
+
+      {/* ═══ SOLO ═══ */}
+      <section className="mt-6">
+        <h2 className="text-[13px] font-bold text-cream uppercase tracking-wide mb-4">
+          Solo
+        </h2>
+
+        <ul className="flex flex-col">
+          {soloGames.map((game, i) => {
+            const Ico = GAME_ICONS[game.slug] ?? IconGlobe;
+            const isLast = i === soloGames.length - 1;
+            return (
+              <li key={game.slug}>
+                <Link
+                  href={game.route}
+                  className={`flex items-center gap-3 py-3 ${
+                    isLast ? "" : "border-b border-border/60"
+                  }`}
+                >
+                  <Ico
+                    width={18}
+                    height={18}
+                    className="text-gold shrink-0"
+                  />
+                  <span className="text-sm font-semibold text-cream flex-1">
+                    {game.title}
+                  </span>
+                  <span className="text-[11px] text-cream-muted capitalize">
+                    {game.difficulty}
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
     </div>
   );
 }
