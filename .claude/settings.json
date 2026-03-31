@@ -43,7 +43,24 @@
       "Bash(vercel domains:*)",
       "Bash(vercel --prod --yes --scope ataladams-projects)",
       "Bash(head -5 /Users/adamkahirov/Desktop/code/countrivo/src/app/countries/[slug]/page.tsx)",
-      "Bash(wc -l /Users/adamkahirov/Desktop/code/countrivo/src/app/countries/[slug]/page.tsx)"
+      "Bash(wc -l /Users/adamkahirov/Desktop/code/countrivo/src/app/countries/[slug]/page.tsx)",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src -type f \\\\\\(-name *.tsx -o -name *.ts \\\\\\))",
+      "mcp__playwright__browser_evaluate",
+      "Bash(git -C /Users/adamkahirov/Desktop/code/countrivo rev-parse HEAD)",
+      "Bash(do sed:*)",
+      "mcp__supabase__list_projects",
+      "mcp__supabase__list_organizations",
+      "mcp__supabase__get_cost",
+      "mcp__supabase__confirm_cost",
+      "mcp__supabase__create_project",
+      "mcp__supabase__get_project_url",
+      "mcp__supabase__get_publishable_keys",
+      "mcp__supabase__apply_migration",
+      "Bash(node -e \"const c = require\\(''./src/data/categories.json''\\); const found = c.find\\(x => x.slug === ''co2-per-capita''\\); console.log\\(found ? ''Found'' : ''Not found''\\)\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(x[''''slug'''']\\) for x in d]\")"
+    ],
+    "additionalDirectories": [
+      "/Users/adamkahirov/Desktop/code/countrivo/src/app/vs"
     ]
   }
 }

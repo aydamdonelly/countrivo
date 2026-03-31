@@ -1,0 +1,114 @@
+<h2>Design Direction</h2>
+<p class="subtitle">Welche Richtung fühlt sich richtig an für Countrivo?</p>
+
+<div class="cards">
+
+  <!-- DIRECTION A: DARK ARCADE -->
+  <div class="card" data-choice="dark-arcade" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#08070a;padding:16px;font-family:'Inter',sans-serif;">
+      <!-- Nav -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;font-weight:900;letter-spacing:-0.5px;color:#fff;">COUN<span style="color:#a78bfa;">TRIVO</span></span>
+        <div style="display:flex;gap:8px;">
+          <span style="font-size:10px;color:#6b6680;padding:3px 8px;border:1px solid #2a2535;border-radius:20px;">Games</span>
+          <span style="font-size:10px;background:#7c3aed;color:#fff;padding:3px 8px;border-radius:20px;">⚡ Play</span>
+        </div>
+      </div>
+      <!-- Game cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="background:linear-gradient(135deg,#1a1025,#120d1e);border:1px solid #2a2535;border-radius:10px;padding:12px;">
+          <div style="font-size:22px;margin-bottom:4px;">⚔️</div>
+          <div style="font-size:11px;font-weight:800;color:#fff;">Stat Wars</div>
+          <div style="font-size:9px;color:#7c3aed;margin-top:2px;font-weight:600;">LIVE</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#0d1a12,#091410);border:1px solid #1a2e22;border-radius:10px;padding:12px;">
+          <div style="font-size:22px;margin-bottom:4px;">🗺️</div>
+          <div style="font-size:11px;font-weight:800;color:#fff;">GeoChase</div>
+          <div style="font-size:9px;color:#22c55e;margin-top:2px;font-weight:600;">LIVE</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1a1508,#120f04);border:1px solid #2e2510;border-radius:10px;padding:12px;">
+          <div style="font-size:22px;margin-bottom:4px;">🎯</div>
+          <div style="font-size:11px;font-weight:800;color:#fff;">Country Draft</div>
+          <div style="font-size:9px;color:#eab308;margin-top:2px;font-weight:600;">DAILY</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#0d141a,#090e12);border:1px solid #1a2530;border-radius:10px;padding:12px;">
+          <div style="font-size:22px;margin-bottom:4px;">⚡</div>
+          <div style="font-size:11px;font-weight:800;color:#fff;">Flag Duel</div>
+          <div style="font-size:9px;color:#38bdf8;margin-top:2px;font-weight:600;">LIVE</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Dark Arcade</h3>
+      <p>Schwarzes Fundament, violette Akzente, farbige Glow-Effekte pro Spielkategorie. Fühlt sich an wie ein Gaming-Dashboard — ernst, immersiv, cool.</p>
+    </div>
+  </div>
+
+  <!-- DIRECTION B: BOLD EDITORIAL -->
+  <div class="card" data-choice="bold-editorial" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8f5f0;padding:16px;font-family:'Inter',sans-serif;">
+      <!-- Nav -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:3px solid #0c0a09;padding-bottom:10px;">
+        <span style="font-size:16px;font-weight:900;letter-spacing:-1px;color:#0c0a09;">COUNTRIVO</span>
+        <span style="font-size:9px;color:#0c0a09;border:2px solid #0c0a09;padding:3px 8px;border-radius:3px;font-weight:700;letter-spacing:1px;">PLAY NOW</span>
+      </div>
+      <!-- Big headline -->
+      <div style="margin-bottom:10px;">
+        <div style="font-size:10px;letter-spacing:2px;color:#d97706;font-weight:700;margin-bottom:4px;">TODAY'S CHALLENGE</div>
+        <div style="font-size:20px;font-weight:900;line-height:1.1;color:#0c0a09;letter-spacing:-0.5px;">Country<br/>Draft</div>
+      </div>
+      <!-- Game list editorial style -->
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #ddd6cc;">
+          <span style="font-size:11px;font-weight:700;">⚔️ Stat Wars <span style="font-weight:400;color:#888;font-size:9px;">MULTIPLAYER</span></span>
+          <span style="font-size:10px;color:#d97706;font-weight:700;">→</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #ddd6cc;">
+          <span style="font-size:11px;font-weight:700;">🗺️ GeoChase <span style="font-weight:400;color:#888;font-size:9px;">MULTIPLAYER</span></span>
+          <span style="font-size:10px;color:#d97706;font-weight:700;">→</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;">
+          <span style="font-size:11px;font-weight:700;">⚡ Flag Duel <span style="font-weight:400;color:#888;font-size:9px;">MULTIPLAYER</span></span>
+          <span style="font-size:10px;color:#d97706;font-weight:700;">→</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Bold Editorial</h3>
+      <p>Hell, typografie-getrieben, hoher Kontrast. NYT Games Vibes aber eigenständiger. Amber als einzige Akzentfarbe. Wirkt seriös und premium.</p>
+    </div>
+  </div>
+
+  <!-- DIRECTION C: DARK + AMBER (EVOLVED) -->
+  <div class="card" data-choice="dark-amber-evolved" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:16px;font-family:'Inter',sans-serif;">
+      <!-- Nav -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="font-size:13px;font-weight:900;letter-spacing:-0.5px;"><span style="color:#f59e0b;">◆</span> <span style="color:#fff;">COUNTRIVO</span></span>
+        <div style="background:#f59e0b;color:#0c0a09;font-size:10px;font-weight:800;padding:4px 10px;border-radius:6px;">PLAY DAILY</div>
+      </div>
+      <!-- Hero stat -->
+      <div style="background:linear-gradient(135deg,#1c1917,#111);border:1px solid #2a2420;border-radius:12px;padding:14px;margin-bottom:8px;">
+        <div style="font-size:9px;letter-spacing:2px;color:#78716c;margin-bottom:6px;">FEATURED</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-size:32px;">🎯</span>
+          <div>
+            <div style="font-size:14px;font-weight:800;color:#fff;">Country Draft</div>
+            <div style="font-size:10px;color:#78716c;margin-top:2px;">Strategy · Hard · ~5 min</div>
+          </div>
+          <div style="margin-left:auto;background:#f59e0b;color:#0c0a09;font-size:10px;font-weight:800;padding:4px 8px;border-radius:6px;">GO →</div>
+        </div>
+      </div>
+      <!-- Multiplayer badge -->
+      <div style="background:#1a1208;border:1px solid #f59e0b33;border-radius:8px;padding:10px;display:flex;align-items:center;gap:8px;">
+        <div style="width:8px;height:8px;background:#f59e0b;border-radius:50%;box-shadow:0 0 6px #f59e0b;"></div>
+        <span style="font-size:10px;color:#a8a29e;"><span style="color:#f59e0b;font-weight:700;">3 new</span> multiplayer games live</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Dark Amber Evolved</h3>
+      <p>Das aktuelle Amber-auf-Schwarz Scheme, aber deutlich polierter. Glows, bessere Hierarchie, Multiplayer bekommt eigene visuelle Sprache. Erkennbar, aber aufgewertet.</p>
+    </div>
+  </div>
+
+</div>

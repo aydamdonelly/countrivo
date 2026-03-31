@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Countrivo — Explorer v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0b1409;
+    --surface: #13201100;
+    --surface-solid: #132011;
+    --gold: #c9a84c;
+    --gold-hi: #e8c96e;
+    --gold-lo: rgba(201,168,76,0.12);
+    --cream: #ede6cc;
+    --cream-2: rgba(237,230,204,0.55);
+    --cream-3: rgba(237,230,204,0.18);
+    --border: rgba(201,168,76,0.16);
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ═══ ANIMATED BACKGROUND ═══ */
+  .bg {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  }
+
+  /* Orb 1 — top right, warm gold */
+  .bg-orb-1 {
+    position: absolute;
+    width: 60vw; height: 60vw;
+    top: -15vw; right: -15vw;
+    background: radial-gradient(circle at center,
+      rgba(201,168,76,0.28) 0%,
+      rgba(180,120,30,0.12) 40%,
+      transparent 70%);
+    mix-blend-mode: screen;
+    filter: blur(40px);
+    animation: orb1 22s ease-in-out infinite alternate;
+  }
+  @keyframes orb1 {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(-20px, 30px) scale(1.15); }
+  }
+
+  /* Orb 2 — bottom left, deep forest */
+  .bg-orb-2 {
+    position: absolute;
+    width: 70vw; height: 70vw;
+    bottom: -20vw; left: -20vw;
+    background: radial-gradient(circle at center,
+      rgba(60,130,50,0.3) 0%,
+      rgba(20,60,20,0.15) 50%,
+      transparent 70%);
+    mix-blend-mode: screen;
+    filter: blur(60px);
+    animation: orb2 28s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes orb2 {
+    0%   { transform: translate(0,0) scale(1); }
+    100% { transform: translate(30px, -20px) scale(1.1); }
+  }
+
+  /* Topo SVG — full bleed */
+  .bg-topo {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    mix-blend-mode: screen;
+  }
+
+  /* ═══ LAYOUT ═══ */
+  .page {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    min-height: 100dvh;
+    max-width: 430px; margin: 0 auto;
+    padding: 0 18px 32px;
+  }
+
+  /* ═══ NAV ═══ */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 0 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 19px; letter-spacing: -0.3px; color: var(--cream);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .logo-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 8px var(--gold);
+    animation: dotPulse 3s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes dotPulse {
+    0%,100% { box-shadow: 0 0 8px var(--gold); opacity: 1; }
+    50%     { box-shadow: 0 0 16px var(--gold-hi), 0 0 30px rgba(201,168,76,0.3); opacity: 0.7; }
+  }
+  .logo em { font-style: italic; color: var(--gold); }
+  .nav-coord {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 2px; color: var(--gold); opacity: 0.5;
+  }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    position: relative; overflow: hidden;
+    margin-top: 16px; border-radius: 16px;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, #1b2e18 0%, #0f1c0d 100%);
+    padding: 20px;
+    flex-shrink: 0;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 200px; height: 200px;
+    top: -60px; right: -60px;
+    background: radial-gradient(circle, rgba(201,168,76,0.22) 0%, transparent 65%);
+    mix-blend-mode: screen;
+    animation: heroGlow 7s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  @keyframes heroGlow {
+    0%   { transform: scale(1) translate(0,0); opacity: 0.9; }
+    100% { transform: scale(1.4) translate(10px,-10px); opacity: 0.5; }
+  }
+
+  /* Tiny compass in hero corner */
+  .hero-compass {
+    position: absolute; bottom: 14px; right: 16px;
+    opacity: 0.2; mix-blend-mode: screen;
+    animation: compassSpin 90s linear infinite;
+  }
+  @keyframes compassSpin { to { transform: rotate(360deg); } }
+
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--gold); opacity: 0.7; margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px; letter-spacing: -0.5px; line-height: 1;
+    color: var(--cream); margin-bottom: 5px;
+    position: relative; z-index: 1;
+  }
+  .hero-meta {
+    font-size: 12px; color: var(--cream-2); margin-bottom: 18px;
+    position: relative; z-index: 1;
+  }
+  .hero-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold); color: #0b1409;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+    padding: 10px 16px; border-radius: 8px; border: none; cursor: pointer;
+    position: relative; z-index: 1;
+  }
+  .hero-btn svg { animation: arrowSlide 2.5s ease-in-out infinite; }
+  @keyframes arrowSlide {
+    0%,100% { transform: translateX(0); }
+    50%     { transform: translateX(4px); }
+  }
+
+  /* ═══ VERSUS SECTION ═══ */
+  .section-head {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 22px; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 3px; color: var(--gold);
+    opacity: 0.65; text-transform: uppercase;
+  }
+  .pulse-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold-hi);
+    animation: livePulse 2s ease-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes livePulse {
+    0%  { box-shadow: 0 0 0 0 rgba(232,201,110,0.7); }
+    70% { box-shadow: 0 0 0 7px rgba(232,201,110,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(232,201,110,0); }
+  }
+
+  /* VS Game cards — compact, full width */
+  .vs-cards { display: flex; flex-direction: column; gap: 8px; }
+
+  .vs-card {
+    position: relative; overflow: hidden;
+    background: #132011;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+    transition: border-color 0.25s, transform 0.25s;
+  }
+  .vs-card:hover {
+    border-color: rgba(201,168,76,0.45);
+    transform: translateY(-1px);
+  }
+  /* shimmer sweep */
+  .vs-card::after {
+    content: '';
+    position: absolute; top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.06), transparent);
+    animation: sweep 5s ease-in-out infinite;
+  }
+  .vs-card:nth-child(2)::after { animation-delay: 1.7s; }
+  .vs-card:nth-child(3)::after { animation-delay: 3.3s; }
+  @keyframes sweep {
+    0%   { left: -60%; opacity: 0; }
+    10%  { opacity: 1; }
+    40%  { left: 120%; opacity: 0; }
+    100% { left: 120%; opacity: 0; }
+  }
+
+  .vs-emoji {
+    font-size: 24px; width: 36px; text-align: center; flex-shrink: 0;
+  }
+  .vs-info { flex: 1; min-width: 0; }
+  .vs-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px; color: var(--cream); letter-spacing: -0.2px; line-height: 1;
+  }
+  .vs-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--gold); opacity: 0.5;
+    letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px;
+  }
+  .vs-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; font-weight: 500; letter-spacing: 1px;
+    padding: 4px 9px; border-radius: 20px;
+    background: var(--gold-lo); color: var(--gold-hi);
+    border: 1px solid rgba(201,168,76,0.22);
+    flex-shrink: 0;
+  }
+
+  /* ═══ ROOM CODE ═══ */
+  .room-strip {
+    margin-top: 10px;
+    border: 1px dashed rgba(201,168,76,0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+  .room-left {}
+  .room-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 2px; color: var(--cream-2); margin-bottom: 4px;
+  }
+  .room-code-display {
+    display: flex; gap: 6px;
+  }
+  .room-digit {
+    width: 28px; height: 32px;
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 6px;
+    background: rgba(201,168,76,0.04);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 15px; color: var(--cream-3);
+  }
+  .room-or {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 2px; color: var(--cream-3);
+  }
+  .room-share {
+    font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px;
+    padding: 8px 12px; border-radius: 8px;
+    background: var(--gold-lo); border: 1px solid rgba(201,168,76,0.22);
+    color: var(--gold); white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* ═══ SOLO ═══ */
+  .solo-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8px; margin-top: 10px;
+  }
+  .solo-card {
+    background: #0f1a0d;
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 12px; padding: 14px 12px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .solo-card:hover { border-color: rgba(201,168,76,0.3); }
+  .solo-emoji { font-size: 22px; margin-bottom: 6px; }
+  .solo-name {
+    font-size: 12px; font-weight: 700; color: var(--cream);
+    line-height: 1.2; margin-bottom: 2px;
+  }
+  .solo-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px; letter-spacing: 1px; color: var(--cream-2); opacity: 0.5;
+  }
+
+  /* thin gold line divider */
+  .divider {
+    height: 1px; margin: 20px 0;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+  }
+</style>
+</head>
+<body>
+
+<!-- ── BACKGROUND ── -->
+<div class="bg">
+  <div class="bg-orb-1"></div>
+  <div class="bg-orb-2"></div>
+
+  <!-- Topo SVG full bleed -->
+  <svg class="bg-topo" viewBox="0 0 430 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- fade mask: invisible at edges, visible in middle band -->
+      <linearGradient id="vFade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+        <stop offset="20%"  stop-color="white" stop-opacity="1"/>
+        <stop offset="80%"  stop-color="white" stop-opacity="1"/>
+        <stop offset="100%" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="hFade" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="white" stop-opacity="0.3"/>
+        <stop offset="50%"  stop-color="white" stop-opacity="1"/>
+        <stop offset="100%" stop-color="white" stop-opacity="0.3"/>
+      </linearGradient>
+      <mask id="topoMask">
+        <rect width="430" height="900" fill="url(#vFade)"/>
+      </mask>
+    </defs>
+    <g mask="url(#topoMask)" opacity="0.18" stroke="#c9a84c" stroke-width="0.7" fill="none">
+      <path d="M-20,200 Q100,160 215,190 Q330,220 450,185"/>
+      <path d="M-20,230 Q100,195 215,220 Q330,248 450,215"/>
+      <path d="M-20,260 Q100,228 215,252 Q330,276 450,245"/>
+      <path d="M-20,290 Q100,261 215,283 Q330,305 450,276"/>
+      <path d="M-20,320 Q100,294 215,314 Q330,334 450,307"/>
+      <path d="M-20,350 Q100,327 215,345 Q330,363 450,338"/>
+      <path d="M-20,380 Q100,360 215,376 Q330,392 450,369"/>
+      <path d="M-20,170 Q100,127 215,158 Q330,192 450,155" stroke-width="1.1" opacity="0.6"/>
+      <path d="M-20,410 Q100,393 215,407 Q330,421 450,400" stroke-width="1.1" opacity="0.6"/>
+    </g>
+    <!-- animated bright line -->
+    <path d="M-20,290 Q100,261 215,283 Q330,305 450,276"
+          stroke="#e8c96e" stroke-width="0.6" fill="none" opacity="0"
+          mask="url(#topoMask)">
+      <animate attributeName="opacity" values="0;0.25;0" dur="6s" repeatCount="indefinite" begin="2s"/>
+    </path>
+    <path d="M-20,350 Q100,327 215,345 Q330,363 450,338"
+          stroke="#e8c96e" stroke-width="0.6" fill="none" opacity="0"
+          mask="url(#topoMask)">
+      <animate attributeName="opacity" values="0;0.2;0" dur="8s" repeatCount="indefinite" begin="5s"/>
+    </path>
+  </svg>
+</div>
+
+<!-- ── PAGE ── -->
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Coun<em>trivo</em>
+    </div>
+    <div class="nav-coord">48°N · 11°E</div>
+  </nav>
+
+  <!-- DAILY HERO -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <!-- tiny compass idle -->
+    <svg class="hero-compass" width="52" height="52" viewBox="0 0 52 52" fill="none">
+      <circle cx="26" cy="26" r="24" stroke="#c9a84c" stroke-width="0.7"/>
+      <circle cx="26" cy="26" r="18" stroke="#c9a84c" stroke-width="0.4"/>
+      <line x1="26" y1="2" x2="26" y2="8" stroke="#c9a84c" stroke-width="1.5"/>
+      <line x1="26" y1="44" x2="26" y2="50" stroke="#c9a84c" stroke-width="1"/>
+      <line x1="2" y1="26" x2="8" y2="26" stroke="#c9a84c" stroke-width="1"/>
+      <line x1="44" y1="26" x2="50" y2="26" stroke="#c9a84c" stroke-width="1"/>
+      <polygon points="26,5 23,26 26,30 29,26" fill="#e8c96e"/>
+      <polygon points="26,47 23,26 26,30 29,26" fill="#c9a84c" opacity="0.5"/>
+      <circle cx="26" cy="26" r="3" fill="#e8c96e"/>
+    </svg>
+
+    <div class="hero-label">TODAY · 31 MAR 2026</div>
+    <div class="hero-title">Country Draft</div>
+    <div class="hero-meta">Strategy · Hard · ~5 min</div>
+    <button class="hero-btn">
+      Play Daily
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 6h8M7 3l3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- VERSUS -->
+  <div class="section-head">
+    <div class="pulse-dot"></div>
+    <div class="section-title">Versus</div>
+  </div>
+
+  <div class="vs-cards">
+    <div class="vs-card">
+      <div class="vs-emoji">⚔️</div>
+      <div class="vs-info">
+        <div class="vs-name">Supremacy</div>
+        <div class="vs-desc">Stat battle · 5 rounds</div>
+      </div>
+      <div class="vs-badge">VS</div>
+    </div>
+
+    <div class="vs-card">
+      <div class="vs-emoji">🗺️</div>
+      <div class="vs-info">
+        <div class="vs-name">Borderline</div>
+        <div class="vs-desc">Border race · real-time</div>
+      </div>
+      <div class="vs-badge">VS</div>
+    </div>
+
+    <div class="vs-card">
+      <div class="vs-emoji">⚡</div>
+      <div class="vs-info">
+        <div class="vs-name">Blitz</div>
+        <div class="vs-desc">Flag speed · first wins</div>
+      </div>
+      <div class="vs-badge">VS</div>
+    </div>
+  </div>
+
+  <!-- JOIN STRIP -->
+  <div class="room-strip">
+    <div class="room-left">
+      <div class="room-label">Join game</div>
+      <div class="room-code-display">
+        <div class="room-digit">_</div>
+        <div class="room-digit">_</div>
+        <div class="room-digit">_</div>
+        <div class="room-digit">_</div>
+      </div>
+    </div>
+    <div class="room-or">or</div>
+    <div class="room-share">Share link ↗</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOLO -->
+  <div class="section-head">
+    <div class="section-title">Solo Games</div>
+  </div>
+
+  <div class="solo-grid">
+    <div class="solo-card">
+      <div class="solo-emoji">🏁</div>
+      <div class="solo-name">Flag Quiz</div>
+      <div class="solo-tag">Quiz · Easy</div>
+    </div>
+    <div class="solo-card">
+      <div class="solo-emoji">⬆️</div>
+      <div class="solo-name">Higher or Lower</div>
+      <div class="solo-tag">Ranking · Easy</div>
+    </div>
+    <div class="solo-card">
+      <div class="solo-emoji">📊</div>
+      <div class="solo-name">Population Sort</div>
+      <div class="solo-tag">Ranking · Medium</div>
+    </div>
+    <div class="solo-card">
+      <div class="solo-emoji">🔥</div>
+      <div class="solo-name">Country Streak</div>
+      <div class="solo-tag">Quiz · Medium</div>
+    </div>
+    <div class="solo-card">
+      <div class="solo-emoji">🤝</div>
+      <div class="solo-name">Border Buddies</div>
+      <div class="solo-tag">Knowledge · Med</div>
+    </div>
+    <div class="solo-card">
+      <div class="solo-emoji">🔢</div>
+      <div class="solo-name">Stat Guesser</div>
+      <div class="solo-tag">Knowledge · Hard</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

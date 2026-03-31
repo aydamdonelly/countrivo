@@ -1,0 +1,94 @@
+<h2>3 Multiplayer Game Concepts</h2>
+<p class="subtitle">Teile einen Code — beide spielen live gegeneinander. Wähle deine Favoriten.</p>
+
+<div class="cards">
+
+  <!-- GAME 1: FLAG DUEL -->
+  <div class="card" data-choice="flag-duel" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:20px;font-family:monospace;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="font-size:11px;color:#78716c;letter-spacing:2px;text-transform:uppercase;">Round 3 / 10</span>
+      </div>
+      <div style="background:#1c1917;border:1px solid #292524;border-radius:12px;padding:16px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:48px;margin-bottom:8px;">🇧🇷</div>
+        <div style="font-size:11px;color:#78716c;">First to tap wins the round</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="background:#f59e0b;border-radius:8px;padding:10px;text-align:center;font-size:12px;font-weight:700;color:#0c0a09;">Brazil</div>
+        <div style="background:#292524;border-radius:8px;padding:10px;text-align:center;font-size:12px;color:#a8a29e;">Argentina</div>
+        <div style="background:#292524;border-radius:8px;padding:10px;text-align:center;font-size:12px;color:#a8a29e;">Colombia</div>
+        <div style="background:#292524;border-radius:8px;padding:10px;text-align:center;font-size:12px;color:#a8a29e;">Chile</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:12px;">
+        <span style="color:#16a34a;font-weight:700;">🟢 You: 5</span>
+        <span style="color:#78716c;font-weight:700;">⚪ Them: 4</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>⚡ Flag Duel</h3>
+      <p>Dieselbe Flagge gleichzeitig. Wer zuerst die richtige Antwort tippt, bekommt den Punkt. Best of 10. Schnell, süchtig machend.</p>
+      <p style="font-size:12px;color:#78716c;margin-top:8px;"><strong>Multiplayer Mechanic:</strong> Echtzeit-Buzzer — Reaktionszeit zählt. Sehen beide Spieler wann der andere tippt.</p>
+    </div>
+  </div>
+
+  <!-- GAME 2: STAT WARS -->
+  <div class="card" data-choice="stat-wars" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:20px;font-family:monospace;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="font-size:11px;color:#78716c;letter-spacing:2px;text-transform:uppercase;">Your Hand — Pick a Stat to Win</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">
+        <div style="background:#1c1917;border:2px solid #f59e0b;border-radius:8px;padding:10px;text-align:center;">
+          <div style="font-size:24px;">🇩🇪</div>
+          <div style="font-size:10px;color:#a8a29e;margin-top:4px;">Germany</div>
+        </div>
+        <div style="background:#1c1917;border:1px solid #292524;border-radius:8px;padding:10px;text-align:center;opacity:0.5;">
+          <div style="font-size:24px;">🇸🇬</div>
+          <div style="font-size:10px;color:#a8a29e;margin-top:4px;">Singapore</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:#78716c;text-align:center;margin-bottom:8px;">Challenge with:</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
+        <div style="background:#1c1917;border:1px solid #292524;border-radius:6px;padding:6px 10px;font-size:11px;color:#f59e0b;">📊 Population</div>
+        <div style="background:#292524;border-radius:6px;padding:6px 10px;font-size:11px;color:#78716c;">🗺️ Area</div>
+        <div style="background:#292524;border-radius:6px;padding:6px 10px;font-size:11px;color:#78716c;">💰 GDP/cap</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>⚔️ Stat Wars</h3>
+      <p>Jeder bekommt 5 geheime Länder-Karten. Jede Runde: wähle ein Stat. Höherer Wert gewinnt. Wer die meisten Runden gewinnt, siegt.</p>
+      <p style="font-size:12px;color:#78716c;margin-top:8px;"><strong>Multiplayer Mechanic:</strong> Strategisches Bluffing — du siehst nicht was der Gegner hat. Wähle deinen Stat klug.</p>
+    </div>
+  </div>
+
+  <!-- GAME 3: GEOCHASE -->
+  <div class="card" data-choice="geochase" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0c0a09;padding:20px;font-family:monospace;">
+      <div style="text-align:center;margin-bottom:12px;">
+        <span style="font-size:11px;color:#78716c;letter-spacing:2px;text-transform:uppercase;">Start: 🇫🇷 France → Target: 🇵🇱 Poland</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:18px;">🇫🇷</span>
+          <span style="font-size:11px;color:#f59e0b;">France (Start)</span>
+        </div>
+        <div style="margin-left:12px;border-left:2px dashed #292524;padding-left:8px;">
+          <div style="font-size:11px;color:#a8a29e;">→ 🇩🇪 Germany ✓</div>
+          <div style="font-size:11px;color:#a8a29e;">→ 🇨🇿 Czech Rep. ✓</div>
+          <div style="background:#1c1917;border:1px solid #f59e0b;border-radius:4px;padding:4px 8px;margin-top:4px;">
+            <div style="font-size:11px;color:#f59e0b;">→ 🇵🇱 Poland? ← type a border</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#78716c;margin-top:4px;">🔴 Opponent on step 4...</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>🗺️ GeoChase</h3>
+      <p>Beide starten im gleichen Land. Ziel: ein anderes Land über Grenzen erreichen — so schnell wie möglich. Wer zuerst ankommt, gewinnt.</p>
+      <p style="font-size:12px;color:#78716c;margin-top:8px;"><strong>Multiplayer Mechanic:</strong> Race gegen die Zeit + den Gegner. Sehen beiden Fortschritt (Schritte) live.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:20px;">Klick auf deine Favoriten (mehrere möglich). Oder sag mir was dir fehlt.</p>

@@ -1,17 +1,19 @@
 import Link from "next/link";
 import { getAllGames } from "@/lib/data/games";
+import { IconScale, IconPath, IconBolt, IconArrowRight } from "@/components/icons";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Geography Games — Free Quizzes, Puzzles & Daily Challenges",
+  title: "All Geography Games — Free Quizzes, Puzzles & Multiplayer",
   description:
-    "Browse 11 free geography games. Flag quizzes, country ranking games, capital matching, strategy puzzles, and more. Daily challenges available. No signup needed.",
+    "Browse 14 free geography games. Flag quizzes, country ranking games, real-time multiplayer, strategy puzzles. Daily challenges, no signup needed.",
 };
 
 export default function GamesPage() {
   const games = getAllGames();
   const flagship = games.find((g) => g.isFlagship);
-  const others = games.filter((g) => !g.isFlagship);
+  const vsGames = games.filter((g) => ["supremacy", "borderline", "blitz"].includes(g.slug));
+  const others = games.filter((g) => !g.isFlagship && !["supremacy", "borderline", "blitz"].includes(g.slug));
 
   const byCategory = {
     quiz: others.filter((g) => g.category === "quiz"),
@@ -64,6 +66,36 @@ export default function GamesPage() {
           </div>
         </Link>
       )}
+
+      {/* Versus section */}
+      <section className="mb-12">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-2 h-2 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
+          <h2 className="text-2xl font-extrabold">Versus</h2>
+          <span className="text-xs font-semibold text-gold ml-1">LIVE</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {vsGames.map((game) => {
+            const VsIcon = { supremacy: IconScale, borderline: IconPath, blitz: IconBolt }[game.slug] ?? IconBolt;
+            return (
+              <Link
+                key={game.slug}
+                href={game.route}
+                className="game-card bg-surface border border-border p-5 group flex items-start gap-4"
+              >
+                <VsIcon className="w-6 h-6 text-gold shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3 className="text-lg font-bold font-serif group-hover:text-gold transition-colors">{game.title}</h3>
+                    <span className="px-2 py-0.5 bg-gold-dim text-gold text-[10px] font-bold rounded-md uppercase">VS</span>
+                  </div>
+                  <p className="text-sm text-cream-muted">{game.shortDescription}</p>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
 
       {/* Categorized grid */}
       {Object.entries(byCategory).map(([cat, gamesList]) => {
