@@ -154,7 +154,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors"
+            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>
@@ -175,7 +175,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
           <button
             onClick={handleSubmit}
             disabled={!inputValue.trim()}
-            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors disabled:opacity-50"
+            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors disabled:opacity-50"
           >
             Submit Guess
           </button>

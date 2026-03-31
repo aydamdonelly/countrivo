@@ -160,7 +160,7 @@ export function OddBoard({ mode }: OddBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors"
+            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>

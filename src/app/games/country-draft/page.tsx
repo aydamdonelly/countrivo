@@ -24,7 +24,7 @@ export default function CountryDraftPage() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">🎯</span>
-              <span className="px-3 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase tracking-wide">
+              <span className="px-3 py-1 bg-gold text-bg text-xs font-bold rounded-md uppercase tracking-wide">
                 Flagship Game
               </span>
             </div>
@@ -39,7 +39,7 @@ export default function CountryDraftPage() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/games/country-draft/play?mode=daily"
-                className="px-6 py-3.5 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors shadow-lg shadow-gold/25"
+                className="px-6 py-3.5 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors shadow-lg shadow-gold/25"
               >
                 📅 Daily Challenge
               </Link>
@@ -117,7 +117,7 @@ function StepCard({ number, emoji, title, description }: { number: string; emoji
   return (
     <div className="relative p-6 bg-surface border border-border rounded-xl">
       <div className="flex items-center gap-3 mb-3">
-        <span className="w-8 h-8 flex items-center justify-center bg-gold text-white text-sm font-bold rounded-lg">
+        <span className="w-8 h-8 flex items-center justify-center bg-gold text-bg text-sm font-bold rounded-lg">
           {number}
         </span>
         <span className="text-2xl">{emoji}</span>

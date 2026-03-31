@@ -135,7 +135,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           {mode === "practice" && (
             <button
               onClick={handlePlayAgain}
-              className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
             >
               Play Again
             </button>
@@ -143,7 +143,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           {mode === "daily" && (
             <Link
               href="/games/country-draft/play?mode=practice"
-              className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors text-center"
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors text-center"
             >
               Try Practice Mode
             </Link>

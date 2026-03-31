@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IconTarget, IconScale, IconFlag, IconPin } from "@/components/icons";
 
 interface GameOverScreenProps {
   title: string;
@@ -9,10 +10,10 @@ interface GameOverScreenProps {
 }
 
 const SUGGESTIONS = [
-  { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
-  { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
-  { href: "/games/flag-quiz", emoji: "🏁", name: "Flag Quiz" },
-  { href: "/games/capital-match", emoji: "🏛️", name: "Capital Match" },
+  { href: "/games/country-draft", icon: IconTarget, name: "Country Draft" },
+  { href: "/games/higher-or-lower", icon: IconScale, name: "Higher or Lower" },
+  { href: "/games/flag-quiz", icon: IconFlag, name: "Flag Quiz" },
+  { href: "/games/capital-match", icon: IconPin, name: "Capital Match" },
 ];
 
 export function GameOverScreen({
@@ -35,7 +36,7 @@ export function GameOverScreen({
       {onPlayAgain && (
         <button
           onClick={onPlayAgain}
-          className="px-10 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+          className="px-10 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Play Again
         </button>
@@ -53,7 +54,7 @@ export function GameOverScreen({
               href={s.href}
               className="game-card p-5 border border-border bg-surface text-center"
             >
-              <span className="text-3xl block mb-2">{s.emoji}</span>
+              <s.icon className="w-8 h-8 mx-auto mb-2 text-gold" />
               <span className="text-base font-bold">{s.name}</span>
             </Link>
           ))}

@@ -63,7 +63,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         </p>
         <button
           onClick={() => dispatch({ type: "START" })}
-          className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+          className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Start!
         </button>

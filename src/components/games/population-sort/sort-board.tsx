@@ -135,7 +135,7 @@ export function SortBoard({ mode }: SortBoardProps) {
       <div className="flex justify-center">
         <button
           onClick={() => dispatch({ type: "SUBMIT" })}
-          className="w-full sm:w-auto px-12 py-5 bg-gold text-white font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
+          className="w-full sm:w-auto px-12 py-5 bg-gold text-bg font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
         >
           Submit Order
         </button>

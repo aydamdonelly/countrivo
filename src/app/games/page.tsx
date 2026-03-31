@@ -57,7 +57,7 @@ export default function GamesPage() {
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
                 <h2 className="text-2xl font-extrabold group-hover:text-gold transition-colors">{flagship.title}</h2>
-                <span className="px-2.5 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase">Featured</span>
+                <span className="px-2.5 py-1 bg-gold text-bg text-xs font-bold rounded-md uppercase">Featured</span>
               </div>
               <p className="text-cream-muted">{flagship.description}</p>
             </div>

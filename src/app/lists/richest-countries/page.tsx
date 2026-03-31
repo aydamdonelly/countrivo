@@ -116,19 +116,19 @@ export default function RichestCountriesPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/games/higher-or-lower"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
           >
             Higher or Lower
           </Link>
           <Link
             href="/games/country-draft"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
           >
             Country Draft
           </Link>
           <Link
             href="/games/flag-quiz"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
           >
             Flag Quiz
           </Link>
