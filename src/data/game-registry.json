@@ -152,5 +152,19 @@
     "isFlagship": false,
     "availableModes": ["daily", "practice"],
     "route": "/games/odd-one-out"
+  },
+  {
+    "slug": "supremacy",
+    "title": "Supremacy",
+    "shortDescription": "Top Trumps with real country stats",
+    "description": "A real-time card battle using real country data. Pick the stat category, compare cards, and outsmart your opponent across 5 rounds.",
+    "emoji": "👑",
+    "difficulty": "medium",
+    "estimatedTime": "3-5 min",
+    "category": "strategy",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["practice", "versus"],
+    "route": "/games/supremacy"
   }
 ]
