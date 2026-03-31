@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useEffect, useCallback } from "react";
+import { useReducer, useEffect, useCallback, useMemo } from "react";
 import {
   createSpeedFlags,
   startGame,
@@ -11,6 +11,7 @@ import {
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface SpeedBoardProps {
   mode: "daily" | "practice";
@@ -50,6 +51,15 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
   const handleAnswer = useCallback((idx: number) => {
     dispatch({ type: "ANSWER", idx });
   }, []);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    map["1"] = () => handleAnswer(0);
+    map["2"] = () => handleAnswer(1);
+    return map;
+  }, [handleAnswer]);
+
+  useGameKeys(keymap, state.phase === "playing");
 
   // Ready screen
   if (state.phase === "ready") {

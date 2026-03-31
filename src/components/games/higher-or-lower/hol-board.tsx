@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback } from "react";
+import { useReducer, useState, useCallback, useMemo } from "react";
 import {
   createHoL,
   guess,
@@ -10,6 +10,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface HoLBoardProps {
   mode: "daily" | "practice";
@@ -47,6 +48,17 @@ export function HoLBoard({ mode }: HoLBoardProps) {
       setLastChoice(null);
     }, 1500);
   }, [showReveal]);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (!showReveal) {
+      map["ArrowUp"] = () => handleGuess("higher");
+      map["ArrowDown"] = () => handleGuess("lower");
+    }
+    return map;
+  }, [showReveal, handleGuess]);
+
+  useGameKeys(keymap, state.phase !== "gameover" && !showReveal);
 
   if (state.phase === "gameover") {
     return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useMemo, useState } from "react";
 import {
   createSortGame,
   moveItem,
@@ -11,6 +11,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 import statsData from "@/data/stats.json";
 
 const stats: Record<string, Record<string, number | null>> = statsData;
@@ -40,6 +41,7 @@ function reducer(state: SortGameState, action: Action): SortGameState {
 
 export function SortBoard({ mode }: SortBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
+  const [selectedIdx, setSelectedIdx] = useState(0);
 
   const handleMoveUp = useCallback((idx: number) => {
     if (idx > 0) dispatch({ type: "MOVE", from: idx, to: idx - 1 });
@@ -48,6 +50,23 @@ export function SortBoard({ mode }: SortBoardProps) {
   const handleMoveDown = useCallback((idx: number) => {
     if (idx < state.userOrder.length - 1) dispatch({ type: "MOVE", from: idx, to: idx + 1 });
   }, [state.userOrder.length]);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    map["ArrowUp"] = () => setSelectedIdx((i) => Math.max(0, i - 1));
+    map["ArrowDown"] = () =>
+      setSelectedIdx((i) => Math.min(state.userOrder.length - 1, i + 1));
+    map[" "] = () => {
+      if (selectedIdx > 0) {
+        dispatch({ type: "MOVE", from: selectedIdx, to: selectedIdx - 1 });
+        setSelectedIdx((i) => i - 1);
+      }
+    };
+    map["Enter"] = () => dispatch({ type: "SUBMIT" });
+    return map;
+  }, [state.userOrder.length, selectedIdx]);
+
+  useGameKeys(keymap, state.phase !== "results");
 
   if (state.phase === "results") {
     return (
@@ -104,7 +123,12 @@ export function SortBoard({ mode }: SortBoardProps) {
           return (
             <div
               key={country.iso3}
-              className="flex items-center gap-3 p-5 rounded-xl border-2 border-border bg-surface"
+              className={cn(
+                "flex items-center gap-3 p-5 rounded-xl border-2 bg-surface",
+                selectedIdx === position
+                  ? "border-gold ring-2 ring-gold"
+                  : "border-border"
+              )}
             >
               <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-bold text-lg shrink-0">
                 {position + 1}

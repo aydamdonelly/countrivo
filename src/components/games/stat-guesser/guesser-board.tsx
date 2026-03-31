@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback } from "react";
+import { useReducer, useState, useCallback, useMemo } from "react";
 import {
   createStatGuesser,
   submitGuess,
@@ -11,6 +11,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface GuesserBoardProps {
   mode: "daily" | "practice";
@@ -60,6 +61,16 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
     },
     [state.phase, handleSubmit]
   );
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (state.phase === "feedback") {
+      map["Enter"] = () => dispatch({ type: "NEXT" });
+    }
+    return map;
+  }, [state.phase]);
+
+  useGameKeys(keymap, state.phase === "feedback");
 
   if (state.phase === "results") {
     const totalError = state.scores.reduce((sum, s) => sum! + (s ?? 0), 0) as number;

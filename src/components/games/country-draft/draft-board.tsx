@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useReducer, useState, useEffect } from "react";
+import { useCallback, useReducer, useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import {
   createGame,
@@ -15,6 +15,7 @@ import { CategorySlot } from "./category-slot";
 import { CountryReveal } from "./country-reveal";
 import { OptimalComparison } from "./optimal-comparison";
 import { DraftShareCard } from "./draft-share-card";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 type Action =
   | { type: "ASSIGN"; categoryIdx: number }
@@ -75,6 +76,20 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
     setResult(null);
     dispatch({ type: "RESET", mode: "practice" });
   }, []);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (currentCountry && !gameComplete) {
+      state.config.categories.forEach((_, idx) => {
+        if (!state.usedCategories.has(idx)) {
+          map[String(idx + 1)] = () => handleAssign(idx);
+        }
+      });
+    }
+    return map;
+  }, [currentCountry, gameComplete, state.config.categories, state.usedCategories, handleAssign]);
+
+  useGameKeys(keymap, !gameComplete && !!currentCountry);
 
   // Prevent hydration mismatch — don't render game content until mounted
   if (!mounted) {

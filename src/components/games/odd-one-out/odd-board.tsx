@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback } from "react";
+import { useReducer, useCallback, useMemo } from "react";
 import {
   createOddOneOut,
   answerRound,
@@ -11,6 +11,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface OddBoardProps {
   mode: "daily" | "practice";
@@ -44,6 +45,21 @@ export function OddBoard({ mode }: OddBoardProps) {
     if (state.phase !== "playing") return;
     dispatch({ type: "ANSWER", index: idx });
   }, [state.phase]);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (state.phase === "playing") {
+      map["1"] = () => handlePick(0);
+      map["2"] = () => handlePick(1);
+      map["3"] = () => handlePick(2);
+      map["4"] = () => handlePick(3);
+    } else if (state.phase === "feedback") {
+      map["Enter"] = () => dispatch({ type: "NEXT" });
+    }
+    return map;
+  }, [state.phase, handlePick]);
+
+  useGameKeys(keymap, state.phase !== "results");
 
   if (state.phase === "results") {
     return (

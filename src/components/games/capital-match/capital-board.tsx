@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback } from "react";
+import { useReducer, useState, useCallback, useMemo } from "react";
 import {
   createCapitalMatch,
   answerCapital,
@@ -10,6 +10,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface CapitalBoardProps {
   mode: "daily" | "practice";
@@ -47,6 +48,19 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
       setSelectedIdx(null);
     }, 1200);
   }, [showFeedback]);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (!showFeedback) {
+      map["1"] = () => handleAnswer(0);
+      map["2"] = () => handleAnswer(1);
+      map["3"] = () => handleAnswer(2);
+      map["4"] = () => handleAnswer(3);
+    }
+    return map;
+  }, [showFeedback, handleAnswer]);
+
+  useGameKeys(keymap, state.phase !== "results");
 
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);

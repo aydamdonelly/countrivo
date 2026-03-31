@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useRef } from "react";
+import { useReducer, useState, useCallback, useRef, useMemo } from "react";
 import {
   createStreak,
   answerStreak,
@@ -10,6 +10,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface StreakBoardProps {
   mode: "daily" | "practice";
@@ -43,6 +44,19 @@ export function StreakBoard({ mode }: StreakBoardProps) {
     rngRef.current = mulberry32(Date.now());
     setState(createStreak(rngRef.current));
   }, []);
+
+  const keymap = useMemo(() => {
+    const map: Record<string, () => void> = {};
+    if (!showFeedback) {
+      map["1"] = () => handleAnswer(0);
+      map["2"] = () => handleAnswer(1);
+      map["3"] = () => handleAnswer(2);
+      map["4"] = () => handleAnswer(3);
+    }
+    return map;
+  }, [showFeedback, handleAnswer]);
+
+  useGameKeys(keymap, state.phase !== "gameover");
 
   if (state.phase === "gameover") {
     return (

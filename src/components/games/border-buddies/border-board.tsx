@@ -12,6 +12,7 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useGameKeys } from "@/hooks/use-game-keys";
 import type { Country } from "@/types/country";
 
 interface BorderBoardProps {
@@ -72,6 +73,16 @@ export function BorderBoard({ mode }: BorderBoardProps) {
     setInput(e.target.value);
     setShowDropdown(e.target.value.length > 0);
   }, []);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && suggestions.length > 0) {
+        e.preventDefault();
+        handleSelect(suggestions[0]);
+      }
+    },
+    [suggestions, handleSelect]
+  );
 
   if (state.phase === "results") {
     const allFound = state.found.length === state.borders.length;
@@ -136,6 +147,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
           type="text"
           value={input}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           onFocus={() => input.length > 0 && setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."
