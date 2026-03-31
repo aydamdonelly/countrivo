@@ -28,7 +28,7 @@ export default function CountriesInAmericasPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
-        className="text-sm font-medium text-brand hover:text-brand-dark transition-colors"
+        className="text-sm font-medium text-gold hover:text-gold transition-colors"
       >
         ← All Lists
       </Link>
@@ -37,7 +37,7 @@ export default function CountriesInAmericasPage() {
         All Countries in the Americas
       </h1>
 
-      <div className="mt-6 max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+      <div className="mt-6 max-w-3xl space-y-4 text-cream-muted leading-relaxed">
         <p>
           The Americas span two continents — North America and South
           America — connected by the narrow isthmus of Central America and dotted
@@ -59,7 +59,7 @@ export default function CountriesInAmericasPage() {
         </p>
       </div>
 
-      <p className="mt-6 text-sm text-text-muted">
+      <p className="mt-6 text-sm text-cream-muted">
         {countries.length} countries and territories
       </p>
 
@@ -67,7 +67,7 @@ export default function CountriesInAmericasPage() {
       <div className="mt-6 overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-border text-sm text-text-muted">
+            <tr className="border-b border-border text-sm text-cream-muted">
               <th className="py-3 pr-4 font-semibold">Country</th>
               <th className="py-3 pr-4 font-semibold">Capital</th>
               <th className="py-3 pr-4 font-semibold text-right">Population</th>
@@ -78,18 +78,18 @@ export default function CountriesInAmericasPage() {
             {rows.map(({ country, population, area }) => (
               <tr
                 key={country.iso3}
-                className="border-b border-border/50 hover:bg-surface-muted/50 transition-colors"
+                className="border-b border-border/50 hover:bg-surface/50 transition-colors"
               >
                 <td className="py-3 pr-4">
                   <Link
                     href={`/countries/${country.slug}`}
-                    className="inline-flex items-center gap-2 font-medium hover:text-brand transition-colors"
+                    className="inline-flex items-center gap-2 font-medium hover:text-gold transition-colors"
                   >
                     <span className="text-lg shrink-0">{country.flagEmoji}</span>
                     {country.displayName}
                   </Link>
                 </td>
-                <td className="py-3 pr-4 text-text-secondary text-sm">
+                <td className="py-3 pr-4 text-cream-muted text-sm">
                   {country.capital || "—"}
                 </td>
                 <td className="py-3 pr-4 text-right font-mono text-sm">
@@ -105,27 +105,27 @@ export default function CountriesInAmericasPage() {
       </div>
 
       {/* Game CTAs */}
-      <div className="mt-12 bg-surface-muted border border-border rounded-xl p-6">
+      <div className="mt-12 bg-surface border border-border rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
-        <p className="text-sm text-text-secondary mb-4">
+        <p className="text-sm text-cream-muted mb-4">
           How many countries in the Americas can you name? Try these games.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/games/continent-sprint"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Continent Sprint
           </Link>
           <Link
             href="/games/flag-quiz"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Flag Quiz
           </Link>
           <Link
             href="/games/capital-match"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Capital Match
           </Link>
@@ -138,31 +138,31 @@ export default function CountriesInAmericasPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/countries-in-europe"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Countries in Europe
           </Link>
           <Link
             href="/lists/countries-in-asia"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Countries in Asia
           </Link>
           <Link
             href="/lists/countries-in-africa"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Countries in Africa
           </Link>
           <Link
             href="/lists/richest-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Richest Countries
           </Link>
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Most Populated Countries
           </Link>

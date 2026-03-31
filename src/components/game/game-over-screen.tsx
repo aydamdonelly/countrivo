@@ -26,8 +26,8 @@ export function GameOverScreen({
     <div className="flex flex-col items-center gap-10 py-10 sm:py-14">
       <div className="text-center animate-in">
         <h2 className="text-3xl sm:text-4xl font-extrabold">{title}</h2>
-        <div className="text-5xl sm:text-7xl font-extrabold font-mono mt-4 text-brand">{score}</div>
-        {subtitle && <p className="text-lg text-text-muted mt-3">{subtitle}</p>}
+        <div className="text-5xl sm:text-7xl font-extrabold font-mono mt-4 text-gold">{score}</div>
+        {subtitle && <p className="text-lg text-cream-muted mt-3">{subtitle}</p>}
       </div>
 
       {children}
@@ -35,7 +35,7 @@ export function GameOverScreen({
       {onPlayAgain && (
         <button
           onClick={onPlayAgain}
-          className="px-10 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors"
+          className="px-10 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Play Again
         </button>
@@ -43,7 +43,7 @@ export function GameOverScreen({
 
       {/* Discovery */}
       <div className="w-full border-t border-border pt-8 mt-2">
-        <p className="text-base font-bold text-text-muted uppercase tracking-wide mb-4 text-center">
+        <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4 text-center">
           Keep playing
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

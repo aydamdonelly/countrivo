@@ -83,7 +83,7 @@ export function OddBoard({ mode }: OddBoardProps) {
                     ))}
                   </div>
                 </div>
-                <p className="text-xs text-text-muted">{r.traitDescription}</p>
+                <p className="text-xs text-cream-muted">{r.traitDescription}</p>
               </div>
             );
           })}
@@ -100,17 +100,17 @@ export function OddBoard({ mode }: OddBoardProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-text-muted">
+      <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          Round <span className="font-bold text-text">{state.currentRound + 1}</span> of{" "}
+          Round <span className="font-bold text-cream">{state.currentRound + 1}</span> of{" "}
           {state.rounds.length}
         </span>
-        <span>Score: <span className="font-bold text-text">{state.score}</span></span>
+        <span>Score: <span className="font-bold text-cream">{state.score}</span></span>
       </div>
 
       <div className="text-center">
         <h2 className="text-lg font-bold">Which one doesn&apos;t belong?</h2>
-        <p className="text-sm text-text-muted mt-1">
+        <p className="text-sm text-cream-muted mt-1">
           Three share a trait. Pick the odd one out.
         </p>
       </div>
@@ -128,7 +128,7 @@ export function OddBoard({ mode }: OddBoardProps) {
               disabled={isFeedback}
               className={cn(
                 "flex flex-col items-center p-5 rounded-xl border-2 transition-all",
-                !isFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
+                !isFeedback && "border-border hover:border-border-hover hover:bg-surface",
                 isFeedback && isOdd && "border-correct bg-correct/10",
                 isFeedback && isChosen && !isOdd && "border-incorrect bg-incorrect/10",
                 isFeedback && !isOdd && !isChosen && "border-border opacity-50"
@@ -153,14 +153,14 @@ export function OddBoard({ mode }: OddBoardProps) {
             <p className="font-bold mb-1">
               {chosen === round.oddIndex ? "Correct!" : "Wrong!"}
             </p>
-            <p className="text-sm text-text-muted">
+            <p className="text-sm text-cream-muted">
               {round.traitDescription}
             </p>
           </div>
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-brand text-white font-semibold rounded-xl hover:bg-brand-dark transition-colors"
+            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>

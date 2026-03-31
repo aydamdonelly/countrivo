@@ -19,12 +19,12 @@ export default function CountryDraftPage() {
         playMode="SinglePlayer"
       />
       {/* Hero */}
-      <section className="bg-surface-dark text-text-inverse">
+      <section className="bg-bg text-bg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
               <span className="text-4xl">🎯</span>
-              <span className="px-3 py-1 bg-brand text-white text-xs font-bold rounded-md uppercase tracking-wide">
+              <span className="px-3 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase tracking-wide">
                 Flagship Game
               </span>
             </div>
@@ -39,7 +39,7 @@ export default function CountryDraftPage() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/games/country-draft/play?mode=daily"
-                className="px-6 py-3.5 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors shadow-lg shadow-brand/25"
+                className="px-6 py-3.5 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors shadow-lg shadow-gold/25"
               >
                 📅 Daily Challenge
               </Link>
@@ -86,10 +86,10 @@ export default function CountryDraftPage() {
       </section>
 
       {/* Example tension */}
-      <section className="bg-surface-muted border-y border-border">
+      <section className="bg-surface border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <h2 className="text-2xl font-extrabold mb-3">The Tension</h2>
-          <p className="text-text-secondary max-w-2xl mb-8">
+          <p className="text-cream-muted max-w-2xl mb-8">
             Every assignment is a gamble. You never know which countries are coming next.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -117,13 +117,13 @@ function StepCard({ number, emoji, title, description }: { number: string; emoji
   return (
     <div className="relative p-6 bg-surface border border-border rounded-xl">
       <div className="flex items-center gap-3 mb-3">
-        <span className="w-8 h-8 flex items-center justify-center bg-brand text-white text-sm font-bold rounded-lg">
+        <span className="w-8 h-8 flex items-center justify-center bg-gold text-white text-sm font-bold rounded-lg">
           {number}
         </span>
         <span className="text-2xl">{emoji}</span>
       </div>
       <h3 className="font-bold text-lg">{title}</h3>
-      <p className="text-sm text-text-muted mt-2 leading-relaxed">{description}</p>
+      <p className="text-sm text-cream-muted mt-2 leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -132,7 +132,7 @@ function TensionCard({ emoji, text }: { emoji: string; text: string }) {
   return (
     <div className="p-5 bg-surface border border-border rounded-xl">
       <span className="text-3xl block mb-3">{emoji}</span>
-      <p className="text-sm text-text-secondary leading-relaxed italic">&ldquo;{text}&rdquo;</p>
+      <p className="text-sm text-cream-muted leading-relaxed italic">&ldquo;{text}&rdquo;</p>
     </div>
   );
 }
@@ -141,8 +141,8 @@ function GameSuggestion({ href, emoji, title, desc }: { href: string; emoji: str
   return (
     <Link href={href} className="game-card p-5 bg-surface border border-border group">
       <span className="text-3xl block mb-2">{emoji}</span>
-      <h3 className="font-bold group-hover:text-brand transition-colors">{title}</h3>
-      <p className="text-sm text-text-muted mt-1">{desc}</p>
+      <h3 className="font-bold group-hover:text-gold transition-colors">{title}</h3>
+      <p className="text-sm text-cream-muted mt-1">{desc}</p>
     </Link>
   );
 }

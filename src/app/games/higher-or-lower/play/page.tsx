@@ -18,7 +18,7 @@ function Content() {
 
 export default function HoLPlayPage() {
   return (
-    <Suspense fallback={<div className="text-center py-8 text-text-muted">Loading...</div>}>
+    <Suspense fallback={<div className="text-center py-8 text-cream-muted">Loading...</div>}>
       <Content />
     </Suspense>
   );

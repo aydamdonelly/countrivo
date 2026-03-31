@@ -13,7 +13,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-2xl" aria-hidden>🌍</span>
           <span className="text-xl font-extrabold tracking-tight">
-            Countr<span className="text-brand">ivo</span>
+            Countr<span className="text-gold">ivo</span>
           </span>
         </Link>
 
@@ -24,7 +24,7 @@ export function Header() {
           <NavLink href="/categories">Rankings</NavLink>
           <Link
             href="/games/country-draft/play?mode=daily"
-            className="ml-3 px-4 py-2 bg-brand text-white text-sm font-semibold rounded-lg hover:bg-brand-dark transition-colors"
+            className="ml-3 px-4 py-2 bg-gold text-white text-sm font-semibold rounded-lg hover:opacity-90 transition-colors"
           >
             Daily Challenge
           </Link>
@@ -33,7 +33,7 @@ export function Header() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="sm:hidden p-2 text-text-muted hover:text-text"
+          className="sm:hidden p-2 text-cream-muted hover:text-cream"
           aria-label="Toggle menu"
         >
           {mobileOpen ? (
@@ -60,7 +60,7 @@ export function Header() {
             <Link
               href="/games/country-draft/play?mode=daily"
               onClick={() => setMobileOpen(false)}
-              className="block mt-3 px-4 py-3 bg-brand text-white text-center font-semibold rounded-lg"
+              className="block mt-3 px-4 py-3 bg-gold text-white text-center font-semibold rounded-lg"
             >
               Play Daily Challenge
             </Link>
@@ -75,7 +75,7 @@ function NavLink({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
-      className="px-3 py-2 text-sm font-medium text-text-secondary hover:text-text hover:bg-surface-muted rounded-lg transition-colors"
+      className="px-3 py-2 text-sm font-medium text-cream-muted hover:text-cream hover:bg-surface rounded-lg transition-colors"
     >
       {children}
     </Link>
@@ -95,7 +95,7 @@ function MobileNavLink({
     <Link
       href={href}
       onClick={onClick}
-      className="block px-4 py-3 text-base font-medium text-text hover:bg-surface-muted rounded-lg transition-colors"
+      className="block px-4 py-3 text-base font-medium text-cream hover:bg-surface rounded-lg transition-colors"
     >
       {children}
     </Link>

@@ -116,15 +116,15 @@ export function BorderBoard({ mode }: BorderBoardProps) {
       <div className="text-center py-6">
         <span className="text-7xl block mb-3">{state.country.flagEmoji}</span>
         <h2 className="text-2xl font-bold">{state.country.displayName}</h2>
-        <p className="text-sm text-text-muted mt-1">
+        <p className="text-sm text-cream-muted mt-1">
           Name the bordering countries
         </p>
       </div>
 
       {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-text-muted">
+      <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          Found: <span className="font-bold text-text">{state.found.length}</span> / {state.borders.length}
+          Found: <span className="font-bold text-cream">{state.found.length}</span> / {state.borders.length}
         </span>
         <span>{state.borders.length - state.found.length} remaining</span>
       </div>
@@ -139,7 +139,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
           onFocus={() => input.length > 0 && setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."
-          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-text placeholder:text-text-muted focus:border-brand focus:outline-none transition-colors"
+          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
         />
         {showDropdown && suggestions.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-lg z-10 overflow-hidden">
@@ -148,7 +148,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
                 key={c.iso3}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(c)}
-                className="w-full text-left px-4 py-3 hover:bg-surface-muted transition-colors flex items-center gap-3"
+                className="w-full text-left px-4 py-3 hover:bg-surface transition-colors flex items-center gap-3"
               >
                 <span className="text-xl">{c.flagEmoji}</span>
                 <span className="font-medium">{c.displayName}</span>
@@ -181,7 +181,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
       {/* Give Up button */}
       <button
         onClick={() => dispatch({ type: "GIVE_UP" })}
-        className="mx-auto px-6 py-3 text-sm text-text-muted border border-border rounded-xl hover:bg-surface-muted transition-colors"
+        className="mx-auto px-6 py-3 text-sm text-cream-muted border border-border rounded-xl hover:bg-surface transition-colors"
       >
         Give Up
       </button>

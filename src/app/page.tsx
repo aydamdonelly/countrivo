@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       {/* ═══ HERO ═══ */}
-      <section className="relative overflow-hidden bg-surface-dark text-text-inverse min-h-130 sm:min-h-140 lg:min-h-150 flex items-center">
+      <section className="relative overflow-hidden bg-bg text-bg min-h-130 sm:min-h-140 lg:min-h-150 flex items-center">
         {/* Globe illustration on the right */}
         <div className="absolute right-[-10%] top-1/2 -translate-y-1/2 hidden md:block pointer-events-none" aria-hidden>
           <HeroGlobe />
@@ -22,25 +22,25 @@ export default function HomePage() {
 
         {/* Floating flag particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
-          <span className="absolute text-5xl opacity-15 top-[10%] left-[5%] animate-float-slow">🇧🇷</span>
-          <span className="absolute text-4xl opacity-10 top-[20%] right-[15%] animate-float-medium">🇯🇵</span>
-          <span className="absolute text-6xl opacity-10 bottom-[15%] left-[60%] animate-float-slow">🇩🇪</span>
-          <span className="absolute text-4xl opacity-15 bottom-[25%] left-[15%] animate-float-medium">🇫🇷</span>
-          <span className="absolute text-5xl opacity-10 top-[60%] right-[8%] animate-float-slow">🇮🇳</span>
-          <span className="absolute text-3xl opacity-15 top-[5%] left-[45%] animate-float-medium">🇦🇺</span>
-          <span className="absolute text-4xl opacity-10 bottom-[5%] right-[35%] animate-float-slow">🇲🇽</span>
+          <span className="absolute text-5xl opacity-15 top-[10%] left-[5%]">🇧🇷</span>
+          <span className="absolute text-4xl opacity-10 top-[20%] right-[15%]">🇯🇵</span>
+          <span className="absolute text-6xl opacity-10 bottom-[15%] left-[60%]">🇩🇪</span>
+          <span className="absolute text-4xl opacity-15 bottom-[25%] left-[15%]">🇫🇷</span>
+          <span className="absolute text-5xl opacity-10 top-[60%] right-[8%]">🇮🇳</span>
+          <span className="absolute text-3xl opacity-15 top-[5%] left-[45%]">🇦🇺</span>
+          <span className="absolute text-4xl opacity-10 bottom-[5%] right-[35%]">🇲🇽</span>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28 w-full">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-white/80 mb-6">
-              <span className="w-2 h-2 bg-brand rounded-full animate-pulse" />
+              <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
               New daily challenge available
             </div>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05]">
               How well do you
               <br />
-              <span className="text-brand">know the world?</span>
+              <span className="text-gold">know the world?</span>
             </h1>
             <p className="mt-6 text-lg sm:text-xl text-white/60 max-w-lg leading-relaxed">
               {games.length} free geography games. Daily challenges, country stats,
@@ -49,7 +49,7 @@ export default function HomePage() {
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 href="/games/country-draft/play?mode=daily"
-                className="px-7 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-all shadow-lg shadow-brand/25 hover:shadow-xl hover:shadow-brand/30 hover:-translate-y-0.5"
+                className="px-7 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-all shadow-lg shadow-gold/25 hover:shadow-xl hover:shadow-gold/30 hover:-translate-y-0.5"
               >
                 Play Today&apos;s Challenge
               </Link>
@@ -82,24 +82,24 @@ export default function HomePage() {
             <div className="text-6xl lg:text-7xl shrink-0">{flagship.emoji}</div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-2xl sm:text-3xl font-extrabold group-hover:text-brand transition-colors">
+                <h2 className="text-2xl sm:text-3xl font-extrabold group-hover:text-gold transition-colors">
                   {flagship.title}
                 </h2>
-                <span className="px-2.5 py-1 bg-brand text-white text-xs font-bold rounded-md uppercase tracking-wide">
+                <span className="px-2.5 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase tracking-wide">
                   Featured
                 </span>
               </div>
-              <p className="text-text-secondary text-lg leading-relaxed max-w-2xl">
+              <p className="text-cream-muted text-lg leading-relaxed max-w-2xl">
                 {flagship.description}
               </p>
-              <div className="flex items-center gap-6 mt-4 text-sm text-text-muted">
+              <div className="flex items-center gap-6 mt-4 text-sm text-cream-muted">
                 <span>⏱ {flagship.estimatedTime}</span>
                 <span className="capitalize">📊 {flagship.difficulty}</span>
                 <span>📅 Daily + Practice</span>
               </div>
             </div>
             <div className="hidden lg:flex items-center shrink-0">
-              <span className="px-6 py-3 bg-brand/10 text-brand font-bold rounded-xl group-hover:bg-brand group-hover:text-white transition-all">
+              <span className="px-6 py-3 bg-gold-dim text-gold font-bold rounded-xl group-hover:bg-gold group-hover:text-white transition-all">
                 Play Now →
               </span>
             </div>
@@ -112,9 +112,9 @@ export default function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <h2 className="text-3xl font-extrabold">All Games</h2>
-            <p className="text-text-muted mt-1">{games.length} geography games to test your knowledge</p>
+            <p className="text-cream-muted mt-1">{games.length} geography games to test your knowledge</p>
           </div>
-          <Link href="/games" className="text-sm font-semibold text-brand hover:text-brand-dark transition-colors hidden sm:block">
+          <Link href="/games" className="text-sm font-semibold text-gold hover:text-gold transition-colors hidden sm:block">
             View all →
           </Link>
         </div>
@@ -126,15 +126,15 @@ export default function HomePage() {
               className="game-card bg-surface border border-border p-5 group"
             >
               <span className="text-4xl block mb-3">{game.emoji}</span>
-              <h3 className="text-lg font-bold group-hover:text-brand transition-colors">
+              <h3 className="text-lg font-bold group-hover:text-gold transition-colors">
                 {game.title}
               </h3>
-              <p className="text-sm text-text-muted mt-1 line-clamp-2">
+              <p className="text-sm text-cream-muted mt-1 line-clamp-2">
                 {game.shortDescription}
               </p>
-              <div className="flex items-center gap-3 mt-4 text-xs text-text-muted">
-                <span className="px-2 py-0.5 bg-surface-muted rounded-md">{game.estimatedTime}</span>
-                <span className="px-2 py-0.5 bg-surface-muted rounded-md capitalize">{game.difficulty}</span>
+              <div className="flex items-center gap-3 mt-4 text-xs text-cream-muted">
+                <span className="px-2 py-0.5 bg-surface rounded-md">{game.estimatedTime}</span>
+                <span className="px-2 py-0.5 bg-surface rounded-md capitalize">{game.difficulty}</span>
               </div>
             </Link>
           ))}
@@ -142,14 +142,14 @@ export default function HomePage() {
       </section>
 
       {/* ═══ SEO CONTENT + STATS ═══ */}
-      <section className="bg-surface-muted border-t border-border">
+      <section className="bg-surface border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
             <div>
               <h2 className="text-3xl font-extrabold mb-6">
                 Free Geography Games Online
               </h2>
-              <div className="space-y-4 text-text-secondary leading-relaxed">
+              <div className="space-y-4 text-cream-muted leading-relaxed">
                 <p>
                   Countrivo is a free collection of browser-based geography games.
                   Test your knowledge of world countries, flags, capitals, population
@@ -168,7 +168,7 @@ export default function HomePage() {
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-bold mb-6 text-text-muted uppercase tracking-wide">Platform Stats</h3>
+              <h3 className="text-lg font-bold mb-6 text-cream-muted uppercase tracking-wide">Platform Stats</h3>
               <div className="grid grid-cols-2 gap-4">
                 <StatCard value={games.length.toString()} label="Geography Games" />
                 <StatCard value={countries.length.toString()} label="Countries Covered" />
@@ -176,13 +176,13 @@ export default function HomePage() {
                 <StatCard value="Daily" label="New Challenges" />
               </div>
               <div className="mt-8">
-                <h3 className="text-lg font-bold mb-4 text-text-muted uppercase tracking-wide">Explore</h3>
+                <h3 className="text-lg font-bold mb-4 text-cream-muted uppercase tracking-wide">Explore</h3>
                 <div className="flex flex-wrap gap-2">
                   {["Europe", "Asia", "Africa", "Americas", "Oceania"].map((c) => (
                     <Link
                       key={c}
                       href={`/countries?continent=${c}`}
-                      className="px-3 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+                      className="px-3 py-1.5 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
                     >
                       {c}
                     </Link>
@@ -206,7 +206,7 @@ export default function HomePage() {
                   <Link
                     key={slug}
                     href={`/countries/${slug}`}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-brand/30 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-border transition-colors"
                   >
                     <span>{country.flagEmoji}</span>
                     <span>{country.displayName}</span>
@@ -224,8 +224,8 @@ export default function HomePage() {
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
     <div className="p-5 bg-surface border border-border rounded-xl">
-      <div className="text-3xl font-extrabold text-brand">{value}</div>
-      <div className="text-sm text-text-muted mt-1">{label}</div>
+      <div className="text-3xl font-extrabold text-gold">{value}</div>
+      <div className="text-sm text-cream-muted mt-1">{label}</div>
     </div>
   );
 }

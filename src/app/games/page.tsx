@@ -42,7 +42,7 @@ export default function GamesPage() {
       />
 
       <h1 className="text-4xl sm:text-5xl font-extrabold mb-3">All Geography Games</h1>
-      <p className="text-lg text-text-muted mb-10 max-w-2xl">
+      <p className="text-lg text-cream-muted mb-10 max-w-2xl">
         {games.length} free geography games with daily challenges, practice mode, and shareable results. No account needed — just pick a game and play.
       </p>
 
@@ -56,10 +56,10 @@ export default function GamesPage() {
             <span className="text-5xl shrink-0">{flagship.emoji}</span>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-1">
-                <h2 className="text-2xl font-extrabold group-hover:text-brand transition-colors">{flagship.title}</h2>
-                <span className="px-2.5 py-1 bg-brand text-white text-xs font-bold rounded-md uppercase">Featured</span>
+                <h2 className="text-2xl font-extrabold group-hover:text-gold transition-colors">{flagship.title}</h2>
+                <span className="px-2.5 py-1 bg-gold text-white text-xs font-bold rounded-md uppercase">Featured</span>
               </div>
-              <p className="text-text-secondary">{flagship.description}</p>
+              <p className="text-cream-muted">{flagship.description}</p>
             </div>
           </div>
         </Link>
@@ -80,13 +80,13 @@ export default function GamesPage() {
                   className="game-card bg-surface border border-border p-5 group"
                 >
                   <span className="text-4xl block mb-3">{game.emoji}</span>
-                  <h3 className="text-lg font-bold group-hover:text-brand transition-colors">
+                  <h3 className="text-lg font-bold group-hover:text-gold transition-colors">
                     {game.title}
                   </h3>
-                  <p className="text-sm text-text-muted mt-1">{game.shortDescription}</p>
-                  <div className="flex items-center gap-3 mt-3 text-xs text-text-muted">
-                    <span className="px-2 py-0.5 bg-surface-muted rounded-md">{game.estimatedTime}</span>
-                    <span className="px-2 py-0.5 bg-surface-muted rounded-md capitalize">{game.difficulty}</span>
+                  <p className="text-sm text-cream-muted mt-1">{game.shortDescription}</p>
+                  <div className="flex items-center gap-3 mt-3 text-xs text-cream-muted">
+                    <span className="px-2 py-0.5 bg-surface rounded-md">{game.estimatedTime}</span>
+                    <span className="px-2 py-0.5 bg-surface rounded-md capitalize">{game.difficulty}</span>
                   </div>
                 </Link>
               ))}
@@ -98,7 +98,7 @@ export default function GamesPage() {
       {/* SEO text */}
       <section className="mt-12 pt-12 border-t border-border">
         <h2 className="text-2xl font-extrabold mb-4">About Our Geography Games</h2>
-        <div className="max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+        <div className="max-w-3xl space-y-4 text-cream-muted leading-relaxed">
           <p>
             Countrivo offers {games.length} free geography games that test your knowledge of
             countries, flags, capitals, and world statistics. Each game features a daily challenge

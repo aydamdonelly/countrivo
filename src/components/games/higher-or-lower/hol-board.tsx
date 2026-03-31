@@ -71,12 +71,12 @@ export function HoLBoard({ mode }: HoLBoardProps) {
           <span className="text-2xl">🔥</span>
           <span className={cn(
             "font-extrabold font-mono transition-all",
-            state.streak > 0 ? "text-4xl text-brand" : "text-3xl text-text-muted"
+            state.streak > 0 ? "text-4xl text-gold" : "text-3xl text-cream-muted"
           )}>
             {state.streak}
           </span>
         </div>
-        <span className="text-base text-text-muted font-medium">
+        <span className="text-base text-cream-muted font-medium">
           {round.category.emoji} {round.category.label}
         </span>
       </div>
@@ -86,12 +86,12 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         {/* Left country - value shown */}
         <div className={cn(
           "flex flex-col items-center p-6 sm:p-8 rounded-xl border-2 transition-all",
-          showReveal && isCorrectGuess ? "border-correct/50 bg-correct/5" : "border-border bg-surface-muted",
+          showReveal && isCorrectGuess ? "border-correct/50 bg-correct/5" : "border-border bg-surface",
           showReveal && !isCorrectGuess ? "border-incorrect/50 bg-incorrect/5" : ""
         )}>
           <span className="text-7xl sm:text-8xl mb-3">{round.left.flagEmoji}</span>
           <span className="font-bold text-base sm:text-lg text-center">{round.left.displayName}</span>
-          <span className="text-2xl sm:text-3xl font-mono font-extrabold mt-3 text-text">
+          <span className="text-2xl sm:text-3xl font-mono font-extrabold mt-3 text-cream">
             {formatStat(round.leftValue, round.category.unit)}
           </span>
         </div>
@@ -99,7 +99,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         {/* Right country - value hidden until reveal */}
         <div className={cn(
           "flex flex-col items-center p-6 sm:p-8 rounded-xl border-2 transition-all",
-          !showReveal && "border-brand/30 bg-brand/5",
+          !showReveal && "border-border bg-gold-dim",
           showReveal && isCorrectGuess && "border-correct bg-correct/10",
           showReveal && !isCorrectGuess && "border-incorrect bg-incorrect/10"
         )}>
@@ -113,14 +113,14 @@ export function HoLBoard({ mode }: HoLBoardProps) {
               {formatStat(round.rightValue, round.category.unit)}
             </span>
           ) : (
-            <span className="text-3xl font-bold mt-3 text-brand">?</span>
+            <span className="text-3xl font-bold mt-3 text-gold">?</span>
           )}
         </div>
       </div>
 
-      <p className="text-center text-lg text-text-muted">
-        Is <span className="font-bold text-text">{round.right.displayName}</span>&apos;s{" "}
-        <span className="font-bold text-text">{round.category.label.toLowerCase()}</span> higher or lower?
+      <p className="text-center text-lg text-cream-muted">
+        Is <span className="font-bold text-cream">{round.right.displayName}</span>&apos;s{" "}
+        <span className="font-bold text-cream">{round.category.label.toLowerCase()}</span> higher or lower?
       </p>
 
       {/* Higher / Lower buttons */}

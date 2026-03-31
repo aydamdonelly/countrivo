@@ -73,12 +73,12 @@ export function SortBoard({ mode }: SortBoardProps) {
                     isCorrect ? "border-correct/30 bg-correct/5" : "border-incorrect/30 bg-incorrect/5"
                   )}
                 >
-                  <span className="w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center font-bold text-lg shrink-0">
+                  <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-bold text-lg shrink-0">
                     {rank + 1}
                   </span>
                   <span className="text-3xl">{country.flagEmoji}</span>
                   <span className="font-bold text-lg flex-1">{country.displayName}</span>
-                  <span className="text-base font-mono text-text-muted">
+                  <span className="text-base font-mono text-cream-muted">
                     {value ? formatStat(value, state.category.unit) : "N/A"}
                   </span>
                 </div>
@@ -93,8 +93,8 @@ export function SortBoard({ mode }: SortBoardProps) {
   return (
     <div className="flex flex-col gap-8">
       <div className="text-center">
-        <p className="text-lg text-text-muted">
-          Sort by <span className="font-bold text-text text-xl">{state.category.emoji} {state.category.label}</span> — highest first
+        <p className="text-lg text-cream-muted">
+          Sort by <span className="font-bold text-cream text-xl">{state.category.emoji} {state.category.label}</span> — highest first
         </p>
       </div>
 
@@ -106,7 +106,7 @@ export function SortBoard({ mode }: SortBoardProps) {
               key={country.iso3}
               className="flex items-center gap-3 p-5 rounded-xl border-2 border-border bg-surface"
             >
-              <span className="w-10 h-10 rounded-full bg-surface-muted flex items-center justify-center font-bold text-lg shrink-0">
+              <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-bold text-lg shrink-0">
                 {position + 1}
               </span>
               <span className="text-3xl sm:text-4xl">{country.flagEmoji}</span>
@@ -115,14 +115,14 @@ export function SortBoard({ mode }: SortBoardProps) {
                 <button
                   onClick={() => handleMoveUp(position)}
                   disabled={position === 0}
-                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors leading-none"
+                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface disabled:opacity-30 transition-colors leading-none"
                 >
                   ▲
                 </button>
                 <button
                   onClick={() => handleMoveDown(position)}
                   disabled={position === state.userOrder.length - 1}
-                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface-muted disabled:opacity-30 transition-colors leading-none"
+                  className="p-2 text-lg rounded-lg border border-border hover:bg-surface disabled:opacity-30 transition-colors leading-none"
                 >
                   ▼
                 </button>
@@ -135,7 +135,7 @@ export function SortBoard({ mode }: SortBoardProps) {
       <div className="flex justify-center">
         <button
           onClick={() => dispatch({ type: "SUBMIT" })}
-          className="w-full sm:w-auto px-12 py-5 bg-brand text-white font-bold text-xl rounded-xl hover:bg-brand-dark transition-colors"
+          className="w-full sm:w-auto px-12 py-5 bg-gold text-white font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
         >
           Submit Order
         </button>

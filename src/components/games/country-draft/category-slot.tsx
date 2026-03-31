@@ -31,23 +31,23 @@ export function CategorySlot({
       className={cn(
         "relative flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-200 min-h-30 sm:min-h-35",
         isAvailable &&
-          "border-brand/40 bg-brand-subtle hover:border-brand hover:bg-brand/10 hover:shadow-lg cursor-pointer active:scale-[0.96]",
+          "border-border-hover bg-gold-dim hover:border-gold hover:bg-gold-dim hover:shadow-lg cursor-pointer active:scale-[0.96]",
         !isAvailable && assignedCountry &&
           "border-correct/20 bg-correct-light cursor-default",
         !isAvailable && !assignedCountry &&
-          "border-border bg-surface-muted opacity-40 cursor-not-allowed"
+          "border-border bg-surface opacity-40 cursor-not-allowed"
       )}
     >
       {assignedCountry ? (
         <>
           <span className="text-3xl sm:text-4xl">{assignedCountry.flagEmoji}</span>
-          <span className="text-sm sm:text-base font-bold text-text mt-2 truncate max-w-full px-1">
+          <span className="text-sm sm:text-base font-bold text-cream mt-2 truncate max-w-full px-1">
             {assignedCountry.displayName}
           </span>
           <span className={cn(
             "text-sm font-bold mt-1.5 px-3 py-1 rounded-lg",
             rank !== null && rank <= 5 && "bg-correct/20 text-correct",
-            rank !== null && rank > 5 && rank <= 20 && "bg-brand/20 text-brand-dark",
+            rank !== null && rank > 5 && rank <= 20 && "bg-gold-dim text-gold",
             rank !== null && rank > 20 && "bg-incorrect/10 text-incorrect"
           )}>
             {category.emoji} #{rank}
@@ -56,7 +56,7 @@ export function CategorySlot({
       ) : (
         <>
           <span className="text-4xl sm:text-5xl mb-2">{category.emoji}</span>
-          <span className="text-sm sm:text-base font-bold text-text-secondary leading-tight text-center">
+          <span className="text-sm sm:text-base font-bold text-cream-muted leading-tight text-center">
             {category.shortLabel}
           </span>
         </>

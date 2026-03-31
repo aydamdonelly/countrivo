@@ -37,12 +37,12 @@ interface DraftBoardProps {
 }
 
 const GRADE_CONFIG: Record<string, { color: string; bg: string; message: string }> = {
-  perfect: { color: "text-brand", bg: "bg-brand/10", message: "You found the optimal solution!" },
+  perfect: { color: "text-gold", bg: "bg-gold-dim", message: "You found the optimal solution!" },
   excellent: { color: "text-correct", bg: "bg-correct-light", message: "Nearly perfect play." },
   great: { color: "text-accent", bg: "bg-accent/10", message: "Strong strategic thinking." },
-  good: { color: "text-brand-dark", bg: "bg-brand-subtle", message: "Solid run. Room to improve." },
-  okay: { color: "text-text-secondary", bg: "bg-surface-muted", message: "Keep practicing!" },
-  poor: { color: "text-text-muted", bg: "bg-surface-muted", message: "Tough set. Try again!" },
+  good: { color: "text-gold", bg: "bg-gold-dim", message: "Solid run. Room to improve." },
+  okay: { color: "text-cream-muted", bg: "bg-surface", message: "Keep practicing!" },
+  poor: { color: "text-cream-muted", bg: "bg-surface", message: "Tough set. Try again!" },
 };
 
 export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
@@ -81,7 +81,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
     return (
       <div className="text-center py-20">
         <div className="text-4xl mb-4 animate-pulse">🎯</div>
-        <p className="text-text-muted">Setting up your game...</p>
+        <p className="text-cream-muted">Setting up your game...</p>
       </div>
     );
   }
@@ -100,22 +100,22 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           <h2 className={`text-4xl sm:text-5xl font-extrabold capitalize ${grade.color} animate-count-up`}>
             {result.grade}!
           </h2>
-          <p className="text-lg text-text-secondary mt-3">{grade.message}</p>
+          <p className="text-lg text-cream-muted mt-3">{grade.message}</p>
 
           <div className="flex items-center justify-center gap-8 sm:gap-12 mt-8">
             <div>
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.playerScore}</div>
-              <div className="text-base text-text-muted mt-1">Your Score</div>
+              <div className="text-base text-cream-muted mt-1">Your Score</div>
             </div>
             <div className="w-px h-14 bg-border" />
             <div>
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.optimalScore}</div>
-              <div className="text-base text-text-muted mt-1">Optimal</div>
+              <div className="text-base text-cream-muted mt-1">Optimal</div>
             </div>
             <div className="w-px h-14 bg-border" />
             <div>
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.gap}</div>
-              <div className="text-base text-text-muted mt-1">Gap</div>
+              <div className="text-base text-cream-muted mt-1">Gap</div>
             </div>
           </div>
         </div>
@@ -135,7 +135,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           {mode === "practice" && (
             <button
               onClick={handlePlayAgain}
-              className="px-8 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors"
+              className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
             >
               Play Again
             </button>
@@ -143,7 +143,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           {mode === "daily" && (
             <Link
               href="/games/country-draft/play?mode=practice"
-              className="px-8 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors text-center"
+              className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors text-center"
             >
               Try Practice Mode
             </Link>
@@ -152,7 +152,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
 
         {/* Discovery: play another game */}
         <div className="border-t border-border pt-8">
-          <p className="text-base font-bold text-text-muted uppercase tracking-wide mb-4">Try another game</p>
+          <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4">Try another game</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <Link href="/games/higher-or-lower" className="game-card p-5 border border-border bg-surface text-center">
               <span className="text-3xl block mb-2">⬆️</span>
@@ -181,13 +181,13 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
     <div className="flex flex-col gap-6">
       {/* Progress bar */}
       <div className="flex items-center gap-4">
-        <div className="flex-1 h-3 bg-surface-muted rounded-full overflow-hidden">
+        <div className="flex-1 h-3 bg-surface rounded-full overflow-hidden">
           <div
-            className="h-full bg-brand rounded-full transition-all duration-500"
+            className="h-full bg-gold rounded-full transition-all duration-500"
             style={{ width: `${(state.currentStep / state.config.countries.length) * 100}%` }}
           />
         </div>
-        <span className="text-lg font-bold text-text-secondary tabular-nums">
+        <span className="text-lg font-bold text-cream-muted tabular-nums">
           {state.currentStep + 1}/{state.config.countries.length}
         </span>
       </div>
@@ -220,9 +220,9 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
       </div>
 
       {/* Hint */}
-      <p className="text-center text-lg text-text-muted">
+      <p className="text-center text-lg text-cream-muted">
         Which category should{" "}
-        <span className="font-bold text-text">{currentCountry?.displayName}</span>{" "}
+        <span className="font-bold text-cream">{currentCountry?.displayName}</span>{" "}
         go in?
       </p>
     </div>

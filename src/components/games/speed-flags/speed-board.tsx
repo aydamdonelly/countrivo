@@ -57,13 +57,13 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
       <div className="flex flex-col items-center gap-6 py-12">
         <span className="text-6xl">⚡</span>
         <h2 className="text-2xl font-bold">Ready?</h2>
-        <p className="text-text-muted text-center">
+        <p className="text-cream-muted text-center">
           Identify as many flags as possible in 60 seconds.<br />
           Each flag has 2 options. Be fast!
         </p>
         <button
           onClick={() => dispatch({ type: "START" })}
-          className="px-8 py-4 bg-brand text-white font-bold text-lg rounded-xl hover:bg-brand-dark transition-colors"
+          className="px-8 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Start!
         </button>
@@ -104,22 +104,22 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         <div
           className={cn(
             "text-2xl font-bold font-mono",
-            state.timeLeft <= 10 ? "text-incorrect" : "text-text"
+            state.timeLeft <= 10 ? "text-incorrect" : "text-cream"
           )}
         >
           {state.timeLeft}s
         </div>
-        <div className="text-sm text-text-muted">
-          Score: <span className="font-bold text-text">{state.correct}</span>
+        <div className="text-sm text-cream-muted">
+          Score: <span className="font-bold text-cream">{state.correct}</span>
         </div>
       </div>
 
       {/* Timer bar */}
-      <div className="w-full h-2 rounded-full bg-surface-muted overflow-hidden">
+      <div className="w-full h-2 rounded-full bg-surface overflow-hidden">
         <div
           className={cn(
             "h-full rounded-full transition-all duration-1000",
-            state.timeLeft <= 10 ? "bg-incorrect" : "bg-brand"
+            state.timeLeft <= 10 ? "bg-incorrect" : "bg-gold"
           )}
           style={{ width: `${(state.timeLeft / 60) * 100}%` }}
         />
@@ -136,7 +136,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
           <button
             key={option.iso3}
             onClick={() => handleAnswer(idx)}
-            className="p-5 rounded-xl border-2 border-border hover:border-brand/50 hover:bg-surface-muted font-bold text-sm transition-all"
+            className="p-5 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface font-bold text-sm transition-all"
           >
             {option.displayName}
           </button>

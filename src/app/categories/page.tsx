@@ -16,7 +16,7 @@ export default function CategoriesPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
         All Categories
       </h1>
-      <p className="text-text-muted mb-10">
+      <p className="text-cream-muted mb-10">
         {categories.length} world statistics you can explore and compare.
       </p>
 
@@ -25,18 +25,18 @@ export default function CategoriesPage() {
           <Link
             key={cat.slug}
             href={`/categories/${cat.slug}`}
-            className="p-5 rounded-xl border border-border hover:border-brand/30 hover:bg-surface-muted transition-all group"
+            className="p-5 rounded-xl border border-border hover:border-border hover:bg-surface transition-all group"
           >
             <div className="flex items-start gap-3">
               <span className="text-3xl shrink-0">{cat.emoji}</span>
               <div className="min-w-0">
-                <h2 className="font-bold group-hover:text-brand transition-colors">
+                <h2 className="font-bold group-hover:text-gold transition-colors">
                   {cat.label}
                 </h2>
-                <p className="text-sm text-text-muted mt-1 line-clamp-2">
+                <p className="text-sm text-cream-muted mt-1 line-clamp-2">
                   {cat.description}
                 </p>
-                <p className="text-xs text-text-muted mt-2">
+                <p className="text-xs text-cream-muted mt-2">
                   Source: {cat.source} ({cat.sourceYear})
                 </p>
               </div>

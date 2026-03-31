@@ -88,11 +88,11 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
                 <span className="text-2xl">{r.country.flagEmoji}</span>
                 <div className="flex-1">
                   <div className="text-sm font-medium">{r.country.displayName}</div>
-                  <div className="text-xs text-text-muted">{r.category.label}</div>
+                  <div className="text-xs text-cream-muted">{r.category.label}</div>
                 </div>
                 <div className="text-right">
                   <div className="text-sm font-mono">{formatStat(r.actualValue, r.category.unit)}</div>
-                  <div className="text-xs text-text-muted">{error}% off</div>
+                  <div className="text-xs text-cream-muted">{error}% off</div>
                 </div>
               </div>
             );
@@ -105,9 +105,9 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-text-muted">
+      <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          Round <span className="font-bold text-text">{state.currentRound + 1}</span> of{" "}
+          Round <span className="font-bold text-cream">{state.currentRound + 1}</span> of{" "}
           {state.rounds.length}
         </span>
         <span>{round.category.emoji} {round.category.label}</span>
@@ -117,8 +117,8 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
       <div className="text-center py-6">
         <span className="text-7xl block mb-3">{round.country.flagEmoji}</span>
         <h2 className="text-2xl font-bold">{round.country.displayName}</h2>
-        <p className="text-sm text-text-muted mt-2">
-          Guess the <span className="font-bold text-text">{round.category.label}</span>
+        <p className="text-sm text-cream-muted mt-2">
+          Guess the <span className="font-bold text-cream">{round.category.label}</span>
           {round.category.unit ? ` (${round.category.unit})` : ""}
         </p>
       </div>
@@ -127,14 +127,14 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
         /* Feedback after guess */
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border border-border bg-surface-muted text-center">
-              <div className="text-xs text-text-muted mb-1">Your guess</div>
+            <div className="p-4 rounded-xl border border-border bg-surface text-center">
+              <div className="text-xs text-cream-muted mb-1">Your guess</div>
               <div className="font-mono font-bold">
                 {formatStat(state.guesses[state.currentRound]!, round.category.unit)}
               </div>
             </div>
             <div className="p-4 rounded-xl border border-correct/30 bg-correct/5 text-center">
-              <div className="text-xs text-text-muted mb-1">Actual value</div>
+              <div className="text-xs text-cream-muted mb-1">Actual value</div>
               <div className="font-mono font-bold">
                 {formatStat(round.actualValue, round.category.unit)}
               </div>
@@ -154,7 +154,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-brand text-white font-semibold rounded-xl hover:bg-brand-dark transition-colors"
+            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>
@@ -170,12 +170,12 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
             onKeyDown={handleKeyDown}
             placeholder="Enter your guess..."
             autoFocus
-            className="w-full p-4 rounded-xl border-2 border-border bg-surface text-text text-center text-lg font-mono placeholder:text-text-muted focus:border-brand focus:outline-none transition-colors"
+            className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream text-center text-lg font-mono placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
           />
           <button
             onClick={handleSubmit}
             disabled={!inputValue.trim()}
-            className="mx-auto block px-8 py-3 bg-brand text-white font-semibold rounded-xl hover:bg-brand-dark transition-colors disabled:opacity-50"
+            className="mx-auto block px-8 py-3 bg-gold text-white font-semibold rounded-xl hover:opacity-90 transition-colors disabled:opacity-50"
           >
             Submit Guess
           </button>

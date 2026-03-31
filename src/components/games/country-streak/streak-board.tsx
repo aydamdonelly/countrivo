@@ -62,7 +62,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
         <span className="text-3xl">🔥</span>
         <span className={cn(
           "font-extrabold font-mono transition-all",
-          state.streak > 0 ? "text-6xl text-brand" : "text-4xl text-text-muted"
+          state.streak > 0 ? "text-6xl text-gold" : "text-4xl text-cream-muted"
         )}>
           {state.streak}
         </span>
@@ -71,7 +71,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
       {/* Flag */}
       <div className="text-center py-4">
         <span className="text-[10rem] leading-none block">{currentCountry.flagEmoji}</span>
-        <p className="text-text-muted text-lg mt-6 font-medium">Which country is this?</p>
+        <p className="text-cream-muted text-lg mt-6 font-medium">Which country is this?</p>
       </div>
 
       {/* Options */}
@@ -87,7 +87,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
               disabled={showFeedback}
               className={cn(
                 "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
-                !showFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
+                !showFeedback && "border-border hover:border-border-hover hover:bg-surface",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"

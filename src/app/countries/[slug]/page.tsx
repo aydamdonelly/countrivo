@@ -122,7 +122,7 @@ export default async function CountryPage({
       {/* Back link */}
       <Link
         href="/countries"
-        className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-brand transition-colors mb-8"
+        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-gold transition-colors mb-8"
       >
         &larr; All countries
       </Link>
@@ -137,27 +137,27 @@ export default async function CountryPage({
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
               {country.displayName}
             </h1>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 text-base text-text-muted">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 text-base text-cream-muted">
               <span className="inline-flex items-center gap-1.5">
-                <span className="font-medium text-text">Continent:</span>
+                <span className="font-medium text-cream">Continent:</span>
                 {country.continent}
               </span>
               <span className="text-border">|</span>
               <span className="inline-flex items-center gap-1.5">
-                <span className="font-medium text-text">Region:</span>
+                <span className="font-medium text-cream">Region:</span>
                 {country.subregion}
               </span>
               {country.capital && (
                 <>
                   <span className="text-border">|</span>
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="font-medium text-text">Capital:</span>
+                    <span className="font-medium text-cream">Capital:</span>
                     {country.capital}
                   </span>
                 </>
               )}
             </div>
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-text-muted">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-cream-muted">
               <span>ISO 3166-1 alpha-2: {country.iso2}</span>
               <span className="text-border">|</span>
               <span>ISO 3166-1 alpha-3: {country.iso3}</span>
@@ -175,16 +175,16 @@ export default async function CountryPage({
               <Link
                 key={cat.slug}
                 href={`/categories/${cat.slug}`}
-                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-brand/50 hover:bg-surface-muted/50 transition-colors"
+                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
               >
                 <span className="text-3xl shrink-0">{cat.emoji}</span>
                 <div className="min-w-0">
-                  <p className="text-2xl font-bold tabular-nums text-brand">
+                  <p className="text-2xl font-bold tabular-nums text-gold">
                     #{rank}
                   </p>
                   <p className="text-sm font-medium truncate">{cat.label}</p>
                   {value !== null && (
-                    <p className="text-xs text-text-muted mt-0.5 tabular-nums">
+                    <p className="text-xs text-cream-muted mt-0.5 tabular-nums">
                       {formatStat(value, cat.unit)}
                     </p>
                   )}
@@ -203,7 +203,7 @@ export default async function CountryPage({
         <div className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-surface-muted text-left">
+              <tr className="bg-surface text-left">
                 <th className="px-4 py-3 font-semibold">Stat</th>
                 <th className="px-4 py-3 font-semibold text-right">Value</th>
                 <th className="px-4 py-3 font-semibold text-right">
@@ -219,12 +219,12 @@ export default async function CountryPage({
                 return (
                   <tr
                     key={cat.slug}
-                    className="border-t border-border hover:bg-surface-muted/50 transition-colors"
+                    className="border-t border-border hover:bg-surface/50 transition-colors"
                   >
                     <td className="px-4 py-3">
                       <Link
                         href={`/categories/${cat.slug}`}
-                        className="hover:text-brand transition-colors"
+                        className="hover:text-gold transition-colors"
                       >
                         <span className="mr-2">{cat.emoji}</span>
                         {cat.label}
@@ -248,7 +248,7 @@ export default async function CountryPage({
       {neighborCountries.length > 0 && (
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-4">Neighboring Countries</h2>
-          <p className="text-text-muted mb-4">
+          <p className="text-cream-muted mb-4">
             {country.displayName} shares a border with{" "}
             {neighborCountries.length}{" "}
             {neighborCountries.length === 1 ? "country" : "countries"}.
@@ -258,7 +258,7 @@ export default async function CountryPage({
               <Link
                 key={neighbor.iso3}
                 href={`/countries/${neighbor.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-brand/50 hover:bg-surface-muted/50 transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-border-hover hover:bg-surface/50 transition-colors"
               >
                 <span className="text-2xl shrink-0">{neighbor.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -281,7 +281,7 @@ export default async function CountryPage({
               <Link
                 key={related.iso3}
                 href={`/countries/${related.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-brand/50 hover:bg-surface-muted/50 transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-border-hover hover:bg-surface/50 transition-colors"
               >
                 <span className="text-2xl shrink-0">{related.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -293,7 +293,7 @@ export default async function CountryPage({
           <div className="mt-4">
             <Link
               href="/countries"
-              className="text-sm text-brand hover:underline"
+              className="text-sm text-gold hover:underline"
             >
               View all countries &rarr;
             </Link>
@@ -307,7 +307,7 @@ export default async function CountryPage({
           <h2 className="text-2xl font-bold mb-4">
             Play Games About Countries
           </h2>
-          <p className="text-text-muted mb-4">
+          <p className="text-cream-muted mb-4">
             Test your knowledge of {country.displayName} and other countries
             around the world.
           </p>
@@ -316,12 +316,12 @@ export default async function CountryPage({
               <Link
                 key={game.slug}
                 href={game.route}
-                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-brand/50 hover:bg-surface-muted/50 transition-colors"
+                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
               >
                 <span className="text-3xl shrink-0">{game.emoji}</span>
                 <div className="min-w-0">
                   <p className="font-semibold">{game.title}</p>
-                  <p className="text-sm text-text-muted mt-0.5 line-clamp-2">
+                  <p className="text-sm text-cream-muted mt-0.5 line-clamp-2">
                     {game.shortDescription}
                   </p>
                 </div>

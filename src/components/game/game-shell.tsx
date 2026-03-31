@@ -13,13 +13,13 @@ export function GameShell({ title, backHref, mode, children }: GameShellProps) {
       <div className="flex items-center justify-between mb-8">
         <Link
           href={backHref}
-          className="text-base font-medium text-text-muted hover:text-text transition-colors"
+          className="text-base font-medium text-cream-muted hover:text-cream transition-colors"
         >
           ← Back
         </Link>
         {mode && (
           <span className={`text-base font-bold uppercase tracking-wider ${
-            mode === "daily" ? "text-brand" : "text-text-muted"
+            mode === "daily" ? "text-gold" : "text-cream-muted"
           }`}>
             {mode}
           </span>

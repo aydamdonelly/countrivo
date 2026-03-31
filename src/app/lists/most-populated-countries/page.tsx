@@ -22,7 +22,7 @@ export default function MostPopulatedCountriesPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
-        className="text-sm font-medium text-brand hover:text-brand-dark transition-colors"
+        className="text-sm font-medium text-gold hover:text-gold transition-colors"
       >
         ← All Lists
       </Link>
@@ -31,7 +31,7 @@ export default function MostPopulatedCountriesPage() {
         Most Populated Countries in the World
       </h1>
 
-      <div className="mt-6 max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+      <div className="mt-6 max-w-3xl space-y-4 text-cream-muted leading-relaxed">
         <p>
           India overtook China as the world&apos;s most populated country in 2023,
           and both nations now have populations exceeding 1.4 billion people. The
@@ -52,9 +52,9 @@ export default function MostPopulatedCountriesPage() {
       </div>
 
       {/* Fun facts */}
-      <div className="mt-10 bg-surface-muted border border-border rounded-xl p-6">
+      <div className="mt-10 bg-surface border border-border rounded-xl p-6">
         <h2 className="text-lg font-bold mb-3">Quick Facts</h2>
-        <ul className="space-y-2 text-sm text-text-secondary">
+        <ul className="space-y-2 text-sm text-cream-muted">
           <li>India and China together account for over 35% of the world&apos;s population.</li>
           <li>The top 10 countries by population contain roughly 57% of all people on Earth.</li>
           <li>Nigeria is projected to become the third most populous country before 2050.</li>
@@ -66,7 +66,7 @@ export default function MostPopulatedCountriesPage() {
       <div className="mt-10 overflow-x-auto">
         <table className="w-full text-left">
           <thead>
-            <tr className="border-b border-border text-sm text-text-muted">
+            <tr className="border-b border-border text-sm text-cream-muted">
               <th className="py-3 pr-4 font-semibold w-16">Rank</th>
               <th className="py-3 pr-4 font-semibold">Country</th>
               <th className="py-3 font-semibold text-right">Population</th>
@@ -78,15 +78,15 @@ export default function MostPopulatedCountriesPage() {
               return (
                 <tr
                   key={country.iso3}
-                  className="border-b border-border/50 hover:bg-surface-muted/50 transition-colors"
+                  className="border-b border-border/50 hover:bg-surface/50 transition-colors"
                 >
-                  <td className="py-3 pr-4 text-text-muted font-mono text-sm">
+                  <td className="py-3 pr-4 text-cream-muted font-mono text-sm">
                     {rank}
                   </td>
                   <td className="py-3 pr-4">
                     <Link
                       href={`/countries/${country.slug}`}
-                      className="inline-flex items-center gap-2 font-medium hover:text-brand transition-colors"
+                      className="inline-flex items-center gap-2 font-medium hover:text-gold transition-colors"
                     >
                       <span className="text-lg shrink-0">{country.flagEmoji}</span>
                       {country.displayName}
@@ -103,27 +103,27 @@ export default function MostPopulatedCountriesPage() {
       </div>
 
       {/* Game CTAs */}
-      <div className="mt-12 bg-surface-muted border border-border rounded-xl p-6">
+      <div className="mt-12 bg-surface border border-border rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
-        <p className="text-sm text-text-secondary mb-4">
+        <p className="text-sm text-cream-muted mb-4">
           Can you sort countries by population? Challenge yourself with these games.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/games/higher-or-lower"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Higher or Lower
           </Link>
           <Link
             href="/games/country-draft"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Country Draft
           </Link>
           <Link
             href="/games/flag-quiz"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Flag Quiz
           </Link>
@@ -136,25 +136,25 @@ export default function MostPopulatedCountriesPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/largest-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Largest Countries by Area
           </Link>
           <Link
             href="/lists/richest-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Richest Countries
           </Link>
           <Link
             href="/lists/countries-in-asia"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Countries in Asia
           </Link>
           <Link
             href="/lists/countries-in-europe"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-brand/30 transition-colors"
+            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
           >
             Countries in Europe
           </Link>

@@ -58,7 +58,7 @@ export default function ListsIndexPage() {
       <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
         Country Lists & Rankings
       </h1>
-      <div className="mt-6 max-w-3xl space-y-4 text-text-secondary leading-relaxed">
+      <div className="mt-6 max-w-3xl space-y-4 text-cream-muted leading-relaxed">
         <p>
           Browse curated lists of countries organized by size, population, wealth,
           and geography. Each list includes up-to-date statistics sourced from the
@@ -77,13 +77,13 @@ export default function ListsIndexPage() {
           <Link
             key={list.href}
             href={list.href}
-            className="group bg-surface border border-border rounded-xl p-6 hover:border-brand/30 transition-colors"
+            className="group bg-surface border border-border rounded-xl p-6 hover:border-border transition-colors"
           >
             <span className="text-3xl block mb-3">{list.emoji}</span>
-            <h2 className="text-lg font-bold group-hover:text-brand transition-colors">
+            <h2 className="text-lg font-bold group-hover:text-gold transition-colors">
               {list.title}
             </h2>
-            <p className="text-sm text-text-muted mt-2 leading-relaxed">
+            <p className="text-sm text-cream-muted mt-2 leading-relaxed">
               {list.description}
             </p>
           </Link>
@@ -92,32 +92,32 @@ export default function ListsIndexPage() {
 
       <div className="mt-16 pt-8 border-t border-border">
         <h2 className="text-xl font-bold mb-4">Test Your Knowledge</h2>
-        <p className="text-text-secondary mb-6">
+        <p className="text-cream-muted mb-6">
           Think you know these rankings by heart? Put your geography skills to
           the test with our free games.
         </p>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/games/flag-quiz"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Flag Quiz
           </Link>
           <Link
             href="/games/country-draft"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Country Draft
           </Link>
           <Link
             href="/games/higher-or-lower"
-            className="px-4 py-2 bg-brand/10 text-brand font-semibold rounded-lg hover:bg-brand hover:text-white transition-colors"
+            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-white transition-colors"
           >
             Higher or Lower
           </Link>
           <Link
             href="/games"
-            className="px-4 py-2 bg-surface-muted text-text-secondary font-semibold rounded-lg hover:text-text transition-colors"
+            className="px-4 py-2 bg-surface text-cream-muted font-semibold rounded-lg hover:text-cream transition-colors"
           >
             All Games →
           </Link>

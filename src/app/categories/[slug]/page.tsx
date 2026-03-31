@@ -71,7 +71,7 @@ export default async function CategoryPage({
 
       <Link
         href="/categories"
-        className="inline-flex items-center gap-1 text-sm text-text-muted hover:text-brand transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-gold transition-colors mb-6"
       >
         ← All rankings
       </Link>
@@ -84,8 +84,8 @@ export default async function CategoryPage({
             {category.label} by Country
           </h1>
         </div>
-        <p className="text-text-secondary text-lg max-w-3xl">{category.description}</p>
-        <p className="text-sm text-text-muted mt-2">
+        <p className="text-cream-muted text-lg max-w-3xl">{category.description}</p>
+        <p className="text-sm text-cream-muted mt-2">
           Source: {category.source} ({category.sourceYear}) &middot; {topCountries.length} countries ranked
         </p>
       </div>
@@ -105,13 +105,13 @@ export default async function CategoryPage({
             >
               <span className="text-3xl">{medals[i]}</span>
               <span className="text-5xl block mt-2">{country.flagEmoji}</span>
-              <h3 className="text-xl font-extrabold mt-3 group-hover:text-brand transition-colors">
+              <h3 className="text-xl font-extrabold mt-3 group-hover:text-gold transition-colors">
                 {country.displayName}
               </h3>
-              <p className="text-lg font-mono text-text-secondary mt-1">
+              <p className="text-lg font-mono text-cream-muted mt-1">
                 {value !== null ? formatStat(value, category.unit) : "—"}
               </p>
-              <p className="text-sm text-text-muted mt-1">#{rank} worldwide</p>
+              <p className="text-sm text-cream-muted mt-1">#{rank} worldwide</p>
             </Link>
           );
         })}
@@ -123,7 +123,7 @@ export default async function CategoryPage({
         <div className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full">
             <thead>
-              <tr className="bg-surface-muted text-left text-sm">
+              <tr className="bg-surface text-left text-sm">
                 <th className="px-4 py-3 font-bold w-16 text-right">Rank</th>
                 <th className="px-4 py-3 font-bold">Country</th>
                 <th className="px-4 py-3 font-bold text-right">{category.label}</th>
@@ -138,15 +138,15 @@ export default async function CategoryPage({
                 return (
                   <tr
                     key={iso3}
-                    className="border-t border-border hover:bg-surface-muted/50 transition-colors"
+                    className="border-t border-border hover:bg-surface/50 transition-colors"
                   >
-                    <td className="px-4 py-3 text-right tabular-nums text-text-muted font-bold">
+                    <td className="px-4 py-3 text-right tabular-nums text-cream-muted font-bold">
                       {rank}
                     </td>
                     <td className="px-4 py-3">
                       <Link
                         href={`/countries/${country.slug}`}
-                        className="inline-flex items-center gap-2.5 hover:text-brand transition-colors"
+                        className="inline-flex items-center gap-2.5 hover:text-gold transition-colors"
                       >
                         <span className="text-xl shrink-0">{country.flagEmoji}</span>
                         <span className="font-medium">{country.displayName}</span>
@@ -174,7 +174,7 @@ export default async function CategoryPage({
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-brand/30 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-border transition-colors"
               >
                 <span>{c.emoji}</span>
                 <span>{c.label}</span>

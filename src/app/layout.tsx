@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Serif_Display, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import Link from "next/link";
+import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const serif = DM_Serif_Display({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-serif",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const sans = Inter({
   subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -56,9 +60,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${serif.variable} ${sans.variable} font-sans`}
     >
-      <body className="min-h-full flex flex-col bg-surface text-text font-sans">
+      <head>
+        <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
+      </head>
+      <body className="min-h-full flex flex-col bg-surface text-cream font-sans">
         {/* Structured data for the website */}
         <script
           type="application/ld+json"
@@ -79,43 +86,49 @@ export default function RootLayout({
         />
         <Header />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-border bg-surface-muted">
+        <footer className="border-t border-border bg-surface">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
               <div>
                 <h4 className="font-bold text-sm mb-3">Games</h4>
-                <div className="space-y-2 text-sm text-text-muted">
-                  <Link href="/games/country-draft" className="block hover:text-text transition-colors">Country Draft</Link>
-                  <Link href="/games/flag-quiz" className="block hover:text-text transition-colors">Flag Quiz</Link>
-                  <Link href="/games/higher-or-lower" className="block hover:text-text transition-colors">Higher or Lower</Link>
-                  <Link href="/games/capital-match" className="block hover:text-text transition-colors">Capital Match</Link>
-                  <Link href="/games" className="block hover:text-text transition-colors text-brand font-medium">All Games →</Link>
+                <div className="space-y-2 text-sm text-cream-muted">
+                  <Link href="/games/country-draft" className="block hover:text-cream transition-colors">Country Draft</Link>
+                  <Link href="/games/flag-quiz" className="block hover:text-cream transition-colors">Flag Quiz</Link>
+                  <Link href="/games/higher-or-lower" className="block hover:text-cream transition-colors">Higher or Lower</Link>
+                  <Link href="/games/capital-match" className="block hover:text-cream transition-colors">Capital Match</Link>
+                  <Link href="/games" className="block hover:text-cream transition-colors text-gold font-medium">All Games →</Link>
                 </div>
               </div>
               <div>
                 <h4 className="font-bold text-sm mb-3">Explore</h4>
-                <div className="space-y-2 text-sm text-text-muted">
-                  <Link href="/countries" className="block hover:text-text transition-colors">All Countries</Link>
-                  <Link href="/categories" className="block hover:text-text transition-colors">Stat Rankings</Link>
-                  <Link href="/lists/most-populated-countries" className="block hover:text-text transition-colors">Most Populated</Link>
-                  <Link href="/lists/largest-countries" className="block hover:text-text transition-colors">Largest Countries</Link>
-                  <Link href="/lists/richest-countries" className="block hover:text-text transition-colors">Richest Countries</Link>
-                  <Link href="/lists" className="block hover:text-text transition-colors text-brand font-medium">All Lists →</Link>
+                <div className="space-y-2 text-sm text-cream-muted">
+                  <Link href="/countries" className="block hover:text-cream transition-colors">All Countries</Link>
+                  <Link href="/categories" className="block hover:text-cream transition-colors">Stat Rankings</Link>
+                  <Link href="/lists/most-populated-countries" className="block hover:text-cream transition-colors">Most Populated</Link>
+                  <Link href="/lists/largest-countries" className="block hover:text-cream transition-colors">Largest Countries</Link>
+                  <Link href="/lists/richest-countries" className="block hover:text-cream transition-colors">Richest Countries</Link>
+                  <Link href="/lists" className="block hover:text-cream transition-colors text-gold font-medium">All Lists →</Link>
                 </div>
               </div>
               <div>
                 <h4 className="font-bold text-sm mb-3">Popular</h4>
-                <div className="space-y-2 text-sm text-text-muted">
-                  <Link href="/countries/united-states" className="block hover:text-text transition-colors">🇺🇸 United States</Link>
-                  <Link href="/countries/germany" className="block hover:text-text transition-colors">🇩🇪 Germany</Link>
-                  <Link href="/countries/japan" className="block hover:text-text transition-colors">🇯🇵 Japan</Link>
-                  <Link href="/countries/brazil" className="block hover:text-text transition-colors">🇧🇷 Brazil</Link>
+                <div className="space-y-2 text-sm text-cream-muted">
+                  <Link href="/countries/united-states" className="block hover:text-cream transition-colors">🇺🇸 United States</Link>
+                  <Link href="/countries/germany" className="block hover:text-cream transition-colors">🇩🇪 Germany</Link>
+                  <Link href="/countries/japan" className="block hover:text-cream transition-colors">🇯🇵 Japan</Link>
+                  <Link href="/countries/brazil" className="block hover:text-cream transition-colors">🇧🇷 Brazil</Link>
                 </div>
               </div>
               <div>
                 <h4 className="font-bold text-sm mb-3">Countrivo</h4>
-                <div className="space-y-2 text-sm text-text-muted">
+                <div className="space-y-2 text-sm text-cream-muted">
                   <p>Free geography games. 243 countries. Daily challenges.</p>
+                  <Link
+                    href="/privacy"
+                    className="block hover:text-cream transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
                   <p className="text-xs mt-4">Data: World Bank, REST Countries, WHO, UNWTO</p>
                 </div>
               </div>

@@ -51,10 +51,10 @@ export function GameLanding({
         playMode={hasDailyMode ? "SinglePlayer" : "SinglePlayer"}
       />
       {/* Hero */}
-      <div className="bg-surface-muted border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
+      <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
         <span className="text-7xl mb-4 block">{emoji}</span>
         <h1 className="text-4xl sm:text-5xl font-extrabold">{title}</h1>
-        <p className="text-text-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
+        <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
       </div>
 
       {/* Action buttons */}
@@ -62,11 +62,11 @@ export function GameLanding({
         {hasDailyMode && (
           <Link
             href={`${playHref}?mode=daily`}
-            className="block py-5 px-8 rounded-xl border-2 border-brand/30 bg-brand/5 hover:border-brand hover:bg-brand/10 transition-all text-center"
+            className="block py-5 px-8 rounded-xl border-2 border-border bg-gold-dim hover:border-gold hover:bg-gold-dim transition-all text-center"
           >
             <div className="text-3xl mb-2">📅</div>
             <h2 className="text-xl font-bold">Daily Challenge</h2>
-            <p className="text-base text-text-muted mt-1">
+            <p className="text-base text-cream-muted mt-1">
               Same puzzle for everyone. One attempt per day.
             </p>
           </Link>
@@ -74,23 +74,23 @@ export function GameLanding({
 
         <Link
           href={`${playHref}?mode=practice`}
-          className="block py-5 px-8 rounded-xl border-2 border-border hover:border-brand/30 hover:bg-surface-muted transition-all text-center"
+          className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"
         >
           <div className="text-3xl mb-2">🔄</div>
           <h2 className="text-xl font-bold">Practice</h2>
-          <p className="text-base text-text-muted mt-1">
+          <p className="text-base text-cream-muted mt-1">
             Random content. Unlimited plays.
           </p>
         </Link>
       </div>
 
       {/* How to Play */}
-      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface-muted rounded-xl max-w-xl mx-auto">
+      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface rounded-xl max-w-xl mx-auto">
         <h3 className="font-bold text-xl mb-4">How to Play</h3>
-        <ol className="space-y-3 text-base text-text-muted">
+        <ol className="space-y-3 text-base text-cream-muted">
           {rules.map((rule, i) => (
             <li key={i} className="flex gap-3">
-              <span className="w-7 h-7 rounded-full bg-brand/10 text-brand font-bold text-sm flex items-center justify-center shrink-0">
+              <span className="w-7 h-7 rounded-full bg-gold-dim text-gold font-bold text-sm flex items-center justify-center shrink-0">
                 {i + 1}
               </span>
               {rule}
@@ -101,7 +101,7 @@ export function GameLanding({
 
       {/* Related games */}
       <div className="mt-12 px-4 pb-8">
-        <h3 className="font-bold text-lg text-text-muted uppercase tracking-wide mb-4 text-center">
+        <h3 className="font-bold text-lg text-cream-muted uppercase tracking-wide mb-4 text-center">
           More Games
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">

@@ -75,18 +75,18 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
     <div className="flex flex-col gap-8">
       {/* Score progress bar */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between text-base text-text-muted">
+        <div className="flex items-center justify-between text-base text-cream-muted">
           <span>
-            Question <span className="font-bold text-text text-lg">{state.currentQuestion + 1}</span> of{" "}
+            Question <span className="font-bold text-cream text-lg">{state.currentQuestion + 1}</span> of{" "}
             {state.questions.length}
           </span>
           <span className="text-lg">
-            Score: <span className="font-bold text-brand">{state.score}</span>
+            Score: <span className="font-bold text-gold">{state.score}</span>
           </span>
         </div>
-        <div className="w-full h-3 bg-surface-muted rounded-full overflow-hidden">
+        <div className="w-full h-3 bg-surface rounded-full overflow-hidden">
           <div
-            className="h-full bg-brand rounded-full transition-all duration-500"
+            className="h-full bg-gold rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -110,7 +110,7 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
               disabled={showFeedback}
               className={cn(
                 "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
-                !showFeedback && "border-border hover:border-brand/50 hover:bg-surface-muted",
+                !showFeedback && "border-border hover:border-border-hover hover:bg-surface",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"

@@ -101,7 +101,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
       <div className="flex flex-col gap-6">
         <div className="text-center">
           <h2 className="text-xl font-bold">Pick a Continent</h2>
-          <p className="text-sm text-text-muted mt-1">
+          <p className="text-sm text-cream-muted mt-1">
             Name as many countries as you can
           </p>
         </div>
@@ -113,11 +113,11 @@ export function SprintBoard({ mode }: SprintBoardProps) {
               <button
                 key={continent}
                 onClick={() => dispatch({ type: "PICK_CONTINENT", continent })}
-                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-brand/50 hover:bg-surface-muted transition-all"
+                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all"
               >
                 <span className="text-3xl mb-2">{CONTINENT_EMOJIS[continent]}</span>
                 <span className="font-bold">{continent}</span>
-                <span className="text-xs text-text-muted mt-1">{count} countries</span>
+                <span className="text-xs text-cream-muted mt-1">{count} countries</span>
               </button>
             );
           })}
@@ -163,18 +163,18 @@ export function SprintBoard({ mode }: SprintBoardProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Header stats */}
-      <div className="flex items-center justify-between text-sm text-text-muted">
+      <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          {CONTINENT_EMOJIS[state.continent!]} <span className="font-bold text-text">{state.continent}</span>
+          {CONTINENT_EMOJIS[state.continent!]} <span className="font-bold text-cream">{state.continent}</span>
         </span>
-        <span className="font-mono font-bold text-text">{formatTime(state.elapsed)}</span>
+        <span className="font-mono font-bold text-cream">{formatTime(state.elapsed)}</span>
       </div>
 
       <div className="text-center">
         <span className="text-3xl font-bold font-mono">
           {state.found.length}
         </span>
-        <span className="text-text-muted"> / {state.allCountries.length}</span>
+        <span className="text-cream-muted"> / {state.allCountries.length}</span>
       </div>
 
       {/* Input with autocomplete */}
@@ -188,7 +188,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."
           autoFocus
-          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-text placeholder:text-text-muted focus:border-brand focus:outline-none transition-colors"
+          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
         />
         {showDropdown && suggestions.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-lg z-10 overflow-hidden">
@@ -197,7 +197,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
                 key={c.iso3}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => handleSelect(c.iso3)}
-                className="w-full text-left px-4 py-3 hover:bg-surface-muted transition-colors flex items-center gap-3"
+                className="w-full text-left px-4 py-3 hover:bg-surface transition-colors flex items-center gap-3"
               >
                 <span className="text-xl">{c.flagEmoji}</span>
                 <span className="font-medium">{c.displayName}</span>
@@ -229,7 +229,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
       {/* Give Up button */}
       <button
         onClick={() => dispatch({ type: "FINISH" })}
-        className="mx-auto px-6 py-3 text-sm text-text-muted border border-border rounded-xl hover:bg-surface-muted transition-colors"
+        className="mx-auto px-6 py-3 text-sm text-cream-muted border border-border rounded-xl hover:bg-surface transition-colors"
       >
         Finish
       </button>

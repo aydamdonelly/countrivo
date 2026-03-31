@@ -25,7 +25,7 @@ export default function CountriesPage() {
       <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-2">
         All Countries
       </h1>
-      <p className="text-text-muted mb-10">
+      <p className="text-cream-muted mb-10">
         {countries.length} countries and territories grouped by continent.
       </p>
 
@@ -39,16 +39,16 @@ export default function CountriesPage() {
                 <Link
                   key={country.iso3}
                   href={`/countries/${country.slug}`}
-                  className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-brand/30 hover:bg-surface-muted transition-all group"
+                  className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-border hover:bg-surface transition-all group"
                 >
                   <span className="text-3xl shrink-0">
                     {country.flagEmoji}
                   </span>
                   <div className="min-w-0">
-                    <p className="font-semibold group-hover:text-brand transition-colors truncate">
+                    <p className="font-semibold group-hover:text-gold transition-colors truncate">
                       {country.displayName}
                     </p>
-                    <p className="text-xs text-text-muted truncate">
+                    <p className="text-xs text-cream-muted truncate">
                       {country.region}
                     </p>
                   </div>

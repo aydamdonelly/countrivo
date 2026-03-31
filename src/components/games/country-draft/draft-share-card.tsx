@@ -39,12 +39,12 @@ export function DraftShareCard({ result, dateKey, config }: DraftShareCardProps)
     <div className="flex flex-col items-center gap-4">
       <button
         onClick={handleCopy}
-        className="px-8 py-4 bg-surface-inverse text-text-inverse font-bold text-lg rounded-xl hover:opacity-90 transition-opacity"
+        className="px-8 py-4 bg-bg text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-opacity"
       >
         {copied ? "Copied!" : "Share Result"}
       </button>
 
-      <pre className="text-sm text-text-muted bg-surface-muted p-5 rounded-xl max-w-full overflow-x-auto whitespace-pre font-mono leading-relaxed">
+      <pre className="text-sm text-cream-muted bg-surface p-5 rounded-xl max-w-full overflow-x-auto whitespace-pre font-mono leading-relaxed">
         {shareText}
       </pre>
     </div>
