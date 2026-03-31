@@ -180,5 +180,19 @@
     "isFlagship": false,
     "availableModes": ["practice", "versus"],
     "route": "/games/borderline"
+  },
+  {
+    "slug": "blitz",
+    "title": "Blitz",
+    "shortDescription": "Speed flag recognition challenge",
+    "description": "A flag appears — type the country name as fast as you can. 10 rounds of pure speed. Play solo for time or race a friend head-to-head.",
+    "emoji": "⚡",
+    "difficulty": "easy",
+    "estimatedTime": "2-3 min",
+    "category": "speed",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["practice", "versus"],
+    "route": "/games/blitz"
   }
 ]
