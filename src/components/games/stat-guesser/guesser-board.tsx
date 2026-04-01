@@ -1,24 +1,27 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef } from "react";
 import {
   createStatGuesser,
   submitGuess,
   nextRound,
   type StatGuesserState,
 } from "@/lib/game-logic/stat-guesser/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 
 interface GuesserBoardProps {
   mode: "daily" | "practice";
 }
 
 function init(mode: "daily" | "practice"): StatGuesserState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createStatGuesser(rng);
 }
 
@@ -39,6 +42,10 @@ function reducer(state: StatGuesserState, action: Action): StatGuesserState {
 export function GuesserBoard({ mode }: GuesserBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [inputValue, setInputValue] = useState("");
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const round = state.rounds[state.currentRound];
 
@@ -85,15 +92,55 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
     const totalError = state.scores.reduce((sum, s) => sum! + (s ?? 0), 0) as number;
     const avgError = Math.round((totalError / state.rounds.length) * 10) / 10;
 
+    // Submit to server when game ends
+    if (!submitted) {
+      setSubmitted(true);
+
+      const payload = {
+        gameSlug: "stat-guesser",
+        mode: mode as "daily" | "practice",
+        dateKey: getTodayDateKey(),
+        scoreRaw: Math.round(Math.max(0, 100 - avgError)),
+        scoreMax: 100,
+        scoreSortValue: Math.round(Math.max(0, 100 - avgError)),
+        scoreDisplay: `${avgError}% avg error`,
+        resultJson: {
+          avgError,
+          totalError,
+          scores: state.scores,
+          guesses: state.guesses,
+          rounds: state.rounds.length,
+        },
+        startedAt: startedAtRef.current,
+      };
+
+      if (user) {
+        submitGameRun(payload).then((res) => {
+          if (res.success && res.run) setServerData(res.run);
+        });
+      } else if (mode === "daily") {
+        openAuthModal(async () => {
+          const res = await submitGameRun(payload);
+          if (res.success && res.run) setServerData(res.run);
+        });
+      }
+    }
+
     return (
       <GameOverScreen
         title="Stat Guesser Complete!"
         score={`${avgError}% avg error`}
         subtitle={avgError < 20 ? "Excellent!" : avgError < 50 ? "Good effort!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
         numericScore={Math.round(Math.max(0, 100 - avgError))}
         maxScore={100}
         gameSlug="stat-guesser"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       >
         <div className="w-full max-w-md space-y-2">
           {state.rounds.map((r, i) => {

@@ -6,18 +6,21 @@ import {
   guess,
   type HoLState,
 } from "@/lib/game-logic/higher-or-lower/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 
 interface HoLBoardProps {
   mode: "daily" | "practice";
 }
 
 function init(mode: "daily" | "practice"): HoLState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createHoL(rng);
 }
 
@@ -35,6 +38,10 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [showReveal, setShowReveal] = useState(false);
   const [lastChoice, setLastChoice] = useState<"higher" | "lower" | null>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const round = state.rounds[state.currentRound];
 
@@ -77,16 +84,55 @@ export function HoLBoard({ mode }: HoLBoardProps) {
 
   useGameKeys(keymap, state.phase !== "gameover" && !showReveal);
 
+  // Submit to server when game ends
+  if (state.phase === "gameover" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "higher-or-lower",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.streak,
+      scoreMax: 20,
+      scoreSortValue: state.streak,
+      scoreDisplay: `Streak: ${state.streak}`,
+      resultJson: {
+        streak: state.streak,
+        bestStreak: state.bestStreak,
+        totalRounds: state.rounds.length,
+        lastAnswer: state.lastAnswer,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "gameover") {
     return (
       <GameOverScreen
         title={state.lastAnswer === "wrong" ? "Game Over!" : "All Rounds Complete!"}
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
-        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
         numericScore={state.streak}
         maxScore={state.rounds.length}
         gameSlug="higher-or-lower"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       />
     );
   }

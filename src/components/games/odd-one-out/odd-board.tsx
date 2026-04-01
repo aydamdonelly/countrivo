@@ -1,24 +1,27 @@
 "use client";
 
-import { useReducer, useCallback, useMemo } from "react";
+import { useReducer, useCallback, useMemo, useState, useRef } from "react";
 import {
   createOddOneOut,
   answerRound,
   nextRound,
   type OddOneOutState,
 } from "@/lib/game-logic/odd-one-out/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 
 interface OddBoardProps {
   mode: "daily" | "practice";
 }
 
 function init(mode: "daily" | "practice"): OddOneOutState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createOddOneOut(rng);
 }
 
@@ -38,6 +41,10 @@ function reducer(state: OddOneOutState, action: Action): OddOneOutState {
 
 export function OddBoard({ mode }: OddBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const round = state.rounds[state.currentRound];
 
@@ -61,16 +68,54 @@ export function OddBoard({ mode }: OddBoardProps) {
 
   useGameKeys(keymap, state.phase !== "results");
 
+  // Submit to server when game ends
+  if (state.phase === "results" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "odd-one-out",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.score,
+      scoreMax: state.rounds.length,
+      scoreSortValue: state.score,
+      scoreDisplay: `${state.score} / ${state.rounds.length}`,
+      resultJson: {
+        score: state.score,
+        total: state.rounds.length,
+        answers: state.answers,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "results") {
     return (
       <GameOverScreen
         title="Odd One Out Complete!"
         score={`${state.score} / ${state.rounds.length}`}
         subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
         numericScore={state.score}
         maxScore={state.rounds.length}
         gameSlug="odd-one-out"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       >
         <div className="w-full max-w-md space-y-3">
           {state.rounds.map((r, i) => {

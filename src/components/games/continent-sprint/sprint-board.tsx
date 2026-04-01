@@ -13,6 +13,10 @@ import {
 import { countries } from "@/lib/data/loader";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import { getTodayDateKey } from "@/lib/daily-seed";
+import type { ServerGameRun } from "@/types/server";
 
 interface SprintBoardProps {
   mode: "daily" | "practice";
@@ -60,6 +64,10 @@ export function SprintBoard({ mode }: SprintBoardProps) {
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user } = useAuth();
 
   // Timer tick
   useEffect(() => {
@@ -126,16 +134,43 @@ export function SprintBoard({ mode }: SprintBoardProps) {
     );
   }
 
+  // Submit to server when game ends
+  if (state.phase === "results" && !submitted) {
+    setSubmitted(true);
+    const payload = {
+      gameSlug: "continent-sprint",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.found.length,
+      scoreMax: state.allCountries.length,
+      scoreSortValue: state.found.length,
+      scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
+      resultJson: {
+        found: state.found.length,
+        total: state.allCountries.length,
+        continent: state.continent,
+        elapsed: state.elapsed,
+      },
+      startedAt: startedAtRef.current,
+    };
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "results") {
     return (
       <GameOverScreen
         title="Sprint Complete!"
         score={`${state.found.length} / ${state.allCountries.length}`}
         subtitle={`${state.continent} in ${formatTime(state.elapsed)}`}
-        onPlayAgain={() => dispatch({ type: "RESET" })}
+        onPlayAgain={() => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); }}
         numericScore={state.found.length}
         maxScore={state.allCountries.length}
         gameSlug="continent-sprint"
+        serverData={serverData ? { rankToday: serverData.rankDaily, percentile: serverData.percentile, totalPlayersToday: 0, isPersonalBest: serverData.isPersonalBest } : undefined}
       >
         <div className="w-full max-w-md space-y-2 max-h-64 overflow-y-auto">
           {state.allCountries.map((c) => {

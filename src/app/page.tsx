@@ -6,6 +6,7 @@ import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
 import { getDailySummary, checkDailyStatus } from "@/app/actions/game-runs";
+import { getTodayDateKey } from "@/lib/daily-seed";
 import { createClient } from "@/lib/supabase/server";
 
 async function getServerProfile() {
@@ -56,7 +57,7 @@ export default async function HomePage() {
   const allGames = getAllGames();
   const nonFlagship = allGames.filter((g) => !g.isFlagship);
 
-  const todayKey = new Date().toISOString().slice(0, 10);
+  const todayKey = getTodayDateKey();
   const [summary, dailyStatus, profile] = await Promise.all([
     getDailySummary(flagship.slug, todayKey),
     checkDailyStatus(flagship.slug, todayKey),

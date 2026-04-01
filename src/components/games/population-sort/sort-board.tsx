@@ -1,17 +1,20 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useState } from "react";
+import { useReducer, useCallback, useMemo, useState, useRef } from "react";
 import {
   createSortGame,
   moveItem,
   submitSort,
   type SortGameState,
 } from "@/lib/game-logic/population-sort/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 import statsData from "@/data/stats.json";
 
 const stats: Record<string, Record<string, number | null>> = statsData;
@@ -21,7 +24,7 @@ interface SortBoardProps {
 }
 
 function init(mode: "daily" | "practice"): SortGameState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createSortGame(rng);
 }
 
@@ -42,6 +45,10 @@ function reducer(state: SortGameState, action: Action): SortGameState {
 export function SortBoard({ mode }: SortBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [selectedIdx, setSelectedIdx] = useState(0);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const handleMoveUp = useCallback((idx: number) => {
     if (idx > 0) dispatch({ type: "MOVE", from: idx, to: idx - 1 });
@@ -68,6 +75,40 @@ export function SortBoard({ mode }: SortBoardProps) {
 
   useGameKeys(keymap, state.phase !== "results");
 
+  // Submit to server when game ends
+  if (state.phase === "results" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "population-sort",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.score,
+      scoreMax: state.countries.length,
+      scoreSortValue: state.score,
+      scoreDisplay: `${state.score} / ${state.countries.length}`,
+      resultJson: {
+        score: state.score,
+        total: state.countries.length,
+        category: state.category.slug,
+        userOrder: state.userOrder,
+        correctOrder: state.correctOrder,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "results") {
     return (
       <div className="flex flex-col gap-6">
@@ -75,10 +116,16 @@ export function SortBoard({ mode }: SortBoardProps) {
           title="Sort Complete!"
           score={`${state.score} / ${state.countries.length}`}
           subtitle={`Sorted by ${state.category.label}`}
-          onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+          onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
           numericScore={state.score}
           maxScore={state.countries.length}
           gameSlug="population-sort"
+          serverData={serverData ? {
+            rankToday: serverData.rankDaily,
+            percentile: serverData.percentile,
+            totalPlayersToday: 0,
+            isPersonalBest: serverData.isPersonalBest,
+          } : undefined}
         >
           <div className="w-full max-w-xl space-y-3">
             {state.correctOrder.map((countryIdx, rank) => {

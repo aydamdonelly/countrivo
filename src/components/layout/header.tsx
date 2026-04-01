@@ -6,6 +6,7 @@ import { StreakBadge } from "@/components/streak-badge";
 import { useAuth } from "@/components/auth/auth-provider";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
+import { getTodayDateKey } from "@/lib/daily-seed";
 
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
@@ -16,7 +17,7 @@ const NAV_ITEMS = [
 function countTodayCompleted(): number {
   if (typeof window === "undefined") return 0;
   const games = getAllGames();
-  const dateKey = new Date().toISOString().slice(0, 10);
+  const dateKey = getTodayDateKey();
   return games.filter((g) =>
     g.availableModes.includes("daily") &&
     getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)

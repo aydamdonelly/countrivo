@@ -343,6 +343,16 @@ export function GameOverScreen({
           {shared ? "Copied!" : "Challenge a friend"}
         </button>
       </div>
+      {gameSlug && (
+        <div className="mt-3">
+          <Link
+            href={`/games/${gameSlug}/leaderboard`}
+            className="text-sm font-medium text-cream-muted hover:text-cream transition-colors underline underline-offset-4"
+          >
+            View today&apos;s leaderboard
+          </Link>
+        </div>
+      )}
 
       {/* ═══════ LAYER 4: DISCOVERY ═══════ */}
       <div className="w-full border-t border-border pt-6 mt-6">

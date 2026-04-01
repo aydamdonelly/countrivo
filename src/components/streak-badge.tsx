@@ -17,7 +17,7 @@ function computeStreak(): number {
   for (let d = 0; d < 365; d++) {
     const date = new Date(today);
     date.setDate(date.getDate() - d);
-    const dateKey = date.toISOString().slice(0, 10);
+    const dateKey = date.toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" });
 
     const completedAny = dailyGames.some((g) =>
       getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)

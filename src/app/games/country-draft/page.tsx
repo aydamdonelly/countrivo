@@ -78,6 +78,15 @@ export default function CountryDraftPage() {
                 Practice unlimited
               </Link>
             </div>
+            <div className="mt-3">
+              <Link
+                href="/games/country-draft/leaderboard"
+                className="text-sm font-medium text-cream-muted hover:text-cream transition-colors underline underline-offset-4"
+                style={{ color: "#991b1b", opacity: 0.7 }}
+              >
+                View today&apos;s leaderboard →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

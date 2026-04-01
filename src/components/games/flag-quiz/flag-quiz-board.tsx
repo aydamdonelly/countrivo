@@ -25,7 +25,7 @@ type Action =
   | { type: "RESET" };
 
 function init(mode: "daily" | "practice"): FlagQuizState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createFlagQuiz(rng);
 }
 

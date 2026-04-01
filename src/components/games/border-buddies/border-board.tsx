@@ -8,11 +8,14 @@ import {
   type BorderBuddiesState,
 } from "@/lib/game-logic/border-buddies/engine";
 import { countries } from "@/lib/data/loader";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 import type { Country } from "@/types/country";
 
 interface BorderBoardProps {
@@ -20,7 +23,7 @@ interface BorderBoardProps {
 }
 
 function init(mode: "daily" | "practice"): BorderBuddiesState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createBorderBuddies(rng);
 }
 
@@ -45,6 +48,10 @@ export function BorderBoard({ mode }: BorderBoardProps) {
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const suggestions = useMemo(() => {
     if (input.length < 1) return [];
@@ -84,6 +91,39 @@ export function BorderBoard({ mode }: BorderBoardProps) {
     [suggestions, handleSelect]
   );
 
+  // Submit to server when game ends
+  if (state.phase === "results" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "border-buddies",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.found.length,
+      scoreMax: state.borders.length,
+      scoreSortValue: state.found.length,
+      scoreDisplay: `${state.found.length} / ${state.borders.length}`,
+      resultJson: {
+        found: state.found,
+        total: state.borders.length,
+        country: state.country.iso3,
+        borders: state.borders,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "results") {
     const allFound = state.found.length === state.borders.length;
     return (
@@ -91,10 +131,16 @@ export function BorderBoard({ mode }: BorderBoardProps) {
         title={allFound ? "All Borders Found!" : "Border Buddies"}
         score={`${state.found.length} / ${state.borders.length}`}
         subtitle={allFound ? "Perfect!" : "Better luck next time!"}
-        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
         numericScore={state.found.length}
         maxScore={state.borders.length}
         gameSlug="border-buddies"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       >
         <div className="w-full max-w-md space-y-2">
           {state.borders.map((iso3) => {

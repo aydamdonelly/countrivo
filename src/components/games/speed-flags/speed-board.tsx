@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useEffect, useCallback, useMemo } from "react";
+import { useReducer, useEffect, useCallback, useMemo, useState, useRef } from "react";
 import {
   createSpeedFlags,
   startGame,
@@ -12,6 +12,10 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import { getTodayDateKey } from "@/lib/daily-seed";
+import type { ServerGameRun } from "@/types/server";
 
 interface SpeedBoardProps {
   mode: "daily" | "practice";
@@ -40,6 +44,10 @@ function reducer(state: SpeedFlagsState, action: Action): SpeedFlagsState {
 
 export function SpeedBoard({ mode }: SpeedBoardProps) {
   const [state, dispatch] = useReducer(reducer, undefined, init);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user } = useAuth();
 
   // Timer
   useEffect(() => {
@@ -60,6 +68,34 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
   }, [handleAnswer]);
 
   useGameKeys(keymap, state.phase === "playing");
+
+  // Submit to server when game ends
+  const isGameOver = state.phase === "results" || (state.phase === "playing" && !state.queue[state.currentIdx]);
+  if (isGameOver && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "speed-flags",
+      mode: "practice" as const,
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.correct,
+      scoreMax: 100,
+      scoreSortValue: state.correct,
+      scoreDisplay: `${state.correct} flags`,
+      resultJson: {
+        correct: state.correct,
+        total: state.total,
+        accuracy: state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
 
   // Ready screen
   if (state.phase === "ready") {

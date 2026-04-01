@@ -5,13 +5,10 @@ import Link from "next/link";
 import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
+import { getTodayDateKey, msUntilReset } from "@/lib/daily-seed";
 
 function getTimeUntilReset(): { hours: number; minutes: number } {
-  const now = new Date();
-  const tomorrow = new Date(Date.UTC(
-    now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1
-  ));
-  const diff = tomorrow.getTime() - now.getTime();
+  const diff = msUntilReset();
   return {
     hours: Math.floor(diff / (1000 * 60 * 60)),
     minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
@@ -27,7 +24,7 @@ function computeLocalStreak(): number {
   for (let d = 0; d < 365; d++) {
     const date = new Date(today);
     date.setDate(date.getDate() - d);
-    const dateKey = date.toISOString().slice(0, 10);
+    const dateKey = date.toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" });
     const completedAny = dailyGames.some((g) =>
       getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)
     );
@@ -43,7 +40,7 @@ function computeLocalStreak(): number {
 function countTodayCompleted(): number {
   if (typeof window === "undefined") return 0;
   const games = getAllGames();
-  const dateKey = new Date().toISOString().slice(0, 10);
+  const dateKey = getTodayDateKey();
   return games.filter((g) =>
     g.availableModes.includes("daily") &&
     getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)

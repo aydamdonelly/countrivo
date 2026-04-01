@@ -6,26 +6,33 @@ import {
   answerStreak,
   type StreakState,
 } from "@/lib/game-logic/country-streak/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 
 interface StreakBoardProps {
   mode: "daily" | "practice";
 }
 
 function init(mode: "daily" | "practice"): StreakState {
-  const rng = mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createStreak(rng);
 }
 
 export function StreakBoard({ mode }: StreakBoardProps) {
-  const rngRef = useRef(mode === "daily" ? getDailyRng(new Date().toISOString().slice(0, 10)) : mulberry32(Date.now()));
+  const rngRef = useRef(mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now()));
   const [state, setState] = useState(() => init(mode));
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const currentCountry = state.queue[state.currentIndex];
 
@@ -43,6 +50,8 @@ export function StreakBoard({ mode }: StreakBoardProps) {
   const handleReset = useCallback(() => {
     rngRef.current = mulberry32(Date.now());
     setState(createStreak(rngRef.current));
+    setSubmitted(false);
+    setServerData(null);
   }, []);
 
   const keymap = useMemo(() => {
@@ -58,6 +67,37 @@ export function StreakBoard({ mode }: StreakBoardProps) {
 
   useGameKeys(keymap, state.phase !== "gameover");
 
+  // Submit to server when game ends
+  if (state.phase === "gameover" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "country-streak",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.streak,
+      scoreMax: 243,
+      scoreSortValue: state.streak,
+      scoreDisplay: `Streak: ${state.streak}`,
+      resultJson: {
+        streak: state.streak,
+        bestStreak: state.bestStreak,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "gameover") {
     return (
       <GameOverScreen
@@ -68,6 +108,12 @@ export function StreakBoard({ mode }: StreakBoardProps) {
         numericScore={state.streak}
         maxScore={20}
         gameSlug="country-streak"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       />
     );
   }

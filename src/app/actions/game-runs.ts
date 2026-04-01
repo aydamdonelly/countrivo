@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { dateSeed } from "@/lib/daily-seed";
+import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
 // ─── Submit Game Run ───────────────────────────────────────────────
@@ -35,6 +35,14 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Sanity checks
   if (input.scoreRaw > input.scoreMax && input.scoreMax > 0) {
     return { success: false, error: "invalid_score" };
+  }
+
+  // Validate dateKey matches server's Europe/Berlin date (prevent timezone manipulation)
+  if (input.mode === "daily") {
+    const serverDateKey = getTodayDateKey();
+    if (input.dateKey !== serverDateKey) {
+      input.dateKey = serverDateKey; // Use server truth
+    }
   }
 
   // Server-side scoreSortValue override for known games
