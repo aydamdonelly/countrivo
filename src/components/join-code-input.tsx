@@ -19,26 +19,23 @@ export function JoinCodeInput() {
   };
 
   return (
-    <div className="flex items-center gap-2.5 mt-4">
-      <label className="text-[13px] font-bold text-cream uppercase tracking-wide shrink-0">
-        Code
-      </label>
+    <div className="flex items-center gap-2.5 mt-6 max-w-sm">
       <input
         type="text"
         maxLength={4}
         value={code}
         onChange={(e) => setCode(e.target.value.toUpperCase())}
         onKeyDown={handleKeyDown}
-        placeholder="_ _ _ _"
+        placeholder="Game code"
         autoComplete="off"
         autoCapitalize="characters"
-        className="flex-1 bg-white border border-black/8 rounded-md px-3 py-2 text-sm text-cream tracking-[6px] placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/60 transition-colors text-center"
+        className="flex-1 bg-white border border-black/10 rounded-xl px-4 py-2.5 text-sm text-center tracking-[4px] placeholder:tracking-normal placeholder:text-black/30 focus:outline-none focus:border-black/25 transition-colors"
       />
       <button
         type="button"
         onClick={handleJoin}
         disabled={code.trim().length !== 4}
-        className="shrink-0 px-4 py-2 text-sm font-semibold text-gold border border-gold/30 rounded-md hover:bg-gold/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        className="shrink-0 px-5 py-2.5 text-sm font-bold bg-black text-white rounded-xl hover:bg-black/80 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
       >
         Join
       </button>

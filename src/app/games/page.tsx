@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAllGames } from "@/lib/data/games";
 import type { Metadata } from "next";
 import { GAME_COLORS } from "@/lib/game-colors";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "All Geography Games | Free Quizzes, Puzzles & Daily Challenges",
@@ -89,9 +90,15 @@ export default function GamesPage() {
             <Link
               key={game.slug}
               href={game.route}
-              className="group rounded-2xl p-6 transition-all hover:scale-[1.02] hover:shadow-lg"
+              className={cn(
+                "group relative rounded-2xl p-6 transition-all hover:scale-[1.02] hover:shadow-lg overflow-hidden",
+                game.isFlagship && "sm:col-span-2"
+              )}
               style={{ backgroundColor: colors.bg }}
             >
+              <span className="absolute -right-3 -bottom-3 text-[5rem] opacity-[0.12] select-none pointer-events-none leading-none">
+                {game.emoji}
+              </span>
               <div className="flex items-center gap-3 mb-2">
                 <span className="text-3xl">{game.emoji}</span>
                 {game.isFlagship && (
