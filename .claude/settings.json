@@ -70,10 +70,19 @@
       "Bash(vercel whoami:*)",
       "Bash(vercel list:*)",
       "Bash(vercel --prod)",
-      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src -type f \\\\\\(-name *.tsx -o -name *.ts \\\\\\) -exec grep -n — {} +)"
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src -type f \\\\\\(-name *.tsx -o -name *.ts \\\\\\) -exec grep -n — {} +)",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_press_key",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo -name .env* -o -name supabase.json -o -name supabase -type d)",
+      "Bash(grep -rn \"game_rooms\\\\|database\\\\|schema\" /Users/adamkahirov/Desktop/code/countrivo --include=*.md --include=*.txt)",
+      "Bash(jq -r \"to_entries | map\\(.value\\) | map\\({population, gdp, \"\"gdp-per-capita\"\", \"\"area-km2\"\", \"\"tourism-arrivals\"\"}\\) |:*)",
+      "mcp__supabase__execute_sql"
     ],
     "additionalDirectories": [
-      "/Users/adamkahirov/Desktop/code/countrivo/src/app/vs"
+      "/Users/adamkahirov/Desktop/code/countrivo/src/app/vs",
+      "/Users/adamkahirov/Desktop/code/countrivo",
+      "/tmp"
     ]
   }
 }

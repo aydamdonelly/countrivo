@@ -55,6 +55,27 @@ export default function VsJoinPage() {
       <p className="text-xs text-cream-ghost">
         {connected ? "Connected" : "Connecting..."}
       </p>
+
+      {/* Shareable link */}
+      {room && (
+        <div className="mt-6 bg-surface rounded-xl p-4 border border-border max-w-md mx-auto">
+          <p className="text-sm text-cream-muted mb-2">Share this link with your friend:</p>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 bg-bg px-3 py-2 rounded text-sm text-gold break-all">
+              countrivo.com/vs/{room.code}
+            </code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`https://countrivo.com/vs/${room.code}`);
+              }}
+              className="shrink-0 px-3 py-2 text-sm font-semibold text-gold border border-gold-dim rounded-md hover:bg-gold-dim/20 transition-colors"
+            >
+              Copy
+            </button>
+          </div>
+          <p className="text-xs text-cream-muted mt-2">Or share the code: <span className="font-mono text-cream font-bold tracking-wider">{room.code}</span></p>
+        </div>
+      )}
     </div>
   );
 }

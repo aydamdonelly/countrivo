@@ -36,8 +36,8 @@ export function TopoBg() {
           mask="url(#topo-mask)"
           fill="none"
           stroke="#c9a44c"
-          strokeWidth={0.8}
-          opacity={0.14}
+          strokeWidth={0.5}
+          opacity={0.06}
         >
           {/* ~12 contour lines at varying y-positions (180–730) */}
           <path d="M0 180 Q80 160 160 185 T320 175 430 190" />
@@ -64,7 +64,7 @@ export function TopoBg() {
         >
           <animate
             attributeName="opacity"
-            values="0;0.3;0"
+            values="0;0.12;0"
             dur="8s"
             repeatCount="indefinite"
           />

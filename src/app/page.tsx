@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { SVGProps } from "react";
 import Link from "next/link";
 import { getFlagshipGame, getAllGames } from "@/lib/data/games";
+import { JoinCodeInput } from "@/components/join-code-input";
 import {
   IconTarget,
   IconScale,
@@ -140,7 +141,7 @@ export default function HomePage() {
                   <p className="font-serif text-[17px] text-cream leading-tight">
                     {vs.title}
                   </p>
-                  <p className="text-xs text-cream-muted truncate">
+                  <p className="text-xs text-cream-muted">
                     {vs.desc}
                   </p>
                 </div>
@@ -155,23 +156,7 @@ export default function HomePage() {
         </div>
 
         {/* ── Join code row ── */}
-        <div className="flex items-center gap-2.5 mt-4">
-          <label className="text-[13px] font-bold text-cream uppercase tracking-wide shrink-0">
-            Code
-          </label>
-          <input
-            type="text"
-            maxLength={4}
-            placeholder="_ _ _ _"
-            className="flex-1 bg-surface/70 border border-border rounded-md px-3 py-2 text-sm text-cream tracking-[6px] placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/60 transition-colors text-center"
-          />
-          <button
-            type="button"
-            className="shrink-0 px-4 py-2 text-sm font-semibold text-gold border border-gold-dim rounded-md hover:bg-gold-dim/20 transition-colors"
-          >
-            Join
-          </button>
-        </div>
+        <JoinCodeInput />
       </section>
 
       {/* ── divider ── */}
@@ -180,37 +165,48 @@ export default function HomePage() {
       {/* ═══ SOLO ═══ */}
       <section className="mt-6">
         <h2 className="text-[13px] font-bold text-cream uppercase tracking-wide mb-4">
-          Solo
+          Solo Games
         </h2>
 
-        <ul className="flex flex-col">
-          {soloGames.map((game, i) => {
+        <div className="grid grid-cols-2 gap-3">
+          {soloGames.map((game) => {
             const Ico = GAME_ICONS[game.slug] ?? IconGlobe;
-            const isLast = i === soloGames.length - 1;
             return (
-              <li key={game.slug}>
-                <Link
-                  href={game.route}
-                  className={`flex items-center gap-3 py-3 ${
-                    isLast ? "" : "border-b border-border/60"
-                  }`}
-                >
-                  <Ico
-                    width={18}
-                    height={18}
-                    className="text-gold shrink-0"
-                  />
-                  <span className="text-sm font-semibold text-cream flex-1">
-                    {game.title}
-                  </span>
-                  <span className="text-[11px] text-cream-muted capitalize">
+              <Link
+                key={game.slug}
+                href={game.route}
+                className="game-card bg-surface border border-border p-4 group"
+              >
+                <Ico
+                  width={20}
+                  height={20}
+                  className="text-gold mb-2"
+                />
+                <p className="text-sm font-bold text-cream group-hover:text-gold transition-colors leading-tight">
+                  {game.title}
+                </p>
+                <p className="text-[11px] text-cream-muted mt-1 line-clamp-2">
+                  {game.shortDescription}
+                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[10px] text-cream-muted px-1.5 py-0.5 bg-bg rounded capitalize">
                     {game.difficulty}
                   </span>
-                </Link>
-              </li>
+                  <span className="text-[10px] text-cream-muted">
+                    {game.estimatedTime}
+                  </span>
+                </div>
+              </Link>
             );
           })}
-        </ul>
+        </div>
+
+        <Link
+          href="/games"
+          className="block text-center text-sm text-gold font-medium mt-4 hover:underline"
+        >
+          View all {allGames.length} games →
+        </Link>
       </section>
     </div>
   );

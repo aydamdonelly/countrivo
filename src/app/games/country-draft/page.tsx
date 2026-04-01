@@ -21,7 +21,7 @@ export default function CountryDraftPage() {
         rules={["See 8 stat categories", "Countries are revealed one by one", "Assign each country to its strongest stat category", "Your score is compared to the mathematically optimal assignment"]}
       />
       {/* Hero */}
-      <section className="bg-bg text-bg">
+      <section className="bg-surface">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
@@ -33,7 +33,7 @@ export default function CountryDraftPage() {
             <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
               Country Draft
             </h1>
-            <p className="mt-4 text-lg text-white/70 leading-relaxed max-w-xl">
+            <p className="mt-4 text-lg text-cream-muted leading-relaxed max-w-xl">
               8 categories. 8 countries revealed one by one. Assign each country to
               the stat where it ranks highest — then see how you compare to the
               mathematically optimal solution.
@@ -47,7 +47,7 @@ export default function CountryDraftPage() {
               </Link>
               <Link
                 href="/games/country-draft/play?mode=practice"
-                className="px-6 py-3.5 bg-white/10 text-white font-semibold text-lg rounded-xl hover:bg-white/20 transition-colors"
+                className="px-6 py-3.5 bg-cream-ghost text-cream font-semibold text-lg rounded-xl hover:bg-white/20 transition-colors"
               >
                 🔄 Practice Mode
               </Link>
