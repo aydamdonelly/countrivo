@@ -2,8 +2,9 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Population Sort — Countrivo",
-  description: "Sort countries by a statistic. How well do you know world rankings?",
+  title: "Population Sort — Rank Countries by Stats",
+  description: "Sort countries from highest to lowest by population, GDP, or other stats. Daily geography puzzle with unlimited practice. Free online.",
+  alternates: { canonical: "https://countrivo.com/games/population-sort" },
 };
 
 export default function PopulationSortPage() {

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Richest Countries in the World by GDP per Capita — 2024",
   description:
     "Ranked list of the 50 richest countries by GDP per capita in USD. Discover which nations have the highest economic output per person.",
+  alternates: { canonical: "https://countrivo.com/lists/richest-countries" },
 };
 
 export default function RichestCountriesPage() {
@@ -18,7 +19,41 @@ export default function RichestCountriesPage() {
     return { country, rank, gdpPerCapita };
   });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Richest Countries", "item": "https://countrivo.com/lists/richest-countries"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which is the richest country in the world?",
+            "acceptedAnswer": {"@type": "Answer", "text": "By GDP, the United States is the world's largest economy. By GDP per capita, Luxembourg and Singapore consistently rank among the highest."}
+          },
+          {
+            "@type": "Question",
+            "name": "What are the top 5 richest countries by GDP?",
+            "acceptedAnswer": {"@type": "Answer", "text": "By total GDP: 1. United States, 2. China, 3. Germany, 4. Japan, 5. India. By GDP per capita, smaller nations like Luxembourg, Switzerland, and Norway rank highest."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -166,5 +201,6 @@ export default function RichestCountriesPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

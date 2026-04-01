@@ -108,7 +108,7 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
 
       {/* Flag */}
       <div className="text-center py-6">
-        <span className="text-[10rem] leading-none block">{currentQ.country.flagEmoji}</span>
+        <span className="text-[7rem] leading-none block">{currentQ.country.flagEmoji}</span>
       </div>
 
       {/* Options */}
@@ -130,10 +130,7 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"
               )}
             >
-              <span className="flex items-center gap-3">
-                <span className="text-2xl">{option.flagEmoji}</span>
-                <span>{option.displayName}</span>
-              </span>
+              <span>{option.displayName}</span>
               {/* Show correct answer label when user got it wrong */}
               {showFeedback && isCorrect && selectedIdx !== idx && (
                 <span className="block text-sm text-correct font-bold mt-1">

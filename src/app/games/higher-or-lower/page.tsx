@@ -2,8 +2,9 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Higher or Lower — Countrivo",
-  description: "Two countries, one stat. Pick which is higher. Keep your streak alive.",
+  title: "Higher or Lower — Country Stat Ranking Game",
+  description: "Which country ranks higher in population, GDP, or tourism? Daily streak game with unlimited practice. Free geography quiz online.",
+  alternates: { canonical: "https://countrivo.com/games/higher-or-lower" },
 };
 
 export default function HigherOrLowerPage() {

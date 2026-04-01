@@ -4,9 +4,10 @@ import { IconScale, IconPath, IconBolt, IconArrowRight } from "@/components/icon
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Geography Games — Free Quizzes, Puzzles & Multiplayer",
+  title: "All Geography Games — Free Flag Quizzes, Capitals & Daily Challenges",
   description:
-    "Browse 14 free geography games. Flag quizzes, country ranking games, real-time multiplayer, strategy puzzles. Daily challenges, no signup needed.",
+    "Browse 14 free geography games: flag quizzes, country ranking puzzles, capitals matching, and real-time multiplayer. Daily challenges reset every day. No signup.",
+  alternates: { canonical: "https://countrivo.com/games" },
 };
 
 export default function GamesPage() {
@@ -39,6 +40,49 @@ export default function GamesPage() {
               name: g.title,
               url: `https://countrivo.com${g.route}`,
             })),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: [
+              {
+                "@type": "Question",
+                name: "What are the best free geography games online?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Countrivo offers 14 free geography games including Flag Quiz, Country Draft, Higher or Lower, Capital Match, and Population Sort. All games have daily challenges and unlimited practice mode. No signup required.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Do I need to create an account to play?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "No. All 14 games on Countrivo are completely free with no account or signup required. Just open the site and start playing.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "Are there daily geography challenges?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Yes. Every game on Countrivo has a daily challenge mode with the same puzzle for all players worldwide, resetting at midnight. There is also unlimited practice mode.",
+                },
+              },
+              {
+                "@type": "Question",
+                name: "How many countries are covered in the geography games?",
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: "Countrivo covers 243 countries and territories across all continents. Games include flags, capitals, population statistics, GDP, borders, and more.",
+                },
+              },
+            ],
           }),
         }}
       />
@@ -133,13 +177,21 @@ export default function GamesPage() {
         <div className="max-w-3xl space-y-4 text-cream-muted leading-relaxed">
           <p>
             Countrivo offers {games.length} free geography games that test your knowledge of
-            countries, flags, capitals, and world statistics. Each game features a daily challenge
-            with the same puzzle for all players, plus unlimited practice mode.
+            countries, flags, capitals, and world statistics. Every game features a daily challenge
+            with the same puzzle for all players worldwide, plus unlimited practice mode.
+            No account or signup needed — just open the site and start playing.
           </p>
           <p>
-            From strategy puzzles like <strong>Country Draft</strong> to fast-paced challenges like
-            <strong> Speed Flags</strong>, there&apos;s something for every level of geography knowledge.
-            All games are free, work in your browser, and don&apos;t require an account.
+            From strategy puzzles like <strong>Country Draft</strong> (assign countries to their
+            strongest stat categories) to fast-paced flag quizzes like <strong>Speed Flags</strong>,
+            there&apos;s something for every level of geography knowledge.
+            Our <strong>flag quiz online</strong> and <strong>world capitals quiz</strong> are
+            perfect for students, travelers, and geography enthusiasts alike.
+          </p>
+          <p>
+            All games are free, work in any web browser, and cover 243 countries across every
+            continent. Use the daily challenge to build a streak, or switch to practice mode for
+            unlimited geography trivia whenever you want.
           </p>
         </div>
       </section>

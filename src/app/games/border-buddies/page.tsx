@@ -2,8 +2,9 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Border Buddies — Countrivo",
-  description: "Name all the countries that border a given country. Test your geography knowledge.",
+  title: "Border Buddies — Name All Bordering Countries",
+  description: "A country appears — can you name every country that borders it? Daily geography challenge, unlimited practice. Test your world map knowledge.",
+  alternates: { canonical: "https://countrivo.com/games/border-buddies" },
 };
 
 export default function BorderBuddiesPage() {

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "All Countries in Asia — Complete List with Stats",
   description:
     "Complete list of every country in Asia with flag, capital, population, and area. From China and India to Singapore and Maldives.",
+  alternates: { canonical: "https://countrivo.com/lists/countries-in-asia" },
 };
 
 export default function CountriesInAsiaPage() {
@@ -24,7 +25,41 @@ export default function CountriesInAsiaPage() {
       return popB - popA;
     });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Countries in Asia", "item": "https://countrivo.com/lists/countries-in-asia"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many countries are in Asia?",
+            "acceptedAnswer": {"@type": "Answer", "text": "There are 48 countries in Asia, making it the continent with the most countries. Asia is also the world's largest and most populous continent."}
+          },
+          {
+            "@type": "Question",
+            "name": "Which is the largest country in Asia?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Russia is the largest country in Asia by area, though China and India are the most populous Asian nations."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -169,5 +204,6 @@ export default function CountriesInAsiaPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

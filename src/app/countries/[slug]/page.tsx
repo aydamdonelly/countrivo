@@ -50,6 +50,7 @@ export async function generateMetadata({
   return {
     title: `${country.displayName} — Country Stats, Rankings & Facts`,
     description: `${country.displayName} is a country in ${country.continent}.${capitalPart} Top rankings: ${highlights}. Explore ${categories.length}+ statistics and world rankings.`,
+    alternates: { canonical: `https://countrivo.com/countries/${slug}` },
     openGraph: {
       title: `${country.displayName} — Country Stats, Rankings & Facts`,
       description: `Explore detailed statistics and world rankings for ${country.displayName}.`,
@@ -111,9 +112,23 @@ export default async function CountryPage({
     },
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://countrivo.com" },
+      { "@type": "ListItem", position: 2, name: "Countries", item: "https://countrivo.com/countries" },
+      { "@type": "ListItem", position: 3, name: country.displayName, item: `https://countrivo.com/countries/${slug}` },
+    ],
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-12">
       {/* JSON-LD structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Largest Countries in the World by Area — 2024 Ranking",
   description:
     "Ranked list of the 50 largest countries in the world by total area in km². From Russia to Bangladesh, see how big each nation really is.",
+  alternates: { canonical: "https://countrivo.com/lists/largest-countries" },
 };
 
 export default function LargestCountriesPage() {
@@ -18,7 +19,41 @@ export default function LargestCountriesPage() {
     return { country, rank, area };
   });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Largest Countries", "item": "https://countrivo.com/lists/largest-countries"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which is the largest country in the world?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Russia is the largest country in the world by area, covering approximately 17.1 million km² — over 11% of Earth's total land surface."}
+          },
+          {
+            "@type": "Question",
+            "name": "What are the top 5 largest countries by area?",
+            "acceptedAnswer": {"@type": "Answer", "text": "The 5 largest countries are: 1. Russia (17.1M km²), 2. Canada (10.0M km²), 3. United States (9.8M km²), 4. China (9.6M km²), 5. Brazil (8.5M km²)."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -161,5 +196,6 @@ export default function LargestCountriesPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -103,7 +103,7 @@
     "description": "International tourist arrivals per year",
     "direction": "higher_is_better",
     "source": "World Bank / UNWTO",
-    "sourceYear": 2021,
+    "sourceYear": 2022,
     "coveragePercent": 80,
     "emoji": "✈️"
   },

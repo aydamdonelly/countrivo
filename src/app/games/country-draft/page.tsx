@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
 
 export const metadata: Metadata = {
-  title: "Country Draft — Assign Countries to Stats | Free Strategy Geography Game",
-  description:
-    "Play Country Draft: 8 countries, 8 stat categories. Assign each country to the category where it ranks highest globally. Beat the mathematically optimal solution. Free daily challenge.",
+  title: "Country Draft — Strategic Geography Assignment Game",
+  description: "8 countries. 8 stat categories. Assign each country to where it ranks highest globally. Beat the optimal score. Free flagship geography game.",
+  alternates: { canonical: "https://countrivo.com/games/country-draft" },
 };
 
 export default function CountryDraftPage() {
@@ -13,10 +13,12 @@ export default function CountryDraftPage() {
     <>
       <GameJsonLd
         name="Country Draft — Countrivo"
+        title="Country Draft"
         description="8 countries, 8 stat categories. Assign each country to the category where it ranks highest globally. Beat the mathematically optimal solution."
         url="/games/country-draft"
         genre="Geography Strategy"
         playMode="SinglePlayer"
+        rules={["See 8 stat categories", "Countries are revealed one by one", "Assign each country to its strongest stat category", "Your score is compared to the mathematically optimal assignment"]}
       />
       {/* Hero */}
       <section className="bg-bg text-bg">

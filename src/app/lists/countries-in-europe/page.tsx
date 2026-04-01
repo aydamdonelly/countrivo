@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "All Countries in Europe — Complete List with Stats",
   description:
     "Complete list of every country in Europe with flag, capital, population, and area. From tiny Vatican City to vast Russia's European territory.",
+  alternates: { canonical: "https://countrivo.com/lists/countries-in-europe" },
 };
 
 export default function CountriesInEuropePage() {
@@ -24,7 +25,41 @@ export default function CountriesInEuropePage() {
       return popB - popA;
     });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Countries in Europe", "item": "https://countrivo.com/lists/countries-in-europe"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many countries are there in Europe?",
+            "acceptedAnswer": {"@type": "Answer", "text": "There are 44 countries in Europe, ranging from Russia (the largest by area) to Vatican City (the smallest independent state in the world)."}
+          },
+          {
+            "@type": "Question",
+            "name": "What is the most populated country in Europe?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Russia is the most populated country in Europe with approximately 145 million people, followed by Germany with about 84 million."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -168,5 +203,6 @@ export default function CountriesInEuropePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

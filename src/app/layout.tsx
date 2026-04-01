@@ -28,18 +28,21 @@ export const metadata: Metadata = {
     template: "%s | Countrivo",
   },
   description:
-    "Play free geography games online. Daily challenges, flag quizzes, country rankings, capital matching, and strategy puzzles. Test your world knowledge with 11+ games covering 243 countries. No signup needed.",
+    "Play 14 free geography games online. Daily challenges, flag quizzes, country rankings, capitals matching, and stat puzzles. 243 countries. No signup needed.",
   keywords: [
     "geography games", "country quiz", "flag quiz", "world quiz",
     "geography trivia", "country ranking game", "daily geography challenge",
     "capitals quiz", "population quiz", "free geography games online",
+    "flag quiz online", "world capitals quiz", "geography quiz game",
+    "guess the flag", "country flag quiz game",
   ],
+  alternates: { canonical: "https://countrivo.com" },
   openGraph: {
     type: "website",
     siteName: "Countrivo",
     title: "Countrivo — Free Geography Games & Daily Challenges",
     description:
-      "11+ free geography games. Daily challenges, flag quizzes, country stats, and strategy puzzles. 243 countries. No signup.",
+      "14 free geography games. Daily challenges, flag quizzes, country stats, and strategy puzzles. 243 countries. No signup.",
   },
   twitter: {
     card: "summary_large_image",
@@ -47,6 +50,8 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    "max-image-preview": "large" as const,
+    "max-snippet": -1,
   },
   verification: {
     google: "PpK1QzA2nH6mTqcSPf_TcNsD7DCPXL6dcW1SEAoG9po",
@@ -65,6 +70,8 @@ export default function RootLayout({
     >
       <head>
         <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-cream font-sans">
         {/* Structured data for the website */}
@@ -73,15 +80,28 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Countrivo",
-              url: "https://countrivo.com",
-              description: "Free geography games online. Daily challenges, flag quizzes, country rankings, and strategy puzzles.",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: "https://countrivo.com/countries?q={search_term_string}",
-                "query-input": "required name=search_term_string",
-              },
+              "@graph": [
+                {
+                  "@type": "WebSite",
+                  name: "Countrivo",
+                  url: "https://countrivo.com",
+                  description:
+                    "Free geography games online. Daily challenges, flag quizzes, country rankings, and strategy puzzles.",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: "https://countrivo.com/countries?q={search_term_string}",
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+                {
+                  "@type": "Organization",
+                  name: "Countrivo",
+                  url: "https://countrivo.com",
+                  logo: "https://countrivo.com/favicon.svg",
+                  description:
+                    "Free online geography games and quizzes to learn world capitals, flags, countries and statistics.",
+                },
+              ],
             }),
           }}
         />

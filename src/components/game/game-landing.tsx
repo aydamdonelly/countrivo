@@ -45,10 +45,12 @@ export function GameLanding({
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
         name={`${title} — Countrivo`}
+        title={title}
         description={description}
         url={playHref.replace("/play", "")}
         genre={`Geography ${category}`}
-        playMode={hasDailyMode ? "SinglePlayer" : "SinglePlayer"}
+        playMode="SinglePlayer"
+        rules={rules}
       />
       {/* Hero */}
       <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">

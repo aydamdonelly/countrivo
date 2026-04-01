@@ -28,6 +28,7 @@ export async function generateMetadata({
   return {
     title: `${category.label} by Country — World Ranking`,
     description: `Which countries rank highest in ${category.label.toLowerCase()}? Full world ranking of all countries. Top 3: ${topNames}. Source: ${category.source} (${category.sourceYear}).`,
+    alternates: { canonical: `https://countrivo.com/categories/${slug}` },
   };
 }
 
@@ -62,8 +63,22 @@ export default async function CategoryPage({
     }),
   };
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://countrivo.com" },
+      { "@type": "ListItem", position: 2, name: "Rankings", item: "https://countrivo.com/categories" },
+      { "@type": "ListItem", position: 3, name: category.label, item: `https://countrivo.com/categories/${slug}` },
+    ],
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

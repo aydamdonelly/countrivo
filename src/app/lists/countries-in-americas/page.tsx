@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "All Countries in the Americas — Complete List with Stats",
   description:
     "Complete list of every country in North and South America with flag, capital, population, and area. From the US and Brazil to small Caribbean nations.",
+  alternates: { canonical: "https://countrivo.com/lists/countries-in-americas" },
 };
 
 export default function CountriesInAmericasPage() {
@@ -24,7 +25,41 @@ export default function CountriesInAmericasPage() {
       return popB - popA;
     });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Countries in the Americas", "item": "https://countrivo.com/lists/countries-in-americas"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many countries are in the Americas?",
+            "acceptedAnswer": {"@type": "Answer", "text": "There are 35 sovereign countries in the Americas, spanning North America, Central America, the Caribbean, and South America."}
+          },
+          {
+            "@type": "Question",
+            "name": "Which is the largest country in the Americas?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Canada is the largest country in the Americas by land area, covering approximately 10 million km². Brazil is the largest in South America."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -169,5 +204,6 @@ export default function CountriesInAmericasPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

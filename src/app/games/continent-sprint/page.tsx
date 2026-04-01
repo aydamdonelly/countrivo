@@ -2,8 +2,9 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Continent Sprint — Countrivo",
-  description: "Pick a continent and name as many countries as you can. Race against the clock.",
+  title: "Continent Sprint — Name Every Country in a Continent",
+  description: "Pick a continent and name every country in it against the clock. Europe, Asia, Africa, Americas — how many can you get? Free geography game.",
+  alternates: { canonical: "https://countrivo.com/games/continent-sprint" },
 };
 
 export default function ContinentSprintPage() {

@@ -21,9 +21,8 @@ import {
 } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Countrivo — Geography Games & Country Quizzes",
-  description:
-    "14 free geography games: flag quizzes, country drafts, stat ranking puzzles, capital matching, and daily challenges. 243 countries, zero sign-up.",
+  title: "Countrivo — Free Geography Games & Daily Challenges",
+  description: "14 free geography games: flag quizzes, daily challenges, country rankings, and capital matching. 243 countries. No signup needed.",
 };
 
 /* ── icon map ── */
@@ -33,7 +32,7 @@ const GAME_ICONS: Record<string, React.ComponentType<SVGProps<SVGSVGElement>>> =
   "higher-or-lower": IconChevronDouble,
   "capital-match": IconPin,
   "population-sort": IconBars,
-  "country-streak": IconBolt,
+  "country-streak": IconCheck,
   "border-buddies": IconChain,
   "continent-sprint": IconGlobe,
   "stat-guesser": IconHash,
@@ -73,7 +72,24 @@ export default function HomePage() {
   );
 
   return (
-    <div className="max-w-[430px] mx-auto px-5 pb-16">
+    <div className="max-w-2xl mx-auto px-5 sm:px-6 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Countrivo Geography Games",
+            numberOfItems: allGames.length,
+            itemListElement: allGames.map((g, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: g.title,
+              url: `https://countrivo.com${g.route}`,
+            })),
+          }),
+        }}
+      />
       {/* ═══ HERO ═══ */}
       <section className="mt-6 mb-8">
         <p className="text-xs font-semibold text-gold">Today&apos;s challenge</p>

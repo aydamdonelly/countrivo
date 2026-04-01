@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Most Populated Countries in the World — 2024 Ranking",
   description:
     "Ranked list of the 50 most populated countries in the world. See current population figures for India, China, the US, and more.",
+  alternates: { canonical: "https://countrivo.com/lists/most-populated-countries" },
 };
 
 export default function MostPopulatedCountriesPage() {
@@ -18,7 +19,41 @@ export default function MostPopulatedCountriesPage() {
     return { country, rank, population };
   });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Most Populated Countries", "item": "https://countrivo.com/lists/most-populated-countries"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Which country has the largest population?",
+            "acceptedAnswer": {"@type": "Answer", "text": "India is now the most populous country in the world with approximately 1.43 billion people, surpassing China in 2023."}
+          },
+          {
+            "@type": "Question",
+            "name": "What are the top 5 most populated countries?",
+            "acceptedAnswer": {"@type": "Answer", "text": "The 5 most populated countries are: 1. India (~1.43B), 2. China (~1.41B), 3. United States (~335M), 4. Indonesia (~278M), 5. Pakistan (~235M)."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -161,5 +196,6 @@ export default function MostPopulatedCountriesPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

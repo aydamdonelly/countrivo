@@ -2,8 +2,9 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Stat Guesser — Countrivo",
-  description: "Guess country statistics like population, area, and GDP. How close can you get?",
+  title: "Stat Guesser — Guess Country Statistics",
+  description: "What's the population of Brazil? The GDP of Norway? Guess the exact number — closer is better. Free daily geography trivia challenge.",
+  alternates: { canonical: "https://countrivo.com/games/stat-guesser" },
 };
 
 export default function StatGuesserPage() {

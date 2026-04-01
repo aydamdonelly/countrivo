@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "All Countries in Africa — Complete List with Stats",
   description:
     "Complete list of every country in Africa with flag, capital, population, and area. 54 nations from Nigeria to Seychelles.",
+  alternates: { canonical: "https://countrivo.com/lists/countries-in-africa" },
 };
 
 export default function CountriesInAfricaPage() {
@@ -24,7 +25,41 @@ export default function CountriesInAfricaPage() {
       return popB - popA;
     });
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://countrivo.com"},
+          {"@type": "ListItem", "position": 2, "name": "Lists", "item": "https://countrivo.com/lists"},
+          {"@type": "ListItem", "position": 3, "name": "Countries in Africa", "item": "https://countrivo.com/lists/countries-in-africa"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How many countries are in Africa?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Africa has 54 recognized sovereign countries, making it the continent with the most countries in the world."}
+          },
+          {
+            "@type": "Question",
+            "name": "What is the largest country in Africa?",
+            "acceptedAnswer": {"@type": "Answer", "text": "Algeria is the largest country in Africa by area, covering approximately 2.38 million km². It surpassed Sudan after South Sudan's independence in 2011."}
+          }
+        ]
+      }
+    ]
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
@@ -170,5 +205,6 @@ export default function CountriesInAfricaPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
