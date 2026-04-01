@@ -60,7 +60,7 @@ function getGradeTier(pct: number): GradeTier {
     return {
       label: "Elite",
       emoji: "🔥",
-      message: "Elite run. Top-tier knowledge.",
+      message: "Elite run. You know your geography.",
       className: "grade-elite",
       bgClassName: "bg-correct/5 border-correct/20",
     };
@@ -68,7 +68,7 @@ function getGradeTier(pct: number): GradeTier {
     return {
       label: "Strong",
       emoji: "💪",
-      message: "Strong run. Room at the top.",
+      message: "Strong. The top is within reach.",
       className: "grade-strong",
       bgClassName: "bg-blue-50 border-blue-200/50",
     };
@@ -76,14 +76,14 @@ function getGradeTier(pct: number): GradeTier {
     return {
       label: "Close",
       emoji: "🎯",
-      message: "Close. A few better picks and you're elite.",
+      message: "Close. A few smarter picks and you crack elite.",
       className: "grade-close",
       bgClassName: "bg-amber-50 border-amber-200/50",
     };
   return {
     label: "Tough draw",
     emoji: "💀",
-    message: "Brutal draw. Run it back.",
+    message: "Brutal. Run it back.",
     className: "grade-tough",
     bgClassName: "bg-surface-elevated border-border",
   };
@@ -102,9 +102,7 @@ function getScoreHistory(gameSlug: string): number[] {
 function saveScore(gameSlug: string, score: number): { isNewBest: boolean; history: number[] } {
   const best = getPersonalBest(gameSlug);
   const isNewBest = best === null || score > best;
-  if (isNewBest) {
-    setStorageItem(`best_${gameSlug}`, score);
-  }
+  if (isNewBest) setStorageItem(`best_${gameSlug}`, score);
   const history = getScoreHistory(gameSlug);
   const updated = [...history, score].slice(-20);
   setStorageItem(`history_${gameSlug}`, updated);
@@ -125,6 +123,8 @@ function simulatePercentile(pct: number): number {
 
 function getInsight(pct: number, history: number[], numericScore: number, maxScore: number): string {
   const missed = maxScore - numericScore;
+
+  // Trend analysis
   if (history.length >= 3) {
     const recent3 = history.slice(-3);
     const older = history.slice(-6, -3);
@@ -134,25 +134,30 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
       if (recentAvg > olderAvg * 1.1)
         return `Trending up. Last 3 avg (${Math.round(recentAvg)}) beats earlier (${Math.round(olderAvg)}).`;
       if (recentAvg < olderAvg * 0.9)
-        return `Dipping. Recent ${Math.round(recentAvg)} vs earlier ${Math.round(olderAvg)}.`;
+        return `Slipping. Recent ${Math.round(recentAvg)} vs earlier ${Math.round(olderAvg)}. Time to lock in.`;
     }
   }
-  if (pct >= 100) return `Perfect. ${maxScore}/${maxScore}.`;
-  if (missed === 1) return `One away from perfect. So close.`;
-  if (missed <= 3) return `${missed} from perfect. Elite territory.`;
-  if (pct >= 70) return `${numericScore}/${maxScore}. Solid — top third range.`;
-  if (pct >= 50) return `${missed} left on the table. Replay to close the gap.`;
-  return `${numericScore}/${maxScore}. Study up, then run it back.`;
+
+  if (pct >= 100) return "Perfect score. Nothing more to prove.";
+  if (missed === 1) return "One away from perfect. So close it hurts.";
+  if (missed <= 3) return `${missed} from perfect. You're right there.`;
+  if (pct >= 70) return `${numericScore}/${maxScore}. Solid run — top third territory.`;
+  if (pct >= 50) return `${missed} points left on the table. You can close that gap.`;
+  return `${numericScore}/${maxScore}. Study the patterns, then come back stronger.`;
 }
 
 /* ---------- Share ---------- */
 
-async function shareResult(title: string, score: string, tier: string | null, percentile: number | null, rank: number | null) {
-  const lines = [title, score];
+async function shareResult(
+  title: string, score: string, tier: string | null,
+  percentile: number | null, rank: number | null, totalPlayers: number
+) {
+  const lines = [`${title}`, `${score}`];
   if (tier) lines.push(tier);
-  if (rank) lines.push(`Rank #${rank} today`);
-  if (percentile) lines.push(`Better than ${percentile}%`);
-  lines.push("", "countrivo.com");
+  if (rank && totalPlayers > 0) lines.push(`#${rank} of ${totalPlayers} players`);
+  else if (rank) lines.push(`Rank #${rank} today`);
+  if (percentile) lines.push(`Better than ${percentile}% of players`);
+  lines.push("", "Can you beat me?", "countrivo.com");
   const text = lines.join("\n");
   if (navigator.share) {
     try { await navigator.share({ text }); } catch { /* cancelled */ }
@@ -178,19 +183,10 @@ const ALL_SUGGESTIONS = [
 ];
 
 /* ================================================================ */
-/*  COMPONENT                                                        */
-/* ================================================================ */
 
 export function GameOverScreen({
-  title,
-  score,
-  subtitle,
-  onPlayAgain,
-  children,
-  numericScore,
-  maxScore,
-  gameSlug,
-  serverData,
+  title, score, subtitle, onPlayAgain, children,
+  numericScore, maxScore, gameSlug, serverData,
 }: GameOverScreenProps) {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
@@ -205,8 +201,21 @@ export function GameOverScreen({
     : pct !== null ? simulatePercentile(pct) : null;
   const hasRealData = serverData?.percentile != null;
   const rankToday = serverData?.rankToday ?? null;
+  const totalPlayers = serverData?.totalPlayersToday ?? 0;
   const insight = pct !== null && numericScore !== undefined && maxScore !== undefined
     ? getInsight(pct, history, numericScore, maxScore) : null;
+
+  // Compute delta vs average
+  const avg = history.length >= 2
+    ? Math.round(history.reduce((a, b) => a + b, 0) / history.length)
+    : null;
+  const deltaVsAvg = avg !== null && numericScore !== undefined
+    ? numericScore - avg : null;
+
+  // "You beat X players" calculation
+  const beatCount = percentile !== null && totalPlayers > 1
+    ? Math.round((percentile / 100) * (totalPlayers - 1))
+    : null;
 
   useEffect(() => {
     if (gameSlug && numericScore !== undefined) {
@@ -224,54 +233,50 @@ export function GameOverScreen({
     .slice(0, 4);
 
   const handleShare = useCallback(() => {
-    shareResult(title, score, tier?.label ?? null, percentile, rankToday);
+    shareResult(title, score, tier?.label ?? null, percentile, rankToday, totalPlayers);
     setShared(true);
     setTimeout(() => setShared(false), 2000);
-  }, [title, score, tier, percentile, rankToday]);
+  }, [title, score, tier, percentile, rankToday, totalPlayers]);
 
   return (
     <div className="flex flex-col items-center gap-0 py-6 sm:py-10">
 
       {/* ═══════ LAYER 1: VERDICT ═══════ */}
       <div className={`w-full rounded-2xl border p-6 sm:p-10 text-center verdict-reveal ${tier?.bgClassName ?? "bg-surface-elevated border-border"}`}>
-        {/* Emoji + tier */}
         {tier && (
           <div className="text-5xl sm:text-6xl mb-3">{tier.emoji}</div>
         )}
 
-        {/* Big score */}
         <div className="text-5xl sm:text-7xl font-extrabold font-mono text-gold score-pop">
           {score}
         </div>
 
-        {/* Tier label */}
         {tier && (
           <div className="mt-3 flex items-center justify-center gap-3 flex-wrap">
             <span className={`inline-block px-4 py-1.5 text-sm font-bold rounded-full ${tier.className}`}>
               {tier.label}
             </span>
-            {subtitle && !hasTier && (
-              <span className="text-sm text-cream-muted">{subtitle}</span>
-            )}
           </div>
         )}
         {!tier && subtitle && (
           <p className="text-lg text-cream-muted text-center mt-2">{subtitle}</p>
         )}
 
-        {/* Rank + percentile row */}
-        {(rankToday != null || percentile !== null) && (
-          <div className="flex items-center justify-center gap-4 sm:gap-6 mt-4 text-sm">
+        {/* Rank + percentile + beat count */}
+        {(rankToday != null || percentile !== null || beatCount != null) && (
+          <div className="flex items-center justify-center gap-4 sm:gap-5 mt-4 text-sm flex-wrap">
             {rankToday != null && (
               <span className="font-bold text-gold text-lg">
-                Rank #{rankToday}
-                {serverData?.totalPlayersToday ? (
-                  <span className="text-cream-muted font-normal text-sm"> / {serverData.totalPlayersToday}</span>
-                ) : null}
+                #{rankToday}
+                {totalPlayers > 0 && (
+                  <span className="text-cream-muted font-normal text-sm"> / {totalPlayers}</span>
+                )}
               </span>
             )}
-            {rankToday != null && percentile !== null && (
-              <span className="text-cream-muted">·</span>
+            {beatCount != null && beatCount > 0 && (
+              <span className="text-cream font-medium">
+                You beat <span className="font-bold">{beatCount}</span> player{beatCount !== 1 ? "s" : ""}
+              </span>
             )}
             {percentile !== null && (
               <span className="text-cream-muted">
@@ -290,7 +295,7 @@ export function GameOverScreen({
         {/* Personal best banner */}
         {(serverData?.isPersonalBest || isNewBest) && (
           <div className="mt-4 inline-block px-5 py-2 bg-gold text-white text-sm font-bold rounded-full animate-scale-in">
-            🏆 New personal best!
+            New personal best!
           </div>
         )}
       </div>
@@ -298,21 +303,20 @@ export function GameOverScreen({
       {/* ═══════ LAYER 2: IDENTITY / STATS ═══════ */}
       <div className="w-full mt-5">
         <div className="flex items-stretch justify-center gap-3 flex-wrap">
-          {/* Personal best */}
           {gameSlug && personalBest !== null && !isNewBest && (
             <StatPill label="Your best" value={String(personalBest)} />
           )}
-
-          {/* Attempts */}
           {history.length > 1 && (
             <StatPill label="Attempts" value={String(history.length)} />
           )}
-
-          {/* Average */}
-          {history.length >= 2 && (
+          {avg !== null && (
+            <StatPill label="Avg score" value={String(avg)} />
+          )}
+          {deltaVsAvg !== null && deltaVsAvg !== 0 && (
             <StatPill
-              label="Avg score"
-              value={String(Math.round(history.reduce((a, b) => a + b, 0) / history.length))}
+              label="vs avg"
+              value={`${deltaVsAvg > 0 ? "+" : ""}${deltaVsAvg}`}
+              highlight={deltaVsAvg > 0 ? "good" : "bad"}
             />
           )}
         </div>
@@ -320,17 +324,13 @@ export function GameOverScreen({
         {/* Analytical insight */}
         {insight && (
           <p className="text-xs text-cream-muted text-center max-w-sm mx-auto mt-4 px-4 py-2.5 rounded-xl bg-surface-elevated border border-border">
-            📊 {insight}
+            {insight}
           </p>
         )}
       </div>
 
       {/* ═══════ LAYER 2.5: GAME-SPECIFIC ANALYSIS ═══════ */}
-      {children && (
-        <div className="w-full mt-5">
-          {children}
-        </div>
-      )}
+      {children && <div className="w-full mt-5">{children}</div>}
 
       {/* ═══════ LAYER 3: ACTIONS ═══════ */}
       <div className="w-full mt-6 flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
@@ -340,7 +340,7 @@ export function GameOverScreen({
           </button>
         )}
         <button onClick={handleShare} className="cta-secondary w-full sm:w-auto flex-1">
-          {shared ? "Copied!" : "Share result"}
+          {shared ? "Copied!" : "Challenge a friend"}
         </button>
       </div>
 
@@ -373,15 +373,25 @@ export function GameOverScreen({
   );
 }
 
-/* ---------- Stat pill helper ---------- */
+/* ---------- Stat pill ---------- */
 
-function StatPill({ label, value }: { label: string; value: string }) {
+function StatPill({ label, value, highlight }: { label: string; value: string; highlight?: "good" | "bad" }) {
   return (
-    <div className="px-4 py-2.5 rounded-xl bg-surface-elevated text-center min-w-20">
+    <div className={`px-4 py-2.5 rounded-xl text-center min-w-20 ${
+      highlight === "good"
+        ? "bg-correct/8 border border-correct/20"
+        : highlight === "bad"
+          ? "bg-incorrect/8 border border-incorrect/20"
+          : "bg-surface-elevated"
+    }`}>
       <div className="text-[10px] text-cream-muted font-medium uppercase tracking-wide">
         {label}
       </div>
-      <div className="text-lg font-extrabold font-mono mt-0.5">{value}</div>
+      <div className={`text-lg font-extrabold font-mono mt-0.5 ${
+        highlight === "good" ? "text-correct" : highlight === "bad" ? "text-incorrect" : ""
+      }`}>
+        {value}
+      </div>
     </div>
   );
 }

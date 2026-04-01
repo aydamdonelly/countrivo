@@ -6,12 +6,16 @@ import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
 
-function getHoursUntilReset(): number {
+function getTimeUntilReset(): { hours: number; minutes: number } {
   const now = new Date();
   const tomorrow = new Date(Date.UTC(
     now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1
   ));
-  return Math.ceil((tomorrow.getTime() - now.getTime()) / (1000 * 60 * 60));
+  const diff = tomorrow.getTime() - now.getTime();
+  return {
+    hours: Math.floor(diff / (1000 * 60 * 60)),
+    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+  };
 }
 
 function computeLocalStreak(): number {
@@ -49,9 +53,7 @@ function countTodayCompleted(): number {
 interface DailyHeroProps {
   flagshipRoute: string;
   flagshipSlug?: string;
-  /** Pre-fetched from server: whether user already played the flagship daily today */
   serverPlayedToday?: boolean;
-  /** Pre-fetched from server: user's current streak (null = guest/no data) */
   serverStreak?: number | null;
 }
 
@@ -62,29 +64,30 @@ export function DailyHero({
 }: DailyHeroProps) {
   const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [hoursLeft, setHoursLeft] = useState(0);
+  const [timer, setTimer] = useState({ hours: 0, minutes: 0 });
   const [mounted, setMounted] = useState(false);
 
   const playedFlagship = serverPlayedToday;
+  const totalDaily = 11;
 
   useEffect(() => {
-    // Use server streak if available, otherwise compute from localStorage
     if (serverStreak != null) {
       setStreak(serverStreak);
     } else {
       setStreak(computeLocalStreak());
     }
     setCompleted(countTodayCompleted());
-    setHoursLeft(getHoursUntilReset());
+    setTimer(getTimeUntilReset());
     setMounted(true);
   }, [serverStreak]);
 
-  const totalDaily = 11;
+  const progressPct = totalDaily > 0 ? (completed / totalDaily) * 100 : 0;
+  const allDone = completed >= totalDaily;
 
   return (
-    <section className="text-center py-8 sm:py-10">
-      {/* Date + reset timer */}
-      <div className="flex items-center justify-center gap-3 mb-4">
+    <section className="text-center py-8 sm:py-12">
+      {/* Date + live badge */}
+      <div className="flex items-center justify-center gap-3 mb-5">
         <time className="text-xs font-bold uppercase tracking-widest text-cream-muted">
           {new Date().toLocaleDateString("en-US", {
             weekday: "long",
@@ -92,34 +95,69 @@ export function DailyHero({
             day: "numeric",
           })}
         </time>
-        {mounted && hoursLeft > 0 && (
-          <span className="text-[10px] text-cream-muted px-2 py-0.5 rounded-full bg-black/5">
-            Resets in {hoursLeft}h
-          </span>
-        )}
+        <span className="flex items-center gap-1.5 text-[10px] text-cream-muted px-2.5 py-0.5 rounded-full bg-black/5">
+          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+          Live
+        </span>
       </div>
 
+      {/* Headline */}
       <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-        {playedFlagship ? "You\u2019ve played today." : "Today\u2019s challenge is live."}
+        {allDone
+          ? "You cleared today."
+          : playedFlagship
+            ? "Keep going."
+            : "Today\u2019s challenge is live."}
       </h1>
-      <p className="mt-3 text-base sm:text-lg text-cream-muted max-w-md mx-auto">
-        {playedFlagship
-          ? "Check your rank, practice, or try another daily game."
-          : "Same puzzle for every player. One attempt. Prove what you know."}
+      <p className="mt-3 text-base sm:text-lg text-cream-muted max-w-lg mx-auto">
+        {allDone
+          ? "Every daily game completed. Come back tomorrow for a fresh set."
+          : playedFlagship
+            ? `${totalDaily - completed} daily game${totalDaily - completed !== 1 ? "s" : ""} left. Same puzzle for everyone. One shot each.`
+            : "Same puzzle for every player. One attempt. Prove what you know."}
       </p>
 
       {/* Primary CTA */}
       <Link
-        href={playedFlagship ? `${flagshipRoute}` : `${flagshipRoute}/play?mode=daily`}
+        href={playedFlagship ? "/games" : `${flagshipRoute}/play?mode=daily`}
         className="cta-primary mt-6 text-lg sm:text-xl px-10 py-4"
       >
-        {playedFlagship ? "View your result" : "Play today\u2019s challenge"}
+        {allDone
+          ? "Practice any game"
+          : playedFlagship
+            ? "Play next daily game"
+            : "Play today\u2019s challenge"}
         <IconArrowRight width={20} height={20} />
       </Link>
 
-      {/* Live status row */}
+      {/* Daily progress bar */}
       {mounted && (
-        <div className="flex items-center justify-center gap-5 sm:gap-8 mt-6 text-sm">
+        <div className="mt-8 max-w-sm mx-auto">
+          <div className="flex items-center justify-between mb-1.5 text-xs">
+            <span className="font-bold text-cream">
+              {completed}/{totalDaily} completed
+            </span>
+            {timer.hours > 0 || timer.minutes > 0 ? (
+              <span className="text-cream-muted">
+                Resets in {timer.hours}h {timer.minutes}m
+              </span>
+            ) : null}
+          </div>
+          <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-700 ease-out"
+              style={{
+                width: `${Math.max(progressPct, 2)}%`,
+                backgroundColor: allDone ? "#16a34a" : "#b8860b",
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Stats row */}
+      {mounted && (
+        <div className="flex items-center justify-center gap-5 sm:gap-8 mt-5 text-sm">
           {streak > 0 && (
             <div className="flex items-center gap-1.5">
               <span className="text-base">🔥</span>
@@ -127,14 +165,12 @@ export function DailyHero({
             </div>
           )}
           <div className="flex items-center gap-1.5">
-            <span className="text-base">✅</span>
-            <span className="font-medium text-cream-muted">
-              {completed}/{totalDaily} today
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5">
             <span className="text-base">🌍</span>
             <span className="font-medium text-cream-muted">243 countries</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-base">🎮</span>
+            <span className="font-medium text-cream-muted">14 games</span>
           </div>
         </div>
       )}

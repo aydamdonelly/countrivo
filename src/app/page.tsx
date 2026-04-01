@@ -96,11 +96,11 @@ export default async function HomePage() {
         <div className="flex items-center gap-2 mb-3">
           <h2 className="text-lg font-extrabold">Today&apos;s featured game</h2>
           <span className="px-2 py-0.5 bg-gold text-white text-[10px] font-bold uppercase rounded-md tracking-wide">
-            Daily
+            Flagship
           </span>
         </div>
         <Link
-          href={flagship.route}
+          href={dailyStatus.played ? flagship.route : `${flagship.route}/play?mode=daily`}
           className="group relative block rounded-2xl p-5 sm:p-6 transition-all hover:scale-[1.01] hover:shadow-lg overflow-hidden"
           style={{
             backgroundColor: GAME_COLORS[flagship.slug]?.bg ?? "#f3f4f6",
@@ -121,19 +121,27 @@ export default async function HomePage() {
                 className="mt-1.5 text-sm opacity-70 leading-relaxed"
                 style={{ color: GAME_COLORS[flagship.slug]?.text ?? "#374151" }}
               >
-                {flagship.shortDescription}
+                {dailyStatus.played
+                  ? `You scored ${dailyStatus.run?.scoreDisplay ?? "—"}. ${dailyStatus.run?.rankDaily ? `Rank #${dailyStatus.run.rankDaily} today.` : ""}`
+                  : flagship.shortDescription}
               </p>
               <div
                 className="mt-2 flex items-center gap-2 text-[11px]"
                 style={{ color: GAME_COLORS[flagship.slug]?.text ?? "#374151" }}
               >
-                <span className="px-1.5 py-0.5 bg-black/5 rounded-full font-medium capitalize">{flagship.difficulty}</span>
-                <span className="opacity-60">{flagship.estimatedTime}</span>
+                {dailyStatus.played ? (
+                  <span className="px-1.5 py-0.5 bg-black/10 rounded-full font-bold">Played</span>
+                ) : (
+                  <>
+                    <span className="px-1.5 py-0.5 bg-black/5 rounded-full font-medium capitalize">{flagship.difficulty}</span>
+                    <span className="opacity-60">{flagship.estimatedTime}</span>
+                  </>
+                )}
                 <span className="px-1.5 py-0.5 bg-black/5 rounded-full capitalize">{flagship.category}</span>
               </div>
             </div>
             <span className="cta-primary text-sm px-5 py-2.5 min-h-11 shrink-0">
-              Play now <IconArrowRight width={14} height={14} />
+              {dailyStatus.played ? "View result" : "Play now"} <IconArrowRight width={14} height={14} />
             </span>
           </div>
         </Link>
@@ -184,9 +192,9 @@ export default async function HomePage() {
       {/* All Games grid */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-extrabold">All Games</h2>
+          <h2 className="text-lg font-extrabold">More daily games</h2>
           <Link href="/games" className="cta-tertiary text-xs">
-            View all {allGames.length} →
+            All {allGames.length} games →
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">

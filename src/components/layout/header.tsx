@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
 import { useAuth } from "@/components/auth/auth-provider";
+import { getStorageItem } from "@/lib/storage";
+import { getAllGames } from "@/lib/data/games";
 
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
@@ -11,13 +13,24 @@ const NAV_ITEMS = [
   { href: "/countries", label: "Countries" },
 ];
 
+function countTodayCompleted(): number {
+  if (typeof window === "undefined") return 0;
+  const games = getAllGames();
+  const dateKey = new Date().toISOString().slice(0, 10);
+  return games.filter((g) =>
+    g.availableModes.includes("daily") &&
+    getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)
+  ).length;
+}
+
 export function Header() {
   const pathname = usePathname();
   const { user, profile, loading, openAuthModal, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dailyCount, setDailyCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     if (!menuOpen) return;
     function handleClick(e: MouseEvent) {
@@ -29,7 +42,13 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, [menuOpen]);
 
+  useEffect(() => {
+    setDailyCount(countTodayCompleted());
+    setMounted(true);
+  }, []);
+
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
+  const totalDaily = 11;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">
@@ -64,8 +83,14 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <StreakBadge />
 
+          {/* Daily progress pill */}
+          {mounted && dailyCount > 0 && (
+            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5">
+              {dailyCount}/{totalDaily}
+            </span>
+          )}
+
           {!loading && user ? (
-            /* Logged-in: avatar + dropdown */
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen((v) => !v)}
@@ -75,10 +100,13 @@ export function Header() {
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-lg border border-border py-1.5 animate-in z-50">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-lg border border-border py-1.5 animate-in z-50">
                   <div className="px-3 py-2 border-b border-border">
                     <p className="text-sm font-bold truncate">{profile?.displayName ?? "Player"}</p>
                     <p className="text-xs text-cream-muted truncate">@{profile?.username}</p>
+                    {profile && profile.streakCurrent > 0 && (
+                      <p className="text-xs text-gold font-bold mt-1">🔥 {profile.streakCurrent}-day streak</p>
+                    )}
                   </div>
                   <Link
                     href="/games/country-draft/play?mode=daily"
@@ -87,9 +115,16 @@ export function Header() {
                   >
                     Daily challenge
                   </Link>
+                  <Link
+                    href="/games"
+                    className="block px-3 py-2 text-sm hover:bg-black/3 transition-colors"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    All games
+                  </Link>
                   <button
                     onClick={() => { signOut(); setMenuOpen(false); }}
-                    className="w-full text-left px-3 py-2 text-sm text-cream-muted hover:bg-black/3 hover:text-cream transition-colors"
+                    className="w-full text-left px-3 py-2 text-sm text-cream-muted hover:bg-black/3 hover:text-cream transition-colors border-t border-border mt-1 pt-2"
                   >
                     Sign out
                   </button>
@@ -97,7 +132,6 @@ export function Header() {
               )}
             </div>
           ) : !loading ? (
-            /* Guest: sign-in button + daily CTA */
             <>
               <button
                 onClick={() => openAuthModal()}
@@ -114,7 +148,6 @@ export function Header() {
               </Link>
             </>
           ) : (
-            /* Loading: placeholder */
             <div className="w-8 h-8 rounded-full bg-black/5 animate-pulse" />
           )}
         </div>
