@@ -21,7 +21,7 @@ export default function CountryDraftPage() {
         rules={["See 8 stat categories", "Countries are revealed one by one", "Assign each country to its strongest stat category", "Your score is compared to the mathematically optimal assignment"]}
       />
       {/* Hero */}
-      <section className="bg-surface">
+      <section className="bg-surface-elevated">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
@@ -47,7 +47,7 @@ export default function CountryDraftPage() {
               </Link>
               <Link
                 href="/games/country-draft/play?mode=practice"
-                className="px-6 py-3.5 bg-cream-ghost text-cream font-semibold text-lg rounded-xl hover:bg-white/20 transition-colors"
+                className="px-6 py-3.5 bg-black/5 text-cream font-semibold text-lg rounded-xl hover:bg-black/10 transition-colors"
               >
                 🔄 Practice Mode
               </Link>
@@ -88,7 +88,7 @@ export default function CountryDraftPage() {
       </section>
 
       {/* Example tension */}
-      <section className="bg-surface border-y border-border">
+      <section className="bg-surface-elevated border-y border-black/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <h2 className="text-2xl font-extrabold mb-3">The Tension</h2>
           <p className="text-cream-muted max-w-2xl mb-8">
@@ -117,7 +117,7 @@ export default function CountryDraftPage() {
 
 function StepCard({ number, emoji, title, description }: { number: string; emoji: string; title: string; description: string }) {
   return (
-    <div className="relative p-6 bg-surface border border-border rounded-xl">
+    <div className="relative p-6 bg-white border border-black/5 shadow-sm rounded-xl">
       <div className="flex items-center gap-3 mb-3">
         <span className="w-8 h-8 flex items-center justify-center bg-gold text-bg text-sm font-bold rounded-lg">
           {number}
@@ -132,7 +132,7 @@ function StepCard({ number, emoji, title, description }: { number: string; emoji
 
 function TensionCard({ emoji, text }: { emoji: string; text: string }) {
   return (
-    <div className="p-5 bg-surface border border-border rounded-xl">
+    <div className="p-5 bg-white border border-black/5 shadow-sm rounded-xl">
       <span className="text-3xl block mb-3">{emoji}</span>
       <p className="text-sm text-cream-muted leading-relaxed italic">&ldquo;{text}&rdquo;</p>
     </div>
@@ -141,7 +141,7 @@ function TensionCard({ emoji, text }: { emoji: string; text: string }) {
 
 function GameSuggestion({ href, emoji, title, desc }: { href: string; emoji: string; title: string; desc: string }) {
   return (
-    <Link href={href} className="game-card p-5 bg-surface border border-border group">
+    <Link href={href} className="game-card p-5 bg-white border border-black/5 shadow-sm group">
       <span className="text-3xl block mb-2">{emoji}</span>
       <h3 className="font-bold group-hover:text-gold transition-colors">{title}</h3>
       <p className="text-sm text-cream-muted mt-1">{desc}</p>

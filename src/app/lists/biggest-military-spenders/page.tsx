@@ -85,7 +85,7 @@ export default function BiggestMilitarySpendersPage() {
       </div>
 
       {/* Fun facts */}
-      <div className="mt-10 bg-surface border border-border rounded-xl p-6">
+      <div className="mt-10 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-3">Quick Facts</h2>
         <ul className="space-y-2 text-sm text-cream-muted">
           <li>The global average military spending is roughly 2.2% of GDP.</li>
@@ -136,7 +136,7 @@ export default function BiggestMilitarySpendersPage() {
       </div>
 
       {/* Game CTAs */}
-      <div className="mt-12 bg-surface border border-border rounded-xl p-6">
+      <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
           Can you guess which countries spend the most on defense? Try these geography games.
@@ -169,25 +169,25 @@ export default function BiggestMilitarySpendersPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/highest-gdp-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Largest Economies by GDP
           </Link>
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Populated Countries
           </Link>
           <Link
             href="/lists/largest-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Largest Countries by Area
           </Link>
           <Link
             href="/lists/most-visited-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Visited Countries
           </Link>

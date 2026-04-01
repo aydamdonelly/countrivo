@@ -116,7 +116,7 @@ export default async function CategoryPage({
             <Link
               key={iso3}
               href={`/countries/${country.slug}`}
-              className="game-card p-6 border border-border bg-surface text-center group"
+              className="game-card p-6 border border-black/5 bg-white shadow-sm text-center group"
             >
               <span className="text-3xl">{medals[i]}</span>
               <span className="text-5xl block mt-2">{country.flagEmoji}</span>
@@ -189,7 +189,7 @@ export default async function CategoryPage({
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border rounded-lg text-sm hover:border-border transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-black/5 shadow-sm rounded-lg text-sm hover:border-black/10 transition-colors"
               >
                 <span>{c.emoji}</span>
                 <span>{c.label}</span>
@@ -202,19 +202,19 @@ export default async function CategoryPage({
       <section className="mt-12">
         <h2 className="text-xl font-extrabold mb-4">Test Your Knowledge</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <Link href="/games/country-draft" className="game-card p-5 border border-border bg-surface text-center">
+          <Link href="/games/country-draft" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
             <span className="text-3xl block mb-2">🎯</span>
             <span className="text-sm font-bold">Country Draft</span>
           </Link>
-          <Link href="/games/higher-or-lower" className="game-card p-5 border border-border bg-surface text-center">
+          <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
             <span className="text-3xl block mb-2">⬆️</span>
             <span className="text-sm font-bold">Higher or Lower</span>
           </Link>
-          <Link href="/games/population-sort" className="game-card p-5 border border-border bg-surface text-center">
+          <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
             <span className="text-3xl block mb-2">📊</span>
             <span className="text-sm font-bold">Population Sort</span>
           </Link>
-          <Link href="/games/stat-guesser" className="game-card p-5 border border-border bg-surface text-center">
+          <Link href="/games/stat-guesser" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
             <span className="text-3xl block mb-2">🔢</span>
             <span className="text-sm font-bold">Stat Guesser</span>
           </Link>

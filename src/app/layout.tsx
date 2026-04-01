@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -7,14 +7,6 @@ import { Header } from "@/components/layout/header";
 import { TopoBg } from "@/components/layout/topo-bg";
 import Link from "next/link";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
-import { GoogleAdSenseScript } from "@/components/ads/google-adsense-script";
-
-const serif = DM_Serif_Display({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-serif",
-  display: "swap",
-});
 
 const sans = Inter({
   subsets: ["latin"],
@@ -67,7 +59,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${serif.variable} ${sans.variable} font-sans`}
+      className={`${sans.variable} font-sans`}
     >
       <head>
         <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
@@ -75,9 +67,13 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <link rel="preconnect" href="https://fundingchoicesmessages.google.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8870420849024785"
+          crossOrigin="anonymous"
+        />
       </head>
-      <body className="min-h-full flex flex-col bg-surface text-cream font-sans">
-        <GoogleAdSenseScript />
+      <body className="min-h-full flex flex-col bg-bg text-cream font-sans">
         {/* Structured data for the website */}
         <script
           type="application/ld+json"
@@ -112,7 +108,7 @@ export default function RootLayout({
         <TopoBg />
         <Header />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-border bg-bg">
+        <footer className="border-t border-border bg-surface-elevated">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
               <div>

@@ -25,7 +25,7 @@ export default function CategoriesPage() {
           <Link
             key={cat.slug}
             href={`/categories/${cat.slug}`}
-            className="p-5 rounded-xl border border-border hover:border-border hover:bg-surface transition-all group"
+            className="p-5 rounded-xl border border-black/5 shadow-sm hover:border-black/10 hover:shadow transition-all group"
           >
             <div className="flex items-start gap-3">
               <span className="text-3xl shrink-0">{cat.emoji}</span>

@@ -233,7 +233,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
     return (
       <div className="flex flex-col items-center gap-6 py-20">
         <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-serif text-2xl text-cream">Waiting for opponent...</p>
+        <p className="font-bold text-2xl text-cream">Waiting for opponent...</p>
         <p className="text-sm text-cream-muted">
           {connected ? "Connected" : "Connecting..."}
         </p>
@@ -297,7 +297,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
           )}
         >
           <span className="text-6xl sm:text-7xl mb-2">{myCard.country.flagEmoji}</span>
-          <span className="font-serif font-bold text-base sm:text-lg text-center">
+          <span className="font-bold text-base sm:text-lg text-center">
             {myCard.country.displayName}
           </span>
           {chosenStat && (
@@ -334,7 +334,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
           {oppCard ? (
             <>
               <span className="text-6xl sm:text-7xl mb-2">{oppCard.country.flagEmoji}</span>
-              <span className="font-serif font-bold text-base sm:text-lg text-center">
+              <span className="font-bold text-base sm:text-lg text-center">
                 {oppCard.country.displayName}
               </span>
               {chosenStat && (
@@ -358,7 +358,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
           ) : (
             <>
               <span className="text-6xl sm:text-7xl mb-2 opacity-30">?</span>
-              <span className="font-serif font-bold text-lg text-cream-muted">Hidden</span>
+              <span className="font-bold text-lg text-cream-muted">Hidden</span>
             </>
           )}
           <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">

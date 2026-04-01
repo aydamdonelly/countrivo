@@ -86,7 +86,7 @@ export default function HighestFertilityRatePage() {
       </div>
 
       {/* Fun facts */}
-      <div className="mt-10 bg-surface border border-border rounded-xl p-6">
+      <div className="mt-10 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-3">Quick Facts</h2>
         <ul className="space-y-2 text-sm text-cream-muted">
           <li>Niger has the highest fertility rate at approximately 7 births per woman.</li>
@@ -137,7 +137,7 @@ export default function HighestFertilityRatePage() {
       </div>
 
       {/* Game CTAs */}
-      <div className="mt-12 bg-surface border border-border rounded-xl p-6">
+      <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
           Can you guess which countries have the highest birth rates? Try these geography games.
@@ -170,25 +170,25 @@ export default function HighestFertilityRatePage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Populated Countries
           </Link>
           <Link
             href="/lists/highest-life-expectancy"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Highest Life Expectancy
           </Link>
           <Link
             href="/lists/countries-in-africa"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Africa
           </Link>
           <Link
             href="/lists/countries-in-asia"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Asia
           </Link>

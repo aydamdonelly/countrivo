@@ -53,7 +53,7 @@ export function GameLanding({
         rules={rules}
       />
       {/* Hero */}
-      <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
+      <div className="bg-surface-elevated px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
         <span className="text-7xl mb-4 block">{emoji}</span>
         <h1 className="text-4xl sm:text-5xl font-extrabold">{title}</h1>
         <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
@@ -64,7 +64,7 @@ export function GameLanding({
         {hasDailyMode && (
           <Link
             href={`${playHref}?mode=daily`}
-            className="block py-5 px-8 rounded-xl border-2 border-border bg-gold-dim hover:border-gold hover:bg-gold-dim transition-all text-center"
+            className="block py-5 px-8 rounded-xl border-2 border-gold/20 bg-gold-dim hover:border-gold/40 transition-all text-center"
           >
             <div className="text-3xl mb-2">📅</div>
             <h2 className="text-xl font-bold">Daily Challenge</h2>
@@ -76,7 +76,7 @@ export function GameLanding({
 
         <Link
           href={`${playHref}?mode=practice`}
-          className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"
+          className="block py-5 px-8 rounded-xl border-2 border-black/8 hover:border-black/15 hover:bg-surface-elevated transition-all text-center"
         >
           <div className="text-3xl mb-2">🔄</div>
           <h2 className="text-xl font-bold">Practice</h2>
@@ -87,7 +87,7 @@ export function GameLanding({
       </div>
 
       {/* How to Play */}
-      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface rounded-xl max-w-xl mx-auto">
+      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface-elevated rounded-xl max-w-xl mx-auto">
         <h3 className="font-bold text-xl mb-4">How to Play</h3>
         <ol className="space-y-3 text-base text-cream-muted">
           {rules.map((rule, i) => (
@@ -111,7 +111,7 @@ export function GameLanding({
             <Link
               key={g.href}
               href={g.href}
-              className="game-card p-5 border border-border bg-surface text-center"
+              className="game-card p-5 border border-black/5 bg-white shadow-sm text-center"
             >
               <span className="text-3xl block mb-2">{g.emoji}</span>
               <span className="text-base font-bold">{g.name}</span>

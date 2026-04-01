@@ -141,7 +141,7 @@ export default function CountriesInAfricaPage() {
       </div>
 
       {/* Game CTAs */}
-      <div className="mt-12 bg-surface border border-border rounded-xl p-6">
+      <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
           Can you name every African country? Challenge yourself with these games.
@@ -174,31 +174,31 @@ export default function CountriesInAfricaPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/countries-in-europe"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Europe
           </Link>
           <Link
             href="/lists/countries-in-asia"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Asia
           </Link>
           <Link
             href="/lists/countries-in-americas"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in the Americas
           </Link>
           <Link
             href="/lists/largest-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Largest Countries by Area
           </Link>
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border transition-colors"
+            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Populated Countries
           </Link>

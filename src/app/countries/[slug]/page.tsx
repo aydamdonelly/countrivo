@@ -190,7 +190,7 @@ export default async function CountryPage({
               <Link
                 key={cat.slug}
                 href={`/categories/${cat.slug}`}
-                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
+                className="flex items-start gap-4 rounded-xl border border-black/5 bg-white shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-3xl shrink-0">{cat.emoji}</span>
                 <div className="min-w-0">
@@ -273,7 +273,7 @@ export default async function CountryPage({
               <Link
                 key={neighbor.iso3}
                 href={`/countries/${neighbor.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-border-hover hover:bg-surface/50 transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-black/5 bg-white shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-2xl shrink-0">{neighbor.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -296,7 +296,7 @@ export default async function CountryPage({
               <Link
                 key={related.iso3}
                 href={`/countries/${related.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-border bg-surface p-4 hover:border-border-hover hover:bg-surface/50 transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-black/5 bg-white shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-2xl shrink-0">{related.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -335,7 +335,7 @@ export default async function CountryPage({
             <Link
               key={game.href}
               href={game.href}
-              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
+              className="flex items-start gap-4 rounded-xl border border-black/5 bg-white shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
             >
               <span className="text-3xl shrink-0">{game.emoji}</span>
               <div className="min-w-0">
@@ -357,16 +357,16 @@ export default async function CountryPage({
       <section className="mb-12 pt-8 border-t border-border">
         <h2 className="text-lg font-bold mb-4">Explore More Rankings</h2>
         <div className="flex flex-wrap gap-3">
-          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Most Populated Countries
           </Link>
-          <Link href="/lists/largest-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+          <Link href="/lists/largest-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Largest Countries
           </Link>
-          <Link href="/lists/richest-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+          <Link href="/lists/richest-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Richest Countries
           </Link>
-          <Link href="/categories" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium text-gold hover:border-border-hover transition-colors">
+          <Link href="/categories" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium text-gold hover:border-black/10 transition-colors">
             All Rankings →
           </Link>
         </div>

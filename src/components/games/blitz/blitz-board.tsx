@@ -221,7 +221,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
             >
               <span className="flex items-center gap-2">
                 <span className="text-xl">{r.country.flagEmoji}</span>
-                <span className="font-serif font-medium">
+                <span className="font-medium">
                   {r.country.displayName}
                 </span>
               </span>
@@ -247,7 +247,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
     return (
       <div className="flex flex-col items-center gap-6 py-20">
         <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-serif text-2xl text-cream">
+        <p className="font-bold text-2xl text-cream">
           Waiting for opponent...
         </p>
         <p className="text-sm text-cream-muted">
@@ -318,7 +318,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
         {/* Between rounds: show correct country name */}
         {state.phase === "between" && (
           <div className="mt-4 text-center animate-in">
-            <span className="font-serif text-2xl sm:text-3xl font-bold text-gold">
+            <span className="font-bold text-2xl sm:text-3xl text-gold">
               {round.country.displayName}
             </span>
             <div className="mt-2">

@@ -84,7 +84,7 @@ export default function SupremacyPage() {
             <Link
               key={g.href}
               href={g.href}
-              className="game-card p-5 border border-border bg-surface text-center"
+              className="game-card p-5 border border-black/5 bg-white shadow-sm text-center"
             >
               <span className="text-3xl block mb-2">{g.emoji}</span>
               <span className="text-base font-bold">{g.name}</span>

@@ -43,7 +43,7 @@ export default function VsJoinPage() {
   return (
     <div className="relative z-1 max-w-[430px] mx-auto px-5 py-20 text-center">
       <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite] mx-auto mb-4" />
-      <p className="font-serif text-2xl text-cream mb-2">
+      <p className="font-bold text-2xl text-cream mb-2">
         Waiting for opponent
       </p>
       <p className="text-cream-muted text-sm mb-6">

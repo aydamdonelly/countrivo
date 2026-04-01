@@ -247,7 +247,7 @@ export function BorderlineBoard({
               )}
             >
               <span className="text-xl">{c.flagEmoji}</span>
-              <span className="font-serif font-medium">{c.displayName}</span>
+              <span className="font-medium">{c.displayName}</span>
               {i === 0 && (
                 <span className="ml-auto text-xs text-gold font-bold uppercase">
                   Start
@@ -271,7 +271,7 @@ export function BorderlineBoard({
     return (
       <div className="flex flex-col items-center gap-6 py-20">
         <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-serif text-2xl text-cream">
+        <p className="font-bold text-2xl text-cream">
           Waiting for opponent...
         </p>
         <p className="text-sm text-cream-muted">
@@ -299,7 +299,7 @@ export function BorderlineBoard({
           <span className="text-3xl sm:text-4xl">
             {game.startCountry.flagEmoji}
           </span>
-          <span className="font-serif font-bold text-sm sm:text-base">
+          <span className="font-bold text-sm sm:text-base">
             {game.startCountry.displayName}
           </span>
         </div>
@@ -308,7 +308,7 @@ export function BorderlineBoard({
           <span className="text-3xl sm:text-4xl">
             {game.targetCountry.flagEmoji}
           </span>
-          <span className="font-serif font-bold text-sm sm:text-base">
+          <span className="font-bold text-sm sm:text-base">
             {game.targetCountry.displayName}
           </span>
         </div>
@@ -338,7 +338,7 @@ export function BorderlineBoard({
         <span className="text-7xl sm:text-8xl mb-3">
           {game.currentCountry.flagEmoji}
         </span>
-        <span className="font-serif text-2xl sm:text-3xl font-bold">
+        <span className="font-bold text-2xl sm:text-3xl">
           {game.currentCountry.displayName}
         </span>
         <span className="text-sm text-cream-muted mt-1 uppercase tracking-wide">
@@ -394,7 +394,7 @@ export function BorderlineBoard({
                 className="flex items-center gap-3 w-full px-4 py-2.5 text-left hover:bg-gold-dim transition-colors"
               >
                 <span className="text-xl">{c.flagEmoji}</span>
-                <span className="font-serif font-medium text-cream">
+                <span className="font-medium text-cream">
                   {c.displayName}
                 </span>
               </button>
@@ -429,7 +429,7 @@ export function BorderlineBoard({
                 )}
               >
                 <span className="text-lg">{c.flagEmoji}</span>
-                <span className="font-serif font-medium">{c.displayName}</span>
+                <span className="font-medium">{c.displayName}</span>
               </div>
             </div>
           ))}

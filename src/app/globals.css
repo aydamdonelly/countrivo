@@ -3,17 +3,17 @@
 @theme {
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
-  --color-bg: #0b140a;
-  --color-surface: #142312;
-  --color-surface-elevated: #1c3119;
-  --color-gold: #c9a44c;
-  --color-gold-bright: #e8c96e;
-  --color-gold-dim: rgba(201,164,76,0.12);
-  --color-cream: #e6dec5;
-  --color-cream-muted: rgba(230,222,197,0.7);
-  --color-cream-ghost: rgba(230,222,197,0.25);
-  --color-border: rgba(201,164,76,0.18);
-  --color-border-hover: rgba(201,164,76,0.45);
+  --color-bg: #fafaf8;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #f5f4f0;
+  --color-gold: #b8860b;
+  --color-gold-bright: #d4a017;
+  --color-gold-dim: rgba(184,134,11,0.08);
+  --color-cream: #1a1a1a;
+  --color-cream-muted: rgba(26,26,26,0.55);
+  --color-cream-ghost: rgba(26,26,26,0.06);
+  --color-border: rgba(0,0,0,0.08);
+  --color-border-hover: rgba(0,0,0,0.18);
   --color-correct: #16a34a;
   --color-correct-light: #dcfce7;
   --color-incorrect: #dc2626;
@@ -101,7 +101,7 @@ body {
 }
 .game-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,164,76,0.15);
+  box-shadow: 0 8px 24px -4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
 }
 .game-card:active {
   transform: scale(0.98);
@@ -109,8 +109,8 @@ body {
 
 /* Rank colors */
 .rank-1 { color: var(--color-gold); }
-.rank-2 { color: var(--color-cream-muted); }
-.rank-3 { color: #b45309; }
+.rank-2 { color: #6b7280; }
+.rank-3 { color: #92400e; }
 
 /* Focus ring */
 :focus-visible {
@@ -121,12 +121,12 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-border-hover); }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
 
 /* Loading skeleton */
 .skeleton {
-  background: linear-gradient(90deg, var(--color-surface) 25%, var(--color-surface-elevated) 50%, var(--color-surface) 75%);
+  background: linear-gradient(90deg, #f0f0ee 25%, #e8e8e4 50%, #f0f0ee 75%);
   background-size: 200% 100%;
   animation: fade-in 1.5s infinite;
 }

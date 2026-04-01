@@ -169,19 +169,19 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
         <div className="border-t border-border pt-8">
           <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4">Try another game</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <Link href="/games/higher-or-lower" className="game-card p-5 border border-border bg-surface text-center">
+            <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
               <span className="text-3xl block mb-2">⬆️</span>
               <span className="text-base font-bold">Higher or Lower</span>
             </Link>
-            <Link href="/games/flag-quiz" className="game-card p-5 border border-border bg-surface text-center">
+            <Link href="/games/flag-quiz" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
               <span className="text-3xl block mb-2">🏁</span>
               <span className="text-base font-bold">Flag Quiz</span>
             </Link>
-            <Link href="/games/population-sort" className="game-card p-5 border border-border bg-surface text-center">
+            <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
               <span className="text-3xl block mb-2">📊</span>
               <span className="text-base font-bold">Population Sort</span>
             </Link>
-            <Link href="/games/capital-match" className="game-card p-5 border border-border bg-surface text-center">
+            <Link href="/games/capital-match" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
               <span className="text-3xl block mb-2">🏛️</span>
               <span className="text-base font-bold">Capital Match</span>
             </Link>

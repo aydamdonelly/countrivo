@@ -32,13 +32,13 @@ export function JoinCodeInput() {
         placeholder="_ _ _ _"
         autoComplete="off"
         autoCapitalize="characters"
-        className="flex-1 bg-surface/70 border border-border rounded-md px-3 py-2 text-sm text-cream tracking-[6px] placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/60 transition-colors text-center"
+        className="flex-1 bg-white border border-black/8 rounded-md px-3 py-2 text-sm text-cream tracking-[6px] placeholder:text-cream-muted/40 focus:outline-none focus:border-gold/60 transition-colors text-center"
       />
       <button
         type="button"
         onClick={handleJoin}
         disabled={code.trim().length !== 4}
-        className="shrink-0 px-4 py-2 text-sm font-semibold text-gold border border-gold-dim rounded-md hover:bg-gold-dim/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+        className="shrink-0 px-4 py-2 text-sm font-semibold text-gold border border-gold/30 rounded-md hover:bg-gold/5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
         Join
       </button>

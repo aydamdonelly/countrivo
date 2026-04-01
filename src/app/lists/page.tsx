@@ -125,7 +125,7 @@ export default function ListsIndexPage() {
           <Link
             key={list.href}
             href={list.href}
-            className="group bg-surface border border-border rounded-xl p-6 hover:border-border transition-colors"
+            className="group bg-white border border-black/5 shadow-sm rounded-xl p-6 hover:border-black/10 hover:shadow transition-colors"
           >
             <span className="text-3xl block mb-3">{list.emoji}</span>
             <h2 className="text-lg font-bold group-hover:text-gold transition-colors">

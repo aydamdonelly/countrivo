@@ -47,7 +47,7 @@ export function GameOverScreen({
       {onPlayAgain && (
         <button
           onClick={onPlayAgain}
-          className="px-10 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+          className="px-10 py-4 bg-gold text-white font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Play Again
         </button>
@@ -63,7 +63,7 @@ export function GameOverScreen({
             <Link
               key={s.href}
               href={s.href}
-              className="game-card p-5 border border-border bg-surface text-center"
+              className="game-card p-5 border border-black/5 bg-white shadow-sm text-center"
             >
               <s.icon className="w-8 h-8 mx-auto mb-2 text-gold" />
               <span className="text-base font-bold">{s.name}</span>

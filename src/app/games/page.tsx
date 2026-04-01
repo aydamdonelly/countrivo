@@ -96,7 +96,7 @@ export default function GamesPage() {
       {flagship && (
         <Link
           href={flagship.route}
-          className="game-card block bg-surface border border-border p-6 sm:p-8 mb-10 group"
+          className="game-card block bg-white border border-black/5 shadow-sm p-6 sm:p-8 mb-10 group"
         >
           <div className="flex items-center gap-6">
             <span className="text-5xl shrink-0">{flagship.emoji}</span>
@@ -125,12 +125,12 @@ export default function GamesPage() {
               <Link
                 key={game.slug}
                 href={game.route}
-                className="game-card bg-surface border border-border p-5 group flex items-start gap-4"
+                className="game-card bg-white border border-black/5 shadow-sm p-5 group flex items-start gap-4"
               >
                 <VsIcon className="w-6 h-6 text-gold shrink-0 mt-0.5" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-lg font-bold font-serif group-hover:text-gold transition-colors">{game.title}</h3>
+                    <h3 className="text-lg font-bold group-hover:text-gold transition-colors">{game.title}</h3>
                     <span className="px-2 py-0.5 bg-gold-dim text-gold text-[10px] font-bold rounded-md uppercase">VS</span>
                   </div>
                   <p className="text-sm text-cream-muted">{game.shortDescription}</p>
@@ -153,7 +153,7 @@ export default function GamesPage() {
                 <Link
                   key={game.slug}
                   href={game.route}
-                  className="game-card bg-surface border border-border p-5 group"
+                  className="game-card bg-white border border-black/5 shadow-sm p-5 group"
                 >
                   <span className="text-4xl block mb-3">{game.emoji}</span>
                   <h3 className="text-lg font-bold group-hover:text-gold transition-colors">
@@ -161,8 +161,8 @@ export default function GamesPage() {
                   </h3>
                   <p className="text-sm text-cream-muted mt-1">{game.shortDescription}</p>
                   <div className="flex items-center gap-3 mt-3 text-xs text-cream-muted">
-                    <span className="px-2 py-0.5 bg-surface rounded-md">{game.estimatedTime}</span>
-                    <span className="px-2 py-0.5 bg-surface rounded-md capitalize">{game.difficulty}</span>
+                    <span className="px-2 py-0.5 bg-surface-elevated rounded-md">{game.estimatedTime}</span>
+                    <span className="px-2 py-0.5 bg-surface-elevated rounded-md capitalize">{game.difficulty}</span>
                   </div>
                 </Link>
               ))}
