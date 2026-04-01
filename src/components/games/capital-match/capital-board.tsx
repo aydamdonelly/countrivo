@@ -70,6 +70,9 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
         score={`${state.score} / ${state.questions.length}`}
         subtitle={`${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={state.score}
+        maxScore={state.questions.length}
+        gameSlug="capital-match"
       />
     );
   }

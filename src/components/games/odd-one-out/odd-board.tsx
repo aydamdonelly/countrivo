@@ -68,6 +68,9 @@ export function OddBoard({ mode }: OddBoardProps) {
         score={`${state.score} / ${state.rounds.length}`}
         subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={state.score}
+        maxScore={state.rounds.length}
+        gameSlug="odd-one-out"
       >
         <div className="w-full max-w-md space-y-3">
           {state.rounds.map((r, i) => {

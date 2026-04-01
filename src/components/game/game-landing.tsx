@@ -17,6 +17,8 @@ interface GameLandingProps {
   hasDailyMode?: boolean;
   relatedGames?: RelatedGame[];
   category?: string;
+  difficulty?: string;
+  estimatedTime?: string;
 }
 
 const DEFAULT_RELATED: RelatedGame[] = [
@@ -37,6 +39,8 @@ export function GameLanding({
   hasDailyMode = true,
   relatedGames,
   category = "quiz",
+  difficulty,
+  estimatedTime,
 }: GameLandingProps) {
   const slug = playHref.replace("/play", "").replace("/games/", "");
   const colors = getGameColor(slug);
@@ -45,8 +49,11 @@ export function GameLanding({
     (g) => g.href !== playHref.replace("/play", "")
   );
 
+  // Show max 3 rules
+  const displayRules = rules.slice(0, 3);
+
   return (
-    <div className="max-w-5xl mx-auto">
+    <div className="max-w-3xl mx-auto">
       <GameJsonLd
         name={`${title} | Countrivo`}
         title={title}
@@ -56,61 +63,103 @@ export function GameLanding({
         playMode="SinglePlayer"
         rules={rules}
       />
-      {/* Hero */}
-      <div className="px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8 rounded-2xl" style={{ backgroundColor: colors.bg }}>
-        <span className="text-7xl mb-4 block">{emoji}</span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold" style={{ color: colors.text }}>{title}</h1>
-        <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
-      </div>
 
-      {/* Action buttons */}
-      <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
-        {hasDailyMode && (
-          <Link
-            href={`${playHref}?mode=daily`}
-            className="block py-5 px-8 rounded-xl border-2 border-gold/20 bg-gold-dim hover:border-gold/40 transition-all text-center"
-          >
-            <div className="text-3xl mb-2">📅</div>
-            <h2 className="text-xl font-bold">Daily Challenge</h2>
-            <p className="text-base text-cream-muted mt-1">
-              Same puzzle for everyone. One attempt per day.
-            </p>
-          </Link>
+      {/* Compact hero */}
+      <div
+        className="px-4 py-10 sm:py-12 text-center -mx-4 sm:-mx-6 lg:-mx-8 rounded-b-2xl"
+        style={{ backgroundColor: colors.bg }}
+      >
+        <span className="text-6xl mb-3 block">{emoji}</span>
+        <h1
+          className="text-3xl sm:text-4xl font-extrabold tracking-tight"
+          style={{ color: colors.text }}
+        >
+          {title}
+        </h1>
+        <p className="text-cream-muted text-base mt-2 max-w-md mx-auto">
+          {description}
+        </p>
+
+        {/* Meta chips */}
+        {(difficulty || estimatedTime || category) && (
+          <div className="flex items-center justify-center gap-2 mt-3">
+            {difficulty && (
+              <span
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-black/5 capitalize"
+                style={{ color: colors.text }}
+              >
+                {difficulty}
+              </span>
+            )}
+            {estimatedTime && (
+              <span
+                className="text-xs opacity-60"
+                style={{ color: colors.text }}
+              >
+                {estimatedTime}
+              </span>
+            )}
+            {category && (
+              <span
+                className="text-xs font-medium px-2 py-0.5 rounded-full bg-black/5 capitalize"
+                style={{ color: colors.text }}
+              >
+                {category}
+              </span>
+            )}
+          </div>
         )}
 
-        <Link
-          href={`${playHref}?mode=practice`}
-          className="block py-5 px-8 rounded-xl border-2 border-black/8 hover:border-black/15 hover:bg-surface-elevated transition-all text-center"
-        >
-          <div className="text-3xl mb-2">🔄</div>
-          <h2 className="text-xl font-bold">Practice</h2>
-          <p className="text-base text-cream-muted mt-1">
-            Random content. Unlimited plays.
-          </p>
-        </Link>
+        {/* Side-by-side CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 px-4">
+          {hasDailyMode && (
+            <Link
+              href={`${playHref}?mode=daily`}
+              className="cta-primary w-full sm:w-auto"
+            >
+              Play today&apos;s challenge
+            </Link>
+          )}
+          <Link
+            href={`${playHref}?mode=practice`}
+            className="cta-secondary w-full sm:w-auto"
+          >
+            Practice unlimited
+          </Link>
+        </div>
+
+        {/* Mode descriptions — compact, below CTAs */}
+        <div className="flex items-center justify-center gap-6 mt-4 text-xs text-cream-muted">
+          {hasDailyMode && (
+            <span>One puzzle. One shot. Same draw for everyone.</span>
+          )}
+          <span>New countries every run.</span>
+        </div>
       </div>
 
-      {/* How to Play */}
-      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface-elevated rounded-xl max-w-xl mx-auto">
-        <h3 className="font-bold text-xl mb-4">How to Play</h3>
-        <ol className="space-y-3 text-base text-cream-muted">
-          {rules.map((rule, i) => (
-            <li key={i} className="flex gap-3">
-              <span className="w-7 h-7 rounded-full bg-gold-dim text-gold font-bold text-sm flex items-center justify-center shrink-0">
-                {i + 1}
-              </span>
-              {rule}
-            </li>
-          ))}
-        </ol>
-      </div>
+      {/* How it works — compact */}
+      {displayRules.length > 0 && (
+        <div className="mt-8 px-4 sm:px-0 p-6 bg-surface-elevated rounded-xl max-w-md mx-auto">
+          <h3 className="font-bold text-base mb-3">How it works</h3>
+          <ol className="space-y-2 text-sm text-cream-muted">
+            {displayRules.map((rule, i) => (
+              <li key={i} className="flex gap-2.5">
+                <span className="w-6 h-6 rounded-full bg-gold-dim text-gold font-bold text-xs flex items-center justify-center shrink-0">
+                  {i + 1}
+                </span>
+                <span className="pt-0.5">{rule}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
 
       {/* Related games */}
-      <div className="mt-12 px-4 pb-8">
-        <h3 className="font-bold text-lg text-cream-muted uppercase tracking-wide mb-4 text-center">
-          More Games
+      <div className="mt-10 px-4 pb-8">
+        <h3 className="font-bold text-sm text-cream-muted uppercase tracking-wide mb-3 text-center">
+          Try next
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">
           {related.slice(0, 6).map((g) => {
             const gSlug = g.href.replace("/games/", "");
             const gColors = getGameColor(gSlug);
@@ -118,11 +167,16 @@ export function GameLanding({
               <Link
                 key={g.href}
                 href={g.href}
-                className="game-card p-5 text-center rounded-2xl transition-all hover:scale-[1.03]"
+                className="game-card p-4 text-center"
                 style={{ backgroundColor: gColors.bg }}
               >
-                <span className="text-3xl block mb-2">{g.emoji}</span>
-                <span className="text-base font-bold" style={{ color: gColors.text }}>{g.name}</span>
+                <span className="text-2xl block mb-1">{g.emoji}</span>
+                <span
+                  className="text-sm font-bold"
+                  style={{ color: gColors.text }}
+                >
+                  {g.name}
+                </span>
               </Link>
             );
           })}

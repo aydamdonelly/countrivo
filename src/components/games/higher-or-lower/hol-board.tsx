@@ -84,6 +84,9 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={state.streak}
+        maxScore={state.rounds.length}
+        gameSlug="higher-or-lower"
       />
     );
   }

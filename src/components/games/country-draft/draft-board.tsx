@@ -38,12 +38,12 @@ interface DraftBoardProps {
 }
 
 const GRADE_CONFIG: Record<string, { color: string; bg: string; message: string }> = {
-  perfect: { color: "text-gold", bg: "bg-gold-dim", message: "You found the optimal solution!" },
+  perfect: { color: "text-gold", bg: "bg-gold-dim", message: "Flawless. Optimal solution found." },
   excellent: { color: "text-correct", bg: "bg-correct-light", message: "Nearly perfect play." },
   great: { color: "text-accent", bg: "bg-accent/10", message: "Strong strategic thinking." },
-  good: { color: "text-gold", bg: "bg-gold-dim", message: "Solid run. Room to improve." },
-  okay: { color: "text-cream-muted", bg: "bg-surface", message: "Keep practicing!" },
-  poor: { color: "text-cream-muted", bg: "bg-surface", message: "Tough set. Try again!" },
+  good: { color: "text-gold", bg: "bg-gold-dim", message: "Solid run. Room at the top." },
+  okay: { color: "text-cream-muted", bg: "bg-surface", message: "Close. Better picks next time." },
+  poor: { color: "text-cream-muted", bg: "bg-surface", message: "Brutal draw. Run it back." },
 };
 
 export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
@@ -160,7 +160,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
               href="/games/country-draft/play?mode=practice"
               className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors text-center"
             >
-              Try Practice Mode
+              Practice unlimited
             </Link>
           )}
         </div>

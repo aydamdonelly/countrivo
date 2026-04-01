@@ -198,6 +198,9 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
         onPlayAgain={
           mode === "practice" ? () => dispatch({ type: "RESET", mode: "practice" }) : undefined
         }
+        numericScore={state.myScore}
+        maxScore={state.rounds.length}
+        gameSlug="supremacy"
       >
         {/* Round summary */}
         <div className="w-full max-w-md space-y-2">

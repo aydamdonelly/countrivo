@@ -82,6 +82,9 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
         score={`${avgError}% avg error`}
         subtitle={avgError < 20 ? "Excellent!" : avgError < 50 ? "Good effort!" : "Keep practicing!"}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={Math.round(Math.max(0, 100 - avgError))}
+        maxScore={100}
+        gameSlug="stat-guesser"
       >
         <div className="w-full max-w-md space-y-2">
           {state.rounds.map((r, i) => {

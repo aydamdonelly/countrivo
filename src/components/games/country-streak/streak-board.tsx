@@ -65,6 +65,9 @@ export function StreakBoard({ mode }: StreakBoardProps) {
         score={`🔥 ${state.streak}`}
         subtitle={state.streak === 0 ? "Better luck next time!" : `Best: ${state.bestStreak}`}
         onPlayAgain={mode === "practice" ? handleReset : undefined}
+        numericScore={state.streak}
+        maxScore={20}
+        gameSlug="country-streak"
       />
     );
   }

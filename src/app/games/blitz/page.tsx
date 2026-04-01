@@ -46,9 +46,9 @@ export default function BlitzPage() {
         </Link>
       </div>
 
-      {/* How to Play */}
+      {/* How it works */}
       <div className="mt-12 px-4 sm:px-0 p-8 bg-surface rounded-xl max-w-xl mx-auto">
-        <h3 className="font-bold text-xl mb-4">How to Play</h3>
+        <h3 className="font-bold text-xl mb-4">How it works</h3>
         <ol className="space-y-3 text-base text-cream-muted">
           {[
             "A flag appears on screen. Identify the country",
@@ -70,7 +70,7 @@ export default function BlitzPage() {
       {/* Related games */}
       <div className="mt-12 px-4 pb-8">
         <h3 className="font-bold text-lg text-cream-muted uppercase tracking-wide mb-4 text-center">
-          More Games
+          Try next
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
           {[

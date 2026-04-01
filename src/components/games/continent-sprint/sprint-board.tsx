@@ -133,6 +133,9 @@ export function SprintBoard({ mode }: SprintBoardProps) {
         score={`${state.found.length} / ${state.allCountries.length}`}
         subtitle={`${state.continent} in ${formatTime(state.elapsed)}`}
         onPlayAgain={() => dispatch({ type: "RESET" })}
+        numericScore={state.found.length}
+        maxScore={state.allCountries.length}
+        gameSlug="continent-sprint"
       >
         <div className="w-full max-w-md space-y-2 max-h-64 overflow-y-auto">
           {state.allCountries.map((c) => {

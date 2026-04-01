@@ -76,6 +76,9 @@ export function SortBoard({ mode }: SortBoardProps) {
           score={`${state.score} / ${state.countries.length}`}
           subtitle={`Sorted by ${state.category.label}`}
           onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+          numericScore={state.score}
+          maxScore={state.countries.length}
+          gameSlug="population-sort"
         >
           <div className="w-full max-w-xl space-y-3">
             {state.correctOrder.map((countryIdx, rank) => {

@@ -2,7 +2,7 @@
   {
     "slug": "country-draft",
     "title": "Country Draft",
-    "shortDescription": "Assign countries to their strongest stat categories",
+    "shortDescription": "8 picks. Beat the optimal score.",
     "description": "8 categories. 8 countries revealed one by one. Assign each country to the category where it ranks highest globally. Beat the optimal score.",
     "emoji": "🎯",
     "difficulty": "hard",
@@ -16,8 +16,8 @@
   {
     "slug": "flag-quiz",
     "title": "Flag Quiz",
-    "shortDescription": "Identify countries by their flags",
-    "description": "A flag appears. Can you name the country? Test your vexillology knowledge across all nations.",
+    "shortDescription": "10 flags. Name the country or fail.",
+    "description": "A flag appears with four options. Pick the right country. 10 rounds, no second chances.",
     "emoji": "🏁",
     "difficulty": "easy",
     "estimatedTime": "2-3 min",
@@ -30,8 +30,8 @@
   {
     "slug": "higher-or-lower",
     "title": "Higher or Lower",
-    "shortDescription": "Which country ranks higher?",
-    "description": "Two countries, one stat. Pick which is higher. Keep your streak alive as long as possible.",
+    "shortDescription": "Keep your streak alive. One wrong pick ends it.",
+    "description": "Two countries, one stat. Pick which ranks higher. One mistake and your streak dies.",
     "emoji": "⬆️",
     "difficulty": "easy",
     "estimatedTime": "2-5 min",
@@ -44,8 +44,8 @@
   {
     "slug": "capital-match",
     "title": "Capital Match",
-    "shortDescription": "Match countries to their capitals",
-    "description": "Given a country, pick the correct capital from four options. How well do you know world capitals?",
+    "shortDescription": "4 options. One correct capital.",
+    "description": "Given a country, pick the correct capital from four options. 10 rounds of pure knowledge.",
     "emoji": "🏛️",
     "difficulty": "easy",
     "estimatedTime": "2-3 min",
@@ -58,7 +58,7 @@
   {
     "slug": "population-sort",
     "title": "Population Sort",
-    "shortDescription": "Sort countries by a stat",
+    "shortDescription": "Sort 5 countries. Every position matters.",
     "description": "Drag and sort countries from highest to lowest for a given statistic. Accuracy matters.",
     "emoji": "📊",
     "difficulty": "medium",
@@ -72,7 +72,7 @@
   {
     "slug": "country-streak",
     "title": "Country Streak",
-    "shortDescription": "How many can you get right in a row?",
+    "shortDescription": "One wrong answer ends your run.",
     "description": "Identify countries from their flags. One wrong answer and it's game over. How long can you streak?",
     "emoji": "🔥",
     "difficulty": "medium",
@@ -86,8 +86,8 @@
   {
     "slug": "border-buddies",
     "title": "Border Buddies",
-    "shortDescription": "Name all bordering countries",
-    "description": "A country appears. Can you name every country that shares a border with it?",
+    "shortDescription": "Name every neighbor. Miss one and it shows.",
+    "description": "A country appears. Name every country that shares a border with it. Every miss counts.",
     "emoji": "🤝",
     "difficulty": "medium",
     "estimatedTime": "2-4 min",
@@ -100,7 +100,7 @@
   {
     "slug": "continent-sprint",
     "title": "Continent Sprint",
-    "shortDescription": "Name all countries in a continent",
+    "shortDescription": "Name every country. The clock doesn't stop.",
     "description": "Pick a continent and name every country in it as fast as you can. The clock is ticking.",
     "emoji": "🏃",
     "difficulty": "medium",
@@ -114,7 +114,7 @@
   {
     "slug": "stat-guesser",
     "title": "Stat Guesser",
-    "shortDescription": "Guess the exact stat value",
+    "shortDescription": "Guess the number. Closer wins.",
     "description": "What's the population of Brazil? The GDP of Norway? Guess the number. Closer is better.",
     "emoji": "🔢",
     "difficulty": "hard",
@@ -128,8 +128,8 @@
   {
     "slug": "speed-flags",
     "title": "Speed Flags",
-    "shortDescription": "Identify flags against the clock",
-    "description": "20 seconds. How many flags can you correctly identify? Speed and accuracy both count.",
+    "shortDescription": "20 seconds. How many flags can you name?",
+    "description": "20 seconds on the clock. Identify as many flags as you can. Speed and accuracy both count.",
     "emoji": "⚡",
     "difficulty": "easy",
     "estimatedTime": "1 min",
@@ -142,8 +142,8 @@
   {
     "slug": "odd-one-out",
     "title": "Odd One Out",
-    "shortDescription": "Which country doesn't belong?",
-    "description": "Four countries. Three share a trait. One doesn't. Find the odd one out and explain why.",
+    "shortDescription": "Three share a trait. One doesn't. Find it.",
+    "description": "Four countries. Three share a trait. One doesn't. Find the odd one out.",
     "emoji": "🔍",
     "difficulty": "medium",
     "estimatedTime": "3-5 min",
@@ -156,7 +156,7 @@
   {
     "slug": "supremacy",
     "title": "Supremacy",
-    "shortDescription": "Top Trumps with real country stats",
+    "shortDescription": "Draft countries. Outsmart your opponent.",
     "description": "A real-time card battle using real country data. Pick the stat category, compare cards, and outsmart your opponent across 5 rounds.",
     "emoji": "👑",
     "difficulty": "medium",
@@ -170,7 +170,7 @@
   {
     "slug": "borderline",
     "title": "Borderline",
-    "shortDescription": "Race through borders to reach a target country",
+    "shortDescription": "Navigate borders to reach the target.",
     "description": "Start at a random country and navigate through borders to reach your target. Beat the optimal path or race a friend in real-time.",
     "emoji": "🗺️",
     "difficulty": "medium",
@@ -184,8 +184,8 @@
   {
     "slug": "blitz",
     "title": "Blitz",
-    "shortDescription": "Speed flag recognition challenge",
-    "description": "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Play solo for time or race a friend head-to-head.",
+    "shortDescription": "Type the country. Fastest answer wins.",
+    "description": "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Play solo or race a friend head-to-head.",
     "emoji": "⚡",
     "difficulty": "easy",
     "estimatedTime": "2-3 min",

@@ -229,6 +229,9 @@ export function BorderlineBoard({
             ? () => dispatch({ type: "RESET", mode: "practice" })
             : undefined
         }
+        numericScore={game.optimalLength}
+        maxScore={game.moveCount}
+        gameSlug="borderline"
       >
         {/* Path summary */}
         <div className="w-full max-w-md space-y-2">

@@ -90,6 +90,9 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         score={`${state.correct} correct`}
         subtitle={`${state.total} attempts, ${accuracy}% accuracy`}
         onPlayAgain={() => dispatch({ type: "RESET" })}
+        numericScore={state.correct}
+        maxScore={state.total}
+        gameSlug="speed-flags"
       />
     );
   }
@@ -103,6 +106,9 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         score={`${state.correct} correct`}
         subtitle={`Out of ${state.total} attempts`}
         onPlayAgain={() => dispatch({ type: "RESET" })}
+        numericScore={state.correct}
+        maxScore={state.total}
+        gameSlug="speed-flags"
       />
     );
   }

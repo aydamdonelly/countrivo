@@ -207,6 +207,9 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
             ? () => dispatch({ type: "RESET", mode: "practice" })
             : undefined
         }
+        numericScore={state.myScore}
+        maxScore={state.totalRounds}
+        gameSlug="blitz"
       >
         {/* Round summary */}
         <div className="w-full max-w-md space-y-2">

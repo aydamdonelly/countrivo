@@ -92,6 +92,9 @@ export function BorderBoard({ mode }: BorderBoardProps) {
         score={`${state.found.length} / ${state.borders.length}`}
         subtitle={allFound ? "Perfect!" : "Better luck next time!"}
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={state.found.length}
+        maxScore={state.borders.length}
+        gameSlug="border-buddies"
       >
         <div className="w-full max-w-md space-y-2">
           {state.borders.map((iso3) => {

@@ -79,6 +79,9 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
             : `${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`
         }
         onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        numericScore={state.score}
+        maxScore={state.questions.length}
+        gameSlug="flag-quiz"
       />
     );
   }
