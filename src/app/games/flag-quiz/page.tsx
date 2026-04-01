@@ -2,7 +2,7 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Flag Quiz — Identify Countries by Their Flags",
+  title: "Flag Quiz | Guess the Country from Its Flag",
   description: "Can you name every country from its flag? Free flag quiz game with daily challenges and unlimited practice. 243 countries, no signup.",
   alternates: { canonical: "https://countrivo.com/games/flag-quiz" },
 };
@@ -12,7 +12,7 @@ export default function FlagQuizPage() {
     <GameLanding
       emoji="🏁"
       title="Flag Quiz"
-      description="A flag appears — can you name the country? Test your vexillology knowledge across all nations."
+      description="A flag appears. Can you name the country? Test your vexillology knowledge across all nations."
       playHref="/games/flag-quiz/play"
       rules={[
         "A flag is shown on screen",

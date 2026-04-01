@@ -5,7 +5,7 @@ import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "All Countries in Africa — Complete List with Stats",
+  title: "Countries in Africa | Complete List with Stats",
   description:
     "Complete list of every country in Africa with flag, capital, population, and area. 54 nations from Nigeria to Seychelles.",
   alternates: { canonical: "https://countrivo.com/lists/countries-in-africa" },

@@ -5,7 +5,7 @@ import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "All Countries in the Americas — Complete List with Stats",
+  title: "Countries in the Americas | Complete List with Stats",
   description:
     "Complete list of every country in North and South America with flag, capital, population, and area. From the US and Brazil to small Caribbean nations.",
   alternates: { canonical: "https://countrivo.com/lists/countries-in-americas" },

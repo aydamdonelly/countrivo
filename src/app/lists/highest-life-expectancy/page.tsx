@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Countries with Highest Life Expectancy — 2024 Ranking",
+  title: "Highest Life Expectancy by Country (2024)",
   description:
     "Which countries have the longest life expectancy? Ranked list of 50 countries by average lifespan in years.",
   alternates: { canonical: "https://countrivo.com/lists/highest-life-expectancy" },

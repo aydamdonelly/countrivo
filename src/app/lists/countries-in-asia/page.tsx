@@ -5,7 +5,7 @@ import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "All Countries in Asia — Complete List with Stats",
+  title: "Countries in Asia | Complete List with Stats",
   description:
     "Complete list of every country in Asia with flag, capital, population, and area. From China and India to Singapore and Maldives.",
   alternates: { canonical: "https://countrivo.com/lists/countries-in-asia" },

@@ -5,7 +5,7 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Largest Economies in the World by GDP — 2024 Ranking",
+  title: "Largest Economies in the World by GDP (2024)",
   description:
     "The 50 largest economies in the world ranked by total GDP in US dollars. USA, China, and Germany lead.",
   alternates: { canonical: "https://countrivo.com/lists/highest-gdp-countries" },

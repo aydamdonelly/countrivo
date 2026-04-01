@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Most Forested Countries in the World — Forest Coverage Ranking",
+  title: "Most Forested Countries | Forest Coverage Ranking",
   description:
     "Countries with the highest percentage of forest coverage. Suriname, Gabon, and Micronesia lead with 90%+ forest cover.",
   alternates: { canonical: "https://countrivo.com/lists/most-forested-countries" },

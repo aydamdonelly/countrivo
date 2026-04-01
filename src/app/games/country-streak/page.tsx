@@ -2,8 +2,8 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Country Streak — Flag Identification Streak Game",
-  description: "How long can you streak? Identify countries from flags — one wrong answer ends it. Free flag quiz with daily challenges.",
+  title: "Country Streak | How Many Flags Can You Get Right?",
+  description: "How long can you streak? Identify countries from their flags. One wrong answer ends the run. Free flag quiz with daily challenges.",
   alternates: { canonical: "https://countrivo.com/games/country-streak" },
 };
 

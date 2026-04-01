@@ -48,11 +48,11 @@ export async function generateMetadata({
     : "";
 
   return {
-    title: `${country.displayName} — Country Stats, Rankings & Facts`,
+    title: `${country.displayName} | Stats, Rankings & Geography Facts`,
     description: `${country.displayName} is a country in ${country.continent}.${capitalPart} Top rankings: ${highlights}. Explore ${categories.length}+ statistics and world rankings.`,
     alternates: { canonical: `https://countrivo.com/countries/${slug}` },
     openGraph: {
-      title: `${country.displayName} — Country Stats, Rankings & Facts`,
+      title: `${country.displayName} | Stats, Rankings & Geography Facts`,
       description: `Explore detailed statistics and world rankings for ${country.displayName}.`,
       type: "website",
     },

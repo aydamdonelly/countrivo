@@ -26,7 +26,7 @@ export async function generateMetadata({
     .join(", ");
 
   return {
-    title: `${category.label} by Country — World Ranking`,
+    title: `${category.label} by Country | World Ranking`,
     description: `Which countries rank highest in ${category.label.toLowerCase()}? Full world ranking of all countries. Top 3: ${topNames}. Source: ${category.source} (${category.sourceYear}).`,
     alternates: { canonical: `https://countrivo.com/categories/${slug}` },
   };

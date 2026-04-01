@@ -2,7 +2,7 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Population Sort — Rank Countries by Stats",
+  title: "Population Sort | Rank Countries by Statistics",
   description: "Sort countries from highest to lowest by population, GDP, or other stats. Daily geography puzzle with unlimited practice. Free online.",
   alternates: { canonical: "https://countrivo.com/games/population-sort" },
 };

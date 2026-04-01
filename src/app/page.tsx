@@ -21,7 +21,7 @@ import {
 } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Countrivo — Free Geography Games & Daily Challenges",
+  title: "Countrivo | Free Geography Games & Daily Challenges",
   description: "14 free geography games: flag quizzes, daily challenges, country rankings, and capital matching. 243 countries. No signup needed.",
 };
 

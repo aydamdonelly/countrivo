@@ -2,8 +2,8 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Odd One Out — Which Country Doesn't Belong?",
-  description: "Four countries, one shared trait — and one doesn't belong. Logic meets geography in this daily puzzle game. Free, no signup.",
+  title: "Odd One Out | Spot the Country That Doesn't Belong",
+  description: "Four countries share a trait. One doesn't belong. Can you spot it? Free daily geography puzzle, no signup needed.",
   alternates: { canonical: "https://countrivo.com/games/odd-one-out" },
 };
 
@@ -12,7 +12,7 @@ export default function OddOneOutPage() {
     <GameLanding
       emoji="🔍"
       title="Odd One Out"
-      description="Four countries are shown — three share a trait, one doesn't. Can you spot the odd one out?"
+      description="Four countries are shown. Three share a trait, one doesn't. Can you spot the odd one out?"
       playHref="/games/odd-one-out/play"
       rules={[
         "Four countries are displayed with their flags",

@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Countries with Highest Military Spending — Defense Budget Ranking",
+  title: "Biggest Military Spenders | Defense Budget by Country",
   description:
     "Countries ranked by military spending as percentage of GDP. From conflict zones to NATO powers.",
   alternates: { canonical: "https://countrivo.com/lists/biggest-military-spenders" },

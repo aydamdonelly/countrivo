@@ -68,7 +68,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         <span className="text-6xl">⚡</span>
         <h2 className="text-2xl font-bold">Ready?</h2>
         <p className="text-cream-muted text-center">
-          Identify as many flags as possible in 60 seconds.<br />
+          Identify as many flags as possible in 20 seconds.<br />
           Each flag has 2 options. Be fast!
         </p>
         <button
@@ -131,7 +131,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
             "h-full rounded-full transition-all duration-1000",
             state.timeLeft <= 10 ? "bg-incorrect" : "bg-gold"
           )}
-          style={{ width: `${(state.timeLeft / 60) * 100}%` }}
+          style={{ width: `${(state.timeLeft / 20) * 100}%` }}
         />
       </div>
 

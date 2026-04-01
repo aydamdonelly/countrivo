@@ -2,7 +2,7 @@ import { GameLanding } from "@/components/game/game-landing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Capital Match — World Capitals Quiz Game",
+  title: "Capital Match | Test Your World Capitals Knowledge",
   description: "Test your world capitals knowledge. Given a country, pick its capital from 4 options. Free daily challenge. 243 countries, no account needed.",
   alternates: { canonical: "https://countrivo.com/games/capital-match" },
 };

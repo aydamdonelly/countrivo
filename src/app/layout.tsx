@@ -25,7 +25,7 @@ const sans = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://countrivo.com"),
   title: {
-    default: "Countrivo — Free Geography Games, Country Quizzes & Daily Challenges",
+    default: "Countrivo | Free Geography Games, Quizzes & Daily Challenges",
     template: "%s | Countrivo",
   },
   description:
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Countrivo",
-    title: "Countrivo — Free Geography Games & Daily Challenges",
+    title: "Countrivo | Free Geography Games & Daily Challenges",
     description:
       "14 free geography games. Daily challenges, flag quizzes, country stats, and strategy puzzles. 243 countries. No signup.",
   },
@@ -73,6 +73,8 @@ export default function RootLayout({
         <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/favicon.svg" />
+        <link rel="preconnect" href="https://fundingchoicesmessages.google.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-cream font-sans">
         <GoogleAdSenseScript />
@@ -114,7 +116,7 @@ export default function RootLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
               <div>
-                <h4 className="font-bold text-sm mb-3">Games</h4>
+                <h3 className="font-bold text-sm mb-3">Games</h3>
                 <div className="space-y-2 text-sm text-cream-muted">
                   <Link href="/games/country-draft" className="block hover:text-cream transition-colors">Country Draft</Link>
                   <Link href="/games/flag-quiz" className="block hover:text-cream transition-colors">Flag Quiz</Link>
@@ -124,7 +126,7 @@ export default function RootLayout({
                 </div>
               </div>
               <div>
-                <h4 className="font-bold text-sm mb-3">Explore</h4>
+                <h3 className="font-bold text-sm mb-3">Explore</h3>
                 <div className="space-y-2 text-sm text-cream-muted">
                   <Link href="/countries" className="block hover:text-cream transition-colors">All Countries</Link>
                   <Link href="/categories" className="block hover:text-cream transition-colors">Stat Rankings</Link>
@@ -135,7 +137,7 @@ export default function RootLayout({
                 </div>
               </div>
               <div>
-                <h4 className="font-bold text-sm mb-3">Popular</h4>
+                <h3 className="font-bold text-sm mb-3">Popular</h3>
                 <div className="space-y-2 text-sm text-cream-muted">
                   <Link href="/countries/united-states" className="block hover:text-cream transition-colors">🇺🇸 United States</Link>
                   <Link href="/countries/germany" className="block hover:text-cream transition-colors">🇩🇪 Germany</Link>
@@ -144,7 +146,7 @@ export default function RootLayout({
                 </div>
               </div>
               <div>
-                <h4 className="font-bold text-sm mb-3">Countrivo</h4>
+                <h3 className="font-bold text-sm mb-3">Countrivo</h3>
                 <div className="space-y-2 text-sm text-cream-muted">
                   <p>Free geography games. 243 countries. Daily challenges.</p>
                   <Link

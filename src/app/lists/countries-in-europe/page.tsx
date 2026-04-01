@@ -5,7 +5,7 @@ import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "All Countries in Europe — Complete List with Stats",
+  title: "Countries in Europe | Complete List with Stats",
   description:
     "Complete list of every country in Europe with flag, capital, population, and area. From tiny Vatican City to vast Russia's European territory.",
   alternates: { canonical: "https://countrivo.com/lists/countries-in-europe" },

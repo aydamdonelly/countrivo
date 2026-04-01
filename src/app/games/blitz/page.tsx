@@ -4,8 +4,8 @@ import { CreateGameButton } from "@/components/games/blitz/create-game-button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blitz — Speed Flag Typing Challenge",
-  description: "A flag appears — type the country name as fast as you can. 10 rounds of pure speed. Race a friend or beat your own time. Free geography game.",
+  title: "Blitz | Type the Country Name Before Time Runs Out",
+  description: "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Race a friend or beat your own time.",
   alternates: { canonical: "https://countrivo.com/games/blitz" },
 };
 
@@ -13,7 +13,7 @@ export default function BlitzPage() {
   return (
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
-        name="Blitz — Flag Speed Challenge | Countrivo"
+        name="Blitz - Flag Speed Challenge | Countrivo"
         description="See a flag, type the country name. Race against the clock in solo mode or challenge a friend in real-time. 10 rounds, fastest correct answer wins each round."
         url="/games/blitz"
         genre="Geography speed"
@@ -51,7 +51,7 @@ export default function BlitzPage() {
         <h3 className="font-bold text-xl mb-4">How to Play</h3>
         <ol className="space-y-3 text-base text-cream-muted">
           {[
-            "A flag appears on screen — identify the country",
+            "A flag appears on screen. Identify the country",
             "Type the country name and press Enter",
             "Correct answer wins the round; wrong answer lets you try again",
             "In versus mode, first correct answer wins the round",

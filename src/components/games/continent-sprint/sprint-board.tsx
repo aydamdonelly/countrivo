@@ -13,7 +13,6 @@ import {
 import { countries } from "@/lib/data/loader";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
-import { useGameKeys } from "@/hooks/use-game-keys";
 
 interface SprintBoardProps {
   mode: "daily" | "practice";
@@ -95,34 +94,6 @@ export function SprintBoard({ mode }: SprintBoardProps) {
     setInput(e.target.value);
     setShowDropdown(e.target.value.length > 0);
   }, []);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && suggestions.length > 0) {
-        e.preventDefault();
-        handleSelect(suggestions[0].iso3);
-      }
-    },
-    [suggestions, handleSelect]
-  );
-
-  const pickableContinents = useMemo(
-    () => CONTINENTS.filter((c) => c !== "Antarctica"),
-    []
-  );
-
-  const keymap = useMemo(() => {
-    const map: Record<string, () => void> = {};
-    if (state.phase === "picking") {
-      pickableContinents.forEach((continent, idx) => {
-        map[String(idx + 1)] = () =>
-          dispatch({ type: "PICK_CONTINENT", continent });
-      });
-    }
-    return map;
-  }, [state.phase, pickableContinents]);
-
-  useGameKeys(keymap, state.phase === "picking");
 
   // Continent picker
   if (state.phase === "picking") {
@@ -213,7 +184,6 @@ export function SprintBoard({ mode }: SprintBoardProps) {
           type="text"
           value={input}
           onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
           onFocus={() => input.length > 0 && setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."

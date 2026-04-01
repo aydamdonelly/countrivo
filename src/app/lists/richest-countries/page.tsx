@@ -5,7 +5,7 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Richest Countries in the World by GDP per Capita — 2024",
+  title: "Richest Countries by GDP per Capita (2024)",
   description:
     "Ranked list of the 50 richest countries by GDP per capita in USD. Discover which nations have the highest economic output per person.",
   alternates: { canonical: "https://countrivo.com/lists/richest-countries" },

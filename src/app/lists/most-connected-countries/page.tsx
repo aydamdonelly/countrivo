@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Most Connected Countries — Internet Usage Ranking",
+  title: "Most Connected Countries | Internet Usage by Country",
   description:
     "Countries ranked by percentage of population using the internet. See which nations are most digitally connected.",
   alternates: { canonical: "https://countrivo.com/lists/most-connected-countries" },

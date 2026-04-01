@@ -4,7 +4,7 @@ import { CreateGameButton } from "@/components/games/borderline/create-game-butt
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Borderline — Navigate Borders to Reach a Target Country",
+  title: "Borderline | Race Through Borders to Your Target",
   description: "Start at one country, navigate through borders to reach your target. Geography puzzle where knowing border connections wins.",
   alternates: { canonical: "https://countrivo.com/games/borderline" },
 };
@@ -13,7 +13,7 @@ export default function BorderlinePage() {
   return (
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
-        name="Borderline — Border Race Geography Game | Countrivo"
+        name="Borderline - Border Race Geography Game | Countrivo"
         description="Race through country borders to reach your target. Navigate from country to country by naming neighbors. Beat the optimal path or challenge a friend."
         url="/games/borderline"
         genre="Geography strategy"

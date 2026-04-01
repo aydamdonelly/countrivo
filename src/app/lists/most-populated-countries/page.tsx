@@ -5,7 +5,7 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Most Populated Countries in the World — 2024 Ranking",
+  title: "Most Populated Countries in the World (2024)",
   description:
     "Ranked list of the 50 most populated countries in the world. See current population figures for India, China, the US, and more.",
   alternates: { canonical: "https://countrivo.com/lists/most-populated-countries" },

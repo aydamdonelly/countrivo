@@ -4,7 +4,7 @@ import { IconScale, IconPath, IconBolt, IconArrowRight } from "@/components/icon
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "All Geography Games — Free Flag Quizzes, Capitals & Daily Challenges",
+  title: "All Geography Games | Free Quizzes, Puzzles & Daily Challenges",
   description:
     "Browse 14 free geography games: flag quizzes, country ranking puzzles, capitals matching, and real-time multiplayer. Daily challenges reset every day. No signup.",
   alternates: { canonical: "https://countrivo.com/games" },

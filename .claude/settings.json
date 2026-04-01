@@ -57,7 +57,20 @@
       "mcp__supabase__get_publishable_keys",
       "mcp__supabase__apply_migration",
       "Bash(node -e \"const c = require\\(''./src/data/categories.json''\\); const found = c.find\\(x => x.slug === ''co2-per-capita''\\); console.log\\(found ? ''Found'' : ''Not found''\\)\")",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(x[''''slug'''']\\) for x in d]\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\(x[''''slug'''']\\) for x in d]\")",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/public -type f -name *favicon* -o -name *icon*)",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo -name *.config.* -o -name *config.ts -o -name *config.js)",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src/components -name *icon* -type f)",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src/components/icons -type f -name *.tsx)",
+      "Bash(ls -la /Users/adamkahirov/Desktop/code/countrivo/src/components/games/*/)",
+      "mcp__firecrawl__firecrawl_scrape",
+      "Bash(ls -1 /Users/adamkahirov/Desktop/code/countrivo/src/app/lists/*/page.tsx)",
+      "Bash(git commit:*)",
+      "Bash(vercel --version)",
+      "Bash(vercel whoami:*)",
+      "Bash(vercel list:*)",
+      "Bash(vercel --prod)",
+      "Bash(find /Users/adamkahirov/Desktop/code/countrivo/src -type f \\\\\\(-name *.tsx -o -name *.ts \\\\\\) -exec grep -n — {} +)"
     ],
     "additionalDirectories": [
       "/Users/adamkahirov/Desktop/code/countrivo/src/app/vs"

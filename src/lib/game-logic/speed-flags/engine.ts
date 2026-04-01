@@ -17,7 +17,7 @@ export interface SpeedFlagsState {
   phase: "ready" | "playing" | "results";
 }
 
-export function createSpeedFlags(rng: () => number, queueSize = 60): SpeedFlagsState {
+export function createSpeedFlags(rng: () => number, queueSize = 20): SpeedFlagsState {
   const shuffled = seededShuffle([...countries], rng);
   const queue: SpeedFlagsQuestion[] = [];
 
@@ -47,7 +47,7 @@ export function createSpeedFlags(rng: () => number, queueSize = 60): SpeedFlagsS
 }
 
 export function startGame(state: SpeedFlagsState): SpeedFlagsState {
-  return { ...state, phase: "playing", timeLeft: 60 };
+  return { ...state, phase: "playing", timeLeft: 20 };
 }
 
 export function answer(state: SpeedFlagsState, chosenIdx: number): SpeedFlagsState {

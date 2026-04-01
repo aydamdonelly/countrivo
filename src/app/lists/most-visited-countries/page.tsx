@@ -5,7 +5,7 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Most Visited Countries in the World — 2024 Tourism Ranking",
+  title: "Most Visited Countries in the World (2024)",
   description:
     "The 50 most visited countries ranked by international tourist arrivals per year. From France to Thailand.",
   alternates: { canonical: "https://countrivo.com/lists/most-visited-countries" },

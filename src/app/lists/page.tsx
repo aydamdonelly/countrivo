@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Country Lists & Rankings — Countrivo",
+  title: "Country Lists & Rankings | Countrivo",
   description:
     "Explore curated country lists and rankings: largest countries, most populated nations, richest economies, and countries by continent.",
 };
@@ -83,7 +83,7 @@ const lists = [
   {
     href: "/lists/highest-fertility-rate",
     title: "Highest Fertility Rate",
-    description: "Countries ranked by fertility rate — births per woman.",
+    description: "Countries ranked by fertility rate (births per woman).",
     emoji: "👶",
   },
   {

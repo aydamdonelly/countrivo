@@ -5,7 +5,7 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Largest Countries in the World by Area — 2024 Ranking",
+  title: "Largest Countries in the World by Area (2024)",
   description:
     "Ranked list of the 50 largest countries in the world by total area in km². From Russia to Bangladesh, see how big each nation really is.",
   alternates: { canonical: "https://countrivo.com/lists/largest-countries" },

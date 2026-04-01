@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Countries with Highest Fertility Rate — Birth Rate Ranking",
+  title: "Highest Fertility Rates by Country | Birth Rate Ranking",
   description:
     "Countries ranked by fertility rate (births per woman). Sub-Saharan Africa leads while many developed nations are below replacement rate.",
   alternates: { canonical: "https://countrivo.com/lists/highest-fertility-rate" },

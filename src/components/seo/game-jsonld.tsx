@@ -1,5 +1,5 @@
 interface GameJsonLdProps {
-  name: string;         // full name like "Flag Quiz — Countrivo"
+  name: string;         // full name like "Flag Quiz | Countrivo"
   description: string;
   url: string;          // relative path like "/games/flag-quiz"
   genre: string;

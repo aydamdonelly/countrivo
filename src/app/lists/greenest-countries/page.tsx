@@ -4,7 +4,7 @@ import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "Greenest Countries — Renewable Energy Usage Ranking",
+  title: "Greenest Countries | Renewable Energy by Country",
   description:
     "Countries ranked by share of energy from renewable sources. Iceland, Norway, and Brazil lead the green energy transition.",
   alternates: { canonical: "https://countrivo.com/lists/greenest-countries" },

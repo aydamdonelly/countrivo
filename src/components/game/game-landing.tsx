@@ -44,7 +44,7 @@ export function GameLanding({
   return (
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
-        name={`${title} — Countrivo`}
+        name={`${title} | Countrivo`}
         title={title}
         description={description}
         url={playHref.replace("/play", "")}
