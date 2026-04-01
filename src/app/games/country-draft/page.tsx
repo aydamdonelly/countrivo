@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { getGameColor } from "@/lib/game-colors";
 
 export const metadata: Metadata = {
   title: "Country Draft | Assign Countries to Their Best Stats",
@@ -21,7 +22,7 @@ export default function CountryDraftPage() {
         rules={["See 8 stat categories", "Countries are revealed one by one", "Assign each country to its strongest stat category", "Your score is compared to the mathematically optimal assignment"]}
       />
       {/* Hero */}
-      <section className="bg-surface-elevated">
+      <section style={{ backgroundColor: "#fee2e2" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
@@ -30,7 +31,7 @@ export default function CountryDraftPage() {
                 Flagship Game
               </span>
             </div>
-            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight" style={{ color: "#991b1b" }}>
               Country Draft
             </h1>
             <p className="mt-4 text-lg text-cream-muted leading-relaxed max-w-xl">
@@ -117,7 +118,7 @@ export default function CountryDraftPage() {
 
 function StepCard({ number, emoji, title, description }: { number: string; emoji: string; title: string; description: string }) {
   return (
-    <div className="relative p-6 bg-white border border-black/5 shadow-sm rounded-xl">
+    <div className="relative p-6 rounded-xl" style={{ backgroundColor: "#fee2e2" }}>
       <div className="flex items-center gap-3 mb-3">
         <span className="w-8 h-8 flex items-center justify-center bg-gold text-bg text-sm font-bold rounded-lg">
           {number}
@@ -132,7 +133,7 @@ function StepCard({ number, emoji, title, description }: { number: string; emoji
 
 function TensionCard({ emoji, text }: { emoji: string; text: string }) {
   return (
-    <div className="p-5 bg-white border border-black/5 shadow-sm rounded-xl">
+    <div className="p-5 rounded-xl" style={{ backgroundColor: "#fee2e2" }}>
       <span className="text-3xl block mb-3">{emoji}</span>
       <p className="text-sm text-cream-muted leading-relaxed italic">&ldquo;{text}&rdquo;</p>
     </div>
@@ -140,10 +141,12 @@ function TensionCard({ emoji, text }: { emoji: string; text: string }) {
 }
 
 function GameSuggestion({ href, emoji, title, desc }: { href: string; emoji: string; title: string; desc: string }) {
+  const slug = href.replace("/games/", "");
+  const colors = getGameColor(slug);
   return (
-    <Link href={href} className="game-card p-5 bg-white border border-black/5 shadow-sm group">
+    <Link href={href} className="game-card p-5 rounded-2xl transition-all hover:scale-[1.03] group" style={{ backgroundColor: colors.bg }}>
       <span className="text-3xl block mb-2">{emoji}</span>
-      <h3 className="font-bold group-hover:text-gold transition-colors">{title}</h3>
+      <h3 className="font-bold transition-colors" style={{ color: colors.text }}>{title}</h3>
       <p className="text-sm text-cream-muted mt-1">{desc}</p>
     </Link>
   );

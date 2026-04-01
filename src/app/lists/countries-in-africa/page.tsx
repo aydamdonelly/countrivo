@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getGameColor } from "@/lib/game-colors";
 import { getCountriesByContinent } from "@/lib/data/countries";
 import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
@@ -147,24 +148,24 @@ export default function CountriesInAfricaPage() {
           Can you name every African country? Challenge yourself with these games.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/games/continent-sprint"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Continent Sprint
-          </Link>
-          <Link
-            href="/games/flag-quiz"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Flag Quiz
-          </Link>
-          <Link
-            href="/games/capital-match"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Capital Match
-          </Link>
+          {[
+            { href: "/games/continent-sprint", name: "Continent Sprint" },
+            { href: "/games/flag-quiz", name: "Flag Quiz" },
+            { href: "/games/capital-match", name: "Capital Match" },
+          ].map((g) => {
+            const slug = g.href.replace("/games/", "");
+            const colors = getGameColor(slug);
+            return (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="px-4 py-2 font-semibold rounded-full text-sm transition-all hover:scale-105"
+                style={{ backgroundColor: colors.bg, color: colors.text }}
+              >
+                {g.name}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

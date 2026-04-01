@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IconTarget, IconChevronDouble, IconFlag, IconPin, IconBars, IconBolt, IconChain, IconGlobe, IconHash, IconClock, IconSearch } from "@/components/icons";
+import { GAME_COLORS } from "@/lib/game-colors";
 
 interface GameOverScreenProps {
   title: string;
@@ -59,16 +60,21 @@ export function GameOverScreen({
           Keep playing
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          {suggestions.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="game-card p-5 border border-black/5 bg-white shadow-sm text-center"
-            >
-              <s.icon className="w-8 h-8 mx-auto mb-2 text-gold" />
-              <span className="text-base font-bold">{s.name}</span>
-            </Link>
-          ))}
+          {suggestions.map((s) => {
+            const slug = s.href.replace("/games/", "");
+            const colors = GAME_COLORS[slug] ?? { bg: "#f3f4f6", text: "#374151" };
+            return (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="game-card p-5 text-center rounded-2xl transition-all hover:scale-[1.03]"
+                style={{ backgroundColor: colors.bg }}
+              >
+                <s.icon className="w-8 h-8 mx-auto mb-2" style={{ color: colors.text }} />
+                <span className="text-base font-bold" style={{ color: colors.text }}>{s.name}</span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

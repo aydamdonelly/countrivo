@@ -123,10 +123,10 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
               onClick={() => handleAnswer(idx)}
               disabled={showFeedback}
               className={cn(
-                "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
-                !showFeedback && "border-border hover:border-border-hover hover:bg-surface",
-                showFeedback && isCorrect && "border-correct bg-correct/10",
-                showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
+                "p-5 min-h-13 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
+                !showFeedback && "border-black/10 hover:border-black/20 hover:bg-black/3 active:scale-[0.98]",
+                showFeedback && isCorrect && "border-correct bg-correct/10" + (isSelected ? " animate-scale-in" : ""),
+                showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10 animate-[shake_0.4s_ease]",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"
               )}
             >

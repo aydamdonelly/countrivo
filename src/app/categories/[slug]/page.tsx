@@ -5,6 +5,7 @@ import { getAllCategories, getCategoryBySlug } from "@/lib/data/categories";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatStat } from "@/lib/utils";
+import { getGameColor } from "@/lib/game-colors";
 
 export async function generateStaticParams() {
   return getAllCategories().map((c) => ({ slug: c.slug }));
@@ -202,22 +203,26 @@ export default async function CategoryPage({
       <section className="mt-12">
         <h2 className="text-xl font-extrabold mb-4">Test Your Knowledge</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <Link href="/games/country-draft" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
-            <span className="text-3xl block mb-2">🎯</span>
-            <span className="text-sm font-bold">Country Draft</span>
-          </Link>
-          <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
-            <span className="text-3xl block mb-2">⬆️</span>
-            <span className="text-sm font-bold">Higher or Lower</span>
-          </Link>
-          <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
-            <span className="text-3xl block mb-2">📊</span>
-            <span className="text-sm font-bold">Population Sort</span>
-          </Link>
-          <Link href="/games/stat-guesser" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
-            <span className="text-3xl block mb-2">🔢</span>
-            <span className="text-sm font-bold">Stat Guesser</span>
-          </Link>
+          {[
+            { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
+            { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
+            { href: "/games/population-sort", emoji: "📊", name: "Population Sort" },
+            { href: "/games/stat-guesser", emoji: "🔢", name: "Stat Guesser" },
+          ].map((game) => {
+            const gameSlug = game.href.replace("/games/", "");
+            const colors = getGameColor(gameSlug);
+            return (
+              <Link
+                key={game.href}
+                href={game.href}
+                className="game-card p-5 rounded-2xl text-center transition-all hover:scale-[1.02] hover:shadow-md"
+                style={{ backgroundColor: colors.bg }}
+              >
+                <span className="text-3xl block mb-2">{game.emoji}</span>
+                <span className="text-sm font-bold" style={{ color: colors.text }}>{game.name}</span>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </div>

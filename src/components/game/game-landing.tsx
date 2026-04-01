@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { getGameColor } from "@/lib/game-colors";
 
 interface RelatedGame {
   href: string;
@@ -37,6 +38,9 @@ export function GameLanding({
   relatedGames,
   category = "quiz",
 }: GameLandingProps) {
+  const slug = playHref.replace("/play", "").replace("/games/", "");
+  const colors = getGameColor(slug);
+
   const related = (relatedGames ?? DEFAULT_RELATED).filter(
     (g) => g.href !== playHref.replace("/play", "")
   );
@@ -53,9 +57,9 @@ export function GameLanding({
         rules={rules}
       />
       {/* Hero */}
-      <div className="bg-surface-elevated px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
+      <div className="px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8 rounded-2xl" style={{ backgroundColor: colors.bg }}>
         <span className="text-7xl mb-4 block">{emoji}</span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold">{title}</h1>
+        <h1 className="text-4xl sm:text-5xl font-extrabold" style={{ color: colors.text }}>{title}</h1>
         <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">{description}</p>
       </div>
 
@@ -107,16 +111,21 @@ export function GameLanding({
           More Games
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
-          {related.slice(0, 6).map((g) => (
-            <Link
-              key={g.href}
-              href={g.href}
-              className="game-card p-5 border border-black/5 bg-white shadow-sm text-center"
-            >
-              <span className="text-3xl block mb-2">{g.emoji}</span>
-              <span className="text-base font-bold">{g.name}</span>
-            </Link>
-          ))}
+          {related.slice(0, 6).map((g) => {
+            const gSlug = g.href.replace("/games/", "");
+            const gColors = getGameColor(gSlug);
+            return (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="game-card p-5 text-center rounded-2xl transition-all hover:scale-[1.03]"
+                style={{ backgroundColor: gColors.bg }}
+              >
+                <span className="text-3xl block mb-2">{g.emoji}</span>
+                <span className="text-base font-bold" style={{ color: gColors.text }}>{g.name}</span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

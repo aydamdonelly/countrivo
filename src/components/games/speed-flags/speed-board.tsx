@@ -113,8 +113,10 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
       <div className="flex items-center justify-between">
         <div
           className={cn(
-            "text-2xl font-bold font-mono",
-            state.timeLeft <= 10 ? "text-incorrect" : "text-cream"
+            "font-mono text-2xl font-bold",
+            state.timeLeft <= 3 && "text-incorrect animate-pulse",
+            state.timeLeft > 3 && state.timeLeft <= 5 && "text-incorrect",
+            state.timeLeft > 5 && "text-cream"
           )}
         >
           {state.timeLeft}s

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef } from "react";
 import {
   createHoL,
   guess,
@@ -58,6 +58,23 @@ export function HoLBoard({ mode }: HoLBoardProps) {
     return map;
   }, [showReveal, handleGuess]);
 
+  // Swipe support for mobile
+  const touchStart = useRef<number | null>(null);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStart.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStart.current === null || showReveal) return;
+    const diff = touchStart.current - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) {
+      // Swipe up = higher, swipe down = lower
+      handleGuess(diff > 0 ? "higher" : "lower");
+    }
+    touchStart.current = null;
+  }, [showReveal, handleGuess]);
+
   useGameKeys(keymap, state.phase !== "gameover" && !showReveal);
 
   if (state.phase === "gameover") {
@@ -76,7 +93,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   const isCorrectGuess = lastChoice === round.answer;
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Streak counter */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -154,6 +171,10 @@ export function HoLBoard({ mode }: HoLBoardProps) {
           Lower
         </button>
       </div>
+
+      <p className="text-center text-xs text-cream-muted mt-2 sm:hidden">
+        Swipe up for Higher, down for Lower
+      </p>
     </div>
   );
 }

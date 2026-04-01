@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getGameColor } from "@/lib/game-colors";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
@@ -142,24 +143,24 @@ export default function BiggestMilitarySpendersPage() {
           Can you guess which countries spend the most on defense? Try these geography games.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/games/higher-or-lower"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Higher or Lower
-          </Link>
-          <Link
-            href="/games/country-draft"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Country Draft
-          </Link>
-          <Link
-            href="/games/flag-quiz"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Flag Quiz
-          </Link>
+          {[
+            { href: "/games/higher-or-lower", name: "Higher or Lower" },
+            { href: "/games/country-draft", name: "Country Draft" },
+            { href: "/games/flag-quiz", name: "Flag Quiz" },
+          ].map((g) => {
+            const slug = g.href.replace("/games/", "");
+            const colors = getGameColor(slug);
+            return (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="px-4 py-2 font-semibold rounded-full text-sm transition-all hover:scale-105"
+                style={{ backgroundColor: colors.bg, color: colors.text }}
+              >
+                {g.name}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

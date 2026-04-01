@@ -12,6 +12,7 @@ import { getAllCategories } from "@/lib/data/categories";
 import { getCategoryBySlug } from "@/lib/data/categories";
 import { getAllGames } from "@/lib/data/games";
 import { formatStat, ordinal, formatNumber } from "@/lib/utils";
+import { getGameColor } from "@/lib/game-colors";
 import bordersData from "@/data/borders.json";
 
 const borders: Record<string, string[]> = bordersData;
@@ -327,23 +328,26 @@ export default async function CountryPage({
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {[
             { href: "/games/flag-quiz", emoji: "🏁", title: "Flag Quiz", desc: `Can you identify ${country.displayName}'s flag?` },
-            { href: "/games/higher-or-lower", emoji: "⬆️", title: "Higher or Lower", desc: `How does ${country.displayName} compare to other nations?` },
+            { href: "/games/higher-or-lower", emoji: "⬆️", title: "Higher or Lower", desc: `How does ${country.displayName} compare?` },
             { href: "/games/capital-match", emoji: "🏛️", title: "Capital Match", desc: `Do you know the capital of ${country.displayName}?` },
             { href: "/games/country-draft", emoji: "🎯", title: "Country Draft", desc: "Assign countries to their strongest stats" },
             { href: "/games/border-buddies", emoji: "🤝", title: "Border Buddies", desc: `Name all countries bordering ${country.displayName}` },
-          ].map((game) => (
-            <Link
-              key={game.href}
-              href={game.href}
-              className="flex items-start gap-4 rounded-xl border border-black/5 bg-white shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
-            >
-              <span className="text-3xl shrink-0">{game.emoji}</span>
-              <div className="min-w-0">
-                <p className="font-semibold">{game.title}</p>
-                <p className="text-sm text-cream-muted mt-0.5">{game.desc}</p>
-              </div>
-            </Link>
-          ))}
+          ].map((game) => {
+            const slug = game.href.replace("/games/", "");
+            const colors = getGameColor(slug);
+            return (
+              <Link
+                key={game.href}
+                href={game.href}
+                className="rounded-2xl p-5 transition-all hover:scale-[1.02] hover:shadow-md"
+                style={{ backgroundColor: colors.bg }}
+              >
+                <span className="text-3xl shrink-0 block mb-2">{game.emoji}</span>
+                <p className="font-bold" style={{ color: colors.text }}>{game.title}</p>
+                <p className="text-sm mt-0.5 opacity-70" style={{ color: colors.text }}>{game.desc}</p>
+              </Link>
+            );
+          })}
         </div>
         <Link
           href="/games"

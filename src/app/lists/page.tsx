@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getGameColor } from "@/lib/game-colors";
 
 export const metadata: Metadata = {
   title: "Country Lists & Rankings | Countrivo",
@@ -145,27 +146,27 @@ export default function ListsIndexPage() {
           the test with our free games.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/games/flag-quiz"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Flag Quiz
-          </Link>
-          <Link
-            href="/games/country-draft"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Country Draft
-          </Link>
-          <Link
-            href="/games/higher-or-lower"
-            className="px-4 py-2 bg-gold-dim text-gold font-semibold rounded-lg hover:bg-gold hover:text-bg transition-colors"
-          >
-            Higher or Lower
-          </Link>
+          {[
+            { href: "/games/flag-quiz", name: "Flag Quiz" },
+            { href: "/games/country-draft", name: "Country Draft" },
+            { href: "/games/higher-or-lower", name: "Higher or Lower" },
+          ].map((g) => {
+            const slug = g.href.replace("/games/", "");
+            const colors = getGameColor(slug);
+            return (
+              <Link
+                key={g.href}
+                href={g.href}
+                className="px-4 py-2 font-semibold rounded-full text-sm transition-all hover:scale-105"
+                style={{ backgroundColor: colors.bg, color: colors.text }}
+              >
+                {g.name}
+              </Link>
+            );
+          })}
           <Link
             href="/games"
-            className="px-4 py-2 bg-surface text-cream-muted font-semibold rounded-lg hover:text-cream transition-colors"
+            className="px-4 py-2 bg-surface-elevated font-semibold rounded-full text-sm hover:opacity-80 transition-opacity"
           >
             All Games →
           </Link>

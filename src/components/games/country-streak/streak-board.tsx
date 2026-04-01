@@ -74,10 +74,13 @@ export function StreakBoard({ mode }: StreakBoardProps) {
       {/* Streak counter */}
       <div className="flex items-center justify-center gap-3">
         <span className="text-3xl">🔥</span>
-        <span className={cn(
-          "font-extrabold font-mono transition-all",
-          state.streak > 0 ? "text-6xl text-gold" : "text-4xl text-cream-muted"
-        )}>
+        <span
+          key={state.streak}
+          className={cn(
+            "font-extrabold font-mono transition-all animate-count-up",
+            state.streak > 0 ? "text-6xl text-gold" : "text-4xl text-cream-muted"
+          )}
+        >
           {state.streak}
         </span>
       </div>
@@ -100,8 +103,8 @@ export function StreakBoard({ mode }: StreakBoardProps) {
               onClick={() => handleAnswer(idx)}
               disabled={showFeedback}
               className={cn(
-                "p-5 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
-                !showFeedback && "border-border hover:border-border-hover hover:bg-surface",
+                "p-5 min-h-13 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
+                !showFeedback && "border-black/10 hover:border-black/20 hover:bg-black/3 active:scale-[0.98]",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"
