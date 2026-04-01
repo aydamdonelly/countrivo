@@ -11,6 +11,9 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
+import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -42,8 +45,12 @@ function reducer(state: StatGuesserState, action: Action): StatGuesserState {
 export function GuesserBoard({ mode }: GuesserBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [inputValue, setInputValue] = useState("");
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "neutral" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -61,9 +68,15 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
     }
     const parsed = parseFloat(cleaned);
     if (isNaN(parsed)) return;
+    const result = submitGuess(state, parsed);
+    const error = result.scores[state.currentRound] ?? 0;
+    const type = error < 20 ? "good" : error < 50 ? "neutral" : "bad";
+    setFeedbackType(type);
+    setFeedbackMessage(`${error}% off`);
+    setFeedbackKey((k) => k + 1);
     dispatch({ type: "SUBMIT", value: parsed });
     setInputValue("");
-  }, [inputValue]);
+  }, [inputValue, state]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -119,19 +132,25 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
           if (res.success && res.run) setServerData(res.run);
         });
       } else if (mode === "daily") {
-        openAuthModal(async () => {
-          const res = await submitGameRun(payload);
-          if (res.success && res.run) setServerData(res.run);
-        });
+        setPendingPayload(payload);
       }
     }
+
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
 
     return (
       <GameOverScreen
         title="Stat Guesser Complete!"
         score={`${avgError}% avg error`}
         subtitle={avgError < 20 ? "Excellent!" : avgError < 50 ? "Good effort!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={Math.round(Math.max(0, 100 - avgError))}
         maxScore={100}
         gameSlug="stat-guesser"
@@ -140,6 +159,8 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       >
         <div className="w-full max-w-md space-y-2">
@@ -174,6 +195,16 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Round"
+        scoreValue={`${state.currentRound + 1}/5`}
+        progressCurrent={state.currentRound}
+        progressTotal={5}
+      />
+      {state.phase === "feedback" && (
+        <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
+      )}
       {/* Progress */}
       <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
@@ -221,6 +252,8 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
               {state.scores[state.currentRound]}% off
             </span>
           </div>
+
+          <EndgameRamp picksRemaining={state.rounds.length - state.currentRound - 1} totalPicks={5} />
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}

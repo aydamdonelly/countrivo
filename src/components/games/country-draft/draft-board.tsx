@@ -59,6 +59,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   const [result, setResult] = useState<DraftResult | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -125,13 +126,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
             setServerData(res.run);
           }
         } else if (mode === "daily") {
-          // Guest completed daily — prompt sign-in with callback to submit
-          openAuthModal(async () => {
-            const res = await submitGameRun(payload);
-            if (res.success && res.run) {
-              setServerData(res.run);
-            }
-          });
+          setPendingPayload(payload);
         }
         setSubmitting(false);
       };
@@ -168,6 +163,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
 
   const handlePlayAgain = useCallback(() => {
     setResult(null);
+    setPendingPayload(null);
     dispatch({ type: "RESET", mode: "practice" });
   }, []);
 
@@ -198,6 +194,14 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   // ─── Results Phase ────────────────────────────────────────────────
   if (result) {
     const grade = GRADE_CONFIG[result.grade] || GRADE_CONFIG.poor;
+
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
 
     return (
       <div className="flex flex-col gap-10">
@@ -264,6 +268,14 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          {handleSaveScore && (
+            <button
+              onClick={handleSaveScore}
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+            >
+              Save my score
+            </button>
+          )}
           {mode === "practice" && (
             <button
               onClick={handlePlayAgain}

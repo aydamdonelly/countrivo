@@ -19,6 +19,8 @@ import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useMultiplayer } from "@/hooks/use-multiplayer";
 
@@ -76,6 +78,9 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
   const [inputValue, setInputValue] = useState("");
   const [shaking, setShaking] = useState(false);
   const [flashCorrect, setFlashCorrect] = useState(false);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const inputRef = useRef<HTMLInputElement>(null);
   const betweenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -133,6 +138,9 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
       result.rounds[state.currentRound].correct;
 
     if (wasCorrect) {
+      setFeedbackType("good");
+      setFeedbackMessage("Correct!");
+      setFeedbackKey((k) => k + 1);
       setFlashCorrect(true);
       setInputValue("");
 
@@ -141,6 +149,9 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
       }
     } else {
       /* Shake animation on wrong answer */
+      setFeedbackType("bad");
+      setFeedbackMessage("Wrong!");
+      setFeedbackKey((k) => k + 1);
       setShaking(true);
       setInputValue("");
       setTimeout(() => setShaking(false), 500);
@@ -264,6 +275,14 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode === "versus" ? "practice" : mode}
+        scoreLabel="Score"
+        scoreValue={`${state.myScore}/${state.totalRounds}`}
+        progressCurrent={state.myScore}
+        progressTotal={state.totalRounds}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Round counter + scores */}
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-cream-muted uppercase tracking-wide">

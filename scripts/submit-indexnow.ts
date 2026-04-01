@@ -8,7 +8,7 @@ const API_KEY = "f9505761df0dc045e453ea76165d13b0";
 const HOST = "countrivo.com";
 const BASE = `https://${HOST}`;
 const KEY_LOCATION = `${BASE}/${API_KEY}.txt`;
-const ENDPOINT = "https://api.indexnow.org/indexnow";
+const ENDPOINT = "https://www.bing.com/indexnow";
 
 // --------------- collect URLs ---------------
 

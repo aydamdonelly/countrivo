@@ -11,6 +11,7 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -47,6 +48,7 @@ export function SortBoard({ mode }: SortBoardProps) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -102,21 +104,27 @@ export function SortBoard({ mode }: SortBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "results") {
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <div className="flex flex-col gap-6">
         <GameOverScreen
           title="Sort Complete!"
           score={`${state.score} / ${state.countries.length}`}
           subtitle={`Sorted by ${state.category.label}`}
-          onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+          onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+          onSaveScore={handleSaveScore}
           numericScore={state.score}
           maxScore={state.countries.length}
           gameSlug="population-sort"
@@ -125,6 +133,8 @@ export function SortBoard({ mode }: SortBoardProps) {
             percentile: serverData.percentile,
             totalPlayersToday: 0,
             isPersonalBest: serverData.isPersonalBest,
+            runId: serverData.id,
+            dailyDate: serverData.dailyDate ?? undefined,
           } : undefined}
         >
           <div className="w-full max-w-xl space-y-3">
@@ -161,6 +171,13 @@ export function SortBoard({ mode }: SortBoardProps) {
 
   return (
     <div className="flex flex-col gap-8">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Sorted"
+        scoreValue={`${selectedIdx + 1}/5`}
+        progressCurrent={0}
+        progressTotal={5}
+      />
       <div className="text-center">
         <p className="text-lg text-cream-muted">
           Sort by <span className="font-bold text-cream text-xl">{state.category.emoji} {state.category.label}</span> — highest first

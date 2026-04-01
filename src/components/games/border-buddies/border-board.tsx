@@ -12,6 +12,9 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
+import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -48,8 +51,12 @@ export function BorderBoard({ mode }: BorderBoardProps) {
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Found!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -68,12 +75,16 @@ export function BorderBoard({ mode }: BorderBoardProps) {
 
   const handleSelect = useCallback(
     (c: Country) => {
+      const isValidBorder = state.borders.includes(c.iso3) && !state.found.includes(c.iso3);
+      setFeedbackType(isValidBorder ? "good" : "bad");
+      setFeedbackMessage(isValidBorder ? "Found!" : "Not a border");
+      setFeedbackKey((k) => k + 1);
       dispatch({ type: "GUESS", iso3: c.iso3 });
       setInput("");
       setShowDropdown(false);
       inputRef.current?.focus();
     },
-    []
+    [state.borders, state.found]
   );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,21 +128,28 @@ export function BorderBoard({ mode }: BorderBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "results") {
     const allFound = state.found.length === state.borders.length;
+
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title={allFound ? "All Borders Found!" : "Border Buddies"}
         score={`${state.found.length} / ${state.borders.length}`}
         subtitle={allFound ? "Perfect!" : "Better luck next time!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.found.length}
         maxScore={state.borders.length}
         gameSlug="border-buddies"
@@ -140,6 +158,8 @@ export function BorderBoard({ mode }: BorderBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       >
         <div className="w-full max-w-md space-y-2">
@@ -172,6 +192,14 @@ export function BorderBoard({ mode }: BorderBoardProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Found"
+        scoreValue={`${state.found.length}/${state.borders.length}`}
+        progressCurrent={state.found.length}
+        progressTotal={state.borders.length}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Target country */}
       <div className="text-center py-6">
         <span className="text-7xl block mb-3">{state.country.flagEmoji}</span>
@@ -238,6 +266,8 @@ export function BorderBoard({ mode }: BorderBoardProps) {
           })}
         </div>
       )}
+
+      <EndgameRamp picksRemaining={state.borders.length - state.found.length} totalPicks={state.borders.length} />
 
       {/* Give Up button */}
       <button

@@ -11,6 +11,9 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
+import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -41,8 +44,12 @@ function reducer(state: OddOneOutState, action: Action): OddOneOutState {
 
 export function OddBoard({ mode }: OddBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -50,8 +57,12 @@ export function OddBoard({ mode }: OddBoardProps) {
 
   const handlePick = useCallback((idx: number) => {
     if (state.phase !== "playing") return;
+    const isCorrect = idx === round.oddIndex;
+    setFeedbackType(isCorrect ? "good" : "bad");
+    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong!");
+    setFeedbackKey((k) => k + 1);
     dispatch({ type: "ANSWER", index: idx });
-  }, [state.phase]);
+  }, [state.phase, round]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -93,20 +104,26 @@ export function OddBoard({ mode }: OddBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "results") {
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title="Odd One Out Complete!"
         score={`${state.score} / ${state.rounds.length}`}
         subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.score}
         maxScore={state.rounds.length}
         gameSlug="odd-one-out"
@@ -115,6 +132,8 @@ export function OddBoard({ mode }: OddBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       >
         <div className="w-full max-w-md space-y-3">
@@ -163,6 +182,14 @@ export function OddBoard({ mode }: OddBoardProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Correct"
+        scoreValue={String(state.score)}
+        progressCurrent={state.score}
+        progressTotal={state.rounds.length}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Progress */}
       <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
@@ -221,6 +248,8 @@ export function OddBoard({ mode }: OddBoardProps) {
               {round.traitDescription}
             </p>
           </div>
+
+          <EndgameRamp picksRemaining={state.rounds.length - state.currentRound - 1} totalPicks={state.rounds.length} />
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}

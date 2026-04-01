@@ -10,6 +10,9 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
+import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -38,8 +41,12 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -47,6 +54,10 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
 
   const handleAnswer = useCallback((idx: number) => {
     if (showFeedback) return;
+    const isCorrect = idx === currentQ.correctIndex;
+    setFeedbackType(isCorrect ? "good" : "bad");
+    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong answer");
+    setFeedbackKey((k) => k + 1);
     setSelectedIdx(idx);
     setShowFeedback(true);
     setTimeout(() => {
@@ -54,7 +65,7 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
       setShowFeedback(false);
       setSelectedIdx(null);
     }, 1200);
-  }, [showFeedback]);
+  }, [showFeedback, currentQ]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -94,21 +105,28 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);
+
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title="Capital Match Complete!"
         score={`${state.score} / ${state.questions.length}`}
         subtitle={`${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.score}
         maxScore={state.questions.length}
         gameSlug="capital-match"
@@ -117,6 +135,8 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       />
     );
@@ -126,6 +146,14 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
 
   return (
     <div className="flex flex-col gap-8">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Correct"
+        scoreValue={`${state.score}/10`}
+        progressCurrent={state.score}
+        progressTotal={10}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Progress bar */}
       <div className="space-y-2">
         <div className="flex items-center justify-between text-base text-cream-muted">
@@ -151,6 +179,8 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
         <p className="text-cream-muted text-base mt-2">{currentQ.country.continent}</p>
         <p className="text-cream-muted text-lg mt-3 font-medium">What is the capital?</p>
       </div>
+
+      <EndgameRamp picksRemaining={10 - state.currentQuestion} totalPicks={10} />
 
       {/* Options */}
       <div className="grid grid-cols-1 gap-3">

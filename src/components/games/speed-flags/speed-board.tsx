@@ -9,20 +9,22 @@ import {
   type SpeedFlagsState,
 } from "@/lib/game-logic/speed-flags/engine";
 import { mulberry32 } from "@/lib/seeded-random";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { getTodayDateKey } from "@/lib/daily-seed";
 import type { ServerGameRun } from "@/types/server";
 
 interface SpeedBoardProps {
   mode: "daily" | "practice";
 }
 
-function init(): SpeedFlagsState {
-  const rng = mulberry32(Date.now());
+function init(mode: "daily" | "practice"): SpeedFlagsState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createSpeedFlags(rng);
 }
 
@@ -32,22 +34,28 @@ type Action =
   | { type: "TICK" }
   | { type: "RESET" };
 
-function reducer(state: SpeedFlagsState, action: Action): SpeedFlagsState {
-  switch (action.type) {
-    case "START": return startGame(state);
-    case "ANSWER": return answer(state, action.idx);
-    case "TICK": return tick(state);
-    case "RESET": return init();
-    default: return state;
-  }
+function makeReducer(mode: "daily" | "practice") {
+  return function reducer(state: SpeedFlagsState, action: Action): SpeedFlagsState {
+    switch (action.type) {
+      case "START": return startGame(state);
+      case "ANSWER": return answer(state, action.idx);
+      case "TICK": return tick(state);
+      case "RESET": return init(mode);
+      default: return state;
+    }
+  };
 }
 
 export function SpeedBoard({ mode }: SpeedBoardProps) {
-  const [state, dispatch] = useReducer(reducer, undefined, init);
+  const [state, dispatch] = useReducer(makeReducer(mode), mode, init);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("✓");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user } = useAuth();
+  const { user, openAuthModal } = useAuth();
 
   // Timer
   useEffect(() => {
@@ -57,8 +65,15 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
   }, [state.phase]);
 
   const handleAnswer = useCallback((idx: number) => {
+    const question = state.queue[state.currentIdx];
+    if (question) {
+      const isCorrect = idx === question.correctIdx;
+      setFeedbackType(isCorrect ? "good" : "bad");
+      setFeedbackMessage(isCorrect ? "✓" : "✗");
+      setFeedbackKey((k) => k + 1);
+    }
     dispatch({ type: "ANSWER", idx });
-  }, []);
+  }, [state.queue, state.currentIdx]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -76,7 +91,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
 
     const payload = {
       gameSlug: "speed-flags",
-      mode: "practice" as const,
+      mode: mode as "daily" | "practice",
       dateKey: getTodayDateKey(),
       scoreRaw: state.correct,
       scoreMax: 100,
@@ -94,8 +109,18 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
+    } else if (mode === "daily") {
+      setPendingPayload(payload);
     }
   }
+
+  const handleSaveScore = pendingPayload ? () => {
+    openAuthModal(async () => {
+      const res = await submitGameRun(pendingPayload);
+      if (res.success && res.run) setServerData(res.run);
+      setPendingPayload(null);
+    });
+  } : undefined;
 
   // Ready screen
   if (state.phase === "ready") {
@@ -125,10 +150,12 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         title="Time's Up!"
         score={`${state.correct} correct`}
         subtitle={`${state.total} attempts, ${accuracy}% accuracy`}
-        onPlayAgain={() => dispatch({ type: "RESET" })}
+        onPlayAgain={() => { setPendingPayload(null); dispatch({ type: "RESET" }); }}
+        onSaveScore={handleSaveScore}
         numericScore={state.correct}
         maxScore={state.total}
         gameSlug="speed-flags"
+        serverData={serverData ? { rankToday: serverData.rankDaily, percentile: serverData.percentile, totalPlayersToday: 0, isPersonalBest: serverData.isPersonalBest, runId: serverData.id, dailyDate: serverData.dailyDate ?? undefined } : undefined}
       />
     );
   }
@@ -141,16 +168,27 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         title="All Done!"
         score={`${state.correct} correct`}
         subtitle={`Out of ${state.total} attempts`}
-        onPlayAgain={() => dispatch({ type: "RESET" })}
+        onPlayAgain={() => { setPendingPayload(null); dispatch({ type: "RESET" }); }}
+        onSaveScore={handleSaveScore}
         numericScore={state.correct}
         maxScore={state.total}
         gameSlug="speed-flags"
+        serverData={serverData ? { rankToday: serverData.rankDaily, percentile: serverData.percentile, totalPlayersToday: 0, isPersonalBest: serverData.isPersonalBest, runId: serverData.id, dailyDate: serverData.dailyDate ?? undefined } : undefined}
       />
     );
   }
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Score"
+        scoreValue={String(state.correct)}
+        progressCurrent={state.correct}
+        progressTotal={100}
+        extraInfo={`${state.timeLeft}s`}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Timer and score bar */}
       <div className="flex items-center justify-between">
         <div

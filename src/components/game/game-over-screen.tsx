@@ -17,12 +17,15 @@ import {
 } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
+import { ChallengeFriendPicker } from "@/components/friends/challenge-friend-picker";
 
 interface ServerData {
   rankToday: number | null;
   percentile: number | null;
   totalPlayersToday: number;
   isPersonalBest: boolean;
+  runId?: number;
+  dailyDate?: string;
 }
 
 interface GameOverScreenProps {
@@ -30,6 +33,7 @@ interface GameOverScreenProps {
   score: string;
   subtitle?: string;
   onPlayAgain?: () => void;
+  onSaveScore?: () => void;
   children?: React.ReactNode;
   numericScore?: number;
   maxScore?: number;
@@ -185,13 +189,14 @@ const ALL_SUGGESTIONS = [
 /* ================================================================ */
 
 export function GameOverScreen({
-  title, score, subtitle, onPlayAgain, children,
+  title, score, subtitle, onPlayAgain, onSaveScore, children,
   numericScore, maxScore, gameSlug, serverData,
 }: GameOverScreenProps) {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
   const [history, setHistory] = useState<number[]>([]);
   const [shared, setShared] = useState(false);
+  const [showChallengePicker, setShowChallengePicker] = useState(false);
 
   const hasTier = numericScore !== undefined && maxScore !== undefined && maxScore > 0;
   const pct = hasTier ? (numericScore / maxScore) * 100 : null;
@@ -334,15 +339,36 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 3: ACTIONS ═══════ */}
       <div className="w-full mt-6 flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
+        {onSaveScore && (
+          <button onClick={onSaveScore} className="cta-primary w-full sm:w-auto flex-1">
+            Save my score
+          </button>
+        )}
         {onPlayAgain && (
           <button onClick={onPlayAgain} className="cta-primary w-full sm:w-auto flex-1">
             Play again
           </button>
         )}
         <button onClick={handleShare} className="cta-secondary w-full sm:w-auto flex-1">
-          {shared ? "Copied!" : "Challenge a friend"}
+          {shared ? "Copied!" : "Share result"}
         </button>
+        {serverData?.runId && gameSlug && (
+          <button
+            onClick={() => setShowChallengePicker(true)}
+            className="cta-tertiary w-full sm:w-auto text-sm"
+          >
+            Challenge a friend
+          </button>
+        )}
       </div>
+      {showChallengePicker && serverData?.runId && gameSlug && (
+        <ChallengeFriendPicker
+          gameSlug={gameSlug}
+          dailyDate={serverData.dailyDate ?? new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" })}
+          runId={serverData.runId}
+          onClose={() => setShowChallengePicker(false)}
+        />
+      )}
       {gameSlug && (
         <div className="mt-3">
           <Link

@@ -11,7 +11,7 @@ import { getTodayDateKey } from "@/lib/daily-seed";
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
   { href: "/categories", label: "Rankings" },
-  { href: "/countries", label: "Countries" },
+  { href: "/friends", label: "Friends" },
 ];
 
 function countTodayCompleted(): number {
@@ -122,6 +122,13 @@ export function Header() {
                     onClick={() => setMenuOpen(false)}
                   >
                     All games
+                  </Link>
+                  <Link
+                    href="/friends"
+                    className="block px-3 py-2 text-sm hover:bg-black/3 transition-colors"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Friends
                   </Link>
                   <button
                     onClick={() => { signOut(); setMenuOpen(false); }}

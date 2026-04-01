@@ -13,6 +13,8 @@ import {
 import { countries } from "@/lib/data/loader";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
@@ -64,6 +66,9 @@ export function SprintBoard({ mode }: SprintBoardProps) {
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Found!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const startedAtRef = useRef<string>(new Date().toISOString());
@@ -90,12 +95,18 @@ export function SprintBoard({ mode }: SprintBoardProps) {
 
   const handleSelect = useCallback(
     (iso3: string) => {
+      const isNew = !state.found.includes(iso3) && state.allCountries.some((c) => c.iso3 === iso3);
+      if (isNew) {
+        setFeedbackType("good");
+        setFeedbackMessage("Found!");
+        setFeedbackKey((k) => k + 1);
+      }
       dispatch({ type: "GUESS", iso3 });
       setInput("");
       setShowDropdown(false);
       inputRef.current?.focus();
     },
-    []
+    [state.found, state.allCountries]
   );
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,7 +181,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
         numericScore={state.found.length}
         maxScore={state.allCountries.length}
         gameSlug="continent-sprint"
-        serverData={serverData ? { rankToday: serverData.rankDaily, percentile: serverData.percentile, totalPlayersToday: 0, isPersonalBest: serverData.isPersonalBest } : undefined}
+        serverData={serverData ? { rankToday: serverData.rankDaily, percentile: serverData.percentile, totalPlayersToday: 0, isPersonalBest: serverData.isPersonalBest, runId: serverData.id, dailyDate: serverData.dailyDate ?? undefined } : undefined}
       >
         <div className="w-full max-w-md space-y-2 max-h-64 overflow-y-auto">
           {state.allCountries.map((c) => {
@@ -200,6 +211,15 @@ export function SprintBoard({ mode }: SprintBoardProps) {
 
   return (
     <div className="flex flex-col gap-6">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Named"
+        scoreValue={String(state.found.length)}
+        progressCurrent={state.found.length}
+        progressTotal={state.allCountries.length}
+        extraInfo={formatTime(state.elapsed)}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Header stats */}
       <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>

@@ -11,12 +11,22 @@ interface DailyAlreadyPlayedProps {
   totalPlayersToday?: number;
 }
 
-function getHoursUntilReset(): number {
+function getMsUntilReset(): number {
   const now = new Date();
-  const tomorrow = new Date(Date.UTC(
-    now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1
-  ));
-  return Math.ceil((tomorrow.getTime() - now.getTime()) / (1000 * 60 * 60));
+  const berlinNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Berlin" }));
+  const berlinMidnight = new Date(berlinNow);
+  berlinMidnight.setDate(berlinMidnight.getDate() + 1);
+  berlinMidnight.setHours(0, 0, 0, 0);
+  return Math.max(0, berlinMidnight.getTime() - berlinNow.getTime());
+}
+
+function formatTimeUntilReset(ms: number): string {
+  const totalMin = Math.ceil(ms / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
 }
 
 export function DailyAlreadyPlayed({
@@ -26,7 +36,7 @@ export function DailyAlreadyPlayed({
   run,
   totalPlayersToday,
 }: DailyAlreadyPlayedProps) {
-  const hoursLeft = getHoursUntilReset();
+  const timeLeft = formatTimeUntilReset(getMsUntilReset());
 
   return (
     <div className="flex flex-col items-center gap-6 py-12 sm:py-16 text-center max-w-md mx-auto">
@@ -79,7 +89,7 @@ export function DailyAlreadyPlayed({
 
       {/* Reset timer */}
       <p className="text-sm text-cream-muted">
-        Next daily challenge in <span className="font-bold text-cream">{hoursLeft}h</span>
+        Next daily challenge in <span className="font-bold text-cream">{timeLeft}</span>
       </p>
 
       {/* Actions */}
@@ -91,10 +101,10 @@ export function DailyAlreadyPlayed({
           Practice unlimited
         </Link>
         <Link
-          href={`/games/${gameSlug}`}
+          href={`/games/${gameSlug}/leaderboard`}
           className="cta-secondary flex-1"
         >
-          Back to {gameTitle}
+          View leaderboard
         </Link>
       </div>
     </div>

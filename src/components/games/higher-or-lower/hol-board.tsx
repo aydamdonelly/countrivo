@@ -10,6 +10,8 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -38,8 +40,12 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [showReveal, setShowReveal] = useState(false);
   const [lastChoice, setLastChoice] = useState<"higher" | "lower" | null>(null);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -47,6 +53,10 @@ export function HoLBoard({ mode }: HoLBoardProps) {
 
   const handleGuess = useCallback((choice: "higher" | "lower") => {
     if (showReveal) return;
+    const isCorrect = choice === round.answer;
+    setFeedbackType(isCorrect ? "good" : "bad");
+    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong — streak ends");
+    setFeedbackKey((k) => k + 1);
     setLastChoice(choice);
     setShowReveal(true);
     setTimeout(() => {
@@ -54,7 +64,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
       setShowReveal(false);
       setLastChoice(null);
     }, 1500);
-  }, [showReveal]);
+  }, [showReveal, round]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -110,20 +120,26 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "gameover") {
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title={state.lastAnswer === "wrong" ? "Game Over!" : "All Rounds Complete!"}
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.streak}
         maxScore={state.rounds.length}
         gameSlug="higher-or-lower"
@@ -132,6 +148,8 @@ export function HoLBoard({ mode }: HoLBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       />
     );
@@ -143,6 +161,14 @@ export function HoLBoard({ mode }: HoLBoardProps) {
 
   return (
     <div className="flex flex-col gap-8" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Streak"
+        scoreValue={String(state.streak)}
+        progressCurrent={state.streak}
+        progressTotal={20}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Streak counter */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

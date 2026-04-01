@@ -6,6 +6,7 @@ import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
 import { getDailySummary, checkDailyStatus } from "@/app/actions/game-runs";
+import { getPendingChallenges } from "@/app/actions/challenges";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { createClient } from "@/lib/supabase/server";
 
@@ -58,10 +59,11 @@ export default async function HomePage() {
   const nonFlagship = allGames.filter((g) => !g.isFlagship);
 
   const todayKey = getTodayDateKey();
-  const [summary, dailyStatus, profile] = await Promise.all([
+  const [summary, dailyStatus, profile, pendingChallenges] = await Promise.all([
     getDailySummary(flagship.slug, todayKey),
     checkDailyStatus(flagship.slug, todayKey),
     getServerProfile(),
+    getPendingChallenges().catch(() => []),
   ]);
 
   return (
@@ -91,6 +93,42 @@ export default async function HomePage() {
         serverPlayedToday={dailyStatus.played}
         serverStreak={profile?.streakCurrent ?? null}
       />
+
+      {/* Pending challenges */}
+      {pendingChallenges.length > 0 && (
+        <section className="mb-6">
+          <div className="flex items-center gap-2 mb-3">
+            <h2 className="text-base font-extrabold">Challenges waiting for you</h2>
+            <span className="px-2 py-0.5 bg-gold text-white text-[10px] font-bold rounded-full">{pendingChallenges.length}</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {pendingChallenges.slice(0, 4).map((c) => {
+              const colors = GAME_COLORS[c.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
+              return (
+                <Link
+                  key={c.id}
+                  href={`/games/${c.gameSlug}/play?mode=daily`}
+                  className="flex items-center gap-3 p-3 rounded-xl hover:scale-[1.01] transition-all"
+                  style={{ backgroundColor: colors.bg }}
+                >
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold truncate" style={{ color: colors.text }}>
+                      {c.challengerProfile?.displayName ?? c.challengerProfile?.username ?? "A friend"} challenged you
+                    </p>
+                    <p className="text-xs opacity-60 truncate" style={{ color: colors.text }}>
+                      {c.gameSlug.replace(/-/g, " ")}
+                      {c.challengerScore ? ` · ${c.challengerScore}` : ""}
+                    </p>
+                  </div>
+                  <span className="text-xs font-bold px-2 py-1 rounded-lg bg-white/60 shrink-0" style={{ color: colors.text }}>
+                    Play →
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Today's featured game — the daily game briefing */}
       <section className="mb-8">

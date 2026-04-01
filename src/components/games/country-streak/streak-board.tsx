@@ -10,6 +10,8 @@ import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
@@ -29,8 +31,12 @@ export function StreakBoard({ mode }: StreakBoardProps) {
   const [state, setState] = useState(() => init(mode));
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
+  const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -38,6 +44,10 @@ export function StreakBoard({ mode }: StreakBoardProps) {
 
   const handleAnswer = useCallback((idx: number) => {
     if (showFeedback) return;
+    const isCorrect = idx === state.correctIndex;
+    setFeedbackType(isCorrect ? "good" : "bad");
+    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong!");
+    setFeedbackKey((k) => k + 1);
     setSelectedIdx(idx);
     setShowFeedback(true);
     setTimeout(() => {
@@ -45,13 +55,14 @@ export function StreakBoard({ mode }: StreakBoardProps) {
       setShowFeedback(false);
       setSelectedIdx(null);
     }, 800);
-  }, [showFeedback]);
+  }, [showFeedback, state.correctIndex]);
 
   const handleReset = useCallback(() => {
     rngRef.current = mulberry32(Date.now());
     setState(createStreak(rngRef.current));
     setSubmitted(false);
     setServerData(null);
+    setPendingPayload(null);
   }, []);
 
   const keymap = useMemo(() => {
@@ -91,20 +102,26 @@ export function StreakBoard({ mode }: StreakBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "gameover") {
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title="Streak Over!"
         score={`🔥 ${state.streak}`}
         subtitle={state.streak === 0 ? "Better luck next time!" : `Best: ${state.bestStreak}`}
         onPlayAgain={mode === "practice" ? handleReset : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.streak}
         maxScore={20}
         gameSlug="country-streak"
@@ -113,6 +130,8 @@ export function StreakBoard({ mode }: StreakBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       />
     );
@@ -120,6 +139,14 @@ export function StreakBoard({ mode }: StreakBoardProps) {
 
   return (
     <div className="flex flex-col gap-8">
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Streak"
+        scoreValue={String(state.streak)}
+        progressCurrent={state.streak}
+        progressTotal={20}
+      />
+      <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Streak counter */}
       <div className="flex items-center justify-center gap-3">
         <span className="text-3xl">🔥</span>

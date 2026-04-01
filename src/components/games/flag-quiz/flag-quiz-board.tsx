@@ -46,6 +46,7 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
@@ -100,15 +101,21 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
         if (res.success && res.run) setServerData(res.run);
       });
     } else if (mode === "daily") {
-      openAuthModal(async () => {
-        const res = await submitGameRun(payload);
-        if (res.success && res.run) setServerData(res.run);
-      });
+      setPendingPayload(payload);
     }
   }
 
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);
+
+    const handleSaveScore = pendingPayload ? () => {
+      openAuthModal(async () => {
+        const res = await submitGameRun(pendingPayload);
+        if (res.success && res.run) setServerData(res.run);
+        setPendingPayload(null);
+      });
+    } : undefined;
+
     return (
       <GameOverScreen
         title="Flag Quiz Complete!"
@@ -118,7 +125,8 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
             ? "Perfect score!"
             : `${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`
         }
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={handleSaveScore}
         numericScore={state.score}
         maxScore={state.questions.length}
         gameSlug="flag-quiz"
@@ -127,6 +135,8 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
           percentile: serverData.percentile,
           totalPlayersToday: 0,
           isPersonalBest: serverData.isPersonalBest,
+          runId: serverData.id,
+          dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
       />
     );
