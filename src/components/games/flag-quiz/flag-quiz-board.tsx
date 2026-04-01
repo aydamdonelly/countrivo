@@ -13,6 +13,7 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import type { ServerGameRun } from "@/types/server";
 
 interface FlagQuizBoardProps {
@@ -131,28 +132,17 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
     );
   }
 
-  const progress = ((state.currentQuestion) / state.questions.length) * 100;
-
   return (
-    <div className="flex flex-col gap-8">
-      {/* Score progress bar */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-base text-cream-muted">
-          <span>
-            Question <span className="font-bold text-cream text-lg">{state.currentQuestion + 1}</span> of{" "}
-            {state.questions.length}
-          </span>
-          <span className="text-lg">
-            Score: <span className="font-bold text-gold">{state.score}</span>
-          </span>
-        </div>
-        <div className="w-full h-3 bg-surface rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gold rounded-full transition-all duration-500"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </div>
+    <div className="flex flex-col gap-6">
+      {/* Session top bar */}
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Correct"
+        scoreValue={`${state.score}/${state.questions.length}`}
+        progressCurrent={state.currentQuestion}
+        progressTotal={state.questions.length}
+        extraInfo={`Q${state.currentQuestion + 1}`}
+      />
 
       {/* Flag */}
       <div className="text-center py-6">

@@ -19,6 +19,9 @@ import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
+import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { PickFeedback } from "@/components/game/pick-feedback";
+import { EndgameRamp } from "@/components/game/endgame-ramp";
 import type { ServerGameRun } from "@/types/server";
 
 type Action =
@@ -59,8 +62,26 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
+  // Pick feedback state
+  const [feedbackKey, setFeedbackKey] = useState(0);
+  const [feedbackType, setFeedbackType] = useState<"good" | "neutral" | "bad">("neutral");
+  const [feedbackMsg, setFeedbackMsg] = useState("");
+  const [feedbackDelta, setFeedbackDelta] = useState<string | undefined>(undefined);
+
   const currentCountry = getCurrentCountry(state);
   const gameComplete = isComplete(state);
+
+  // Compute running score from assignments so far
+  const runningScore = useMemo(() => {
+    let total = 0;
+    for (let i = 0; i < state.currentStep; i++) {
+      const catIdx = state.assignments[i];
+      if (catIdx != null) {
+        total += state.config.costMatrix[i][catIdx];
+      }
+    }
+    return total;
+  }, [state.currentStep, state.assignments, state.config.costMatrix]);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -122,9 +143,27 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   const handleAssign = useCallback(
     (categoryIdx: number) => {
       if (gameComplete) return;
+
+      // Compute feedback before dispatch changes state
+      const countryIdx = state.currentStep;
+      const rank = state.config.costMatrix[countryIdx][categoryIdx];
+
+      if (rank <= 5) {
+        setFeedbackType("good");
+        setFeedbackMsg(`Great pick! Rank #${rank}`);
+      } else if (rank <= 30) {
+        setFeedbackType("neutral");
+        setFeedbackMsg(`Solid. Rank #${rank}`);
+      } else {
+        setFeedbackType("bad");
+        setFeedbackMsg(`Costly. Rank #${rank}`);
+      }
+      setFeedbackDelta(`+${rank} points`);
+      setFeedbackKey((k) => k + 1);
+
       dispatch({ type: "ASSIGN", categoryIdx });
     },
-    [gameComplete]
+    [gameComplete, state.currentStep, state.config.costMatrix]
   );
 
   const handlePlayAgain = useCallback(() => {
@@ -270,20 +309,25 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   }
 
   // ─── Playing Phase ────────────────────────────────────────────────
+  const picksRemaining = state.config.countries.length - state.currentStep;
+
   return (
-    <div className="flex flex-col gap-6">
-      {/* Progress bar */}
-      <div className="flex items-center gap-4">
-        <div className="flex-1 h-3 bg-surface rounded-full overflow-hidden">
-          <div
-            className="h-full bg-gold rounded-full transition-all duration-500"
-            style={{ width: `${(state.currentStep / state.config.countries.length) * 100}%` }}
-          />
-        </div>
-        <span className="text-lg font-bold text-cream-muted tabular-nums">
-          {state.currentStep + 1}/{state.config.countries.length}
-        </span>
-      </div>
+    <div className="flex flex-col gap-5">
+      {/* Session top bar */}
+      <GameSessionTopBar
+        mode={mode}
+        scoreLabel="Score"
+        scoreValue={String(runningScore)}
+        progressCurrent={state.currentStep}
+        progressTotal={state.config.countries.length}
+        extraInfo={`${picksRemaining} pick${picksRemaining !== 1 ? "s" : ""} left`}
+      />
+
+      {/* Endgame ramp warning */}
+      <EndgameRamp
+        picksRemaining={picksRemaining}
+        totalPicks={state.config.countries.length}
+      />
 
       {/* Current country */}
       {currentCountry && (
@@ -311,6 +355,14 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           );
         })}
       </div>
+
+      {/* Pick feedback */}
+      <PickFeedback
+        type={feedbackType}
+        message={feedbackMsg}
+        delta={feedbackDelta}
+        triggerKey={feedbackKey}
+      />
 
       {/* Hint */}
       <p className="text-center text-lg text-cream-muted">
