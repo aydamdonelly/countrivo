@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { TopoBg } from "@/components/layout/topo-bg";
 import Link from "next/link";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
+import { GoogleAdSenseScript } from "@/components/ads/google-adsense-script";
 
 const serif = DM_Serif_Display({
   weight: "400",
@@ -74,6 +75,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
       </head>
       <body className="min-h-full flex flex-col bg-surface text-cream font-sans">
+        <GoogleAdSenseScript />
         {/* Structured data for the website */}
         <script
           type="application/ld+json"

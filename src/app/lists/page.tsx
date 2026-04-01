@@ -50,6 +50,54 @@ const lists = [
     description: "Complete list of all countries in North and South America with capitals, population, and area.",
     emoji: "🌎",
   },
+  {
+    href: "/lists/most-visited-countries",
+    title: "Most Visited Countries",
+    description: "The 50 most visited countries ranked by international tourist arrivals per year.",
+    emoji: "✈️",
+  },
+  {
+    href: "/lists/highest-life-expectancy",
+    title: "Highest Life Expectancy",
+    description: "Countries with the longest average lifespan ranked by life expectancy in years.",
+    emoji: "❤️",
+  },
+  {
+    href: "/lists/highest-gdp-countries",
+    title: "Largest Economies by GDP",
+    description: "The 50 largest economies in the world ranked by total GDP in US dollars.",
+    emoji: "💵",
+  },
+  {
+    href: "/lists/most-forested-countries",
+    title: "Most Forested Countries",
+    description: "Countries with the highest percentage of forest coverage.",
+    emoji: "🌲",
+  },
+  {
+    href: "/lists/most-connected-countries",
+    title: "Most Connected Countries",
+    description: "Countries ranked by percentage of population using the internet.",
+    emoji: "🌐",
+  },
+  {
+    href: "/lists/highest-fertility-rate",
+    title: "Highest Fertility Rate",
+    description: "Countries ranked by fertility rate — births per woman.",
+    emoji: "👶",
+  },
+  {
+    href: "/lists/biggest-military-spenders",
+    title: "Biggest Military Spenders",
+    description: "Countries ranked by military spending as percentage of GDP.",
+    emoji: "🎖️",
+  },
+  {
+    href: "/lists/greenest-countries",
+    title: "Greenest Countries",
+    description: "Countries ranked by share of energy from renewable sources.",
+    emoji: "♻️",
+  },
 ];
 
 export default function ListsIndexPage() {

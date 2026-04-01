@@ -316,35 +316,61 @@ export default async function CountryPage({
         </section>
       )}
 
-      {/* Play games about this country */}
-      {games.length > 0 && (
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">
-            Play Games About Countries
-          </h2>
-          <p className="text-cream-muted mb-4">
-            Test your knowledge of {country.displayName} and other countries
-            around the world.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {games.map((game) => (
-              <Link
-                key={game.slug}
-                href={game.route}
-                className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
-              >
-                <span className="text-3xl shrink-0">{game.emoji}</span>
-                <div className="min-w-0">
-                  <p className="font-semibold">{game.title}</p>
-                  <p className="text-sm text-cream-muted mt-0.5 line-clamp-2">
-                    {game.shortDescription}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* Play games featuring this country */}
+      <section className="mb-12">
+        <h2 className="text-2xl font-bold mb-4">
+          Test Your Knowledge of {country.displayName}
+        </h2>
+        <p className="text-cream-muted mb-4">
+          Think you know {country.displayName}? Challenge yourself with these geography games.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { href: "/games/flag-quiz", emoji: "🏁", title: "Flag Quiz", desc: `Can you identify ${country.displayName}'s flag?` },
+            { href: "/games/higher-or-lower", emoji: "⬆️", title: "Higher or Lower", desc: `How does ${country.displayName} compare to other nations?` },
+            { href: "/games/capital-match", emoji: "🏛️", title: "Capital Match", desc: `Do you know the capital of ${country.displayName}?` },
+            { href: "/games/country-draft", emoji: "🎯", title: "Country Draft", desc: "Assign countries to their strongest stats" },
+            { href: "/games/border-buddies", emoji: "🤝", title: "Border Buddies", desc: `Name all countries bordering ${country.displayName}` },
+          ].map((game) => (
+            <Link
+              key={game.href}
+              href={game.href}
+              className="flex items-start gap-4 rounded-xl border border-border bg-surface p-5 hover:border-border-hover hover:bg-surface/50 transition-colors"
+            >
+              <span className="text-3xl shrink-0">{game.emoji}</span>
+              <div className="min-w-0">
+                <p className="font-semibold">{game.title}</p>
+                <p className="text-sm text-cream-muted mt-0.5">{game.desc}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <Link
+          href="/games"
+          className="inline-block mt-4 text-sm text-gold hover:underline"
+        >
+          View all {games.length} games →
+        </Link>
+      </section>
+
+      {/* Related lists */}
+      <section className="mb-12 pt-8 border-t border-border">
+        <h2 className="text-lg font-bold mb-4">Explore More Rankings</h2>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+            Most Populated Countries
+          </Link>
+          <Link href="/lists/largest-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+            Largest Countries
+          </Link>
+          <Link href="/lists/richest-countries" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium hover:border-border-hover transition-colors">
+            Richest Countries
+          </Link>
+          <Link href="/categories" className="px-4 py-2 bg-surface border border-border rounded-lg text-sm font-medium text-gold hover:border-border-hover transition-colors">
+            All Rankings →
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
