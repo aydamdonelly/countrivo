@@ -43,7 +43,16 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
   const round = state.rounds[state.currentRound];
 
   const handleSubmit = useCallback(() => {
-    const parsed = parseFloat(inputValue.replace(/,/g, ""));
+    let cleaned = inputValue.trim();
+    // Handle European decimal notation: "1,4" → "1.4"
+    // If exactly one comma and no period, treat comma as decimal separator
+    if ((cleaned.match(/,/g) || []).length === 1 && !cleaned.includes(".")) {
+      cleaned = cleaned.replace(",", ".");
+    } else {
+      // Multiple commas = thousand separators: "1,000,000" → "1000000"
+      cleaned = cleaned.replace(/,/g, "");
+    }
+    const parsed = parseFloat(cleaned);
     if (isNaN(parsed)) return;
     dispatch({ type: "SUBMIT", value: parsed });
     setInputValue("");

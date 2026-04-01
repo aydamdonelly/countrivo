@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useReducer, useState, useEffect, useMemo } from "react";
+import { useCallback, useReducer, useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import {
   createGame,
@@ -16,6 +16,10 @@ import { CountryReveal } from "./country-reveal";
 import { OptimalComparison } from "./optimal-comparison";
 import { DraftShareCard } from "./draft-share-card";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import { getTodayDateKey } from "@/lib/daily-seed";
+import type { ServerGameRun } from "@/types/server";
 
 type Action =
   | { type: "ASSIGN"; categoryIdx: number }
@@ -50,6 +54,10 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
   const [state, dispatch] = useReducer(reducer, null as unknown as DraftGameState, () => createGame(mode));
   const [mounted, setMounted] = useState(false);
   const [result, setResult] = useState<DraftResult | null>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const currentCountry = getCurrentCountry(state);
   const gameComplete = isComplete(state);
@@ -61,8 +69,55 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
       const r = computeResult(state);
       setResult(r);
       onComplete?.(r);
+
+      // Submit to server
+      const doSubmit = async () => {
+        if (submitting) return;
+        setSubmitting(true);
+
+        // Max possible score: sum of worst ranks (243 per country × 8 countries)
+        const MAX_POSSIBLE = 8 * 243;
+
+        const payload = {
+          gameSlug: "country-draft",
+          mode: mode as "daily" | "practice",
+          dateKey: getTodayDateKey(),
+          scoreRaw: r.playerScore,
+          scoreMax: MAX_POSSIBLE,
+          scoreSortValue: MAX_POSSIBLE - r.playerScore, // lower score = better → invert
+          scoreDisplay: `Score: ${r.playerScore} (Gap: ${r.gap})`,
+          resultJson: {
+            playerScore: r.playerScore,
+            optimalScore: r.optimalScore,
+            gap: r.gap,
+            grade: r.grade,
+            stars: r.stars,
+            assignments: r.assignments,
+            optimalAssignments: r.optimalAssignments,
+          },
+          startedAt: startedAtRef.current,
+        };
+
+        if (user) {
+          const res = await submitGameRun(payload);
+          if (res.success && res.run) {
+            setServerData(res.run);
+          }
+        } else if (mode === "daily") {
+          // Guest completed daily — prompt sign-in with callback to submit
+          openAuthModal(async () => {
+            const res = await submitGameRun(payload);
+            if (res.success && res.run) {
+              setServerData(res.run);
+            }
+          });
+        }
+        setSubmitting(false);
+      };
+      doSubmit();
     }
-  }, [gameComplete, result, state, onComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameComplete]);
 
   const handleAssign = useCallback(
     (categoryIdx: number) => {
@@ -117,22 +172,45 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           </h2>
           <p className="text-lg text-cream-muted mt-3">{grade.message}</p>
 
-          <div className="flex items-center justify-center gap-8 sm:gap-12 mt-8">
-            <div>
+          <div className="flex items-center justify-center gap-6 sm:gap-10 mt-8 flex-wrap">
+            <div className="text-center">
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.playerScore}</div>
               <div className="text-base text-cream-muted mt-1">Your Score</div>
             </div>
-            <div className="w-px h-14 bg-border" />
-            <div>
+            <div className="w-px h-14 bg-border hidden sm:block" />
+            <div className="text-center">
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.optimalScore}</div>
               <div className="text-base text-cream-muted mt-1">Optimal</div>
             </div>
-            <div className="w-px h-14 bg-border" />
-            <div>
+            <div className="w-px h-14 bg-border hidden sm:block" />
+            <div className="text-center">
               <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.gap}</div>
               <div className="text-base text-cream-muted mt-1">Gap</div>
             </div>
+            {serverData?.rankDaily != null && (
+              <>
+                <div className="w-px h-14 bg-border hidden sm:block" />
+                <div className="text-center">
+                  <div className="text-4xl sm:text-5xl font-extrabold font-mono text-gold">#{serverData.rankDaily}</div>
+                  <div className="text-base text-cream-muted mt-1">Rank today</div>
+                </div>
+              </>
+            )}
+            {serverData?.percentile != null && (
+              <>
+                <div className="w-px h-14 bg-border hidden sm:block" />
+                <div className="text-center">
+                  <div className="text-4xl sm:text-5xl font-extrabold font-mono">{Math.round(serverData.percentile)}%</div>
+                  <div className="text-base text-cream-muted mt-1">Better than</div>
+                </div>
+              </>
+            )}
           </div>
+          {serverData?.isPersonalBest && (
+            <div className="mt-4 px-4 py-2 bg-gold-dim text-gold text-sm font-bold rounded-full animate-scale-in">
+              New personal best!
+            </div>
+          )}
         </div>
 
         {/* Comparison table */}

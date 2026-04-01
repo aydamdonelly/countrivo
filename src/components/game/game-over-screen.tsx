@@ -18,6 +18,13 @@ import {
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
 
+interface ServerData {
+  rankToday: number | null;
+  percentile: number | null;
+  totalPlayersToday: number;
+  isPersonalBest: boolean;
+}
+
 interface GameOverScreenProps {
   title: string;
   score: string;
@@ -30,6 +37,8 @@ interface GameOverScreenProps {
   maxScore?: number;
   /** Game slug for personal best + history tracking */
   gameSlug?: string;
+  /** Real server data — when provided, replaces simulated values */
+  serverData?: ServerData;
 }
 
 /* ---------- Tier system ---------- */
@@ -148,7 +157,7 @@ function getInsight(
 async function shareResult(title: string, score: string, tier: string | null, percentile: number | null) {
   const lines = [title, score];
   if (tier) lines.push(tier);
-  if (percentile) lines.push(`Top ${100 - percentile}%`);
+  if (percentile) lines.push(`Better than ${percentile}%`);
   lines.push("", "countrivo.com");
   const text = lines.join("\n");
   if (navigator.share) {
@@ -187,6 +196,7 @@ export function GameOverScreen({
   numericScore,
   maxScore,
   gameSlug,
+  serverData,
 }: GameOverScreenProps) {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
@@ -197,7 +207,12 @@ export function GameOverScreen({
     numericScore !== undefined && maxScore !== undefined && maxScore > 0;
   const pct = hasTier ? (numericScore / maxScore) * 100 : null;
   const tier = pct !== null ? getGradeTier(pct) : null;
-  const percentile = pct !== null ? simulatePercentile(pct) : null;
+  // Use real percentile from server if available, otherwise simulate
+  const percentile = serverData?.percentile != null
+    ? Math.round(serverData.percentile)
+    : pct !== null ? simulatePercentile(pct) : null;
+  const hasRealData = serverData?.percentile != null;
+  const rankToday = serverData?.rankToday ?? null;
   const insight =
     pct !== null && numericScore !== undefined && maxScore !== undefined
       ? getInsight(pct, history, numericScore, maxScore)
@@ -237,17 +252,23 @@ export function GameOverScreen({
         {score}
       </div>
 
-      {/* Tier badge + percentile */}
+      {/* Tier badge + percentile + rank */}
       {tier && percentile !== null ? (
         <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap justify-center">
             <span
               className={`inline-block px-4 py-1.5 text-sm font-bold rounded-full ${tier.className}`}
             >
               {tier.label}
             </span>
+            {rankToday != null && (
+              <span className="text-sm font-bold text-gold">
+                Rank #{rankToday} today
+              </span>
+            )}
             <span className="text-sm text-cream-muted">
-              Top <span className="font-bold text-cream">{100 - percentile}%</span>
+              Better than <span className="font-bold text-cream">{percentile}%</span>
+              {!hasRealData && <span className="text-[10px] ml-1 opacity-50">(est.)</span>}
             </span>
           </div>
           <p className="text-sm text-cream-muted text-center max-w-xs">
@@ -257,6 +278,11 @@ export function GameOverScreen({
       ) : subtitle ? (
         <p className="text-lg text-cream-muted text-center">{subtitle}</p>
       ) : null}
+      {serverData?.isPersonalBest && (
+        <div className="px-4 py-1.5 bg-gold-dim text-gold text-sm font-bold rounded-full animate-scale-in">
+          New personal best!
+        </div>
+      )}
 
       {/* Analytical insight — the "what happened" layer */}
       {insight && (

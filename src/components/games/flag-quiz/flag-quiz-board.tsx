@@ -1,16 +1,19 @@
 "use client";
 
-import { useReducer, useState, useEffect, useCallback, useMemo } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef } from "react";
 import {
   createFlagQuiz,
   answerQuestion,
   type FlagQuizState,
 } from "@/lib/game-logic/flag-quiz/engine";
-import { getDailyRng } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { useAuth } from "@/components/auth/auth-provider";
+import { submitGameRun } from "@/app/actions/game-runs";
+import type { ServerGameRun } from "@/types/server";
 
 interface FlagQuizBoardProps {
   mode: "daily" | "practice";
@@ -40,6 +43,10 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+  const startedAtRef = useRef<string>(new Date().toISOString());
+  const { user, openAuthModal } = useAuth();
 
   const currentQ = state.questions[state.currentQuestion];
 
@@ -67,6 +74,38 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
 
   useGameKeys(keymap, state.phase !== "results");
 
+  // Submit to server when game ends
+  if (state.phase === "results" && !submitted) {
+    setSubmitted(true);
+
+    const payload = {
+      gameSlug: "flag-quiz",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.score,
+      scoreMax: state.questions.length,
+      scoreSortValue: state.score,
+      scoreDisplay: `${state.score} / ${state.questions.length}`,
+      resultJson: {
+        score: state.score,
+        total: state.questions.length,
+        answers: state.answers,
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      openAuthModal(async () => {
+        const res = await submitGameRun(payload);
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }
+
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);
     return (
@@ -78,10 +117,16 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
             ? "Perfect score!"
             : `${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`
         }
-        onPlayAgain={mode === "practice" ? () => dispatch({ type: "RESET" }) : undefined}
+        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); } : undefined}
         numericScore={state.score}
         maxScore={state.questions.length}
         gameSlug="flag-quiz"
+        serverData={serverData ? {
+          rankToday: serverData.rankDaily,
+          percentile: serverData.percentile,
+          totalPlayersToday: 0,
+          isPersonalBest: serverData.isPersonalBest,
+        } : undefined}
       />
     );
   }

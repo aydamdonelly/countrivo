@@ -17,7 +17,7 @@ export interface SpeedFlagsState {
   phase: "ready" | "playing" | "results";
 }
 
-export function createSpeedFlags(rng: () => number, queueSize = 20): SpeedFlagsState {
+export function createSpeedFlags(rng: () => number, queueSize = 100): SpeedFlagsState {
   const shuffled = seededShuffle([...countries], rng);
   const queue: SpeedFlagsQuestion[] = [];
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
 import { getGameColor } from "@/lib/game-colors";
+import { PlayedTodayBanner } from "@/components/game/played-today-banner";
 
 export const metadata: Metadata = {
   title: "Country Draft | Assign Countries to Their Best Stats",
@@ -57,8 +58,13 @@ export default function CountryDraftPage() {
               <span className="px-2 py-0.5 bg-black/5 rounded-full">Strategy</span>
             </div>
 
+            {/* Played today banner */}
+            <div className="mt-4">
+              <PlayedTodayBanner gameSlug="country-draft" playHref="/games/country-draft/play" />
+            </div>
+
             {/* CTAs */}
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href="/games/country-draft/play?mode=daily"
                 className="cta-primary"

@@ -5,6 +5,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { TopoBg } from "@/components/layout/topo-bg";
+import { AuthProvider } from "@/components/auth/auth-provider";
+import { AuthModal } from "@/components/auth/auth-modal";
 import Link from "next/link";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
@@ -105,8 +107,10 @@ export default function RootLayout({
             }),
           }}
         />
+        <AuthProvider>
         <TopoBg />
         <Header />
+        <AuthModal />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-border bg-surface-elevated">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -166,6 +170,7 @@ export default function RootLayout({
         </footer>
         <Analytics />
         <SpeedInsights />
+        </AuthProvider>
       </body>
     </html>
   );

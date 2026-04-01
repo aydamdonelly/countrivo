@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import type { RealtimeChannel } from "@supabase/supabase-js";
 
 type Message = { type: string; [key: string]: unknown };
@@ -14,6 +14,7 @@ export function useMultiplayer(roomCode: string | null) {
   useEffect(() => {
     if (!roomCode) return;
 
+    const supabase = createClient();
     const channel = supabase.channel(`room:${roomCode}`, {
       config: { broadcast: { self: false } },
     });

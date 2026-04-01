@@ -5,6 +5,24 @@ import { JoinCodeInput } from "@/components/join-code-input";
 import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
+import { getDailySummary, checkDailyStatus } from "@/app/actions/game-runs";
+import { createClient } from "@/lib/supabase/server";
+
+async function getServerProfile() {
+  try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return null;
+    const { data } = await supabase
+      .from("profiles")
+      .select("streak_current")
+      .eq("id", user.id)
+      .single();
+    return data ? { streakCurrent: data.streak_current ?? 0 } : null;
+  } catch {
+    return null;
+  }
+}
 
 export const metadata: Metadata = {
   title: "Countrivo | Free Geography Games & Daily Challenges",
@@ -33,10 +51,17 @@ const VS_GAMES = [
   },
 ];
 
-export default function HomePage() {
+export default async function HomePage() {
   const flagship = getFlagshipGame();
   const allGames = getAllGames();
   const nonFlagship = allGames.filter((g) => !g.isFlagship);
+
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const [summary, dailyStatus, profile] = await Promise.all([
+    getDailySummary(flagship.slug, todayKey),
+    checkDailyStatus(flagship.slug, todayKey),
+    getServerProfile(),
+  ]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -59,7 +84,12 @@ export default function HomePage() {
       />
 
       {/* Daily Challenge Hero — THE dominant element */}
-      <DailyHero flagshipRoute={flagship.route} />
+      <DailyHero
+        flagshipRoute={flagship.route}
+        flagshipSlug={flagship.slug}
+        serverPlayedToday={dailyStatus.played}
+        serverStreak={profile?.streakCurrent ?? null}
+      />
 
       {/* Today's featured game — the daily game briefing */}
       <section className="mb-8">
@@ -109,7 +139,7 @@ export default function HomePage() {
         </Link>
       </section>
 
-      {/* Simulated leaderboard teaser — makes product feel alive */}
+      {/* Real leaderboard teaser */}
       <section className="mb-8 p-4 rounded-xl bg-surface-elevated border border-border">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-sm font-bold">Today&apos;s leaderboard</h2>
@@ -121,20 +151,32 @@ export default function HomePage() {
           <div className="p-3 rounded-lg bg-white">
             <div className="text-xl mb-1">🥇</div>
             <div className="text-xs font-bold text-gold">Top score</div>
-            <div className="text-lg font-extrabold font-mono">42</div>
-            <div className="text-[10px] text-cream-muted">out of 48 possible</div>
+            <div className="text-lg font-extrabold font-mono">
+              {summary.topScoreDisplay ?? "—"}
+            </div>
+            <div className="text-[10px] text-cream-muted">
+              {summary.playerCount > 0 ? "today's best" : "be the first"}
+            </div>
           </div>
           <div className="p-3 rounded-lg bg-white">
             <div className="text-xl mb-1">👥</div>
             <div className="text-xs font-bold">Players today</div>
-            <div className="text-lg font-extrabold font-mono">—</div>
-            <div className="text-[10px] text-cream-muted">play to join</div>
+            <div className="text-lg font-extrabold font-mono">
+              {summary.playerCount > 0 ? summary.playerCount : "—"}
+            </div>
+            <div className="text-[10px] text-cream-muted">
+              {summary.playerCount > 0 ? "and counting" : "play to join"}
+            </div>
           </div>
           <div className="p-3 rounded-lg bg-white">
             <div className="text-xl mb-1">🎯</div>
             <div className="text-xs font-bold">Avg score</div>
-            <div className="text-lg font-extrabold font-mono">31</div>
-            <div className="text-[10px] text-cream-muted">can you beat it?</div>
+            <div className="text-lg font-extrabold font-mono">
+              {summary.playerCount > 0 ? Math.round(summary.avgScore) : "—"}
+            </div>
+            <div className="text-[10px] text-cream-muted">
+              {summary.playerCount > 0 ? "can you beat it?" : "play to set it"}
+            </div>
           </div>
         </div>
       </section>

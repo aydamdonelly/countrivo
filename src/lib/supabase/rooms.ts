@@ -1,4 +1,4 @@
-import { supabase } from "./client";
+import { createClient } from "./client";
 
 function generateCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // no I/O/0/1
@@ -9,6 +9,7 @@ function generateCode(): string {
 }
 
 export async function createRoom(gameType: string) {
+  const supabase = createClient();
   const code = generateCode();
   const seed = Math.floor(Math.random() * 2147483647);
 
@@ -29,6 +30,7 @@ export async function createRoom(gameType: string) {
 }
 
 export async function joinRoom(code: string) {
+  const supabase = createClient();
   const { data, error } = await supabase
     .from("game_rooms")
     .select()
@@ -47,6 +49,7 @@ export async function joinRoom(code: string) {
 }
 
 export async function getRoomByCode(code: string) {
+  const supabase = createClient();
   const { data } = await supabase
     .from("game_rooms")
     .select()

@@ -6,19 +6,15 @@ import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
 
-function getTodayKey(): string {
-  return new Date().toISOString().slice(0, 10);
-}
-
 function getHoursUntilReset(): number {
   const now = new Date();
-  const tomorrow = new Date(now);
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(Date.UTC(
+    now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1
+  ));
   return Math.ceil((tomorrow.getTime() - now.getTime()) / (1000 * 60 * 60));
 }
 
-function computeStreak(): number {
+function computeLocalStreak(): number {
   if (typeof window === "undefined") return 0;
   const games = getAllGames();
   const dailyGames = games.filter((g) => g.availableModes.includes("daily"));
@@ -43,7 +39,7 @@ function computeStreak(): number {
 function countTodayCompleted(): number {
   if (typeof window === "undefined") return 0;
   const games = getAllGames();
-  const dateKey = getTodayKey();
+  const dateKey = new Date().toISOString().slice(0, 10);
   return games.filter((g) =>
     g.availableModes.includes("daily") &&
     getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)
@@ -52,22 +48,38 @@ function countTodayCompleted(): number {
 
 interface DailyHeroProps {
   flagshipRoute: string;
+  flagshipSlug?: string;
+  /** Pre-fetched from server: whether user already played the flagship daily today */
+  serverPlayedToday?: boolean;
+  /** Pre-fetched from server: user's current streak (null = guest/no data) */
+  serverStreak?: number | null;
 }
 
-export function DailyHero({ flagshipRoute }: DailyHeroProps) {
+export function DailyHero({
+  flagshipRoute,
+  serverPlayedToday = false,
+  serverStreak = null,
+}: DailyHeroProps) {
   const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(0);
   const [hoursLeft, setHoursLeft] = useState(0);
   const [mounted, setMounted] = useState(false);
 
+  const playedFlagship = serverPlayedToday;
+
   useEffect(() => {
-    setStreak(computeStreak());
+    // Use server streak if available, otherwise compute from localStorage
+    if (serverStreak != null) {
+      setStreak(serverStreak);
+    } else {
+      setStreak(computeLocalStreak());
+    }
     setCompleted(countTodayCompleted());
     setHoursLeft(getHoursUntilReset());
     setMounted(true);
-  }, []);
+  }, [serverStreak]);
 
-  const totalDaily = 11; // games with daily mode
+  const totalDaily = 11;
 
   return (
     <section className="text-center py-8 sm:py-10">
@@ -88,22 +100,24 @@ export function DailyHero({ flagshipRoute }: DailyHeroProps) {
       </div>
 
       <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
-        Today&apos;s challenge is live.
+        {playedFlagship ? "You\u2019ve played today." : "Today\u2019s challenge is live."}
       </h1>
       <p className="mt-3 text-base sm:text-lg text-cream-muted max-w-md mx-auto">
-        Same puzzle for every player. One attempt. Prove what you know.
+        {playedFlagship
+          ? "Check your rank, practice, or try another daily game."
+          : "Same puzzle for every player. One attempt. Prove what you know."}
       </p>
 
-      {/* Primary CTA — THE most dominant element */}
+      {/* Primary CTA */}
       <Link
-        href={`${flagshipRoute}/play?mode=daily`}
+        href={playedFlagship ? `${flagshipRoute}` : `${flagshipRoute}/play?mode=daily`}
         className="cta-primary mt-6 text-lg sm:text-xl px-10 py-4"
       >
-        Play today&apos;s challenge
+        {playedFlagship ? "View your result" : "Play today\u2019s challenge"}
         <IconArrowRight width={20} height={20} />
       </Link>
 
-      {/* Live status row — streak, progress, social proof */}
+      {/* Live status row */}
       {mounted && (
         <div className="flex items-center justify-center gap-5 sm:gap-8 mt-6 text-sm">
           {streak > 0 && (
