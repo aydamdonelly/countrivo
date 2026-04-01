@@ -44,9 +44,25 @@ const GAME_ICONS: Record<string, React.ComponentType<SVGProps<SVGSVGElement>>> =
   blitz: IconBolt,
 };
 
-/* ── hardcoded VS games (Task 23 will register them) ── */
-const VS_SLUGS = ["supremacy", "borderline", "blitz"];
+/* ── color map — each game gets its own card color ── */
+const GAME_COLORS: Record<string, { bg: string; text: string }> = {
+  "country-draft":   { bg: "#fee2e2", text: "#991b1b" },
+  "flag-quiz":       { bg: "#dbeafe", text: "#1e3a5f" },
+  "higher-or-lower": { bg: "#d1fae5", text: "#064e3b" },
+  "capital-match":   { bg: "#fef3c7", text: "#78350f" },
+  "population-sort": { bg: "#ede9fe", text: "#4c1d95" },
+  "country-streak":  { bg: "#ffedd5", text: "#7c2d12" },
+  "border-buddies":  { bg: "#ccfbf1", text: "#134e4a" },
+  "continent-sprint":{ bg: "#e0e7ff", text: "#312e81" },
+  "stat-guesser":    { bg: "#fce7f3", text: "#831843" },
+  "speed-flags":     { bg: "#ecfccb", text: "#365314" },
+  "odd-one-out":     { bg: "#f3e8ff", text: "#581c87" },
+  "supremacy":       { bg: "#fef9c3", text: "#713f12" },
+  "borderline":      { bg: "#cffafe", text: "#155e75" },
+  "blitz":           { bg: "#fecaca", text: "#7f1d1d" },
+};
 
+/* ── hardcoded VS games ── */
 const VS_GAMES = [
   {
     slug: "supremacy",
@@ -68,145 +84,114 @@ const VS_GAMES = [
 export default function HomePage() {
   const flagship = getFlagshipGame();
   const allGames = getAllGames();
-  const soloGames = allGames.filter(
-    (g) => !g.isFlagship && !VS_SLUGS.includes(g.slug),
-  );
 
   return (
-    <div className="max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 pb-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      {/* JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            name: "Countrivo Geography Games",
-            numberOfItems: allGames.length,
-            itemListElement: allGames.map((g, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              name: g.title,
-              url: `https://countrivo.com${g.route}`,
-            })),
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Countrivo Geography Games",
+          numberOfItems: allGames.length,
+          itemListElement: allGames.map((g, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            name: g.title,
+            url: `https://countrivo.com${g.route}`,
+          })),
+        })}}
       />
-      {/* ═══ HERO ═══ */}
-      <section className="mt-6 mb-8">
-        <p className="text-xs font-semibold text-gold">Today&apos;s challenge</p>
-        <h1 className="text-[30px] font-bold leading-tight mt-1">
-          {flagship.title}
+
+      {/* Hero */}
+      <section className="text-center py-12 sm:py-16">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+          Geography Games
         </h1>
-        <p className="text-sm text-cream-muted mt-2 leading-relaxed">
-          {flagship.description}
+        <p className="mt-4 text-lg sm:text-xl text-cream-muted max-w-2xl mx-auto">
+          14 free games. 243 countries. Test what you know about the world.
         </p>
         <Link
           href={`${flagship.route}/play?mode=daily`}
-          className="inline-flex items-center gap-1.5 mt-5 px-5 py-2.5 bg-gold text-white text-sm font-semibold rounded-md hover:opacity-90 transition-opacity"
+          className="inline-flex items-center gap-2 mt-8 px-8 py-3.5 bg-cream text-bg font-bold text-lg rounded-full hover:opacity-90 transition-opacity"
         >
-          Play today <IconArrowRight width={14} height={14} />
+          Play today&apos;s challenge <IconArrowRight width={16} height={16} />
         </Link>
       </section>
 
-      {/* ── divider ── */}
-      <div className="h-px bg-border" />
+      {/* Game Grid — each card has its own color */}
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {allGames.map((game) => {
+          const colors = GAME_COLORS[game.slug] ?? { bg: "#f3f4f6", text: "#374151" };
+          const Ico = GAME_ICONS[game.slug] ?? IconGlobe;
+          return (
+            <Link
+              key={game.slug}
+              href={game.route}
+              className="group relative rounded-2xl p-5 sm:p-6 transition-all hover:scale-[1.03] hover:shadow-lg"
+              style={{ backgroundColor: colors.bg }}
+            >
+              {game.isFlagship && (
+                <span className="absolute top-3 right-3 px-2 py-0.5 bg-black/10 text-[10px] font-bold uppercase rounded-full" style={{ color: colors.text }}>
+                  Featured
+                </span>
+              )}
+              {game.isNew && (
+                <span className="absolute top-3 right-3 px-2 py-0.5 bg-black/10 text-[10px] font-bold uppercase rounded-full" style={{ color: colors.text }}>
+                  New
+                </span>
+              )}
+              <Ico width={28} height={28} style={{ color: colors.text }} className="mb-3 opacity-70" />
+              <h2 className="font-bold text-lg leading-tight" style={{ color: colors.text }}>
+                {game.title}
+              </h2>
+              <p className="mt-1.5 text-sm leading-relaxed opacity-75" style={{ color: colors.text }}>
+                {game.shortDescription}
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-black/5" style={{ color: colors.text }}>
+                  {game.difficulty}
+                </span>
+                <span className="text-xs opacity-60" style={{ color: colors.text }}>
+                  {game.estimatedTime}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
+      </section>
 
-      {/* ═══ VERSUS ═══ */}
-      <section className="mt-6">
-        <div className="flex items-center gap-2 mb-4">
-          <h2 className="text-[13px] font-bold text-cream uppercase tracking-wide">
-            Versus
-          </h2>
-          <span className="flex items-center gap-1 text-[11px] text-cream-muted">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+      {/* VS / Multiplayer */}
+      <section className="mt-16">
+        <div className="flex items-center gap-3 mb-6">
+          <h2 className="text-2xl font-extrabold">Play with Friends</h2>
+          <span className="flex items-center gap-1.5 text-sm text-cream-muted">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             Live
           </span>
         </div>
 
-        <div className="flex flex-col gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {VS_GAMES.map((vs) => {
+            const colors = GAME_COLORS[vs.slug] ?? { bg: "#f3f4f6", text: "#374151" };
             const Ico = GAME_ICONS[vs.slug] ?? IconGlobe;
             return (
               <Link
                 key={vs.slug}
                 href={`/games/${vs.slug}`}
-                className="flex items-center gap-3.5 bg-white border border-black/5 rounded-lg px-4 py-3.5 shadow-sm hover:shadow-md transition-shadow group"
+                className="rounded-2xl p-5 transition-all hover:scale-[1.02] hover:shadow-md"
+                style={{ backgroundColor: colors.bg }}
               >
-                <Ico
-                  width={22}
-                  height={22}
-                  className="text-gold shrink-0"
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-[17px] font-bold leading-tight">
-                    {vs.title}
-                  </p>
-                  <p className="text-xs text-cream-muted">
-                    {vs.desc}
-                  </p>
-                </div>
-                <IconArrowRight
-                  width={14}
-                  height={14}
-                  className="text-cream-muted shrink-0 group-hover:text-cream transition-colors"
-                />
+                <Ico width={24} height={24} style={{ color: colors.text }} className="mb-2 opacity-70" />
+                <h3 className="font-bold text-lg" style={{ color: colors.text }}>{vs.title}</h3>
+                <p className="text-sm mt-1 opacity-70" style={{ color: colors.text }}>{vs.desc}</p>
               </Link>
             );
           })}
         </div>
 
-        {/* ── Join code row ── */}
         <JoinCodeInput />
-      </section>
-
-      {/* ── divider ── */}
-      <div className="h-px bg-border mt-6" />
-
-      {/* ═══ SOLO ═══ */}
-      <section className="mt-6">
-        <h2 className="text-[13px] font-bold text-cream uppercase tracking-wide mb-4">
-          Solo Games
-        </h2>
-
-        <div className="grid grid-cols-2 gap-3">
-          {soloGames.map((game) => {
-            const Ico = GAME_ICONS[game.slug] ?? IconGlobe;
-            return (
-              <Link
-                key={game.slug}
-                href={game.route}
-                className="game-card bg-white border border-black/5 p-4 shadow-sm group"
-              >
-                <Ico
-                  width={20}
-                  height={20}
-                  className="text-gold mb-2"
-                />
-                <p className="text-sm font-bold text-cream group-hover:text-gold transition-colors leading-tight">
-                  {game.title}
-                </p>
-                <p className="text-[11px] text-cream-muted mt-1 line-clamp-2">
-                  {game.shortDescription}
-                </p>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[10px] text-cream-muted px-1.5 py-0.5 bg-surface-elevated rounded capitalize">
-                    {game.difficulty}
-                  </span>
-                  <span className="text-[10px] text-cream-muted">
-                    {game.estimatedTime}
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        <Link
-          href="/games"
-          className="block text-center text-sm text-gold font-medium mt-4 hover:underline"
-        >
-          View all {allGames.length} games →
-        </Link>
       </section>
     </div>
   );

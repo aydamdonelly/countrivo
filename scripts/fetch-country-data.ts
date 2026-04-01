@@ -86,6 +86,21 @@ async function fetchRESTCountries(): Promise<RESTCountry[]> {
   );
 }
 
+// World Bank returns data for aggregate regions (EU, OECD, Arab World, etc.)
+// alongside real countries. Filter these out to avoid corrupted data.
+const WB_AGGREGATES = new Set([
+  "OE", "EU", "XC", "XD", "XE", "XF", "XG", "XH", "XI", "XJ",
+  "XL", "XM", "XN", "XO", "XP", "XQ", "XR", "XS", "XT",
+  "XU", "XV", "XY", "ZB", "ZF", "ZG", "ZH", "ZI", "ZJ", "ZQ",
+  "ZT",
+]);
+
+function isRealCountryCode(id: string): boolean {
+  if (id.length !== 2) return false;
+  if (/\d/.test(id)) return false;
+  return !WB_AGGREGATES.has(id);
+}
+
 async function fetchWorldBankIndicator(
   indicator: string
 ): Promise<Map<string, { value: number; year: number }>> {
@@ -93,13 +108,13 @@ async function fetchWorldBankIndicator(
 
   // Fetch most recent data (try last 5 years to find data)
   for (const year of [2023, 2022, 2021, 2020, 2019]) {
-    const url = `https://api.worldbank.org/v2/country/all/indicator/${indicator}?date=${year}&format=json&per_page=500`;
+    const url = `https://api.worldbank.org/v2/country/all/indicator/${indicator}?date=${year}&format=json&per_page=1000`;
     try {
       const data = await fetchJSON<[unknown, WorldBankEntry[] | null]>(url);
       if (!data[1]) continue;
 
       for (const entry of data[1]) {
-        if (entry.value !== null && !results.has(entry.country.id)) {
+        if (entry.value !== null && !results.has(entry.country.id) && isRealCountryCode(entry.country.id)) {
           results.set(entry.country.id, { value: entry.value, year });
         }
       }
@@ -205,6 +220,50 @@ async function main() {
     // Rate limit: small delay between requests
     await new Promise((r) => setTimeout(r, 200));
   }
+
+  // Validation: check for suspicious values
+  console.log("\n=== VALIDATION ===");
+  const tourismTop = Object.entries(stats)
+    .filter(([, s]) => s["tourism-arrivals"])
+    .sort(([, a], [, b]) => b["tourism-arrivals"] - a["tourism-arrivals"])
+    .slice(0, 10)
+    .map(([iso3, s]) => `${iso3}: ${(s["tourism-arrivals"] / 1e6).toFixed(1)}M`);
+  console.log("Top 10 tourism:", tourismTop.join(", "));
+
+  const gdpTop = Object.entries(stats)
+    .filter(([, s]) => s["gdp"])
+    .sort(([, a], [, b]) => b["gdp"] - a["gdp"])
+    .slice(0, 5)
+    .map(([iso3, s]) => `${iso3}: $${(s["gdp"] / 1e12).toFixed(1)}T`);
+  console.log("Top 5 GDP:", gdpTop.join(", "));
+
+  const popTop = Object.entries(stats)
+    .filter(([, s]) => s["population"])
+    .sort(([, a], [, b]) => b["population"] - a["population"])
+    .slice(0, 5)
+    .map(([iso3, s]) => `${iso3}: ${(s["population"] / 1e6).toFixed(0)}M`);
+  console.log("Top 5 population:", popTop.join(", "));
+
+  // Override tourism-arrivals with authoritative UNWTO 2023 data
+  // World Bank ST.INT.ARVL is unreliable: some countries report border crossings,
+  // some report overnight stays, creating wildly inconsistent rankings.
+  // Source: UNWTO World Tourism Barometer 2024, international tourist arrivals
+  const tourismOverrides: Record<string, number> = {
+    FRA: 100000000, ESP: 85000000, USA: 79400000, ITA: 57200000, TUR: 55700000,
+    MEX: 42000000, GBR: 37600000, DEU: 28600000, GRC: 32700000, AUT: 31900000,
+    ARE: 28000000, THA: 28000000, JPN: 25100000, CHN: 25000000, PRT: 26800000,
+    SAU: 27400000, CAN: 22100000, IND: 18900000, HRV: 20600000, POL: 17400000,
+    NLD: 20700000, CZE: 14000000, HUN: 15800000, MAR: 14500000, MYS: 20100000,
+    SGP: 13600000, RUS: 18600000, EGY: 14900000, IDN: 14500000, CHE: 12000000,
+    DNK: 12100000, SWE: 10900000, HKG: 13200000, KOR: 11000000, AUS: 9500000,
+    BEL: 9300000, BGR: 10200000, IRL: 11000000, NOR: 7000000, FIN: 5700000,
+    BRA: 5900000, ARG: 5500000, COL: 6000000, CHL: 4600000, DOM: 9200000,
+    CUB: 3800000, ZAF: 8500000, NZL: 3200000, ISR: 3600000, PER: 3100000,
+  };
+  for (const [iso3, val] of Object.entries(tourismOverrides)) {
+    if (stats[iso3]) stats[iso3]["tourism-arrivals"] = val;
+  }
+  console.log("Tourism data overridden with UNWTO 2023 data for", Object.keys(tourismOverrides).length, "countries");
 
   // Step 3: Add curated niche stats (hardcoded for data quality)
   const beerConsumption: Record<string, number> = {

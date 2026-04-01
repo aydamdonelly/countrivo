@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getAllGames } from "@/lib/data/games";
-import { IconScale, IconPath, IconBolt, IconArrowRight } from "@/components/icons";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,19 +9,26 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://countrivo.com/games" },
 };
 
+/* ── color map — each game gets its own card color ── */
+const GAME_COLORS: Record<string, { bg: string; text: string }> = {
+  "country-draft":   { bg: "#fee2e2", text: "#991b1b" },
+  "flag-quiz":       { bg: "#dbeafe", text: "#1e3a5f" },
+  "higher-or-lower": { bg: "#d1fae5", text: "#064e3b" },
+  "capital-match":   { bg: "#fef3c7", text: "#78350f" },
+  "population-sort": { bg: "#ede9fe", text: "#4c1d95" },
+  "country-streak":  { bg: "#ffedd5", text: "#7c2d12" },
+  "border-buddies":  { bg: "#ccfbf1", text: "#134e4a" },
+  "continent-sprint":{ bg: "#e0e7ff", text: "#312e81" },
+  "stat-guesser":    { bg: "#fce7f3", text: "#831843" },
+  "speed-flags":     { bg: "#ecfccb", text: "#365314" },
+  "odd-one-out":     { bg: "#f3e8ff", text: "#581c87" },
+  "supremacy":       { bg: "#fef9c3", text: "#713f12" },
+  "borderline":      { bg: "#cffafe", text: "#155e75" },
+  "blitz":           { bg: "#fecaca", text: "#7f1d1d" },
+};
+
 export default function GamesPage() {
   const games = getAllGames();
-  const flagship = games.find((g) => g.isFlagship);
-  const vsGames = games.filter((g) => ["supremacy", "borderline", "blitz"].includes(g.slug));
-  const others = games.filter((g) => !g.isFlagship && !["supremacy", "borderline", "blitz"].includes(g.slug));
-
-  const byCategory = {
-    quiz: others.filter((g) => g.category === "quiz"),
-    ranking: others.filter((g) => g.category === "ranking"),
-    strategy: others.filter((g) => g.category === "strategy"),
-    speed: others.filter((g) => g.category === "speed"),
-    knowledge: others.filter((g) => g.category === "knowledge"),
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -92,84 +98,41 @@ export default function GamesPage() {
         {games.length} free geography games with daily challenges, practice mode, and shareable results. No account needed — just pick a game and play.
       </p>
 
-      {/* Flagship */}
-      {flagship && (
-        <Link
-          href={flagship.route}
-          className="game-card block bg-white border border-black/5 shadow-sm p-6 sm:p-8 mb-10 group"
-        >
-          <div className="flex items-center gap-6">
-            <span className="text-5xl shrink-0">{flagship.emoji}</span>
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-1">
-                <h2 className="text-2xl font-extrabold group-hover:text-gold transition-colors">{flagship.title}</h2>
-                <span className="px-2.5 py-1 bg-gold text-bg text-xs font-bold rounded-md uppercase">Featured</span>
+      {/* All games — colorful grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
+        {games.map((game) => {
+          const colors = GAME_COLORS[game.slug] ?? { bg: "#f3f4f6", text: "#374151" };
+          return (
+            <Link
+              key={game.slug}
+              href={game.route}
+              className="group rounded-2xl p-6 transition-all hover:scale-[1.02] hover:shadow-lg"
+              style={{ backgroundColor: colors.bg }}
+            >
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-3xl">{game.emoji}</span>
+                {game.isFlagship && (
+                  <span className="px-2.5 py-0.5 bg-black/10 text-[10px] font-bold rounded-full uppercase" style={{ color: colors.text }}>Featured</span>
+                )}
+                {game.isNew && (
+                  <span className="px-2.5 py-0.5 bg-black/10 text-[10px] font-bold rounded-full uppercase" style={{ color: colors.text }}>New</span>
+                )}
               </div>
-              <p className="text-cream-muted">{flagship.description}</p>
-            </div>
-          </div>
-        </Link>
-      )}
-
-      {/* Versus section */}
-      <section className="mb-12">
-        <div className="flex items-center gap-2 mb-4">
-          <div className="w-2 h-2 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-          <h2 className="text-2xl font-extrabold">Versus</h2>
-          <span className="text-xs font-semibold text-gold ml-1">LIVE</span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {vsGames.map((game) => {
-            const VsIcon = { supremacy: IconScale, borderline: IconPath, blitz: IconBolt }[game.slug] ?? IconBolt;
-            return (
-              <Link
-                key={game.slug}
-                href={game.route}
-                className="game-card bg-white border border-black/5 shadow-sm p-5 group flex items-start gap-4"
-              >
-                <VsIcon className="w-6 h-6 text-gold shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <h3 className="text-lg font-bold group-hover:text-gold transition-colors">{game.title}</h3>
-                    <span className="px-2 py-0.5 bg-gold-dim text-gold text-[10px] font-bold rounded-md uppercase">VS</span>
-                  </div>
-                  <p className="text-sm text-cream-muted">{game.shortDescription}</p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Categorized grid */}
-      {Object.entries(byCategory).map(([cat, gamesList]) => {
-        if (gamesList.length === 0) return null;
-        const catLabel = { quiz: "Quizzes", ranking: "Ranking Games", strategy: "Strategy", speed: "Speed Games", knowledge: "Knowledge" }[cat] || cat;
-        return (
-          <section key={cat} className="mb-12">
-            <h2 className="text-2xl font-extrabold mb-4 capitalize">{catLabel}</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {gamesList.map((game) => (
-                <Link
-                  key={game.slug}
-                  href={game.route}
-                  className="game-card bg-white border border-black/5 shadow-sm p-5 group"
-                >
-                  <span className="text-4xl block mb-3">{game.emoji}</span>
-                  <h3 className="text-lg font-bold group-hover:text-gold transition-colors">
-                    {game.title}
-                  </h3>
-                  <p className="text-sm text-cream-muted mt-1">{game.shortDescription}</p>
-                  <div className="flex items-center gap-3 mt-3 text-xs text-cream-muted">
-                    <span className="px-2 py-0.5 bg-surface-elevated rounded-md">{game.estimatedTime}</span>
-                    <span className="px-2 py-0.5 bg-surface-elevated rounded-md capitalize">{game.difficulty}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+              <h2 className="font-bold text-xl" style={{ color: colors.text }}>
+                {game.title}
+              </h2>
+              <p className="mt-1.5 text-sm leading-relaxed opacity-70" style={{ color: colors.text }}>
+                {game.description}
+              </p>
+              <div className="mt-3 flex items-center gap-3 text-xs" style={{ color: colors.text }}>
+                <span className="px-2 py-0.5 bg-black/5 rounded-full font-medium capitalize">{game.difficulty}</span>
+                <span className="opacity-60">{game.estimatedTime}</span>
+                <span className="px-2 py-0.5 bg-black/5 rounded-full capitalize">{game.category}</span>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
 
       {/* SEO text */}
       <section className="mt-12 pt-12 border-t border-border">
