@@ -24,11 +24,15 @@ export async function searchUsers(query: string): Promise<Profile[]> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return [];
 
-  // Get existing friend IDs to exclude
+  // Sanitize query for ilike: escape special SQL wildcard characters
+  const sanitized = query.trim().replace(/[%_\\]/g, (ch) => `\\${ch}`);
+
+  // Get existing friend IDs to exclude (bounded)
   const { data: friendships } = await supabase
     .from("friendships")
     .select("requester_id, addressee_id")
-    .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`);
+    .or(`requester_id.eq.${user.id},addressee_id.eq.${user.id}`)
+    .limit(500);
 
   const friendIds = new Set<string>();
   friendIds.add(user.id);
@@ -40,7 +44,7 @@ export async function searchUsers(query: string): Promise<Profile[]> {
   const { data } = await supabase
     .from("profiles")
     .select("*")
-    .or(`username.ilike.%${query}%,display_name.ilike.%${query}%`)
+    .or(`username.ilike.%${sanitized}%,display_name.ilike.%${sanitized}%`)
     .limit(10);
 
   return (data ?? [])

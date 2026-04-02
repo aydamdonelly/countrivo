@@ -44,9 +44,9 @@ export default function CountriesPage() {
 
       {/* Curiosity hooks — rotate daily */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-5">
-        {[pull1, pull2].map((pull, i) => (
+        {[pull1, pull2].map((pull) => (
           <Link
-            key={i}
+            key={pull.link}
             href={pull.link}
             className="flex items-center gap-3 p-3 rounded-xl bg-surface-elevated border border-border hover:border-border-hover transition-all group"
           >

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { msUntilReset } from "@/lib/daily-seed";
 import type { ServerGameRun } from "@/types/server";
 
 interface DailyAlreadyPlayedProps {
@@ -9,15 +10,6 @@ interface DailyAlreadyPlayedProps {
   gameTitle: string;
   run: ServerGameRun;
   totalPlayersToday?: number;
-}
-
-function getMsUntilReset(): number {
-  const now = new Date();
-  const berlinNow = new Date(now.toLocaleString("en-US", { timeZone: "Europe/Berlin" }));
-  const berlinMidnight = new Date(berlinNow);
-  berlinMidnight.setDate(berlinMidnight.getDate() + 1);
-  berlinMidnight.setHours(0, 0, 0, 0);
-  return Math.max(0, berlinMidnight.getTime() - berlinNow.getTime());
 }
 
 function formatTimeUntilReset(ms: number): string {
@@ -36,7 +28,7 @@ export function DailyAlreadyPlayed({
   run,
   totalPlayersToday,
 }: DailyAlreadyPlayedProps) {
-  const timeLeft = formatTimeUntilReset(getMsUntilReset());
+  const timeLeft = formatTimeUntilReset(msUntilReset());
 
   return (
     <div className="flex flex-col items-center gap-6 py-12 sm:py-16 text-center max-w-md mx-auto">

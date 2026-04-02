@@ -13,18 +13,23 @@ export default function VsJoinPage() {
     game_type: string;
     seed: number;
     code: string;
+    player_count?: number;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
+  // Host = first player in room (player_count === 1 when we loaded)
+  const isHost = room?.player_count === 1;
+
   const {
     connected,
     opponentJoined,
+    opponentDisconnected,
     myReady,
     opponentReady,
     countdown,
     sendReady,
-  } = useMultiplayer(room?.code ?? null);
+  } = useMultiplayer(room?.code ?? null, isHost);
 
   useEffect(() => {
     getRoomByCode(params.code)
@@ -136,6 +141,12 @@ export default function VsJoinPage() {
       )}
 
       {/* Connection status */}
+      {opponentDisconnected && (
+        <div className="mt-4 px-4 py-3 rounded-xl bg-incorrect/8 border border-incorrect/20 text-center">
+          <p className="text-sm font-medium text-incorrect">Opponent disconnected</p>
+          <p className="text-xs text-cream-muted mt-1">Waiting for reconnection...</p>
+        </div>
+      )}
       <p className="text-center text-[11px] text-cream-muted mt-6">
         {connected ? "Connected" : "Connecting..."}
       </p>

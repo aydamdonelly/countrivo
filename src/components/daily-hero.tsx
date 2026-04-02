@@ -102,9 +102,15 @@ export function DailyHero({
       <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
         {allDone
           ? "You cleared today."
-          : playedFlagship
-            ? "Keep going."
-            : "Today\u2019s challenge is live."}
+          : streak >= 30
+            ? `${streak}-day streak. Legend.`
+            : streak >= 14
+              ? `${streak} days strong.`
+              : streak >= 7
+                ? `${streak}-day streak!`
+                : playedFlagship
+                  ? "Keep going."
+                  : "Today\u2019s challenge is live."}
       </h1>
       <p className="mt-3 text-base sm:text-lg text-cream-muted max-w-lg mx-auto">
         {allDone
@@ -140,7 +146,7 @@ export function DailyHero({
               </span>
             ) : null}
           </div>
-          <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+          <div className={`h-2 bg-black/5 rounded-full overflow-hidden ${allDone ? "score-pop" : ""}`}>
             <div
               className="h-full rounded-full transition-all duration-700 ease-out"
               style={{

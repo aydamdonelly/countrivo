@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
 import {
   IconTarget,
@@ -136,16 +136,16 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
       const recentAvg = recent3.reduce((a, b) => a + b, 0) / recent3.length;
       const olderAvg = older.reduce((a, b) => a + b, 0) / older.length;
       if (recentAvg > olderAvg * 1.1)
-        return `Trending up. Last 3 avg (${Math.round(recentAvg)}) beats earlier (${Math.round(olderAvg)}).`;
+        return `You're improving! Last 3 averaged ${Math.round(recentAvg)}, up from ${Math.round(olderAvg)}.`;
       if (recentAvg < olderAvg * 0.9)
-        return `Slipping. Recent ${Math.round(recentAvg)} vs earlier ${Math.round(olderAvg)}. Time to lock in.`;
+        return `Recent avg ${Math.round(recentAvg)} vs earlier ${Math.round(olderAvg)}. Time to lock in.`;
     }
   }
 
-  if (pct >= 100) return "Perfect score. Nothing more to prove.";
-  if (missed === 1) return "One away from perfect. So close it hurts.";
-  if (missed <= 3) return `${missed} from perfect. You're right there.`;
-  if (pct >= 70) return `${numericScore}/${maxScore}. Solid run — top third territory.`;
+  if (pct >= 100) return "Perfect score. Absolutely flawless.";
+  if (missed === 1) return "One away from perfect. So close.";
+  if (missed <= 3) return `Just ${missed} from perfect. You're right there.`;
+  if (pct >= 70) return `${numericScore}/${maxScore}. Strong run — top third territory.`;
   if (pct >= 50) return `${missed} points left on the table. You can close that gap.`;
   return `${numericScore}/${maxScore}. Study the patterns, then come back stronger.`;
 }
@@ -232,10 +232,13 @@ export function GameOverScreen({
     }
   }, [gameSlug, numericScore]);
 
-  const suggestions = ALL_SUGGESTIONS
-    .filter((s) => !gameSlug || !s.href.includes(gameSlug))
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 4);
+  const suggestions = useMemo(() =>
+    ALL_SUGGESTIONS
+      .filter((s) => !gameSlug || !s.href.includes(gameSlug))
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4),
+    [gameSlug]
+  );
 
   const handleShare = useCallback(() => {
     shareResult(title, score, tier?.label ?? null, percentile, rankToday, totalPlayers);
@@ -338,24 +341,24 @@ export function GameOverScreen({
       {children && <div className="w-full mt-5">{children}</div>}
 
       {/* ═══════ LAYER 3: ACTIONS ═══════ */}
-      <div className="w-full mt-6 flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto">
+      <div className="w-full mt-6 grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 max-w-md mx-auto">
         {onSaveScore && (
-          <button onClick={onSaveScore} className="cta-primary w-full sm:w-auto flex-1">
+          <button onClick={onSaveScore} className="cta-primary sm:flex-1">
             Save my score
           </button>
         )}
         {onPlayAgain && (
-          <button onClick={onPlayAgain} className="cta-primary w-full sm:w-auto flex-1">
+          <button onClick={onPlayAgain} className="cta-primary sm:flex-1">
             Play again
           </button>
         )}
-        <button onClick={handleShare} className="cta-secondary w-full sm:w-auto flex-1">
+        <button onClick={handleShare} className="cta-secondary sm:flex-1">
           {shared ? "Copied!" : "Share result"}
         </button>
         {serverData?.runId && gameSlug && (
           <button
             onClick={() => setShowChallengePicker(true)}
-            className="cta-tertiary w-full sm:w-auto text-sm"
+            className="cta-secondary sm:flex-1"
           >
             Challenge a friend
           </button>
@@ -370,14 +373,12 @@ export function GameOverScreen({
         />
       )}
       {gameSlug && (
-        <div className="mt-3">
-          <Link
-            href={`/games/${gameSlug}/leaderboard`}
-            className="text-sm font-medium text-cream-muted hover:text-cream transition-colors underline underline-offset-4"
-          >
-            View today&apos;s leaderboard
-          </Link>
-        </div>
+        <Link
+          href={`/games/${gameSlug}/leaderboard`}
+          className="cta-secondary mt-3 text-sm w-full max-w-md"
+        >
+          View today&apos;s leaderboard
+        </Link>
       )}
 
       {/* ═══════ LAYER 4: DISCOVERY ═══════ */}

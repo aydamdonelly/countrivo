@@ -39,6 +39,8 @@ export function PickFeedback({ type, message, delta, triggerKey }: PickFeedbackP
   return (
     <div
       key={triggerKey}
+      role="status"
+      aria-live="polite"
       className={`pick-feedback-enter flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-sm font-medium ${TYPE_STYLES[type]}`}
     >
       <span className="text-base font-bold">{TYPE_ICONS[type]}</span>

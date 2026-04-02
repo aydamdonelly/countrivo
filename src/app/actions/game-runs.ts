@@ -37,6 +37,12 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     return { success: false, error: "invalid_score" };
   }
 
+  // Per-game result validation: cross-check resultJson against scoreRaw
+  const validationError = validateGameResult(input.gameSlug, input.scoreRaw, input.scoreMax, input.resultJson);
+  if (validationError) {
+    return { success: false, error: validationError };
+  }
+
   // Validate dateKey matches server's Europe/Berlin date (prevent timezone manipulation)
   if (input.mode === "daily") {
     const serverDateKey = getTodayDateKey();
@@ -331,6 +337,100 @@ async function updateStreak(
       updated_at: new Date().toISOString(),
     })
     .eq("id", userId);
+}
+
+// ─── Per-Game Result Validation ───────────────────────────────────
+
+function validateGameResult(
+  gameSlug: string,
+  scoreRaw: number,
+  scoreMax: number,
+  resultJson: Record<string, unknown>
+): string | null {
+  try {
+    switch (gameSlug) {
+      case "flag-quiz":
+      case "capital-match": {
+        const answers = resultJson.answers as Array<{ correct?: boolean }> | undefined;
+        if (!answers || !Array.isArray(answers)) return "invalid_result";
+        const correctCount = answers.filter((a) => a.correct).length;
+        if (correctCount !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > answers.length) return "score_exceeds_total";
+        break;
+      }
+      case "odd-one-out": {
+        const answers = resultJson.answers as unknown[] | undefined;
+        if (!answers || !Array.isArray(answers)) return "invalid_result";
+        if (typeof resultJson.score !== "number") return "invalid_result";
+        if (resultJson.score !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > answers.length) return "score_exceeds_total";
+        break;
+      }
+      case "higher-or-lower": {
+        if (typeof resultJson.streak !== "number") return "invalid_result";
+        if (resultJson.streak !== scoreRaw) return "score_mismatch";
+        const totalRounds = resultJson.totalRounds;
+        if (typeof totalRounds === "number" && scoreRaw > totalRounds) return "score_exceeds_total";
+        break;
+      }
+      case "country-streak": {
+        if (typeof resultJson.streak !== "number") return "invalid_result";
+        if (resultJson.streak !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > 243) return "score_exceeds_total";
+        break;
+      }
+      case "speed-flags": {
+        if (typeof resultJson.correct !== "number") return "invalid_result";
+        if (resultJson.correct !== scoreRaw) return "score_mismatch";
+        if (typeof resultJson.total === "number" && scoreRaw > resultJson.total) return "score_exceeds_total";
+        break;
+      }
+      case "population-sort": {
+        if (typeof resultJson.score !== "number") return "invalid_result";
+        if (resultJson.score !== scoreRaw) return "score_mismatch";
+        const userOrder = resultJson.userOrder;
+        const correctOrder = resultJson.correctOrder;
+        if (!Array.isArray(userOrder) || !Array.isArray(correctOrder)) return "invalid_result";
+        if (userOrder.length !== correctOrder.length) return "invalid_result";
+        break;
+      }
+      case "stat-guesser": {
+        if (typeof resultJson.avgError !== "number") return "invalid_result";
+        const expectedScore = Math.round(Math.max(0, 100 - resultJson.avgError));
+        if (Math.abs(expectedScore - scoreRaw) > 1) return "score_mismatch";
+        break;
+      }
+      case "country-draft": {
+        if (typeof resultJson.playerScore !== "number") return "invalid_result";
+        if (resultJson.playerScore !== scoreRaw) return "score_mismatch";
+        if (typeof resultJson.optimalScore === "number" && typeof resultJson.gap === "number") {
+          if (Math.abs((resultJson.optimalScore - resultJson.playerScore) - resultJson.gap) > 1) {
+            return "score_mismatch";
+          }
+        }
+        break;
+      }
+      case "border-buddies": {
+        const found = resultJson.found;
+        if (!Array.isArray(found)) return "invalid_result";
+        if (found.length !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > scoreMax) return "score_exceeds_total";
+        break;
+      }
+      case "continent-sprint": {
+        if (typeof resultJson.found !== "number") return "invalid_result";
+        if (resultJson.found !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > scoreMax) return "score_exceeds_total";
+        break;
+      }
+      // Multiplayer games (blitz, borderline, supremacy) — not yet validated
+      default:
+        break;
+    }
+  } catch {
+    return "validation_error";
+  }
+  return null;
 }
 
 function mapGameRun(

@@ -95,7 +95,9 @@ export function Header() {
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen((v) => !v)}
-                className="w-8 h-8 rounded-full bg-gold text-white text-sm font-bold flex items-center justify-center hover:brightness-110 transition-all active:scale-95"
+                aria-label="Open user menu"
+                aria-expanded={menuOpen}
+                className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-gold text-white text-sm font-bold flex items-center justify-center hover:brightness-110 transition-all active:scale-95"
               >
                 {initial}
               </button>
@@ -143,7 +145,7 @@ export function Header() {
             <>
               <button
                 onClick={() => openAuthModal()}
-                className="text-xs sm:text-sm font-medium text-cream-muted hover:text-cream transition-colors"
+                className="text-xs sm:text-sm font-medium text-cream-muted hover:text-cream transition-colors py-2 min-h-[44px] flex items-center"
               >
                 Sign in
               </button>

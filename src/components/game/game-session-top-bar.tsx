@@ -41,7 +41,7 @@ export function GameSessionTopBar({
       </div>
 
       {/* Score */}
-      <div className="shrink-0 text-right">
+      <div className="shrink-0 text-right" aria-live="polite" aria-atomic="true">
         <span className="text-[10px] text-cream-muted uppercase tracking-wide">{scoreLabel}</span>
         <span className="ml-1.5 text-sm font-extrabold font-mono text-cream">{scoreValue}</span>
       </div>

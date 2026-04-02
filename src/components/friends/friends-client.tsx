@@ -76,6 +76,7 @@ export function FriendsClient({
           value={searchQuery}
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Search by username..."
+          aria-label="Search players by username"
           className="w-full p-3 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
         />
         {searching && <p className="text-sm text-cream-muted mt-2">Searching...</p>}
@@ -203,6 +204,7 @@ export function FriendsClient({
                   onClick={() => handleRemove(f.friendshipId)}
                   disabled={isPending}
                   className="text-xs text-cream-muted hover:text-incorrect transition-colors disabled:opacity-50"
+                  aria-label={`Remove ${f.profile.displayName ?? f.profile.username} from friends`}
                   title="Remove friend"
                 >
                   ✕

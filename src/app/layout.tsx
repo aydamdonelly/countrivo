@@ -127,7 +127,7 @@ export default function RootLayout({
                 Play now
               </Link>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
               <div>
                 <h3 className="font-bold text-sm mb-3">Games</h3>
                 <div className="space-y-2 text-sm text-cream-muted">
