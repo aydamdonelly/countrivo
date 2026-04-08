@@ -45,7 +45,6 @@ interface GameOverScreenProps {
 
 interface GradeTier {
   label: string;
-  emoji: string;
   message: string;
   className: string;
   bgClassName: string;
@@ -55,39 +54,34 @@ function getGradeTier(pct: number): GradeTier {
   if (pct >= 100)
     return {
       label: "Perfect",
-      emoji: "👑",
-      message: "Flawless. Nothing left to optimize.",
+      message: "Every answer correct.",
       className: "grade-perfect",
       bgClassName: "bg-gold-dim border-gold/20",
     };
   if (pct >= 90)
     return {
       label: "Elite",
-      emoji: "🔥",
-      message: "Elite run. You know your geography.",
+      message: "Near-perfect. Few can touch this.",
       className: "grade-elite",
       bgClassName: "bg-correct/5 border-correct/20",
     };
   if (pct >= 70)
     return {
-      label: "Strong",
-      emoji: "💪",
-      message: "Strong. The top is within reach.",
+      label: "Solid",
+      message: "You know your stuff.",
       className: "grade-strong",
       bgClassName: "bg-blue-50 border-blue-200/50",
     };
   if (pct >= 50)
     return {
-      label: "Close",
-      emoji: "🎯",
-      message: "Close. A few smarter picks and you crack elite.",
+      label: "Decent",
+      message: "Room to improve.",
       className: "grade-close",
       bgClassName: "bg-amber-50 border-amber-200/50",
     };
   return {
-    label: "Tough draw",
-    emoji: "💀",
-    message: "Brutal. Run it back.",
+    label: "Rough",
+    message: "Better luck next round.",
     className: "grade-tough",
     bgClassName: "bg-surface-elevated border-border",
   };
@@ -128,7 +122,6 @@ function simulatePercentile(pct: number): number {
 function getInsight(pct: number, history: number[], numericScore: number, maxScore: number): string {
   const missed = maxScore - numericScore;
 
-  // Trend analysis
   if (history.length >= 3) {
     const recent3 = history.slice(-3);
     const older = history.slice(-6, -3);
@@ -136,18 +129,18 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
       const recentAvg = recent3.reduce((a, b) => a + b, 0) / recent3.length;
       const olderAvg = older.reduce((a, b) => a + b, 0) / older.length;
       if (recentAvg > olderAvg * 1.1)
-        return `You're improving! Last 3 averaged ${Math.round(recentAvg)}, up from ${Math.round(olderAvg)}.`;
+        return `Trending up. Last 3 avg: ${Math.round(recentAvg)} (was ${Math.round(olderAvg)}).`;
       if (recentAvg < olderAvg * 0.9)
-        return `Recent avg ${Math.round(recentAvg)} vs earlier ${Math.round(olderAvg)}. Time to lock in.`;
+        return `Recent avg ${Math.round(recentAvg)}, down from ${Math.round(olderAvg)}.`;
     }
   }
 
-  if (pct >= 100) return "Perfect score. Absolutely flawless.";
-  if (missed === 1) return "One away from perfect. So close.";
-  if (missed <= 3) return `Just ${missed} from perfect. You're right there.`;
-  if (pct >= 70) return `${numericScore}/${maxScore}. Strong run — top third territory.`;
-  if (pct >= 50) return `${missed} points left on the table. You can close that gap.`;
-  return `${numericScore}/${maxScore}. Study the patterns, then come back stronger.`;
+  if (pct >= 100) return "Nothing to improve.";
+  if (missed === 1) return "One away from perfect.";
+  if (missed <= 3) return `${missed} from perfect.`;
+  if (pct >= 70) return `${numericScore}/${maxScore}.`;
+  if (pct >= 50) return `${missed} points left on the table.`;
+  return `${numericScore}/${maxScore}.`;
 }
 
 /* ---------- Share ---------- */
@@ -251,10 +244,6 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 1: VERDICT ═══════ */}
       <div className={`w-full rounded-2xl border p-6 sm:p-10 text-center verdict-reveal ${tier?.bgClassName ?? "bg-surface-elevated border-border"}`}>
-        {tier && (
-          <div className="text-5xl sm:text-6xl mb-3">{tier.emoji}</div>
-        )}
-
         <div className="text-5xl sm:text-7xl font-extrabold font-mono text-gold score-pop">
           {score}
         </div>

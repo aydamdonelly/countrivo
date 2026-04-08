@@ -17,6 +17,16 @@ export function getTodayDateKey(): string {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" });
 }
 
+/** Format ms until reset as human-readable string (e.g. "3h 42m"). */
+export function formatTimeUntilReset(ms: number): string {
+  const totalMin = Math.ceil(ms / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
+
 /** Milliseconds until next daily reset (00:00 Europe/Berlin). */
 export function msUntilReset(): number {
   const now = new Date();

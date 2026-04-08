@@ -184,7 +184,6 @@ export function FriendsClient({
         </h2>
         {friends.length === 0 ? (
           <div className="py-10 text-center">
-            <p className="text-4xl mb-3">👥</p>
             <p className="font-bold">No friends yet</p>
             <p className="text-sm text-cream-muted mt-1">Search for players below to add them.</p>
           </div>

@@ -76,6 +76,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const p = await fetchProfile(u.id);
         setProfile(p);
       }
+    }).catch(() => {
+      // Auth check failed — proceed as unauthenticated
+    }).finally(() => {
       setLoading(false);
     });
 
