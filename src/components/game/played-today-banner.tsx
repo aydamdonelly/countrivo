@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/components/auth/auth-provider";
 import { checkDailyStatus } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
+import { getDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface PlayedTodayBannerProps {
@@ -15,6 +16,12 @@ interface PlayedTodayBannerProps {
 export function PlayedTodayBanner({ gameSlug, playHref }: PlayedTodayBannerProps) {
   const { user, loading } = useAuth();
   const [run, setRun] = useState<ServerGameRun | null>(null);
+  const [localScore, setLocalScore] = useState<string | null>(null);
+
+  useEffect(() => {
+    const entry = getDailyLockout(gameSlug, getTodayDateKey());
+    if (entry) setLocalScore(entry.scoreDisplay);
+  }, [gameSlug]);
 
   useEffect(() => {
     if (loading || !user) return;
@@ -23,20 +30,20 @@ export function PlayedTodayBanner({ gameSlug, playHref }: PlayedTodayBannerProps
     });
   }, [user, loading, gameSlug]);
 
-  if (!run) return null;
+  if (!run && !localScore) return null;
 
   return (
     <div className="flex flex-wrap items-center gap-3 px-4 py-3 rounded-xl bg-gold-dim border border-gold/20 mb-4 animate-in">
       <span className="text-sm font-bold text-gold">Played today</span>
       <span className="text-sm text-cream">
-        {run.scoreDisplay || `Score: ${run.scoreRaw}`}
+        {run?.scoreDisplay ?? localScore}
       </span>
-      {run.rankDaily != null && (
+      {run?.rankDaily != null && (
         <span className="text-sm text-cream-muted">
           Rank <span className="font-bold text-cream">#{run.rankDaily}</span>
         </span>
       )}
-      {run.percentile != null && (
+      {run?.percentile != null && (
         <span className="text-sm text-cream-muted">
           Better than <span className="font-bold text-cream">{Math.round(run.percentile)}%</span>
         </span>
