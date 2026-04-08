@@ -50,6 +50,7 @@ export default async function ProfilePage() {
       <section className="mb-8">
         <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Edit profile</h2>
         <ProfileEditForm
+          initialUsername={profile.username}
           initialDisplayName={profile.displayName ?? ""}
           initialCountryCode={profile.countryCode ?? ""}
         />

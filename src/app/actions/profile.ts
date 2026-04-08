@@ -41,6 +41,43 @@ export async function updateProfile(input: UpdateProfileInput): Promise<UpdatePr
   return { success: true, profile: mapProfile(data) };
 }
 
+// ─── Update Username ────────────────────────────────────────────────
+
+interface UpdateUsernameResult {
+  success: boolean;
+  error?: string;
+}
+
+export async function updateUsername(newUsername: string): Promise<UpdateUsernameResult> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return { success: false, error: "not_authenticated" };
+
+  const cleaned = newUsername.trim().toLowerCase();
+  if (!/^[a-z0-9][a-z0-9-]{1,18}[a-z0-9]$/.test(cleaned)) {
+    return { success: false, error: "Username must be 3-20 characters, lowercase alphanumeric and hyphens, cannot start or end with hyphen" };
+  }
+
+  const { data: existing } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("username", cleaned)
+    .neq("id", user.id)
+    .single();
+
+  if (existing) {
+    return { success: false, error: "Username already taken" };
+  }
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ username: cleaned, updated_at: new Date().toISOString() })
+    .eq("id", user.id);
+
+  if (error) return { success: false, error: error.message };
+  return { success: true };
+}
+
 // ─── Get Public Profile ──────────────────────────────────────────────
 
 interface PublicProfileData {
