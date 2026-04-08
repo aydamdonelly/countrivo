@@ -18,12 +18,12 @@ export default async function FlagQuizPlayPage({ searchParams }: Props) {
 
   if (gameMode === "daily") {
     const dateKey = getTodayDateKey();
-    const [status, summary] = await Promise.all([
-      checkDailyStatus("flag-quiz", dateKey),
-      getDailySummary("flag-quiz", dateKey),
-    ]);
-    if (status.played && status.run) alreadyPlayedRun = status.run;
-    totalPlayersToday = summary.playerCount;
+    const status = await checkDailyStatus("flag-quiz", dateKey);
+    if (status.played && status.run) {
+      alreadyPlayedRun = status.run;
+      const summary = await getDailySummary("flag-quiz", dateKey);
+      totalPlayersToday = summary.playerCount;
+    }
   }
 
   if (alreadyPlayedRun) {

@@ -18,12 +18,12 @@ export default async function OddOneOutPlayPage({ searchParams }: Props) {
 
   if (gameMode === "daily") {
     const dateKey = getTodayDateKey();
-    const [status, summary] = await Promise.all([
-      checkDailyStatus("odd-one-out", dateKey),
-      getDailySummary("odd-one-out", dateKey),
-    ]);
-    if (status.played && status.run) alreadyPlayedRun = status.run;
-    totalPlayersToday = summary.playerCount;
+    const status = await checkDailyStatus("odd-one-out", dateKey);
+    if (status.played && status.run) {
+      alreadyPlayedRun = status.run;
+      const summary = await getDailySummary("odd-one-out", dateKey);
+      totalPlayersToday = summary.playerCount;
+    }
   }
 
   if (alreadyPlayedRun) {

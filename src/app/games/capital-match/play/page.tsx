@@ -18,12 +18,12 @@ export default async function CapitalMatchPlayPage({ searchParams }: Props) {
 
   if (gameMode === "daily") {
     const dateKey = getTodayDateKey();
-    const [status, summary] = await Promise.all([
-      checkDailyStatus("capital-match", dateKey),
-      getDailySummary("capital-match", dateKey),
-    ]);
-    if (status.played && status.run) alreadyPlayedRun = status.run;
-    totalPlayersToday = summary.playerCount;
+    const status = await checkDailyStatus("capital-match", dateKey);
+    if (status.played && status.run) {
+      alreadyPlayedRun = status.run;
+      const summary = await getDailySummary("capital-match", dateKey);
+      totalPlayersToday = summary.playerCount;
+    }
   }
 
   if (alreadyPlayedRun) {

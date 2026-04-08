@@ -66,7 +66,7 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">
-          {NAV_ITEMS.map((item) => {
+          {[...NAV_ITEMS, ...(user ? [{ href: "/profile", label: "Profile" }] : [])].map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
             return (

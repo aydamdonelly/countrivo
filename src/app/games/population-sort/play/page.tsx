@@ -18,12 +18,12 @@ export default async function PopulationSortPlayPage({ searchParams }: Props) {
 
   if (gameMode === "daily") {
     const dateKey = getTodayDateKey();
-    const [status, summary] = await Promise.all([
-      checkDailyStatus("population-sort", dateKey),
-      getDailySummary("population-sort", dateKey),
-    ]);
-    if (status.played && status.run) alreadyPlayedRun = status.run;
-    totalPlayersToday = summary.playerCount;
+    const status = await checkDailyStatus("population-sort", dateKey);
+    if (status.played && status.run) {
+      alreadyPlayedRun = status.run;
+      const summary = await getDailySummary("population-sort", dateKey);
+      totalPlayersToday = summary.playerCount;
+    }
   }
 
   if (alreadyPlayedRun) {

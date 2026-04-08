@@ -18,12 +18,12 @@ export default async function BorderBuddiesPlayPage({ searchParams }: Props) {
 
   if (gameMode === "daily") {
     const dateKey = getTodayDateKey();
-    const [status, summary] = await Promise.all([
-      checkDailyStatus("border-buddies", dateKey),
-      getDailySummary("border-buddies", dateKey),
-    ]);
-    if (status.played && status.run) alreadyPlayedRun = status.run;
-    totalPlayersToday = summary.playerCount;
+    const status = await checkDailyStatus("border-buddies", dateKey);
+    if (status.played && status.run) {
+      alreadyPlayedRun = status.run;
+      const summary = await getDailySummary("border-buddies", dateKey);
+      totalPlayersToday = summary.playerCount;
+    }
   }
 
   if (alreadyPlayedRun) {
