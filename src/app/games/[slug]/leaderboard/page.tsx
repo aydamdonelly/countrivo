@@ -1,4 +1,5 @@
 import { getDailyLeaderboard, getDailySummary } from "@/app/actions/game-runs";
+import { getFriendsLeaderboard } from "@/app/actions/friends";
 import { getGameBySlug } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { createClient } from "@/lib/supabase/server";
@@ -7,7 +8,7 @@ import { GAME_COLORS } from "@/lib/game-colors";
 
 interface Props {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ date?: string }>;
+  searchParams: Promise<{ date?: string; tab?: string }>;
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -23,7 +24,8 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function LeaderboardPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const { date } = await searchParams;
+  const { date, tab } = await searchParams;
+  const activeTab = tab === "friends" ? "friends" : "global";
   const game = getGameBySlug(slug);
 
   if (!game) {
@@ -51,10 +53,13 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
   const tomorrowKey = tomorrowObj.toISOString().slice(0, 10);
   const canGoForward = tomorrowKey <= todayKey;
 
-  const [leaderboard, summary] = await Promise.all([
+  const [leaderboard, friendsLeaderboard, summary] = await Promise.all([
     getDailyLeaderboard(slug, dateKey, 50),
+    activeTab === "friends" ? getFriendsLeaderboard(slug, dateKey) : Promise.resolve([]),
     getDailySummary(slug, dateKey),
   ]);
+
+  const displayLeaderboard = activeTab === "friends" ? friendsLeaderboard : leaderboard;
 
   // Get current user ID for highlighting
   let currentUserId: string | null = null;
@@ -139,26 +144,47 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
         )}
       </div>
 
+      {/* Global / Friends tabs */}
+      <div className="flex items-center gap-1 mb-4 p-1 rounded-xl bg-surface-elevated border border-border w-fit">
+        <Link
+          href={`/games/${slug}/leaderboard${date ? `?date=${date}` : ""}`}
+          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+            activeTab === "global" ? "bg-gold text-white" : "text-cream-muted hover:text-cream"
+          }`}
+        >
+          Global
+        </Link>
+        <Link
+          href={`/games/${slug}/leaderboard?${date ? `date=${date}&` : ""}tab=friends`}
+          className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors ${
+            activeTab === "friends" ? "bg-gold text-white" : "text-cream-muted hover:text-cream"
+          }`}
+        >
+          Friends
+        </Link>
+      </div>
+
       {/* Leaderboard table */}
-      {leaderboard.length === 0 ? (
+      {displayLeaderboard.length === 0 ? (
         <div className="text-center py-16">
-          <div className="text-4xl mb-3">{game.emoji}</div>
-          <p className="text-lg font-bold">No one has played yet</p>
-          <p className="text-sm text-cream-muted mt-1">
-            {isToday ? "Be the first to set a score today." : "No players on this date."}
+          <div className="text-4xl mb-3">{activeTab === "friends" ? "👥" : game.emoji}</div>
+          <p className="text-lg font-bold">
+            {activeTab === "friends" ? "No friends have played yet" : "No one has played yet"}
           </p>
-          {isToday && (
-            <Link
-              href={`/games/${slug}/play?mode=daily`}
-              className="cta-primary mt-4 text-sm"
-            >
-              Play now
-            </Link>
-          )}
+          <p className="text-sm text-cream-muted mt-1">
+            {activeTab === "friends"
+              ? "Challenge a friend to get started!"
+              : isToday ? "Be the first to set a score today." : "No players on this date."}
+          </p>
+          {activeTab === "friends" ? (
+            <Link href="/friends" className="cta-primary mt-4 text-sm">Find friends</Link>
+          ) : isToday ? (
+            <Link href={`/games/${slug}/play?mode=daily`} className="cta-primary mt-4 text-sm">Play now</Link>
+          ) : null}
         </div>
       ) : (
         <div className="space-y-1.5">
-          {leaderboard.map((entry) => {
+          {displayLeaderboard.map((entry) => {
             const isMe = entry.userId === currentUserId;
             return (
               <div
@@ -186,12 +212,12 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
                 </div>
 
                 {/* Name */}
-                <div className="flex-1 min-w-0">
+                <Link href={`/profile/${entry.username}`} className="flex-1 min-w-0">
                   <p className={`text-sm font-medium truncate ${isMe ? "text-gold font-bold" : ""}`}>
                     {entry.displayName ?? entry.username}
                     {isMe && <span className="text-[10px] text-gold ml-1.5">(you)</span>}
                   </p>
-                </div>
+                </Link>
 
                 {/* Score */}
                 <span className="font-mono font-bold text-sm shrink-0">
@@ -204,7 +230,7 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
       )}
 
       {/* Play CTA */}
-      {isToday && !leaderboard.some((e) => e.userId === currentUserId) && (
+      {isToday && !displayLeaderboard.some((e) => e.userId === currentUserId) && (
         <div className="mt-6 text-center">
           <Link href={`/games/${slug}/play?mode=daily`} className="cta-primary text-sm">
             Play today&apos;s challenge
