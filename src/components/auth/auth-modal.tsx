@@ -9,6 +9,7 @@ export function AuthModal() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "sent" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
@@ -60,35 +61,46 @@ export function AuthModal() {
 
   const handleMagicLink = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (!email.trim() || submitting) return;
 
+    setSubmitting(true);
     setStatus("loading");
     setErrorMsg("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: email.trim(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
 
-    if (error) {
-      setStatus("error");
-      setErrorMsg(error.message);
-    } else {
-      setStatus("sent");
+      if (error) {
+        setStatus("error");
+        setErrorMsg(error.message);
+      } else {
+        setStatus("sent");
+      }
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const handleOAuth = async (provider: "google" | "apple") => {
-    const supabase = createClient();
-    await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
-      },
-    });
+    if (submitting) return;
+    setSubmitting(true);
+    try {
+      const supabase = createClient();
+      await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
+        },
+      });
+    } catch {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -151,7 +163,8 @@ export function AuthModal() {
             <div className="flex flex-col gap-2.5 mb-5">
               <button
                 onClick={() => handleOAuth("google")}
-                className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl border border-border bg-white hover:bg-black/3 transition-colors text-sm font-medium"
+                disabled={submitting}
+                className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl border border-border bg-white hover:bg-black/3 transition-colors text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                   <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
@@ -163,7 +176,8 @@ export function AuthModal() {
               </button>
               <button
                 onClick={() => handleOAuth("apple")}
-                className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl border border-border bg-white hover:bg-black/3 transition-colors text-sm font-medium"
+                disabled={submitting}
+                className="flex items-center justify-center gap-2.5 w-full py-2.5 px-4 rounded-xl border border-border bg-white hover:bg-black/3 transition-colors text-sm font-medium disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 <svg width="16" height="18" viewBox="0 0 16 18" fill="currentColor" aria-hidden="true">
                   <path d="M13.718 9.554c-.022-2.236 1.827-3.31 1.91-3.362-1.04-1.52-2.66-1.728-3.235-1.752-1.377-.14-2.688.811-3.387.811-.697 0-1.776-.79-2.919-.769-1.502.022-2.887.873-3.662 2.217-1.562 2.71-.4 6.724 1.122 8.925.744 1.076 1.632 2.285 2.798 2.242 1.122-.045 1.546-.726 2.903-.726 1.357 0 1.736.726 2.919.703 1.208-.022 1.977-1.096 2.717-2.174.856-1.248 1.209-2.455 1.231-2.518-.027-.012-2.362-.907-2.397-3.597zM11.475 2.92C12.09 2.178 12.505 1.16 12.394.123c-.872.036-1.929.581-2.554 1.313-.562.65-1.053 1.688-.921 2.684.973.075 1.965-.494 2.556-1.2z"/>
@@ -199,7 +213,7 @@ export function AuthModal() {
               )}
               <button
                 type="submit"
-                disabled={status === "loading"}
+                disabled={submitting}
                 className="cta-primary w-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {status === "loading" ? "Sending..." : "Send magic link"}
