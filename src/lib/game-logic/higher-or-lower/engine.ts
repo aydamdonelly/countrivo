@@ -24,6 +24,7 @@ export interface HoLState {
   bestStreak: number;
   phase: "playing" | "reveal" | "gameover";
   lastAnswer: "correct" | "wrong" | null;
+  rng: () => number;
 }
 
 const GOOD_CATEGORIES = [
@@ -32,42 +33,51 @@ const GOOD_CATEGORIES = [
   "tourism-arrivals", "forest-coverage-pct",
 ];
 
-export function createHoL(rng: () => number, roundCount = 20): HoLState {
-  const usableCategories = categories.filter((c) =>
-    GOOD_CATEGORIES.includes(c.slug)
+const usableCategories = categories.filter((c) =>
+  GOOD_CATEGORIES.includes(c.slug)
+);
+
+function generateRound(rng: () => number): HoLRound | null {
+  const cat = usableCategories[Math.floor(rng() * usableCategories.length)];
+  const eligible = countries.filter(
+    (c) =>
+      stats[c.iso3]?.[cat.slug] !== undefined &&
+      stats[c.iso3]?.[cat.slug] !== null
   );
-  const rounds: HoLRound[] = [];
+  const pair = seededPick(eligible, 2, rng);
+  if (pair.length < 2) return null;
 
-  for (let i = 0; i < roundCount; i++) {
-    const cat = usableCategories[Math.floor(rng() * usableCategories.length)];
-    const eligible = countries.filter(
-      (c) =>
-        stats[c.iso3]?.[cat.slug] !== undefined &&
-        stats[c.iso3]?.[cat.slug] !== null
-    );
-    const pair = seededPick(eligible, 2, rng);
-    if (pair.length < 2) continue;
-
-    const leftVal = stats[pair[0].iso3][cat.slug] as number;
-    const rightVal = stats[pair[1].iso3][cat.slug] as number;
-
-    rounds.push({
-      left: pair[0],
-      right: pair[1],
-      category: cat,
-      leftValue: leftVal,
-      rightValue: rightVal,
-      answer: rightVal >= leftVal ? "higher" : "lower",
-    });
-  }
+  const leftVal = stats[pair[0].iso3][cat.slug] as number;
+  const rightVal = stats[pair[1].iso3][cat.slug] as number;
 
   return {
-    rounds,
+    left: pair[0],
+    right: pair[1],
+    category: cat,
+    leftValue: leftVal,
+    rightValue: rightVal,
+    answer: rightVal >= leftVal ? "higher" : "lower",
+  };
+}
+
+function generateBatch(rng: () => number, count: number): HoLRound[] {
+  const rounds: HoLRound[] = [];
+  for (let i = 0; i < count; i++) {
+    const round = generateRound(rng);
+    if (round) rounds.push(round);
+  }
+  return rounds;
+}
+
+export function createHoL(rng: () => number): HoLState {
+  return {
+    rounds: generateBatch(rng, 10),
     currentRound: 0,
     streak: 0,
     bestStreak: 0,
     phase: "playing",
     lastAnswer: null,
+    rng,
   };
 }
 
@@ -79,12 +89,21 @@ export function guess(state: HoLState, choice: "higher" | "lower"): HoLState {
 
   if (isCorrect) {
     const newStreak = state.streak + 1;
+    const nextRound = state.currentRound + 1;
+
+    // Generate more rounds when running low
+    let rounds = state.rounds;
+    if (nextRound >= rounds.length - 3) {
+      rounds = [...rounds, ...generateBatch(state.rng, 10)];
+    }
+
     return {
       ...state,
+      rounds,
       streak: newStreak,
       bestStreak: Math.max(state.bestStreak, newStreak),
-      currentRound: state.currentRound + 1,
-      phase: state.currentRound + 1 >= state.rounds.length ? "gameover" : "playing",
+      currentRound: nextRound,
+      phase: "playing",
       lastAnswer: "correct",
     };
   }

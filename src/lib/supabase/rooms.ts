@@ -9,6 +9,13 @@ function generateCode(): string {
 
 export async function createRoom(gameType: string) {
   const supabase = createClient();
+
+  // Clean up expired rooms (self-cleaning TTL)
+  await supabase
+    .from("game_rooms")
+    .delete()
+    .lt("expires_at", new Date().toISOString());
+
   const code = generateCode();
   const seedArray = new Uint32Array(1);
   crypto.getRandomValues(seedArray);
@@ -54,5 +61,11 @@ export async function getRoomByCode(code: string) {
     .select()
     .eq("code", code.toUpperCase())
     .single();
+
+  // Return null if room has expired
+  if (data?.expires_at && new Date(data.expires_at) < new Date()) {
+    return null;
+  }
+
   return data;
 }

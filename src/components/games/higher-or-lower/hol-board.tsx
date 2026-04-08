@@ -103,7 +103,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
       mode: mode as "daily" | "practice",
       dateKey: getTodayDateKey(),
       scoreRaw: state.streak,
-      scoreMax: 20,
+      scoreMax: state.streak,
       scoreSortValue: state.streak,
       scoreDisplay: `Streak: ${state.streak}`,
       resultJson: {
@@ -135,13 +135,13 @@ export function HoLBoard({ mode }: HoLBoardProps) {
 
     return (
       <GameOverScreen
-        title={state.lastAnswer === "wrong" ? "Game Over!" : "All Rounds Complete!"}
+        title="Game Over!"
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
         onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.streak}
-        maxScore={state.rounds.length}
+        maxScore={state.streak}
         gameSlug="higher-or-lower"
         serverData={serverData ? {
           rankToday: serverData.rankDaily,
@@ -166,7 +166,6 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         scoreLabel="Streak"
         scoreValue={String(state.streak)}
         progressCurrent={state.streak}
-        progressTotal={20}
       />
       <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Streak counter */}

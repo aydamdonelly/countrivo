@@ -65,6 +65,13 @@ export function useMultiplayer(roomCode: string | null, isHost = false) {
             payload: { type: "player:joined" },
           });
         }
+        if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+          setConnected(false);
+          // Attempt resubscribe after 2s
+          setTimeout(() => {
+            channel.subscribe();
+          }, 2000);
+        }
       });
 
     channelRef.current = channel;

@@ -7,6 +7,7 @@ import { useAuth } from "@/components/auth/auth-provider";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
+import { getPendingRequestCount } from "@/app/actions/profile";
 
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
@@ -30,6 +31,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dailyCount, setDailyCount] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [pendingFriendCount, setPendingFriendCount] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,6 +49,11 @@ export function Header() {
     setDailyCount(countTodayCompleted());
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    getPendingRequestCount().then(setPendingFriendCount);
+  }, [user]);
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
   const totalDaily = 11;
@@ -73,6 +80,11 @@ export function Header() {
                 }`}
               >
                 {item.label}
+                {item.href === "/friends" && pendingFriendCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {pendingFriendCount > 9 ? "9+" : pendingFriendCount}
+                  </span>
+                )}
                 {isActive && (
                   <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gold rounded-full" />
                 )}
@@ -111,6 +123,13 @@ export function Header() {
                       <p className="text-xs text-gold font-bold mt-1">🔥 {profile.streakCurrent}-day streak</p>
                     )}
                   </div>
+                  <Link
+                    href="/profile"
+                    className="block px-3 py-2 text-sm hover:bg-black/3 transition-colors"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    My profile
+                  </Link>
                   <Link
                     href="/games/country-draft/play?mode=daily"
                     className="block px-3 py-2 text-sm hover:bg-black/3 transition-colors"

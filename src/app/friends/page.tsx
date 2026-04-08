@@ -16,11 +16,14 @@ export default async function FriendsPage() {
 
   if (!user) redirect("/");
 
-  const [friends, pendingRequests, pendingChallenges] = await Promise.all([
+  const [friends, pendingRequests, pendingChallenges, profileData] = await Promise.all([
     getFriends(),
     getPendingRequests(),
     getPendingChallenges(),
+    supabase.from("profiles").select("username").eq("id", user.id).single(),
   ]);
+
+  const username = profileData.data?.username ?? "";
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -30,6 +33,7 @@ export default async function FriendsPage() {
         initialPendingRequests={pendingRequests}
         initialPendingChallenges={pendingChallenges}
         currentUserId={user.id}
+        currentUsername={username}
       />
     </div>
   );

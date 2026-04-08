@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useTransition } from "react";
+import { useState, useCallback, useTransition, useMemo } from "react";
 import Link from "next/link";
 import {
   searchUsers,
@@ -19,6 +19,7 @@ interface FriendsClientProps {
   initialPendingRequests: PendingRequest[];
   initialPendingChallenges: FriendChallenge[];
   currentUserId: string;
+  currentUsername: string;
 }
 
 export function FriendsClient({
@@ -26,6 +27,7 @@ export function FriendsClient({
   initialPendingRequests,
   initialPendingChallenges,
   currentUserId,
+  currentUsername,
 }: FriendsClientProps) {
   const [friends, setFriends] = useState(initialFriends);
   const [pendingRequests, setPendingRequests] = useState(initialPendingRequests);
@@ -36,6 +38,12 @@ export function FriendsClient({
   const [searching, setSearching] = useState(false);
   const [sentTo, setSentTo] = useState<Set<string>>(new Set());
   const [isPending, startTransition] = useTransition();
+  const [inviteCopied, setInviteCopied] = useState(false);
+
+  const inviteUrl = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    return `${window.location.origin}/friends/add/${currentUsername}`;
+  }, [currentUsername]);
 
   const handleSearch = useCallback(async (q: string) => {
     setSearchQuery(q);
@@ -105,6 +113,26 @@ export function FriendsClient({
         )}
       </section>
 
+      {/* ── Invite Link ── */}
+      <section>
+        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Invite a friend</h2>
+        <div className="flex items-center gap-2 p-3 rounded-xl bg-surface-elevated border border-border">
+          <code className="flex-1 text-sm text-gold font-mono break-all truncate">
+            {inviteUrl || `countrivo.com/friends/add/${currentUsername}`}
+          </code>
+          <button
+            onClick={() => {
+              navigator.clipboard.writeText(inviteUrl);
+              setInviteCopied(true);
+              setTimeout(() => setInviteCopied(false), 2000);
+            }}
+            className="shrink-0 px-3 py-2 text-sm font-bold text-gold border border-gold/30 rounded-lg hover:bg-gold-dim transition-colors"
+          >
+            {inviteCopied ? "Copied!" : "Copy"}
+          </button>
+        </div>
+      </section>
+
       {/* ── Pending Requests ── */}
       {pendingRequests.length > 0 && (
         <section>
@@ -155,7 +183,7 @@ export function FriendsClient({
                       {c.challengerProfile?.displayName ?? c.challengerProfile?.username ?? "Someone"} challenged you
                     </p>
                     <p className="text-xs opacity-70" style={{ color: colors.text }}>
-                      {c.gameSlug.replace(/-/g, " ")} · {c.challengerScore ?? "played"}
+                      {c.gameSlug.replace(/-/g, " ")}{c.challengerScore ? ` · Beat their ${c.challengerScore}` : ""}
                     </p>
                   </div>
                   <Link
@@ -186,22 +214,24 @@ export function FriendsClient({
         ) : (
           <div className="space-y-2">
             {friends.map((f) => (
-              <div key={f.friendshipId} className="flex items-center gap-3 p-3 rounded-xl bg-surface-elevated border border-border">
-                <Avatar name={f.profile.displayName ?? f.profile.username} />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm truncate">{f.profile.displayName ?? f.profile.username}</p>
-                  <div className="flex items-center gap-2 text-xs text-cream-muted mt-0.5">
-                    <span>@{f.profile.username}</span>
-                    {f.profile.streakCurrent > 0 && (
-                      <span>🔥 {f.profile.streakCurrent}</span>
-                    )}
-                    {f.todayScore && (
-                      <span className="text-correct font-medium">✓ {f.todayScore.scoreDisplay}</span>
-                    )}
+              <div key={f.friendshipId} className="flex items-center gap-3 p-3 rounded-xl bg-surface-elevated border border-border hover:border-gold/30 transition-colors">
+                <Link href={`/profile/${f.profile.username}`} className="flex items-center gap-3 flex-1 min-w-0">
+                  <Avatar name={f.profile.displayName ?? f.profile.username} />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-sm truncate">{f.profile.displayName ?? f.profile.username}</p>
+                    <div className="flex items-center gap-2 text-xs text-cream-muted mt-0.5">
+                      <span>@{f.profile.username}</span>
+                      {f.profile.streakCurrent > 0 && (
+                        <span>🔥 {f.profile.streakCurrent}</span>
+                      )}
+                      {f.todayScore && (
+                        <span className="text-correct font-medium">✓ {f.todayScore.scoreDisplay}</span>
+                      )}
+                    </div>
                   </div>
-                </div>
+                </Link>
                 <button
-                  onClick={() => handleRemove(f.friendshipId)}
+                  onClick={(e) => { e.stopPropagation(); handleRemove(f.friendshipId); }}
                   disabled={isPending}
                   className="text-xs text-cream-muted hover:text-incorrect transition-colors disabled:opacity-50"
                   aria-label={`Remove ${f.profile.displayName ?? f.profile.username} from friends`}

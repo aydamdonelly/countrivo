@@ -369,8 +369,6 @@ function validateGameResult(
       case "higher-or-lower": {
         if (typeof resultJson.streak !== "number") return "invalid_result";
         if (resultJson.streak !== scoreRaw) return "score_mismatch";
-        const totalRounds = resultJson.totalRounds;
-        if (typeof totalRounds === "number" && scoreRaw > totalRounds) return "score_exceeds_total";
         break;
       }
       case "country-streak": {

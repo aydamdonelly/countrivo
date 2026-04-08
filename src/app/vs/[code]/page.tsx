@@ -51,7 +51,7 @@ export default function VsJoinPage() {
   }, [countdown, room, router]);
 
   const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(`https://countrivo.com/vs/${params.code}`);
+    navigator.clipboard.writeText(`${window.location.origin}/vs/${params.code}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }, [params.code]);

@@ -5,7 +5,7 @@ interface GameSessionTopBarProps {
   scoreLabel: string;
   scoreValue: string;
   progressCurrent: number;
-  progressTotal: number;
+  progressTotal?: number;
   extraInfo?: string;
 }
 
@@ -17,7 +17,7 @@ export function GameSessionTopBar({
   progressTotal,
   extraInfo,
 }: GameSessionTopBarProps) {
-  const pct = progressTotal > 0 ? (progressCurrent / progressTotal) * 100 : 0;
+  const pct = progressTotal && progressTotal > 0 ? (progressCurrent / progressTotal) * 100 : 0;
 
   return (
     <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-surface-elevated border border-border">
@@ -57,7 +57,7 @@ export function GameSessionTopBar({
       {/* Progress fraction */}
       <div className="w-px h-5 bg-border shrink-0" />
       <span className="shrink-0 text-sm font-bold text-cream-muted tabular-nums">
-        {progressCurrent}/{progressTotal}
+        {progressTotal ? `${progressCurrent}/${progressTotal}` : progressCurrent}
       </span>
     </div>
   );
