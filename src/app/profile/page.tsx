@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
-import { getPublicProfile } from "@/app/actions/profile";
+import { getPublicProfile, getProfileTodayRuns } from "@/app/actions/profile";
 import { ProfileEditForm } from "@/components/profile/profile-edit-form";
 import { GAME_COLORS } from "@/lib/game-colors";
 import type { Metadata } from "next";
@@ -23,7 +24,10 @@ export default async function ProfilePage() {
 
   if (!rawProfile) redirect("/");
 
-  const data = await getPublicProfile(rawProfile.username);
+  const [data, todayRuns] = await Promise.all([
+    getPublicProfile(rawProfile.username),
+    getProfileTodayRuns(user.id),
+  ]);
   if (!data) redirect("/");
 
   const { profile, gameStats, totalRuns, totalDailyRuns } = data;
@@ -55,6 +59,30 @@ export default async function ProfilePage() {
           initialCountryCode={profile.countryCode ?? ""}
         />
       </section>
+
+      {/* Today's dailies */}
+      {todayRuns.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Today</h2>
+          <div className="flex flex-wrap gap-2">
+            {todayRuns.map((r) => {
+              const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
+              return (
+                <Link
+                  key={r.gameSlug}
+                  href={`/games/${r.gameSlug}/leaderboard`}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold border border-transparent hover:border-gold/30 transition-colors"
+                  style={{ backgroundColor: colors.bg, color: colors.text }}
+                >
+                  <span className="capitalize">{r.gameSlug.replace(/-/g, " ")}</span>
+                  <span className="opacity-70">{r.scoreDisplay}</span>
+                  {r.rankDaily != null && <span className="opacity-50">#{r.rankDaily}</span>}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Stats overview */}
       <section className="mb-8">

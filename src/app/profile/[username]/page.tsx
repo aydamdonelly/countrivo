@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { getPublicProfile } from "@/app/actions/profile";
+import { getPublicProfile, getProfileTodayRuns, getHeadToHead } from "@/app/actions/profile";
 import { GAME_COLORS } from "@/lib/game-colors";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -40,6 +40,11 @@ export default async function PublicProfilePage({ params }: Props) {
   if (!data) notFound();
 
   const { profile, gameStats, totalRuns, totalDailyRuns } = data;
+
+  const [todayRuns, h2h] = await Promise.all([
+    getProfileTodayRuns(profile.id),
+    user ? getHeadToHead(user.id, profile.id) : Promise.resolve(null),
+  ]);
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -94,6 +99,65 @@ export default async function PublicProfilePage({ params }: Props) {
               );
             })}
           </div>
+        </section>
+      )}
+
+      {/* Today's dailies */}
+      {todayRuns.length > 0 && (
+        <section className="mb-8">
+          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Today</h2>
+          <div className="flex flex-wrap gap-2">
+            {todayRuns.map((r) => {
+              const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
+              return (
+                <div key={r.gameSlug} className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold" style={{ backgroundColor: colors.bg, color: colors.text }}>
+                  <span className="capitalize">{r.gameSlug.replace(/-/g, " ")}</span>
+                  <span className="opacity-70">{r.scoreDisplay}</span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Head-to-head */}
+      {h2h && (h2h.wins + h2h.losses + h2h.draws) > 0 && (
+        <section className="mb-8">
+          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Head-to-head (30 days)</h2>
+          <div className="grid grid-cols-3 gap-3 mb-4">
+            <div className="p-4 rounded-xl bg-correct/10 border border-correct/20 text-center">
+              <p className="text-xl font-extrabold font-mono text-correct">{h2h.wins}</p>
+              <p className="text-xs text-cream-muted mt-1">Wins</p>
+            </div>
+            <div className="p-4 rounded-xl bg-gold-dim border border-gold/20 text-center">
+              <p className="text-xl font-extrabold font-mono text-gold">{h2h.draws}</p>
+              <p className="text-xs text-cream-muted mt-1">Draws</p>
+            </div>
+            <div className="p-4 rounded-xl bg-incorrect/10 border border-incorrect/20 text-center">
+              <p className="text-xl font-extrabold font-mono text-incorrect">{h2h.losses}</p>
+              <p className="text-xs text-cream-muted mt-1">Losses</p>
+            </div>
+          </div>
+          {h2h.recent.length > 0 && (
+            <div className="space-y-1.5">
+              {h2h.recent.map((r, i) => {
+                const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
+                const won = r.mySort > r.theirSort;
+                const lost = r.mySort < r.theirSort;
+                return (
+                  <div key={`${r.gameSlug}-${r.dailyDate}-${i}`} className="flex items-center gap-3 px-3 py-2 rounded-lg bg-surface-elevated text-sm">
+                    <span className="w-20 text-cream-muted text-xs">{r.dailyDate.slice(5)}</span>
+                    <span className="capitalize font-medium" style={{ color: colors.text }}>{r.gameSlug.replace(/-/g, " ")}</span>
+                    <span className="ml-auto font-mono font-bold">
+                      <span className={won ? "text-correct" : lost ? "text-incorrect" : ""}>{r.myScore}</span>
+                      <span className="text-cream-muted mx-1">vs</span>
+                      <span>{r.theirScore}</span>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
 

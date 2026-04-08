@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Profile } from "@/types/server";
 
 // ─── Update Profile ──────────────────────────────────────────────────
@@ -141,6 +142,97 @@ export async function getPendingRequestCount(): Promise<number> {
     .eq("status", "pending");
 
   return count ?? 0;
+}
+
+// ─── Profile Today Runs ─────────────────────────────────────────────
+
+export async function getProfileTodayRuns(userId: string): Promise<{
+  gameSlug: string;
+  scoreDisplay: string;
+  rankDaily: number | null;
+  percentile: number | null;
+}[]> {
+  const supabase = await createClient();
+  const dateKey = getTodayDateKey();
+  const { data } = await supabase
+    .from("game_runs")
+    .select("game_slug, score_display, rank_daily, percentile")
+    .eq("user_id", userId)
+    .eq("daily_date", dateKey)
+    .eq("mode", "daily")
+    .order("game_slug");
+
+  return (data ?? []).map((r) => ({
+    gameSlug: r.game_slug as string,
+    scoreDisplay: r.score_display as string,
+    rankDaily: r.rank_daily as number | null,
+    percentile: r.percentile != null ? Number(r.percentile) : null,
+  }));
+}
+
+// ─── Head-to-Head ───────────────────────────────────────────────────
+
+export async function getHeadToHead(userId: string, friendId: string): Promise<{
+  wins: number;
+  losses: number;
+  draws: number;
+  recent: { gameSlug: string; dailyDate: string; myScore: string; theirScore: string; mySort: number; theirSort: number }[];
+}> {
+  const supabase = await createClient();
+
+  const thirtyDaysAgo = new Date();
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const sinceDate = thirtyDaysAgo.toISOString().slice(0, 10);
+
+  const [{ data: myRuns }, { data: theirRuns }] = await Promise.all([
+    supabase
+      .from("game_runs")
+      .select("game_slug, daily_date, score_display, score_sort_value")
+      .eq("user_id", userId)
+      .eq("mode", "daily")
+      .gte("daily_date", sinceDate),
+    supabase
+      .from("game_runs")
+      .select("game_slug, daily_date, score_display, score_sort_value")
+      .eq("user_id", friendId)
+      .eq("mode", "daily")
+      .gte("daily_date", sinceDate),
+  ]);
+
+  const theirRunMap = new Map<string, { scoreDisplay: string; scoreSortValue: number }>();
+  for (const r of theirRuns ?? []) {
+    theirRunMap.set(`${r.game_slug}:${r.daily_date}`, {
+      scoreDisplay: r.score_display as string,
+      scoreSortValue: Number(r.score_sort_value ?? 0),
+    });
+  }
+
+  let wins = 0, losses = 0, draws = 0;
+  const recent: { gameSlug: string; dailyDate: string; myScore: string; theirScore: string; mySort: number; theirSort: number }[] = [];
+
+  for (const r of myRuns ?? []) {
+    const key = `${r.game_slug}:${r.daily_date}`;
+    const theirs = theirRunMap.get(key);
+    if (!theirs) continue;
+
+    const mySort = Number(r.score_sort_value ?? 0);
+    if (mySort > theirs.scoreSortValue) wins++;
+    else if (mySort < theirs.scoreSortValue) losses++;
+    else draws++;
+
+    recent.push({
+      gameSlug: r.game_slug as string,
+      dailyDate: r.daily_date as string,
+      myScore: r.score_display as string,
+      theirScore: theirs.scoreDisplay,
+      mySort,
+      theirSort: theirs.scoreSortValue,
+    });
+  }
+
+  recent.sort((a, b) => b.dailyDate.localeCompare(a.dailyDate) || a.gameSlug.localeCompare(b.gameSlug));
+
+  return { wins, losses, draws, recent: recent.slice(0, 10) };
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────
