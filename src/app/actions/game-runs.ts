@@ -294,6 +294,41 @@ export async function getUserGameStats(
   };
 }
 
+// ─── Get User's Today Daily Runs ──────────────────────────────────
+
+export interface TodayRun {
+  gameSlug: string;
+  scoreRaw: number;
+  scoreMax: number;
+  scoreDisplay: string;
+  scoreSortValue: number;
+  rankDaily: number | null;
+  percentile: number | null;
+}
+
+export async function getUserTodayRuns(userId: string): Promise<TodayRun[]> {
+  const supabase = await createClient();
+  const dateKey = getTodayDateKey();
+
+  const { data } = await supabase
+    .from("game_runs")
+    .select("game_slug, score_raw, score_max, score_display, score_sort_value, rank_daily, percentile")
+    .eq("user_id", userId)
+    .eq("daily_date", dateKey)
+    .eq("mode", "daily")
+    .order("game_slug");
+
+  return (data ?? []).map((r) => ({
+    gameSlug: r.game_slug as string,
+    scoreRaw: r.score_raw as number,
+    scoreMax: r.score_max as number,
+    scoreDisplay: r.score_display as string,
+    scoreSortValue: Number(r.score_sort_value ?? 0),
+    rankDaily: r.rank_daily as number | null,
+    percentile: r.percentile != null ? Number(r.percentile) : null,
+  }));
+}
+
 // ─── Helpers ───────────────────────────────────────────────────────
 
 async function updateStreak(

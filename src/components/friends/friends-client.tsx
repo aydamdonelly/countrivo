@@ -224,8 +224,8 @@ export function FriendsClient({
                       {f.profile.streakCurrent > 0 && (
                         <span>🔥 {f.profile.streakCurrent}</span>
                       )}
-                      {f.todayScore && (
-                        <span className="text-correct font-medium">✓ {f.todayScore.scoreDisplay}</span>
+                      {f.todayRuns.length > 0 && (
+                        <span className="text-correct font-medium">✓ {f.todayRuns.length} played</span>
                       )}
                     </div>
                   </div>

@@ -4,10 +4,17 @@ import { createClient } from "@/lib/supabase/server";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Profile, LeaderboardEntry } from "@/types/server";
 
+export interface FriendTodayRun {
+  gameSlug: string;
+  scoreDisplay: string;
+  scoreSortValue: number;
+  rankDaily: number | null;
+}
+
 export interface FriendEntry {
   friendshipId: number;
   profile: Profile;
-  todayScore: { gameSlug: string; scoreDisplay: string; rankDaily: number | null } | null;
+  todayRuns: FriendTodayRun[];
 }
 
 export interface PendingRequest {
@@ -128,37 +135,44 @@ export async function getFriends(): Promise<FriendEntry[]> {
     f.requester_id === user.id ? f.addressee_id : f.requester_id
   );
 
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("*")
-    .in("id", friendIds);
-
   const todayKey = getTodayDateKey();
-  const { data: todayRuns } = await supabase
-    .from("game_runs")
-    .select("user_id, game_slug, score_display, rank_daily")
-    .in("user_id", friendIds)
-    .eq("daily_date", todayKey)
-    .eq("mode", "daily")
-    .eq("game_slug", "country-draft"); // flagship game
+  const [{ data: profiles }, { data: todayRuns }] = await Promise.all([
+    supabase.from("profiles").select("*").in("id", friendIds),
+    supabase
+      .from("game_runs")
+      .select("user_id, game_slug, score_display, score_sort_value, rank_daily")
+      .in("user_id", friendIds)
+      .eq("daily_date", todayKey)
+      .eq("mode", "daily"),
+  ]);
 
-  const runByUserId = new Map(
-    (todayRuns ?? []).map((r) => [r.user_id, r])
-  );
+  const runsByUserId = new Map<string, FriendTodayRun[]>();
+  for (const r of todayRuns ?? []) {
+    const userId = r.user_id as string;
+    if (!runsByUserId.has(userId)) runsByUserId.set(userId, []);
+    runsByUserId.get(userId)!.push({
+      gameSlug: r.game_slug as string,
+      scoreDisplay: r.score_display as string,
+      scoreSortValue: Number(r.score_sort_value ?? 0),
+      rankDaily: r.rank_daily as number | null,
+    });
+  }
 
-  return (profiles ?? []).map((p) => {
-    const friendship = friendships.find(
-      (f) => f.requester_id === p.id || f.addressee_id === p.id
-    )!;
-    const run = runByUserId.get(p.id);
-    return {
-      friendshipId: friendship.id,
-      profile: mapProfile(p),
-      todayScore: run
-        ? { gameSlug: run.game_slug, scoreDisplay: run.score_display, rankDaily: run.rank_daily }
-        : null,
-    };
-  });
+  return (profiles ?? [])
+    .map((p) => {
+      const friendship = friendships.find(
+        (f) => f.requester_id === p.id || f.addressee_id === p.id
+      )!;
+      return {
+        friendshipId: friendship.id,
+        profile: mapProfile(p),
+        todayRuns: runsByUserId.get(p.id) ?? [],
+      };
+    })
+    .sort((a, b) => {
+      if (b.todayRuns.length !== a.todayRuns.length) return b.todayRuns.length - a.todayRuns.length;
+      return b.profile.streakCurrent - a.profile.streakCurrent;
+    });
 }
 
 // ─── Get Pending Requests ─────────────────────────────────────────────

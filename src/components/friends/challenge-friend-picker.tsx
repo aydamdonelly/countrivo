@@ -59,8 +59,8 @@ export function ChallengeFriendPicker({ gameSlug, dailyDate, runId, onClose }: C
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium truncate">{name}</p>
-                    {f.todayScore && (
-                      <p className="text-xs text-cream-muted">Already played: {f.todayScore.scoreDisplay}</p>
+                    {f.todayRuns.some((r) => r.gameSlug === gameSlug) && (
+                      <p className="text-xs text-cream-muted">Already played: {f.todayRuns.find((r) => r.gameSlug === gameSlug)?.scoreDisplay}</p>
                     )}
                   </div>
                   <button
