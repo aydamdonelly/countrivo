@@ -437,7 +437,7 @@ function validateGameResult(
         if (typeof resultJson.playerScore !== "number") return "invalid_result";
         if (resultJson.playerScore !== scoreRaw) return "score_mismatch";
         if (typeof resultJson.optimalScore === "number" && typeof resultJson.gap === "number") {
-          if (Math.abs((resultJson.optimalScore - resultJson.playerScore) - resultJson.gap) > 1) {
+          if (Math.abs((resultJson.playerScore - resultJson.optimalScore) - resultJson.gap) > 1) {
             return "score_mismatch";
           }
         }
