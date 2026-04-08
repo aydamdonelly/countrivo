@@ -51,9 +51,9 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (loading || !user) return;
     getPendingRequestCount().then(setPendingFriendCount);
-  }, [user]);
+  }, [user, loading]);
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
   const totalDaily = 11;
