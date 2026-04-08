@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { OddBoard } from "@/components/games/odd-one-out/odd-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function OddOneOutPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Odd One Out" backHref="/games/odd-one-out" mode={gameMode}>
-      <OddBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="odd-one-out" gameEmoji="🔍" gameTitle="Odd One Out">
+          <OddBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <OddBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

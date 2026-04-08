@@ -15,6 +15,7 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface StreakBoardProps {
@@ -81,6 +82,14 @@ export function StreakBoard({ mode }: StreakBoardProps) {
   // Submit to server when game ends
   if (state.phase === "gameover" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("country-streak", getTodayDateKey(), {
+        score: String(state.streak),
+        scoreDisplay: `${state.streak}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "country-streak",

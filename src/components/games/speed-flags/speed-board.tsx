@@ -17,6 +17,7 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface SpeedBoardProps {
@@ -88,6 +89,14 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
   const isGameOver = state.phase === "results" || (state.phase === "playing" && !state.queue[state.currentIdx]);
   if (isGameOver && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("speed-flags", getTodayDateKey(), {
+        score: String(state.correct),
+        scoreDisplay: `${state.correct} flags`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "speed-flags",

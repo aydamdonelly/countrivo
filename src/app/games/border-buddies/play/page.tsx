@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { BorderBoard } from "@/components/games/border-buddies/border-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function BorderBuddiesPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Border Buddies" backHref="/games/border-buddies" mode={gameMode}>
-      <BorderBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="border-buddies" gameEmoji="🔗" gameTitle="Border Buddies">
+          <BorderBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <BorderBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

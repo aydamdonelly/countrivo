@@ -18,6 +18,7 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 import type { Country } from "@/types/country";
 
@@ -105,6 +106,14 @@ export function BorderBoard({ mode }: BorderBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("border-buddies", getTodayDateKey(), {
+        score: String(state.found.length),
+        scoreDisplay: `${state.found.length} / ${state.borders.length}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "border-buddies",

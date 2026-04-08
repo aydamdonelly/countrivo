@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { SortBoard } from "@/components/games/population-sort/sort-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function PopulationSortPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Population Sort" backHref="/games/population-sort" mode={gameMode}>
-      <SortBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="population-sort" gameEmoji="📊" gameTitle="Population Sort">
+          <SortBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <SortBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

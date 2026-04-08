@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { HoLBoard } from "@/components/games/higher-or-lower/hol-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function HoLPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Higher or Lower" backHref="/games/higher-or-lower" mode={gameMode}>
-      <HoLBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="higher-or-lower" gameEmoji="⬆️" gameTitle="Higher or Lower">
+          <HoLBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <HoLBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

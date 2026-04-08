@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { SprintBoard } from "@/components/games/continent-sprint/sprint-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function ContinentSprintPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Continent Sprint" backHref="/games/continent-sprint" mode={gameMode}>
-      <SprintBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="continent-sprint" gameEmoji="🌍" gameTitle="Continent Sprint">
+          <SprintBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <SprintBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

@@ -16,6 +16,7 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface CapitalBoardProps {
@@ -83,6 +84,14 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("capital-match", getTodayDateKey(), {
+        score: String(state.score),
+        scoreDisplay: `${state.score} / ${state.questions.length}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "capital-match",

@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { CapitalBoard } from "@/components/games/capital-match/capital-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function CapitalMatchPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Capital Match" backHref="/games/capital-match" mode={gameMode}>
-      <CapitalBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="capital-match" gameEmoji="📍" gameTitle="Capital Match">
+          <CapitalBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <CapitalBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

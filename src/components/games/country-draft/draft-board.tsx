@@ -19,6 +19,7 @@ import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
+import { setDailyLockout } from "@/lib/storage";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
@@ -91,6 +92,14 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
       const r = computeResult(state);
       setResult(r);
       onComplete?.(r);
+
+      if (mode === "daily") {
+        setDailyLockout("country-draft", getTodayDateKey(), {
+          score: String(r.playerScore),
+          scoreDisplay: `${r.playerScore}`,
+          timestamp: Date.now(),
+        });
+      }
 
       // Submit to server
       const doSubmit = async () => {

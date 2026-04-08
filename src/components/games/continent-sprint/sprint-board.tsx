@@ -18,6 +18,7 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface SprintBoardProps {
@@ -148,6 +149,15 @@ export function SprintBoard({ mode }: SprintBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("continent-sprint", getTodayDateKey(), {
+        score: String(state.found.length),
+        scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
+        timestamp: Date.now(),
+      });
+    }
+
     const payload = {
       gameSlug: "continent-sprint",
       mode: mode as "daily" | "practice",

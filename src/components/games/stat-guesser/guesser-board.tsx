@@ -17,6 +17,7 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface GuesserBoardProps {
@@ -108,6 +109,14 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
     // Submit to server when game ends
     if (!submitted) {
       setSubmitted(true);
+
+      if (mode === "daily") {
+        setDailyLockout("stat-guesser", getTodayDateKey(), {
+          score: String(Math.round(Math.max(0, 100 - avgError))),
+          scoreDisplay: `${avgError}% avg error`,
+          timestamp: Date.now(),
+        });
+      }
 
       const payload = {
         gameSlug: "stat-guesser",

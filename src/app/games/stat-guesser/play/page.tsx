@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { GuesserBoard } from "@/components/games/stat-guesser/guesser-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function StatGuesserPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Stat Guesser" backHref="/games/stat-guesser" mode={gameMode}>
-      <GuesserBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="stat-guesser" gameEmoji="#️⃣" gameTitle="Stat Guesser">
+          <GuesserBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <GuesserBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

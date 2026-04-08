@@ -15,6 +15,7 @@ import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 import statsData from "@/data/stats.json";
 
@@ -80,6 +81,14 @@ export function SortBoard({ mode }: SortBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("population-sort", getTodayDateKey(), {
+        score: String(state.score),
+        scoreDisplay: `${state.score} / ${state.countries.length}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "population-sort",

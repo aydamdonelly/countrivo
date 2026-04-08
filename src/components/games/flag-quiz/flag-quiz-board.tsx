@@ -13,6 +13,7 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import type { ServerGameRun } from "@/types/server";
 
@@ -79,6 +80,14 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("flag-quiz", getTodayDateKey(), {
+        score: String(state.score),
+        scoreDisplay: `${state.score} / ${state.questions.length}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "flag-quiz",

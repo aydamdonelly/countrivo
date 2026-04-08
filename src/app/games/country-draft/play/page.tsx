@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DraftBoard } from "@/components/games/country-draft/draft-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -57,7 +58,13 @@ export default async function DraftPlayPage({ searchParams }: Props) {
           </span>
         </div>
       </div>
-      <DraftBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+          <DailyLockoutGuard gameSlug="country-draft" gameEmoji="🎯" gameTitle="Country Draft">
+            <DraftBoard mode={gameMode} />
+          </DailyLockoutGuard>
+        ) : (
+          <DraftBoard mode={gameMode} />
+        )}
     </div>
   );
 }

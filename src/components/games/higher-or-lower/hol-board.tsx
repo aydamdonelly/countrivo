@@ -15,6 +15,7 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface HoLBoardProps {
@@ -97,6 +98,14 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   // Submit to server when game ends
   if (state.phase === "gameover" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("higher-or-lower", getTodayDateKey(), {
+        score: String(state.streak),
+        scoreDisplay: `${state.streak}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "higher-or-lower",

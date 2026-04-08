@@ -17,6 +17,7 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
+import { setDailyLockout } from "@/lib/storage";
 import type { ServerGameRun } from "@/types/server";
 
 interface OddBoardProps {
@@ -82,6 +83,14 @@ export function OddBoard({ mode }: OddBoardProps) {
   // Submit to server when game ends
   if (state.phase === "results" && !submitted) {
     setSubmitted(true);
+
+    if (mode === "daily") {
+      setDailyLockout("odd-one-out", getTodayDateKey(), {
+        score: String(state.score),
+        scoreDisplay: `${state.score} / ${state.rounds.length}`,
+        timestamp: Date.now(),
+      });
+    }
 
     const payload = {
       gameSlug: "odd-one-out",

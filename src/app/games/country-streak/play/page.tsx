@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { StreakBoard } from "@/components/games/country-streak/streak-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function CountryStreakPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Country Streak" backHref="/games/country-streak" mode={gameMode}>
-      <StreakBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="country-streak" gameEmoji="⚡" gameTitle="Country Streak">
+          <StreakBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <StreakBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }

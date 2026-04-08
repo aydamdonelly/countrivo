@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { SpeedBoard } from "@/components/games/speed-flags/speed-board";
 import { DailyAlreadyPlayed } from "@/components/game/daily-already-played";
+import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { checkDailyStatus, getDailySummary } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
@@ -41,7 +42,13 @@ export default async function SpeedFlagsPlayPage({ searchParams }: Props) {
 
   return (
     <GameShell title="Speed Flags" backHref="/games/speed-flags" mode={gameMode}>
-      <SpeedBoard mode={gameMode} />
+      {gameMode === "daily" ? (
+        <DailyLockoutGuard gameSlug="speed-flags" gameEmoji="⏱️" gameTitle="Speed Flags">
+          <SpeedBoard mode={gameMode} />
+        </DailyLockoutGuard>
+      ) : (
+        <SpeedBoard mode={gameMode} />
+      )}
     </GameShell>
   );
 }
