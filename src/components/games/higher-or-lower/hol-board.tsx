@@ -76,22 +76,6 @@ export function HoLBoard({ mode }: HoLBoardProps) {
     return map;
   }, [showReveal, handleGuess]);
 
-  // Swipe support for mobile
-  const touchStart = useRef<number | null>(null);
-
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStart.current = e.touches[0].clientY;
-  }, []);
-
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (touchStart.current === null || showReveal) return;
-    const diff = touchStart.current - e.changedTouches[0].clientY;
-    if (Math.abs(diff) > 50) {
-      // Swipe up = higher, swipe down = lower
-      handleGuess(diff > 0 ? "higher" : "lower");
-    }
-    touchStart.current = null;
-  }, [showReveal, handleGuess]);
 
   useGameKeys(keymap, state.phase !== "gameover" && !showReveal);
 
@@ -169,7 +153,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   const isCorrectGuess = lastChoice === round.answer;
 
   return (
-    <div className="flex flex-col gap-8" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+    <div className="flex flex-col gap-8">
       <GameSessionTopBar
         mode={mode}
         scoreLabel="Streak"

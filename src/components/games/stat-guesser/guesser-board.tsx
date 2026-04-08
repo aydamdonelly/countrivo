@@ -67,6 +67,14 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
       // Multiple commas = thousand separators: "1,000,000" → "1000000"
       cleaned = cleaned.replace(/,/g, "");
     }
+    // Support abbreviated inputs: 1.5K, 2M, 3.5B, 1T
+    const abbrevMatch = cleaned.match(/^([0-9.]+)\s*([kmbt])$/i);
+    if (abbrevMatch) {
+      const num = parseFloat(abbrevMatch[1]);
+      const suffix = abbrevMatch[2].toLowerCase();
+      const multipliers: Record<string, number> = { k: 1e3, m: 1e6, b: 1e9, t: 1e12 };
+      cleaned = String(num * multipliers[suffix]);
+    }
     const parsed = parseFloat(cleaned);
     if (isNaN(parsed)) return;
     const result = submitGuess(state, parsed);
@@ -280,7 +288,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Enter your guess..."
+            placeholder="e.g. 1.5M, 200K, 3B..."
             autoFocus
             className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream text-center text-lg font-mono placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
           />

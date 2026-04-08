@@ -93,13 +93,12 @@ export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: 
 
   useEffect(() => {
     if (loading && !timedOut) return;
-    if (user) return;
     const entry = getDailyLockout(gameSlug, getTodayDateKey());
     if (entry) {
       setLocked(true);
       setLockoutData({ score: entry.score, scoreDisplay: entry.scoreDisplay });
     }
-  }, [loading, timedOut, user, gameSlug]);
+  }, [loading, timedOut, gameSlug]);
 
   if (loading && !timedOut) {
     return <div className="flex items-center justify-center py-20"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin" /></div>;
@@ -112,7 +111,7 @@ export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: 
         gameEmoji={gameEmoji}
         gameTitle={gameTitle}
         scoreDisplay={lockoutData.scoreDisplay}
-        showSignInHint
+        showSignInHint={!user}
       />
     );
   }

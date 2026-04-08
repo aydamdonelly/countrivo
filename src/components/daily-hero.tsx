@@ -54,6 +54,18 @@ interface DailyHeroProps {
   serverStreak?: number | null;
 }
 
+function getNextUnplayedRoute(): string | null {
+  if (typeof window === "undefined") return null;
+  const games = getAllGames();
+  const dailyGames = games.filter((g) => g.availableModes.includes("daily"));
+  const dateKey = getTodayDateKey();
+  for (const g of dailyGames) {
+    const played = getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false);
+    if (!played) return `${g.route}/play?mode=daily`;
+  }
+  return null;
+}
+
 export function DailyHero({
   flagshipRoute,
   serverPlayedToday = false,
@@ -63,6 +75,7 @@ export function DailyHero({
   const [completed, setCompleted] = useState(0);
   const [timer, setTimer] = useState({ hours: 0, minutes: 0 });
   const [mounted, setMounted] = useState(false);
+  const [nextRoute, setNextRoute] = useState<string | null>(null);
 
   const playedFlagship = serverPlayedToday;
   const totalDaily = 11;
@@ -75,6 +88,7 @@ export function DailyHero({
     }
     setCompleted(countTodayCompleted());
     setTimer(getTimeUntilReset());
+    setNextRoute(getNextUnplayedRoute());
     setMounted(true);
   }, [serverStreak]);
 
@@ -122,7 +136,9 @@ export function DailyHero({
 
       {/* Primary CTA */}
       <Link
-        href={playedFlagship ? "/games" : `${flagshipRoute}/play?mode=daily`}
+        href={allDone
+          ? "/games"
+          : nextRoute ?? (playedFlagship ? "/games" : `${flagshipRoute}/play?mode=daily`)}
         className="cta-primary mt-6 text-lg sm:text-xl px-10 py-4"
       >
         {allDone

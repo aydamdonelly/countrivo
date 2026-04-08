@@ -42,27 +42,32 @@ function byContinentRound(rng: () => number): OddOneOutRound | null {
   };
 }
 
-function byRegionRound(rng: () => number): OddOneOutRound | null {
-  const regions = [...new Set(countries.map((c) => c.region))].filter(Boolean);
-  const region = regions[Math.floor(rng() * regions.length)];
-  const inGroup = countries.filter((c) => c.region === region);
-  const outGroup = countries.filter((c) => c.region !== region);
+function bySubregionRound(rng: () => number): OddOneOutRound | null {
+  const subregions = [...new Set(countries.map((c) => c.subregion))].filter(Boolean);
+  const shuffled = seededShuffle(subregions, rng);
 
-  if (inGroup.length < 3 || outGroup.length < 1) return null;
+  for (const subregion of shuffled) {
+    const inGroup = countries.filter((c) => c.subregion === subregion);
+    const outGroup = countries.filter((c) => c.subregion !== subregion);
 
-  const three = seededPick(inGroup, 3, rng);
-  const [outlier] = seededPick(outGroup, 1, rng);
+    if (inGroup.length >= 3 && outGroup.length >= 1) {
+      const three = seededPick(inGroup, 3, rng);
+      const [outlier] = seededPick(outGroup, 1, rng);
 
-  const all = [...three, outlier];
-  const shuffled = seededShuffle(all, rng);
-  const oddIndex = shuffled.findIndex((c) => c.iso3 === outlier.iso3);
+      const all = [...three, outlier];
+      const result = seededShuffle(all, rng);
+      const oddIndex = result.findIndex((c) => c.iso3 === outlier.iso3);
 
-  return {
-    countries: shuffled,
-    oddIndex,
-    trait: "region",
-    traitDescription: `The other three are in ${region}`,
-  };
+      return {
+        countries: result,
+        oddIndex,
+        trait: "subregion",
+        traitDescription: `The other three are in ${subregion}`,
+      };
+    }
+  }
+
+  return null;
 }
 
 function byFirstLetterRound(rng: () => number): OddOneOutRound | null {
@@ -142,11 +147,72 @@ function byLandlockedRound(rng: () => number): OddOneOutRound | null {
   return null;
 }
 
+function byBorderCountRound(rng: () => number): OddOneOutRound | null {
+  // 3 countries with many borders (5+) vs 1 with few (0-1), or vice versa
+  const manyBorders = countries.filter((c) => c.borders.length >= 5);
+  const fewBorders = countries.filter((c) => c.borders.length <= 1);
+
+  if (rng() < 0.5 && manyBorders.length >= 3 && fewBorders.length >= 1) {
+    const three = seededPick(manyBorders, 3, rng);
+    const [outlier] = seededPick(fewBorders, 1, rng);
+    const all = seededShuffle([...three, outlier], rng);
+    const oddIndex = all.findIndex((c) => c.iso3 === outlier.iso3);
+    return {
+      countries: all,
+      oddIndex,
+      trait: "many neighbors",
+      traitDescription: "The other three each border 5+ countries",
+    };
+  }
+
+  if (fewBorders.length >= 3 && manyBorders.length >= 1) {
+    const three = seededPick(fewBorders, 3, rng);
+    const [outlier] = seededPick(manyBorders, 1, rng);
+    const all = seededShuffle([...three, outlier], rng);
+    const oddIndex = all.findIndex((c) => c.iso3 === outlier.iso3);
+    return {
+      countries: all,
+      oddIndex,
+      trait: "few neighbors",
+      traitDescription: "The other three have 0-1 land borders",
+    };
+  }
+
+  return null;
+}
+
+function byCapitalLetterRound(rng: () => number): OddOneOutRound | null {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const shuffledLetters = seededShuffle(letters, rng);
+
+  for (const letter of shuffledLetters) {
+    const inGroup = countries.filter((c) => c.capital && c.capital.startsWith(letter));
+    const outGroup = countries.filter((c) => c.capital && !c.capital.startsWith(letter));
+
+    if (inGroup.length >= 3 && outGroup.length >= 1) {
+      const three = seededPick(inGroup, 3, rng);
+      const [outlier] = seededPick(outGroup, 1, rng);
+      const all = seededShuffle([...three, outlier], rng);
+      const oddIndex = all.findIndex((c) => c.iso3 === outlier.iso3);
+      return {
+        countries: all,
+        oddIndex,
+        trait: "capital letter",
+        traitDescription: `The other three have capitals starting with "${letter}"`,
+      };
+    }
+  }
+
+  return null;
+}
+
 const traitGenerators: TraitGenerator[] = [
   byContinentRound,
-  byRegionRound,
+  bySubregionRound,
   byFirstLetterRound,
   byLandlockedRound,
+  byBorderCountRound,
+  byCapitalLetterRound,
 ];
 
 export function createOddOneOut(rng: () => number, roundCount = 5): OddOneOutState {
