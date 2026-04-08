@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getFriends, getPendingRequests } from "@/app/actions/friends";
 import { getPendingChallenges } from "@/app/actions/challenges";
+import { getUserTodayRuns } from "@/app/actions/game-runs";
 import { FriendsClient } from "@/components/friends/friends-client";
 import type { Metadata } from "next";
 
@@ -16,11 +17,12 @@ export default async function FriendsPage() {
 
   if (!user) redirect("/");
 
-  const [friends, pendingRequests, pendingChallenges, profileData] = await Promise.all([
+  const [friends, pendingRequests, pendingChallenges, profileData, myTodayRuns] = await Promise.all([
     getFriends(),
     getPendingRequests(),
     getPendingChallenges(),
     supabase.from("profiles").select("username").eq("id", user.id).single(),
+    getUserTodayRuns(user.id),
   ]);
 
   const username = profileData.data?.username ?? "";
@@ -34,6 +36,7 @@ export default async function FriendsPage() {
         initialPendingChallenges={pendingChallenges}
         currentUserId={user.id}
         currentUsername={username}
+        myTodayRuns={myTodayRuns}
       />
     </div>
   );
