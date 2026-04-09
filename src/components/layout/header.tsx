@@ -56,7 +56,7 @@ export function Header() {
   }, [user, loading]);
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
-  const totalDaily = 11;
+  const totalDaily = 12;
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">

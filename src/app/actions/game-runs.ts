@@ -78,6 +78,10 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       // Fewer moves = better, invert
       scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
       break;
+    case "countryle":
+      // Fewer guesses = better, scoreRaw = 1-7, invert
+      scoreSortValue = 7 - input.scoreRaw;
+      break;
   }
 
   const completedAt = new Date().toISOString();
@@ -454,6 +458,17 @@ function validateGameResult(
         if (typeof resultJson.found !== "number") return "invalid_result";
         if (resultJson.found !== scoreRaw) return "score_mismatch";
         if (scoreRaw > scoreMax) return "score_exceeds_total";
+        break;
+      }
+      case "countryle": {
+        const guesses = resultJson.guesses;
+        if (!Array.isArray(guesses)) return "invalid_result";
+        if (typeof resultJson.guessCount !== "number") return "invalid_result";
+        if (typeof resultJson.target !== "string") return "invalid_result";
+        const won = resultJson.won === true;
+        const expectedRaw = won ? guesses.length : 7;
+        if (scoreRaw !== expectedRaw) return "score_mismatch";
+        if (guesses.length > 6) return "score_exceeds_total";
         break;
       }
       // Multiplayer games (blitz, borderline, supremacy) — not yet validated

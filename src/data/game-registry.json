@@ -194,5 +194,19 @@
     "isFlagship": false,
     "availableModes": ["practice", "versus"],
     "route": "/games/blitz"
+  },
+  {
+    "slug": "countryle",
+    "title": "Countryle",
+    "shortDescription": "Guess the country from stat clues.",
+    "description": "A hidden country is chosen each day. Guess it in 6 tries. Each guess reveals whether the target is higher or lower across 6 stat categories.",
+    "emoji": "🌍",
+    "difficulty": "medium",
+    "estimatedTime": "3-5 min",
+    "category": "knowledge",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["daily", "practice"],
+    "route": "/games/countryle"
   }
 ]
