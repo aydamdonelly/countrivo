@@ -65,7 +65,7 @@ export function Header() {
           Coun<span className="text-gold">trivo</span>
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0 justify-center">
           {[...NAV_ITEMS, ...(user ? [{ href: "/profile", label: "Profile" }] : [])].map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");

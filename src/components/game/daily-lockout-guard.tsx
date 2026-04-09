@@ -3,6 +3,7 @@
 import { useAuth } from "@/components/auth/auth-provider";
 import { getDailyLockout } from "@/lib/storage";
 import { getTodayDateKey, msUntilReset, formatTimeUntilReset } from "@/lib/daily-seed";
+import { checkDailyStatus } from "@/app/actions/game-runs";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -82,27 +83,32 @@ export function DailyPlayedMessage({
 export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: DailyLockoutGuardProps) {
   const { user, loading } = useAuth();
   const [locked, setLocked] = useState(false);
-  const [lockoutData, setLockoutData] = useState<{ score: string; scoreDisplay: string } | null>(null);
-  const [timedOut, setTimedOut] = useState(false);
+  const [lockoutData, setLockoutData] = useState<{ scoreDisplay: string; rankDaily?: number | null; percentile?: number | null } | null>(null);
 
+  // Check localStorage immediately on mount (no waiting for auth)
   useEffect(() => {
-    if (!loading) return;
-    const timer = setTimeout(() => setTimedOut(true), 5000);
-    return () => clearTimeout(timer);
-  }, [loading]);
-
-  useEffect(() => {
-    if (loading && !timedOut) return;
     const entry = getDailyLockout(gameSlug, getTodayDateKey());
     if (entry) {
       setLocked(true);
-      setLockoutData({ score: entry.score, scoreDisplay: entry.scoreDisplay });
+      setLockoutData({ scoreDisplay: entry.scoreDisplay });
     }
-  }, [loading, timedOut, gameSlug]);
+  }, [gameSlug]);
 
-  if (loading && !timedOut) {
-    return <div className="flex items-center justify-center py-20"><div className="w-8 h-8 rounded-full border-2 border-gold border-t-transparent animate-spin" /></div>;
-  }
+  // Once auth resolves, fetch server data for rank/percentile
+  useEffect(() => {
+    if (!locked || loading) return;
+    if (!user) return;
+    const dateKey = getTodayDateKey();
+    checkDailyStatus(gameSlug, dateKey).then((status) => {
+      if (status.played && status.run) {
+        setLockoutData((prev) => prev ? {
+          ...prev,
+          rankDaily: status.run!.rankDaily,
+          percentile: status.run!.percentile,
+        } : prev);
+      }
+    });
+  }, [locked, loading, user, gameSlug]);
 
   if (locked && lockoutData) {
     return (
@@ -111,7 +117,9 @@ export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: 
         gameEmoji={gameEmoji}
         gameTitle={gameTitle}
         scoreDisplay={lockoutData.scoreDisplay}
-        showSignInHint={!user}
+        rankDaily={lockoutData.rankDaily}
+        percentile={lockoutData.percentile}
+        showSignInHint={!user && !loading}
       />
     );
   }
