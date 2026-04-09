@@ -70,6 +70,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const supabase = createClient();
 
+    // Timeout: if auth check hangs, proceed as unauthenticated after 3s
+    const timeout = setTimeout(() => setLoading(false), 3000);
+
     supabase.auth.getUser().then(async ({ data: { user: u } }) => {
       if (u) {
         setUser(u);
@@ -79,6 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }).catch(() => {
       // Auth check failed — proceed as unauthenticated
     }).finally(() => {
+      clearTimeout(timeout);
       setLoading(false);
     });
 
@@ -87,6 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const u = session?.user ?? null;
       setUser(u);
+      setLoading(false);
 
       if (u) {
         const p = await fetchProfile(u.id);
