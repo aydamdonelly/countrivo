@@ -1,0 +1,26 @@
+{
+  "date": "2026-05-30",
+  "groups": [
+    {
+      "theme": "Andean countries",
+      "difficulty": "easy",
+      "countryIso3s": ["COL", "ECU", "PER", "BOL"]
+    },
+    {
+      "theme": "Member of BRICS (original five)",
+      "difficulty": "medium",
+      "countryIso3s": ["BRA", "RUS", "IND", "CHN"]
+    },
+    {
+      "theme": "Caspian Sea coastline",
+      "difficulty": "hard",
+      "countryIso3s": ["KAZ", "TKM", "AZE", "IRN"]
+    },
+    {
+      "theme": "Microstate — under 500 sq km",
+      "difficulty": "purple",
+      "countryIso3s": ["VAT", "MCO", "SMR", "LIE"]
+    }
+  ],
+  "editorial": "Purple is a size test: Vatican, Monaco, San Marino, Liechtenstein — Europe's tiniest sovereign states by area."
+}

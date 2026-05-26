@@ -1,0 +1,26 @@
+{
+  "date": "2026-05-29",
+  "groups": [
+    {
+      "theme": "Central American countries",
+      "difficulty": "easy",
+      "countryIso3s": ["HND", "NIC", "CRI", "PAN"]
+    },
+    {
+      "theme": "Arabic-speaking African countries",
+      "difficulty": "medium",
+      "countryIso3s": ["EGY", "DZA", "MAR", "TUN"]
+    },
+    {
+      "theme": "Borders Russia by land",
+      "difficulty": "hard",
+      "countryIso3s": ["NOR", "FIN", "EST", "PRK"]
+    },
+    {
+      "theme": "Capital shares its name with the country",
+      "difficulty": "purple",
+      "countryIso3s": ["MEX", "GTM", "DJI", "SGP"]
+    }
+  ],
+  "editorial": "Purple is wordplay: Mexico City, Guatemala City, Djibouti, Singapore — the capital just is the country name."
+}

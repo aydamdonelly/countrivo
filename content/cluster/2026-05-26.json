@@ -1,0 +1,26 @@
+{
+  "date": "2026-05-26",
+  "groups": [
+    {
+      "theme": "Landlocked African countries",
+      "difficulty": "easy",
+      "countryIso3s": ["TCD", "MLI", "NER", "BFA"]
+    },
+    {
+      "theme": "Pacific island nations",
+      "difficulty": "medium",
+      "countryIso3s": ["FJI", "TON", "WSM", "VUT"]
+    },
+    {
+      "theme": "Borders the Baltic Sea",
+      "difficulty": "hard",
+      "countryIso3s": ["EST", "LVA", "LTU", "FIN"]
+    },
+    {
+      "theme": "Flag features a sun",
+      "difficulty": "purple",
+      "countryIso3s": ["ARG", "URY", "PHL", "JPN"]
+    }
+  ],
+  "editorial": "Purple is sneaky: Argentina and Uruguay's Sun of May, the Philippines' radiant sun, and Japan's solid disc."
+}

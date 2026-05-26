@@ -1,0 +1,26 @@
+{
+  "date": "2026-05-27",
+  "groups": [
+    {
+      "theme": "Scandinavian countries",
+      "difficulty": "easy",
+      "countryIso3s": ["SWE", "NOR", "DNK", "ISL"]
+    },
+    {
+      "theme": "Members of the G7",
+      "difficulty": "medium",
+      "countryIso3s": ["USA", "GBR", "DEU", "ITA"]
+    },
+    {
+      "theme": "South Asian countries",
+      "difficulty": "hard",
+      "countryIso3s": ["NPL", "BTN", "LKA", "BGD"]
+    },
+    {
+      "theme": "Capital is on the Danube",
+      "difficulty": "purple",
+      "countryIso3s": ["AUT", "HUN", "SRB", "SVK"]
+    }
+  ],
+  "editorial": "Purple: Vienna, Budapest, Belgrade, Bratislava — the four national capitals the Danube actually flows through."
+}

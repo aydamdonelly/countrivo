@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-02",
+  "groups": [
+    {
+      "theme": "Borders Germany",
+      "difficulty": "easy",
+      "countryIso3s": ["FRA", "POL", "CZE", "NLD"]
+    },
+    {
+      "theme": "Former Soviet republic in Central Asia",
+      "difficulty": "medium",
+      "countryIso3s": ["UZB", "KGZ", "TJK", "TKM"]
+    },
+    {
+      "theme": "Country crossed by the Tropic of Cancer",
+      "difficulty": "hard",
+      "countryIso3s": ["MEX", "EGY", "IND", "OMN"]
+    },
+    {
+      "theme": "Flag uses only red and white",
+      "difficulty": "purple",
+      "countryIso3s": ["AUT", "LVA", "JPN", "IDN"]
+    }
+  ],
+  "editorial": "Purple: Austria, Latvia, Japan, Indonesia — four flags whose entire palette is just red and white in different arrangements."
+}
