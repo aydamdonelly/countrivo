@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getFlagshipGame, getAllGames } from "@/lib/data/games";
-import { JoinCodeInput } from "@/components/join-code-input";
 import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
@@ -327,10 +326,6 @@ export default async function HomePage() {
               </Link>
             );
           })}
-        </div>
-        <div className="mt-4 flex items-center gap-3">
-          <span className="text-sm text-cream-muted">Have a code?</span>
-          <JoinCodeInput />
         </div>
       </section>
     </div>
