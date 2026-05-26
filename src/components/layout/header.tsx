@@ -52,7 +52,11 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
+    // Hydration-only: countTodayCompleted reads localStorage which is
+    // unavailable during SSR, so we sync to the client value once mounted.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDailyCount(countTodayCompleted());
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
