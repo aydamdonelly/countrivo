@@ -4,7 +4,6 @@ import { seededShuffle } from "@/lib/seeded-random";
 import type { Country } from "@/types/country";
 import {
   COUNTRYLE_CATEGORIES,
-  type CountryleCategory,
   type CountryleCategoryResult,
   type CountryleGuessRow,
   type CountryleState,

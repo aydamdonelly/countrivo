@@ -1,11 +1,9 @@
 import { countries, categories } from "@/lib/data/loader";
-import ranksData from "@/data/ranks.json";
 import statsData from "@/data/stats.json";
-import { seededPick, seededShuffle } from "@/lib/seeded-random";
+import { seededPick } from "@/lib/seeded-random";
 import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
 
-const ranks: Record<string, Record<string, number>> = ranksData;
 const stats: Record<string, Record<string, number | null>> = statsData;
 
 export interface HoLRound {

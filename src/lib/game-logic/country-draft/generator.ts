@@ -78,8 +78,8 @@ export function generateDraftConfig(
     costMatrix.push(row);
   }
 
-  // 5. Compute optimal assignment
-  const { optimalScore, assignment } = solveAssignment(costMatrix);
+  // 5. Compute optimal assignment (only needed to validate matrix; reordered below)
+  solveAssignment(costMatrix);
 
   // 6. Shuffle reveal order
   const revealOrder = seededShuffle(
@@ -89,7 +89,6 @@ export function generateDraftConfig(
 
   const reorderedCountries = revealOrder.map((i) => selectedCountries[i]);
   const reorderedCostMatrix = revealOrder.map((i) => costMatrix[i]);
-  const reorderedAssignment = revealOrder.map((i) => assignment[i]);
 
   // Recompute optimal for reordered matrix to keep assignment indices correct
   const { optimalScore: reoptimalScore, assignment: reoptimalAssignment } =
