@@ -5,6 +5,7 @@ import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
 import { validateTraceResult } from "@/lib/game-logic/trace/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
+import { validateClusterResult } from "@/lib/game-logic/cluster/server-validate";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
 // ─── Submit Game Run ───────────────────────────────────────────────
@@ -69,6 +70,9 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
         break;
       case "stat-guesser":
         serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson);
+        break;
+      case "cluster":
+        serverCheck = await validateClusterResult(input.dateKey, input.scoreRaw, input.resultJson);
         break;
     }
     if (serverCheck && !serverCheck.valid) {
