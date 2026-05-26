@@ -11,10 +11,16 @@ const GUESS_CATEGORIES = [
   "urban-population-pct", "internet-users-pct", "fertility-rate",
 ];
 
+export interface StatGuesserAnchor {
+  country: Country;
+  value: number;
+}
+
 export interface StatGuesserRound {
   country: Country;
   category: Category;
   actualValue: number;
+  anchor: StatGuesserAnchor;
 }
 
 export interface StatGuesserState {
@@ -39,7 +45,18 @@ export function createStatGuesser(rng: () => number, roundCount = 5): StatGuesse
     const [country] = seededPick(eligible, 1, rng);
     const actualValue = stats[country.iso3][cat.slug] as number;
 
-    rounds.push({ country, category: cat, actualValue });
+    // Anchor: a different country with a known stat for the same category.
+    // Picked deterministically from the same eligible set, excluding the target.
+    const anchorPool = eligible.filter((c) => c.iso3 !== country.iso3);
+    const [anchorCountry] = seededPick(anchorPool, 1, rng);
+    const anchorValue = stats[anchorCountry.iso3][cat.slug] as number;
+
+    rounds.push({
+      country,
+      category: cat,
+      actualValue,
+      anchor: { country: anchorCountry, value: anchorValue },
+    });
   }
 
   return {

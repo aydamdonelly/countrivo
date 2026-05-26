@@ -24,9 +24,15 @@ interface GuesserBoardProps {
   mode: "daily" | "practice";
 }
 
+// Daily Drago-form: 1 anchored question per day.
+// Practice: 5 rounds, free-form variety.
+const DAILY_ROUNDS = 1;
+const PRACTICE_ROUNDS = 5;
+
 function init(mode: "daily" | "practice"): StatGuesserState {
   const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
-  return createStatGuesser(rng);
+  const roundCount = mode === "daily" ? DAILY_ROUNDS : PRACTICE_ROUNDS;
+  return createStatGuesser(rng, roundCount);
 }
 
 type Action =
@@ -217,34 +223,59 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
     );
   }
 
+  const totalRounds = state.rounds.length;
+
   return (
     <div className="flex flex-col gap-6">
       <GameSessionTopBar
         mode={mode}
         scoreLabel="Round"
-        scoreValue={`${state.currentRound + 1}/5`}
+        scoreValue={`${state.currentRound + 1}/${totalRounds}`}
         progressCurrent={state.currentRound}
-        progressTotal={5}
+        progressTotal={totalRounds}
       />
       {state.phase === "feedback" && (
         <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       )}
-      {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-cream-muted">
-        <span>
-          Round <span className="font-bold text-cream">{state.currentRound + 1}</span> of{" "}
-          {state.rounds.length}
-        </span>
-        <span>{round.category.emoji} {round.category.label}</span>
+      {/* Progress — hidden when there's only one round (daily) */}
+      {totalRounds > 1 && (
+        <div className="flex items-center justify-between text-sm text-cream-muted">
+          <span>
+            Round <span className="font-bold text-cream">{state.currentRound + 1}</span> of{" "}
+            {totalRounds}
+          </span>
+          <span>{round.category.emoji} {round.category.label}</span>
+        </div>
+      )}
+
+      {/* Anchor — comparison value, the question's hinge */}
+      <div className="rounded-xl border border-border bg-surface-elevated p-4 sm:p-5">
+        <div className="text-xs font-medium uppercase tracking-wide text-cream-muted mb-2">
+          For reference
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="text-3xl">{round.anchor.country.flagEmoji}</span>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-semibold truncate">
+              {round.anchor.country.displayName}
+            </div>
+            <div className="text-xs text-cream-muted">
+              {round.category.emoji} {round.category.label}
+            </div>
+          </div>
+          <div className="font-mono font-bold text-base sm:text-lg shrink-0">
+            {formatStat(round.anchor.value, round.category.unit)}
+          </div>
+        </div>
       </div>
 
       {/* Country */}
-      <div className="text-center py-6">
+      <div className="text-center py-4">
         <span className="text-7xl block mb-3">{round.country.flagEmoji}</span>
         <h2 className="text-2xl font-bold">{round.country.displayName}</h2>
         <p className="text-sm text-cream-muted mt-2">
-          Guess the <span className="font-bold text-cream">{round.category.label}</span>
-          {round.category.unit ? ` (${round.category.unit})` : ""}
+          What&apos;s its <span className="font-bold text-cream">{round.category.label}</span>
+          {round.category.unit ? ` (${round.category.unit})` : ""}?
         </p>
       </div>
 
@@ -277,7 +308,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
             </span>
           </div>
 
-          <EndgameRamp picksRemaining={state.rounds.length - state.currentRound - 1} totalPicks={5} />
+          <EndgameRamp picksRemaining={totalRounds - state.currentRound - 1} totalPicks={totalRounds} />
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
