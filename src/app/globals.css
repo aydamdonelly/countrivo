@@ -1,51 +1,99 @@
 @import "tailwindcss";
 
 @theme {
+  /* ─── Typografie ─── */
   --font-sans: var(--font-sans);
-  --font-serif: var(--font-serif);
+  /* serif gelöscht (Bruckner): zeigte auf sich selbst, kein Konsument */
 
-  /* Background & Surface */
+  /* Font-size scale — text-xxs schliesst die [10px]/[11px]-Hacks */
+  --text-xxs: 0.625rem;          /* 10px — Footer, Meta-Chips, Badges */
+  --text-xs:  0.75rem;           /* 12px — Hilfstext, Caption */
+  --text-sm:  0.875rem;          /* 14px — Body small */
+  --text-base: 1rem;             /* 16px — Body */
+  --text-lg:  1.125rem;          /* 18px — CTA, Lead */
+  --text-xl:  1.5rem;            /* 24px — Section heading */
+  --text-2xl: 2rem;              /* 32px — Game title */
+  --text-3xl: 2.5rem;            /* 40px — Hero */
+  --text-display: 3.5rem;        /* 56px — Result Hero */
+
+  /* ─── Hintergrund & Oberfläche ─── */
   --color-bg: #fafaf8;
   --color-surface: #ffffff;
   --color-surface-elevated: #f5f4f0;
+  --color-surface-sunken: #efeee8;
 
-  /* Brand: Gold */
-  --color-gold: #b8860b;
-  --color-gold-bright: #d4a017;
+  /* ─── Brand: Gold (eine Single-Source-Goldnaht) ─── */
+  --color-gold: #b8860b;                  /* Brand-Gold — Default */
+  --color-gold-bright: #d4a017;           /* Hover-State only */
+  --color-gold-deep: #96700a;             /* Active-State only */
+  --color-gold-on-bg-soft: rgba(184,134,11,0.10);
+  --color-gold-on-bg-medium: rgba(184,134,11,0.20);
+  --color-gold-shadow: rgba(184,134,11,0.25);
+  /* alias for legacy callsites (still widely used as bg-gold-dim) */
   --color-gold-dim: rgba(184,134,11,0.08);
+  /* alias for legacy --color-gold-solid (now -deep) */
   --color-gold-solid: #96700a;
 
-  /* Text */
+  /* ─── Akzent (semantisch, nicht Brand) ─── */
+  --color-accent: #2563eb;
+  --color-accent-light: #dbeafe;
+
+  /* ─── Text ─── */
   --color-cream: #1a1a1a;
   --color-cream-muted: rgba(26,26,26,0.62);
+  --color-cream-dim: rgba(26,26,26,0.40);
   --color-cream-ghost: rgba(26,26,26,0.06);
 
-  /* Borders */
+  /* ─── Border ─── */
   --color-border: rgba(0,0,0,0.08);
   --color-border-hover: rgba(0,0,0,0.18);
+  --color-border-focus: var(--color-gold);
 
-  /* Semantic */
+  /* ─── Semantisch ─── */
   --color-correct: #16a34a;
   --color-correct-light: #dcfce7;
   --color-incorrect: #dc2626;
   --color-incorrect-light: #fef2f2;
+  --color-warning: #d97706;
+  --color-warning-light: #fef3c7;
 
-  /* Radius scale */
-  --radius-sm: 6px;
-  --radius-md: 8px;
-  --radius-lg: 10px;
-  --radius-xl: 14px;
+  /* ─── Per-Game-Tokens — nur die 3 VERDICT-Spiele + Drills.
+         Cluster kommt in Step 6. ─── */
+  --game-country-draft-bg: #fee2e2;
+  --game-country-draft-fg: #991b1b;
+  --game-stat-guesser-bg: #fce7f3;
+  --game-stat-guesser-fg: #831843;
+  --game-countryle-bg: #e8f5e9;
+  --game-countryle-fg: #1b5e20;
+  /* Drills: gemeinsame Sektion-Identität für alle 11 Practice-Spiele */
+  --game-drills-bg: #f5f4f0;
+  --game-drills-fg: #1a1a1a;
 
-  /* Shadows (elevation scale) */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.10);
-  --shadow-lg: 0 8px 24px -4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
-  --shadow-xl: 0 12px 36px -8px rgba(0,0,0,0.15);
-  --shadow-gold: 0 4px 14px -3px rgba(184,134,11,0.25);
+  /* ─── Radius ─── */
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  10px;
+  --radius-xl:  14px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
 
-  /* Easing */
-  --ease-game: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  /* ─── Shadow ─── */
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md:   0 4px 12px -2px rgba(0,0,0,0.10);
+  --shadow-lg:   0 8px 24px -4px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
+  --shadow-xl:   0 12px 36px -8px rgba(0,0,0,0.15);
+  --shadow-gold: 0 4px 14px -3px var(--color-gold-shadow);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.6);
+
+  /* ─── Bewegung ─── */
+  --duration-instant: 80ms;
+  --duration-fast:    160ms;
+  --duration-base:    240ms;
+  --duration-slow:    480ms;
+
+  --ease-game:    cubic-bezier(0.34, 1.56, 0.64, 1);   /* bouncy — Spielfeedback */
+  --ease-out:     cubic-bezier(0, 0, 0.2, 1);          /* Standard UI */
+  --ease-emphasis: cubic-bezier(0.2, 0, 0, 1);         /* Section-Reveal */
 }
 
 /* Base */
@@ -53,6 +101,22 @@ body {
   background-color: var(--color-bg);
   color: var(--color-cream);
   -webkit-font-smoothing: antialiased;
+  /* Bruckner: tnum für gleichbreite Ziffern überall — Scores, Streaks, Codes */
+  font-feature-settings: "tnum" 1, "ss01" 1;
+}
+
+/* Mono — alle Stat-Anzeigen erben tnum */
+.font-mono,
+[class*="font-mono"] {
+  font-feature-settings: "tnum" 1;
+}
+
+/* Label-Caps — UPPERCASE-Headlines bekommen die ehrliche Anhebung der
+   Buchstabenabstände + ss01 stylistic alternates */
+.label-caps {
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-feature-settings: "ss01" 1, "tnum" 1;
 }
 
 /* Keyframes */
@@ -72,9 +136,9 @@ body {
 }
 
 @keyframes pulse {
-  0%  { box-shadow: 0 0 0 0 rgba(201,164,76,0.6); }
-  70% { box-shadow: 0 0 0 7px rgba(201,164,76,0); }
-  100%{ box-shadow: 0 0 0 0 rgba(201,164,76,0); }
+  0%  { box-shadow: 0 0 0 0 var(--color-gold-shadow); }
+  70% { box-shadow: 0 0 0 7px rgba(184,134,11,0); }
+  100%{ box-shadow: 0 0 0 0 rgba(184,134,11,0); }
 }
 
 @keyframes count-up {
@@ -183,7 +247,7 @@ body {
   transform: scale(0.97);
 }
 
-/* CTA System */
+/* CTA System (legacy classes — <Button> component is the future home) */
 .cta-primary {
   display: inline-flex;
   align-items: center;
@@ -311,3 +375,15 @@ body {
   background-color: var(--color-gold);
   border-radius: 1px;
 }
+
+/* Toast — top-right slide-in */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(20px); }
+}
+.toast-in  { animation: toast-in 200ms var(--ease-out) both; }
+.toast-out { animation: toast-out 160ms var(--ease-out) both; }
