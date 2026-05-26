@@ -31,8 +31,10 @@ export async function searchUsers(query: string): Promise<Profile[]> {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return [];
 
-  // Sanitize query for ilike: escape special SQL wildcard characters
-  const sanitized = query.trim().replace(/[%_\\]/g, (ch) => `\\${ch}`);
+  const sanitized = query
+    .trim()
+    .replace(/[",()[\]{}]/g, "")
+    .replace(/[%_\\]/g, (ch) => `\\${ch}`);
 
   // Get existing friend IDs to exclude (bounded)
   const { data: friendships } = await supabase

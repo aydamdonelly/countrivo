@@ -471,9 +471,8 @@ function validateGameResult(
         if (guesses.length > 6) return "score_exceeds_total";
         break;
       }
-      // Multiplayer games (blitz, borderline, supremacy) — not yet validated
       default:
-        break;
+        return "unvalidated_game";
     }
   } catch {
     return "validation_error";
