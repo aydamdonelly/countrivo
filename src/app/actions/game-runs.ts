@@ -2,6 +2,9 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
+import { validateTraceResult } from "@/lib/game-logic/trace/server-validate";
+import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
+import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
 // ─── Submit Game Run ───────────────────────────────────────────────
@@ -51,6 +54,31 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     }
   }
 
+  // Server-side re-compute anti-cheat: for the four scored daily games we
+  // replay the engine with the same daily seed and confirm the submitted
+  // resultJson is consistent with what the deterministic puzzle produces.
+  // Practice runs are not validated (no canonical puzzle to compare against).
+  if (input.mode === "daily") {
+    let serverCheck: { valid: boolean; reason?: string } | null = null;
+    switch (input.gameSlug) {
+      case "trace":
+        serverCheck = validateTraceResult(input.dateKey, input.scoreRaw, input.resultJson);
+        break;
+      case "country-draft":
+        serverCheck = validateCountryDraftResult(input.dateKey, input.scoreRaw, input.resultJson);
+        break;
+      case "stat-guesser":
+        serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson);
+        break;
+    }
+    if (serverCheck && !serverCheck.valid) {
+      return {
+        success: false,
+        error: `server_validation_failed: ${serverCheck.reason ?? "unknown"}`,
+      };
+    }
+  }
+
   // Server-side scoreSortValue override for known games
   // Prevents client manipulation of ranking values
   let scoreSortValue = input.scoreSortValue;
@@ -91,19 +119,19 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     return { success: false, error: "too_fast" };
   }
 
-  // For daily mode: upsert the daily puzzle
+  // For daily mode: atomically ensure the daily puzzle exists.
+  // Calls the SECURITY DEFINER RPC `ensure_daily_puzzle` which handles the
+  // race between concurrent first-submitters of the day without needing a
+  // permissive RLS INSERT policy on daily_puzzles.
   let dailyPuzzleId: number | null = null;
   if (input.mode === "daily") {
     const seed = dateSeed(input.dateKey + input.gameSlug);
-    const { data: puzzle } = await supabase
-      .from("daily_puzzles")
-      .upsert(
-        { game_slug: input.gameSlug, daily_date: input.dateKey, seed },
-        { onConflict: "game_slug,daily_date" }
-      )
-      .select("id")
-      .single();
-    dailyPuzzleId = puzzle?.id ?? null;
+    const { data: puzzleId } = await supabase.rpc("ensure_daily_puzzle", {
+      p_game_slug: input.gameSlug,
+      p_daily_date: input.dateKey,
+      p_seed: seed,
+    });
+    dailyPuzzleId = typeof puzzleId === "number" ? puzzleId : null;
   }
 
   // Insert the game run
@@ -340,38 +368,51 @@ async function updateStreak(
   userId: string,
   dateKey: string
 ) {
+  // Aggregation-based: recompute streak from game_runs.daily_date instead of
+  // incrementing the previous value. Two concurrent submits both land on the
+  // same final streak value, so the race condition that caused missed
+  // increments disappears.
+  const lookback = new Date(dateKey + "T00:00:00Z");
+  lookback.setUTCDate(lookback.getUTCDate() - 365);
+  const lookbackKey = lookback.toISOString().slice(0, 10);
+
+  const { data: runs } = await supabase
+    .from("game_runs")
+    .select("daily_date")
+    .eq("user_id", userId)
+    .eq("mode", "daily")
+    .gte("daily_date", lookbackKey)
+    .order("daily_date", { ascending: false });
+
+  const playedDates = new Set<string>();
+  for (const row of runs ?? []) {
+    if (typeof row.daily_date === "string") playedDates.add(row.daily_date);
+  }
+
+  // Always include the just-submitted dateKey: the insert may not yet be
+  // visible to this query under read-committed isolation.
+  playedDates.add(dateKey);
+
+  const cursor = new Date(dateKey + "T00:00:00Z");
+  let streak = 0;
+  while (playedDates.has(cursor.toISOString().slice(0, 10))) {
+    streak++;
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
+  }
+
   const { data: profile } = await supabase
     .from("profiles")
-    .select("streak_current, streak_longest, last_daily_date")
+    .select("streak_longest")
     .eq("id", userId)
     .single();
 
-  if (!profile) return;
-
-  const today = new Date(dateKey);
-  const lastPlayed = profile.last_daily_date ? new Date(profile.last_daily_date) : null;
-
-  let newStreak = profile.streak_current;
-
-  if (profile.last_daily_date === dateKey) {
-    // Already played another game today — no streak change
-    return;
-  } else if (lastPlayed) {
-    const diffDays = Math.floor((today.getTime() - lastPlayed.getTime()) / (1000 * 60 * 60 * 24));
-    if (diffDays === 1) {
-      newStreak = profile.streak_current + 1;
-    } else if (diffDays > 1) {
-      newStreak = 1;
-    }
-  } else {
-    newStreak = 1;
-  }
+  const newLongest = Math.max(profile?.streak_longest ?? 0, streak);
 
   await supabase
     .from("profiles")
     .update({
-      streak_current: newStreak,
-      streak_longest: Math.max(profile.streak_longest, newStreak),
+      streak_current: streak,
+      streak_longest: newLongest,
       last_daily_date: dateKey,
       updated_at: new Date().toISOString(),
     })
