@@ -144,7 +144,11 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
   return `${numericScore}/${maxScore}.`;
 }
 
-/* ---------- Share ---------- */
+/* ---------- Share ----------
+ * TODO (Phase 4 — Share-Grids): replace shareResult plain-text with the
+ * brand-bracket share-card component (Countrivo · <Game> · DD · MM · YY).
+ * The middle-dot signature should carry over to the emoji-grid header.
+ */
 
 async function shareResult(
   title: string, score: string, tier: string | null,
@@ -297,6 +301,27 @@ export function GameOverScreen({
             New personal best!
           </div>
         )}
+
+        {/* Brand-bracket score line: score · rank · date */}
+        <div className="mt-5 flex items-center justify-center gap-1.5 text-xs text-cream-muted font-mono tabular-nums">
+          <span>{score}</span>
+          {rankToday != null && (
+            <>
+              <span className="text-gold">·</span>
+              <span>Rank #{rankToday}</span>
+            </>
+          )}
+          <span className="text-gold">·</span>
+          <time>
+            {(() => {
+              const d = serverData?.dailyDate ? new Date(`${serverData.dailyDate}T00:00:00`) : new Date();
+              const dd = String(d.getDate()).padStart(2, "0");
+              const mm = String(d.getMonth() + 1).padStart(2, "0");
+              const yy = String(d.getFullYear()).slice(2);
+              return `${dd}·${mm}·${yy}`;
+            })()}
+          </time>
+        </div>
       </div>
 
       {/* ═══════ LAYER 2: IDENTITY / STATS ═══════ */}

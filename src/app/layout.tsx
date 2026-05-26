@@ -166,6 +166,14 @@ export default function RootLayout({
                 </div>
               </div>
             </div>
+            {/* Brand mark strip — middle-dot bracket signature */}
+            <div className="mt-10 pt-6 border-t border-border text-center text-xxs font-mono text-cream-muted">
+              <span>Countrivo</span>
+              <span className="text-gold mx-1.5">·</span>
+              <span>One puzzle a day</span>
+              <span className="text-gold mx-1.5">·</span>
+              <span>Since 2026</span>
+            </div>
           </div>
         </footer>
         <Analytics />

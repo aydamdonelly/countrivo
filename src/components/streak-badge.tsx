@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
 
@@ -35,17 +35,34 @@ function computeStreak(): number {
 
 export function StreakBadge() {
   const [streak, setStreak] = useState(0);
+  const [pulse, setPulse] = useState(false);
+  const lastSeen = useRef<number | null>(null);
 
   useEffect(() => {
     setStreak(computeStreak());
   }, []);
 
+  useEffect(() => {
+    if (streak === 0) return;
+    if (lastSeen.current !== null && streak > lastSeen.current) {
+      setPulse(true);
+      const id = setTimeout(() => setPulse(false), 400);
+      return () => clearTimeout(id);
+    }
+    lastSeen.current = streak;
+  }, [streak]);
+
   if (streak === 0) return null;
 
   return (
-    <span className="streak-badge text-sm" title={`${streak}-day streak`}>
+    <span
+      className={`streak-badge text-sm font-mono ${pulse ? "streak-incremented" : ""}`}
+      title={`${streak} day streak`}
+    >
       <span>🔥</span>
       <span>{streak}</span>
+      <span className="text-gold mx-0.5">·</span>
+      <span>day</span>
     </span>
   );
 }

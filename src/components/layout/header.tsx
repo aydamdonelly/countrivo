@@ -124,7 +124,9 @@ export function Header() {
                     <p className="text-sm font-bold truncate">{profile?.displayName ?? "Player"}</p>
                     <p className="text-xs text-cream-muted truncate">@{profile?.username}</p>
                     {profile && profile.streakCurrent > 0 && (
-                      <p className="text-xs text-gold font-bold mt-1">🔥 {profile.streakCurrent}-day streak</p>
+                      <p className="text-xs text-gold font-bold font-mono mt-1">
+                        🔥 {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
+                      </p>
                     )}
                   </div>
                   <Link

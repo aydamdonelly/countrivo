@@ -57,8 +57,8 @@ export default async function PublicProfilePage({ params }: Props) {
           <h1 className="text-2xl font-extrabold truncate">{profile.displayName ?? profile.username}</h1>
           <p className="text-sm text-cream-muted">@{profile.username}</p>
           {profile.streakCurrent > 0 && (
-            <p className="text-sm text-gold font-bold mt-0.5">
-              🔥 {profile.streakCurrent}-day streak
+            <p className="text-sm text-gold font-bold font-mono mt-0.5">
+              🔥 {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
             </p>
           )}
         </div>
