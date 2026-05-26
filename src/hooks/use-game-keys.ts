@@ -7,7 +7,10 @@ export function useGameKeys(
   enabled = true
 ) {
   const keymapRef = useRef(keymap);
-  keymapRef.current = keymap;
+
+  useEffect(() => {
+    keymapRef.current = keymap;
+  });
 
   useEffect(() => {
     if (!enabled) return;
