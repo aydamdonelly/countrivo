@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useRef, useMemo } from "react";
+import { useReducer, useState, useCallback, useRef, useMemo, useEffect } from "react";
 import {
   createStreak,
   answerStreak,
@@ -22,21 +22,38 @@ interface StreakBoardProps {
   mode: "daily" | "practice";
 }
 
-function init(mode: "daily" | "practice"): StreakState {
+type Action =
+  | { type: "ANSWER"; optionIndex: number; rng: () => number }
+  | { type: "RESET"; state: StreakState };
+
+function initStreak(mode: "daily" | "practice"): StreakState {
   const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
   return createStreak(rng);
 }
 
+function reducer(state: StreakState, action: Action): StreakState {
+  switch (action.type) {
+    case "ANSWER":
+      return answerStreak(state, action.optionIndex, action.rng);
+    case "RESET":
+      return action.state;
+    default:
+      return state;
+  }
+}
+
 export function StreakBoard({ mode }: StreakBoardProps) {
-  const rngRef = useRef(mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now()));
-  const [state, setState] = useState(() => init(mode));
+  // Lazy state init keeps Date.now() out of render and is exempt from purity rule.
+  const [rng, setRng] = useState<() => number>(() =>
+    mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now())
+  );
+  const [state, dispatch] = useReducer(reducer, mode, initStreak);
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -52,16 +69,16 @@ export function StreakBoard({ mode }: StreakBoardProps) {
     setSelectedIdx(idx);
     setShowFeedback(true);
     setTimeout(() => {
-      setState((s) => answerStreak(s, idx, rngRef.current));
+      dispatch({ type: "ANSWER", optionIndex: idx, rng });
       setShowFeedback(false);
       setSelectedIdx(null);
     }, 800);
-  }, [showFeedback, state.correctIndex]);
+  }, [showFeedback, state.correctIndex, rng]);
 
   const handleReset = useCallback(() => {
-    rngRef.current = mulberry32(Date.now());
-    setState(createStreak(rngRef.current));
-    setSubmitted(false);
+    const fresh = mulberry32(Date.now());
+    setRng(() => fresh);
+    dispatch({ type: "RESET", state: createStreak(fresh) });
     setServerData(null);
     setPendingPayload(null);
   }, []);
@@ -79,9 +96,9 @@ export function StreakBoard({ mode }: StreakBoardProps) {
 
   useGameKeys(keymap, state.phase !== "gameover");
 
-  // Submit to server when game ends
-  if (state.phase === "gameover" && !submitted) {
-    setSubmitted(true);
+  // Submit to server when game ends. Effect, not render-time side-effects.
+  useEffect(() => {
+    if (state.phase !== "gameover") return;
 
     if (mode === "daily") {
       setDailyLockout("country-streak", getTodayDateKey(), {
@@ -113,7 +130,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.streak, state.bestStreak, mode, user]);
 
   if (state.phase === "gameover") {
     const handleSaveScore = pendingPayload ? () => {
