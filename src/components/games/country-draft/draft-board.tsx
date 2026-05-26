@@ -125,6 +125,9 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
             stars: r.stars,
             assignments: r.assignments,
             optimalAssignments: r.optimalAssignments,
+            // Atlas album: ISO3 codes of all countries that appeared this run.
+            // Read by extract_countries SQL to stamp stickers on completion.
+            countryIso3s: state.config.countries.map((c) => c.iso3),
           },
           startedAt: startedAtRef.current,
         };
