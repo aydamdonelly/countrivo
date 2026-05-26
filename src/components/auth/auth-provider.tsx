@@ -88,7 +88,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       const u = session?.user ?? null;
       setUser(u);
       setLoading(false);
@@ -96,6 +96,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (u) {
         const p = await fetchProfile(u.id);
         setProfile(p);
+
+        // PASSWORD_RECOVERY means the user is mid-reset on /auth/reset-password.
+        // Don't run the post-sign-in callback or close the modal — let the
+        // reset page handle the flow.
+        if (event === "PASSWORD_RECOVERY") return;
 
         if (callbackRef.current) {
           try {
