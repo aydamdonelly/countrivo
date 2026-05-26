@@ -8,7 +8,7 @@ import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } fro
 
 interface SubmitGameRunInput {
   gameSlug: string;
-  mode: "daily" | "practice" | "versus";
+  mode: "daily" | "practice";
   dateKey: string;
   scoreRaw: number;
   scoreMax: number;

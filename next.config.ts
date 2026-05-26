@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: "/vs/:code", destination: "/games", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

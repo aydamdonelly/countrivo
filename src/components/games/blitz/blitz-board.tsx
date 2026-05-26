@@ -25,7 +25,7 @@ import { useGameKeys } from "@/hooks/use-game-keys";
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface BlitzBoardProps {
-  mode: "practice" | "versus";
+  mode: "practice";
   dailyKey?: string | null;
 }
 

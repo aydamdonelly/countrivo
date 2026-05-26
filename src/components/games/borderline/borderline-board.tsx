@@ -23,7 +23,7 @@ import { useGameKeys } from "@/hooks/use-game-keys";
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface BorderlineBoardProps {
-  mode: "practice" | "versus";
+  mode: "practice";
   dailyKey?: string | null;
 }
 

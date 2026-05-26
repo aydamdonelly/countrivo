@@ -18,7 +18,7 @@ import { useGameKeys } from "@/hooks/use-game-keys";
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface SupremacyBoardProps {
-  mode: "practice" | "versus";
+  mode: "practice";
   dailyKey?: string | null;
 }
 
