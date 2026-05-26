@@ -15,6 +15,7 @@ export const GAME_COLORS: Record<string, { bg: string; text: string }> = {
   "borderline":       { bg: "#cffafe", text: "#155e75" },
   "blitz":            { bg: "#fecaca", text: "#7f1d1d" },
   "trace":            { bg: "#e8f5e9", text: "#1b5e20" },
+  "cluster":          { bg: "#e9d5ff", text: "#3b0764" },
 };
 
 export function getGameColor(slug: string) {

@@ -15,6 +15,21 @@
     "route": "/games/country-draft"
   },
   {
+    "slug": "cluster",
+    "title": "Cluster",
+    "shortDescription": "16 flags. 4 groups. Find the connections.",
+    "description": "Sixteen country flags. Four hidden groupings. Sort them in four attempts. The purple group is always the trickiest.",
+    "emoji": "🎴",
+    "difficulty": "medium",
+    "estimatedTime": "3-5 min",
+    "category": "strategy",
+    "tier": "main",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["daily", "practice"],
+    "route": "/games/cluster"
+  },
+  {
     "slug": "flag-quiz",
     "title": "Flag Quiz",
     "shortDescription": "10 flags. Name the country or fail.",
