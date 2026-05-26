@@ -1,13 +1,11 @@
-import type { DraftGameConfig, DraftGameState } from "./types";
-import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
-import { mulberry32 } from "@/lib/seeded-random";
+import type { DraftGameState } from "./types";
 import { generateDraftConfig } from "./generator";
 
-export function createGame(mode: "daily" | "practice"): DraftGameState {
-  const dateKey = mode === "daily" ? getTodayDateKey() : `practice-${Date.now()}`;
-  const rng =
-    mode === "daily" ? getDailyRng(dateKey) : mulberry32(Date.now());
-
+export function createGame(
+  rng: () => number,
+  mode: "daily" | "practice",
+  dateKey: string
+): DraftGameState {
   const config = generateDraftConfig(rng, mode, dateKey);
 
   return {

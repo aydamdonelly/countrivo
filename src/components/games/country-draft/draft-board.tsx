@@ -18,7 +18,8 @@ import { DraftShareCard } from "./draft-share-card";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { getTodayDateKey } from "@/lib/daily-seed";
+import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
+import { mulberry32 } from "@/lib/seeded-random";
 import { setDailyLockout } from "@/lib/storage";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
@@ -29,12 +30,18 @@ type Action =
   | { type: "ASSIGN"; categoryIdx: number }
   | { type: "RESET"; mode: "daily" | "practice" };
 
+function init(mode: "daily" | "practice"): DraftGameState {
+  const dateKey = mode === "daily" ? getTodayDateKey() : `practice-${Date.now()}`;
+  const rng = mode === "daily" ? getDailyRng(dateKey) : mulberry32(Date.now());
+  return createGame(rng, mode, dateKey);
+}
+
 function reducer(state: DraftGameState, action: Action): DraftGameState {
   switch (action.type) {
     case "ASSIGN":
       return assignCategory(state, action.categoryIdx);
     case "RESET":
-      return createGame(action.mode);
+      return init(action.mode);
     default:
       return state;
   }
@@ -55,7 +62,7 @@ const GRADE_CONFIG: Record<string, { color: string; bg: string; message: string 
 };
 
 export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
-  const [state, dispatch] = useReducer(reducer, null as unknown as DraftGameState, () => createGame(mode));
+  const [state, dispatch] = useReducer(reducer, null as unknown as DraftGameState, () => init(mode));
   const [mounted, setMounted] = useState(false);
   const [result, setResult] = useState<DraftResult | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
