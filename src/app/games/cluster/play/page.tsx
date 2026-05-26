@@ -6,7 +6,7 @@ import {
   listAvailableDates,
   loadClusterPuzzle,
 } from "@/lib/game-logic/cluster/generator";
-import { getTodayDateKey } from "@/lib/daily-seed";
+import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;
@@ -24,9 +24,9 @@ export default async function ClusterPlayPage({ searchParams }: Props) {
     const todaysPuzzle = await loadClusterPuzzle(todayKey);
     if (todaysPuzzle) puzzleKey = todayKey;
   } else if (available.length > 0) {
-    // Server component: use clock as a seed so different visits land on
-    // different practice puzzles. Avoids Math.random() in render path.
-    const idx = Date.now() % available.length;
+    // Deterministic daily rotation: same practice puzzle for everyone on a
+    // given day, cycles through the backlog. Keeps render pure.
+    const idx = dateSeed(todayKey) % available.length;
     puzzleKey = available[idx];
   }
 

@@ -64,23 +64,23 @@ export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
   const [shakeKey, setShakeKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const lastAttemptCount = useRef(0);
   const { user, openAuthModal } = useAuth();
 
-  // Render-phase: react to new failed attempts (shake + toast). Mirrors the
-  // existing trace-board/flag-quiz-board pattern of guarded synchronous setters.
-  if (state.attempts.length > lastAttemptCount.current) {
+  // React to new failed attempts (shake + toast). Effect keyed on attempts.length
+  // so the body runs once per new attempt rather than every render.
+  useEffect(() => {
+    if (state.attempts.length <= lastAttemptCount.current) return;
     const last = state.attempts[state.attempts.length - 1];
     lastAttemptCount.current = state.attempts.length;
     if (!last.correct) {
-      const message = last.nearMiss ? "One away" : "Not this group";
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- feedback animation + toast for the just-submitted failed attempt
       setShakeKey((n) => n + 1);
-      setToast(message);
+      setToast(last.nearMiss ? "One away" : "Not this group");
     }
-  }
+  }, [state.attempts]);
 
   // Toast auto-dismiss timer
   useEffect(() => {
@@ -89,9 +89,9 @@ export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
     return () => window.clearTimeout(t);
   }, [toast]);
 
-  // Render-phase: submit to server when game ends (single-shot via `submitted`).
-  if (state.phase === "finished" && !submitted) {
-    setSubmitted(true);
+  // Submit to server when game ends — runs once on phase transition.
+  useEffect(() => {
+    if (state.phase !== "finished") return;
 
     const { scoreRaw, scoreMax, scoreDisplay } = clusterScore(state);
     const allIso3s = puzzle.groups.flatMap((g) => g.countryIso3s);
@@ -130,7 +130,7 @@ export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state, puzzle.groups, mode, dateKey, user]);
 
   const solvedIso3s = useMemo(
     () => new Set(state.solvedGroups.flatMap((g) => g.countryIso3s)),
@@ -179,7 +179,6 @@ export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
         onPlayAgain={
           mode === "practice"
             ? () => {
-                setSubmitted(false);
                 setServerData(null);
                 setPendingPayload(null);
                 lastAttemptCount.current = 0;
