@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllCountries } from "@/lib/data/countries";
 import { CountriesClient } from "@/components/country/countries-client";
+import { getTodayDateKey } from "@/lib/daily-seed";
 
 export const metadata: Metadata = {
   title: "All Countries",
@@ -21,8 +22,12 @@ export default function CountriesPage() {
   const countries = getAllCountries();
   const continents = [...new Set(countries.map((c) => c.continent))].sort();
 
-  // Pick 2 random facts deterministically by day
-  const dayIndex = Math.floor(Date.now() / 86400000);
+  // Pick 2 facts deterministically by day. Hashing the date key keeps purity
+  // (no Date.now in render) while still rotating once per Europe/Berlin day.
+  const dateKey = getTodayDateKey();
+  let h = 5381;
+  for (let i = 0; i < dateKey.length; i++) h = ((h << 5) + h + dateKey.charCodeAt(i)) | 0;
+  const dayIndex = Math.abs(h);
   const pull1 = COUNTRY_PULLS[dayIndex % COUNTRY_PULLS.length];
   const pull2 = COUNTRY_PULLS[(dayIndex + 1) % COUNTRY_PULLS.length];
 

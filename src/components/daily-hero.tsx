@@ -82,7 +82,10 @@ export function DailyHero({
   const totalDaily = 11;
 
   useEffect(() => {
+    // Hydrating from localStorage / props that are only available client-side.
+    // The setState batch keeps this to a single render pass.
     if (serverStreak != null) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- external-system hydration on mount
       setStreak(serverStreak);
     } else {
       setStreak(computeLocalStreak());

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function GlobalError({
@@ -26,9 +27,9 @@ export default function GlobalError({
           <Button onClick={reset} variant="primary" size="md">
             Try again
           </Button>
-          <a href="/" className="cta-secondary text-sm px-6 py-2.5">
+          <Link href="/" className="cta-secondary text-sm px-6 py-2.5">
             Go home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

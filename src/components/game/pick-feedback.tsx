@@ -28,6 +28,9 @@ export function PickFeedback({ type, message, delta, triggerKey }: PickFeedbackP
 
   useEffect(() => {
     if (triggerKey === currentKey || triggerKey <= 0) return;
+    // Sync local visibility with the parent's triggerKey ratchet. The early-return
+    // above already prevents repeated cascades for the same key.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync derived flash state with parent ratchet
     setCurrentKey(triggerKey);
     setVisible(true);
     const timer = setTimeout(() => setVisible(false), 1800);

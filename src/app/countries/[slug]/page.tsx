@@ -11,7 +11,7 @@ import { getRanksForCountry, getStatValue } from "@/lib/data/ranks";
 import { getAllCategories } from "@/lib/data/categories";
 import { getCategoryBySlug } from "@/lib/data/categories";
 import { getAllGames } from "@/lib/data/games";
-import { formatStat, ordinal, formatNumber } from "@/lib/utils";
+import { formatStat, ordinal } from "@/lib/utils";
 import { getGameColor } from "@/lib/game-colors";
 import bordersData from "@/data/borders.json";
 

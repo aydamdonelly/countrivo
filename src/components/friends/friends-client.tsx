@@ -29,6 +29,7 @@ export function FriendsClient({
   initialFriends,
   initialPendingRequests,
   initialPendingChallenges,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- reserved for upcoming features (friends actions, blocking)
   currentUserId,
   currentUsername,
   myTodayRuns,

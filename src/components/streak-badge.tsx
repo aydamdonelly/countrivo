@@ -39,6 +39,8 @@ export function StreakBadge() {
   const lastSeen = useRef<number | null>(null);
 
   useEffect(() => {
+    // computeStreak reads localStorage which is only available client-side.
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate from localStorage on mount
     setStreak(computeStreak());
   }, []);
 
@@ -47,6 +49,7 @@ export function StreakBadge() {
     const prev = lastSeen.current;
     lastSeen.current = streak;
     if (prev !== null && streak > prev) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- pulse animation flag scoped to a timeout
       setPulse(true);
       const id = setTimeout(() => setPulse(false), 400);
       return () => clearTimeout(id);

@@ -236,6 +236,8 @@ export function GameOverScreen({
   useEffect(() => {
     if (gameSlug && numericScore !== undefined) {
       const prevBest = getPersonalBest(gameSlug);
+      // Hydrating personal-best history from localStorage on mount / score change.
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- external-system hydration
       setPersonalBest(prevBest);
       const result = saveScore(gameSlug, numericScore);
       setIsNewBest(result.isNewBest);
@@ -243,13 +245,19 @@ export function GameOverScreen({
     }
   }, [gameSlug, numericScore]);
 
-  const suggestions = useMemo(() =>
-    ALL_SUGGESTIONS
-      .filter((s) => !gameSlug || !s.href.includes(gameSlug))
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4),
-    [gameSlug]
-  );
+  // Deterministic rotation: hash the current game slug to pick a stable starting
+  // offset, so different games show different suggestion sets without invoking
+  // Math.random during render.
+  const suggestions = useMemo(() => {
+    const available = ALL_SUGGESTIONS.filter((s) => !gameSlug || !s.href.includes(gameSlug));
+    let h = 0;
+    if (gameSlug) {
+      for (let i = 0; i < gameSlug.length; i++) h = ((h << 5) - h + gameSlug.charCodeAt(i)) | 0;
+    }
+    const start = Math.abs(h) % Math.max(1, available.length);
+    const rotated = [...available.slice(start), ...available.slice(0, start)];
+    return rotated.slice(0, 4);
+  }, [gameSlug]);
 
   const handleShare = useCallback(() => {
     if (shareData) {

@@ -20,6 +20,7 @@ export function PlayedTodayBanner({ gameSlug, playHref }: PlayedTodayBannerProps
 
   useEffect(() => {
     const entry = getDailyLockout(gameSlug, getTodayDateKey());
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate from localStorage on mount
     if (entry) setLocalScore(entry.scoreDisplay);
   }, [gameSlug]);
 

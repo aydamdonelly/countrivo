@@ -89,6 +89,7 @@ export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: 
   useEffect(() => {
     const entry = getDailyLockout(gameSlug, getTodayDateKey());
     if (entry) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate from localStorage on mount
       setLocked(true);
       setLockoutData({ scoreDisplay: entry.scoreDisplay });
     }

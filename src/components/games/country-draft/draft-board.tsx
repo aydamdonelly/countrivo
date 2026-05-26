@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   createGame,
   getCurrentCountry,
-  getAvailableCategories,
   assignCategory,
   isComplete,
 } from "@/lib/game-logic/country-draft/engine";

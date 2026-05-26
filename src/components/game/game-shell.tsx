@@ -7,6 +7,7 @@ interface GameShellProps {
   children: React.ReactNode;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- title kept in props for upcoming header rewrite
 export function GameShell({ title, backHref, mode, children }: GameShellProps) {
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 pb-[env(safe-area-inset-bottom)]">
