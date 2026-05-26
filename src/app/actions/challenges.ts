@@ -48,6 +48,21 @@ export async function createChallenge(
   return { success: true, challenge: mapChallenge(data) };
 }
 
+// ─── Get Pending Challenge Count (incoming, header badge) ────────────
+
+export async function getPendingChallengeCount(): Promise<number> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return 0;
+
+  const { count } = await supabase
+    .from("friend_challenges")
+    .select("id", { count: "exact", head: true })
+    .eq("challenged_id", user.id)
+    .eq("status", "pending");
+  return count ?? 0;
+}
+
 // ─── Get Pending Challenges (incoming) ───────────────────────────────
 
 export async function getPendingChallenges(): Promise<FriendChallenge[]> {

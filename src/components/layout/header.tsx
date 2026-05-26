@@ -8,6 +8,7 @@ import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getPendingRequestCount } from "@/app/actions/profile";
+import { getPendingChallengeCount } from "@/app/actions/challenges";
 
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
@@ -36,6 +37,7 @@ export function Header() {
   const [dailyCount, setDailyCount] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [pendingFriendCount, setPendingFriendCount] = useState(0);
+  const [pendingChallengeCount, setPendingChallengeCount] = useState(0);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,7 +59,10 @@ export function Header() {
   useEffect(() => {
     if (loading || !user) return;
     getPendingRequestCount().then(setPendingFriendCount);
+    getPendingChallengeCount().then(setPendingChallengeCount);
   }, [user, loading]);
+
+  const pendingFriendsBadge = pendingFriendCount + pendingChallengeCount;
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
   const totalDaily = 12;
@@ -84,9 +89,9 @@ export function Header() {
                 }`}
               >
                 {item.label}
-                {item.href === "/friends" && pendingFriendCount > 0 && (
+                {item.href === "/friends" && pendingFriendsBadge > 0 && (
                   <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-xxs font-bold rounded-full flex items-center justify-center">
-                    {pendingFriendCount > 9 ? "9+" : pendingFriendCount}
+                    {pendingFriendsBadge > 9 ? "9+" : pendingFriendsBadge}
                   </span>
                 )}
                 {isActive && (
