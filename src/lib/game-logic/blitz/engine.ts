@@ -18,7 +18,6 @@ export interface BlitzState {
   rounds: BlitzRound[];
   currentRound: number;
   myScore: number;
-  opponentScore: number;
   totalRounds: number;
   roundStartTime: number; // Date.now() when round started
 }
@@ -80,7 +79,6 @@ export function createBlitz(rng: () => number): BlitzState {
     rounds,
     currentRound: 0,
     myScore: 0,
-    opponentScore: 0,
     totalRounds: TOTAL_ROUNDS,
     roundStartTime: Date.now(),
   };
@@ -185,31 +183,3 @@ export function nextRound(state: BlitzState): BlitzState {
   };
 }
 
-/* ── Opponent scored (versus mode) ───────────────────────────────── */
-
-export function opponentScored(state: BlitzState): BlitzState {
-  if (state.phase !== "playing") return state;
-
-  const round = state.rounds[state.currentRound];
-  if (!round || round.answered) return state;
-
-  const updatedRound: BlitzRound = {
-    ...round,
-    answered: true,
-    correct: false, // opponent won this round, not us
-    timeMs: null,
-  };
-
-  const newRounds = [
-    ...state.rounds.slice(0, state.currentRound),
-    updatedRound,
-    ...state.rounds.slice(state.currentRound + 1),
-  ];
-
-  return {
-    ...state,
-    phase: "between",
-    rounds: newRounds,
-    opponentScore: state.opponentScore + 1,
-  };
-}

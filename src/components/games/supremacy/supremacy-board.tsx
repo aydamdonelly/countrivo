@@ -1,14 +1,13 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { useReducer, useCallback, useMemo, useEffect, useRef } from "react";
 import {
   createSupremacy,
   pickStat,
-  revealCards,
+  reveal,
   advanceRound,
   aiPickStat,
   type SupremacyState,
-  type SupremacyCard,
 } from "@/lib/game-logic/supremacy/engine";
 import { getDailyRng } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
@@ -27,7 +26,7 @@ interface SupremacyBoardProps {
 
 type Action =
   | { type: "PICK_STAT"; slug: string }
-  | { type: "REVEAL"; opponentCard: SupremacyCard; chosenStat: string }
+  | { type: "REVEAL" }
   | { type: "ADVANCE" }
   | { type: "RESET"; mode: "practice" | "daily" };
 
@@ -36,7 +35,7 @@ function initState(args: { mode: string; dailyKey?: string | null }): SupremacyS
     args.mode === "daily" && args.dailyKey
       ? getDailyRng(args.dailyKey)
       : mulberry32(Date.now());
-  return createSupremacy(rng, true);
+  return createSupremacy(rng);
 }
 
 function reducer(state: SupremacyState, action: Action): SupremacyState {
@@ -44,7 +43,7 @@ function reducer(state: SupremacyState, action: Action): SupremacyState {
     case "PICK_STAT":
       return pickStat(state, action.slug);
     case "REVEAL":
-      return revealCards(state, action.opponentCard, action.chosenStat);
+      return reveal(state);
     case "ADVANCE":
       return advanceRound(state);
     case "RESET":
@@ -63,23 +62,22 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
     initState,
   );
 
-  const [showReveal, setShowReveal] = useState(false);
   const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const round = state.rounds[state.currentRound];
+  const showReveal = state.phase === "reveal" && round?.winner !== null;
 
-  /* ── Practice AI logic ──────────────────────────────────────────── */
+  /* ── AI logic: pick when it's AI's turn, then reveal ────────────── */
 
   useEffect(() => {
-    /* When it's the opponent's turn ("waiting"), AI picks after 1s */
-    if (state.phase === "waiting" && !state.isMyTurn) {
-      const oppCard = state.opponentHand[state.currentRound];
-      if (!oppCard) return;
+    if (state.phase === "picking" && !state.isPlayerTurn) {
+      const aiCard = state.aiHand[state.currentRound];
+      if (!aiCard) return;
 
       aiTimerRef.current = setTimeout(() => {
-        const chosenStat = aiPickStat(oppCard, state.categories);
-        /* First set the chosen stat on our round, then reveal */
+        const chosenStat = aiPickStat(aiCard, state.categories);
         dispatch({ type: "PICK_STAT", slug: chosenStat });
+        dispatch({ type: "REVEAL" });
       }, 800);
 
       return () => {
@@ -87,78 +85,68 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
       };
     }
 
-    /* When phase is "reveal" but opponent card not shown yet (after AI pick or after my pick) */
-    if (state.phase === "reveal" && !round?.opponentCard && round?.chosenStat) {
-      const oppCard = state.opponentHand[state.currentRound];
-      if (!oppCard) return;
-
+    /* After player picks: reveal immediately on next tick */
+    if (state.phase === "reveal" && round?.winner === null) {
       aiTimerRef.current = setTimeout(() => {
-        dispatch({
-          type: "REVEAL",
-          opponentCard: oppCard,
-          chosenStat: round.chosenStat!,
-        });
-        setShowReveal(true);
+        dispatch({ type: "REVEAL" });
       }, 200);
 
       return () => {
         if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
       };
     }
-  }, [state.phase, state.isMyTurn, state.currentRound, state.opponentHand, state.categories, round?.opponentCard, round?.chosenStat]);
+  }, [state.phase, state.isPlayerTurn, state.currentRound, state.aiHand, state.categories, round?.winner]);
 
   /* Auto-advance after reveal */
   useEffect(() => {
-    if (showReveal && state.phase === "reveal" && round?.opponentCard) {
+    if (state.phase === "reveal" && round?.winner) {
       const timer = setTimeout(() => {
         dispatch({ type: "ADVANCE" });
-        setShowReveal(false);
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [showReveal, state.phase, round?.opponentCard]);
+  }, [state.phase, round?.winner]);
 
-  /* ── Handle my stat pick ────────────────────────────────────────── */
+  /* ── Handle player stat pick ────────────────────────────────────── */
 
   const handlePickStat = useCallback(
     (slug: string) => {
-      if (state.phase !== "picking" || !state.isMyTurn || showReveal) return;
-
+      if (state.phase !== "picking" || !state.isPlayerTurn) return;
       dispatch({ type: "PICK_STAT", slug });
     },
-    [state.phase, state.isMyTurn, showReveal],
+    [state.phase, state.isPlayerTurn],
   );
 
   /* ── Keyboard shortcuts (1-5 for categories) ────────────────────── */
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
-    if (state.phase === "picking" && state.isMyTurn && !showReveal) {
+    if (state.phase === "picking" && state.isPlayerTurn) {
       state.categories.forEach((cat, i) => {
         map[String(i + 1)] = () => handlePickStat(cat.slug);
       });
     }
     return map;
-  }, [state.phase, state.isMyTurn, showReveal, state.categories, handlePickStat]);
+  }, [state.phase, state.isPlayerTurn, state.categories, handlePickStat]);
 
-  useGameKeys(keymap, state.phase === "picking" && state.isMyTurn && !showReveal);
+  useGameKeys(keymap, state.phase === "picking" && state.isPlayerTurn);
 
   /* ── Results screen ─────────────────────────────────────────────── */
 
   if (state.phase === "results") {
-    const won = state.myScore > state.opponentScore;
-    const tied = state.myScore === state.opponentScore;
+    const won = state.playerScore > state.aiScore;
+    const tied = state.playerScore === state.aiScore;
     const title = tied ? "Draw!" : won ? "You Win!" : "You Lose!";
 
     return (
       <GameOverScreen
         title={title}
-        score={`${state.myScore} - ${state.opponentScore}`}
-        subtitle={`${state.rounds.filter((r) => r.winner === "me").length} rounds won`}
+        score={`${state.playerScore} - ${state.aiScore}`}
+        subtitle={`${state.rounds.filter((r) => r.winner === "player").length} rounds won`}
         onPlayAgain={
           mode === "practice" ? () => dispatch({ type: "RESET", mode: "practice" }) : undefined
         }
-        numericScore={state.myScore}
+        numericScore={state.playerScore}
         maxScore={state.rounds.length}
         gameSlug="supremacy"
       >
@@ -169,17 +157,17 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
               key={i}
               className={cn(
                 "flex items-center justify-between px-4 py-2 rounded-lg border text-sm",
-                r.winner === "me" && "border-correct/30 bg-correct/5",
-                r.winner === "opponent" && "border-incorrect/30 bg-incorrect/5",
+                r.winner === "player" && "border-correct/30 bg-correct/5",
+                r.winner === "ai" && "border-incorrect/30 bg-incorrect/5",
                 r.winner === "draw" && "border-border bg-surface",
               )}
             >
               <span className="font-medium">
-                {r.myCard.country.flagEmoji} {r.myCard.country.displayName}
+                {r.playerCard.country.flagEmoji} {r.playerCard.country.displayName}
               </span>
               <span className="text-cream-muted text-xs">vs</span>
               <span className="font-medium">
-                {r.opponentCard?.country.flagEmoji} {r.opponentCard?.country.displayName}
+                {r.aiCard.country.flagEmoji} {r.aiCard.country.displayName}
               </span>
             </div>
           ))}
@@ -192,8 +180,8 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
 
   /* ── Game UI ─────────────────────────────────────────────────────── */
 
-  const myCard = round.myCard;
-  const oppCard = round.opponentCard;
+  const playerCard = round.playerCard;
+  const aiCard = round.aiCard;
   const roundWinner = round.winner;
   const chosenStat = round.chosenStat;
 
@@ -208,60 +196,60 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
           <span
             className={cn(
               "text-2xl font-extrabold font-mono",
-              state.myScore > state.opponentScore ? "text-gold" : "text-cream",
+              state.playerScore > state.aiScore ? "text-gold" : "text-cream",
             )}
           >
-            {state.myScore}
+            {state.playerScore}
           </span>
           <span className="text-cream-muted text-sm">--</span>
           <span
             className={cn(
               "text-2xl font-extrabold font-mono",
-              state.opponentScore > state.myScore ? "text-gold" : "text-cream",
+              state.aiScore > state.playerScore ? "text-gold" : "text-cream",
             )}
           >
-            {state.opponentScore}
+            {state.aiScore}
           </span>
         </div>
         <span
           className={cn(
             "text-sm font-bold uppercase tracking-wide",
-            state.isMyTurn ? "text-gold" : "text-cream-muted",
+            state.isPlayerTurn ? "text-gold" : "text-cream-muted",
           )}
         >
-          {state.isMyTurn ? "Your pick" : "AI's pick"}
+          {state.isPlayerTurn ? "Your pick" : "AI's pick"}
         </span>
       </div>
 
       {/* Cards area */}
       <div className="grid grid-cols-2 gap-4 sm:gap-6">
-        {/* My card (always face up) */}
+        {/* Player card (always face up) */}
         <div
           className={cn(
             "flex flex-col items-center p-5 sm:p-8 rounded-xl border-2 transition-all",
-            showReveal && roundWinner === "me" && "border-correct/50 bg-correct/5",
-            showReveal && roundWinner === "opponent" && "border-incorrect/50 bg-incorrect/5",
+            showReveal && roundWinner === "player" && "border-correct/50 bg-correct/5",
+            showReveal && roundWinner === "ai" && "border-incorrect/50 bg-incorrect/5",
             showReveal && roundWinner === "draw" && "border-gold/50 bg-gold-dim",
             !showReveal && "border-border bg-surface",
           )}
         >
-          <span className="text-6xl sm:text-7xl mb-2">{myCard.country.flagEmoji}</span>
+          <span className="text-6xl sm:text-7xl mb-2">{playerCard.country.flagEmoji}</span>
           <span className="font-bold text-base sm:text-lg text-center">
-            {myCard.country.displayName}
+            {playerCard.country.displayName}
           </span>
           {chosenStat && (
             <span
               className={cn(
                 "text-xl sm:text-2xl font-mono font-extrabold mt-3 transition-all",
-                showReveal && roundWinner === "me" && "text-correct",
-                showReveal && roundWinner === "opponent" && "text-incorrect",
+                showReveal && roundWinner === "player" && "text-correct",
+                showReveal && roundWinner === "ai" && "text-incorrect",
                 showReveal && roundWinner === "draw" && "text-gold",
                 !showReveal && "text-cream",
               )}
             >
-              {myCard.stats[chosenStat] !== null
+              {playerCard.stats[chosenStat] !== null
                 ? formatStat(
-                    myCard.stats[chosenStat]!,
+                    playerCard.stats[chosenStat]!,
                     state.categories.find((c) => c.slug === chosenStat)?.unit ?? "",
                   )
                 : "N/A"}
@@ -270,34 +258,34 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
           <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">You</span>
         </div>
 
-        {/* Opponent card (face down until revealed) */}
+        {/* AI card (face down until revealed) */}
         <div
           className={cn(
             "flex flex-col items-center p-5 sm:p-8 rounded-xl border-2 transition-all",
-            showReveal && oppCard && roundWinner === "opponent" && "border-correct/50 bg-correct/5",
-            showReveal && oppCard && roundWinner === "me" && "border-incorrect/50 bg-incorrect/5",
-            showReveal && oppCard && roundWinner === "draw" && "border-gold/50 bg-gold-dim",
+            showReveal && roundWinner === "ai" && "border-correct/50 bg-correct/5",
+            showReveal && roundWinner === "player" && "border-incorrect/50 bg-incorrect/5",
+            showReveal && roundWinner === "draw" && "border-gold/50 bg-gold-dim",
             !showReveal && "border-border bg-gold-dim",
           )}
         >
-          {oppCard ? (
+          {showReveal ? (
             <>
-              <span className="text-6xl sm:text-7xl mb-2">{oppCard.country.flagEmoji}</span>
+              <span className="text-6xl sm:text-7xl mb-2">{aiCard.country.flagEmoji}</span>
               <span className="font-bold text-base sm:text-lg text-center">
-                {oppCard.country.displayName}
+                {aiCard.country.displayName}
               </span>
               {chosenStat && (
                 <span
                   className={cn(
                     "text-xl sm:text-2xl font-mono font-extrabold mt-3",
-                    roundWinner === "opponent" && "text-correct",
-                    roundWinner === "me" && "text-incorrect",
+                    roundWinner === "ai" && "text-correct",
+                    roundWinner === "player" && "text-incorrect",
                     roundWinner === "draw" && "text-gold",
                   )}
                 >
-                  {oppCard.stats[chosenStat] !== null
+                  {aiCard.stats[chosenStat] !== null
                     ? formatStat(
-                        oppCard.stats[chosenStat]!,
+                        aiCard.stats[chosenStat]!,
                         state.categories.find((c) => c.slug === chosenStat)?.unit ?? "",
                       )
                     : "N/A"}
@@ -314,15 +302,15 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
         </div>
       </div>
 
-      {/* Stat picker — only shown when it's my turn in picking phase */}
-      {state.phase === "picking" && state.isMyTurn && (
+      {/* Stat picker — only shown when it's player's turn in picking phase */}
+      {state.phase === "picking" && state.isPlayerTurn && (
         <div className="space-y-2">
           <p className="text-center text-sm text-cream-muted uppercase tracking-wide font-medium mb-3">
             Choose a stat to compare
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
             {state.categories.map((cat, i) => {
-              const val = myCard.stats[cat.slug];
+              const val = playerCard.stats[cat.slug];
               return (
                 <button
                   key={cat.slug}
@@ -351,7 +339,7 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
       )}
 
       {/* Waiting for AI pick */}
-      {state.phase === "waiting" && !state.isMyTurn && (
+      {state.phase === "picking" && !state.isPlayerTurn && (
         <div className="text-center py-6">
           <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite] mx-auto mb-3" />
           <p className="text-cream-muted text-sm">AI is thinking...</p>
@@ -363,20 +351,20 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
         <div
           className={cn(
             "text-center py-4 rounded-xl border-2 font-bold text-lg",
-            roundWinner === "me" && "border-correct/30 bg-correct/5 text-correct",
-            roundWinner === "opponent" && "border-incorrect/30 bg-incorrect/5 text-incorrect",
+            roundWinner === "player" && "border-correct/30 bg-correct/5 text-correct",
+            roundWinner === "ai" && "border-incorrect/30 bg-incorrect/5 text-incorrect",
             roundWinner === "draw" && "border-gold/30 bg-gold-dim text-gold",
           )}
         >
-          {roundWinner === "me" && "You win this round!"}
-          {roundWinner === "opponent" && "AI wins this round!"}
+          {roundWinner === "player" && "You win this round!"}
+          {roundWinner === "ai" && "AI wins this round!"}
           {roundWinner === "draw" && "Draw!"}
         </div>
       )}
 
       {/* Remaining hand (small previews) */}
       <div className="flex items-center justify-center gap-2 pt-2">
-        {state.hand.map((card, i) => {
+        {state.playerHand.map((card, i) => {
           const isCurrentCard = i === state.currentRound;
           const isPlayed = i < state.currentRound;
           return (

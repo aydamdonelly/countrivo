@@ -25,23 +25,22 @@ export interface SupremacyCard {
 }
 
 export interface SupremacyRound {
-  myCard: SupremacyCard;
-  opponentCard: SupremacyCard | null; // null until revealed
+  playerCard: SupremacyCard;
+  aiCard: SupremacyCard; // always defined; reveal is signalled by phase
   chosenStat: string | null;
-  winner: "me" | "opponent" | "draw" | null;
+  winner: "player" | "ai" | "draw" | null;
 }
 
 export interface SupremacyState {
-  phase: "waiting" | "picking" | "reveal" | "results";
-  hand: SupremacyCard[];
-  opponentHand: SupremacyCard[]; // used in practice; empty in versus
-  opponentHandSize: number;
+  phase: "picking" | "reveal" | "results";
+  playerHand: SupremacyCard[];
+  aiHand: SupremacyCard[];
   categories: Category[];
   currentRound: number;
   rounds: SupremacyRound[];
-  myScore: number;
-  opponentScore: number;
-  isMyTurn: boolean; // true = I pick the stat this round
+  playerScore: number;
+  aiScore: number;
+  isPlayerTurn: boolean; // true = player picks the stat this round
 }
 
 /* ── Helpers ───────────────────────────────────────────────────────── */
@@ -56,10 +55,7 @@ function buildCard(country: Country, cats: Category[]): SupremacyCard {
 
 /* ── Create game ───────────────────────────────────────────────────── */
 
-export function createSupremacy(
-  rng: () => number,
-  isPlayer1: boolean,
-): SupremacyState {
+export function createSupremacy(rng: () => number): SupremacyState {
   /* Pick 5 categories from good list */
   const usableCats = categories.filter((c) => GOOD_CATS.includes(c.slug));
   const gameCats = seededPick(usableCats, 5, rng);
@@ -80,47 +76,41 @@ export function createSupremacy(
 
   const picked = seededPick(eligible, 10, rng);
 
-  /* Build cards */
+  /* Build cards — player always gets first half (deterministic). */
   const allCards = picked.map((c) => buildCard(c, gameCats));
-  const firstHalf = allCards.slice(0, 5);
-  const secondHalf = allCards.slice(5, 10);
+  const playerHand = allCards.slice(0, 5);
+  const aiHand = allCards.slice(5, 10);
 
-  const myHand = isPlayer1 ? firstHalf : secondHalf;
-  const oppHand = isPlayer1 ? secondHalf : firstHalf;
-
-  /* Seed the first round */
-  const isMyTurn = isPlayer1;
-
+  /* Player picks first round. */
   const rounds: SupremacyRound[] = [
     {
-      myCard: myHand[0],
-      opponentCard: null,
+      playerCard: playerHand[0],
+      aiCard: aiHand[0],
       chosenStat: null,
       winner: null,
     },
   ];
 
   return {
-    phase: isMyTurn ? "picking" : "waiting",
-    hand: myHand,
-    opponentHand: oppHand,
-    opponentHandSize: 5,
+    phase: "picking",
+    playerHand,
+    aiHand,
     categories: gameCats,
     currentRound: 0,
     rounds,
-    myScore: 0,
-    opponentScore: 0,
-    isMyTurn,
+    playerScore: 0,
+    aiScore: 0,
+    isPlayerTurn: true,
   };
 }
 
-/* ── Pick stat (either side) ──────────────────────────────────────── */
+/* ── Pick stat (player or AI) ─────────────────────────────────────── */
 
 export function pickStat(
   state: SupremacyState,
   categorySlug: string,
 ): SupremacyState {
-  if (state.phase !== "picking" && state.phase !== "waiting") return state;
+  if (state.phase !== "picking") return state;
 
   const round = state.rounds[state.currentRound];
 
@@ -137,48 +127,43 @@ export function pickStat(
 
 /* ── Reveal cards and determine winner ────────────────────────────── */
 
-export function revealCards(
-  state: SupremacyState,
-  opponentCard: SupremacyCard,
-  chosenStat: string,
-): SupremacyState {
-  const round = state.rounds[state.currentRound];
-  const myVal = round.myCard.stats[chosenStat];
-  const oppVal = opponentCard.stats[chosenStat];
+export function reveal(state: SupremacyState): SupremacyState {
+  if (state.phase !== "reveal") return state;
 
-  let winner: "me" | "opponent" | "draw";
-  if (myVal === null && oppVal === null) {
+  const round = state.rounds[state.currentRound];
+  const chosenStat = round.chosenStat;
+  if (!chosenStat) return state;
+
+  const playerVal = round.playerCard.stats[chosenStat];
+  const aiVal = round.aiCard.stats[chosenStat];
+
+  let winner: "player" | "ai" | "draw";
+  if (playerVal === null && aiVal === null) {
     winner = "draw";
-  } else if (myVal === null) {
-    winner = "opponent";
-  } else if (oppVal === null) {
-    winner = "me";
-  } else if (myVal > oppVal) {
-    winner = "me";
-  } else if (oppVal > myVal) {
-    winner = "opponent";
+  } else if (playerVal === null) {
+    winner = "ai";
+  } else if (aiVal === null) {
+    winner = "player";
+  } else if (playerVal > aiVal) {
+    winner = "player";
+  } else if (aiVal > playerVal) {
+    winner = "ai";
   } else {
     winner = "draw";
   }
 
-  const newMyScore = state.myScore + (winner === "me" ? 1 : 0);
-  const newOppScore = state.opponentScore + (winner === "opponent" ? 1 : 0);
+  const newPlayerScore = state.playerScore + (winner === "player" ? 1 : 0);
+  const newAiScore = state.aiScore + (winner === "ai" ? 1 : 0);
 
   return {
     ...state,
-    phase: "reveal",
     rounds: [
       ...state.rounds.slice(0, state.currentRound),
-      {
-        ...round,
-        opponentCard,
-        chosenStat,
-        winner,
-      },
+      { ...round, winner },
       ...state.rounds.slice(state.currentRound + 1),
     ],
-    myScore: newMyScore,
-    opponentScore: newOppScore,
+    playerScore: newPlayerScore,
+    aiScore: newAiScore,
   };
 }
 
@@ -194,11 +179,11 @@ export function advanceRound(state: SupremacyState): SupremacyState {
   }
 
   /* Alternate turns */
-  const nextIsMyTurn = !state.isMyTurn;
+  const nextIsPlayerTurn = !state.isPlayerTurn;
 
   const nextRoundData: SupremacyRound = {
-    myCard: state.hand[nextRound],
-    opponentCard: null,
+    playerCard: state.playerHand[nextRound],
+    aiCard: state.aiHand[nextRound],
     chosenStat: null,
     winner: null,
   };
@@ -206,10 +191,9 @@ export function advanceRound(state: SupremacyState): SupremacyState {
   return {
     ...state,
     currentRound: nextRound,
-    isMyTurn: nextIsMyTurn,
-    opponentHandSize: state.opponentHandSize - 1,
+    isPlayerTurn: nextIsPlayerTurn,
     rounds: [...state.rounds, nextRoundData],
-    phase: nextIsMyTurn ? "picking" : "waiting",
+    phase: "picking",
   };
 }
 
