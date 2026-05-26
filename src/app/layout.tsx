@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { TopoBg } from "@/components/layout/topo-bg";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { ToastProvider } from "@/components/ui/toast";
 import Link from "next/link";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
@@ -108,6 +109,7 @@ export default function RootLayout({
           }}
         />
         <AuthProvider>
+        <ToastProvider>
         <TopoBg />
         <Header />
         <AuthModal />
@@ -170,6 +172,7 @@ export default function RootLayout({
         </footer>
         <Analytics />
         <SpeedInsights />
+        </ToastProvider>
         </AuthProvider>
       </body>
     </html>
