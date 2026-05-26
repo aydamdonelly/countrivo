@@ -14,6 +14,7 @@ export default function StatGuesserPage() {
       title="Stat Guesser"
       description="A country and a stat appear. Guess the value. The closer you are, the better your score."
       playHref="/games/stat-guesser/play"
+      showDateStamp
       rules={[
         "A country and stat category are shown",
         "Enter your best guess for the value",

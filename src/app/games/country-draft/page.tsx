@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
 import { getGameColor } from "@/lib/game-colors";
 import { PlayedTodayBanner } from "@/components/game/played-today-banner";
+import { DateStamp } from "@/components/game/game-landing";
 
 export const metadata: Metadata = {
   title: "Country Draft | Assign Countries to Their Best Stats",
@@ -49,6 +50,10 @@ export default function CountryDraftPage() {
               8 categories. 8 countries. Assign each where it ranks highest
               globally — then see how close you got to the optimal solution.
             </p>
+
+            <div className="mt-3" style={{ color: "#991b1b" }}>
+              <DateStamp accentClassName="text-gold mx-0.5" />
+            </div>
 
             {/* Meta row */}
             <div className="flex items-center gap-3 mt-3 text-xs" style={{ color: "#991b1b" }}>

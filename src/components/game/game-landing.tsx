@@ -15,6 +15,7 @@ interface GameLandingProps {
   playHref: string;
   rules: string[];
   hasDailyMode?: boolean;
+  showDateStamp?: boolean;
   relatedGames?: RelatedGame[];
   category?: string;
   difficulty?: string;
@@ -38,6 +39,7 @@ export function GameLanding({
   playHref,
   rules,
   hasDailyMode = true,
+  showDateStamp = false,
   relatedGames,
   category = "quiz",
   difficulty,
@@ -80,6 +82,10 @@ export function GameLanding({
         <p className="text-cream-muted text-base mt-2 max-w-md mx-auto">
           {description}
         </p>
+
+        {hasDailyMode && showDateStamp && (
+          <DateStamp accentClassName="text-gold mx-0.5" />
+        )}
 
         {/* Meta chips */}
         {(difficulty || estimatedTime || category) && (
@@ -196,5 +202,24 @@ export function GameLanding({
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Today's puzzle stamp — DD · MM · YY in Europe/Berlin time.
+ * Renders at request time on the server so the date matches the
+ * daily-seed reset window.
+ */
+export function DateStamp({ accentClassName = "text-gold mx-0.5" }: { accentClassName?: string }) {
+  const berlin = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" });
+  const [yyyy, mm, dd] = berlin.split("-");
+  const yy = yyyy.slice(2);
+  return (
+    <time
+      dateTime={berlin}
+      className="font-mono text-cream-muted text-sm tabular-nums mt-3 inline-flex items-center justify-center"
+    >
+      {dd}<span className={accentClassName}>·</span>{mm}<span className={accentClassName}>·</span>{yy}
+    </time>
   );
 }

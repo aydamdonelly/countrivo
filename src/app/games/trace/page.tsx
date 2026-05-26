@@ -14,6 +14,7 @@ export default function TracePage() {
       title="Trace"
       description="Six guesses, six stat clues, one country. Trace the hidden country through population, area, GDP, and three more stat axes — each guess reveals direction."
       playHref="/games/trace/play"
+      showDateStamp
       rules={[
         "A hidden country is chosen. You have 6 guesses.",
         "Each guess reveals whether the target is higher or lower in 6 categories.",
