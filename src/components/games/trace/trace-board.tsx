@@ -295,6 +295,18 @@ export function TraceBoard({ mode }: TraceBoardProps) {
           isPersonalBest: serverData.isPersonalBest,
           runId: serverData.id,
         } : undefined}
+        shareData={{
+          game: "trace",
+          result: {
+            guesses: state.guesses.map((g) => ({
+              comparisons: g.comparisons.map((c) => ({ direction: c.direction })),
+              isCorrect: g.isCorrect,
+            })),
+            won,
+            maxGuesses: state.maxGuesses,
+          },
+          dateKey: mode === "daily" ? getTodayDateKey() : `practice-${getTodayDateKey()}`,
+        }}
       >
         <div className="space-y-2 mt-4">
           {state.guesses.map((row, i) => (

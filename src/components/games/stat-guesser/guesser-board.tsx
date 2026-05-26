@@ -174,6 +174,9 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
       });
     } : undefined;
 
+    // Daily collapses to a single round, so the first round is the anchor + target.
+    const firstRound = state.rounds[0];
+
     return (
       <GameOverScreen
         title="Stat Guesser Complete!"
@@ -192,6 +195,15 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
           runId: serverData.id,
           dailyDate: serverData.dailyDate ?? undefined,
         } : undefined}
+        shareData={{
+          game: "stat-guesser",
+          result: {
+            avgError,
+            anchorName: firstRound.anchor.country.displayName,
+            targetName: firstRound.country.displayName,
+          },
+          dateKey: mode === "daily" ? getTodayDateKey() : `practice-${getTodayDateKey()}`,
+        }}
       >
         <div className="w-full max-w-md space-y-2">
           {state.rounds.map((r, i) => {

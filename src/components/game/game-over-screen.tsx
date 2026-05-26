@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import {
   IconTarget,
@@ -19,6 +19,7 @@ import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
 import { ChallengeFriendPicker } from "@/components/friends/challenge-friend-picker";
 import { Button } from "@/components/ui/button";
+import { ShareCard } from "@/components/share/share-card";
 
 interface ServerData {
   rankToday: number | null;
@@ -27,6 +28,14 @@ interface ServerData {
   isPersonalBest: boolean;
   runId?: number;
   dailyDate?: string;
+}
+
+type ShareGame = "country-draft" | "trace" | "stat-guesser";
+
+interface ShareData {
+  game: ShareGame;
+  result: Record<string, unknown>;
+  dateKey: string;
 }
 
 interface GameOverScreenProps {
@@ -40,6 +49,8 @@ interface GameOverScreenProps {
   maxScore?: number;
   gameSlug?: string;
   serverData?: ServerData;
+  /** Phase 4 share-grids: when present, "Share result" opens the per-game emoji card. */
+  shareData?: ShareData;
 }
 
 /* ---------- Tier system ---------- */
@@ -189,13 +200,14 @@ const ALL_SUGGESTIONS = [
 
 export function GameOverScreen({
   title, score, subtitle, onPlayAgain, onSaveScore, children,
-  numericScore, maxScore, gameSlug, serverData,
+  numericScore, maxScore, gameSlug, serverData, shareData,
 }: GameOverScreenProps) {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
   const [history, setHistory] = useState<number[]>([]);
   const [shared, setShared] = useState(false);
   const [showChallengePicker, setShowChallengePicker] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
 
   const hasTier = numericScore !== undefined && maxScore !== undefined && maxScore > 0;
   const pct = hasTier ? (numericScore / maxScore) * 100 : null;
@@ -240,10 +252,21 @@ export function GameOverScreen({
   );
 
   const handleShare = useCallback(() => {
+    if (shareData) {
+      setShowShareModal(true);
+      return;
+    }
     shareResult(title, score, tier?.label ?? null, percentile, rankToday, totalPlayers);
     setShared(true);
     setTimeout(() => setShared(false), 2000);
-  }, [title, score, tier, percentile, rankToday, totalPlayers]);
+  }, [shareData, title, score, tier, percentile, rankToday, totalPlayers]);
+
+  // Inject server-side rank into the share payload so country-draft can print it.
+  const enrichedShareResult = useMemo(() => {
+    if (!shareData) return null;
+    if (rankToday == null) return shareData.result;
+    return { ...shareData.result, rank: rankToday };
+  }, [shareData, rankToday]);
 
   return (
     <div className="flex flex-col items-center gap-0 py-6 sm:py-10">
@@ -388,6 +411,15 @@ export function GameOverScreen({
           onClose={() => setShowChallengePicker(false)}
         />
       )}
+      {showShareModal && shareData && enrichedShareResult && (
+        <ShareModal onClose={() => setShowShareModal(false)}>
+          <ShareCard
+            game={shareData.game}
+            result={enrichedShareResult}
+            dateKey={shareData.dateKey}
+          />
+        </ShareModal>
+      )}
       {gameSlug && (
         <Link
           href={`/games/${gameSlug}/leaderboard`}
@@ -444,6 +476,51 @@ function StatPill({ label, value, highlight }: { label: string; value: string; h
         highlight === "good" ? "text-correct" : highlight === "bad" ? "text-incorrect" : ""
       }`}>
         {value}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Share modal ---------- */
+
+function ShareModal({ onClose, children }: { onClose: () => void; children: React.ReactNode }) {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      role="presentation"
+    >
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Share your result"
+        className="relative bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl p-6 max-h-[92vh] overflow-y-auto animate-slide-up sm:animate-scale-in"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg text-cream-muted/60 hover:text-cream hover:bg-cream-ghost transition-colors"
+          aria-label="Close share dialog"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <path d="M4 4l8 8M12 4l-8 8" />
+          </svg>
+        </button>
+        <h3 className="text-base font-extrabold text-center mb-4">Share your result</h3>
+        {children}
       </div>
     </div>
   );
