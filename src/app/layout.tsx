@@ -4,7 +4,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
-import { TopoBg } from "@/components/layout/topo-bg";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { ToastProvider } from "@/components/ui/toast";
@@ -110,7 +109,6 @@ export default function RootLayout({
         />
         <AuthProvider>
         <ToastProvider>
-        <TopoBg />
         <Header />
         <AuthModal />
         <main className="flex-1">{children}</main>
