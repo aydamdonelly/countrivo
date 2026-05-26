@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getFlagshipGame, getAllGames } from "@/lib/data/games";
+import { getFlagshipGame, getAllGames, getMainGames, getDrillGames } from "@/lib/data/games";
 import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
@@ -28,34 +28,15 @@ async function getServerProfile() {
 export const metadata: Metadata = {
   title: "Countrivo | Free Geography Games & Daily Challenges",
   description:
-    "14 free geography games: flag quizzes, daily challenges, country rankings, and capital matching. 243 countries. No signup needed.",
+    "Daily geography puzzles plus a deep library of practice drills. 243 countries. No signup needed.",
 };
-
-const VS_GAMES = [
-  {
-    slug: "supremacy",
-    emoji: "👑",
-    title: "Supremacy",
-    desc: "Draft countries head-to-head. Outsmart your rival.",
-  },
-  {
-    slug: "borderline",
-    emoji: "🗺️",
-    title: "Borderline",
-    desc: "Race to connect a chain of bordering countries first.",
-  },
-  {
-    slug: "blitz",
-    emoji: "⚡",
-    title: "Blitz",
-    desc: "Speed-round flag quiz. Fastest correct answer wins.",
-  },
-];
 
 export default async function HomePage() {
   const flagship = getFlagshipGame();
   const allGames = getAllGames();
-  const nonFlagship = allGames.filter((g) => !g.isFlagship);
+  const mainGames = getMainGames();
+  const drillGames = getDrillGames();
+  const mainNonFlagship = mainGames.filter((g) => !g.isFlagship);
 
   const todayKey = getTodayDateKey();
   const [summary, dailyStatus, profile, pendingChallenges] = await Promise.all([
@@ -227,7 +208,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* All Games grid */}
+      {/* Main daily games grid — only the VERDICT-approved games */}
       <section>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-extrabold">More daily games</h2>
@@ -236,7 +217,7 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {nonFlagship.map((game) => {
+          {mainNonFlagship.map((game) => {
             const colors = GAME_COLORS[game.slug] ?? {
               bg: "#f3f4f6",
               text: "#374151",
@@ -292,40 +273,37 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Challenge friends live */}
+      {/* Drills — reduced prominence, compact list-style cards */}
       <section className="mt-12">
-        <div className="flex items-center gap-3 mb-4">
-          <h2 className="text-lg font-extrabold">Challenge friends live</h2>
-          <span className="flex items-center gap-1.5 text-xs text-cream-muted">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            Live
-          </span>
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <h2 className="text-sm font-bold uppercase tracking-wide text-cream-muted">
+              Drills
+            </h2>
+            <p className="text-xs text-cream-muted mt-0.5">
+              Quick practice rounds. No daily ritual.
+            </p>
+          </div>
+          <Link href="/games?show=drills" className="cta-tertiary text-xs">
+            See all {drillGames.length} →
+          </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {VS_GAMES.map((vs) => {
-            const colors = GAME_COLORS[vs.slug] ?? {
-              bg: "#f3f4f6",
-              text: "#374151",
-            };
-            return (
-              <Link
-                key={vs.slug}
-                href={`/games/${vs.slug}`}
-                className="flex items-center gap-4 game-card p-4"
-                style={{ backgroundColor: colors.bg }}
-              >
-                <span className="text-2xl shrink-0">{vs.emoji}</span>
-                <div className="min-w-0 flex-1">
-                  <h3 className="font-bold text-sm" style={{ color: colors.text }}>
-                    {vs.title}
-                  </h3>
-                  <p className="text-xs opacity-60 line-clamp-1" style={{ color: colors.text }}>
-                    {vs.desc}
-                  </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          {drillGames.slice(0, 8).map((game) => (
+            <Link
+              key={game.slug}
+              href={game.route}
+              className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-elevated border border-border hover:border-cream-muted transition-colors"
+            >
+              <span className="text-lg shrink-0">{game.emoji}</span>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-semibold truncate">{game.title}</div>
+                <div className="text-[10px] text-cream-muted truncate">
+                  {game.estimatedTime}
                 </div>
-              </Link>
-            );
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

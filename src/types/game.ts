@@ -1,5 +1,7 @@
 export type GameMode = "daily" | "practice" | "archive" | "custom";
 
+export type GameTier = "main" | "drill";
+
 export interface GameMeta {
   slug: string;
   title: string;
@@ -9,6 +11,7 @@ export interface GameMeta {
   difficulty: "easy" | "medium" | "hard";
   estimatedTime: string;
   category: "quiz" | "ranking" | "strategy" | "speed" | "knowledge";
+  tier: GameTier;
   isNew: boolean;
   isFlagship: boolean;
   availableModes: GameMode[];

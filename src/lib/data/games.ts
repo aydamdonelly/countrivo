@@ -14,3 +14,11 @@ export function getGameBySlug(slug: string): GameMeta | undefined {
 export function getFlagshipGame(): GameMeta {
   return gameRegistry.find((g) => g.isFlagship)!;
 }
+
+export function getMainGames(): GameMeta[] {
+  return gameRegistry.filter((g) => g.tier === "main");
+}
+
+export function getDrillGames(): GameMeta[] {
+  return gameRegistry.filter((g) => g.tier === "drill");
+}
