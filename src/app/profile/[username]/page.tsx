@@ -66,7 +66,7 @@ export default async function PublicProfilePage({ params }: Props) {
 
       {/* Stats overview */}
       <section className="mb-8">
-        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Stats</h2>
+        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Stats</h2>
         <div className="grid grid-cols-3 gap-3">
           <StatCard label="Games played" value={String(totalRuns)} />
           <StatCard label="Daily challenges" value={String(totalDailyRuns)} />
@@ -77,7 +77,7 @@ export default async function PublicProfilePage({ params }: Props) {
       {/* Per-game stats */}
       {gameStats.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Games</h2>
+          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Games</h2>
           <div className="space-y-2">
             {gameStats.map((s) => {
               const colors = GAME_COLORS[s.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
@@ -105,7 +105,7 @@ export default async function PublicProfilePage({ params }: Props) {
       {/* Today's dailies */}
       {todayRuns.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Today</h2>
+          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Today</h2>
           <div className="flex flex-wrap gap-2">
             {todayRuns.map((r) => {
               const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
@@ -123,7 +123,7 @@ export default async function PublicProfilePage({ params }: Props) {
       {/* Head-to-head */}
       {h2h && (h2h.wins + h2h.losses + h2h.draws) > 0 && (
         <section className="mb-8">
-          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Head-to-head (30 days)</h2>
+          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Head-to-head (30 days)</h2>
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="p-4 rounded-xl bg-correct/10 border border-correct/20 text-center">
               <p className="text-xl font-extrabold font-mono text-correct">{h2h.wins}</p>

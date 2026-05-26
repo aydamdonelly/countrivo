@@ -138,7 +138,7 @@ export default async function AlbumPage() {
 
       {/* Recently stamped */}
       <section aria-label="Recently stamped countries">
-        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">
+        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">
           Recently stamped
         </h2>
         {recent.length === 0 ? (

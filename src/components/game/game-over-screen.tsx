@@ -374,7 +374,7 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 4: DISCOVERY ═══════ */}
       <div className="w-full border-t border-border pt-6 mt-6">
-        <p className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3 text-center">
+        <p className="text-sm font-bold text-cream-muted label-caps mb-3 text-center">
           Try another game
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

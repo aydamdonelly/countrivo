@@ -66,7 +66,7 @@ export default function SupremacyPage() {
 
       {/* Related games */}
       <div className="mt-12 px-4 pb-8">
-        <h3 className="font-bold text-lg text-cream-muted uppercase tracking-wide mb-4 text-center">
+        <h3 className="font-bold text-lg text-cream-muted label-caps mb-4 text-center">
           Try next
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">

@@ -278,7 +278,7 @@ export default async function HomePage() {
       <section className="mt-12">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-wide text-cream-muted">
+            <h2 className="text-sm font-bold label-caps text-cream-muted">
               Drills
             </h2>
             <p className="text-xs text-cream-muted mt-0.5">

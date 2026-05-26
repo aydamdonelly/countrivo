@@ -169,7 +169,7 @@ export function GameLanding({
 
       {/* Related games */}
       <div className="mt-10 px-4 pb-8">
-        <h3 className="font-bold text-sm text-cream-muted uppercase tracking-wide mb-3 text-center">
+        <h3 className="font-bold text-sm text-cream-muted label-caps mb-3 text-center">
           Try next
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">

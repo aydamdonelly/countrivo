@@ -108,7 +108,7 @@ export function FriendsClient({
       {/* ── Pending Requests ── */}
       {pendingRequests.length > 0 && (
         <section>
-          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">
+          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">
             Friend requests <span className="text-gold">({pendingRequests.length})</span>
           </h2>
           <div className="space-y-2">
@@ -142,7 +142,7 @@ export function FriendsClient({
       {/* ── Pending Challenges ── */}
       {pendingChallenges.length > 0 && (
         <section>
-          <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">
+          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">
             Challenges <span className="text-gold">({pendingChallenges.length})</span>
           </h2>
           <div className="space-y-2">
@@ -174,7 +174,7 @@ export function FriendsClient({
 
       {/* ── Activity Feed ── */}
       <section>
-        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">
+        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">
           Today&apos;s activity
           {friends.length > 0 && (
             <span className="text-gold ml-1">
@@ -239,7 +239,7 @@ export function FriendsClient({
 
       {/* ── Search ── */}
       <section>
-        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Find players</h2>
+        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Find players</h2>
         <input
           type="text"
           value={searchQuery}
@@ -276,7 +276,7 @@ export function FriendsClient({
 
       {/* ── Invite Link ── */}
       <section>
-        <h2 className="text-sm font-bold text-cream-muted uppercase tracking-wide mb-3">Invite a friend</h2>
+        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Invite a friend</h2>
         <div className="flex items-center gap-2 p-3 rounded-xl bg-surface-elevated border border-border">
           <code className="flex-1 text-sm text-gold font-mono break-all truncate">
             {inviteUrl || `countrivo.com/friends/add/${currentUsername}`}
