@@ -20,6 +20,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: "/vs/:code", destination: "/games", permanent: true },
+      { source: "/games/countryle", destination: "/games/trace", permanent: true },
+      { source: "/games/countryle/play", destination: "/games/trace/play", permanent: true },
     ];
   },
 };

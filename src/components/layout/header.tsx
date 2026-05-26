@@ -65,8 +65,8 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-14">
-        <Link href="/" className="text-xl font-bold tracking-tight shrink-0">
-          Coun<span className="text-gold">trivo</span>
+        <Link href="/" className="text-xl font-extrabold tracking-tight shrink-0">
+          Coun<span className="text-gold mx-[1px]">·</span>trivo
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0 justify-center overflow-hidden">

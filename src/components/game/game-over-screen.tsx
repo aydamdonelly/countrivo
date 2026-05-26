@@ -178,7 +178,7 @@ const ALL_SUGGESTIONS = [
   { href: "/games/stat-guesser", icon: IconHash, name: "Stat Guesser" },
   { href: "/games/speed-flags", icon: IconClock, name: "Speed Flags" },
   { href: "/games/odd-one-out", icon: IconSearch, name: "Odd One Out" },
-  { href: "/games/countryle", icon: IconGlobe, name: "Countryle" },
+  { href: "/games/trace", icon: IconGlobe, name: "Trace" },
 ];
 
 /* ================================================================ */

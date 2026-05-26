@@ -106,7 +106,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
                 name: "What are the best free geography games online?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Countrivo offers daily geography puzzles plus a deep library of practice drills. The headline games are Country Draft, Stat Guesser, and Countryle. All games have daily challenges and unlimited practice mode. No signup required.",
+                  text: "Countrivo offers daily geography puzzles plus a deep library of practice drills. The headline games are Country Draft, Stat Guesser, and Trace. All games have daily challenges and unlimited practice mode. No signup required.",
                 },
               },
               {

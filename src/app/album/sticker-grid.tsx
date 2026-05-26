@@ -32,7 +32,7 @@ const TIER_CLASS: Record<Tier, string> = {
 };
 
 function formatSlug(slug: string): string {
-  if (slug === "countryle") return "Countryle";
+  if (slug === "trace") return "Trace";
   if (slug === "country-draft") return "Country Draft";
   if (slug === "stat-guesser") return "Stat Guesser";
   return slug

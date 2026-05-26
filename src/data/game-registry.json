@@ -210,19 +210,18 @@
     "route": "/games/blitz"
   },
   {
-    "_todo": "rename to 'trace' — separate migration task. Touches: registry slug, route, board, game_runs.game_slug backfill, daily_puzzles.game_slug backfill, atlas_stickers extract_countries() CASE.",
-    "slug": "countryle",
-    "title": "Countryle",
-    "shortDescription": "Guess the country from stat clues.",
-    "description": "A hidden country is chosen each day. Guess it in 6 tries. Each guess reveals whether the target is higher or lower across 6 stat categories.",
+    "slug": "trace",
+    "title": "Trace",
+    "shortDescription": "Trace the hidden country in 6 guesses.",
+    "description": "Six guesses, six stat clues, one country. Trace the hidden country through population, area, GDP, and three more stat axes — each guess reveals direction.",
     "emoji": "🌍",
     "difficulty": "medium",
     "estimatedTime": "3-5 min",
     "category": "knowledge",
     "tier": "main",
-    "isNew": true,
+    "isNew": false,
     "isFlagship": false,
     "availableModes": ["daily", "practice"],
-    "route": "/games/countryle"
+    "route": "/games/trace"
   }
 ]

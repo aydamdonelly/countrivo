@@ -78,7 +78,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       // Fewer moves = better, invert
       scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
       break;
-    case "countryle":
+    case "trace":
       // Fewer guesses = better, scoreRaw = 1-7, invert
       scoreSortValue = 7 - input.scoreRaw;
       break;
@@ -460,7 +460,7 @@ function validateGameResult(
         if (scoreRaw > scoreMax) return "score_exceeds_total";
         break;
       }
-      case "countryle": {
+      case "trace": {
         const guesses = resultJson.guesses;
         if (!Array.isArray(guesses)) return "invalid_result";
         if (typeof resultJson.guessCount !== "number") return "invalid_result";
