@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
@@ -88,13 +89,16 @@ export function ForgotPasswordForm() {
           {errorMsg}
         </p>
       )}
-      <button
+      <Button
         type="submit"
-        disabled={status === "loading" || !email.trim()}
-        className="cta-primary w-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+        variant="primary"
+        size="md"
+        fullWidth
+        loading={status === "loading"}
+        disabled={!email.trim()}
       >
         {status === "loading" ? "Sending..." : "Send reset link"}
-      </button>
+      </Button>
     </form>
   );
 }

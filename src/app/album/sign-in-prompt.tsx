@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth } from "@/components/auth/auth-provider";
+import { Button } from "@/components/ui/button";
 
 export function SignInPrompt() {
   const { openAuthModal } = useAuth();
@@ -18,9 +19,9 @@ export function SignInPrompt() {
           One sticker per land, forever.
         </p>
       </div>
-      <button onClick={() => openAuthModal()} className="cta-primary">
+      <Button onClick={() => openAuthModal()} variant="primary" size="lg">
         Sign in
-      </button>
+      </Button>
     </div>
   );
 }

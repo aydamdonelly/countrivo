@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function GlobalError({
   error,
@@ -22,9 +23,9 @@ export default function GlobalError({
           An unexpected error occurred. This might be a temporary issue — try again.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <button onClick={reset} className="cta-primary text-sm px-6 py-2.5">
+          <Button onClick={reset} variant="primary" size="md">
             Try again
-          </button>
+          </Button>
           <a href="/" className="cta-secondary text-sm px-6 py-2.5">
             Go home
           </a>

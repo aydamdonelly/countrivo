@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useAuth } from "./auth-provider";
 import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 
 type Tab = "signin" | "signup";
 type SignInError =
@@ -334,15 +335,19 @@ export function AuthModal() {
                 </p>
               )}
 
-              <button
+              <Button
                 type="submit"
-                disabled={submitting || !email.trim() || !password}
-                className="cta-primary w-full text-sm disabled:opacity-60 disabled:cursor-not-allowed mt-1"
+                variant="primary"
+                size="md"
+                fullWidth
+                loading={submitting}
+                disabled={!email.trim() || !password}
+                className="mt-1"
               >
                 {submitting
                   ? (tab === "signin" ? "Signing in..." : "Creating account...")
                   : (tab === "signin" ? "Sign In" : "Create Account")}
-              </button>
+              </Button>
 
               {tab === "signin" && (
                 <div className="text-center mt-1">

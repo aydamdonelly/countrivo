@@ -18,6 +18,7 @@ import {
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
 import { ChallengeFriendPicker } from "@/components/friends/challenge-friend-picker";
+import { Button } from "@/components/ui/button";
 
 interface ServerData {
   rankToday: number | null;
@@ -333,14 +334,14 @@ export function GameOverScreen({
       {/* ═══════ LAYER 3: ACTIONS ═══════ */}
       <div className="w-full mt-6 grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 max-w-md mx-auto">
         {onSaveScore && (
-          <button onClick={onSaveScore} className="cta-primary sm:flex-1">
+          <Button onClick={onSaveScore} variant="primary" size="lg" className="sm:flex-1">
             Save my score
-          </button>
+          </Button>
         )}
         {onPlayAgain && (
-          <button onClick={onPlayAgain} className="cta-primary sm:flex-1">
+          <Button onClick={onPlayAgain} variant="primary" size="lg" className="sm:flex-1">
             Play again
-          </button>
+          </Button>
         )}
         <button onClick={handleShare} className="cta-secondary sm:flex-1">
           {shared ? "Copied!" : "Share result"}

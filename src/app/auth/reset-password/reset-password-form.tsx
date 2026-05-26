@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 
 type Status = "checking" | "ready" | "invalid" | "loading" | "success" | "error";
 
@@ -196,13 +197,16 @@ export function ResetPasswordForm() {
         <p className="text-xs text-incorrect" role="alert">{errorMsg}</p>
       )}
 
-      <button
+      <Button
         type="submit"
-        disabled={status === "loading" || password.length < 8 || password !== confirm}
-        className="cta-primary w-full text-sm disabled:opacity-60 disabled:cursor-not-allowed"
+        variant="primary"
+        size="md"
+        fullWidth
+        loading={status === "loading"}
+        disabled={password.length < 8 || password !== confirm}
       >
         {status === "loading" ? "Updating..." : "Update password"}
-      </button>
+      </Button>
     </form>
   );
 }
