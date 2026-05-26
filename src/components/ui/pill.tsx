@@ -15,7 +15,7 @@ const variantClass: Record<Variant, string> = {
 
 export function Pill({ variant = "default", className, children, ...rest }: PillProps) {
   const composed = [
-    "inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xxs font-mono font-bold uppercase tracking-wide whitespace-nowrap",
+    "inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xxs font-mono font-bold whitespace-nowrap leading-none",
     variantClass[variant],
     className ?? "",
   ]

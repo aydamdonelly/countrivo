@@ -4,6 +4,7 @@ import { getFlagshipGame, getAllGames, getMainGames, getDrillGames } from "@/lib
 import { IconArrowRight } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
+import { Pill } from "@/components/ui/pill";
 import { getDailySummary, checkDailyStatus } from "@/app/actions/game-runs";
 import { getPendingChallenges } from "@/app/actions/challenges";
 import { getTodayDateKey } from "@/lib/daily-seed";
@@ -79,7 +80,7 @@ export default async function HomePage() {
         <section className="mb-6">
           <div className="flex items-center gap-2 mb-3">
             <h2 className="text-base font-extrabold">Challenges waiting for you</h2>
-            <span className="px-2 py-0.5 bg-gold text-white text-[10px] font-bold rounded-full">{pendingChallenges.length}</span>
+            <Pill variant="gold">{pendingChallenges.length}</Pill>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {pendingChallenges.slice(0, 4).map((c) => {
