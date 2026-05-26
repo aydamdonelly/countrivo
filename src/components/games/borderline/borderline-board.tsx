@@ -19,13 +19,11 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
-import { useMultiplayer } from "@/hooks/use-multiplayer";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface BorderlineBoardProps {
   mode: "practice" | "versus";
-  roomCode?: string | null;
   dailyKey?: string | null;
 }
 
@@ -71,7 +69,6 @@ function reducer(state: ReducerState, action: Action): ReducerState {
 
 export function BorderlineBoard({
   mode,
-  roomCode,
   dailyKey,
 }: BorderlineBoardProps) {
   const [state, dispatch] = useReducer(
@@ -82,18 +79,10 @@ export function BorderlineBoard({
 
   const [inputValue, setInputValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [opponentSteps, setOpponentSteps] = useState(0);
-  const [opponentFinished, setOpponentFinished] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { game, error } = state;
-  const isVersus = mode === "versus";
-
-  /* Multiplayer hook (only active in versus mode) */
-  const { connected, opponentJoined, lastMessage, send } = useMultiplayer(
-    isVersus ? roomCode ?? null : null,
-  );
 
   /* ── Auto-focus input ──────────────────────────────────────────── */
 
@@ -134,20 +123,6 @@ export function BorderlineBoard({
       .slice(0, 5);
   }, [inputValue, game.currentCountry.iso3, game.path, game.phase]);
 
-  /* ── Versus: handle incoming messages ──────────────────────────── */
-
-  useEffect(() => {
-    if (!isVersus || !lastMessage) return;
-
-    if (lastMessage.type === "borderline:step") {
-      setOpponentSteps(lastMessage.steps as number);
-    }
-    if (lastMessage.type === "borderline:finished") {
-      setOpponentSteps(lastMessage.steps as number);
-      setOpponentFinished(true);
-    }
-  }, [lastMessage, isVersus]);
-
   /* ── Submit move ───────────────────────────────────────────────── */
 
   const submitMove = useCallback(
@@ -157,25 +132,8 @@ export function BorderlineBoard({
       dispatch({ type: "MOVE", name });
       setInputValue("");
       setShowSuggestions(false);
-
-      /* Broadcast step count in versus mode */
-      /* We need to check the result, but since reducer is sync we peek ahead */
-      const result = makeMove(game, name);
-      if (!result.error && isVersus) {
-        if (result.state.phase === "finished") {
-          send({
-            type: "borderline:finished",
-            steps: result.state.moveCount,
-          });
-        } else {
-          send({
-            type: "borderline:step",
-            steps: result.state.moveCount,
-          });
-        }
-      }
     },
-    [game, isVersus, send],
+    [game.phase],
   );
 
   /* ── Keyboard handling ─────────────────────────────────────────── */
@@ -211,13 +169,7 @@ export function BorderlineBoard({
     const perfect = diff === 0;
     const title = perfect ? "Perfect!" : game.won ? "You Made It!" : "Finished";
     const scoreText = `${game.moveCount} steps`;
-    const subtitle = isVersus
-      ? opponentFinished
-        ? game.moveCount <= opponentSteps
-          ? "You were faster!"
-          : "Opponent was faster"
-        : "Waiting for opponent..."
-      : `Optimal path: ${game.optimalLength} steps${diff > 0 ? ` (you took ${diff} extra)` : ""}`;
+    const subtitle = `Optimal path: ${game.optimalLength} steps${diff > 0 ? ` (you took ${diff} extra)` : ""}`;
 
     return (
       <GameOverScreen
@@ -268,22 +220,6 @@ export function BorderlineBoard({
     );
   }
 
-  /* ── Versus waiting for opponent ────────────────────────────────── */
-
-  if (isVersus && !opponentJoined) {
-    return (
-      <div className="flex flex-col items-center gap-6 py-20">
-        <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-bold text-2xl text-cream">
-          Waiting for opponent...
-        </p>
-        <p className="text-sm text-cream-muted">
-          {connected ? "Connected" : "Connecting..."}
-        </p>
-      </div>
-    );
-  }
-
   /* ── Available neighbors (for display) ─────────────────────────── */
 
   const allNeighbors = getValidNeighbors(game.currentCountry.iso3);
@@ -326,14 +262,6 @@ export function BorderlineBoard({
             / Optimal: {game.optimalLength}
           </span>
         </span>
-        {isVersus && (
-          <span className="text-cream-muted uppercase tracking-wide font-medium">
-            Opponent:{" "}
-            <span className="text-gold font-bold">
-              {opponentFinished ? `${opponentSteps} (done)` : `${opponentSteps} steps`}
-            </span>
-          </span>
-        )}
       </div>
 
       {/* Current country (prominent) */}

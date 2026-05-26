@@ -15,13 +15,11 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
-import { useMultiplayer } from "@/hooks/use-multiplayer";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface SupremacyBoardProps {
   mode: "practice" | "versus";
-  roomCode?: string | null;
   dailyKey?: string | null;
 }
 
@@ -58,7 +56,7 @@ function reducer(state: SupremacyState, action: Action): SupremacyState {
 
 /* ── Board ─────────────────────────────────────────────────────────── */
 
-export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps) {
+export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
   const [state, dispatch] = useReducer(
     reducer,
     { mode: dailyKey ? "daily" : mode, dailyKey },
@@ -68,19 +66,11 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
   const [showReveal, setShowReveal] = useState(false);
   const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  /* Multiplayer hook (only active in versus mode) */
-  const { connected, opponentJoined, lastMessage, send } = useMultiplayer(
-    mode === "versus" ? roomCode ?? null : null,
-  );
-
   const round = state.rounds[state.currentRound];
-  const isVersus = mode === "versus";
 
   /* ── Practice AI logic ──────────────────────────────────────────── */
 
   useEffect(() => {
-    if (isVersus) return;
-
     /* When it's the opponent's turn ("waiting"), AI picks after 1s */
     if (state.phase === "waiting" && !state.isMyTurn) {
       const oppCard = state.opponentHand[state.currentRound];
@@ -115,7 +105,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
         if (aiTimerRef.current) clearTimeout(aiTimerRef.current);
       };
     }
-  }, [state.phase, state.isMyTurn, state.currentRound, state.opponentHand, state.categories, round?.opponentCard, round?.chosenStat, isVersus]);
+  }, [state.phase, state.isMyTurn, state.currentRound, state.opponentHand, state.categories, round?.opponentCard, round?.chosenStat]);
 
   /* Auto-advance after reveal */
   useEffect(() => {
@@ -128,25 +118,6 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
     }
   }, [showReveal, state.phase, round?.opponentCard]);
 
-  /* ── Versus: handle incoming messages ───────────────────────────── */
-
-  useEffect(() => {
-    if (!isVersus || !lastMessage) return;
-
-    if (lastMessage.type === "stat:pick" && !state.isMyTurn) {
-      const slug = lastMessage.slug as string;
-      /* Opponent picked a stat — set it and reveal */
-      dispatch({ type: "PICK_STAT", slug });
-    }
-
-    if (lastMessage.type === "card:reveal") {
-      const card = lastMessage.card as SupremacyCard;
-      const stat = lastMessage.chosenStat as string;
-      dispatch({ type: "REVEAL", opponentCard: card, chosenStat: stat });
-      setShowReveal(true);
-    }
-  }, [lastMessage, isVersus, state.isMyTurn]);
-
   /* ── Handle my stat pick ────────────────────────────────────────── */
 
   const handlePickStat = useCallback(
@@ -154,19 +125,8 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
       if (state.phase !== "picking" || !state.isMyTurn || showReveal) return;
 
       dispatch({ type: "PICK_STAT", slug });
-
-      if (isVersus) {
-        /* Send pick to opponent */
-        send({ type: "stat:pick", slug });
-        /* Also send my card for this round so opponent can reveal */
-        send({
-          type: "card:reveal",
-          card: round.myCard,
-          chosenStat: slug,
-        });
-      }
     },
-    [state.phase, state.isMyTurn, showReveal, isVersus, send, round],
+    [state.phase, state.isMyTurn, showReveal],
   );
 
   /* ── Keyboard shortcuts (1-5 for categories) ────────────────────── */
@@ -230,20 +190,6 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
 
   if (!round) return null;
 
-  /* ── Versus waiting for opponent ────────────────────────────────── */
-
-  if (isVersus && !opponentJoined) {
-    return (
-      <div className="flex flex-col items-center gap-6 py-20">
-        <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-bold text-2xl text-cream">Waiting for opponent...</p>
-        <p className="text-sm text-cream-muted">
-          {connected ? "Connected" : "Connecting..."}
-        </p>
-      </div>
-    );
-  }
-
   /* ── Game UI ─────────────────────────────────────────────────────── */
 
   const myCard = round.myCard;
@@ -283,7 +229,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
             state.isMyTurn ? "text-gold" : "text-cream-muted",
           )}
         >
-          {state.isMyTurn ? "Your pick" : "Their pick"}
+          {state.isMyTurn ? "Your pick" : "AI's pick"}
         </span>
       </div>
 
@@ -364,9 +310,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
               <span className="font-bold text-lg text-cream-muted">Hidden</span>
             </>
           )}
-          <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">
-            {isVersus ? "Opponent" : "AI"}
-          </span>
+          <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">AI</span>
         </div>
       </div>
 
@@ -406,13 +350,11 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
         </div>
       )}
 
-      {/* Waiting for opponent pick */}
+      {/* Waiting for AI pick */}
       {state.phase === "waiting" && !state.isMyTurn && (
         <div className="text-center py-6">
           <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite] mx-auto mb-3" />
-          <p className="text-cream-muted text-sm">
-            {isVersus ? "Opponent is picking a stat..." : "AI is thinking..."}
-          </p>
+          <p className="text-cream-muted text-sm">AI is thinking...</p>
         </div>
       )}
 
@@ -427,7 +369,7 @@ export function SupremacyBoard({ mode, roomCode, dailyKey }: SupremacyBoardProps
           )}
         >
           {roundWinner === "me" && "You win this round!"}
-          {roundWinner === "opponent" && "They win this round!"}
+          {roundWinner === "opponent" && "AI wins this round!"}
           {roundWinner === "draw" && "Draw!"}
         </div>
       )}

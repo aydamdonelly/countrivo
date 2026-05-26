@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import { CreateGameButton } from "@/components/games/borderline/create-game-button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,10 +13,10 @@ export default function BorderlinePage() {
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
         name="Borderline - Border Race Geography Game | Countrivo"
-        description="Race through country borders to reach your target. Navigate from country to country by naming neighbors. Beat the optimal path or challenge a friend."
+        description="Race through country borders to reach your target. Navigate from country to country by naming neighbors. Beat the optimal path."
         url="/games/borderline"
         genre="Geography strategy"
-        playMode="MultiPlayer"
+        playMode="SinglePlayer"
       />
 
       {/* Hero */}
@@ -32,8 +31,6 @@ export default function BorderlinePage() {
 
       {/* Action buttons */}
       <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
-        <CreateGameButton />
-
         <Link
           href="/games/borderline/play?mode=practice"
           className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"
@@ -55,7 +52,6 @@ export default function BorderlinePage() {
             "Type the name of a bordering country to move there",
             "Keep moving through borders until you reach the target",
             "Try to match the optimal (shortest) path length",
-            "In versus mode, race your opponent — fewest steps wins!",
           ].map((rule, i) => (
             <li key={i} className="flex gap-3">
               <span className="w-7 h-7 rounded-full bg-gold-dim text-gold font-bold text-sm flex items-center justify-center shrink-0">

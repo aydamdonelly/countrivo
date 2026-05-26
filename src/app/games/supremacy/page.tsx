@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import { CreateGameButton } from "@/components/games/supremacy/create-game-button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Supremacy | Country Stats Card Battle Game",
-  description: "Top Trumps with real country data. Pick the stat category, compare cards, and outsmart your opponent. Real-time multiplayer geography game.",
+  description: "Top Trumps with real country data. Pick the stat category, compare cards, and outsmart the AI across 5 rounds.",
   alternates: { canonical: "https://countrivo.com/games/supremacy" },
 };
 
@@ -13,11 +12,11 @@ export default function SupremacyPage() {
   return (
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
-        name="Supremacy - Real-Time Country Stat Battle | Countrivo"
-        description="A Top Trumps style card game with real country data. Pick the stat category, compare cards, and outsmart your opponent across 5 rounds."
+        name="Supremacy - Country Stat Battle | Countrivo"
+        description="A Top Trumps style card game with real country data. Pick the stat category, compare cards, and outsmart the AI across 5 rounds."
         url="/games/supremacy"
         genre="Geography strategy"
-        playMode="MultiPlayer"
+        playMode="SinglePlayer"
       />
 
       {/* Hero */}
@@ -32,8 +31,6 @@ export default function SupremacyPage() {
 
       {/* Action buttons */}
       <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
-        <CreateGameButton />
-
         <Link
           href="/games/supremacy/play?mode=practice"
           className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"

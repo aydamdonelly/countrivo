@@ -12,7 +12,6 @@ import {
   createBlitz,
   submitAnswer,
   nextRound,
-  opponentScored,
   type BlitzState,
 } from "@/lib/game-logic/blitz/engine";
 import { getDailyRng } from "@/lib/daily-seed";
@@ -22,13 +21,11 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
-import { useMultiplayer } from "@/hooks/use-multiplayer";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface BlitzBoardProps {
   mode: "practice" | "versus";
-  roomCode?: string | null;
   dailyKey?: string | null;
 }
 
@@ -37,7 +34,6 @@ interface BlitzBoardProps {
 type Action =
   | { type: "SUBMIT"; input: string }
   | { type: "NEXT_ROUND" }
-  | { type: "OPPONENT_SCORED" }
   | { type: "RESET"; mode: "practice" | "daily" };
 
 function initState(args: {
@@ -57,8 +53,6 @@ function reducer(state: BlitzState, action: Action): BlitzState {
       return submitAnswer(state, action.input);
     case "NEXT_ROUND":
       return nextRound(state);
-    case "OPPONENT_SCORED":
-      return opponentScored(state);
     case "RESET":
       return initState({ mode: action.mode });
     default:
@@ -68,7 +62,7 @@ function reducer(state: BlitzState, action: Action): BlitzState {
 
 /* ── Board ─────────────────────────────────────────────────────────── */
 
-export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
+export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
   const [state, dispatch] = useReducer(
     reducer,
     { mode: dailyKey ? "daily" : mode, dailyKey },
@@ -84,13 +78,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const betweenTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const isVersus = mode === "versus";
   const round = state.rounds[state.currentRound];
-
-  /* Multiplayer hook (only active in versus mode) */
-  const { connected, opponentJoined, lastMessage, send } = useMultiplayer(
-    isVersus ? roomCode ?? null : null,
-  );
 
   /* ── Auto-focus input ──────────────────────────────────────────── */
 
@@ -114,19 +102,6 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
     }
   }, [state.phase, state.currentRound]);
 
-  /* ── Versus: handle incoming messages ──────────────────────────── */
-
-  useEffect(() => {
-    if (!isVersus || !lastMessage) return;
-
-    if (
-      lastMessage.type === "blitz:scored" &&
-      (lastMessage.round as number) === state.currentRound
-    ) {
-      dispatch({ type: "OPPONENT_SCORED" });
-    }
-  }, [lastMessage, isVersus, state.currentRound]);
-
   /* ── Submit answer ─────────────────────────────────────────────── */
 
   const handleSubmit = useCallback(() => {
@@ -143,10 +118,6 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
       setFeedbackKey((k) => k + 1);
       setFlashCorrect(true);
       setInputValue("");
-
-      if (isVersus) {
-        send({ type: "blitz:scored", round: state.currentRound });
-      }
     } else {
       /* Shake animation on wrong answer */
       setFeedbackType("bad");
@@ -158,7 +129,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
     }
 
     dispatch({ type: "SUBMIT", input: inputValue });
-  }, [state, inputValue, round, isVersus, send]);
+  }, [state, inputValue, round]);
 
   /* ── Keyboard handling ─────────────────────────────────────────── */
 
@@ -192,21 +163,17 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
           )
         : 0;
 
-    let title: string;
-    let scoreText: string;
-    let subtitle: string;
-
-    if (isVersus) {
-      const won = state.myScore > state.opponentScore;
-      const tied = state.myScore === state.opponentScore;
-      title = tied ? "Draw!" : won ? "You Won!" : "They Won!";
-      scoreText = `${state.myScore} - ${state.opponentScore}`;
-      subtitle = `${correctRounds.length} correct answers`;
-    } else {
-      title = state.myScore >= 7 ? "Great Job!" : state.myScore >= 4 ? "Not Bad!" : "Keep Practicing!";
-      scoreText = `${state.myScore} / ${state.totalRounds}`;
-      subtitle = avgTime > 0 ? `Average time: ${(avgTime / 1000).toFixed(1)}s` : "No correct answers";
-    }
+    const title =
+      state.myScore >= 7
+        ? "Great Job!"
+        : state.myScore >= 4
+          ? "Not Bad!"
+          : "Keep Practicing!";
+    const scoreText = `${state.myScore} / ${state.totalRounds}`;
+    const subtitle =
+      avgTime > 0
+        ? `Average time: ${(avgTime / 1000).toFixed(1)}s`
+        : "No correct answers";
 
     return (
       <GameOverScreen
@@ -255,28 +222,12 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
 
   if (!round) return null;
 
-  /* ── Versus waiting for opponent ────────────────────────────────── */
-
-  if (isVersus && !opponentJoined) {
-    return (
-      <div className="flex flex-col items-center gap-6 py-20">
-        <div className="w-1.5 h-1.5 rounded-full bg-gold animate-[pulse_2.5s_ease-out_infinite]" />
-        <p className="font-bold text-2xl text-cream">
-          Waiting for opponent...
-        </p>
-        <p className="text-sm text-cream-muted">
-          {connected ? "Connected" : "Connecting..."}
-        </p>
-      </div>
-    );
-  }
-
   /* ── Game UI ─────────────────────────────────────────────────────── */
 
   return (
     <div className="flex flex-col gap-6">
       <GameSessionTopBar
-        mode={mode === "versus" ? "practice" : mode}
+        mode={dailyKey ? "daily" : "practice"}
         scoreLabel="Score"
         scoreValue={`${state.myScore}/${state.totalRounds}`}
         progressCurrent={state.myScore}
@@ -289,41 +240,13 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
           Round {state.currentRound + 1} / {state.totalRounds}
         </span>
         <div className="flex items-center gap-3">
-          <span
-            className={cn(
-              "text-2xl font-extrabold font-mono",
-              !isVersus || state.myScore >= state.opponentScore
-                ? "text-gold"
-                : "text-cream",
-            )}
-          >
+          <span className="text-2xl font-extrabold font-mono text-gold">
             {state.myScore}
           </span>
-          {isVersus ? (
-            <>
-              <span className="text-cream-muted text-sm">--</span>
-              <span
-                className={cn(
-                  "text-2xl font-extrabold font-mono",
-                  state.opponentScore > state.myScore
-                    ? "text-gold"
-                    : "text-cream",
-                )}
-              >
-                {state.opponentScore}
-              </span>
-            </>
-          ) : (
-            <span className="text-cream-muted text-sm">
-              / {state.totalRounds}
-            </span>
-          )}
-        </div>
-        {isVersus && (
-          <span className="text-sm font-bold uppercase tracking-wide text-cream-muted">
-            Speed wins
+          <span className="text-cream-muted text-sm">
+            / {state.totalRounds}
           </span>
-        )}
+        </div>
       </div>
 
       {/* Big flag */}
@@ -350,7 +273,7 @@ export function BlitzBoard({ mode, roomCode, dailyKey }: BlitzBoardProps) {
                 </span>
               ) : (
                 <span className="text-incorrect font-bold text-sm uppercase tracking-wide">
-                  {isVersus ? "Opponent got it!" : "Missed"}
+                  Missed
                 </span>
               )}
             </div>

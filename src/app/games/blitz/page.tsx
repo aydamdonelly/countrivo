@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import { CreateGameButton } from "@/components/games/blitz/create-game-button";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blitz | Type the Country Name Before Time Runs Out",
-  description: "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Race a friend or beat your own time.",
+  description: "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Beat your own time.",
   alternates: { canonical: "https://countrivo.com/games/blitz" },
 };
 
@@ -14,10 +13,10 @@ export default function BlitzPage() {
     <div className="max-w-5xl mx-auto">
       <GameJsonLd
         name="Blitz - Flag Speed Challenge | Countrivo"
-        description="See a flag, type the country name. Race against the clock in solo mode or challenge a friend in real-time. 10 rounds, fastest correct answer wins each round."
+        description="See a flag, type the country name. Race against the clock. 10 rounds, fastest correct answers win."
         url="/games/blitz"
         genre="Geography speed"
-        playMode="MultiPlayer"
+        playMode="SinglePlayer"
       />
 
       {/* Hero */}
@@ -26,14 +25,12 @@ export default function BlitzPage() {
         <h1 className="text-4xl sm:text-5xl font-extrabold">Blitz</h1>
         <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">
           A flag appears. Type the country name as fast as you can. 10 rounds of
-          pure speed. Play solo for time or race a friend head-to-head.
+          pure speed.
         </p>
       </div>
 
       {/* Action buttons */}
       <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
-        <CreateGameButton />
-
         <Link
           href="/games/blitz/play?mode=practice"
           className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"
@@ -54,8 +51,7 @@ export default function BlitzPage() {
             "A flag appears on screen. Identify the country",
             "Type the country name and press Enter",
             "Correct answer wins the round; wrong answer lets you try again",
-            "In versus mode, first correct answer wins the round",
-            "After 10 rounds, the player with the most wins takes the game",
+            "After 10 rounds, see your final score and average time",
           ].map((rule, i) => (
             <li key={i} className="flex gap-3">
               <span className="w-7 h-7 rounded-full bg-gold-dim text-gold font-bold text-sm flex items-center justify-center shrink-0">
