@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-05",
+  "groups": [
+    {
+      "theme": "Southeast Asian country",
+      "difficulty": "easy",
+      "countryIso3s": ["VNM", "KHM", "LAO", "MMR"]
+    },
+    {
+      "theme": "Country crossed by the Nile",
+      "difficulty": "medium",
+      "countryIso3s": ["EGY", "SDN", "UGA", "ETH"]
+    },
+    {
+      "theme": "Switched from communist to multi-party democracy in 1989-1991",
+      "difficulty": "hard",
+      "countryIso3s": ["POL", "HUN", "CZE", "ROU"]
+    },
+    {
+      "theme": "Tricolour vertical flag whose centre is white",
+      "difficulty": "purple",
+      "countryIso3s": ["FRA", "ITA", "IRL", "CIV"]
+    }
+  ],
+  "editorial": "Purple groups four near-identical-feeling flags: France, Italy, Ireland, and Côte d'Ivoire all have a white vertical band in the middle. The order and side colours are the only difference."
+}

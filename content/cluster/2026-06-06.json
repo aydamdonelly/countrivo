@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-06",
+  "groups": [
+    {
+      "theme": "Country in West Africa",
+      "difficulty": "easy",
+      "countryIso3s": ["GHA", "NGA", "SEN", "CIV"]
+    },
+    {
+      "theme": "Has a coastline on the Persian Gulf",
+      "difficulty": "medium",
+      "countryIso3s": ["IRN", "SAU", "ARE", "KWT"]
+    },
+    {
+      "theme": "Country whose currency is the Euro (without using its own previous currency name)",
+      "difficulty": "hard",
+      "countryIso3s": ["DEU", "FRA", "PRT", "GRC"]
+    },
+    {
+      "theme": "Country whose English name ends in 'land'",
+      "difficulty": "purple",
+      "countryIso3s": ["FIN", "POL", "NZL", "THA"]
+    }
+  ],
+  "editorial": "Purple plays with English: Finland, Poland, New Zealand, Thailand — every name ends in 'land'. Iceland, Ireland, and Switzerland are the missing temptations."
+}

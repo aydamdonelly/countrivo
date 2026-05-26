@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-07",
+  "groups": [
+    {
+      "theme": "Country in East Africa",
+      "difficulty": "easy",
+      "countryIso3s": ["KEN", "TZA", "UGA", "RWA"]
+    },
+    {
+      "theme": "FIFA World Cup host nation",
+      "difficulty": "medium",
+      "countryIso3s": ["FRA", "BRA", "DEU", "QAT"]
+    },
+    {
+      "theme": "Has a population over 200 million",
+      "difficulty": "hard",
+      "countryIso3s": ["CHN", "IND", "USA", "IDN"]
+    },
+    {
+      "theme": "Flag uses red, yellow, and green only",
+      "difficulty": "purple",
+      "countryIso3s": ["BOL", "LTU", "MLI", "GIN"]
+    }
+  ],
+  "editorial": "Purple gathers four flags painted in the same three colours — Bolivia, Lithuania, Mali, Guinea. Three are Pan-African; Bolivia is the South American outlier hiding in plain sight."
+}

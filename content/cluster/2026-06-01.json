@@ -1,0 +1,26 @@
+{
+  "date": "2026-06-01",
+  "groups": [
+    {
+      "theme": "Top five countries by area",
+      "difficulty": "easy",
+      "countryIso3s": ["RUS", "CAN", "USA", "CHN"]
+    },
+    {
+      "theme": "Crosses the Equator",
+      "difficulty": "medium",
+      "countryIso3s": ["COD", "IDN", "KEN", "ECU"]
+    },
+    {
+      "theme": "Territory spans both Europe and Asia",
+      "difficulty": "hard",
+      "countryIso3s": ["TUR", "KAZ", "AZE", "GEO"]
+    },
+    {
+      "theme": "Capital is not the largest city",
+      "difficulty": "purple",
+      "countryIso3s": ["AUS", "MMR", "CIV", "BRA"]
+    }
+  ],
+  "editorial": "Purple: Canberra, Naypyidaw, Yamoussoukro, and Brasília are all famously planned or relocated capitals — never the country's biggest city."
+}
