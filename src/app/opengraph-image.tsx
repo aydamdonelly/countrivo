@@ -1,10 +1,14 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Countrivo — Free Geography Games";
+export const alt = "Countrivo · One puzzle a day";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OGImage() {
+export default async function OGImage() {
+  const today = new Date();
+  const dayName = today.toLocaleDateString("en-US", { weekday: "long" });
+  const monthDay = today.toLocaleDateString("en-US", { month: "long", day: "numeric" });
+
   return new ImageResponse(
     (
       <div
@@ -13,46 +17,61 @@ export default function OGImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
-          background: "linear-gradient(135deg, #1c1917 0%, #0c0a09 100%)",
-          fontFamily: "system-ui, sans-serif",
+          justifyContent: "center",
+          background: "#fafaf8",
+          fontFamily: "Inter, system-ui, sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 30 }}>
-          <div
-            style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              background: "linear-gradient(135deg, #f59e0b, #d97706)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <span style={{ fontSize: 48, fontWeight: 900, color: "white" }}>C</span>
-          </div>
-          <span style={{ fontSize: 64, fontWeight: 900, color: "white" }}>
-            Countr<span style={{ color: "#f59e0b" }}>ivo</span>
-          </span>
-        </div>
-        <p style={{ fontSize: 32, color: "rgba(255,255,255,0.7)", marginTop: 0 }}>
-          Free Geography Games & Daily Challenges
-        </p>
         <div
           style={{
             display: "flex",
-            gap: 40,
-            marginTop: 40,
-            color: "rgba(255,255,255,0.5)",
-            fontSize: 24,
+            alignItems: "baseline",
+            fontSize: 168,
+            fontWeight: 800,
+            color: "#1a1a1a",
+            letterSpacing: "-0.045em",
+            lineHeight: 1,
           }}
         >
-          <span>11 Games</span>
-          <span>243 Countries</span>
-          <span>21 Stats</span>
-          <span>Daily Challenges</span>
+          <span>Coun</span>
+          <span style={{ color: "#b8860b", margin: "0 6px" }}>·</span>
+          <span>trivo</span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 20,
+            marginTop: 36,
+            fontSize: 34,
+            color: "#555",
+            fontFamily: "monospace",
+            letterSpacing: "0.02em",
+          }}
+        >
+          <span>{dayName}</span>
+          <span style={{ color: "#b8860b" }}>·</span>
+          <span>{monthDay}</span>
+          <span style={{ color: "#b8860b" }}>·</span>
+          <span>One puzzle a day</span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 16,
+            marginTop: 28,
+            fontSize: 22,
+            color: "#999",
+            fontFamily: "monospace",
+          }}
+        >
+          <span>14 games</span>
+          <span style={{ color: "#b8860b" }}>·</span>
+          <span>243 countries</span>
+          <span style={{ color: "#b8860b" }}>·</span>
+          <span>countrivo.com</span>
         </div>
       </div>
     ),

@@ -11,13 +11,19 @@ export default function AppleIcon() {
           width: 180,
           height: 180,
           borderRadius: 40,
-          background: "linear-gradient(135deg, #f59e0b, #d97706)",
+          background: "#fafaf8",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          color: "#b8860b",
+          fontSize: 140,
+          fontWeight: 900,
+          fontFamily: "Inter, system-ui, sans-serif",
+          lineHeight: 1,
+          letterSpacing: "-0.05em",
         }}
       >
-        <span style={{ fontSize: 110, fontWeight: 900, color: "white", marginTop: -4 }}>C</span>
+        C
       </div>
     ),
     { ...size }

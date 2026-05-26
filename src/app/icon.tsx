@@ -8,16 +8,21 @@ export default function Icon() {
     (
       <div
         style={{
+          background: "transparent",
           width: 32,
           height: 32,
-          borderRadius: "50%",
-          background: "linear-gradient(135deg, #f59e0b, #d97706)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          color: "#b8860b",
+          fontSize: 26,
+          fontWeight: 900,
+          fontFamily: "Inter, system-ui, sans-serif",
+          lineHeight: 1,
+          letterSpacing: "-0.04em",
         }}
       >
-        <span style={{ fontSize: 20, fontWeight: 900, color: "white", marginTop: -1 }}>C</span>
+        C
       </div>
     ),
     { ...size }
