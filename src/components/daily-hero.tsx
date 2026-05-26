@@ -5,13 +5,14 @@ import Link from "next/link";
 import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/games";
-import { getTodayDateKey, msUntilReset } from "@/lib/daily-seed";
+import { getTodayDateKey, msUntilReset, formatTimeUntilReset } from "@/lib/daily-seed";
 
-function getTimeUntilReset(): { hours: number; minutes: number } {
+function getTimeUntilReset(): { hours: number; minutes: number; label: string } {
   const diff = msUntilReset();
   return {
     hours: Math.floor(diff / (1000 * 60 * 60)),
     minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+    label: formatTimeUntilReset(diff),
   };
 }
 
@@ -73,7 +74,7 @@ export function DailyHero({
 }: DailyHeroProps) {
   const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [timer, setTimer] = useState({ hours: 0, minutes: 0 });
+  const [timer, setTimer] = useState({ hours: 0, minutes: 0, label: "" });
   const [mounted, setMounted] = useState(false);
   const [nextRoute, setNextRoute] = useState<string | null>(null);
 
@@ -97,15 +98,23 @@ export function DailyHero({
 
   return (
     <section className="text-center py-8 sm:py-12">
-      {/* Date + live badge */}
-      <div className="flex items-center justify-center gap-3 mb-5">
-        <time className="text-xs font-bold uppercase tracking-widest text-cream-muted">
-          {new Date().toLocaleDateString("en-US", {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
+      {/* Date · month-day · reset countdown */}
+      <div className="flex items-center justify-center gap-3 mb-5 flex-wrap">
+        <p className="text-sm font-mono text-cream-muted tabular-nums">
+          <span>
+            {new Date().toLocaleDateString("en-US", { weekday: "long" })}
+          </span>
+          <span className="text-gold mx-1.5">·</span>
+          <span>
+            {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" })}
+          </span>
+          {mounted && (timer.hours > 0 || timer.minutes > 0) && (
+            <>
+              <span className="text-gold mx-1.5">·</span>
+              <span>Resets in {timer.label}</span>
+            </>
+          )}
+        </p>
         <span className="flex items-center gap-1.5 text-xxs text-cream-muted px-2.5 py-0.5 rounded-full bg-black/5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
           Live
@@ -157,8 +166,8 @@ export function DailyHero({
               {completed}/{totalDaily} completed
             </span>
             {timer.hours > 0 || timer.minutes > 0 ? (
-              <span className="text-cream-muted">
-                Resets in {timer.hours}h {timer.minutes}m
+              <span className="text-cream-muted font-mono">
+                Resets in {timer.label}
               </span>
             ) : null}
           </div>
@@ -180,7 +189,9 @@ export function DailyHero({
           {streak > 0 && (
             <div className="flex items-center gap-1.5">
               <span className="text-base">🔥</span>
-              <span className="font-bold text-gold">{streak}-day streak</span>
+              <span className="font-bold text-gold font-mono">
+                {streak}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
+              </span>
             </div>
           )}
           <div className="flex items-center gap-1.5">
