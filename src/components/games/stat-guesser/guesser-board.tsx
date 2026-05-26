@@ -126,6 +126,10 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
         });
       }
 
+      // Atlas album: ISO3 codes of all countries that appeared this run.
+      // Read by extract_countries SQL to stamp stickers on completion.
+      const targetIso3s = state.rounds.map((r) => r.country.iso3);
+
       const payload = {
         gameSlug: "stat-guesser",
         mode: mode as "daily" | "practice",
@@ -140,6 +144,9 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
           scores: state.scores,
           guesses: state.guesses,
           rounds: state.rounds.length,
+          targetIso3s,
+          // Singular convenience field for single-round daily shape.
+          targetIso3: targetIso3s[0],
         },
         startedAt: startedAtRef.current,
       };
