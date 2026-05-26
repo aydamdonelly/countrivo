@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createCountryle,
   submitGuess,
@@ -167,7 +167,6 @@ export function TraceBoard({ mode }: TraceBoardProps) {
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -216,8 +215,8 @@ export function TraceBoard({ mode }: TraceBoardProps) {
   );
 
   // Submit to server when game ends
-  if ((state.phase === "won" || state.phase === "lost") && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "won" && state.phase !== "lost") return;
 
     const won = state.phase === "won";
     const guessCount = won ? state.guesses.length : 7;
@@ -255,11 +254,10 @@ export function TraceBoard({ mode }: TraceBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.guesses, state.target.iso3, mode, user]);
 
   if (state.phase === "won" || state.phase === "lost") {
     const won = state.phase === "won";
-    const guessCount = won ? state.guesses.length : 7;
     const numericScore = won ? Math.round((1 - (state.guesses.length - 1) / 6) * 100) : 0;
 
     const handleSaveScore = pendingPayload ? () => {
@@ -282,7 +280,6 @@ export function TraceBoard({ mode }: TraceBoardProps) {
         maxScore={100}
         gameSlug="trace"
         onPlayAgain={mode === "practice" ? () => {
-          setSubmitted(false);
           setServerData(null);
           setPendingPayload(null);
           dispatch({ type: "RESET" });

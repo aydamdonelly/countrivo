@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createCapitalMatch,
   answerCapital,
@@ -46,7 +46,6 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -82,8 +81,8 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
   useGameKeys(keymap, state.phase !== "results");
 
   // Submit to server when game ends
-  if (state.phase === "results" && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "results") return;
 
     if (mode === "daily") {
       setDailyLockout("capital-match", getTodayDateKey(), {
@@ -116,7 +115,7 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.score, state.questions.length, state.answers, mode, user]);
 
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);
@@ -134,7 +133,7 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
         title="Capital Match Complete!"
         score={`${state.score} / ${state.questions.length}`}
         subtitle={`${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.score}
         maxScore={state.questions.length}

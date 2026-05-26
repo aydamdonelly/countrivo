@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useState, useRef } from "react";
+import { useReducer, useCallback, useMemo, useState, useRef, useEffect } from "react";
 import {
   createOddOneOut,
   answerRound,
@@ -49,7 +49,6 @@ export function OddBoard({ mode }: OddBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -81,8 +80,8 @@ export function OddBoard({ mode }: OddBoardProps) {
   useGameKeys(keymap, state.phase !== "results");
 
   // Submit to server when game ends
-  if (state.phase === "results" && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "results") return;
 
     if (mode === "daily") {
       setDailyLockout("odd-one-out", getTodayDateKey(), {
@@ -115,7 +114,7 @@ export function OddBoard({ mode }: OddBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.score, state.rounds.length, state.answers, mode, user]);
 
   if (state.phase === "results") {
     const handleSaveScore = pendingPayload ? () => {
@@ -131,7 +130,7 @@ export function OddBoard({ mode }: OddBoardProps) {
         title="Odd One Out Complete!"
         score={`${state.score} / ${state.rounds.length}`}
         subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.score}
         maxScore={state.rounds.length}

@@ -53,7 +53,6 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("✓");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -87,8 +86,8 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
 
   // Submit to server when game ends
   const isGameOver = state.phase === "results" || (state.phase === "playing" && !state.queue[state.currentIdx]);
-  if (isGameOver && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (!isGameOver) return;
 
     if (mode === "daily") {
       setDailyLockout("speed-flags", getTodayDateKey(), {
@@ -121,7 +120,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [isGameOver, state.correct, state.total, mode, user]);
 
   const handleSaveScore = pendingPayload ? () => {
     openAuthModal(async () => {

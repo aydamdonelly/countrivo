@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createHoL,
   guess,
@@ -45,7 +45,6 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -80,8 +79,8 @@ export function HoLBoard({ mode }: HoLBoardProps) {
   useGameKeys(keymap, state.phase !== "gameover" && !showReveal);
 
   // Submit to server when game ends
-  if (state.phase === "gameover" && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "gameover") return;
 
     if (mode === "daily") {
       setDailyLockout("higher-or-lower", getTodayDateKey(), {
@@ -115,7 +114,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.streak, state.bestStreak, state.rounds.length, state.lastAnswer, mode, user]);
 
   if (state.phase === "gameover") {
     const handleSaveScore = pendingPayload ? () => {
@@ -131,7 +130,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         title="Game Over!"
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.streak}
         maxScore={state.streak}

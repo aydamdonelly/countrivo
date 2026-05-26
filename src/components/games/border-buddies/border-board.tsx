@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createBorderBuddies,
   guessCountry,
@@ -15,7 +15,6 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
-import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout } from "@/lib/storage";
@@ -56,7 +55,6 @@ export function BorderBoard({ mode }: BorderBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Found!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -104,8 +102,8 @@ export function BorderBoard({ mode }: BorderBoardProps) {
   );
 
   // Submit to server when game ends
-  if (state.phase === "results" && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "results") return;
 
     if (mode === "daily") {
       setDailyLockout("border-buddies", getTodayDateKey(), {
@@ -139,7 +137,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.found, state.borders, state.country.iso3, mode, user]);
 
   if (state.phase === "results") {
     const allFound = state.found.length === state.borders.length;
@@ -157,7 +155,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
         title={allFound ? "All Borders Found!" : "Border Buddies"}
         score={`${state.found.length} / ${state.borders.length}`}
         subtitle={allFound ? "Perfect!" : "Better luck next time!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.found.length}
         maxScore={state.borders.length}

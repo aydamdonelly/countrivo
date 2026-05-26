@@ -71,7 +71,6 @@ export function SprintBoard({ mode }: SprintBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Found!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user } = useAuth();
 
@@ -81,6 +80,42 @@ export function SprintBoard({ mode }: SprintBoardProps) {
     const interval = setInterval(() => dispatch({ type: "TICK" }), 1000);
     return () => clearInterval(interval);
   }, [state.phase]);
+
+  // Submit to server when game ends. Declared above the picking-phase early
+  // return so hook order stays stable across renders.
+  useEffect(() => {
+    if (state.phase !== "results") return;
+
+    if (mode === "daily") {
+      setDailyLockout("continent-sprint", getTodayDateKey(), {
+        score: String(state.found.length),
+        scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
+        timestamp: Date.now(),
+      });
+    }
+
+    const payload = {
+      gameSlug: "continent-sprint",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: state.found.length,
+      scoreMax: state.allCountries.length,
+      scoreSortValue: state.found.length,
+      scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
+      resultJson: {
+        found: state.found.length,
+        total: state.allCountries.length,
+        continent: state.continent,
+        elapsed: state.elapsed,
+      },
+      startedAt: startedAtRef.current,
+    };
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    }
+  }, [state.phase, state.found, state.allCountries.length, state.continent, state.elapsed, mode, user]);
 
   const suggestions = useMemo(() => {
     if (input.length < 1 || state.phase !== "playing") return [];
@@ -146,48 +181,13 @@ export function SprintBoard({ mode }: SprintBoardProps) {
     );
   }
 
-  // Submit to server when game ends
-  if (state.phase === "results" && !submitted) {
-    setSubmitted(true);
-
-    if (mode === "daily") {
-      setDailyLockout("continent-sprint", getTodayDateKey(), {
-        score: String(state.found.length),
-        scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
-        timestamp: Date.now(),
-      });
-    }
-
-    const payload = {
-      gameSlug: "continent-sprint",
-      mode: mode as "daily" | "practice",
-      dateKey: getTodayDateKey(),
-      scoreRaw: state.found.length,
-      scoreMax: state.allCountries.length,
-      scoreSortValue: state.found.length,
-      scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
-      resultJson: {
-        found: state.found.length,
-        total: state.allCountries.length,
-        continent: state.continent,
-        elapsed: state.elapsed,
-      },
-      startedAt: startedAtRef.current,
-    };
-    if (user) {
-      submitGameRun(payload).then((res) => {
-        if (res.success && res.run) setServerData(res.run);
-      });
-    }
-  }
-
   if (state.phase === "results") {
     return (
       <GameOverScreen
         title="Sprint Complete!"
         score={`${state.found.length} / ${state.allCountries.length}`}
         subtitle={`${state.continent} in ${formatTime(state.elapsed)}`}
-        onPlayAgain={() => { setSubmitted(false); setServerData(null); dispatch({ type: "RESET" }); }}
+        onPlayAgain={() => { setServerData(null); dispatch({ type: "RESET" }); }}
         numericScore={state.found.length}
         maxScore={state.allCountries.length}
         gameSlug="continent-sprint"

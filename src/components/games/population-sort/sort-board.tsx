@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useState, useRef } from "react";
+import { useReducer, useCallback, useMemo, useState, useRef, useEffect } from "react";
 import {
   createSortGame,
   moveItem,
@@ -48,7 +48,6 @@ export function SortBoard({ mode }: SortBoardProps) {
   const [state, dispatch] = useReducer(reducer, mode, init);
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -79,8 +78,8 @@ export function SortBoard({ mode }: SortBoardProps) {
   useGameKeys(keymap, state.phase !== "results");
 
   // Submit to server when game ends
-  if (state.phase === "results" && !submitted) {
-    setSubmitted(true);
+  useEffect(() => {
+    if (state.phase !== "results") return;
 
     if (mode === "daily") {
       setDailyLockout("population-sort", getTodayDateKey(), {
@@ -115,7 +114,7 @@ export function SortBoard({ mode }: SortBoardProps) {
     } else if (mode === "daily") {
       setPendingPayload(payload);
     }
-  }
+  }, [state.phase, state.score, state.countries.length, state.category.slug, state.userOrder, state.correctOrder, mode, user]);
 
   if (state.phase === "results") {
     const handleSaveScore = pendingPayload ? () => {
@@ -132,7 +131,7 @@ export function SortBoard({ mode }: SortBoardProps) {
           title="Sort Complete!"
           score={`${state.score} / ${state.countries.length}`}
           subtitle={`Sorted by ${state.category.label}`}
-          onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+          onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
           onSaveScore={handleSaveScore}
           numericScore={state.score}
           maxScore={state.countries.length}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef } from "react";
+import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createStatGuesser,
   submitGuess,
@@ -56,7 +56,6 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
   const [feedbackType, setFeedbackType] = useState<"good" | "neutral" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [submitted, setSubmitted] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
   const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
@@ -116,55 +115,58 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
 
   useGameKeys(keymap, state.phase === "feedback");
 
-  if (state.phase === "results") {
+  // Submit to server when game ends
+  useEffect(() => {
+    if (state.phase !== "results") return;
+
     const totalError = state.scores.reduce((sum, s) => sum! + (s ?? 0), 0) as number;
     const avgError = Math.round((totalError / state.rounds.length) * 10) / 10;
 
-    // Submit to server when game ends
-    if (!submitted) {
-      setSubmitted(true);
-
-      if (mode === "daily") {
-        setDailyLockout("stat-guesser", getTodayDateKey(), {
-          score: String(Math.round(Math.max(0, 100 - avgError))),
-          scoreDisplay: `${avgError}% avg error`,
-          timestamp: Date.now(),
-        });
-      }
-
-      // Atlas album: ISO3 codes of all countries that appeared this run.
-      // Read by extract_countries SQL to stamp stickers on completion.
-      const targetIso3s = state.rounds.map((r) => r.country.iso3);
-
-      const payload = {
-        gameSlug: "stat-guesser",
-        mode: mode as "daily" | "practice",
-        dateKey: getTodayDateKey(),
-        scoreRaw: Math.round(Math.max(0, 100 - avgError)),
-        scoreMax: 100,
-        scoreSortValue: Math.round(Math.max(0, 100 - avgError)),
+    if (mode === "daily") {
+      setDailyLockout("stat-guesser", getTodayDateKey(), {
+        score: String(Math.round(Math.max(0, 100 - avgError))),
         scoreDisplay: `${avgError}% avg error`,
-        resultJson: {
-          avgError,
-          totalError,
-          scores: state.scores,
-          guesses: state.guesses,
-          rounds: state.rounds.length,
-          targetIso3s,
-          // Singular convenience field for single-round daily shape.
-          targetIso3: targetIso3s[0],
-        },
-        startedAt: startedAtRef.current,
-      };
-
-      if (user) {
-        submitGameRun(payload).then((res) => {
-          if (res.success && res.run) setServerData(res.run);
-        });
-      } else if (mode === "daily") {
-        setPendingPayload(payload);
-      }
+        timestamp: Date.now(),
+      });
     }
+
+    // Atlas album: ISO3 codes of all countries that appeared this run.
+    // Read by extract_countries SQL to stamp stickers on completion.
+    const targetIso3s = state.rounds.map((r) => r.country.iso3);
+
+    const payload = {
+      gameSlug: "stat-guesser",
+      mode: mode as "daily" | "practice",
+      dateKey: getTodayDateKey(),
+      scoreRaw: Math.round(Math.max(0, 100 - avgError)),
+      scoreMax: 100,
+      scoreSortValue: Math.round(Math.max(0, 100 - avgError)),
+      scoreDisplay: `${avgError}% avg error`,
+      resultJson: {
+        avgError,
+        totalError,
+        scores: state.scores,
+        guesses: state.guesses,
+        rounds: state.rounds.length,
+        targetIso3s,
+        // Singular convenience field for single-round daily shape.
+        targetIso3: targetIso3s[0],
+      },
+      startedAt: startedAtRef.current,
+    };
+
+    if (user) {
+      submitGameRun(payload).then((res) => {
+        if (res.success && res.run) setServerData(res.run);
+      });
+    } else if (mode === "daily") {
+      setPendingPayload(payload);
+    }
+  }, [state.phase, state.scores, state.rounds, state.guesses, mode, user]);
+
+  if (state.phase === "results") {
+    const totalError = state.scores.reduce((sum, s) => sum! + (s ?? 0), 0) as number;
+    const avgError = Math.round((totalError / state.rounds.length) * 10) / 10;
 
     const handleSaveScore = pendingPayload ? () => {
       openAuthModal(async () => {
@@ -182,7 +184,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
         title="Stat Guesser Complete!"
         score={`${avgError}% avg error`}
         subtitle={avgError < 20 ? "Excellent!" : avgError < 50 ? "Good effort!" : "Keep practicing!"}
-        onPlayAgain={mode === "practice" ? () => { setSubmitted(false); setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={Math.round(Math.max(0, 100 - avgError))}
         maxScore={100}
