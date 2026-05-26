@@ -44,12 +44,13 @@ export function StreakBadge() {
 
   useEffect(() => {
     if (streak === 0) return;
-    if (lastSeen.current !== null && streak > lastSeen.current) {
+    const prev = lastSeen.current;
+    lastSeen.current = streak;
+    if (prev !== null && streak > prev) {
       setPulse(true);
       const id = setTimeout(() => setPulse(false), 400);
       return () => clearTimeout(id);
     }
-    lastSeen.current = streak;
   }, [streak]);
 
   if (streak === 0) return null;
