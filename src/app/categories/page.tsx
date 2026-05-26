@@ -67,7 +67,7 @@ export default function CategoriesPage() {
                     <h2 className="font-bold text-sm group-hover:text-gold transition-colors">
                       {cat.label}
                     </h2>
-                    <span className="text-[10px] text-cream-muted">
+                    <span className="text-xxs text-cream-muted">
                       {cat.source} {cat.sourceYear}
                     </span>
                   </div>

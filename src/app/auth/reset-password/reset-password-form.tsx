@@ -173,7 +173,7 @@ export function ResetPasswordForm() {
           )}
         </button>
       </div>
-      <p id="reset-pw-hint" className="text-[11px] text-cream-muted -mt-1">
+      <p id="reset-pw-hint" className="text-xxs text-cream-muted -mt-1">
         At least 8 characters. Anything goes.
       </p>
 

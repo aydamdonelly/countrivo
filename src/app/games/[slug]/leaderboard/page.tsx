@@ -215,7 +215,7 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
                 <Link href={`/profile/${entry.username}`} className="flex-1 min-w-0">
                   <p className={`text-sm font-medium truncate ${isMe ? "text-gold font-bold" : ""}`}>
                     {entry.displayName ?? entry.username}
-                    {isMe && <span className="text-[10px] text-gold ml-1.5">(you)</span>}
+                    {isMe && <span className="text-xxs text-gold ml-1.5">(you)</span>}
                   </p>
                 </Link>
 

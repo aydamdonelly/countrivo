@@ -85,7 +85,7 @@ export function Header() {
               >
                 {item.label}
                 {item.href === "/friends" && pendingFriendCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-xxs font-bold rounded-full flex items-center justify-center">
                     {pendingFriendCount > 9 ? "9+" : pendingFriendCount}
                   </span>
                 )}
@@ -102,7 +102,7 @@ export function Header() {
 
           {/* Daily progress pill */}
           {mounted && dailyCount > 0 && (
-            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5">
+            <span className="hidden sm:inline-flex items-center gap-1 text-xxs font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5">
               {dailyCount}/{totalDaily}
             </span>
           )}

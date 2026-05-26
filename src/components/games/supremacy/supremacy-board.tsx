@@ -328,7 +328,7 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
                   <span className="text-sm font-mono font-extrabold text-gold mt-1">
                     {val !== null ? formatStat(val, cat.unit) : "N/A"}
                   </span>
-                  <span className="text-[10px] text-cream-muted mt-0.5">
+                  <span className="text-xxs text-cream-muted mt-0.5">
                     Press {i + 1}
                   </span>
                 </button>
@@ -378,7 +378,7 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
               )}
             >
               <span className="text-xl">{card.country.flagEmoji}</span>
-              <span className="text-[10px] font-medium text-cream-muted leading-tight mt-0.5 max-w-[60px] truncate">
+              <span className="text-xxs font-medium text-cream-muted leading-tight mt-0.5 max-w-[60px] truncate">
                 {card.country.displayName}
               </span>
             </div>

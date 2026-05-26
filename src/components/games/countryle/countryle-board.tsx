@@ -99,10 +99,10 @@ function StatCell({ result, correct }: { result: CountryleCategoryResult; correc
 
   return (
     <div className={`${bg} rounded-lg p-1.5 sm:p-2 text-center transition-colors`}>
-      <div className="text-[9px] sm:text-[10px] text-cream-muted font-medium uppercase tracking-wide leading-tight">
+      <div className="text-[9px] sm:text-xxs text-cream-muted font-medium uppercase tracking-wide leading-tight">
         {meta.label}
       </div>
-      <div className="text-[11px] sm:text-xs font-bold font-mono tabular-nums mt-0.5">
+      <div className="text-xxs sm:text-xs font-bold font-mono tabular-nums mt-0.5">
         {formatted}
       </div>
       <div className={`text-sm sm:text-base font-bold ${
@@ -124,7 +124,7 @@ function GuessRow({ row }: { row: CountryleGuessRow }) {
       <div className="flex items-center gap-2 mb-2">
         <span className="text-lg">{row.country.flagEmoji}</span>
         <span className="font-bold text-sm sm:text-base truncate">{row.country.displayName}</span>
-        <span className={`text-[10px] sm:text-xs font-medium px-1.5 py-0.5 rounded ${
+        <span className={`text-xxs sm:text-xs font-medium px-1.5 py-0.5 rounded ${
           row.continentMatch ? "bg-emerald-100 text-emerald-700" : "bg-black/5 text-cream-muted"
         }`}>
           {row.country.continent}
@@ -149,10 +149,10 @@ function EmptyRow({ index }: { index: number }) {
       <div className="grid grid-cols-6 gap-1">
         {COUNTRYLE_CATEGORIES.map((cat) => (
           <div key={cat} className="bg-black/3 rounded-lg p-1.5 sm:p-2 text-center">
-            <div className="text-[9px] sm:text-[10px] text-cream-muted/40 font-medium uppercase tracking-wide leading-tight">
+            <div className="text-[9px] sm:text-xxs text-cream-muted/40 font-medium uppercase tracking-wide leading-tight">
               {CATEGORY_LABELS[cat].label}
             </div>
-            <div className="text-[11px] sm:text-xs font-bold text-transparent">—</div>
+            <div className="text-xxs sm:text-xs font-bold text-transparent">—</div>
             <div className="text-sm sm:text-base text-transparent">—</div>
           </div>
         ))}
@@ -314,7 +314,7 @@ export function CountryleBoard({ mode }: CountryleBoardProps) {
         <span>
           Guess <span className="font-bold text-cream">{state.guesses.length + 1}</span> / {state.maxGuesses}
         </span>
-        <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium">
+        <span className="text-xxs sm:text-xs uppercase tracking-wider font-medium">
           Pop. · Area · GDP/cap · Life · Internet · Fertility
         </span>
       </div>

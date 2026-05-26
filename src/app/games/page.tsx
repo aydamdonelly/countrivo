@@ -34,7 +34,7 @@ function GameCard({ game }: { game: GameMeta }) {
         <span className="text-2xl">{game.emoji}</span>
         {game.isNew && (
           <span
-            className="px-2 py-0.5 bg-black/10 text-[10px] font-bold rounded-full uppercase"
+            className="px-2 py-0.5 bg-black/10 text-xxs font-bold rounded-full uppercase"
             style={{ color: colors.text }}
           >
             New
@@ -194,7 +194,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
             <span className="absolute -right-4 -bottom-4 text-[7rem] opacity-[0.10] select-none pointer-events-none leading-none">
               {flagship.emoji}
             </span>
-            <span className="inline-block px-2.5 py-0.5 bg-gold text-white text-[10px] font-bold uppercase rounded-md mb-3 tracking-wide">
+            <span className="inline-block px-2.5 py-0.5 bg-gold text-white text-xxs font-bold uppercase rounded-md mb-3 tracking-wide">
               Featured
             </span>
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">

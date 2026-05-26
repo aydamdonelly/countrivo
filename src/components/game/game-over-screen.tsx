@@ -280,7 +280,7 @@ export function GameOverScreen({
             {percentile !== null && (
               <span className="text-cream-muted">
                 Better than <span className="font-bold text-cream">{percentile}%</span>
-                {!hasRealData && <span className="text-[10px] ml-1 opacity-50">(est.)</span>}
+                {!hasRealData && <span className="text-xxs ml-1 opacity-50">(est.)</span>}
               </span>
             )}
           </div>
@@ -412,7 +412,7 @@ function StatPill({ label, value, highlight }: { label: string; value: string; h
           ? "bg-incorrect/8 border border-incorrect/20"
           : "bg-surface-elevated"
     }`}>
-      <div className="text-[10px] text-cream-muted font-medium uppercase tracking-wide">
+      <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">
         {label}
       </div>
       <div className={`text-lg font-extrabold font-mono mt-0.5 ${

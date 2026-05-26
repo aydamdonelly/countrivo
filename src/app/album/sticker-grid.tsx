@@ -76,7 +76,7 @@ export function StickerGrid({ countries, stickers }: StickerGridProps) {
               <span className="text-xl sm:text-2xl leading-none" aria-hidden="true">
                 {country.flagEmoji}
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-wider">
+              <span className="font-mono text-xxs uppercase tracking-wider">
                 {country.iso3}
               </span>
               {count > 1 && (
@@ -88,7 +88,7 @@ export function StickerGrid({ countries, stickers }: StickerGridProps) {
             {isActive && (
               <div
                 role="tooltip"
-                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-20 pointer-events-none whitespace-nowrap rounded-md bg-cream text-bg text-[11px] font-medium px-2 py-1 shadow-md"
+                className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 z-20 pointer-events-none whitespace-nowrap rounded-md bg-cream text-bg text-xxs font-medium px-2 py-1 shadow-md"
               >
                 <span className="font-bold">{country.displayName}</span>
                 <span className="opacity-70"> · {tooltip.replace(`${country.displayName} — `, "")}</span>

@@ -164,7 +164,7 @@ export default function RootLayout({
                 <div className="space-y-2 text-sm text-cream-muted">
                   <p className="text-xs">Competitive daily geography games with stats depth. 14 games, 243 countries.</p>
                   <Link href="/privacy" className="block hover:text-cream transition-colors">Privacy</Link>
-                  <p className="text-[10px] text-cream-muted mt-3">Data: World Bank, REST Countries, WHO, UNWTO</p>
+                  <p className="text-xxs text-cream-muted mt-3">Data: World Bank, REST Countries, WHO, UNWTO</p>
                 </div>
               </div>
             </div>

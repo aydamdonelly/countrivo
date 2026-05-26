@@ -397,7 +397,7 @@ function GamePill({ run, myRunsBySlug }: GamePillProps) {
       <span className="opacity-70">{run.scoreDisplay}</span>
       {isH2H && h2hLabel && (
         <span
-          className="inline-flex items-center justify-center w-4 h-4 rounded-full text-white font-bold text-[10px] leading-none"
+          className="inline-flex items-center justify-center w-4 h-4 rounded-full text-white font-bold text-xxs leading-none"
           style={{ backgroundColor: h2hBg }}
         >
           {h2hLabel}

@@ -318,13 +318,13 @@ export function AuthModal() {
               </div>
 
               {tab === "signup" && (
-                <p id="auth-pw-hint" className="text-[11px] text-cream-muted -mt-1">
+                <p id="auth-pw-hint" className="text-xxs text-cream-muted -mt-1">
                   At least 8 characters. Anything goes.
                 </p>
               )}
 
               {capsLockOn && (
-                <p className="text-[11px] text-gold font-medium" role="status">
+                <p className="text-xxs text-gold font-medium" role="status">
                   Caps Lock is on
                 </p>
               )}

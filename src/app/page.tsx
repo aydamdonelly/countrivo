@@ -115,7 +115,7 @@ export default async function HomePage() {
       <section className="mb-8">
         <div className="flex items-center gap-2 mb-3">
           <h2 className="text-lg font-extrabold">Today&apos;s featured game</h2>
-          <span className="px-2 py-0.5 bg-gold text-white text-[10px] font-bold uppercase rounded-md tracking-wide">
+          <span className="px-2 py-0.5 bg-gold text-white text-xxs font-bold uppercase rounded-md tracking-wide">
             Flagship
           </span>
         </div>
@@ -146,7 +146,7 @@ export default async function HomePage() {
                   : flagship.shortDescription}
               </p>
               <div
-                className="mt-2 flex items-center gap-2 text-[11px]"
+                className="mt-2 flex items-center gap-2 text-xxs"
                 style={{ color: GAME_COLORS[flagship.slug]?.text ?? "#374151" }}
               >
                 {dailyStatus.played ? (
@@ -182,7 +182,7 @@ export default async function HomePage() {
             <div className="text-lg font-extrabold font-mono">
               {summary.topScoreDisplay ?? "—"}
             </div>
-            <div className="text-[10px] text-cream-muted">
+            <div className="text-xxs text-cream-muted">
               {summary.playerCount > 0 ? "today's best" : "be the first"}
             </div>
           </div>
@@ -192,7 +192,7 @@ export default async function HomePage() {
             <div className="text-lg font-extrabold font-mono">
               {summary.playerCount > 0 ? summary.playerCount : "—"}
             </div>
-            <div className="text-[10px] text-cream-muted">
+            <div className="text-xxs text-cream-muted">
               {summary.playerCount > 0 ? "and counting" : "play to join"}
             </div>
           </div>
@@ -202,7 +202,7 @@ export default async function HomePage() {
             <div className="text-lg font-extrabold font-mono">
               {summary.playerCount > 0 ? Math.round(summary.avgScore) : "—"}
             </div>
-            <div className="text-[10px] text-cream-muted">
+            <div className="text-xxs text-cream-muted">
               {summary.playerCount > 0 ? "can you beat it?" : "play to set it"}
             </div>
           </div>
@@ -235,7 +235,7 @@ export default async function HomePage() {
                 </span>
                 {game.isNew && (
                   <span
-                    className="absolute top-3 right-3 px-2 py-0.5 bg-black/10 text-[10px] font-bold uppercase rounded-full"
+                    className="absolute top-3 right-3 px-2 py-0.5 bg-black/10 text-xxs font-bold uppercase rounded-full"
                     style={{ color: colors.text }}
                   >
                     New
@@ -256,13 +256,13 @@ export default async function HomePage() {
                 </p>
                 <div className="mt-2.5 flex items-center gap-2">
                   <span
-                    className="text-[11px] font-medium px-1.5 py-0.5 rounded-full bg-black/5 capitalize"
+                    className="text-xxs font-medium px-1.5 py-0.5 rounded-full bg-black/5 capitalize"
                     style={{ color: colors.text }}
                   >
                     {game.difficulty}
                   </span>
                   <span
-                    className="text-[11px] opacity-50"
+                    className="text-xxs opacity-50"
                     style={{ color: colors.text }}
                   >
                     {game.estimatedTime}
@@ -299,7 +299,7 @@ export default async function HomePage() {
               <span className="text-lg shrink-0">{game.emoji}</span>
               <div className="min-w-0 flex-1">
                 <div className="text-xs font-semibold truncate">{game.title}</div>
-                <div className="text-[10px] text-cream-muted truncate">
+                <div className="text-xxs text-cream-muted truncate">
                   {game.estimatedTime}
                 </div>
               </div>

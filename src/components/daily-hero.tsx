@@ -106,7 +106,7 @@ export function DailyHero({
             day: "numeric",
           })}
         </time>
-        <span className="flex items-center gap-1.5 text-[10px] text-cream-muted px-2.5 py-0.5 rounded-full bg-black/5">
+        <span className="flex items-center gap-1.5 text-xxs text-cream-muted px-2.5 py-0.5 rounded-full bg-black/5">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
           Live
         </span>

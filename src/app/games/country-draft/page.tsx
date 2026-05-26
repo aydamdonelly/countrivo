@@ -35,7 +35,7 @@ export default function CountryDraftPage() {
           <div className="max-w-xl">
             <div className="flex items-center gap-3 mb-3">
               <span className="text-3xl">🎯</span>
-              <span className="px-2.5 py-0.5 bg-gold text-white text-[10px] font-bold rounded-md uppercase tracking-wide">
+              <span className="px-2.5 py-0.5 bg-gold text-white text-xxs font-bold rounded-md uppercase tracking-wide">
                 Flagship
               </span>
             </div>

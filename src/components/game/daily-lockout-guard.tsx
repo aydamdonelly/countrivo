@@ -43,12 +43,12 @@ export function DailyPlayedMessage({
       </div>
       <div className="flex items-center gap-4">
         <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-          <div className="text-[10px] text-cream-muted font-medium uppercase tracking-wide">Score</div>
+          <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Score</div>
           <div className="text-2xl font-extrabold font-mono text-gold">{scoreDisplay}</div>
         </div>
         {rankDaily != null && (
           <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-            <div className="text-[10px] text-cream-muted font-medium uppercase tracking-wide">Rank today</div>
+            <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Rank today</div>
             <div className="text-2xl font-extrabold font-mono">
               #{rankDaily}
               {totalPlayersToday != null && totalPlayersToday > 0 && (
@@ -59,7 +59,7 @@ export function DailyPlayedMessage({
         )}
         {percentile != null && (
           <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-            <div className="text-[10px] text-cream-muted font-medium uppercase tracking-wide">Better than</div>
+            <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Better than</div>
             <div className="text-2xl font-extrabold font-mono">{Math.round(percentile)}%</div>
           </div>
         )}

@@ -55,7 +55,7 @@ export default function CountriesPage() {
               <p className="text-sm font-medium group-hover:text-gold transition-colors">
                 {pull.text}
               </p>
-              <p className="text-[10px] text-cream-muted">Did you know? →</p>
+              <p className="text-xxs text-cream-muted">Did you know? →</p>
             </div>
           </Link>
         ))}
