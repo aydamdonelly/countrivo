@@ -5,7 +5,7 @@ import { getStorageItem, setStorageItem } from "@/lib/storage";
 
 // Bump when any persisted game-state shape changes, so stale in-progress blobs
 // from a previous deploy restart fresh instead of restoring into broken UI.
-const PROGRESS_VERSION = 2;
+const PROGRESS_VERSION = 3;
 const RESTORE = "@@daily-progress/restore";
 
 interface ProgressEnvelope<S> {
