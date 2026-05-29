@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-04",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "COM",
+        "REU",
+        "BDI",
+        "KEN"
+      ]
+    },
+    {
+      "theme": "Countries in Polynesia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "NIU",
+        "WLF",
+        "COK",
+        "TON"
+      ]
+    },
+    {
+      "theme": "Countries in Western Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "LUX",
+        "FRA",
+        "BEL",
+        "NLD"
+      ]
+    },
+    {
+      "theme": "Countries in Micronesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "FSM",
+        "GUM",
+        "KIR",
+        "NRU"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

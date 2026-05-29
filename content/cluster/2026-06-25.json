@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-25",
+  "groups": [
+    {
+      "theme": "Countries in Southern Europe",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "CYP",
+        "SMR",
+        "ITA",
+        "VAT"
+      ]
+    },
+    {
+      "theme": "Countries in Micronesia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "KIR",
+        "NRU",
+        "MNP",
+        "PLW"
+      ]
+    },
+    {
+      "theme": "Countries in Central Asia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "TKM",
+        "KGZ",
+        "UZB",
+        "TJK"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "SLB",
+        "PNG",
+        "VUT",
+        "NCL"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

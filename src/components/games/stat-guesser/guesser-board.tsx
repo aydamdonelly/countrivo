@@ -26,9 +26,8 @@ interface GuesserBoardProps {
   edition: string;
 }
 
-// Daily Drago-form: 1 anchored question per day.
-// Practice: 5 rounds, free-form variety.
-const DAILY_ROUNDS = 1;
+// Daily: 5 anchored stats to guess per day. Practice: 5 rounds, free-form variety.
+const DAILY_ROUNDS = 5;
 const PRACTICE_ROUNDS = 5;
 
 function init(mode: "daily" | "practice", edition: string): StatGuesserState {

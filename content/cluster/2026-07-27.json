@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-27",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "COM",
+        "MUS",
+        "SOM",
+        "SYC"
+      ]
+    },
+    {
+      "theme": "Countries in Western Africa",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "GIN",
+        "CPV",
+        "MLI",
+        "CIV"
+      ]
+    },
+    {
+      "theme": "Countries in Middle Africa",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "CAF",
+        "GNQ",
+        "COG",
+        "COD"
+      ]
+    },
+    {
+      "theme": "Countries in Eastern Asia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "JPN",
+        "HKG",
+        "CHN",
+        "PRK"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

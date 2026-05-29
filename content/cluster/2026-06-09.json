@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-09",
+  "groups": [
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "IDN",
+        "THA",
+        "BRN",
+        "TLS"
+      ]
+    },
+    {
+      "theme": "Countries in Northern Africa",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "EGY",
+        "ESH",
+        "LBY",
+        "SDN"
+      ]
+    },
+    {
+      "theme": "Countries in Central Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "POL",
+        "SVN",
+        "HUN",
+        "CZE"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Africa",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "NAM",
+        "ZWE",
+        "SWZ",
+        "ZAF"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

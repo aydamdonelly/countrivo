@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-07",
+  "groups": [
+    {
+      "theme": "Countries in Caribbean",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "ATG",
+        "VCT",
+        "BES",
+        "VIR"
+      ]
+    },
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "SGP",
+        "MMR",
+        "LAO",
+        "TLS"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "GTM",
+        "CRI",
+        "HND",
+        "SLV"
+      ]
+    },
+    {
+      "theme": "Countries in Central Asia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "KAZ",
+        "TKM",
+        "KGZ",
+        "TJK"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

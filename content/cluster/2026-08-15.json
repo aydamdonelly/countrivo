@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-15",
+  "groups": [
+    {
+      "theme": "Countries in Polynesia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "PYF",
+        "PCN",
+        "TKL",
+        "ASM"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "SLV",
+        "HND",
+        "GTM",
+        "CRI"
+      ]
+    },
+    {
+      "theme": "Countries in Micronesia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "GUM",
+        "NRU",
+        "KIR",
+        "FSM"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "PNG",
+        "VUT",
+        "NCL",
+        "SLB"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

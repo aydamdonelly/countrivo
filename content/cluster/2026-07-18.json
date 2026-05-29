@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-18",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "MYT",
+        "SYC",
+        "ERI",
+        "COM"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Europe",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "SMR",
+        "VAT",
+        "GRC",
+        "ESP"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Africa",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "ZAF",
+        "LSO",
+        "BWA",
+        "NAM"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "NCL",
+        "VUT",
+        "FJI",
+        "PNG"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

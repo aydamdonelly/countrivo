@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-06",
+  "groups": [
+    {
+      "theme": "Countries in South America",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "URY",
+        "CHL",
+        "PER",
+        "FLK"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Europe",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "AND",
+        "CYP",
+        "GRC",
+        "SMR"
+      ]
+    },
+    {
+      "theme": "Countries in Southeast Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "SRB",
+        "ALB",
+        "BGR",
+        "MKD"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "NIC",
+        "PAN",
+        "CRI",
+        "BLZ"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-05",
+  "groups": [
+    {
+      "theme": "Countries in Northern Europe",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "ISL",
+        "GGY",
+        "IMN",
+        "SJM"
+      ]
+    },
+    {
+      "theme": "Countries in South America",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "COL",
+        "ECU",
+        "PRY",
+        "PER"
+      ]
+    },
+    {
+      "theme": "Countries in Central Asia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "UZB",
+        "TKM",
+        "KGZ",
+        "KAZ"
+      ]
+    },
+    {
+      "theme": "Countries in Eastern Europe",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "BLR",
+        "RUS",
+        "UKR",
+        "MDA"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

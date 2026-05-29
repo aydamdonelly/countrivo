@@ -59,6 +59,11 @@ export function CategorySlot({
           <span className="text-sm sm:text-base font-bold text-cream-muted leading-tight text-center">
             {category.shortLabel}
           </span>
+          {category.clarifier && (
+            <span className="text-[10px] sm:text-xs text-cream-muted/60 leading-tight text-center mt-1">
+              {category.clarifier}
+            </span>
+          )}
         </>
       )}
     </button>

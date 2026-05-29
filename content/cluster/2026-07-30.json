@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-30",
+  "groups": [
+    {
+      "theme": "Countries in South America",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "SUR",
+        "BOL",
+        "PER",
+        "PRY"
+      ]
+    },
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "PHL",
+        "TLS",
+        "KHM",
+        "BRN"
+      ]
+    },
+    {
+      "theme": "Countries in Middle Africa",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "GNQ",
+        "CMR",
+        "COG",
+        "TCD"
+      ]
+    },
+    {
+      "theme": "Countries in Northern Africa",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "EGY",
+        "TUN",
+        "ESH",
+        "LBY"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-12",
+  "groups": [
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "THA",
+        "IDN",
+        "BRN",
+        "SGP"
+      ]
+    },
+    {
+      "theme": "Countries in Polynesia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "PYF",
+        "ASM",
+        "NIU",
+        "PCN"
+      ]
+    },
+    {
+      "theme": "Countries in Southeast Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "ALB",
+        "MKD",
+        "UNK",
+        "SRB"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "GTM",
+        "HND",
+        "SLV",
+        "BLZ"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

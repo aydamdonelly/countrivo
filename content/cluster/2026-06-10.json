@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-10",
+  "groups": [
+    {
+      "theme": "Countries in Caribbean",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "BLM",
+        "CUW",
+        "MTQ",
+        "GLP"
+      ]
+    },
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "TLS",
+        "LAO",
+        "IDN",
+        "SGP"
+      ]
+    },
+    {
+      "theme": "Countries in Northern Africa",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "TUN",
+        "LBY",
+        "DZA",
+        "ESH"
+      ]
+    },
+    {
+      "theme": "Countries in Central Europe",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "AUT",
+        "HUN",
+        "SVK",
+        "POL"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

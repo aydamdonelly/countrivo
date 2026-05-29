@@ -4,6 +4,8 @@ export interface Category {
   slug: string;
   label: string;
   shortLabel: string;
+  /** Tiny unit/basis clarifier shown under the button text, e.g. "kg per year". */
+  clarifier?: string;
   unit: string;
   description: string;
   direction: StatDirection;

@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-02",
+  "groups": [
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "BRN",
+        "LAO",
+        "IDN",
+        "TLS"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Asia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "AFG",
+        "BTN",
+        "BGD",
+        "PAK"
+      ]
+    },
+    {
+      "theme": "Countries in Central Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "HUN",
+        "POL",
+        "AUT",
+        "SVK"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "PNG",
+        "SLB",
+        "VUT",
+        "NCL"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

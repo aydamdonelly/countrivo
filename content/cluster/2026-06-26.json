@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-26",
+  "groups": [
+    {
+      "theme": "Countries in Northern Europe",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "IMN",
+        "LVA",
+        "ISL",
+        "EST"
+      ]
+    },
+    {
+      "theme": "Countries in Middle Africa",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "SSD",
+        "CAF",
+        "GNQ",
+        "TCD"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "PRT",
+        "GIB",
+        "AND",
+        "ITA"
+      ]
+    },
+    {
+      "theme": "Countries in Australia and New Zealand",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "AUS",
+        "NZL",
+        "NFK",
+        "CXR"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

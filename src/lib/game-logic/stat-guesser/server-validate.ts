@@ -6,12 +6,12 @@
  * submitted target ISO3 matches the engine's. Score is recomputed from the
  * submitted guesses and compared against `scoreRaw` (= round(100 - avgError)).
  *
- * Daily Stat Guesser is a single round (DAILY_ROUNDS = 1).
+ * Daily Stat Guesser is 5 rounds; score = round(100 - mean per-round % error).
  */
 import { getDailyRng } from "@/lib/daily-seed";
 import { createStatGuesser } from "./engine";
 
-const DAILY_ROUNDS = 1;
+const DAILY_ROUNDS = 5;
 const SCORE_TOLERANCE = 1; // allow off-by-one for float rounding
 
 export function validateStatGuesserResult(
@@ -59,11 +59,13 @@ export function validateStatGuesserResult(
         reason: `targetIso3s length=${resultJson.targetIso3s.length} != ${DAILY_ROUNDS}`,
       };
     }
-    if (resultJson.targetIso3s[0] !== expectedTargetIso3) {
-      return {
-        valid: false,
-        reason: `targetIso3s[0] mismatch: expected ${expectedTargetIso3}`,
-      };
+    for (let i = 0; i < DAILY_ROUNDS; i++) {
+      if (resultJson.targetIso3s[i] !== state.rounds[i].country.iso3) {
+        return {
+          valid: false,
+          reason: `targetIso3s[${i}] mismatch: expected ${state.rounds[i].country.iso3}`,
+        };
+      }
     }
   }
 
@@ -79,20 +81,23 @@ export function validateStatGuesserResult(
       };
     }
 
-    const guess = resultJson.guesses[0];
-    if (typeof guess !== "number" || !Number.isFinite(guess)) {
-      return { valid: false, reason: "guess must be a finite number" };
+    let totalError = 0;
+    for (let i = 0; i < DAILY_ROUNDS; i++) {
+      const guess = resultJson.guesses[i];
+      if (typeof guess !== "number" || !Number.isFinite(guess)) {
+        return { valid: false, reason: `guess[${i}] must be a finite number` };
+      }
+      const actual = state.rounds[i].actualValue;
+      const percentError =
+        actual === 0
+          ? guess === 0
+            ? 0
+            : 100
+          : (Math.abs(guess - actual) / Math.abs(actual)) * 100;
+      totalError += Math.round(percentError * 10) / 10;
     }
-
-    const actual = state.rounds[0].actualValue;
-    const percentError =
-      actual === 0
-        ? guess === 0
-          ? 0
-          : 100
-        : (Math.abs(guess - actual) / Math.abs(actual)) * 100;
-    const rounded = Math.round(percentError * 10) / 10;
-    const expectedScore = Math.round(Math.max(0, 100 - rounded));
+    const avgError = Math.round((totalError / DAILY_ROUNDS) * 10) / 10;
+    const expectedScore = Math.round(Math.max(0, 100 - avgError));
 
     if (Math.abs(expectedScore - scoreRaw) > SCORE_TOLERANCE) {
       return {

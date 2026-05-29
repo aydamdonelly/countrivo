@@ -1,0 +1,46 @@
+{
+  "date": "2026-09-04",
+  "groups": [
+    {
+      "theme": "Countries in Western Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "MRT",
+        "NGA",
+        "SHN",
+        "MLI"
+      ]
+    },
+    {
+      "theme": "Countries in South-Eastern Asia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "THA",
+        "BRN",
+        "IDN",
+        "MYS"
+      ]
+    },
+    {
+      "theme": "Countries in Eastern Asia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "MAC",
+        "JPN",
+        "MNG",
+        "PRK"
+      ]
+    },
+    {
+      "theme": "Countries in North America",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "SPM",
+        "CAN",
+        "BMU",
+        "MEX"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

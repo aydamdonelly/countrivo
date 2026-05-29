@@ -1,0 +1,46 @@
+{
+  "date": "2026-06-20",
+  "groups": [
+    {
+      "theme": "Countries in Northern Europe",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "GBR",
+        "NOR",
+        "JEY",
+        "IRL"
+      ]
+    },
+    {
+      "theme": "Countries in South America",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "CHL",
+        "COL",
+        "GUF",
+        "SUR"
+      ]
+    },
+    {
+      "theme": "Countries in Southeast Europe",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "SRB",
+        "MKD",
+        "ROU",
+        "BIH"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "VUT",
+        "NCL",
+        "SLB",
+        "PNG"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

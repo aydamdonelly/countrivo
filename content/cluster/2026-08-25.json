@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-25",
+  "groups": [
+    {
+      "theme": "Countries in Southern Asia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "LKA",
+        "IND",
+        "BGD",
+        "NPL"
+      ]
+    },
+    {
+      "theme": "Countries in Micronesia",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "FSM",
+        "NRU",
+        "PLW",
+        "GUM"
+      ]
+    },
+    {
+      "theme": "Countries in Melanesia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "NCL",
+        "FJI",
+        "SLB",
+        "VUT"
+      ]
+    },
+    {
+      "theme": "Countries in Eastern Europe",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "MDA",
+        "RUS",
+        "UKR",
+        "BLR"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

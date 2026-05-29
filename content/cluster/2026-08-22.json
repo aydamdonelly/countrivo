@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-22",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Asia",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "MNG",
+        "MAC",
+        "PRK",
+        "JPN"
+      ]
+    },
+    {
+      "theme": "Countries in Western Europe",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "FRA",
+        "MCO",
+        "LUX",
+        "CHE"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "GTM",
+        "CRI",
+        "HND",
+        "SLV"
+      ]
+    },
+    {
+      "theme": "Countries in North America",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "BMU",
+        "GRL",
+        "SPM",
+        "MEX"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

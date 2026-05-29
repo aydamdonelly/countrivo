@@ -1,0 +1,46 @@
+{
+  "date": "2026-08-31",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "RWA",
+        "MUS",
+        "MDG",
+        "COM"
+      ]
+    },
+    {
+      "theme": "Countries in Southeast Europe",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "UNK",
+        "BGR",
+        "HRV",
+        "MKD"
+      ]
+    },
+    {
+      "theme": "Countries in Southern Asia",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "IND",
+        "LKA",
+        "PAK",
+        "MDV"
+      ]
+    },
+    {
+      "theme": "Countries in Central Asia",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "KGZ",
+        "TKM",
+        "TJK",
+        "UZB"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}

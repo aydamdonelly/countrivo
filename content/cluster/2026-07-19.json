@@ -1,0 +1,46 @@
+{
+  "date": "2026-07-19",
+  "groups": [
+    {
+      "theme": "Countries in Eastern Africa",
+      "difficulty": "easy",
+      "countryIso3s": [
+        "ERI",
+        "DJI",
+        "ETH",
+        "COM"
+      ]
+    },
+    {
+      "theme": "Countries in Southeast Europe",
+      "difficulty": "medium",
+      "countryIso3s": [
+        "UNK",
+        "HRV",
+        "ROU",
+        "MKD"
+      ]
+    },
+    {
+      "theme": "Countries in Central America",
+      "difficulty": "hard",
+      "countryIso3s": [
+        "NIC",
+        "CRI",
+        "HND",
+        "GTM"
+      ]
+    },
+    {
+      "theme": "Countries in North America",
+      "difficulty": "purple",
+      "countryIso3s": [
+        "SPM",
+        "CAN",
+        "GRL",
+        "USA"
+      ]
+    }
+  ],
+  "editorial": "Sort all sixteen flags into their world subregion."
+}
