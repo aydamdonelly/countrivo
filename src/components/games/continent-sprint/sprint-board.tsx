@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createSprint,
   pickContinent,
@@ -18,7 +18,8 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getTodayDateKey } from "@/lib/daily-seed";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 
 interface SprintBoardProps {
@@ -63,16 +64,17 @@ function formatTime(ms: number): string {
 }
 
 export function SprintBoard({ mode }: SprintBoardProps) {
-  const [state, dispatch] = useReducer(reducer, undefined, createSprint);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, createSprint, {
+    storageKey: dailyProgressKey("continent-sprint", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Found!");
-  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user } = useAuth();
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);  const { user } = useAuth();
 
   // Timer tick
   useEffect(() => {

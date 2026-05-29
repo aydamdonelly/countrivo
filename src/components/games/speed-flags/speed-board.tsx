@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useEffect, useCallback, useMemo, useState, useRef } from "react";
+import { useEffect, useCallback, useMemo, useState } from "react";
 import {
   createSpeedFlags,
   startGame,
@@ -17,7 +17,8 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 
 interface SpeedBoardProps {
@@ -30,17 +31,17 @@ function init(mode: "daily" | "practice"): SpeedFlagsState {
 }
 
 type Action =
-  | { type: "START" }
+  | { type: "START"; now: number }
   | { type: "ANSWER"; idx: number }
-  | { type: "TICK" }
+  | { type: "TICK"; now: number }
   | { type: "RESET" };
 
 function makeReducer(mode: "daily" | "practice") {
   return function reducer(state: SpeedFlagsState, action: Action): SpeedFlagsState {
     switch (action.type) {
-      case "START": return startGame(state);
+      case "START": return startGame(state, action.now);
       case "ANSWER": return answer(state, action.idx);
-      case "TICK": return tick(state);
+      case "TICK": return tick(state, action.now);
       case "RESET": return init(mode);
       default: return state;
     }
@@ -48,19 +49,21 @@ function makeReducer(mode: "daily" | "practice") {
 }
 
 export function SpeedBoard({ mode }: SpeedBoardProps) {
-  const [state, dispatch] = useReducer(makeReducer(mode), mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(makeReducer(mode), () => init(mode), {
+    storageKey: dailyProgressKey("speed-flags", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("✓");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
   const { user, openAuthModal } = useAuth();
 
   // Timer
   useEffect(() => {
     if (state.phase !== "playing") return;
-    const interval = setInterval(() => dispatch({ type: "TICK" }), 1000);
+    const interval = setInterval(() => dispatch({ type: "TICK", now: Date.now() }), 1000);
     return () => clearInterval(interval);
   }, [state.phase]);
 
@@ -141,7 +144,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
           Each flag has 2 options. Be fast!
         </p>
         <button
-          onClick={() => dispatch({ type: "START" })}
+          onClick={() => dispatch({ type: "START", now: Date.now() })}
           className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
         >
           Start!

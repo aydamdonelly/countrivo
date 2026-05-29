@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
   createCountryle,
   submitGuess,
@@ -18,7 +18,8 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 import type { Country } from "@/types/country";
 
@@ -162,14 +163,15 @@ function EmptyRow({ index }: { index: number }) {
 }
 
 export function TraceBoard({ mode }: TraceBoardProps) {
-  const [state, dispatch] = useReducer(reducer, mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("trace", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [input, setInput] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const guessedIso3s = useMemo(
     () => new Set(state.guesses.map((g) => g.country.iso3)),

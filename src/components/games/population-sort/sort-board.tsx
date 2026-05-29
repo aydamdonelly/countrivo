@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useState, useRef, useEffect } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import {
   createSortGame,
   moveItem,
@@ -15,7 +15,8 @@ import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 import statsData from "@/data/stats.json";
 
@@ -45,12 +46,13 @@ function reducer(state: SortGameState, action: Action): SortGameState {
 }
 
 export function SortBoard({ mode }: SortBoardProps) {
-  const [state, dispatch] = useReducer(reducer, mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("population-sort", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const handleMoveUp = useCallback((idx: number) => {
     if (idx > 0) dispatch({ type: "MOVE", from: idx, to: idx - 1 });

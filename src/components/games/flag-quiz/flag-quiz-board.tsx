@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   createFlagQuiz,
   answerQuestion,
@@ -13,7 +13,8 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import type { ServerGameRun } from "@/types/server";
 
@@ -42,13 +43,14 @@ function reducer(state: FlagQuizState, action: Action): FlagQuizState {
 }
 
 export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
-  const [state, dispatch] = useReducer(reducer, mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("flag-quiz", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const currentQ = state.questions[state.currentQuestion];
 

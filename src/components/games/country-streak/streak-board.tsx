@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useRef, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   createStreak,
   answerStreak,
@@ -15,7 +15,8 @@ import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 
 interface StreakBoardProps {
@@ -47,16 +48,17 @@ export function StreakBoard({ mode }: StreakBoardProps) {
   const [rng, setRng] = useState<() => number>(() =>
     mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now())
   );
-  const [state, dispatch] = useReducer(reducer, mode, initStreak);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => initStreak(mode), {
+    storageKey: dailyProgressKey("country-streak", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [showFeedback, setShowFeedback] = useState(false);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const currentCountry = state.queue[state.currentIndex];
 

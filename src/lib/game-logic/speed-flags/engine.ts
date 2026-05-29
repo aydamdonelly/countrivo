@@ -14,8 +14,13 @@ export interface SpeedFlagsState {
   correct: number;
   total: number;
   timeLeft: number;
+  /** Absolute wall-clock ms when the round ends. Null until the game starts.
+   *  timeLeft is derived from this so a reload can't pause the clock. */
+  endsAt: number | null;
   phase: "ready" | "playing" | "results";
 }
+
+const DURATION_MS = 20_000;
 
 export function createSpeedFlags(rng: () => number, queueSize = 100): SpeedFlagsState {
   const shuffled = seededShuffle([...countries], rng);
@@ -41,13 +46,14 @@ export function createSpeedFlags(rng: () => number, queueSize = 100): SpeedFlags
     currentIdx: 0,
     correct: 0,
     total: 0,
-    timeLeft: 60,
+    timeLeft: DURATION_MS / 1000,
+    endsAt: null,
     phase: "ready",
   };
 }
 
-export function startGame(state: SpeedFlagsState): SpeedFlagsState {
-  return { ...state, phase: "playing", timeLeft: 20 };
+export function startGame(state: SpeedFlagsState, now: number): SpeedFlagsState {
+  return { ...state, phase: "playing", endsAt: now + DURATION_MS, timeLeft: DURATION_MS / 1000 };
 }
 
 export function answer(state: SpeedFlagsState, chosenIdx: number): SpeedFlagsState {
@@ -64,12 +70,12 @@ export function answer(state: SpeedFlagsState, chosenIdx: number): SpeedFlagsSta
   };
 }
 
-export function tick(state: SpeedFlagsState): SpeedFlagsState {
-  if (state.phase !== "playing") return state;
+export function tick(state: SpeedFlagsState, now: number): SpeedFlagsState {
+  if (state.phase !== "playing" || state.endsAt === null) return state;
 
-  const newTime = state.timeLeft - 1;
-  if (newTime <= 0) {
+  const remainingMs = state.endsAt - now;
+  if (remainingMs <= 0) {
     return { ...state, timeLeft: 0, phase: "results" };
   }
-  return { ...state, timeLeft: newTime };
+  return { ...state, timeLeft: Math.ceil(remainingMs / 1000) };
 }

@@ -15,6 +15,15 @@ export function setStorageItem<T>(key: string, value: T): void {
   localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
 }
 
+export function removeStorageItem(key: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(STORAGE_PREFIX + key);
+  } catch {
+    // localStorage may be unavailable (private mode)
+  }
+}
+
 export function isDailyCompleted(gameSlug: string, dateKey: string): boolean {
   return getStorageItem<boolean>(`daily_${gameSlug}_${dateKey}_completed`, false);
 }
@@ -42,4 +51,16 @@ export function getDailyLockout(gameSlug: string, dateKey: string): DailyLockout
 
 export function setDailyLockout(gameSlug: string, dateKey: string, entry: DailyLockoutEntry): void {
   setStorageItem(`lockout_${gameSlug}_${dateKey}`, entry);
+  // The game is over: the in-progress blob is now superseded by the lockout.
+  clearDailyProgress(gameSlug, dateKey);
+}
+
+// ─── In-Progress Persistence (anti-cheat: resume on reload) ──────────
+
+export function dailyProgressKey(gameSlug: string, dateKey: string): string {
+  return `progress_${gameSlug}_${dateKey}`;
+}
+
+export function clearDailyProgress(gameSlug: string, dateKey: string): void {
+  removeStorageItem(dailyProgressKey(gameSlug, dateKey));
 }

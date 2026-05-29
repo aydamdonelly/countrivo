@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useCallback, useMemo, useState, useRef, useEffect } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import {
   createOddOneOut,
   answerRound,
@@ -17,7 +17,8 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 
 interface OddBoardProps {
@@ -44,14 +45,15 @@ function reducer(state: OddOneOutState, action: Action): OddOneOutState {
 }
 
 export function OddBoard({ mode }: OddBoardProps) {
-  const [state, dispatch] = useReducer(reducer, mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("odd-one-out", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Correct!");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const round = state.rounds[state.currentRound];
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducer, useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   createStatGuesser,
   submitGuess,
@@ -17,7 +17,8 @@ import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import type { ServerGameRun } from "@/types/server";
 
 interface GuesserBoardProps {
@@ -50,15 +51,16 @@ function reducer(state: StatGuesserState, action: Action): StatGuesserState {
 }
 
 export function GuesserBoard({ mode }: GuesserBoardProps) {
-  const [state, dispatch] = useReducer(reducer, mode, init);
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("stat-guesser", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [inputValue, setInputValue] = useState("");
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "neutral" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const round = state.rounds[state.currentRound];
 

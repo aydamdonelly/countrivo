@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useReducer, useState, useEffect, useMemo, useRef } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import {
   createGame,
@@ -19,7 +19,8 @@ import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
 import { mulberry32 } from "@/lib/seeded-random";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
@@ -61,14 +62,15 @@ const GRADE_CONFIG: Record<string, { color: string; bg: string; message: string 
 };
 
 export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
-  const [state, dispatch] = useReducer(reducer, null as unknown as DraftGameState, () => init(mode));
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
+    storageKey: dailyProgressKey("country-draft", getTodayDateKey()),
+    enabled: mode === "daily",
+  });
   const [mounted, setMounted] = useState(false);
   const [result, setResult] = useState<DraftResult | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const { user, openAuthModal } = useAuth();
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   // Pick feedback state
   const [feedbackKey, setFeedbackKey] = useState(0);

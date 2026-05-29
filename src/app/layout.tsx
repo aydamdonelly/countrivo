@@ -7,6 +7,7 @@ import { Header } from "@/components/layout/header";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { ToastProvider } from "@/components/ui/toast";
+import { DailyResetOnce } from "@/components/daily-reset";
 import Link from "next/link";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
@@ -76,6 +77,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-cream font-sans">
+        <DailyResetOnce />
         {/* Structured data for the website */}
         <script
           type="application/ld+json"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   createCluster,
   toggleSelect,
@@ -16,7 +16,8 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
-import { setDailyLockout } from "@/lib/storage";
+import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
+import { useDailyProgress } from "@/hooks/use-daily-progress";
 import { Button } from "@/components/ui/button";
 import { ClusterGrid } from "./cluster-grid";
 import { SolvedRow } from "./cluster-results";
@@ -56,17 +57,18 @@ function reducer(state: ClusterState, action: Action): ClusterState {
 }
 
 export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
-  const [state, dispatch] = useReducer(
+  const { state, dispatch, startedAtRef } = useDailyProgress(
     reducer,
-    undefined,
     () => makeInitialState(puzzle, dateKey, mode),
+    {
+      storageKey: dailyProgressKey("cluster", dateKey),
+      enabled: mode === "daily",
+    },
   );
   const [shakeKey, setShakeKey] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
-  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
-  const startedAtRef = useRef<string>(new Date().toISOString());
-  const lastAttemptCount = useRef(0);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const lastAttemptCount = useRef(0);
   const { user, openAuthModal } = useAuth();
 
   // React to new failed attempts (shake + toast). Effect keyed on attempts.length
