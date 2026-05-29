@@ -6,6 +6,8 @@ import { validateTraceResult } from "@/lib/game-logic/trace/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
 import { validateClusterResult } from "@/lib/game-logic/cluster/server-validate";
+import { validateCaravanResult } from "@/lib/game-logic/caravan/server-validate";
+import { validateBudgetResult } from "@/lib/game-logic/budget/server-validate";
 import { getDailyEdition } from "@/lib/daily-edition";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
@@ -76,6 +78,12 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       case "cluster":
         serverCheck = await validateClusterResult(input.dateKey, input.scoreRaw, input.resultJson);
         break;
+      case "caravan":
+        serverCheck = validateCaravanResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
+        break;
+      case "budget":
+        serverCheck = validateBudgetResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
+        break;
     }
     if (serverCheck && !serverCheck.valid) {
       return {
@@ -100,6 +108,8 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     case "population-sort":
     case "stat-guesser":
     case "supremacy":
+    case "caravan":
+    case "budget":
     case "higher-or-lower":
       // For these games, higher score_raw = better
       scoreSortValue = input.scoreRaw;

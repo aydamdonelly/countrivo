@@ -1,6 +1,8 @@
 /** Unique color palette for each game — used across the site for visual identity */
 export const GAME_COLORS: Record<string, { bg: string; text: string }> = {
   "country-draft":    { bg: "#fee2e2", text: "#991b1b" },
+  "caravan":          { bg: "#f7e3b5", text: "#7c4a03" },
+  "budget":           { bg: "#dcfce7", text: "#166534" },
   "flag-quiz":        { bg: "#dbeafe", text: "#1e3a5f" },
   "higher-or-lower":  { bg: "#d1fae5", text: "#064e3b" },
   "capital-match":    { bg: "#fef3c7", text: "#78350f" },
