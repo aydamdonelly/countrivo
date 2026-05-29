@@ -21,10 +21,11 @@ import type { ServerGameRun } from "@/types/server";
 
 interface HoLBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): HoLState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): HoLState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createHoL(rng);
 }
 
@@ -33,14 +34,14 @@ type Action = { type: "GUESS"; choice: "higher" | "lower" } | { type: "RESET" };
 function reducer(state: HoLState, action: Action): HoLState {
   switch (action.type) {
     case "GUESS": return guess(state, action.choice);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
-export function HoLBoard({ mode }: HoLBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("higher-or-lower", getTodayDateKey()),
+export function HoLBoard({ mode, edition }: HoLBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("higher-or-lower", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [showReveal, setShowReveal] = useState(false);
@@ -89,7 +90,7 @@ export function HoLBoard({ mode }: HoLBoardProps) {
         score: String(state.streak),
         scoreDisplay: `${state.streak}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

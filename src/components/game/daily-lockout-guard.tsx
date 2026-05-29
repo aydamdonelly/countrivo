@@ -11,6 +11,7 @@ interface DailyLockoutGuardProps {
   gameSlug: string;
   gameEmoji: string;
   gameTitle: string;
+  edition: string;
   children: React.ReactNode;
 }
 
@@ -80,20 +81,20 @@ export function DailyPlayedMessage({
 
 /* ---------- Guard component ---------- */
 
-export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, children }: DailyLockoutGuardProps) {
+export function DailyLockoutGuard({ gameSlug, gameEmoji, gameTitle, edition, children }: DailyLockoutGuardProps) {
   const { user, loading } = useAuth();
   const [locked, setLocked] = useState(false);
   const [lockoutData, setLockoutData] = useState<{ scoreDisplay: string; rankDaily?: number | null; percentile?: number | null } | null>(null);
 
   // Check localStorage immediately on mount (no waiting for auth)
   useEffect(() => {
-    const entry = getDailyLockout(gameSlug, getTodayDateKey());
+    const entry = getDailyLockout(gameSlug, getTodayDateKey(), edition);
     if (entry) {
       // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate from localStorage on mount
       setLocked(true);
       setLockoutData({ scoreDisplay: entry.scoreDisplay });
     }
-  }, [gameSlug]);
+  }, [gameSlug, edition]);
 
   // Once auth resolves, fetch server data for rank/percentile
   useEffect(() => {

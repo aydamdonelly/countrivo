@@ -23,10 +23,11 @@ import type { ServerGameRun } from "@/types/server";
 
 interface OddBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): OddOneOutState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): OddOneOutState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createOddOneOut(rng);
 }
 
@@ -39,14 +40,14 @@ function reducer(state: OddOneOutState, action: Action): OddOneOutState {
   switch (action.type) {
     case "ANSWER": return answerRound(state, action.index);
     case "NEXT": return nextRound(state);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
-export function OddBoard({ mode }: OddBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("odd-one-out", getTodayDateKey()),
+export function OddBoard({ mode, edition }: OddBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("odd-one-out", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [feedbackKey, setFeedbackKey] = useState(0);
@@ -90,7 +91,7 @@ export function OddBoard({ mode }: OddBoardProps) {
         score: String(state.score),
         scoreDisplay: `${state.score} / ${state.rounds.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

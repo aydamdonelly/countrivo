@@ -23,6 +23,7 @@ import type { ServerGameRun } from "@/types/server";
 
 interface GuesserBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
 // Daily Drago-form: 1 anchored question per day.
@@ -30,8 +31,8 @@ interface GuesserBoardProps {
 const DAILY_ROUNDS = 1;
 const PRACTICE_ROUNDS = 5;
 
-function init(mode: "daily" | "practice"): StatGuesserState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): StatGuesserState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   const roundCount = mode === "daily" ? DAILY_ROUNDS : PRACTICE_ROUNDS;
   return createStatGuesser(rng, roundCount);
 }
@@ -45,14 +46,14 @@ function reducer(state: StatGuesserState, action: Action): StatGuesserState {
   switch (action.type) {
     case "SUBMIT": return submitGuess(state, action.value);
     case "NEXT": return nextRound(state);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
-export function GuesserBoard({ mode }: GuesserBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("stat-guesser", getTodayDateKey()),
+export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("stat-guesser", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [inputValue, setInputValue] = useState("");
@@ -129,7 +130,7 @@ export function GuesserBoard({ mode }: GuesserBoardProps) {
         score: String(Math.round(Math.max(0, 100 - avgError))),
         scoreDisplay: `${avgError}% avg error`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     // Atlas album: ISO3 codes of all countries that appeared this run.

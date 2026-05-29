@@ -15,12 +15,13 @@ import { createCountryle } from "./engine";
 export function validateTraceResult(
   dateKey: string,
   scoreRaw: number,
-  resultJson: Record<string, unknown>
+  resultJson: Record<string, unknown>,
+  edition: string
 ): { valid: boolean; reason?: string } {
   // 1. Re-create the daily puzzle deterministically.
   let state;
   try {
-    const rng = getDailyRng(dateKey);
+    const rng = getDailyRng(dateKey, edition);
     state = createCountryle(rng, dateKey);
   } catch {
     // If we can't recreate the puzzle we cannot validate — accept rather than

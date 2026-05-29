@@ -8,14 +8,12 @@ export function dateSeed(dateKey: string): number {
   return Math.abs(hash);
 }
 
-// Bump to re-roll every daily RNG puzzle. Client boards and the server-side
-// validators both derive their puzzle from getDailyRng, so they stay in sync
-// automatically. (Editorial cluster puzzles and all-country continent-sprint
-// don't use this, so their content is unaffected.)
-const DAILY_EDITION = "#2";
-
-export function getDailyRng(dateKey: string): () => number {
-  return mulberry32(dateSeed(dateKey + DAILY_EDITION));
+// The edition is a seed salt sourced at runtime from app_config (see
+// getDailyEdition). Passing a new edition re-rolls every RNG daily. Callers
+// thread it through: client boards receive it as a prop (so SSR + client agree),
+// server validators read it from the DB — keeping puzzle and validation in sync.
+export function getDailyRng(dateKey: string, edition: string = ""): () => number {
+  return mulberry32(dateSeed(dateKey + edition));
 }
 
 /** Returns YYYY-MM-DD in Europe/Berlin timezone — the global Countrivo "today". */

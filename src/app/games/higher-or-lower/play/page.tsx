@@ -1,6 +1,7 @@
 import { GameShell } from "@/components/game/game-shell";
 import { HoLBoard } from "@/components/games/higher-or-lower/hol-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
+import { getDailyEdition } from "@/lib/daily-edition";
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;
@@ -9,15 +10,16 @@ interface Props {
 export default async function HoLPlayPage({ searchParams }: Props) {
   const { mode } = await searchParams;
   const gameMode = mode === "daily" ? "daily" : "practice";
+  const edition = await getDailyEdition();
 
   return (
     <GameShell title="Higher or Lower" backHref="/games/higher-or-lower" mode={gameMode}>
       {gameMode === "daily" ? (
-        <DailyLockoutGuard gameSlug="higher-or-lower" gameEmoji="⬆️" gameTitle="Higher or Lower">
-          <HoLBoard mode={gameMode} />
+        <DailyLockoutGuard gameSlug="higher-or-lower" gameEmoji="⬆️" gameTitle="Higher or Lower" edition={edition}>
+          <HoLBoard mode={gameMode} edition={edition} />
         </DailyLockoutGuard>
       ) : (
-        <HoLBoard mode={gameMode} />
+        <HoLBoard mode={gameMode} edition={edition} />
       )}
     </GameShell>
   );

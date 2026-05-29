@@ -25,11 +25,12 @@ import type { Country } from "@/types/country";
 
 interface TraceBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): CountryleState {
+function init(mode: "daily" | "practice", edition: string): CountryleState {
   const dateKey = getTodayDateKey();
-  const rng = mode === "daily" ? getDailyRng(dateKey) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(dateKey, edition) : mulberry32(Date.now());
   return createCountryle(rng, mode === "daily" ? dateKey : undefined);
 }
 
@@ -42,7 +43,7 @@ function reducer(state: CountryleState, action: Action): CountryleState {
     case "GUESS":
       return submitGuess(state, action.country);
     case "RESET":
-      return init("practice");
+      return init("practice", "");
     default:
       return state;
   }
@@ -162,9 +163,9 @@ function EmptyRow({ index }: { index: number }) {
   );
 }
 
-export function TraceBoard({ mode }: TraceBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("trace", getTodayDateKey()),
+export function TraceBoard({ mode, edition }: TraceBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("trace", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [input, setInput] = useState("");
@@ -229,7 +230,7 @@ export function TraceBoard({ mode }: TraceBoardProps) {
         score: String(guessCount),
         scoreDisplay,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

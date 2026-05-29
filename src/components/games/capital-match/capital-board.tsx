@@ -22,10 +22,11 @@ import type { ServerGameRun } from "@/types/server";
 
 interface CapitalBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): CapitalMatchState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): CapitalMatchState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createCapitalMatch(rng);
 }
 
@@ -34,14 +35,14 @@ type Action = { type: "ANSWER"; idx: number } | { type: "RESET" };
 function reducer(state: CapitalMatchState, action: Action): CapitalMatchState {
   switch (action.type) {
     case "ANSWER": return answerCapital(state, action.idx);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
-export function CapitalBoard({ mode }: CapitalBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("capital-match", getTodayDateKey()),
+export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("capital-match", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [showFeedback, setShowFeedback] = useState(false);
@@ -91,7 +92,7 @@ export function CapitalBoard({ mode }: CapitalBoardProps) {
         score: String(state.score),
         scoreDisplay: `${state.score} / ${state.questions.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

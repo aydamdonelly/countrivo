@@ -23,10 +23,11 @@ import type { ServerGameRun } from "@/types/server";
 
 interface SpeedBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): SpeedFlagsState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string = ""): SpeedFlagsState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createSpeedFlags(rng);
 }
 
@@ -48,9 +49,9 @@ function makeReducer(mode: "daily" | "practice") {
   };
 }
 
-export function SpeedBoard({ mode }: SpeedBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(makeReducer(mode), () => init(mode), {
-    storageKey: dailyProgressKey("speed-flags", getTodayDateKey()),
+export function SpeedBoard({ mode, edition }: SpeedBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(makeReducer(mode), () => init(mode, edition), {
+    storageKey: dailyProgressKey("speed-flags", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [feedbackKey, setFeedbackKey] = useState(0);
@@ -97,7 +98,7 @@ export function SpeedBoard({ mode }: SpeedBoardProps) {
         score: String(state.correct),
         scoreDisplay: `${state.correct} flags`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getPublicProfile, getProfileTodayRuns } from "@/app/actions/profile";
 import { ProfileEditForm } from "@/components/profile/profile-edit-form";
+import { AdminRerollButton } from "@/components/admin/admin-reroll-button";
+import { ADMIN_USER_ID } from "@/lib/admin";
 import { GAME_COLORS } from "@/lib/game-colors";
 import type { Metadata } from "next";
 
@@ -49,6 +51,12 @@ export default async function ProfilePage() {
           )}
         </div>
       </div>
+
+      {user.id === ADMIN_USER_ID && (
+        <section className="mb-8">
+          <AdminRerollButton />
+        </section>
+      )}
 
       {/* Edit form */}
       <section className="mb-8">

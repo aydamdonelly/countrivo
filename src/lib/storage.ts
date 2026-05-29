@@ -66,22 +66,26 @@ export interface DailyLockoutEntry {
   timestamp: number;
 }
 
-export function getDailyLockout(gameSlug: string, dateKey: string): DailyLockoutEntry | null {
-  return getStorageItem<DailyLockoutEntry | null>(`lockout_${gameSlug}_${dateKey}`, null);
+// Lockout + in-progress keys are scoped by the daily "edition" (see
+// getDailyEdition). When the admin re-rolls, the edition changes, so old
+// lockout/progress keys are simply no longer read — every player gets a clean,
+// replayable board for the new puzzle without any explicit wipe.
+export function getDailyLockout(gameSlug: string, dateKey: string, edition: string): DailyLockoutEntry | null {
+  return getStorageItem<DailyLockoutEntry | null>(`lockout_${gameSlug}_${dateKey}_e${edition}`, null);
 }
 
-export function setDailyLockout(gameSlug: string, dateKey: string, entry: DailyLockoutEntry): void {
-  setStorageItem(`lockout_${gameSlug}_${dateKey}`, entry);
+export function setDailyLockout(gameSlug: string, dateKey: string, entry: DailyLockoutEntry, edition: string): void {
+  setStorageItem(`lockout_${gameSlug}_${dateKey}_e${edition}`, entry);
   // The game is over: the in-progress blob is now superseded by the lockout.
-  clearDailyProgress(gameSlug, dateKey);
+  clearDailyProgress(gameSlug, dateKey, edition);
 }
 
 // ─── In-Progress Persistence (anti-cheat: resume on reload) ──────────
 
-export function dailyProgressKey(gameSlug: string, dateKey: string): string {
-  return `progress_${gameSlug}_${dateKey}`;
+export function dailyProgressKey(gameSlug: string, dateKey: string, edition: string): string {
+  return `progress_${gameSlug}_${dateKey}_e${edition}`;
 }
 
-export function clearDailyProgress(gameSlug: string, dateKey: string): void {
-  removeStorageItem(dailyProgressKey(gameSlug, dateKey));
+export function clearDailyProgress(gameSlug: string, dateKey: string, edition: string): void {
+  removeStorageItem(dailyProgressKey(gameSlug, dateKey, edition));
 }

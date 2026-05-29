@@ -33,12 +33,13 @@ function isAssignment(x: unknown): x is SubmittedAssignment {
 export function validateCountryDraftResult(
   dateKey: string,
   scoreRaw: number,
-  resultJson: Record<string, unknown>
+  resultJson: Record<string, unknown>,
+  edition: string
 ): { valid: boolean; reason?: string } {
   // 1. Recreate the daily config deterministically.
   let config;
   try {
-    const rng = getDailyRng(dateKey);
+    const rng = getDailyRng(dateKey, edition);
     config = generateDraftConfig(rng, "daily", dateKey);
   } catch {
     return { valid: true };

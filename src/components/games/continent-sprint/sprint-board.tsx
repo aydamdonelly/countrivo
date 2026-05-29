@@ -24,6 +24,7 @@ import type { ServerGameRun } from "@/types/server";
 
 interface SprintBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
 type Action =
@@ -63,9 +64,9 @@ function formatTime(ms: number): string {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-export function SprintBoard({ mode }: SprintBoardProps) {
+export function SprintBoard({ mode, edition }: SprintBoardProps) {
   const { state, dispatch, startedAtRef } = useDailyProgress(reducer, createSprint, {
-    storageKey: dailyProgressKey("continent-sprint", getTodayDateKey()),
+    storageKey: dailyProgressKey("continent-sprint", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [input, setInput] = useState("");
@@ -93,7 +94,7 @@ export function SprintBoard({ mode }: SprintBoardProps) {
         score: String(state.found.length),
         scoreDisplay: `${state.found.length} / ${state.allCountries.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

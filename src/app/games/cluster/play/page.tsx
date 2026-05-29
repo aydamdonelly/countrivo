@@ -7,6 +7,7 @@ import {
   loadClusterPuzzle,
 } from "@/lib/game-logic/cluster/generator";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
+import { getDailyEdition } from "@/lib/daily-edition";
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;
@@ -15,6 +16,7 @@ interface Props {
 export default async function ClusterPlayPage({ searchParams }: Props) {
   const { mode } = await searchParams;
   const gameMode = mode === "daily" ? "daily" : "practice";
+  const edition = await getDailyEdition();
 
   const todayKey = getTodayDateKey();
   const available = await listAvailableDates();
@@ -67,11 +69,11 @@ export default async function ClusterPlayPage({ searchParams }: Props) {
   return (
     <GameShell title="Cluster" backHref="/games/cluster" mode={gameMode}>
       {gameMode === "daily" ? (
-        <DailyLockoutGuard gameSlug="cluster" gameEmoji="🎴" gameTitle="Cluster">
-          <ClusterBoard puzzle={puzzle} dateKey={boardDateKey} mode={gameMode} />
+        <DailyLockoutGuard gameSlug="cluster" gameEmoji="🎴" gameTitle="Cluster" edition={edition}>
+          <ClusterBoard puzzle={puzzle} dateKey={boardDateKey} mode={gameMode} edition={edition} />
         </DailyLockoutGuard>
       ) : (
-        <ClusterBoard puzzle={puzzle} dateKey={boardDateKey} mode={gameMode} />
+        <ClusterBoard puzzle={puzzle} dateKey={boardDateKey} mode={gameMode} edition={edition} />
       )}
     </GameShell>
   );

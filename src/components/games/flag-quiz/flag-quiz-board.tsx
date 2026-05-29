@@ -20,14 +20,15 @@ import type { ServerGameRun } from "@/types/server";
 
 interface FlagQuizBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
 type Action =
   | { type: "ANSWER"; optionIndex: number }
   | { type: "RESET" };
 
-function init(mode: "daily" | "practice"): FlagQuizState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): FlagQuizState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createFlagQuiz(rng);
 }
 
@@ -36,15 +37,15 @@ function reducer(state: FlagQuizState, action: Action): FlagQuizState {
     case "ANSWER":
       return answerQuestion(state, action.optionIndex);
     case "RESET":
-      return init("practice");
+      return init("practice", "");
     default:
       return state;
   }
 }
 
-export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("flag-quiz", getTodayDateKey()),
+export function FlagQuizBoard({ mode, edition }: FlagQuizBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("flag-quiz", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [showFeedback, setShowFeedback] = useState(false);
@@ -87,7 +88,7 @@ export function FlagQuizBoard({ mode }: FlagQuizBoardProps) {
         score: String(state.score),
         scoreDisplay: `${state.score} / ${state.questions.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

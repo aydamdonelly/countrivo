@@ -21,14 +21,15 @@ import type { ServerGameRun } from "@/types/server";
 
 interface StreakBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
 type Action =
   | { type: "ANSWER"; optionIndex: number; rng: () => number }
   | { type: "RESET"; state: StreakState };
 
-function initStreak(mode: "daily" | "practice"): StreakState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function initStreak(mode: "daily" | "practice", edition: string): StreakState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createStreak(rng);
 }
 
@@ -43,13 +44,13 @@ function reducer(state: StreakState, action: Action): StreakState {
   }
 }
 
-export function StreakBoard({ mode }: StreakBoardProps) {
+export function StreakBoard({ mode, edition }: StreakBoardProps) {
   // Lazy state init keeps Date.now() out of render and is exempt from purity rule.
   const [rng, setRng] = useState<() => number>(() =>
-    mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now())
+    mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now())
   );
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => initStreak(mode), {
-    storageKey: dailyProgressKey("country-streak", getTodayDateKey()),
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => initStreak(mode, edition), {
+    storageKey: dailyProgressKey("country-streak", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [showFeedback, setShowFeedback] = useState(false);
@@ -107,7 +108,7 @@ export function StreakBoard({ mode }: StreakBoardProps) {
         score: String(state.streak),
         scoreDisplay: `${state.streak}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

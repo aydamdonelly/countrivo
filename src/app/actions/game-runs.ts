@@ -6,6 +6,7 @@ import { validateTraceResult } from "@/lib/game-logic/trace/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
 import { validateClusterResult } from "@/lib/game-logic/cluster/server-validate";
+import { getDailyEdition } from "@/lib/daily-edition";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
 // ─── Submit Game Run ───────────────────────────────────────────────
@@ -61,15 +62,16 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Practice runs are not validated (no canonical puzzle to compare against).
   if (input.mode === "daily") {
     let serverCheck: { valid: boolean; reason?: string } | null = null;
+    const edition = await getDailyEdition();
     switch (input.gameSlug) {
       case "trace":
-        serverCheck = validateTraceResult(input.dateKey, input.scoreRaw, input.resultJson);
+        serverCheck = validateTraceResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
       case "country-draft":
-        serverCheck = validateCountryDraftResult(input.dateKey, input.scoreRaw, input.resultJson);
+        serverCheck = validateCountryDraftResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
       case "stat-guesser":
-        serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson);
+        serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
       case "cluster":
         serverCheck = await validateClusterResult(input.dateKey, input.scoreRaw, input.resultJson);

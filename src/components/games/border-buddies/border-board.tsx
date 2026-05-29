@@ -24,10 +24,11 @@ import type { Country } from "@/types/country";
 
 interface BorderBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): BorderBuddiesState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): BorderBuddiesState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createBorderBuddies(rng);
 }
 
@@ -40,16 +41,16 @@ function reducer(state: BorderBuddiesState, action: Action): BorderBuddiesState 
   switch (action.type) {
     case "GUESS": return guessCountry(state, action.iso3);
     case "GIVE_UP": return giveUp(state);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
 const countryByIso3 = new Map(countries.map((c) => [c.iso3, c]));
 
-export function BorderBoard({ mode }: BorderBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("border-buddies", getTodayDateKey()),
+export function BorderBoard({ mode, edition }: BorderBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("border-buddies", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [input, setInput] = useState("");
@@ -112,7 +113,7 @@ export function BorderBoard({ mode }: BorderBoardProps) {
         score: String(state.found.length),
         scoreDisplay: `${state.found.length} / ${state.borders.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

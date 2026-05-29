@@ -30,9 +30,9 @@ type Action =
   | { type: "ASSIGN"; categoryIdx: number }
   | { type: "RESET"; mode: "daily" | "practice" };
 
-function init(mode: "daily" | "practice"): DraftGameState {
+function init(mode: "daily" | "practice", edition: string): DraftGameState {
   const dateKey = mode === "daily" ? getTodayDateKey() : `practice-${Date.now()}`;
-  const rng = mode === "daily" ? getDailyRng(dateKey) : mulberry32(Date.now());
+  const rng = mode === "daily" ? getDailyRng(dateKey, edition) : mulberry32(Date.now());
   return createGame(rng, mode, dateKey);
 }
 
@@ -41,7 +41,7 @@ function reducer(state: DraftGameState, action: Action): DraftGameState {
     case "ASSIGN":
       return assignCategory(state, action.categoryIdx);
     case "RESET":
-      return init(action.mode);
+      return init(action.mode, "");
     default:
       return state;
   }
@@ -49,6 +49,7 @@ function reducer(state: DraftGameState, action: Action): DraftGameState {
 
 interface DraftBoardProps {
   mode: "daily" | "practice";
+  edition: string;
   onComplete?: (result: DraftResult) => void;
 }
 
@@ -61,9 +62,9 @@ const GRADE_CONFIG: Record<string, { color: string; bg: string; message: string 
   poor: { color: "text-cream-muted", bg: "bg-surface", message: "Brutal draw. Run it back." },
 };
 
-export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("country-draft", getTodayDateKey()),
+export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("country-draft", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [mounted, setMounted] = useState(false);
@@ -106,7 +107,7 @@ export function DraftBoard({ mode, onComplete }: DraftBoardProps) {
           score: String(r.playerScore),
           scoreDisplay: `${r.playerScore}`,
           timestamp: Date.now(),
-        });
+        }, edition);
       }
 
       // Submit to server

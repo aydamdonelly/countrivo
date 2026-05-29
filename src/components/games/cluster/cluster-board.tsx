@@ -28,6 +28,7 @@ interface ClusterBoardProps {
   puzzle: ClusterPuzzle;
   dateKey: string;
   mode: "daily" | "practice";
+  edition: string;
 }
 
 type Action =
@@ -36,8 +37,8 @@ type Action =
   | { type: "SHUFFLE"; rng: () => number }
   | { type: "SUBMIT" };
 
-function makeInitialState(puzzle: ClusterPuzzle, dateKey: string, mode: "daily" | "practice"): ClusterState {
-  const rng = mode === "daily" ? getDailyRng(dateKey) : mulberry32(Date.now());
+function makeInitialState(puzzle: ClusterPuzzle, dateKey: string, mode: "daily" | "practice", edition: string): ClusterState {
+  const rng = mode === "daily" ? getDailyRng(dateKey, edition) : mulberry32(Date.now());
   return createCluster(rng, puzzle);
 }
 
@@ -56,12 +57,12 @@ function reducer(state: ClusterState, action: Action): ClusterState {
   }
 }
 
-export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
+export function ClusterBoard({ puzzle, dateKey, mode, edition }: ClusterBoardProps) {
   const { state, dispatch, startedAtRef } = useDailyProgress(
     reducer,
-    () => makeInitialState(puzzle, dateKey, mode),
+    () => makeInitialState(puzzle, dateKey, mode, edition),
     {
-      storageKey: dailyProgressKey("cluster", dateKey),
+      storageKey: dailyProgressKey("cluster", dateKey, edition),
       enabled: mode === "daily",
     },
   );
@@ -103,7 +104,7 @@ export function ClusterBoard({ puzzle, dateKey, mode }: ClusterBoardProps) {
         score: String(scoreRaw),
         scoreDisplay,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

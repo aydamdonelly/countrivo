@@ -24,10 +24,11 @@ const stats: Record<string, Record<string, number | null>> = statsData;
 
 interface SortBoardProps {
   mode: "daily" | "practice";
+  edition: string;
 }
 
-function init(mode: "daily" | "practice"): SortGameState {
-  const rng = mode === "daily" ? getDailyRng(getTodayDateKey()) : mulberry32(Date.now());
+function init(mode: "daily" | "practice", edition: string): SortGameState {
+  const rng = mode === "daily" ? getDailyRng(getTodayDateKey(), edition) : mulberry32(Date.now());
   return createSortGame(rng);
 }
 
@@ -40,14 +41,14 @@ function reducer(state: SortGameState, action: Action): SortGameState {
   switch (action.type) {
     case "MOVE": return moveItem(state, action.from, action.to);
     case "SUBMIT": return submitSort(state);
-    case "RESET": return init("practice");
+    case "RESET": return init("practice", "");
     default: return state;
   }
 }
 
-export function SortBoard({ mode }: SortBoardProps) {
-  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode), {
-    storageKey: dailyProgressKey("population-sort", getTodayDateKey()),
+export function SortBoard({ mode, edition }: SortBoardProps) {
+  const { state, dispatch, startedAtRef } = useDailyProgress(reducer, () => init(mode, edition), {
+    storageKey: dailyProgressKey("population-sort", getTodayDateKey(), edition),
     enabled: mode === "daily",
   });
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -88,7 +89,7 @@ export function SortBoard({ mode }: SortBoardProps) {
         score: String(state.score),
         scoreDisplay: `${state.score} / ${state.countries.length}`,
         timestamp: Date.now(),
-      });
+      }, edition);
     }
 
     const payload = {

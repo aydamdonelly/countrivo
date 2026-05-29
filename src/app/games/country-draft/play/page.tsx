@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DraftBoard } from "@/components/games/country-draft/draft-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
+import { getDailyEdition } from "@/lib/daily-edition";
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;
@@ -9,6 +10,7 @@ interface Props {
 export default async function DraftPlayPage({ searchParams }: Props) {
   const { mode } = await searchParams;
   const gameMode = mode === "daily" ? "daily" : "practice";
+  const edition = await getDailyEdition();
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -29,11 +31,11 @@ export default async function DraftPlayPage({ searchParams }: Props) {
         </div>
       </div>
       {gameMode === "daily" ? (
-          <DailyLockoutGuard gameSlug="country-draft" gameEmoji="🎯" gameTitle="Country Draft">
-            <DraftBoard mode={gameMode} />
+          <DailyLockoutGuard gameSlug="country-draft" gameEmoji="🎯" gameTitle="Country Draft" edition={edition}>
+            <DraftBoard mode={gameMode} edition={edition} />
           </DailyLockoutGuard>
         ) : (
-          <DraftBoard mode={gameMode} />
+          <DraftBoard mode={gameMode} edition={edition} />
         )}
     </div>
   );

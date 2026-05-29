@@ -17,12 +17,13 @@ const SCORE_TOLERANCE = 1; // allow off-by-one for float rounding
 export function validateStatGuesserResult(
   dateKey: string,
   scoreRaw: number,
-  resultJson: Record<string, unknown>
+  resultJson: Record<string, unknown>,
+  edition: string
 ): { valid: boolean; reason?: string } {
   // 1. Recreate the daily puzzle deterministically.
   let state;
   try {
-    const rng = getDailyRng(dateKey);
+    const rng = getDailyRng(dateKey, edition);
     state = createStatGuesser(rng, DAILY_ROUNDS);
   } catch {
     return { valid: true };
