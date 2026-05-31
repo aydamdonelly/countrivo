@@ -1,15 +1,14 @@
 import { GameLanding } from "@/components/game/game-landing";
-import type { Metadata } from "next";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Speed Flags | 20-Second Flag Quiz Challenge",
-  description: "20 seconds. How many flags can you correctly identify? Fast-paced flag quiz where speed and accuracy both count. Free online geography game.",
-  alternates: { canonical: "https://countrivo.com/games/speed-flags" },
-};
+export const metadata = buildGameMetadata("speed-flags");
 
 export default function SpeedFlagsPage() {
   return (
-    <GameLanding
+    <>
+      <GameJsonLd {...buildGameJsonLd("speed-flags")} />
+      <GameLanding
       emoji="⚡"
       title="Speed Flags"
       description="20 seconds on the clock. A flag and two names. Pick the right one. How many can you get?"
@@ -21,6 +20,7 @@ export default function SpeedFlagsPage() {
         "20-second countdown timer",
         "Score: total correct answers",
       ]}
-    />
+      />
+    </>
   );
 }

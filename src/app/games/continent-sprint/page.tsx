@@ -1,15 +1,14 @@
 import { GameLanding } from "@/components/game/game-landing";
-import type { Metadata } from "next";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Continent Sprint | Name Every Country on a Continent",
-  description: "Pick a continent and name every country in it against the clock. Europe, Asia, Africa, Americas. How many can you get?",
-  alternates: { canonical: "https://countrivo.com/games/continent-sprint" },
-};
+export const metadata = buildGameMetadata("continent-sprint");
 
 export default function ContinentSprintPage() {
   return (
-    <GameLanding
+    <>
+      <GameJsonLd {...buildGameJsonLd("continent-sprint")} />
+      <GameLanding
       emoji="🏃"
       title="Continent Sprint"
       description="Pick a continent and name every country in it. How fast can you go?"
@@ -21,6 +20,7 @@ export default function ContinentSprintPage() {
         "Timer counts up. No time limit",
         "Finish when you've found them all or give up",
       ]}
-    />
+      />
+    </>
   );
 }

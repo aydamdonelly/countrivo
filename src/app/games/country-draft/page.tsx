@@ -1,34 +1,16 @@
 import Link from "next/link";
-import type { Metadata } from "next";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
 import { getGameColor } from "@/lib/game-colors";
 import { PlayedTodayBanner } from "@/components/game/played-today-banner";
 import { DateStamp } from "@/components/game/game-landing";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Country Draft | Assign Countries to Their Best Stats",
-  description:
-    "8 countries. 8 stat categories. Assign each country to where it ranks highest globally. Beat the optimal score. Free flagship geography game.",
-  alternates: { canonical: "https://countrivo.com/games/country-draft" },
-};
+export const metadata = buildGameMetadata("country-draft");
 
 export default function CountryDraftPage() {
   return (
     <>
-      <GameJsonLd
-        name="Country Draft | Countrivo"
-        title="Country Draft"
-        description="8 countries, 8 stat categories. Assign each country to the category where it ranks highest globally. Beat the mathematically optimal solution."
-        url="/games/country-draft"
-        genre="Geography Strategy"
-        playMode="SinglePlayer"
-        rules={[
-          "8 stat categories are shown upfront",
-          "Countries are revealed one by one",
-          "Assign each to its strongest category",
-          "Your score is compared to the optimal",
-        ]}
-      />
+      <GameJsonLd {...buildGameJsonLd("country-draft")} />
 
       {/* Hero */}
       <section style={{ backgroundColor: "#fee2e2" }}>

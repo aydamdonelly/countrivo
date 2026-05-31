@@ -30,6 +30,7 @@ export const metadata: Metadata = {
   title: "Countrivo | Free Geography Games & Daily Challenges",
   description:
     "Daily geography puzzles plus a deep library of practice drills. 243 countries. No signup needed.",
+  alternates: { canonical: "https://countrivo.com" },
 };
 
 export default async function HomePage() {

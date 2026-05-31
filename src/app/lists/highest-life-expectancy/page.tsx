@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getGameColor } from "@/lib/game-colors";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
+import { ListItemJsonLd } from "@/components/seo/list-jsonld";
 
 export const metadata: Metadata = {
   title: "Highest Life Expectancy by Country (2024)",
@@ -53,6 +54,14 @@ export default function HighestLifeExpectancyPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <ListItemJsonLd
+        name="Countries with Highest Life Expectancy"
+        description="The 50 countries with the highest life expectancy at birth, in years."
+        url="/lists/highest-life-expectancy"
+        items={rows
+          .filter((r) => r.country)
+          .map((r) => ({ position: r.rank, name: r.country!.displayName, url: `/countries/${r.country!.slug}` }))}
       />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link

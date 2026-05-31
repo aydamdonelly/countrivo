@@ -1,15 +1,14 @@
 import { GameLanding } from "@/components/game/game-landing";
-import type { Metadata } from "next";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Country Streak | How Many Flags Can You Get Right?",
-  description: "How long can you streak? Identify countries from their flags. One wrong answer ends the run. Free flag quiz with daily challenges.",
-  alternates: { canonical: "https://countrivo.com/games/country-streak" },
-};
+export const metadata = buildGameMetadata("country-streak");
 
 export default function CountryStreakPage() {
   return (
-    <GameLanding
+    <>
+      <GameJsonLd {...buildGameJsonLd("country-streak")} />
+      <GameLanding
       emoji="🔥"
       title="Country Streak"
       description="Identify countries from their flags. One wrong answer ends the streak. How far can you go?"
@@ -20,6 +19,7 @@ export default function CountryStreakPage() {
         "Correct answers extend your streak",
         "One wrong answer = game over",
       ]}
-    />
+      />
+    </>
   );
 }

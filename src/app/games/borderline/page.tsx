@@ -1,23 +1,13 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import type { Metadata } from "next";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Borderline | Race Through Borders to Your Target",
-  description: "Start at one country, navigate through borders to reach your target. Geography puzzle where knowing border connections wins.",
-  alternates: { canonical: "https://countrivo.com/games/borderline" },
-};
+export const metadata = buildGameMetadata("borderline");
 
 export default function BorderlinePage() {
   return (
     <div className="max-w-5xl mx-auto">
-      <GameJsonLd
-        name="Borderline - Border Race Geography Game | Countrivo"
-        description="Race through country borders to reach your target. Navigate from country to country by naming neighbors. Beat the optimal path."
-        url="/games/borderline"
-        genre="Geography strategy"
-        playMode="SinglePlayer"
-      />
+      <GameJsonLd {...buildGameJsonLd("borderline")} />
 
       {/* Hero */}
       <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">

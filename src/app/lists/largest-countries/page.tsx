@@ -4,6 +4,7 @@ import { getGameColor } from "@/lib/game-colors";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
+import { ListItemJsonLd } from "@/components/seo/list-jsonld";
 
 export const metadata: Metadata = {
   title: "Largest Countries in the World by Area (2024)",
@@ -54,6 +55,14 @@ export default function LargestCountriesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <ListItemJsonLd
+        name="Largest Countries in the World by Area"
+        description="The 50 largest countries in the world ranked by total area in square kilometers."
+        url="/lists/largest-countries"
+        items={rows
+          .filter((r) => r.country)
+          .map((r) => ({ position: r.rank, name: r.country!.displayName, url: `/countries/${r.country!.slug}` }))}
       />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link

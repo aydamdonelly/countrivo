@@ -35,7 +35,10 @@ export const metadata: Metadata = {
     "flag quiz online", "world capitals quiz", "geography quiz game",
     "guess the flag", "country flag quiz game",
   ],
-  alternates: { canonical: "https://countrivo.com" },
+  alternates: {
+    canonical: "https://countrivo.com",
+    languages: { "en": "https://countrivo.com", "x-default": "https://countrivo.com" },
+  },
   openGraph: {
     type: "website",
     siteName: "Countrivo",

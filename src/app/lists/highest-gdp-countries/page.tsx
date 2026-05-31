@@ -4,6 +4,7 @@ import { getGameColor } from "@/lib/game-colors";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatNumber } from "@/lib/utils";
+import { ListItemJsonLd } from "@/components/seo/list-jsonld";
 
 export const metadata: Metadata = {
   title: "Largest Economies in the World by GDP (2024)",
@@ -54,6 +55,14 @@ export default function HighestGdpCountriesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <ListItemJsonLd
+        name="Largest Economies in the World by GDP"
+        description="The 50 largest economies ranked by total nominal GDP in current US dollars."
+        url="/lists/highest-gdp-countries"
+        items={rows
+          .filter((r) => r.country)
+          .map((r) => ({ position: r.rank, name: r.country!.displayName, url: `/countries/${r.country!.slug}` }))}
       />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link

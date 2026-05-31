@@ -4,6 +4,7 @@ import { getGameColor } from "@/lib/game-colors";
 import { getCountriesByContinent } from "@/lib/data/countries";
 import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
+import { ListItemJsonLd } from "@/components/seo/list-jsonld";
 
 export const metadata: Metadata = {
   title: "Countries in Asia | Complete List with Stats",
@@ -60,6 +61,12 @@ export default function CountriesInAsiaPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
+      <ListItemJsonLd
+        name="All Countries in Asia"
+        description="Every country in Asia, listed by population, with capital and area."
+        url="/lists/countries-in-asia"
+        items={rows.map((r, i) => ({ position: i + 1, name: r.country.displayName, url: `/countries/${r.country.slug}` }))}
       />
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link

@@ -1,23 +1,13 @@
 import Link from "next/link";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import type { Metadata } from "next";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Blitz | Type the Country Name Before Time Runs Out",
-  description: "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed. Beat your own time.",
-  alternates: { canonical: "https://countrivo.com/games/blitz" },
-};
+export const metadata = buildGameMetadata("blitz");
 
 export default function BlitzPage() {
   return (
     <div className="max-w-5xl mx-auto">
-      <GameJsonLd
-        name="Blitz - Flag Speed Challenge | Countrivo"
-        description="See a flag, type the country name. Race against the clock. 10 rounds, fastest correct answers win."
-        url="/games/blitz"
-        genre="Geography speed"
-        playMode="SinglePlayer"
-      />
+      <GameJsonLd {...buildGameJsonLd("blitz")} />
 
       {/* Hero */}
       <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">

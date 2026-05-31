@@ -1,15 +1,14 @@
 import { GameLanding } from "@/components/game/game-landing";
-import type { Metadata } from "next";
+import { GameJsonLd } from "@/components/seo/game-jsonld";
+import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
 
-export const metadata: Metadata = {
-  title: "Capital Match | Test Your World Capitals Knowledge",
-  description: "Test your world capitals knowledge. Given a country, pick its capital from 4 options. Free daily challenge. 243 countries, no account needed.",
-  alternates: { canonical: "https://countrivo.com/games/capital-match" },
-};
+export const metadata = buildGameMetadata("capital-match");
 
 export default function CapitalMatchPage() {
   return (
-    <GameLanding
+    <>
+      <GameJsonLd {...buildGameJsonLd("capital-match")} />
+      <GameLanding
       emoji="🏛️"
       title="Capital Match"
       description="Given a country, pick the correct capital from four options. How well do you know world capitals?"
@@ -20,6 +19,7 @@ export default function CapitalMatchPage() {
         "10 questions per round",
         "Score: correct answers out of 10",
       ]}
-    />
+      />
+    </>
   );
 }
