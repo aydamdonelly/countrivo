@@ -5,7 +5,7 @@ import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
 import { getDailyEdition } from "@/lib/daily-edition";
-import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
+import type { ServerGameRun, LeaderboardEntry, RunDetail, UserGameStats, DailySummary } from "@/types/server";
 
 // ─── Submit Game Run ───────────────────────────────────────────────
 
@@ -252,6 +252,7 @@ export async function getDailyLeaderboard(
   if (!data) return [];
 
   return data.map((row: Record<string, unknown>) => ({
+    runId: Number(row.run_id),
     userId: row.user_id as string,
     username: row.username as string,
     displayName: row.display_name as string,
@@ -263,6 +264,35 @@ export async function getDailyLeaderboard(
     rankDaily: row.rank_daily as number,
     percentile: row.percentile as number,
   }));
+}
+
+// ─── Get Run Detail ────────────────────────────────────────────────
+
+export async function getRunDetail(runId: number): Promise<RunDetail | null> {
+  const supabase = await createClient();
+  const { data } = await supabase.rpc("get_run_detail", { p_run_id: runId });
+
+  const row = data?.[0] as Record<string, unknown> | undefined;
+  if (!row) return null;
+
+  return {
+    runId: Number(row.run_id),
+    userId: row.user_id as string,
+    username: row.username as string,
+    displayName: row.display_name as string,
+    avatarUrl: (row.avatar_url as string | null) ?? null,
+    gameSlug: row.game_slug as string,
+    dailyDate: row.daily_date as string,
+    scoreRaw: Number(row.score_raw),
+    scoreMax: Number(row.score_max),
+    scoreDisplay: (row.score_display as string) ?? "",
+    scoreSortValue: Number(row.score_sort_value),
+    rankDaily: row.rank_daily != null ? Number(row.rank_daily) : null,
+    percentile: row.percentile != null ? Number(row.percentile) : null,
+    resultJson: (row.result_json as Record<string, unknown> | null) ?? null,
+    seed: row.seed != null ? Number(row.seed) : null,
+    completedAt: row.completed_at as string,
+  };
 }
 
 // ─── Get Daily Summary ─────────────────────────────────────────────

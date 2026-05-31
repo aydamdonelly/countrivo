@@ -187,12 +187,13 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
           {displayLeaderboard.map((entry) => {
             const isMe = entry.userId === currentUserId;
             return (
-              <div
-                key={entry.userId}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
+              <Link
+                key={entry.runId}
+                href={`/games/${slug}/run/${entry.runId}`}
+                className={`group flex items-center gap-3 px-4 py-3 rounded-xl transition-colors ${
                   isMe
-                    ? "bg-gold-dim border border-gold/20"
-                    : "bg-surface-elevated border border-transparent"
+                    ? "bg-gold-dim border border-gold/20 hover:bg-gold-dim/80"
+                    : "bg-surface-elevated border border-transparent hover:border-border"
                 }`}
               >
                 {/* Rank */}
@@ -212,18 +213,23 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
                 </div>
 
                 {/* Name */}
-                <Link href={`/profile/${entry.username}`} className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0">
                   <p className={`text-sm font-medium truncate ${isMe ? "text-gold font-bold" : ""}`}>
                     {entry.displayName ?? entry.username}
                     {isMe && <span className="text-xxs text-gold ml-1.5">(you)</span>}
                   </p>
-                </Link>
+                </div>
+
+                {/* View board hint */}
+                <span className="text-xxs font-medium text-cream-muted opacity-0 group-hover:opacity-70 transition-opacity shrink-0 hidden sm:inline">
+                  View board ›
+                </span>
 
                 {/* Score */}
                 <span className="font-mono font-bold text-sm shrink-0">
                   {entry.scoreDisplay ?? entry.scoreRaw}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

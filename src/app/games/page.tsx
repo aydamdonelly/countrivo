@@ -21,10 +21,12 @@ function GameCard({ game }: { game: GameMeta }) {
     bg: "#f3f4f6",
     text: "#374151",
   };
+  const hasDaily = game.availableModes.includes("daily");
   return (
+    <div className="relative">
     <Link
       href={game.route}
-      className="group relative game-card p-5 overflow-hidden"
+      className="group relative block game-card p-5 overflow-hidden"
       style={{ backgroundColor: colors.bg }}
     >
       <span className="absolute -right-3 -bottom-3 text-[4rem] opacity-[0.10] select-none pointer-events-none leading-none">
@@ -63,6 +65,16 @@ function GameCard({ game }: { game: GameMeta }) {
         </span>
       </div>
     </Link>
+      {hasDaily && (
+        <Link
+          href={`/games/${game.slug}/leaderboard`}
+          className="absolute right-3 bottom-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/10 text-xxs font-bold hover:bg-black/20 transition-colors"
+          style={{ color: colors.text }}
+        >
+          🏆 Leaderboard
+        </Link>
+      )}
+    </div>
   );
 }
 

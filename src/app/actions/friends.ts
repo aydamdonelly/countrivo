@@ -232,7 +232,7 @@ export async function getFriendsLeaderboard(gameSlug: string, dateKey: string): 
 
   const { data: runs } = await supabase
     .from("game_runs")
-    .select("user_id, score_raw, score_max, score_display, score_sort_value, rank_daily, percentile")
+    .select("id, user_id, score_raw, score_max, score_display, score_sort_value, rank_daily, percentile")
     .in("user_id", allIds)
     .eq("game_slug", gameSlug)
     .eq("daily_date", dateKey)
@@ -253,6 +253,7 @@ export async function getFriendsLeaderboard(gameSlug: string, dateKey: string): 
     .map((r, i) => {
       const p = profileById.get(r.user_id)!;
       return {
+        runId: r.id,
         userId: r.user_id,
         username: p.username,
         displayName: p.display_name ?? p.username,

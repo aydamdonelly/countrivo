@@ -16,6 +16,7 @@ export interface ServerGameRun {
 }
 
 export interface LeaderboardEntry {
+  runId: number;
   userId: string;
   username: string;
   displayName: string;
@@ -26,6 +27,25 @@ export interface LeaderboardEntry {
   scoreSortValue: number;
   rankDaily: number;
   percentile: number;
+}
+
+export interface RunDetail {
+  runId: number;
+  userId: string;
+  username: string;
+  displayName: string;
+  avatarUrl: string | null;
+  gameSlug: string;
+  dailyDate: string;
+  scoreRaw: number;
+  scoreMax: number;
+  scoreDisplay: string;
+  scoreSortValue: number;
+  rankDaily: number | null;
+  percentile: number | null;
+  resultJson: Record<string, unknown> | null;
+  seed: number | null;
+  completedAt: string;
 }
 
 export interface UserGameStats {
