@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   IconTarget,
@@ -17,9 +18,23 @@ import {
 } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
-import { ChallengeFriendPicker } from "@/components/friends/challenge-friend-picker";
 import { Button } from "@/components/ui/button";
-import { ShareCard } from "@/components/share/share-card";
+
+// Heavy, interaction-only subtrees: code-split out of the initial game bundle.
+// Both are client-only and gated behind button clicks, so ssr:false is safe.
+const ShareLoading = () => (
+  <div className="py-8 text-center text-sm text-cream-muted">Loading…</div>
+);
+
+const ChallengeFriendPicker = dynamic(
+  () => import("@/components/friends/challenge-friend-picker").then((m) => m.ChallengeFriendPicker),
+  { ssr: false },
+);
+
+const ShareCard = dynamic(
+  () => import("@/components/share/share-card").then((m) => m.ShareCard),
+  { ssr: false, loading: ShareLoading },
+);
 
 interface ServerData {
   rankToday: number | null;

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  compress: true,
+  poweredByHeader: false,
   async headers() {
     return [
       {
@@ -12,6 +14,17 @@ const nextConfig: NextConfig = {
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
+          },
+        ],
+      },
+      {
+        // Long-cache the non-hashed static assets in /public. Hashed
+        // /_next/static files already get immutable caching from Next.js.
+        source: "/favicon.svg",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=2592000, stale-while-revalidate=86400",
           },
         ],
       },

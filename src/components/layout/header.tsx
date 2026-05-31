@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
 import { useAuth } from "@/components/auth/auth-provider";
 import { getStorageItem } from "@/lib/storage";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames } from "@/lib/data/registry";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getPendingRequestCount } from "@/app/actions/profile";
 import { getPendingChallengeCount } from "@/app/actions/challenges";
@@ -90,8 +90,10 @@ export function Header() {
                 }`}
               >
                 {item.label}
-                {item.href === "/friends" && pendingFriendsBadge > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-xxs font-bold rounded-full flex items-center justify-center">
+                {item.href === "/friends" && mounted && pendingFriendsBadge > 0 && (
+                  <span
+                    className="absolute -top-1 -right-1 w-4 h-4 bg-gold text-white text-xxs font-bold rounded-full flex items-center justify-center opacity-0 animate-[fade-in_0.25s_var(--ease-out)_forwards]"
+                  >
                     {pendingFriendsBadge > 9 ? "9+" : pendingFriendsBadge}
                   </span>
                 )}
@@ -106,9 +108,11 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3 shrink-0 relative z-10">
           <StreakBadge />
 
-          {/* Daily progress pill */}
+          {/* Daily progress pill — slot reserved post-mount to avoid layout shift */}
           {mounted && dailyCount > 0 && (
-            <span className="hidden sm:inline-flex items-center gap-1 text-xxs font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5">
+            <span
+              className="hidden sm:inline-flex items-center justify-center gap-1 text-xxs font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5 min-w-[3rem] tabular-nums opacity-0 animate-[fade-in_0.25s_var(--ease-out)_forwards]"
+            >
               {dailyCount}/{totalDaily}
             </span>
           )}
@@ -189,7 +193,7 @@ export function Header() {
               </Link>
             </>
           ) : (
-            <div className="w-8 h-8 rounded-full bg-black/5 animate-pulse" />
+            <div className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-black/5 animate-pulse" />
           )}
         </div>
       </nav>

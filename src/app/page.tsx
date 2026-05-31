@@ -89,7 +89,7 @@ export default async function HomePage() {
                 <Link
                   key={c.id}
                   href={`/games/${c.gameSlug}/play?mode=daily`}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:scale-[1.01] transition-all"
+                  className="flex items-center gap-3 p-3 rounded-xl transition-transform duration-200 ease-[var(--ease-game)] hover:-translate-y-0.5 active:scale-[0.98]"
                   style={{ backgroundColor: colors.bg }}
                 >
                   <div className="flex-1 min-w-0">
@@ -121,9 +121,10 @@ export default async function HomePage() {
         </div>
         <Link
           href={dailyStatus.played ? flagship.route : `${flagship.route}/play?mode=daily`}
-          className="group relative block rounded-2xl p-5 sm:p-6 transition-all hover:scale-[1.01] hover:shadow-lg overflow-hidden"
+          className="group relative block rounded-2xl p-5 sm:p-6 overflow-hidden transition-[transform,box-shadow] duration-200 ease-[var(--ease-game)] hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.99]"
           style={{
             backgroundColor: GAME_COLORS[flagship.slug]?.bg ?? "#f3f4f6",
+            contain: "paint",
           }}
         >
           <span className="absolute -right-4 -bottom-4 text-[6rem] sm:text-[8rem] opacity-[0.10] select-none pointer-events-none leading-none">
@@ -217,7 +218,7 @@ export default async function HomePage() {
             All {allGames.length} games →
           </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 stagger-children">
           {mainNonFlagship.map((game) => {
             const colors = GAME_COLORS[game.slug] ?? {
               bg: "#f3f4f6",
@@ -294,7 +295,7 @@ export default async function HomePage() {
             <Link
               key={game.slug}
               href={game.route}
-              className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-elevated border border-border hover:border-cream-muted transition-colors"
+              className="flex items-center gap-2 p-2.5 rounded-lg bg-surface-elevated border border-border transition-[border-color,transform] duration-150 ease-[var(--ease-out)] hover:border-cream-muted active:scale-[0.98]"
             >
               <span className="text-lg shrink-0">{game.emoji}</span>
               <div className="min-w-0 flex-1">

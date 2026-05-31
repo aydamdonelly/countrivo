@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames } from "@/lib/data/registry";
 import { getTodayDateKey, msUntilReset, formatTimeUntilReset } from "@/lib/daily-seed";
 
 function getTimeUntilReset(): { hours: number; minutes: number; label: string } {

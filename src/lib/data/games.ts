@@ -1,24 +1,11 @@
-import { gameRegistry } from "./loader";
-import type { GameMeta } from "@/types/game";
-
-const bySlug = new Map(gameRegistry.map((g) => [g.slug, g]));
-
-export function getAllGames(): GameMeta[] {
-  return gameRegistry;
-}
-
-export function getGameBySlug(slug: string): GameMeta | undefined {
-  return bySlug.get(slug);
-}
-
-export function getFlagshipGame(): GameMeta {
-  return gameRegistry.find((g) => g.isFlagship)!;
-}
-
-export function getMainGames(): GameMeta[] {
-  return gameRegistry.filter((g) => g.tier === "main");
-}
-
-export function getDrillGames(): GameMeta[] {
-  return gameRegistry.filter((g) => g.tier === "drill");
-}
+// Re-export the registry accessors from the lightweight module so server
+// importers keep working unchanged while client components can import from
+// "@/lib/data/registry" directly to avoid pulling in countries/categories JSON.
+export {
+  gameRegistry,
+  getAllGames,
+  getGameBySlug,
+  getFlagshipGame,
+  getMainGames,
+  getDrillGames,
+} from "./registry";

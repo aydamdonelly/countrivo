@@ -68,7 +68,7 @@ function GameCard({ game }: { game: GameMeta }) {
       {hasDaily && (
         <Link
           href={`/games/${game.slug}/leaderboard`}
-          className="absolute right-3 bottom-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/10 text-xxs font-bold hover:bg-black/20 transition-colors"
+          className="absolute right-3 bottom-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/10 text-xxs font-bold transition-[background-color,transform] duration-150 ease-[var(--ease-out)] hover:bg-black/20 active:scale-95"
           style={{ color: colors.text }}
         >
           🏆 Leaderboard
@@ -175,8 +175,8 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
           href="/games"
           className={
             !showDrills
-              ? "px-3 py-2 text-sm font-bold border-b-2 border-gold -mb-px"
-              : "px-3 py-2 text-sm font-medium text-cream-muted hover:text-cream"
+              ? "px-3 py-2 text-sm font-bold border-b-2 border-gold -mb-px transition-colors"
+              : "px-3 py-2 text-sm font-medium text-cream-muted hover:text-cream transition-colors"
           }
         >
           Daily games <span className="text-xs opacity-60">({mainGames.length})</span>
@@ -185,8 +185,8 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
           href="/games?show=drills"
           className={
             showDrills
-              ? "px-3 py-2 text-sm font-bold border-b-2 border-gold -mb-px"
-              : "px-3 py-2 text-sm font-medium text-cream-muted hover:text-cream"
+              ? "px-3 py-2 text-sm font-bold border-b-2 border-gold -mb-px transition-colors"
+              : "px-3 py-2 text-sm font-medium text-cream-muted hover:text-cream transition-colors"
           }
         >
           Drills <span className="text-xs opacity-60">({drillGames.length})</span>
@@ -198,9 +198,10 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
           {/* Featured flagship */}
           <Link
             href={flagship.route}
-            className="group relative block rounded-2xl p-6 sm:p-8 mb-6 transition-all hover:scale-[1.01] hover:shadow-lg overflow-hidden"
+            className="group relative block rounded-2xl p-6 sm:p-8 mb-6 overflow-hidden transition-[transform,box-shadow] duration-200 ease-[var(--ease-game)] hover:-translate-y-0.5 hover:shadow-lg active:scale-[0.99]"
             style={{
               backgroundColor: GAME_COLORS[flagship.slug]?.bg ?? "#f3f4f6",
+              contain: "paint",
             }}
           >
             <span className="absolute -right-4 -bottom-4 text-[7rem] opacity-[0.10] select-none pointer-events-none leading-none">
@@ -240,7 +241,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
           </Link>
 
           {/* Main games grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 stagger-children">
             {mainRest.map((game) => (
               <GameCard key={game.slug} game={game} />
             ))}
@@ -271,7 +272,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
               Quick practice rounds. No daily ritual, no leaderboard pressure.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 stagger-children">
             {drillGames.map((game) => (
               <GameCard key={game.slug} game={game} />
             ))}

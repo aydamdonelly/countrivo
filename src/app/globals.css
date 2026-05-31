@@ -185,6 +185,16 @@ body {
 
 .streak-incremented {
   animation: streak-breath 350ms var(--ease-game);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Progress-bar fill — opt-in perf helper for the gold width-animated bars
+   (game top bar, daily hero). Width transitions are layout-thrashy; isolate
+   the animated fill so it doesn't repaint sibling content. */
+.progress-fill {
+  will-change: width;
+  contain: layout paint;
 }
 
 /* Utility animations */
@@ -206,14 +216,22 @@ body {
 
 .endgame-glow {
   animation: endgame-glow 2s ease-in-out infinite;
+  /* Perf: continuous box-shadow pulse — keep it on its own paint layer. */
+  will-change: box-shadow;
+  contain: paint;
 }
 
 .score-pop {
   animation: score-pop 0.3s var(--ease-game);
+  /* Perf: promote to a compositor layer for the brief scale punch. */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .verdict-reveal {
   animation: verdict-reveal 0.6s var(--ease-game) both;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 /* Stagger children */
@@ -321,10 +339,35 @@ body {
 .rank-2 { color: #6b7280; }
 .rank-3 { color: #92400e; }
 
-/* Focus ring */
+/* Focus ring — keyboard-only, gold, on-brand. Covers interactive elements
+   that otherwise communicate state through hover alone. */
 :focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 2px;
+}
+
+/* Make the ring legible on any surface for the core interactive set,
+   and round it to follow our card/button geometry. Mouse clicks stay
+   ring-free (:focus-visible), keyboard focus is always visible. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:not([tabindex="-1"]):focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 4px var(--color-gold-on-bg-soft);
+}
+
+/* Form fields use a slightly tighter ring (they already carry a border). */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-offset: 1px;
 }
 
 /* Scrollbar */
@@ -343,6 +386,9 @@ body {
   background: linear-gradient(90deg, #f0f0ee 25%, #e8e8e4 50%, #f0f0ee 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
+  /* Perf: isolate the repaint of the moving gradient from the rest of the tree. */
+  will-change: background-position;
+  contain: paint;
 }
 
 /* Grade badges */
@@ -360,6 +406,8 @@ body {
   font-weight: 700;
   color: var(--color-gold);
   animation: streak-glow 2s ease-in-out infinite;
+  /* Perf: continuous brightness filter — hint the compositor. */
+  will-change: filter;
 }
 
 /* Nav active state */
@@ -443,3 +491,45 @@ body {
 }
 .toast-in  { animation: toast-in 200ms var(--ease-out) both; }
 .toast-out { animation: toast-out 160ms var(--ease-out) both; }
+
+/* ─── Reduced motion ───
+   Honor the OS-level "reduce motion" preference. We neutralize movement and
+   collapse durations to a hair above zero (keeps `animationend`/`transitionend`
+   listeners firing so state-driven UI still advances) without touching layout,
+   opacity end-states, or color. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Infinite ambient loops carry no information — stop them outright so
+     reduced-motion users land on a calm, static end-frame. */
+  .skeleton,
+  .endgame-glow,
+  .streak-badge {
+    animation: none !important;
+  }
+
+  /* Drop the compositor-promotion hints; with motion off they only cost memory. */
+  .skeleton,
+  .endgame-glow,
+  .streak-badge,
+  .score-pop,
+  .verdict-reveal,
+  .streak-incremented,
+  .progress-fill {
+    will-change: auto !important;
+  }
+
+  /* SVG SMIL (hero-globe opacity pulses) ignores CSS animation rules; freeze it. */
+  svg animate,
+  svg animateTransform,
+  svg animateMotion {
+    animation-play-state: paused !important;
+  }
+}

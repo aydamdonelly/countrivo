@@ -177,7 +177,7 @@ export function GameLanding({
         <h3 className="font-bold text-sm text-cream-muted label-caps mb-3 text-center">
           Try next
         </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto stagger-children">
           {related.slice(0, 6).map((g) => {
             const gSlug = g.href.replace("/games/", "");
             const gColors = getGameColor(gSlug);

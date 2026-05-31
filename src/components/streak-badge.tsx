@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { getStorageItem } from "@/lib/storage";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames } from "@/lib/data/registry";
 
 function computeStreak(): number {
   if (typeof window === "undefined") return 0;

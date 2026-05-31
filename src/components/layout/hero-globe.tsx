@@ -1,6 +1,9 @@
 export function HeroGlobe() {
   return (
-    <div className="relative w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px]">
+    <div
+      className="relative w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] xl:w-[700px] xl:h-[700px] motion-reduce:[&_animate]:hidden"
+      style={{ contain: "layout paint style" }}
+    >
       {/* Outer glow — gentle, on cream background */}
       <div className="absolute inset-0 rounded-full bg-gold-dim blur-3xl" />
 

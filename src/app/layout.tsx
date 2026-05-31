@@ -8,12 +8,16 @@ import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { ToastProvider } from "@/components/ui/toast";
 import Link from "next/link";
+import Script from "next/script";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
 const sans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
+  fallback: ["system-ui", "arial"],
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -69,13 +73,14 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.svg" />
         <link rel="preconnect" href="https://fundingchoicesmessages.google.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
-        <script
-          async
+      </head>
+      <body className="min-h-full flex flex-col bg-bg text-cream font-sans">
+        <Script
+          id="adsbygoogle-init"
+          strategy="afterInteractive"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8870420849024785"
           crossOrigin="anonymous"
         />
-      </head>
-      <body className="min-h-full flex flex-col bg-bg text-cream font-sans">
         {/* Structured data for the website */}
         <script
           type="application/ld+json"
