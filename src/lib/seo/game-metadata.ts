@@ -252,7 +252,9 @@ export function buildGameMetadata(slug: string): Metadata {
   const ogTitle = game?.title ? `${game.title} | Countrivo` : seo.title;
 
   return {
-    title: seo.title,
+    // seo.title already includes "| Countrivo"; use `absolute` so the layout's
+    // "%s | Countrivo" template doesn't append the brand a second time.
+    title: { absolute: seo.title },
     description: seo.description,
     alternates: { canonical: path },
     openGraph: {
