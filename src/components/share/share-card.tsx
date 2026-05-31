@@ -2,10 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { buildCountryDraftShareText } from "./country-draft-grid";
-import { buildTraceShareText } from "./trace-grid";
 import { buildStatGuesserShareText } from "./stat-guesser-grid";
 
-type ShareGame = "country-draft" | "trace" | "stat-guesser";
+type ShareGame = "country-draft" | "stat-guesser";
 
 interface ShareCardProps {
   game: ShareGame;
@@ -29,21 +28,6 @@ function buildShareText(game: ShareGame, result: Record<string, unknown>, dateKe
           assignments,
           optimalAssignments,
           rank: (result.rank as number | null | undefined) ?? null,
-        },
-        dateKey,
-      );
-    }
-
-    case "trace": {
-      const guesses = (result.guesses ?? []) as {
-        comparisons: { direction: "higher" | "lower" | "match" | "unknown" }[];
-        isCorrect: boolean;
-      }[];
-      return buildTraceShareText(
-        {
-          guesses,
-          won: Boolean(result.won),
-          maxGuesses: Number(result.maxGuesses ?? 6),
         },
         dateKey,
       );

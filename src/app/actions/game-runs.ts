@@ -2,12 +2,8 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
-import { validateTraceResult } from "@/lib/game-logic/trace/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
-import { validateClusterResult } from "@/lib/game-logic/cluster/server-validate";
-import { validateCaravanResult } from "@/lib/game-logic/caravan/server-validate";
-import { validateBudgetResult } from "@/lib/game-logic/budget/server-validate";
 import { getDailyEdition } from "@/lib/daily-edition";
 import type { ServerGameRun, LeaderboardEntry, UserGameStats, DailySummary } from "@/types/server";
 
@@ -66,23 +62,11 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     let serverCheck: { valid: boolean; reason?: string } | null = null;
     const edition = await getDailyEdition();
     switch (input.gameSlug) {
-      case "trace":
-        serverCheck = validateTraceResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
-        break;
       case "country-draft":
         serverCheck = validateCountryDraftResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
       case "stat-guesser":
         serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
-        break;
-      case "cluster":
-        serverCheck = await validateClusterResult(input.dateKey, input.scoreRaw, input.resultJson);
-        break;
-      case "caravan":
-        serverCheck = validateCaravanResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
-        break;
-      case "budget":
-        serverCheck = validateBudgetResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
     }
     if (serverCheck && !serverCheck.valid) {
@@ -108,8 +92,6 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     case "population-sort":
     case "stat-guesser":
     case "supremacy":
-    case "caravan":
-    case "budget":
     case "higher-or-lower":
       // For these games, higher score_raw = better
       scoreSortValue = input.scoreRaw;
@@ -121,10 +103,6 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     case "borderline":
       // Fewer moves = better, invert
       scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
-      break;
-    case "trace":
-      // Fewer guesses = better, scoreRaw = 1-7, invert
-      scoreSortValue = 7 - input.scoreRaw;
       break;
   }
 
@@ -515,17 +493,6 @@ function validateGameResult(
         if (typeof resultJson.found !== "number") return "invalid_result";
         if (resultJson.found !== scoreRaw) return "score_mismatch";
         if (scoreRaw > scoreMax) return "score_exceeds_total";
-        break;
-      }
-      case "trace": {
-        const guesses = resultJson.guesses;
-        if (!Array.isArray(guesses)) return "invalid_result";
-        if (typeof resultJson.guessCount !== "number") return "invalid_result";
-        if (typeof resultJson.target !== "string") return "invalid_result";
-        const won = resultJson.won === true;
-        const expectedRaw = won ? guesses.length : 7;
-        if (scoreRaw !== expectedRaw) return "score_mismatch";
-        if (guesses.length > 6) return "score_exceeds_total";
         break;
       }
       default:

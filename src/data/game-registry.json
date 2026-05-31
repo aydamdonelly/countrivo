@@ -15,51 +15,6 @@
     "route": "/games/country-draft"
   },
   {
-    "slug": "caravan",
-    "title": "Caravan",
-    "shortDescription": "One budget. 5 countries. Beat the optimal caravan.",
-    "description": "Twelve countries, each with a price and a value set by one metric. Spend a fixed gold budget to buy exactly five and build the most valuable caravan — then see how close you got to the provably optimal basket.",
-    "emoji": "🐪",
-    "difficulty": "hard",
-    "estimatedTime": "2-4 min",
-    "category": "strategy",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": ["daily", "practice"],
-    "route": "/games/caravan"
-  },
-  {
-    "slug": "budget",
-    "title": "Budget",
-    "shortDescription": "100 tokens. Split the world's total.",
-    "description": "Five countries share one real-world total — population, GDP, tourists and more. Spend 100 tokens to estimate each country's share of the whole, then reveal how the world actually splits. Beat a blind even split.",
-    "emoji": "🪙",
-    "difficulty": "medium",
-    "estimatedTime": "2-3 min",
-    "category": "ranking",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": ["daily", "practice"],
-    "route": "/games/budget"
-  },
-  {
-    "slug": "cluster",
-    "title": "Cluster",
-    "shortDescription": "16 flags. 4 groups. Find the connections.",
-    "description": "Sixteen country flags. Four hidden groupings. Sort them in four attempts. The purple group is always the trickiest.",
-    "emoji": "🎴",
-    "difficulty": "medium",
-    "estimatedTime": "3-5 min",
-    "category": "strategy",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": ["daily", "practice"],
-    "route": "/games/cluster"
-  },
-  {
     "slug": "flag-quiz",
     "title": "Flag Quiz",
     "shortDescription": "10 flags. Name the country or fail.",
@@ -83,7 +38,7 @@
     "difficulty": "easy",
     "estimatedTime": "2-5 min",
     "category": "ranking",
-    "tier": "drill",
+    "tier": "main",
     "isNew": false,
     "isFlagship": false,
     "availableModes": ["daily", "practice"],
@@ -253,20 +208,5 @@
     "isFlagship": false,
     "availableModes": ["practice"],
     "route": "/games/blitz"
-  },
-  {
-    "slug": "trace",
-    "title": "Trace",
-    "shortDescription": "Trace the hidden country in 6 guesses.",
-    "description": "Six guesses, six stat clues, one country. Trace the hidden country through population, area, GDP, and three more stat axes — each guess reveals direction.",
-    "emoji": "🌍",
-    "difficulty": "medium",
-    "estimatedTime": "3-5 min",
-    "category": "knowledge",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": ["daily", "practice"],
-    "route": "/games/trace"
   }
 ]

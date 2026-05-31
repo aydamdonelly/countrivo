@@ -29,7 +29,6 @@ const DEFAULT_RELATED: RelatedGame[] = [
   { href: "/games/capital-match", emoji: "🏛️", name: "Capital Match" },
   { href: "/games/population-sort", emoji: "📊", name: "Population Sort" },
   { href: "/games/country-streak", emoji: "🔥", name: "Country Streak" },
-  { href: "/games/trace", emoji: "🌍", name: "Trace" },
 ];
 
 export function GameLanding({

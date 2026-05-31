@@ -1,8 +1,6 @@
 /** Unique color palette for each game — used across the site for visual identity */
 export const GAME_COLORS: Record<string, { bg: string; text: string }> = {
   "country-draft":    { bg: "#fee2e2", text: "#991b1b" },
-  "caravan":          { bg: "#f7e3b5", text: "#7c4a03" },
-  "budget":           { bg: "#dcfce7", text: "#166534" },
   "flag-quiz":        { bg: "#dbeafe", text: "#1e3a5f" },
   "higher-or-lower":  { bg: "#d1fae5", text: "#064e3b" },
   "capital-match":    { bg: "#fef3c7", text: "#78350f" },
@@ -16,8 +14,6 @@ export const GAME_COLORS: Record<string, { bg: string; text: string }> = {
   "supremacy":        { bg: "#fef9c3", text: "#713f12" },
   "borderline":       { bg: "#cffafe", text: "#155e75" },
   "blitz":            { bg: "#fecaca", text: "#7f1d1d" },
-  "trace":            { bg: "#e8f5e9", text: "#1b5e20" },
-  "cluster":          { bg: "#e9d5ff", text: "#3b0764" },
 };
 
 export function getGameColor(slug: string) {

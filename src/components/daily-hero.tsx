@@ -79,7 +79,7 @@ export function DailyHero({
   const [nextRoute, setNextRoute] = useState<string | null>(null);
 
   const playedFlagship = serverPlayedToday;
-  const totalDaily = 11;
+  const totalDaily = 9;
 
   useEffect(() => {
     // Hydrating from localStorage / props that are only available client-side.
