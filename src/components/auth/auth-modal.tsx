@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 type Tab = "signin" | "signup";
 type SignInError =
   | "invalid_credentials"
-  | "email_not_confirmed"
   | "user_already_exists"
   | "weak_password"
   | "rate_limit"
@@ -19,7 +18,6 @@ type SignInError =
 function classifyError(message: string): SignInError {
   const m = message.toLowerCase();
   if (m.includes("invalid login credentials") || m.includes("invalid_credentials")) return "invalid_credentials";
-  if (m.includes("email not confirmed") || m.includes("email_not_confirmed")) return "email_not_confirmed";
   if (m.includes("already registered") || m.includes("user_already_exists")) return "user_already_exists";
   if (m.includes("password should be") || m.includes("weak_password") || m.includes("at least")) return "weak_password";
   if (m.includes("rate limit") || m.includes("over_request_rate")) return "rate_limit";
@@ -31,8 +29,6 @@ function errorCopy(kind: SignInError): string {
   switch (kind) {
     case "invalid_credentials":
       return "Wrong email or password. Try again or reset your password.";
-    case "email_not_confirmed":
-      return "Check your email and click the verification link to finish signing in.";
     case "user_already_exists":
       return "You already have an account. Switch to Sign In.";
     case "weak_password":
@@ -55,7 +51,6 @@ export function AuthModal() {
   const [capsLockOn, setCapsLockOn] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorKind, setErrorKind] = useState<SignInError | null>(null);
-  const [verifySent, setVerifySent] = useState(false);
 
   const modalRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -70,7 +65,6 @@ export function AuthModal() {
       setCapsLockOn(false);
       setSubmitting(false);
       setErrorKind(null);
-      setVerifySent(false);
     }
   }, [authModalOpen]);
 
@@ -157,12 +151,11 @@ export function AuthModal() {
         // success -> auth-provider closes the modal via onAuthStateChange
         try { localStorage.setItem("auth_last_email", trimmedEmail); } catch {}
       } else {
-        const { data, error } = await supabase.auth.signUp({
+        // Email confirmation is disabled, so signUp returns a session
+        // immediately and the user is signed in — no verification step.
+        const { error } = await supabase.auth.signUp({
           email: trimmedEmail,
           password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-          },
         });
         if (error) {
           setErrorKind(classifyError(error.message));
@@ -170,13 +163,7 @@ export function AuthModal() {
           return;
         }
         try { localStorage.setItem("auth_last_email", trimmedEmail); } catch {}
-        // With email-confirm ON, signUp returns a user but no session.
-        if (!data.session) {
-          setVerifySent(true);
-          setSubmitting(false);
-          return;
-        }
-        // Auto-signed-in (confirm-email disabled): provider handles close.
+        // Signed in -> auth-provider closes the modal via onAuthStateChange.
       }
     } catch {
       setErrorKind("network");
@@ -218,185 +205,154 @@ export function AuthModal() {
           </svg>
         </button>
 
-        {verifySent ? (
-          <VerifySentView email={email} onUseDifferent={() => { setVerifySent(false); setPassword(""); }} />
-        ) : (
-          <>
-            {/* Header */}
-            <div className="text-center mb-5">
-              <h2 id="auth-modal-title" className="text-xl font-extrabold">
-                {tab === "signin" ? "Welcome back" : "Create your account"}
-              </h2>
-              <p className="text-sm text-cream-muted mt-1">
-                {tab === "signin"
-                  ? "Sign in to save scores and track streaks."
-                  : "Save scores, build streaks, climb leaderboards."}
-              </p>
-            </div>
+        {/* Header */}
+        <div className="text-center mb-5">
+          <h2 id="auth-modal-title" className="text-xl font-extrabold">
+            {tab === "signin" ? "Welcome back" : "Create your account"}
+          </h2>
+          <p className="text-sm text-cream-muted mt-1">
+            {tab === "signin"
+              ? "Sign in to save scores and track streaks."
+              : "Save scores, build streaks, climb leaderboards."}
+          </p>
+        </div>
 
-            {/* Tab toggle */}
-            <div
-              role="tablist"
-              aria-label="Sign in or sign up"
-              className="flex p-1 mb-5 bg-cream-ghost rounded-xl"
-            >
-              <button
-                role="tab"
-                aria-selected={tab === "signin"}
-                onClick={() => { setTab("signin"); setErrorKind(null); }}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tab === "signin"
-                    ? "bg-white shadow-sm text-cream"
-                    : "text-cream-muted hover:text-cream"
-                }`}
-              >
-                Sign In
-              </button>
-              <button
-                role="tab"
-                aria-selected={tab === "signup"}
-                onClick={() => { setTab("signup"); setErrorKind(null); }}
-                className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
-                  tab === "signup"
-                    ? "bg-white shadow-sm text-cream"
-                    : "text-cream-muted hover:text-cream"
-                }`}
-              >
-                Sign Up
-              </button>
-            </div>
+        {/* Tab toggle */}
+        <div
+          role="tablist"
+          aria-label="Sign in or sign up"
+          className="flex p-1 mb-5 bg-cream-ghost rounded-xl"
+        >
+          <button
+            role="tab"
+            aria-selected={tab === "signin"}
+            onClick={() => { setTab("signin"); setErrorKind(null); }}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
+              tab === "signin"
+                ? "bg-white shadow-sm text-cream"
+                : "text-cream-muted hover:text-cream"
+            }`}
+          >
+            Sign In
+          </button>
+          <button
+            role="tab"
+            aria-selected={tab === "signup"}
+            onClick={() => { setTab("signup"); setErrorKind(null); }}
+            className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
+              tab === "signup"
+                ? "bg-white shadow-sm text-cream"
+                : "text-cream-muted hover:text-cream"
+            }`}
+          >
+            Sign Up
+          </button>
+        </div>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
-              <label htmlFor="auth-email" className="sr-only">Email address</label>
-              <input
-                id="auth-email"
-                ref={emailRef}
-                type="email"
-                inputMode="email"
-                autoComplete="email"
-                enterKeyHint="next"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                required
-                aria-label="Email address"
-                className="w-full px-4 py-2.5 rounded-xl border border-border bg-white text-sm
-                  focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
-                  placeholder:text-cream-muted/50"
-              />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
+          <label htmlFor="auth-email" className="sr-only">Email address</label>
+          <input
+            id="auth-email"
+            ref={emailRef}
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            enterKeyHint="next"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com"
+            required
+            aria-label="Email address"
+            className="w-full px-4 py-2.5 rounded-xl border border-border bg-white text-sm
+              focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+              placeholder:text-cream-muted/50"
+          />
 
-              <label htmlFor="auth-password" className="sr-only">Password</label>
-              <div className="relative">
-                <input
-                  id="auth-password"
-                  type={showPassword ? "text" : "password"}
-                  autoComplete={tab === "signin" ? "current-password" : "new-password"}
-                  enterKeyHint="go"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  onKeyDown={handlePasswordKey}
-                  onKeyUp={handlePasswordKey}
-                  onFocus={(e) => setCapsLockOn(e.target.value.length === 0 ? false : capsLockOn)}
-                  placeholder={tab === "signin" ? "Password" : "Choose a password (min 8 chars)"}
-                  required
-                  minLength={tab === "signup" ? 8 : undefined}
-                  aria-label="Password"
-                  aria-describedby={tab === "signup" ? "auth-pw-hint" : undefined}
-                  className="w-full px-4 py-2.5 pr-11 rounded-xl border border-border bg-white text-sm
-                    focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
-                    placeholder:text-cream-muted/50"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-md text-cream-muted hover:text-cream hover:bg-cream-ghost transition-colors"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                </button>
-              </div>
-
-              {tab === "signup" && (
-                <p id="auth-pw-hint" className="text-xxs text-cream-muted -mt-1">
-                  At least 8 characters. Anything goes.
-                </p>
-              )}
-
-              {capsLockOn && (
-                <p className="text-xxs text-gold font-medium" role="status">
-                  Caps Lock is on
-                </p>
-              )}
-
-              {errorKind && (
-                <p className="text-xs text-incorrect" role="alert" aria-live="polite">
-                  {errorCopy(errorKind)}
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                variant="primary"
-                size="md"
-                fullWidth
-                loading={submitting}
-                disabled={!email.trim() || !password}
-                className="mt-1"
-              >
-                {submitting
-                  ? (tab === "signin" ? "Signing in..." : "Creating account...")
-                  : (tab === "signin" ? "Sign In" : "Create Account")}
-              </Button>
-
-              {tab === "signin" && (
-                <div className="text-center mt-1">
-                  <Link
-                    href="/auth/forgot-password"
-                    onClick={closeAuthModal}
-                    className="text-xs text-gold font-medium hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              )}
-            </form>
-
-            {/* Guest dismiss — kept per Adam's brief */}
+          <label htmlFor="auth-password" className="sr-only">Password</label>
+          <div className="relative">
+            <input
+              id="auth-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete={tab === "signin" ? "current-password" : "new-password"}
+              enterKeyHint="go"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={handlePasswordKey}
+              onKeyUp={handlePasswordKey}
+              onFocus={(e) => setCapsLockOn(e.target.value.length === 0 ? false : capsLockOn)}
+              placeholder={tab === "signin" ? "Password" : "Choose a password (min 8 chars)"}
+              required
+              minLength={tab === "signup" ? 8 : undefined}
+              aria-label="Password"
+              aria-describedby={tab === "signup" ? "auth-pw-hint" : undefined}
+              className="w-full px-4 py-2.5 pr-11 rounded-xl border border-border bg-white text-sm
+                focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+                placeholder:text-cream-muted/50"
+            />
             <button
-              onClick={closeAuthModal}
-              className="w-full mt-4 text-center text-xs text-cream-muted hover:text-cream transition-colors"
+              type="button"
+              onClick={() => setShowPassword((v) => !v)}
+              tabIndex={-1}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-md text-cream-muted hover:text-cream hover:bg-cream-ghost transition-colors"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
-              Continue as guest
+              {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
+          </div>
 
-function VerifySentView({ email, onUseDifferent }: { email: string; onUseDifferent: () => void }) {
-  return (
-    <div className="text-center py-4" role="status">
-      <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-dim flex items-center justify-center">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gold" aria-hidden="true">
-          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-          <polyline points="22,6 12,13 2,6" />
-        </svg>
+          {tab === "signup" && (
+            <p id="auth-pw-hint" className="text-xxs text-cream-muted -mt-1">
+              At least 8 characters. Anything goes.
+            </p>
+          )}
+
+          {capsLockOn && (
+            <p className="text-xxs text-gold font-medium" role="status">
+              Caps Lock is on
+            </p>
+          )}
+
+          {errorKind && (
+            <p className="text-xs text-incorrect" role="alert" aria-live="polite">
+              {errorCopy(errorKind)}
+            </p>
+          )}
+
+          <Button
+            type="submit"
+            variant="primary"
+            size="md"
+            fullWidth
+            loading={submitting}
+            disabled={!email.trim() || !password}
+            className="mt-1"
+          >
+            {submitting
+              ? (tab === "signin" ? "Signing in..." : "Creating account...")
+              : (tab === "signin" ? "Sign In" : "Create Account")}
+          </Button>
+
+          {tab === "signin" && (
+            <div className="text-center mt-1">
+              <Link
+                href="/auth/forgot-password"
+                onClick={closeAuthModal}
+                className="text-xs text-gold font-medium hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          )}
+        </form>
+
+        {/* Guest dismiss — kept per Adam's brief */}
+        <button
+          onClick={closeAuthModal}
+          className="w-full mt-4 text-center text-xs text-cream-muted hover:text-cream transition-colors"
+        >
+          Continue as guest
+        </button>
       </div>
-      <p className="font-bold">Check your email</p>
-      <p className="text-sm text-cream-muted mt-1.5 leading-relaxed">
-        We sent a verification link to <span className="font-medium text-cream">{email}</span>.
-        Click it to start playing.
-      </p>
-      <button
-        type="button"
-        onClick={onUseDifferent}
-        className="mt-5 text-xs text-gold font-medium hover:underline"
-      >
-        Use a different email
-      </button>
     </div>
   );
 }
