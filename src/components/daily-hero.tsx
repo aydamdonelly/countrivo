@@ -5,16 +5,8 @@ import Link from "next/link";
 import { IconArrowRight } from "@/components/icons";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/registry";
-import { getTodayDateKey, msUntilReset, formatTimeUntilReset } from "@/lib/daily-seed";
-
-function getTimeUntilReset(): { hours: number; minutes: number; label: string } {
-  const diff = msUntilReset();
-  return {
-    hours: Math.floor(diff / (1000 * 60 * 60)),
-    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-    label: formatTimeUntilReset(diff),
-  };
-}
+import { getTodayDateKey } from "@/lib/daily-seed";
+import { useResetCountdown } from "@/hooks/use-reset-countdown";
 
 function computeLocalStreak(): number {
   if (typeof window === "undefined") return 0;
@@ -74,9 +66,11 @@ export function DailyHero({
 }: DailyHeroProps) {
   const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(0);
-  const [timer, setTimer] = useState({ hours: 0, minutes: 0, label: "" });
   const [mounted, setMounted] = useState(false);
   const [nextRoute, setNextRoute] = useState<string | null>(null);
+
+  // Live ticking HH:MM:SS until the real Berlin-midnight reset.
+  const resetCountdown = useResetCountdown();
 
   const playedFlagship = serverPlayedToday;
   const totalDaily = 9;
@@ -91,13 +85,15 @@ export function DailyHero({
       setStreak(computeLocalStreak());
     }
     setCompleted(countTodayCompleted());
-    setTimer(getTimeUntilReset());
     setNextRoute(getNextUnplayedRoute());
     setMounted(true);
   }, [serverStreak]);
 
   const progressPct = totalDaily > 0 ? (completed / totalDaily) * 100 : 0;
   const allDone = completed >= totalDaily;
+  // Calm, ignorable streak-keep nudge: only when there's a live streak AND
+  // today's daily set hasn't been touched yet. No guilt, no urgency.
+  const showStreakNudge = mounted && streak > 0 && completed === 0 && !allDone;
 
   return (
     <section className="text-center py-8 sm:py-12">
@@ -111,10 +107,10 @@ export function DailyHero({
           <span>
             {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" })}
           </span>
-          {mounted && (timer.hours > 0 || timer.minutes > 0) && (
+          {resetCountdown && (
             <>
               <span className="text-gold mx-1.5">·</span>
-              <span>Resets in {timer.label}</span>
+              <span className="tabular-nums">Resets in {resetCountdown}</span>
             </>
           )}
         </p>
@@ -146,6 +142,14 @@ export function DailyHero({
             : "Same puzzle for every player. One attempt. Prove what you know."}
       </p>
 
+      {/* Calm streak-keep nudge — celebratory, no guilt, trivially ignorable */}
+      {showStreakNudge && (
+        <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-gold">
+          <span aria-hidden="true">🔥</span>
+          Play today to keep your {streak}-day streak
+        </p>
+      )}
+
       {/* Primary CTA */}
       <Link
         href={allDone
@@ -168,9 +172,9 @@ export function DailyHero({
             <span className="font-bold text-cream">
               {completed}/{totalDaily} completed
             </span>
-            {timer.hours > 0 || timer.minutes > 0 ? (
-              <span className="text-cream-muted font-mono">
-                Resets in {timer.label}
+            {resetCountdown ? (
+              <span className="text-cream-muted font-mono tabular-nums">
+                Resets in {resetCountdown}
               </span>
             ) : null}
           </div>

@@ -4,10 +4,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
+import { Footer } from "@/components/layout/footer";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { ToastProvider } from "@/components/ui/toast";
-import Link from "next/link";
 import Script from "next/script";
 import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
@@ -120,70 +120,7 @@ export default function RootLayout({
         <Header />
         <AuthModal />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-border bg-surface-elevated">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-            {/* CTA row — pull back into the loop */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-8 border-b border-border">
-              <div>
-                <p className="font-extrabold text-lg">Ready for today&apos;s challenge?</p>
-                <p className="text-sm text-cream-muted">Same puzzle. Every player. One shot.</p>
-              </div>
-              <Link
-                href="/games/country-draft/play?mode=daily"
-                className="cta-primary text-sm px-6 py-2.5 min-h-11 shrink-0"
-              >
-                Play now
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div>
-                <h3 className="font-bold text-sm mb-3">Games</h3>
-                <div className="space-y-2 text-sm text-cream-muted">
-                  <Link href="/games/country-draft" className="block hover:text-cream transition-colors">Country Draft</Link>
-                  <Link href="/games/flag-quiz" className="block hover:text-cream transition-colors">Flag Quiz</Link>
-                  <Link href="/games/higher-or-lower" className="block hover:text-cream transition-colors">Higher or Lower</Link>
-                  <Link href="/games/capital-match" className="block hover:text-cream transition-colors">Capital Match</Link>
-                  <Link href="/games" className="block hover:text-cream transition-colors text-gold font-medium">All 14 games →</Link>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-bold text-sm mb-3">Rankings</h3>
-                <div className="space-y-2 text-sm text-cream-muted">
-                  <Link href="/categories" className="block hover:text-cream transition-colors">All Rankings</Link>
-                  <Link href="/lists/most-populated-countries" className="block hover:text-cream transition-colors">Most Populated</Link>
-                  <Link href="/lists/largest-countries" className="block hover:text-cream transition-colors">Largest Countries</Link>
-                  <Link href="/lists/richest-countries" className="block hover:text-cream transition-colors">Richest (GDP/capita)</Link>
-                  <Link href="/lists" className="block hover:text-cream transition-colors text-gold font-medium">All lists →</Link>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-bold text-sm mb-3">Countries</h3>
-                <div className="space-y-2 text-sm text-cream-muted">
-                  <Link href="/countries" className="block hover:text-cream transition-colors">All 243 countries</Link>
-                  <Link href="/countries/united-states" className="block hover:text-cream transition-colors">🇺🇸 United States</Link>
-                  <Link href="/countries/germany" className="block hover:text-cream transition-colors">🇩🇪 Germany</Link>
-                  <Link href="/countries/japan" className="block hover:text-cream transition-colors">🇯🇵 Japan</Link>
-                </div>
-              </div>
-              <div>
-                <h3 className="font-bold text-sm mb-3">Countrivo</h3>
-                <div className="space-y-2 text-sm text-cream-muted">
-                  <p className="text-xs">Competitive daily geography games with stats depth. 14 games, 243 countries.</p>
-                  <Link href="/privacy" className="block hover:text-cream transition-colors">Privacy</Link>
-                  <p className="text-xxs text-cream-muted mt-3">Data: World Bank, REST Countries, WHO, UNWTO</p>
-                </div>
-              </div>
-            </div>
-            {/* Brand mark strip — middle-dot bracket signature */}
-            <div className="mt-10 pt-6 border-t border-border text-center text-xxs font-mono text-cream-muted">
-              <span>Countrivo</span>
-              <span className="text-gold mx-1.5">·</span>
-              <span>One puzzle a day</span>
-              <span className="text-gold mx-1.5">·</span>
-              <span>Since 2026</span>
-            </div>
-          </div>
-        </footer>
+        <Footer />
         <Analytics />
         <SpeedInsights />
         </ToastProvider>

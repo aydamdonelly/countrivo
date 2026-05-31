@@ -15,9 +15,13 @@ import {
   IconHash,
   IconClock,
   IconSearch,
+  IconArrowRight,
 } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
+import { getAllGames } from "@/lib/data/registry";
+import { getTodayDateKey } from "@/lib/daily-seed";
+import { useResetCountdown } from "@/hooks/use-reset-countdown";
 import { Button } from "@/components/ui/button";
 
 // Heavy, interaction-only subtrees: code-split out of the initial game bundle.
@@ -210,6 +214,45 @@ const ALL_SUGGESTIONS = [
   { href: "/games/odd-one-out", icon: IconSearch, name: "Odd One Out" },
 ];
 
+/* ---------- Daily chaining ----------
+ * Mirrors daily-hero's next-unplayed-daily logic. Client-safe: reads only the
+ * lightweight game registry + localStorage completion flags. Returns the next
+ * daily the player hasn't cleared today, plus how many remain and the total.
+ */
+
+interface DailyChainInfo {
+  total: number;
+  completed: number;
+  remaining: number;
+  next: { title: string; emoji: string; route: string } | null;
+}
+
+function getDailyChainInfo(currentSlug: string | undefined): DailyChainInfo {
+  if (typeof window === "undefined") {
+    return { total: 0, completed: 0, remaining: 0, next: null };
+  }
+  const dailyGames = getAllGames().filter((g) => g.availableModes.includes("daily"));
+  const dateKey = getTodayDateKey();
+  let completed = 0;
+  let next: DailyChainInfo["next"] = null;
+  for (const g of dailyGames) {
+    const played = getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false);
+    if (played) {
+      completed++;
+    } else if (!next && g.slug !== currentSlug) {
+      // The current game's flag may not be flushed yet at render time; skip it
+      // so we always point at a genuinely different next daily.
+      next = { title: g.title, emoji: g.emoji, route: g.route };
+    }
+  }
+  return {
+    total: dailyGames.length,
+    completed,
+    remaining: Math.max(0, dailyGames.length - completed),
+    next,
+  };
+}
+
 /* ================================================================ */
 
 export function GameOverScreen({
@@ -246,6 +289,23 @@ export function GameOverScreen({
   const beatCount = percentile !== null && totalPlayers > 1
     ? Math.round((percentile / 100) * (totalPlayers - 1))
     : null;
+
+  // A daily finish is one where the board didn't hand us an instant-replay
+  // callback (practice mode does) but we still know which game this is.
+  const isDailyFinish = !onPlayAgain && gameSlug !== undefined;
+
+  // Live ticking countdown to the next Berlin-midnight reset (real scarcity).
+  const resetCountdown = useResetCountdown();
+
+  // Next-unplayed daily chain, hydrated client-side on mount.
+  const [chain, setChain] = useState<DailyChainInfo>({
+    total: 0, completed: 0, remaining: 0, next: null,
+  });
+  useEffect(() => {
+    if (!isDailyFinish) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydrate from localStorage on mount
+    setChain(getDailyChainInfo(gameSlug));
+  }, [isDailyFinish, gameSlug]);
 
   useEffect(() => {
     if (gameSlug && numericScore !== undefined) {
@@ -413,6 +473,14 @@ export function GameOverScreen({
             Play again
           </Button>
         )}
+        {isDailyFinish && (
+          <Link
+            href={`/games/${gameSlug}/play?mode=practice`}
+            className="cta-primary sm:flex-1"
+          >
+            Play again (practice)
+          </Link>
+        )}
         <button onClick={handleShare} className="cta-secondary sm:flex-1">
           {shared ? "Copied!" : "Share result"}
         </button>
@@ -442,6 +510,45 @@ export function GameOverScreen({
           />
         </ShareModal>
       )}
+      {/* Daily chaining: next unplayed daily + X/total progress + live reset */}
+      {isDailyFinish && chain.total > 0 && (
+        <div className="w-full max-w-md mt-5 rounded-2xl border border-border bg-surface-elevated p-4">
+          <div className="flex items-center justify-between mb-2 text-xs">
+            <span className="font-bold text-cream">
+              {chain.completed}/{chain.total} dailies today
+            </span>
+            {resetCountdown && (
+              <span className="text-cream-muted font-mono tabular-nums">
+                Next daily in {resetCountdown}
+              </span>
+            )}
+          </div>
+          <div className="h-2 bg-black/5 rounded-full overflow-hidden">
+            <div
+              className="h-full rounded-full bg-gold transition-all duration-700 ease-out"
+              style={{ width: `${Math.max((chain.completed / chain.total) * 100, 2)}%` }}
+            />
+          </div>
+          {chain.next ? (
+            <Link
+              href={`${chain.next.route}/play?mode=daily`}
+              className="cta-primary mt-3 w-full"
+            >
+              <span className="mr-1">{chain.next.emoji}</span>
+              Next daily: {chain.next.title}
+              <span className="text-xs font-normal opacity-80">
+                · {chain.remaining} left today
+              </span>
+              <IconArrowRight width={18} height={18} />
+            </Link>
+          ) : (
+            <p className="mt-3 text-center text-sm text-cream-muted">
+              All dailies cleared. Fresh set in {resetCountdown || "a bit"}. Nice work.
+            </p>
+          )}
+        </div>
+      )}
+
       {gameSlug && (
         <Link
           href={`/games/${gameSlug}/leaderboard`}

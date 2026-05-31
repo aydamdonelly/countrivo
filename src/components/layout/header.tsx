@@ -13,12 +13,11 @@ import { getPendingChallengeCount } from "@/app/actions/challenges";
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
   { href: "/categories", label: "Rankings" },
+  { href: "/album", label: "Atlas" },
   { href: "/friends", label: "Friends" },
 ];
 
-const AUTH_NAV_ITEMS = [
-  { href: "/album", label: "Atlas" },
-];
+const AUTH_NAV_ITEMS: { href: string; label: string }[] = [];
 
 function countTodayCompleted(): number {
   if (typeof window === "undefined") return 0;

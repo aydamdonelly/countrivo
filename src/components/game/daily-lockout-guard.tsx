@@ -2,8 +2,9 @@
 
 import { useAuth } from "@/components/auth/auth-provider";
 import { getDailyLockout } from "@/lib/storage";
-import { getTodayDateKey, msUntilReset, formatTimeUntilReset } from "@/lib/daily-seed";
+import { getTodayDateKey } from "@/lib/daily-seed";
 import { checkDailyStatus } from "@/app/actions/game-runs";
+import { useResetCountdown } from "@/hooks/use-reset-countdown";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -32,7 +33,7 @@ export function DailyPlayedMessage({
   gameSlug, gameEmoji, gameTitle, scoreDisplay,
   rankDaily, percentile, totalPlayersToday, showSignInHint,
 }: DailyPlayedMessageProps) {
-  const timeLeft = formatTimeUntilReset(msUntilReset());
+  const timeLeft = useResetCountdown();
   return (
     <div className="flex flex-col items-center gap-6 py-12 sm:py-16 text-center max-w-md mx-auto">
       <div className="text-5xl">{gameEmoji}</div>
@@ -65,14 +66,17 @@ export function DailyPlayedMessage({
           </div>
         )}
       </div>
-      <p className="text-sm text-cream-muted">
-        Next daily challenge in <span className="font-bold text-cream">{timeLeft}</span>
-      </p>
+      {timeLeft && (
+        <p className="text-sm text-cream-muted">
+          Next daily challenge in{" "}
+          <span className="font-bold text-cream font-mono tabular-nums">{timeLeft}</span>
+        </p>
+      )}
       {showSignInHint && (
         <p className="text-xs text-cream-muted">Sign in to save your score and see your rank.</p>
       )}
       <div className="flex flex-col sm:flex-row gap-3 w-full">
-        <Link href={`/games/${gameSlug}/play?mode=practice`} className="cta-primary flex-1">Practice unlimited</Link>
+        <Link href={`/games/${gameSlug}/play?mode=practice`} className="cta-primary flex-1">Play again (practice)</Link>
         <Link href={`/games/${gameSlug}/leaderboard`} className="cta-secondary flex-1">View leaderboard</Link>
       </div>
     </div>
