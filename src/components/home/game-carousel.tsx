@@ -54,7 +54,7 @@ export function GameCarousel({
           <div
             key={slugs[i]}
             className={`snap-center shrink-0 flex w-[calc(100%-2.5rem)] sm:w-full transition-[transform,opacity] duration-300 ease-[var(--ease-emphasis)] ${i === active ? "scale-100 opacity-100" : "scale-[0.97] opacity-70"}`}
-            aria-hidden={i !== active}
+            inert={i !== active}
           >
             {card}
           </div>
@@ -70,8 +70,10 @@ export function GameCarousel({
             aria-selected={i === active}
             aria-label={s.replace(/-/g, " ")}
             onClick={() => scrollTo(i)}
-            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[var(--ease-emphasis)] ${i === active ? "w-6 bg-cream" : "w-1.5 bg-cream-dim hover:bg-cream-muted"}`}
-          />
+            className="py-3 px-1 -my-2"
+          >
+            <span className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[var(--ease-emphasis)] ${i === active ? "w-6 bg-cream" : "w-1.5 bg-cream-dim hover:bg-cream-muted"}`} />
+          </button>
         ))}
       </div>
 

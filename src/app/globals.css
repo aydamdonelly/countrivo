@@ -54,8 +54,8 @@
      theme (see the prefers-color-scheme block at the bottom of this file). The
      name is kept for back-compat with the many `text-cream` callsites. */
   --color-cream: #17181a;
-  --color-cream-muted: rgba(23,24,26,0.62);
-  --color-cream-dim: rgba(23,24,26,0.38);
+  --color-cream-muted: rgba(23,24,26,0.70);
+  --color-cream-dim: rgba(23,24,26,0.48);
   --color-cream-ghost: rgba(23,24,26,0.06);
 
   /* ─── Border ─── */
@@ -629,8 +629,8 @@ html { background-color: var(--color-bg); }
 
     /* Primary text → true cream + its muted/dim/ghost steps. */
     --color-cream:        #f3f1ea;
-    --color-cream-muted:  rgba(243,241,234,0.62);
-    --color-cream-dim:    rgba(243,241,234,0.40);
+    --color-cream-muted:  rgba(243,241,234,0.70);
+    --color-cream-dim:    rgba(243,241,234,0.50);
     --color-cream-ghost:  rgba(243,241,234,0.07);
 
     /* Borders — light hairlines on dark. */

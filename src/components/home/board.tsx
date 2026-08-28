@@ -36,7 +36,7 @@ export function Board({ board, title, signedIn, friendCount, meCrest = null }: {
 
   return (
     <section className="mt-5 lg:mt-0" aria-label={`Today's board for ${title}`}>
-      <div className="flex items-baseline gap-4 text-[13px] text-cream-muted border-b border-border">
+      <div role="tablist" aria-label="Board" className="flex items-baseline gap-4 text-[13px] text-cream-muted border-b border-border">
         {(["global", "friends"] as const).map((t) => (
           <button
             key={t}

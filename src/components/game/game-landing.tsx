@@ -84,16 +84,16 @@ export function GameLanding({
 
       {/* Hero: same card language as the home carousel */}
       <section className="rounded-2xl bg-cream text-bg p-5 pb-6 mt-2">
-        <div className="flex justify-between items-center text-[11px] tracking-[.02em] text-bg/60">
+        <div className="flex justify-between items-center text-[11px] tracking-[.02em] text-bg/75">
           <span>{hasDailyMode ? "DAILY" : "PRACTICE"} · {title.toUpperCase()}</span>
-          {hasDailyMode ? <ResetLabel className="!text-bg/60 [&_b]:!text-bg" /> : <span>unlimited</span>}
+          {hasDailyMode ? <ResetLabel className="!text-bg/75 [&_b]:!text-bg" /> : <span>unlimited</span>}
         </div>
         <div className="mt-4 flex items-start gap-4">
           <span className="text-bg shrink-0 mt-1"><GameMark slug={slug} size={44} /></span>
           <div className="min-w-0">
             <h1 className="font-display font-semibold text-[32px] leading-tight">{title}</h1>
-            <p className="mt-2 text-[14px] leading-snug text-bg/70">{description}</p>
-            {hasDailyMode && showDateStamp && <div className="mt-1"><DateStamp accentClassName="text-gold-ink mx-0.5" className="text-bg/60" /></div>}
+            <p className="mt-2 text-[14px] leading-snug text-bg/80">{description}</p>
+            {hasDailyMode && showDateStamp && <div className="mt-1"><DateStamp accentClassName="text-gold-ink mx-0.5" className="text-bg/75" /></div>}
           </div>
         </div>
         <div className="mt-6 flex items-center justify-between gap-4">

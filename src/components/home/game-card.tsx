@@ -84,7 +84,7 @@ export function GameCard({ game, board, categories, comingSoon = false }: { game
 
   return (
     <article className="relative w-full rounded-2xl bg-cream text-bg p-5 pb-6 min-h-[300px] flex flex-col overflow-hidden">
-      <div className="flex justify-between text-[11px] tracking-[.02em] text-bg/60">
+      <div className="flex justify-between text-[11px] tracking-[.02em] text-bg/75">
         <span>{comingSoon ? "NEW" : played ? "TODAY · YOUR SHOT" : `TODAY · ${game.title.toUpperCase()}`}</span>
         <span className="tabular-nums">{kickerRight}</span>
       </div>
@@ -93,14 +93,14 @@ export function GameCard({ game, board, categories, comingSoon = false }: { game
         <>
           <div className="mt-3 flex items-center gap-4">
             <b className="font-display font-semibold text-[56px] leading-none tabular-nums">{played.score}</b>
-            <span className="text-[13px] text-bg/65 leading-relaxed">
+            <span className="text-[13px] text-bg/75 leading-relaxed">
               <em className="not-italic text-bg font-semibold">#{played.rank}</em> of {shots} global
               {board && board.friends.some((f) => !f.isMe) && (
                 <><br /><em className="not-italic text-bg font-semibold">#{board.friends.filter((f) => f.score).findIndex((f) => f.isMe) + 1 || "–"}</em> of {board.friends.length} friends</>
               )}
             </span>
           </div>
-          <p className="mt-4 text-[13px] text-bg/65">Bad day? <Link href={`${game.route}/play?mode=practice`} className="text-bg underline underline-offset-4">Practice a board</Link>, it won&apos;t count.</p>
+          <p className="mt-4 text-[13px] text-bg/75">Bad day? <Link href={`${game.route}/play?mode=practice`} className="text-bg underline underline-offset-4">Practice a board</Link>, it won&apos;t count.</p>
           <span className="mt-auto pt-3 flex items-center gap-2 text-bg/90 font-display text-lg">{game.title}</span>
         </>
       ) : (
