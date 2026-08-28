@@ -57,7 +57,7 @@ export function ForgotPasswordForm() {
         <button
           type="button"
           onClick={() => { setStatus("idle"); setEmail(""); setErrorMsg(""); }}
-          className="mt-5 inline-block text-xs text-gold-ink font-medium hover:underline min-h-[44px] py-3"
+          className="mt-5 inline-block text-xs text-cream font-medium underline underline-offset-4 min-h-[44px] py-3"
         >
           Use a different email
         </button>
