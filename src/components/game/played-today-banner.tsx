@@ -27,7 +27,7 @@ export function PlayedTodayBanner({ gameSlug, playHref }: PlayedTodayBannerProps
 
   return (
     <div className="flex flex-wrap items-center gap-3 px-4 py-3 rounded-xl bg-gold-dim border border-gold/20 mb-4 animate-in">
-      <span className="text-sm font-bold text-gold">Played today</span>
+      <span className="text-sm font-semibold text-cream">Played today</span>
       <span className="text-sm text-cream">
         {run.scoreDisplay}
       </span>
@@ -43,7 +43,7 @@ export function PlayedTodayBanner({ gameSlug, playHref }: PlayedTodayBannerProps
       )}
       <Link
         href={`${playHref}?mode=practice`}
-        className="ml-auto text-xs font-bold text-gold hover:underline"
+        className="ml-auto text-xs font-semibold text-cream underline underline-offset-4"
       >
         Practice →
       </Link>

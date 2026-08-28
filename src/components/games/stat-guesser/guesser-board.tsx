@@ -239,7 +239,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
                   <div className="text-xs text-cream-muted">{r.category.label}</div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-mono">{formatStat(r.actualValue, r.category.unit)}</div>
+                  <div className="text-sm tabular-nums">{formatStat(r.actualValue, r.category.unit)}</div>
                   <div className="text-xs text-cream-muted">{error}% off</div>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
 
       {/* Anchor — comparison value, the question's hinge */}
       <div className="rounded-xl border border-border bg-surface-elevated p-4 sm:p-5">
-        <div className="text-xs font-medium uppercase tracking-wide text-cream-muted mb-2">
+        <div className="text-xs font-medium text-cream-muted mb-2">
           For reference
         </div>
         <div className="flex items-center gap-3">
@@ -290,7 +290,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
               <StatIcon slug={round.category.slug} size={14} className="mr-1 align-[-3px]" />{round.category.label}
             </div>
           </div>
-          <div className="font-mono font-bold text-base sm:text-lg shrink-0">
+          <div className="font-semibold tabular-nums text-base sm:text-lg shrink-0">
             {formatStat(round.anchor.value, round.category.unit)}
           </div>
         </div>
@@ -312,13 +312,13 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 rounded-xl border border-border bg-surface text-center">
               <div className="text-xs text-cream-muted mb-1">Your guess</div>
-              <div className="font-mono font-bold">
+              <div className="font-semibold tabular-nums">
                 {formatStat(state.guesses[state.currentRound]!, round.category.unit)}
               </div>
             </div>
             <div className="p-4 rounded-xl border border-correct/30 bg-correct/5 text-center">
               <div className="text-xs text-cream-muted mb-1">Actual value</div>
-              <div className="font-mono font-bold">
+              <div className="font-semibold tabular-nums">
                 {formatStat(round.actualValue, round.category.unit)}
               </div>
             </div>
@@ -355,7 +355,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
             onKeyDown={handleKeyDown}
             placeholder="e.g. 1.5M, 200K, 3B..."
             autoFocus
-            className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream text-center text-lg font-mono placeholder:text-cream-muted focus:border-cream focus:outline-none transition-colors"
+            className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream text-center text-lg tabular-nums placeholder:text-cream-muted focus:border-cream focus:outline-none transition-colors"
           />
           <button
             onClick={handleSubmit}

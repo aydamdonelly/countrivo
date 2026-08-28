@@ -186,7 +186,7 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
             Question <span className="font-bold text-cream text-lg">{state.currentQuestion + 1}</span> of {state.questions.length}
           </span>
           <span className="text-lg">
-            Score: <span className="font-bold text-gold">{state.score}</span>
+            Score: <span className="font-semibold text-cream tabular-nums">{state.score}</span>
           </span>
         </div>
         <div className="w-full h-3 bg-surface rounded-full overflow-hidden">

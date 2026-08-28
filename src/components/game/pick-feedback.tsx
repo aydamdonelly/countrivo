@@ -49,7 +49,7 @@ export function PickFeedback({ type, message, delta, triggerKey }: PickFeedbackP
       <span className="text-base font-bold">{TYPE_ICONS[type]}</span>
       <span className="flex-1">{message}</span>
       {delta && (
-        <span className="text-xs font-mono opacity-75">{delta}</span>
+        <span className="text-xs tabular-nums opacity-75">{delta}</span>
       )}
     </div>
   );

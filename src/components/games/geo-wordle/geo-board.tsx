@@ -235,7 +235,7 @@ function GuessRow({ g, index }: { g: GeoGuess; index: number }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
           <span className="font-medium text-sm truncate">{g.name}</span>
-          <span className="font-mono text-xs font-bold shrink-0 tabular-nums" style={{ color }}>
+          <span className="tabular-nums text-xs font-bold shrink-0 tabular-nums" style={{ color }}>
             {g.correct ? label : `${km(g.distanceKm)} km`}
           </span>
         </div>
@@ -247,7 +247,7 @@ function GuessRow({ g, index }: { g: GeoGuess; index: number }) {
             />
           </div>
           <span
-            className="text-[0.65rem] font-bold uppercase tracking-wide shrink-0"
+            className="text-[0.65rem] font-bold shrink-0"
             style={{ color }}
           >
             {label}
@@ -276,7 +276,7 @@ function EmptyRow({ index }: { index: number }) {
       className="flex items-center h-[3.25rem] px-3 rounded-xl border border-dashed border-border"
       aria-hidden
     >
-      <span className="font-mono text-xs text-cream-dim tabular-nums">{index + 1}</span>
+      <span className="tabular-nums text-xs text-cream-dim tabular-nums">{index + 1}</span>
     </div>
   );
 }
@@ -523,7 +523,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
                   <CountryFlag iso2={answer.iso2} width={28} />
                 </span>
                 <span className="font-bold text-sm">{answer.displayName}</span>
-                <span className="ml-auto text-xs font-bold text-correct uppercase tracking-wide">
+                <span className="ml-auto text-xs font-bold text-correct">
                   Answer
                 </span>
               </div>

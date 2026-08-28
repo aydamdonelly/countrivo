@@ -87,8 +87,8 @@ function CountryCard({
     >
       <CountryFlag iso2={country.iso2} width={56} />
       <span className="font-bold text-base text-center">{country.displayName}</span>
-      <span className="text-xxs text-cream-muted uppercase tracking-wide">{label}</span>
-      <span className="font-mono font-extrabold text-lg tabular-nums">
+      <span className="text-xxs text-cream-muted">{label}</span>
+      <span className="font-display font-semibold tabular-nums text-lg tabular-nums">
         {value === null ? "? ? ?" : formatStat(value, unit)}
       </span>
     </div>
@@ -289,7 +289,7 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
             >
               <span className="text-xl">{l.outcome === "banked" ? "🏦" : "💥"}</span>
               <span className="font-medium text-sm">{l.category}</span>
-              <span className="ml-auto font-mono font-bold text-sm tabular-nums">
+              <span className="ml-auto font-semibold tabular-nums text-sm tabular-nums">
                 {l.outcome === "banked" ? `+${l.points} (x${riskMultiplier(l.bankedAt)})` : "wiped"}
               </span>
             </div>
@@ -323,8 +323,8 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
         </p>
         <p className="text-xs text-cream-muted mt-0.5">
           Chain {state.chainIndex + 1} of {RISK_CHAIN_COUNT}
-          <span className="text-gold mx-1.5">·</span>
-          <span className="font-bold text-gold">x{riskMultiplier(state.correctInChain)}</span> · pot {state.pendingPot}
+          <span className="text-cream-dim mx-1.5">·</span>
+          <span className="font-semibold text-cream tabular-nums">x{riskMultiplier(state.correctInChain)}</span> · pot {state.pendingPot}
         </p>
       </div>
 

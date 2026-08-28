@@ -195,7 +195,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
                   </span>
                   <CountryFlag iso2={country.iso2} width={36} />
                   <span className="font-bold text-lg flex-1">{country.displayName}</span>
-                  <span className="text-base font-mono text-cream-muted">
+                  <span className="text-base tabular-nums text-cream-muted">
                     {value ? formatStat(value, state.category.unit) : "N/A"}
                   </span>
                 </div>

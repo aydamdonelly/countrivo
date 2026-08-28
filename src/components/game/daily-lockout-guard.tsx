@@ -45,13 +45,13 @@ export function DailyPlayedMessage({
       </div>
       <div className="flex items-center gap-4">
         <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-          <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Score</div>
-          <div className="text-2xl font-extrabold font-mono text-gold">{scoreDisplay}</div>
+          <div className="text-xxs text-cream-muted font-medium">Score</div>
+          <div className="text-2xl font-display font-semibold tabular-nums text-cream">{scoreDisplay}</div>
         </div>
         {rankDaily != null && (
           <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-            <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Rank today</div>
-            <div className="text-2xl font-extrabold font-mono">
+            <div className="text-xxs text-cream-muted font-medium">Rank today</div>
+            <div className="text-2xl font-display font-semibold tabular-nums">
               #{rankDaily}
               {totalPlayersToday != null && totalPlayersToday > 0 && (
                 <span className="text-sm text-cream-muted font-normal"> / {totalPlayersToday}</span>
@@ -61,15 +61,15 @@ export function DailyPlayedMessage({
         )}
         {percentile != null && (
           <div className="px-5 py-3 rounded-xl bg-surface-elevated text-center">
-            <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">Better than</div>
-            <div className="text-2xl font-extrabold font-mono">{Math.round(percentile)}%</div>
+            <div className="text-xxs text-cream-muted font-medium">Better than</div>
+            <div className="text-2xl font-display font-semibold tabular-nums">{Math.round(percentile)}%</div>
           </div>
         )}
       </div>
       {timeLeft && (
         <p className="text-sm text-cream-muted">
           Next daily challenge in{" "}
-          <span className="font-bold text-cream font-mono tabular-nums">{timeLeft}</span>
+          <span className="font-bold text-cream tabular-nums tabular-nums">{timeLeft}</span>
         </p>
       )}
       {showSignInHint && (

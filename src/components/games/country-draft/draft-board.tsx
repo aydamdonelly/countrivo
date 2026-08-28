@@ -324,7 +324,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
             )}
           </div>
           {serverData?.isPersonalBest && (
-            <div className="mt-4 px-4 py-2 bg-gold-dim text-gold text-sm font-bold rounded-full animate-scale-in">
+            <div className="mt-4 px-4 py-2 bg-surface-elevated text-cream text-sm font-semibold rounded-full animate-scale-in">
               New personal best!
             </div>
           )}
@@ -412,7 +412,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           <h2 className="text-2xl sm:text-3xl font-extrabold">Final pick locked in</h2>
           <p className="text-base text-cream-muted mt-1">
             Your board finished on{" "}
-            <span className="font-mono font-bold text-cream">{runningScore}</span>. Take a
+            <span className="font-semibold tabular-nums text-cream">{runningScore}</span>. Take a
             look, then see how close to optimal you got.
           </p>
         </div>

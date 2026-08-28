@@ -188,12 +188,12 @@ export function StreakBoard({ mode, edition }: StreakBoardProps) {
       <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Streak counter */}
       <div className="flex items-center justify-center gap-3">
-        <IconFlame className="w-8 h-8 text-amber-500" aria-hidden="true" />
+        <IconFlame className="w-8 h-8 text-gold" aria-hidden="true" />
         <span
           key={state.streak}
           className={cn(
-            "font-extrabold font-mono transition-all animate-count-up",
-            state.streak > 0 ? "text-6xl text-gold" : "text-4xl text-cream-muted"
+            "font-display font-semibold tabular-nums transition-all animate-count-up",
+            state.streak > 0 ? "text-6xl text-cream" : "text-4xl text-cream-muted"
           )}
         >
           {state.streak}

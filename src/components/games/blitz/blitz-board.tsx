@@ -248,11 +248,11 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
       <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Round counter + scores */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-cream-muted uppercase tracking-wide">
+        <span className="text-sm font-medium text-cream-muted">
           Round {state.currentRound + 1} / {state.totalRounds}
         </span>
         <div className="flex items-center gap-3">
-          <span className="text-2xl font-extrabold font-mono text-gold">
+          <span className="text-2xl font-display font-semibold tabular-nums text-cream">
             {state.myScore}
           </span>
           <span className="text-cream-muted text-sm">
@@ -275,16 +275,16 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
         {/* Between rounds: show correct country name */}
         {state.phase === "between" && (
           <div className="mt-4 text-center animate-in">
-            <span className="font-bold text-2xl sm:text-3xl text-gold">
+            <span className="font-display font-semibold text-2xl sm:text-3xl text-cream tabular-nums">
               {round.country.displayName}
             </span>
             <div className="mt-2">
               {round.correct ? (
-                <span className="text-correct font-bold text-sm uppercase tracking-wide">
+                <span className="text-correct font-bold text-sm">
                   Correct!
                 </span>
               ) : (
-                <span className="text-incorrect font-bold text-sm uppercase tracking-wide">
+                <span className="text-incorrect font-bold text-sm">
                   Missed
                 </span>
               )}

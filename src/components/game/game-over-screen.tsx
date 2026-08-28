@@ -391,7 +391,7 @@ export function GameOverScreen({
         {(rankToday != null || percentile !== null || beatCount != null) && (
           <div className="flex items-center justify-center gap-4 sm:gap-5 mt-4 text-sm flex-wrap">
             {rankToday != null && (
-              <span className="font-bold text-gold text-lg">
+              <span className="font-semibold text-cream text-lg tabular-nums">
                 #{rankToday}
                 {totalPlayers > 0 && (
                   <span className="text-cream-muted font-normal text-sm"> / {totalPlayers}</span>
@@ -423,7 +423,7 @@ export function GameOverScreen({
         )}
 
         {/* Brand-bracket score line: score · rank · date */}
-        <div className="mt-5 flex items-center justify-center gap-1.5 text-xs text-cream-muted font-mono tabular-nums">
+        <div className="mt-5 flex items-center justify-center gap-1.5 text-xs text-cream-muted tabular-nums tabular-nums">
           <span>{score}</span>
           {rankToday != null && (
             <>
@@ -532,7 +532,7 @@ export function GameOverScreen({
               {chain.completed}/{chain.total} dailies today
             </span>
             {resetCountdown && (
-              <span className="text-cream-muted font-mono tabular-nums">
+              <span className="text-cream-muted tabular-nums tabular-nums">
                 Next daily in {resetCountdown}
               </span>
             )}
@@ -612,10 +612,10 @@ function StatPill({ label, value, highlight }: { label: string; value: string; h
           ? "bg-incorrect/8 border border-incorrect/20"
           : "bg-surface-elevated"
     }`}>
-      <div className="text-xxs text-cream-muted font-medium uppercase tracking-wide">
+      <div className="text-xxs text-cream-muted font-medium">
         {label}
       </div>
-      <div className={`text-lg font-extrabold font-mono mt-0.5 ${
+      <div className={`text-lg font-display font-semibold tabular-nums mt-0.5 ${
         highlight === "good" ? "text-correct" : highlight === "bad" ? "text-incorrect" : ""
       }`}>
         {value}

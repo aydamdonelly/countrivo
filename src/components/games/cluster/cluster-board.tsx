@@ -240,7 +240,7 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
               <div key={g.id} style={{ backgroundColor: groupColor(g.id) }} className="rounded-xl p-3 text-white">
                 <div className="flex items-center gap-2 mb-1.5">
                   <span className="font-bold text-sm">{g.trait}</span>
-                  <span className="ml-auto text-xxs font-bold uppercase tracking-wide opacity-90">
+                  <span className="ml-auto text-xxs font-bold opacity-90">
                     {playerSolved ? "Solved" : "Missed"}
                   </span>
                 </div>
@@ -281,7 +281,7 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
 
       {/* Mistake dots */}
       <div className="flex items-center justify-center gap-2">
-        <span className="text-xxs text-cream-muted uppercase tracking-wide font-medium">Mistakes</span>
+        <span className="text-xxs text-cream-muted font-medium">Mistakes</span>
         <div className="flex gap-1.5">
           {Array.from({ length: CLUSTER_MAX_MISTAKES }).map((_, i) => (
             <span

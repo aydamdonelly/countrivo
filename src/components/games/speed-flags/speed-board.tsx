@@ -214,7 +214,7 @@ export function SpeedBoard({ mode, edition }: SpeedBoardProps) {
       <div className="flex items-center justify-between">
         <div
           className={cn(
-            "font-mono text-2xl font-bold",
+            "font-display font-semibold text-2xl tabular-nums",
             state.timeLeft <= 3 && "text-incorrect animate-pulse",
             state.timeLeft > 3 && state.timeLeft <= 5 && "text-incorrect",
             state.timeLeft > 5 && "text-cream"

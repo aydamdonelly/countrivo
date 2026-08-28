@@ -254,11 +254,11 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
         <span>
           <span className="font-bold text-cream">{state.continent}</span>
         </span>
-        <span className="font-mono font-bold text-cream">{formatTime(state.elapsed)}</span>
+        <span className="font-semibold tabular-nums text-cream">{formatTime(state.elapsed)}</span>
       </div>
 
       <div className="text-center">
-        <span className="text-3xl font-bold font-mono">
+        <span className="text-3xl font-semibold tabular-nums">
           {state.found.length}
         </span>
         <span className="text-cream-muted"> / {state.allCountries.length}</span>

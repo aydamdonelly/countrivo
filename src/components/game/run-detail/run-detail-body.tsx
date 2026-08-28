@@ -201,14 +201,14 @@ function CountryDraftBody({ run, colors }: Props) {
           {gap !== null && (
             <span className="text-sm text-cream-muted">
               Gap to optimal:{" "}
-              <span className="font-mono font-bold">{gap}</span>
+              <span className="tabular-nums font-bold">{gap}</span>
             </span>
           )}
           {playerScore !== null && optimalScore !== null && (
             <span className="text-sm text-cream-muted">
               Your rank total{" "}
-              <span className="font-mono font-bold">{playerScore}</span> vs best{" "}
-              <span className="font-mono font-bold">{optimalScore}</span>
+              <span className="tabular-nums font-bold">{playerScore}</span> vs best{" "}
+              <span className="tabular-nums font-bold">{optimalScore}</span>
             </span>
           )}
         </div>
@@ -247,7 +247,7 @@ function CountryDraftBody({ run, colors }: Props) {
                   <span className="text-xs text-cream-muted hidden sm:inline">
                     best stat for this country
                   </span>
-                  <span className="font-mono text-sm">
+                  <span className="tabular-nums text-sm">
                     #{player.rank}
                     {best !== undefined && (
                       <span className="text-cream-muted">
@@ -317,14 +317,14 @@ function StatGuesserBody({ run, colors }: Props) {
                 className="flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 bg-surface border border-border"
               >
                 <span className="flex items-center gap-3 min-w-0">
-                  <span className="text-xs font-mono text-cream-muted w-6 shrink-0">
+                  <span className="text-xs tabular-nums text-cream-muted w-6 shrink-0">
                     R{i + 1}
                   </span>
                   <FlagName iso3={iso3} className="text-sm font-medium min-w-0" />
                 </span>
                 <div className="flex items-center gap-4 shrink-0 text-sm">
                   {typeof guess === "number" && (
-                    <span className="font-mono text-cream-muted">
+                    <span className="tabular-nums text-cream-muted">
                       guess {formatGuess(guess)}
                     </span>
                   )}
@@ -409,7 +409,7 @@ function GenericBody({ run, colors }: Props) {
               className="rounded-xl bg-surface border border-border px-3 py-3 text-center"
             >
               <dt className="text-xs text-cream-muted label-caps">{label}</dt>
-              <dd className="text-lg font-bold font-mono mt-0.5">{display}</dd>
+              <dd className="text-lg font-bold tabular-nums mt-0.5">{display}</dd>
             </div>
           ))}
         </dl>

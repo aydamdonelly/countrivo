@@ -23,7 +23,7 @@ export function GameSessionTopBar({
     <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-elevated border border-border">
       {/* Mode badge */}
       <span
-        className={`shrink-0 px-2 py-1 text-xxs font-bold uppercase tracking-wider rounded-lg ${
+        className={`shrink-0 px-2 py-1 text-xxs font-semibold rounded-lg ${
           mode === "daily"
             ? "bg-gold text-bg"
             : "bg-black/5 text-cream-muted"
@@ -42,8 +42,8 @@ export function GameSessionTopBar({
 
       {/* Score */}
       <div className="shrink-0 text-right" aria-live="polite" aria-atomic="true">
-        <span className="text-xxs text-cream-muted uppercase tracking-wide">{scoreLabel}</span>
-        <span className="ml-1.5 text-sm font-extrabold font-mono text-cream">{scoreValue}</span>
+        <span className="text-xxs text-cream-muted">{scoreLabel}</span>
+        <span className="ml-1.5 text-sm font-display font-semibold tabular-nums text-cream">{scoreValue}</span>
       </div>
 
       {/* Extra info */}

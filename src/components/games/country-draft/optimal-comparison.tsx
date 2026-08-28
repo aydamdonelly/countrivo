@@ -52,7 +52,7 @@ export function OptimalComparison({
               <StatIcon slug={playerCat.slug} size={16} />
               <span
                 className={cn(
-                  "font-mono text-base font-bold",
+                  "font-semibold tabular-nums text-base",
                   pa.rank <= 5 && "text-correct",
                   pa.rank > 5 && pa.rank <= 20 && "text-gold",
                   pa.rank > 20 && "text-incorrect"
@@ -63,7 +63,7 @@ export function OptimalComparison({
             </div>
             <div className="flex items-center justify-center gap-1.5 w-28 sm:w-32">
               <StatIcon slug={optimalCat.slug} size={16} />
-              <span className="font-mono text-base font-bold text-cream-muted">
+              <span className="font-semibold tabular-nums text-base text-cream-muted">
                 #{optimalA.rank}
               </span>
             </div>
@@ -74,10 +74,10 @@ export function OptimalComparison({
       {/* Totals */}
       <div className="grid grid-cols-[1fr_auto_auto] gap-3 px-5 sm:px-6 py-4 bg-surface text-base font-extrabold border-t border-border">
         <span>Total</span>
-        <span className="text-center w-28 sm:w-32 font-mono">
+        <span className="text-center w-28 sm:w-32 tabular-nums">
           {playerAssignments.reduce((s, a) => s + a.rank, 0)}
         </span>
-        <span className="text-center w-28 sm:w-32 font-mono text-cream-muted">
+        <span className="text-center w-28 sm:w-32 tabular-nums text-cream-muted">
           {optimalAssignments.reduce((s, a) => s + a.rank, 0)}
         </span>
       </div>
