@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
 import { ResetLabel } from "@/components/home/reset-label";
 import { Flame } from "@/components/home/flame";
+import { Silhouette } from "@/components/home/silhouette";
+import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
 import { useAuth } from "@/components/auth/auth-provider";
 import { getPendingRequestCount } from "@/app/actions/profile";
 import { getPendingChallengeCount } from "@/app/actions/challenges";
@@ -51,6 +53,8 @@ export function Header() {
   const pendingFriendsBadge = pendingFriendCount + pendingChallengeCount;
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
+  // Chosen country outline (the crest) beats the initial, same as on the boards.
+  const crestPath = profile?.countryCode ? getSilhouettePath(iso2ToIso3(profile.countryCode)) : null;
 
   return (
     <header className="sticky top-0 z-50 safe-top backdrop-blur-md bg-surface/80 border-b border-black/5">
@@ -99,7 +103,7 @@ export function Header() {
                 aria-expanded={menuOpen}
                 className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-cream text-bg text-sm font-display font-semibold flex items-center justify-center hover:bg-gold hover:text-[#fbfaf6] transition-colors active:scale-95"
               >
-                {initial}
+                {crestPath ? <Silhouette d={crestPath} size={25} /> : initial}
               </button>
 
               {menuOpen && (

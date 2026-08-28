@@ -51,7 +51,10 @@ export function Board({ board, title, signedIn, friendCount, meCrest = null }: {
           </button>
         ))}
         <span className="ml-auto text-xs font-semibold text-gold-ink tabular-nums">
-          {board.shots === 1 ? "1 shot" : `${board.shots} shots`} today
+          {(() => {
+            const n = tab === "friends" ? board.friends.filter((f) => f.score !== null).length : board.shots;
+            return `${n === 1 ? "1 shot" : `${n} shots`} today`;
+          })()}
         </span>
       </div>
 
