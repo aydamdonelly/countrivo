@@ -1,4 +1,5 @@
 "use client";
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
@@ -191,7 +192,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
           </span>
         </div>
         <span className="text-base text-cream-muted font-medium">
-          {round.category.emoji} {round.category.label}
+          <StatIcon slug={round.category.slug} size={18} className="mr-1.5" />{round.category.label}
         </span>
       </div>
 
@@ -244,7 +245,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
           disabled={showReveal}
           className="py-6 px-4 rounded-xl border-2 border-correct/30 bg-correct/5 hover:border-correct hover:bg-correct/10 font-bold text-xl transition-all w-full disabled:opacity-60 active:scale-[0.97]"
         >
-          <span className="block text-2xl mb-1" aria-hidden="true">⬆️</span>
+          <svg className="block mx-auto mb-1" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 19V5M6 11l6-6 6 6" /></svg>
           Higher
         </button>
         <button
@@ -252,7 +253,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
           disabled={showReveal}
           className="py-6 px-4 rounded-xl border-2 border-incorrect/30 bg-incorrect/5 hover:border-incorrect hover:bg-incorrect/10 font-bold text-xl transition-all w-full disabled:opacity-60 active:scale-[0.97]"
         >
-          <span className="block text-2xl mb-1" aria-hidden="true">⬇️</span>
+          <svg className="block mx-auto mb-1" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 5v14M6 13l6 6 6-6" /></svg>
           Lower
         </button>
       </div>

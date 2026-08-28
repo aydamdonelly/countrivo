@@ -1,4 +1,5 @@
 "use client";
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useReducer, useCallback, useMemo, useEffect, useRef } from "react";
@@ -341,7 +342,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
                     "transition-all text-center",
                   )}
                 >
-                  <span className="text-lg mb-0.5">{cat.emoji}</span>
+                  <span className="mb-1 text-cream"><StatIcon slug={cat.slug} size={20} /></span>
                   <span className="text-xs font-bold text-cream uppercase tracking-wide">
                     {cat.shortLabel}
                   </span>

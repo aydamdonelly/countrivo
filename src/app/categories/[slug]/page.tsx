@@ -1,3 +1,4 @@
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -101,7 +102,7 @@ export default async function CategoryPage({
       {/* Header */}
       <div className="mb-10">
         <div className="flex items-center gap-4 mb-3">
-          <span className="text-5xl">{category.emoji}</span>
+          <span className="text-cream"><StatIcon slug={category.slug} size={40} /></span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
             {category.label} by Country
           </h1>
@@ -198,7 +199,7 @@ export default async function CategoryPage({
                 href={`/categories/${c.slug}`}
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-black/5 shadow-sm rounded-lg text-sm hover:border-black/10 transition-colors"
               >
-                <span>{c.emoji}</span>
+                <StatIcon slug={c.slug} size={16} />
                 <span>{c.label}</span>
               </Link>
             ))}

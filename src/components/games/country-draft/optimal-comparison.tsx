@@ -1,3 +1,4 @@
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 import type { DraftGameConfig, DraftAssignment } from "@/lib/game-logic/country-draft/types";
 import { cn } from "@/lib/utils";
@@ -48,7 +49,7 @@ export function OptimalComparison({
               <span className="text-base font-semibold truncate">{country.displayName}</span>
             </div>
             <div className="flex items-center justify-center gap-1.5 w-28 sm:w-32">
-              <span className="text-base">{playerCat.emoji}</span>
+              <StatIcon slug={playerCat.slug} size={16} />
               <span
                 className={cn(
                   "font-mono text-base font-bold",
@@ -61,7 +62,7 @@ export function OptimalComparison({
               </span>
             </div>
             <div className="flex items-center justify-center gap-1.5 w-28 sm:w-32">
-              <span className="text-base">{optimalCat.emoji}</span>
+              <StatIcon slug={optimalCat.slug} size={16} />
               <span className="font-mono text-base font-bold text-cream-muted">
                 #{optimalA.rank}
               </span>

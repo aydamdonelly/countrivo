@@ -1,4 +1,5 @@
 "use client";
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
@@ -270,7 +271,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
             Round <span className="font-bold text-cream">{state.currentRound + 1}</span> of{" "}
             {totalRounds}
           </span>
-          <span>{round.category.emoji} {round.category.label}</span>
+          <span><StatIcon slug={round.category.slug} size={16} className="mr-1" />{round.category.label}</span>
         </div>
       )}
 
@@ -286,7 +287,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
               {round.anchor.country.displayName}
             </div>
             <div className="text-xs text-cream-muted">
-              {round.category.emoji} {round.category.label}
+              <StatIcon slug={round.category.slug} size={14} className="mr-1 align-[-3px]" />{round.category.label}
             </div>
           </div>
           <div className="font-mono font-bold text-base sm:text-lg shrink-0">

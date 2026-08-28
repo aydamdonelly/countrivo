@@ -1,3 +1,4 @@
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 import type { Category } from "@/types/category";
 import type { Country } from "@/types/country";
@@ -51,12 +52,12 @@ export function CategorySlot({
             rank !== null && rank > 5 && rank <= 20 && "bg-gold-dim text-gold",
             rank !== null && rank > 20 && "bg-incorrect/10 text-incorrect"
           )}>
-            {category.emoji} #{rank}
+            <StatIcon slug={category.slug} size={14} className="mr-1 align-[-2px]" />#{rank}
           </span>
         </>
       ) : (
         <>
-          <span className="text-4xl sm:text-5xl mb-2">{category.emoji}</span>
+          <span className="mb-2 text-cream"><StatIcon slug={category.slug} size={34} /></span>
           <span className="text-sm sm:text-base font-bold text-cream-muted leading-tight text-center">
             {category.shortLabel}
           </span>

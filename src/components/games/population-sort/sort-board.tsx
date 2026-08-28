@@ -1,4 +1,5 @@
 "use client";
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useMemo, useState, useEffect } from "react";
@@ -217,7 +218,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
       />
       <div className="text-center">
         <p className="text-lg text-cream-muted">
-          Sort by <span className="font-bold text-cream text-xl">{state.category.emoji} {state.category.label}</span> — highest first
+          Sort by <span className="font-bold text-cream text-xl"><StatIcon slug={state.category.slug} size={20} className="mr-1" />{state.category.label}</span> — highest first
         </p>
       </div>
 

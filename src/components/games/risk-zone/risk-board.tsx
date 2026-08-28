@@ -1,4 +1,5 @@
 "use client";
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -317,7 +318,7 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
 
       <div className="text-center">
         <p className="text-sm font-semibold inline-flex items-center gap-1.5">
-          <span aria-hidden>{cat.emoji}</span>
+          <StatIcon slug={cat.slug} size={18} />
           {cat.label}
         </p>
         <p className="text-xs text-cream-muted mt-0.5">

@@ -1,3 +1,4 @@
+import { StatIcon } from "@/components/ui/stat-icon";
 import { CountryFlag } from "@/components/ui/country-flag";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -249,7 +250,7 @@ export default async function CountryPage({
                 href={`/categories/${cat.slug}`}
                 className="flex items-start gap-4 rounded-xl border border-black/5 bg-surface shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
               >
-                <span className="text-3xl shrink-0">{cat.emoji}</span>
+                <span className="shrink-0 text-cream mt-1"><StatIcon slug={cat.slug} size={26} /></span>
                 <div className="min-w-0">
                   <p className="text-2xl font-bold tabular-nums text-gold">
                     #{rank}
@@ -298,7 +299,7 @@ export default async function CountryPage({
                         href={`/categories/${cat.slug}`}
                         className="hover:text-gold transition-colors"
                       >
-                        <span className="mr-2">{cat.emoji}</span>
+                        <StatIcon slug={cat.slug} size={16} className="mr-2" />
                         {cat.label}
                       </Link>
                     </td>
