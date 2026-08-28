@@ -32,6 +32,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
+    console.error("[submitGameRun] no session", input.gameSlug, input.mode);
     return { success: false, error: "not_authenticated" };
   }
 
@@ -43,6 +44,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Per-game result validation: cross-check resultJson against scoreRaw
   const validationError = validateGameResult(input.gameSlug, input.scoreRaw, input.scoreMax, input.resultJson);
   if (validationError) {
+    console.error("[submitGameRun] validation", input.gameSlug, validationError);
     return { success: false, error: validationError };
   }
 
@@ -119,6 +121,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     return { success: false, error: "invalid_start_time" };
   }
   if (completedMs - startedMs < 3000) {
+    console.error("[submitGameRun] too fast", input.gameSlug, completedMs - startedMs, "ms");
     return { success: false, error: "too_fast" };
   }
 
@@ -514,10 +517,18 @@ function validateGameResult(
     switch (gameSlug) {
       case "flag-quiz":
       case "capital-match": {
-        const answers = resultJson.answers as Array<{ correct?: boolean }> | undefined;
+        // Boards send `answers` as the picked option index per question (number | null)
+        // plus a `score`; older payloads sent objects with a `correct` flag. Accept both.
+        const answers = resultJson.answers as unknown[] | undefined;
         if (!answers || !Array.isArray(answers)) return "invalid_result";
-        const correctCount = answers.filter((a) => a.correct).length;
-        if (correctCount !== scoreRaw) return "score_mismatch";
+        const objects = answers.filter((a): a is { correct?: boolean } => !!a && typeof a === "object");
+        if (objects.length === answers.length && answers.length > 0) {
+          const correctCount = objects.filter((a) => a.correct).length;
+          if (correctCount !== scoreRaw) return "score_mismatch";
+        } else {
+          if (typeof resultJson.score !== "number") return "invalid_result";
+          if (resultJson.score !== scoreRaw) return "score_mismatch";
+        }
         if (scoreRaw > answers.length) return "score_exceeds_total";
         break;
       }
