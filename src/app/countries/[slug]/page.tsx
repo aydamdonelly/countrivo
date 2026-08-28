@@ -188,7 +188,7 @@ export default async function CountryPage({
       {/* Back link */}
       <Link
         href="/countries"
-        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-gold transition-colors mb-8"
+        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-cream transition-colors mb-6"
       >
         &larr; All countries
       </Link>
@@ -196,11 +196,11 @@ export default async function CountryPage({
       {/* Hero section */}
       <header className="mb-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <span className="text-8xl shrink-0 leading-none" aria-hidden="true">
-            <CountryFlag iso2={country.iso2} width={28} />
+          <span className="shrink-0 leading-none" aria-hidden="true">
+            <CountryFlag iso2={country.iso2} width={140} className="rounded-lg" />
           </span>
           <div>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+            <h1 className="font-display font-semibold text-[34px] sm:text-5xl leading-tight">
               {country.displayName}
             </h1>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3 text-base text-cream-muted">
