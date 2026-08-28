@@ -32,7 +32,9 @@ const display = localFont({
   variable: "--font-display-src",
   display: "swap",
   preload: true,
+  // Metric-adjusted serif fallback so the swap from Times to Erode barely moves the layout.
   fallback: ["Georgia", "serif"],
+  adjustFontFallback: "Times New Roman",
 });
 
 export const metadata: Metadata = {

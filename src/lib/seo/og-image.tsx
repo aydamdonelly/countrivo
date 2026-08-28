@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getGameBySlug } from "@/lib/data/registry";
 import type { GameMeta } from "@/types/game";
+import { erodeFontData } from "./erode-font";
 
 /**
  * Shared Open Graph card renderer for every game route.
@@ -70,7 +71,7 @@ export const ogContentType = "image/png";
 
 export interface GameOgProps {
   title: string;
-  emoji: string;
+  emoji?: string;
   shortDescription: string;
   accent: Accent;
   /** Small pill in the top-right — e.g. "Daily challenge". */
@@ -80,14 +81,20 @@ export interface GameOgProps {
 }
 
 /** Low-level renderer. Everything is explicit flex — Satori needs it. */
-export function renderGameOgImage({
+let erode: ArrayBuffer | null = null;
+function erodeFont(): ArrayBuffer {
+  if (!erode) erode = erodeFontData();
+  return erode;
+}
+
+export async function renderGameOgImage({
   title,
-  emoji,
   shortDescription,
   accent,
   badge,
   footer,
-}: GameOgProps): ImageResponse {
+}: GameOgProps): Promise<ImageResponse> {
+  const font = erodeFont();
   return new ImageResponse(
     (
       <div
@@ -98,129 +105,32 @@ export function renderGameOgImage({
           flexDirection: "column",
           background: PAGE_BG,
           fontFamily: "Inter, system-ui, sans-serif",
+          padding: "56px 72px 52px 72px",
+          justifyContent: "space-between",
         }}
       >
-        {/* Per-game accent rail */}
-        <div style={{ display: "flex", width: "100%", height: 16, background: accent.fg }} />
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            flex: 1,
-            padding: "52px 72px 56px 72px",
-            justifyContent: "space-between",
-          }}
-        >
-          {/* Wordmark + mode badge */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                fontSize: 40,
-                fontWeight: 800,
-                color: INK,
-                letterSpacing: "-0.045em",
-                lineHeight: 1,
-              }}
-            >
-              <span>Coun</span>
-              <span style={{ color: GOLD, margin: "0 3px" }}>·</span>
-              <span>trivo</span>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                padding: "10px 22px",
-                borderRadius: 999,
-                background: accent.bg,
-                color: accent.fg,
-                fontSize: 24,
-                fontWeight: 700,
-                letterSpacing: "0.01em",
-              }}
-            >
-              {badge}
-            </div>
-          </div>
-
-          {/* Game identity */}
-          <div style={{ display: "flex", flexDirection: "column", marginTop: 24 }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 132,
-                  height: 132,
-                  borderRadius: 32,
-                  background: accent.bg,
-                  fontSize: 76,
-                }}
-              >
-                {emoji}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  fontSize: 86,
-                  fontWeight: 800,
-                  color: INK,
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1.05,
-                  marginLeft: 32,
-                  maxWidth: 820,
-                }}
-              >
-                {title}
-              </div>
-            </div>
-            <div
-              style={{
-                display: "flex",
-                marginTop: 28,
-                fontSize: 36,
-                color: INK_MUTED,
-                lineHeight: 1.3,
-                maxWidth: 1000,
-              }}
-            >
-              {shortDescription}
-            </div>
-          </div>
-
-          {/* Metadata row — always carries the domain so screenshots keep it */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              fontSize: 24,
-              color: INK_FAINT,
-              fontFamily: "monospace",
-            }}
-          >
-            {footer.map((item, i) => (
-              <div key={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                {i > 0 ? <span style={{ color: GOLD }}>·</span> : null}
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+          <div style={{ display: "flex", fontFamily: "Erode", fontSize: 40, color: INK, lineHeight: 1 }}>Countrivo</div>
+          <div style={{ display: "flex", fontSize: 24, color: INK_MUTED }}>{badge}</div>
         </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontFamily: "Erode", fontSize: 96, color: accent.fg, lineHeight: 1.02, maxWidth: 1000 }}>{title}</div>
+          <div style={{ display: "flex", marginTop: 26, fontSize: 34, color: INK_MUTED, lineHeight: 1.35, maxWidth: 960 }}>{shortDescription}</div>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 24, color: INK_FAINT }}>
+          {footer.map((item, i) => (
+            <div key={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              {i > 0 ? <span style={{ color: GOLD }}>·</span> : null}
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 14, background: GOLD, display: "flex" }} />
       </div>
     ),
-    { ...ogSize }
+    { ...ogSize, fonts: [{ name: "Erode", data: font, weight: 600, style: "normal" }] }
   );
 }
 
@@ -248,17 +158,16 @@ interface SlugOgOptions {
 export function renderGameOgImageForSlug(
   slug: string,
   options: SlugOgOptions = {}
-): ImageResponse {
+): Promise<ImageResponse> {
   const game = getGameBySlug(slug);
 
   if (!game) {
     return renderGameOgImage({
       title: "Countrivo",
-      emoji: "🌍",
       shortDescription: options.shortDescription ?? "One geography puzzle a day.",
       accent: FALLBACK_ACCENT,
       badge: options.badge ?? "Geography games",
-      footer: ["17 games", "243 countries", "countrivo.com"],
+      footer: ["18 games", "243 countries", "countrivo.com"],
     });
   }
 
@@ -266,7 +175,6 @@ export function renderGameOgImageForSlug(
 
   return renderGameOgImage({
     title: game.title,
-    emoji: game.emoji,
     shortDescription: options.shortDescription ?? game.shortDescription,
     accent: accentFor(slug),
     badge: options.badge ?? (isDaily ? "Daily challenge" : "Practice mode"),
