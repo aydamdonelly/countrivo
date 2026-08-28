@@ -280,7 +280,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
         {/* Score hero */}
         <div className={`text-center p-8 sm:p-12 rounded-2xl ${grade.bg}`}>
           <div className="text-6xl sm:text-7xl mb-4 animate-scale-in">
-            {"⭐".repeat(result.stars)}
+            {Array.from({ length: result.stars }).map((_, i) => (<svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="inline-block"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z" /></svg>))}
           </div>
           <h2 className={`text-4xl sm:text-5xl font-extrabold capitalize ${grade.color} animate-count-up`}>
             {result.grade}!
@@ -379,19 +379,15 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4">Try another game</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-3xl block mb-2">⬆️</span>
               <span className="text-base font-bold">Higher or Lower</span>
             </Link>
             <Link href="/games/flag-quiz" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-3xl block mb-2">🏁</span>
               <span className="text-base font-bold">Flag Quiz</span>
             </Link>
             <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-3xl block mb-2">📊</span>
               <span className="text-base font-bold">Population Sort</span>
             </Link>
             <Link href="/games/capital-match" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-3xl block mb-2">🏛️</span>
               <span className="text-base font-bold">Capital Match</span>
             </Link>
           </div>

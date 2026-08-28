@@ -12,11 +12,14 @@ interface Props {
 }
 
 export default async function BorderlinePlayPage({ searchParams }: Props) {
+  // Per-request seed for the first practice board; the client re-seeds on reset.
+  // eslint-disable-next-line react-hooks/purity -- request-time seed, server component
+  const practiceSeed = Date.now();
   await searchParams;
   // BorderlineBoard only supports practice mode today; daily lives elsewhere.
   return (
     <GameShell title="Borderline" backHref="/games/borderline" mode="practice">
-      <BorderlineBoard mode="practice" practiceSeed={Date.now()} />
+      <BorderlineBoard mode="practice" practiceSeed={practiceSeed} />
     </GameShell>
   );
 }

@@ -147,7 +147,7 @@ export function SpeedBoard({ mode, edition }: SpeedBoardProps) {
   if (state.phase === "ready") {
     return (
       <div className="flex flex-col items-center gap-6 py-12">
-        <span className="text-6xl">⚡</span>
+        <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="text-cream"><path d="M13 3L5 13h6l-1 8 9-11h-6l1-7z" /></svg>
         <h2 className="text-2xl font-bold">Ready?</h2>
         <p className="text-cream-muted text-center">
           Identify as many flags as possible in 20 seconds.<br />

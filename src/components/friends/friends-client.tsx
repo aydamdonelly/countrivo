@@ -1,4 +1,5 @@
 "use client";
+import { Flame } from "@/components/home/flame";
 
 import { useState, useCallback, useTransition, useMemo, useRef } from "react";
 import Link from "next/link";
@@ -217,7 +218,7 @@ export function FriendsClient({
                         <p className="font-medium text-sm truncate">{f.profile.displayName ?? f.profile.username}</p>
                         <div className="flex items-center gap-2 text-xs text-cream-muted">
                           <span>@{f.profile.username}</span>
-                          {f.profile.streakCurrent > 0 && <span>🔥 {f.profile.streakCurrent}</span>}
+                          {f.profile.streakCurrent > 0 && <span className="inline-flex items-center gap-1"><Flame size={14} className="text-gold" />{f.profile.streakCurrent}</span>}
                         </div>
                       </div>
                     </Link>
@@ -322,7 +323,7 @@ function FriendActivityCard({ friend, myRunsBySlug, isPending, onRemove }: Frien
             <p className="font-medium text-sm truncate">{displayName}</p>
             <div className="flex items-center gap-2 text-xs text-cream-muted">
               <span>@{profile.username}</span>
-              {profile.streakCurrent > 0 && <span>🔥 {profile.streakCurrent}</span>}
+              {profile.streakCurrent > 0 && <span className="inline-flex items-center gap-1"><Flame size={14} className="text-gold" />{profile.streakCurrent}</span>}
               <span className="text-correct font-medium">{todayRuns.length} played today</span>
             </div>
           </div>

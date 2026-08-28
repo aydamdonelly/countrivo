@@ -50,15 +50,6 @@ function reducer(state: SprintState, action: Action): SprintState {
   }
 }
 
-const CONTINENT_EMOJIS: Record<Continent, string> = {
-  Africa: "🌍",
-  Americas: "🌎",
-  Asia: "🌏",
-  Europe: "🏰",
-  Oceania: "🏝️",
-  Antarctica: "🧊",
-};
-
 function formatTime(ms: number): string {
   const totalSeconds = Math.floor(ms / 1000);
   const minutes = Math.floor(totalSeconds / 60);
@@ -188,7 +179,6 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
                 onClick={() => { juice.tap(); dispatch({ type: "PICK_CONTINENT", continent }); }}
                 className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 active:scale-[0.97]"
               >
-                <span className="text-3xl mb-2" aria-hidden="true">{CONTINENT_EMOJIS[continent]}</span>
                 <span className="font-bold">{continent}</span>
                 <span className="text-xs text-cream-muted mt-1">{count} countries</span>
               </button>
@@ -262,7 +252,6 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
       {/* Header stats */}
       <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          <span aria-hidden="true">{CONTINENT_EMOJIS[state.continent!]}</span>{" "}
           <span className="font-bold text-cream">{state.continent}</span>
         </span>
         <span className="font-mono font-bold text-cream">{formatTime(state.elapsed)}</span>

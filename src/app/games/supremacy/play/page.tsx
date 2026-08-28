@@ -12,11 +12,14 @@ interface Props {
 }
 
 export default async function SupremacyPlayPage({ searchParams }: Props) {
+  // Per-request seed for the first practice board; the client re-seeds on reset.
+  // eslint-disable-next-line react-hooks/purity -- request-time seed, server component
+  const practiceSeed = Date.now();
   await searchParams;
   // SupremacyBoard only supports practice mode today; daily lives elsewhere.
   return (
     <GameShell title="Supremacy" backHref="/games/supremacy" mode="practice">
-      <SupremacyBoard mode="practice" practiceSeed={Date.now()} />
+      <SupremacyBoard mode="practice" practiceSeed={practiceSeed} />
     </GameShell>
   );
 }

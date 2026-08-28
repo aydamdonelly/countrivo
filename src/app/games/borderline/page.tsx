@@ -1,83 +1,27 @@
-import Link from "next/link";
-import { GameJsonLd } from "@/components/seo/game-jsonld";
-import { buildGameMetadata, buildGameJsonLd } from "@/lib/seo/game-metadata";
+import { GameLanding } from "@/components/game/game-landing";
+import { buildGameMetadata } from "@/lib/seo/game-metadata";
 
 export const metadata = buildGameMetadata("borderline");
 
-export default function BorderlinePage() {
+export default function Page() {
   return (
-    <div className="max-w-5xl mx-auto">
-      <GameJsonLd {...buildGameJsonLd("borderline")} />
-
-      {/* Hero */}
-      <div className="bg-surface border-b border-border px-4 py-12 sm:py-16 text-center -mx-4 sm:-mx-6 lg:-mx-8">
-        <span className="text-7xl mb-4 block">🗺️</span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold">Borderline</h1>
-        <p className="text-cream-muted text-lg mt-3 max-w-xl mx-auto">
-          Race through country borders to reach your target. Navigate from
-          country to country by naming neighbors. Can you beat the optimal path?
-        </p>
-      </div>
-
-      {/* Action buttons */}
-      <div className="flex flex-col gap-4 px-4 mt-10 max-w-xl mx-auto">
-        <Link
-          href="/games/borderline/play?mode=practice"
-          className="block py-5 px-8 rounded-xl border-2 border-border hover:border-border hover:bg-surface transition-all text-center"
-        >
-          <div className="text-3xl mb-2">🧭</div>
-          <h2 className="text-xl font-bold">Practice Solo</h2>
-          <p className="text-base text-cream-muted mt-1">
-            Race against the optimal path length. Unlimited rounds.
-          </p>
-        </Link>
-      </div>
-
-      {/* How it works */}
-      <div className="mt-12 px-4 sm:px-0 p-8 bg-surface rounded-xl max-w-xl mx-auto">
-        <h3 className="font-bold text-xl mb-4">How it works</h3>
-        <ol className="space-y-3 text-base text-cream-muted">
-          {[
-            "You start at a random country with a target destination",
-            "Type the name of a bordering country to move there",
-            "Keep moving through borders until you reach the target",
-            "Try to match the optimal (shortest) path length",
-          ].map((rule, i) => (
-            <li key={i} className="flex gap-3">
-              <span className="w-7 h-7 rounded-full bg-gold-dim text-gold font-bold text-sm flex items-center justify-center shrink-0">
-                {i + 1}
-              </span>
-              {rule}
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {/* Related games */}
-      <div className="mt-12 px-4 pb-8">
-        <h3 className="font-bold text-lg text-cream-muted label-caps mb-4 text-center">
-          Try next
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
-          {[
-            { href: "/games/border-buddies", emoji: "🤝", name: "Border Buddies" },
-            { href: "/games/supremacy", emoji: "👑", name: "Supremacy" },
-            { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
-            { href: "/games/flag-quiz", emoji: "🏁", name: "Flag Quiz" },
-            { href: "/games/continent-sprint", emoji: "🏃", name: "Continent Sprint" },
-            { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
-          ].map((g) => (
-            <Link
-              key={g.href}
-              href={g.href}
-              className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center"
-            >
-              <span className="text-3xl block mb-2">{g.emoji}</span>
-              <span className="text-base font-bold">{g.name}</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
+    <GameLanding
+      title="Borderline"
+      description="Start in one country and reach the target by crossing only land borders, in as few steps as possible."
+      playHref="/games/borderline/play"
+      hasDailyMode={false}
+      rules={[
+        "Two countries are shown: where you start and where you need to get to",
+        "Pick a neighbouring country to cross one border",
+        "Keep crossing until you reach the target",
+        "Fewer borders crossed means a better score",
+      ]}
+      relatedGames={[
+          { href: "/games/border-buddies", name: "Border Buddies" },
+          { href: "/games/odd-one-out", name: "Odd One Out" },
+          { href: "/games/geo-wordle", name: "GeoWordle" },
+          { href: "/games/country-draft", name: "Country Draft" },
+      ]}
+    />
   );
 }

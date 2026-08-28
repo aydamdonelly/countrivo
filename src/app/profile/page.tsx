@@ -6,7 +6,9 @@ import { ProfileEditForm } from "@/components/profile/profile-edit-form";
 import { AdminRerollButton } from "@/components/admin/admin-reroll-button";
 import { ADMIN_USER_ID } from "@/lib/admin";
 import { GAME_COLORS } from "@/lib/game-colors";
-import { IconFlame } from "@/components/icons";
+import { Flame } from "@/components/home/flame";
+import { Crest } from "@/components/home/silhouette";
+import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -41,21 +43,19 @@ export default async function ProfilePage() {
     <div className="max-w-2xl mx-auto px-4 py-8">
       {/* Profile header */}
       <div className="flex items-center gap-4 mb-8">
-        <div className="w-16 h-16 rounded-full bg-gold flex items-center justify-center text-2xl font-bold text-white shrink-0">
-          {(profile.displayName ?? profile.username)[0]?.toUpperCase() ?? "?"}
-        </div>
+        <Crest d={getSilhouettePath(iso2ToIso3(profile.countryCode))} label={profile.displayName ?? profile.username} size={64} />
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-extrabold truncate">{profile.displayName ?? profile.username}</h1>
-          <p className="text-sm text-cream-muted">@{profile.username}</p>
-          <p className="flex items-center gap-1 text-sm font-bold font-mono mt-0.5">
-            <IconFlame width={16} height={16} className="text-amber-500 shrink-0" aria-hidden="true" />
+          <h1 className="font-display font-semibold text-[26px] leading-tight truncate">{profile.displayName ?? profile.username}</h1>
+          <p className="text-sm text-cream-muted">@{profile.username}{!profile.countryCode && <> · <span className="text-cream">pick a country below to get your crest</span></>}</p>
+          <p className="flex items-center gap-1.5 text-sm mt-1">
+            <Flame size={16} className={profile.streakCurrent > 0 ? "text-gold" : "text-cream-dim"} />
             {profile.streakCurrent > 0 ? (
-              <span className="text-gold">
+              <span className="font-semibold tabular-nums">
                 {profile.streakCurrent} day streak
-                <span className="text-cream-muted font-normal ml-1">(best: {profile.streakLongest})</span>
+                <span className="text-cream-muted font-normal ml-1">(best {profile.streakLongest})</span>
               </span>
             ) : (
-              <span className="text-cream-muted font-normal">0 day streak. Play today to start one.</span>
+              <span className="text-cream-muted">No streak yet. One daily shot starts it.</span>
             )}
           </p>
         </div>
