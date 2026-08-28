@@ -184,7 +184,7 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
 
       {/* Danger zone — in-app account deletion (required for the App Store) */}
       <div className="pt-6 border-t border-border">
-        <h2 className="text-sm font-bold text-incorrect mb-1">Delete account</h2>
+        <h2 className="text-sm font-semibold text-cream mb-1">Delete account</h2>
         <p className="text-sm text-cream-muted mb-3">
           Permanently deletes your account, scores and streaks. This can&apos;t be undone.
         </p>
