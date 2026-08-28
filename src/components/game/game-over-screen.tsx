@@ -506,14 +506,7 @@ export function GameOverScreen({
         <button onClick={handleShare} className="cta-secondary sm:flex-1">
           {shared ? "Copied!" : "Share result"}
         </button>
-        {serverData?.runId && gameSlug && (
-          <button
-            onClick={() => setShowChallengePicker(true)}
-            className="cta-secondary sm:flex-1"
-          >
-            Challenge a friend
-          </button>
-        )}
+        {/* One-on-one duels are not part of the concept: everyone plays the same daily. */}
       </div>
       {showChallengePicker && serverData?.runId && gameSlug && (
         <ChallengeFriendPicker

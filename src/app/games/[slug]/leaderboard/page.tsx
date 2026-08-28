@@ -1,4 +1,5 @@
 import { CountryFlag } from "@/components/ui/country-flag";
+import { toFlagCode } from "@/lib/silhouettes";
 import Link from "next/link";
 import { getDailyLeaderboard, getDailySummary } from "@/app/actions/game-runs";
 import { getFriendsLeaderboard } from "@/app/actions/friends";
@@ -71,7 +72,7 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
     const ids = rows.map((r) => r.userId);
     if (ids.length) {
       const { data } = await supabase.from("profiles").select("id, country_code").in("id", ids);
-      countryByUser = new Map((data ?? []).map((p) => [p.id as string, (p.country_code as string | null) ?? null]));
+      countryByUser = new Map((data ?? []).map((p) => [p.id as string, toFlagCode(p.country_code as string | null)]));
     }
   } catch { /* guest */ }
 

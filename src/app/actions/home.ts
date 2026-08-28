@@ -5,7 +5,7 @@ import { createClient as createAnonClient } from "@supabase/supabase-js";
 import { unstable_cache } from "next/cache";
 import { getTodayDateKey, getDailyRng } from "@/lib/daily-seed";
 import { getAllGames } from "@/lib/data/games";
-import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
+import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
 import { generateDraftConfig } from "@/lib/game-logic/country-draft/generator";
 
 export interface BoardRow {
@@ -182,7 +182,7 @@ export async function getHomeData(): Promise<HomeData> {
       return {
         userId: r.user_id,
         name: nameOf(r.user_id),
-        flag: p?.country_code ? p.country_code.toLowerCase() : null,
+        flag: toFlagCode(p?.country_code),
         crest: crestFor(p?.country_code),
         score: compactScore(r.score_display, r.score_raw),
         sort: Number(r.score_sort_value),
