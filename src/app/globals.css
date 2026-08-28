@@ -397,7 +397,6 @@ h1 {
   text-underline-offset: 4px;
   text-decoration-color: var(--color-border-hover);
   font-weight: 500;
-  text-decoration: none;
   transition: opacity 0.15s ease;
   cursor: pointer;
 }
