@@ -93,7 +93,7 @@ export function GameLanding({
           <div className="min-w-0">
             <h1 className="font-display font-semibold text-[32px] leading-tight">{title}</h1>
             <p className="mt-2 text-[14px] leading-snug text-bg/70">{description}</p>
-            {hasDailyMode && showDateStamp && <div className="mt-2 text-bg/60"><DateStamp accentClassName="text-gold mx-0.5" /></div>}
+            {hasDailyMode && showDateStamp && <div className="mt-1"><DateStamp accentClassName="text-gold-ink mx-0.5" className="text-bg/60" /></div>}
           </div>
         </div>
         <div className="mt-6 flex items-center justify-between gap-4">

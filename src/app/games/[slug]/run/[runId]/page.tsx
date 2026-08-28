@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GameMark } from "@/components/home/game-mark";
 import { notFound } from "next/navigation";
 import { getRunDetail } from "@/app/actions/game-runs";
 import { getGameBySlug } from "@/lib/data/games";
@@ -89,17 +90,17 @@ export default async function RunDetailPage({ params }: Props) {
               {run.displayName || run.username}
             </Link>
             <p className="text-sm opacity-70" style={{ color: colors.text }}>
-              {game ? `${game.emoji} ${game.title}` : slug} · {date}
+              {game ? <><GameMark slug={game.slug} size={14} className="mr-1 align-[-2px]" />{game.title}</> : slug} · {date}
             </p>
           </div>
         </div>
 
         <div className="mt-5">
           <p
-            className="text-4xl sm:text-5xl font-extrabold"
+            className="font-display font-semibold text-5xl sm:text-6xl tabular-nums"
             style={{ color: colors.text }}
           >
-            {run.scoreDisplay}
+            {(run.scoreDisplay ?? "").match(/^Score:\s*([^\s(]+)/i)?.[1] ?? run.scoreDisplay}
           </p>
           <div
             className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm"
