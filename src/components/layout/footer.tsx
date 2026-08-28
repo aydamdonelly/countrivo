@@ -19,7 +19,7 @@ export function Footer() {
                 <Link href="/games/country-draft" className="block hover:text-cream transition-colors">Country Draft</Link>
                 <Link href="/games/flag-quiz" className="block hover:text-cream transition-colors">Flag Quiz</Link>
                 <Link href="/games/higher-or-lower" className="block hover:text-cream transition-colors">Higher or Lower</Link>
-                <Link href="/games" className="block hover:text-cream transition-colors text-gold font-medium">All {getAllGames().length} games →</Link>
+                <Link href="/games" className="block hover:text-cream transition-colors text-gold-ink font-medium">All {getAllGames().length} games →</Link>
               </div>
             </div>
 

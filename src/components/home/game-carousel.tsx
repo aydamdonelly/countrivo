@@ -70,7 +70,7 @@ export function GameCarousel({
             aria-selected={i === active}
             aria-label={s.replace(/-/g, " ")}
             onClick={() => scrollTo(i)}
-            className="py-3 px-1 -my-2"
+            className="py-3 px-2.5 -my-2 -mx-1"
           >
             <span className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ease-[var(--ease-emphasis)] ${i === active ? "w-6 bg-cream" : "w-1.5 bg-cream-dim hover:bg-cream-muted"}`} />
           </button>
