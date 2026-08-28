@@ -194,7 +194,8 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     .eq("game_slug", input.gameSlug)
     .single();
 
-  const isPersonalBest = stats ? scoreSortValue >= stats.best_sort_value : true;
+  // A first run is a baseline and a zero is never a record.
+  const isPersonalBest = input.scoreRaw > 0 && (stats ? scoreSortValue > stats.best_sort_value : true);
 
   if (isPersonalBest && finalRun) {
     await supabase
