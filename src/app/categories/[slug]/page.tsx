@@ -57,7 +57,7 @@ export default async function CategoryPage({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: `${category.label} — World Ranking`,
+    name: `${category.label}: World Ranking`,
     description: `Countries ranked by ${category.label.toLowerCase()}`,
     numberOfItems: topCountries.length,
     itemListElement: topCountries.slice(0, 10).map(({ iso3, rank }) => {

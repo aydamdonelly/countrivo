@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const gameTitle = game?.title ?? slug;
   const date = formatDailyDate(run.dailyDate);
   return {
-    title: `${run.displayName}'s ${gameTitle} — ${date}`,
+    title: `${run.displayName}'s ${gameTitle} · ${date}`,
     description: `${run.displayName} scored ${run.scoreDisplay} on the ${gameTitle} daily challenge for ${date}.`,
     robots: { index: false },
   };

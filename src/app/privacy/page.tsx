@@ -54,7 +54,7 @@ export default function PrivacyPage() {
             Playing is free and needs no account. If you choose to create one, we
             store your email address and a username so we can save your scores,
             streaks, and friends. You can delete your account and all associated
-            data at any time from your profile — deletion is immediate and
+            data at any time from your profile, deletion is immediate and
             permanent. Countrivo shows no ads and does not sell your data.
           </p>
           <p className="mt-3">

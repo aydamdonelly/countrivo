@@ -28,7 +28,7 @@ export function CategorySlot({
           ? `Assign to ${category.label}`
           : assignedCountry
           ? `${assignedCountry.displayName} assigned to ${category.label}, rank #${rank}`
-          : `${category.label} — unavailable`
+          : `${category.label}: unavailable`
       }
       className={cn(
         "relative flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl border-2 transition-[transform,border-color,background-color,box-shadow] duration-200 min-h-30 sm:min-h-35",

@@ -27,7 +27,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "are shown eight countries one at a time and must assign each country to the one category, out of eight, where that country ranks highest globally",
     skill:
-      "comparative ranking — knowing not just a country's statistics but where those statistics place the country against every other country",
+      "comparative ranking, knowing not just a country's statistics but where those statistics place the country against every other country",
   },
   "flag-quiz": {
     mechanic:
@@ -38,7 +38,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "compare two countries on a single statistic and pick which country ranks higher, with one wrong pick ending the streak",
     skill:
-      "an intuition for relative scale — how countries actually compare on population, area, GDP and other measures",
+      "an intuition for relative scale, how countries actually compare on population, area, GDP and other measures",
   },
   "capital-match": {
     mechanic:
@@ -60,7 +60,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "are shown one country and must name every country that shares a border with it, with every miss counted",
     skill:
-      "knowledge of which countries neighbour which — the part of a mental map that quizzes rarely test",
+      "knowledge of which countries neighbour which, the part of a mental map that quizzes rarely test",
   },
   "continent-sprint": {
     mechanic:
@@ -69,7 +69,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
   },
   "stat-guesser": {
     mechanic:
-      "are asked for a real figure — the population of Brazil, the GDP of Norway — and type a numeric guess, scoring on how close that guess lands",
+      "are asked for a real figure, the population of Brazil, the GDP of Norway, and type a numeric guess, scoring on how close that guess lands",
     skill:
       "numeric estimation: getting the order of magnitude right when the exact number is unknown",
   },
@@ -105,7 +105,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "get six guesses to find a hidden mystery country, with each guess revealing how far away that country is and which direction to head next",
     skill:
-      "deduction from distance and bearing — narrowing a whole world down to one country",
+      "deduction from distance and bearing, narrowing a whole world down to one country",
   },
   cluster: {
     mechanic:
@@ -117,7 +117,7 @@ const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "make higher-or-lower calls one country at a time, growing a multiplier with every correct call and choosing whether to bank the pot or gamble on one more reveal, across five chains",
     skill:
-      "ranking judgement combined with risk management — knowing when a streak is worth more than another guess",
+      "ranking judgement combined with risk management, knowing when a streak is worth more than another guess",
   },
 };
 
@@ -155,7 +155,7 @@ export function GameEntityBlock({ slug }: { slug: string }) {
 
         <p>
           {title} trains {copy.skill}. A single round of {title} takes{" "}
-          {estimatedTime}, and {title} is free to play in any web browser — no
+          {estimatedTime}, and {title} is free to play in any web browser, no
           signup, no download, no payment.
         </p>
 

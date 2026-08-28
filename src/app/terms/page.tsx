@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Terms of Service for Countrivo — the rules for using the free geography game.",
+  description: "Terms of Service for Countrivo, the rules for using the free geography game.",
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

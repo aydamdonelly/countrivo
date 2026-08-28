@@ -464,7 +464,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
         subtitle={
           won
             ? used === 1
-              ? "Incredible — first try."
+              ? "Incredible. First try."
               : used <= 3
                 ? "Sharp geography."
                 : "Got there."
@@ -564,7 +564,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
             </>
           ) : (
             <span className="text-cream-muted">
-              Guess any country — you will get the distance and direction to the answer.
+              Guess any country, you will get the distance and direction to the answer.
             </span>
           )}
         </p>

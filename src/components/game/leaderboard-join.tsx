@@ -39,7 +39,7 @@ export function LeaderboardJoin({ onJoined, daily }: LeaderboardJoinProps) {
     const res = await joinAsGuest(trimmed);
     if (!res.ok) {
       setBusy(false);
-      setError(res.error ?? "Could not join — try again");
+      setError(res.error ?? "Could not join. Try again.");
       return;
     }
     onJoined();

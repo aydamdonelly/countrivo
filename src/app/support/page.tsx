@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Support",
-  description: "Get help with Countrivo — contact, FAQ, and how to manage your account.",
+  description: "Get help with Countrivo, contact, FAQ, and how to manage your account.",
 };
 
 function Faq({ q, children }: { q: string; children: React.ReactNode }) {
