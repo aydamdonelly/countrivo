@@ -251,7 +251,7 @@ export function AuthModal() {
 
         {/* Header */}
         <div className="text-center mb-5">
-          <h2 id="auth-modal-title" className="text-xl font-extrabold">
+          <h2 id="auth-modal-title" className="font-display font-semibold text-2xl">
             {tab === "signin" ? "Welcome back" : "Create your account"}
           </h2>
           <p className="text-sm text-cream-muted mt-1">
@@ -372,7 +372,7 @@ export function AuthModal() {
           )}
 
           {capsLockOn && (
-            <p className="text-xxs text-gold font-medium" role="status">
+            <p className="text-xxs text-cream-muted font-medium" role="status">
               Caps Lock is on
             </p>
           )}
@@ -402,7 +402,7 @@ export function AuthModal() {
               <Link
                 href="/auth/forgot-password"
                 onClick={closeAuthModal}
-                className="text-xs text-gold font-medium hover:underline"
+                className="text-xs text-cream-muted font-medium underline underline-offset-4 hover:text-cream"
               >
                 Forgot password?
               </Link>

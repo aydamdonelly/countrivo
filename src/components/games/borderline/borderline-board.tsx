@@ -223,12 +223,12 @@ export function BorderlineBoard({
               <CountryFlag iso2={c.iso2} width={26} />
               <span className="font-medium">{c.displayName}</span>
               {i === 0 && (
-                <span className="ml-auto text-xs text-gold font-bold uppercase">
+                <span className="ml-auto text-xs text-cream font-semibold">
                   Start
                 </span>
               )}
               {i === game.path.length - 1 && i !== 0 && (
-                <span className="ml-auto text-xs text-correct font-bold uppercase">
+                <span className="ml-auto text-xs text-correct font-semibold">
                   Goal
                 </span>
               )}
@@ -274,8 +274,8 @@ export function BorderlineBoard({
 
       {/* Stats row */}
       <div className="flex items-center justify-between text-sm">
-        <span className="text-cream-muted uppercase tracking-wide font-medium">
-          Steps: <span className="text-gold font-bold">{game.moveCount}</span>
+        <span className="text-cream-muted font-medium tabular-nums">
+          Steps: <span className="text-cream font-semibold">{game.moveCount}</span>
           <span className="text-cream-muted">
             {" "}
             / Optimal: {game.optimalLength}
@@ -291,7 +291,7 @@ export function BorderlineBoard({
         <span className="font-bold text-2xl sm:text-3xl">
           {game.currentCountry.displayName}
         </span>
-        <span className="text-sm text-cream-muted mt-1 uppercase tracking-wide">
+        <span className="text-sm text-cream-muted mt-1">
           Current location
         </span>
       </div>

@@ -210,14 +210,14 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
     <div className="flex flex-col gap-6">
       {/* Round counter + scores */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-cream-muted uppercase tracking-wide">
+        <span className="text-sm font-medium text-cream-muted">
           Round {state.currentRound + 1} / 5
         </span>
         <div className="flex items-center gap-3">
           <span
             className={cn(
-              "text-2xl font-extrabold font-mono",
-              state.playerScore > state.aiScore ? "text-gold" : "text-cream",
+              "text-2xl font-display font-semibold tabular-nums",
+              state.playerScore > state.aiScore ? "text-cream" : "text-cream-muted",
             )}
           >
             {state.playerScore}
@@ -225,8 +225,8 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
           <span className="text-cream-muted text-sm">--</span>
           <span
             className={cn(
-              "text-2xl font-extrabold font-mono",
-              state.aiScore > state.playerScore ? "text-gold" : "text-cream",
+              "text-2xl font-display font-semibold tabular-nums",
+              state.aiScore > state.playerScore ? "text-cream" : "text-cream-muted",
             )}
           >
             {state.aiScore}
@@ -234,8 +234,8 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
         </div>
         <span
           className={cn(
-            "text-sm font-bold uppercase tracking-wide",
-            state.isPlayerTurn ? "text-gold" : "text-cream-muted",
+            "text-sm font-semibold",
+            state.isPlayerTurn ? "text-cream" : "text-cream-muted",
           )}
         >
           {state.isPlayerTurn ? "Your pick" : "AI's pick"}
@@ -261,7 +261,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
           {chosenStat && (
             <span
               className={cn(
-                "text-xl sm:text-2xl font-mono font-extrabold mt-3 transition-all",
+                "text-xl sm:text-2xl font-display font-semibold tabular-nums mt-3 transition-all",
                 showReveal && roundWinner === "player" && "text-correct",
                 showReveal && roundWinner === "ai" && "text-incorrect",
                 showReveal && roundWinner === "draw" && "text-gold",
@@ -276,7 +276,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
                 : "N/A"}
             </span>
           )}
-          <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">You</span>
+          <span className="text-xs text-cream-muted mt-1">You</span>
         </div>
 
         {/* AI card (face down until revealed) */}
@@ -286,7 +286,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
             showReveal && roundWinner === "ai" && "border-correct/50 bg-correct/5",
             showReveal && roundWinner === "player" && "border-incorrect/50 bg-incorrect/5",
             showReveal && roundWinner === "draw" && "border-gold/50 bg-gold-dim",
-            !showReveal && "border-border bg-gold-dim",
+            !showReveal && "border-border bg-surface-elevated",
           )}
         >
           {showReveal ? (
@@ -298,7 +298,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
               {chosenStat && (
                 <span
                   className={cn(
-                    "text-xl sm:text-2xl font-mono font-extrabold mt-3",
+                    "text-xl sm:text-2xl font-display font-semibold tabular-nums mt-3",
                     roundWinner === "ai" && "text-correct",
                     roundWinner === "player" && "text-incorrect",
                     roundWinner === "draw" && "text-gold",
@@ -316,10 +316,10 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
           ) : (
             <>
               <span className="text-6xl sm:text-7xl mb-2 opacity-30">?</span>
-              <span className="font-bold text-lg text-cream-muted">Hidden</span>
+              <span className="font-display font-semibold text-lg text-cream-muted">Hidden</span>
             </>
           )}
-          <span className="text-xs text-cream-muted mt-1 uppercase tracking-wide">AI</span>
+          <span className="text-xs text-cream-muted mt-1">AI</span>
         </div>
       </div>
 
@@ -343,10 +343,10 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
                   )}
                 >
                   <span className="mb-1 text-cream"><StatIcon slug={cat.slug} size={20} /></span>
-                  <span className="text-xs font-bold text-cream uppercase tracking-wide">
+                  <span className="text-xs font-semibold text-cream-muted">
                     {cat.shortLabel}
                   </span>
-                  <span className="text-sm font-mono font-extrabold text-gold mt-1">
+                  <span className="text-base font-display font-semibold tabular-nums text-cream mt-1">
                     {val !== null ? formatStat(val, cat.unit) : "N/A"}
                   </span>
                   <span className="text-xxs text-cream-muted mt-0.5">
