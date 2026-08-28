@@ -14,6 +14,7 @@ import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
@@ -58,6 +59,9 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
   const handleAnswer = useCallback((idx: number) => {
     if (showFeedback) return;
     const isCorrect = idx === currentQ.correctIndex;
+    // Verdict feel: fire haptic + sound on the SAME frame the visual feedback starts.
+    if (isCorrect) juice.correct();
+    else juice.wrong();
     setFeedbackType(isCorrect ? "good" : "bad");
     setFeedbackMessage(isCorrect ? "Correct!" : "Wrong answer");
     setFeedbackKey((k) => k + 1);
@@ -115,10 +119,15 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.score, state.questions.length, state.answers, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   if (state.phase === "results") {
     const pct = Math.round((state.score / state.questions.length) * 100);
@@ -133,9 +142,13 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
 
     return (
       <GameOverScreen
-        title="Capital Match Complete!"
+        title={`${state.score} / ${state.questions.length} capitals`}
         score={`${state.score} / ${state.questions.length}`}
-        subtitle={`${pct}% — ${pct >= 70 ? "Great job!" : "Keep practicing!"}`}
+        subtitle={
+          pct >= 70
+            ? `${pct}% correct. Solid geography.`
+            : `${pct}% correct. Capitals are tricky.`
+        }
         onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.score}
@@ -206,7 +219,7 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
               disabled={showFeedback}
               className={cn(
                 "p-5 min-h-13 rounded-xl border-2 text-left text-lg font-medium transition-all w-full",
-                !showFeedback && "border-black/10 hover:border-black/20 hover:bg-black/3 active:scale-[0.98]",
+                !showFeedback && "border-black/15 hover:border-black/25 hover:bg-black/3 active:scale-[0.97]",
                 showFeedback && isCorrect && "border-correct bg-correct/10",
                 showFeedback && isSelected && !isCorrect && "border-incorrect bg-incorrect/10",
                 showFeedback && !isCorrect && !isSelected && "border-border opacity-50"

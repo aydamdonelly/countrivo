@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getPublicProfile } from "@/app/actions/profile";
-import { sendFriendRequest } from "@/app/actions/friends";
+import { AddFriendButton } from "./add-friend-button";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -12,7 +12,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
   return {
-    title: `Add ${username} | Countrivo`,
+    title: `Add ${username}`,
     description: `Add ${username} as a friend on Countrivo.`,
   };
 }
@@ -92,24 +92,13 @@ export default async function AddFriendPage({ params }: Props) {
     );
   }
 
-  // Auto-send friend request
-  await sendFriendRequest(profile.id);
-
+  // No mutation on GET — explicit confirm button sends the request on click.
   return (
     <div className="max-w-md mx-auto px-5 py-20 text-center">
       <div className="w-16 h-16 rounded-full bg-gold flex items-center justify-center text-2xl font-bold text-white mx-auto mb-4">
         {(profile.displayName ?? profile.username)[0]?.toUpperCase() ?? "?"}
       </div>
-      <p className="text-lg font-bold">Friend request sent!</p>
-      <p className="text-sm text-cream-muted mt-1">
-        {profile.displayName ?? profile.username} will see your request.
-      </p>
-      <Link
-        href="/friends"
-        className="inline-block mt-6 px-6 py-3 bg-gold text-white font-bold rounded-xl hover:brightness-110 transition-all"
-      >
-        Go to friends
-      </Link>
+      <AddFriendButton profileId={profile.id} name={profile.displayName ?? profile.username} />
     </div>
   );
 }

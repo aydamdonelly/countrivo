@@ -81,6 +81,8 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Prevents client manipulation of ranking values
   let scoreSortValue = input.scoreSortValue;
   switch (input.gameSlug) {
+    case "risk-zone":
+    case "cluster":
     case "flag-quiz":
     case "capital-match":
     case "odd-one-out":
@@ -100,8 +102,9 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       // Lower score = better, invert for ranking (8*243 = theoretical max)
       scoreSortValue = 1944 - input.scoreRaw;
       break;
+    case "geo-wordle":
     case "borderline":
-      // Fewer moves = better, invert
+      // Fewer guesses/moves = better, invert so higher sort = better
       scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
       break;
   }
@@ -109,6 +112,12 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   const completedAt = new Date().toISOString();
   const startedMs = new Date(input.startedAt).getTime();
   const completedMs = new Date(completedAt).getTime();
+  // A non-finite (NaN) or far-future startedAt makes the diff NaN/negative, which
+  // slips past the too-fast guard (anti-cheat hole) or, on a skewed device clock,
+  // falsely rejects every real run. Bound it before the elapsed-time check.
+  if (!isFinite(startedMs) || startedMs > completedMs + 5000) {
+    return { success: false, error: "invalid_start_time" };
+  }
   if (completedMs - startedMs < 3000) {
     return { success: false, error: "too_fast" };
   }
@@ -417,30 +426,80 @@ async function updateStreak(
   // visible to this query under read-committed isolation.
   playedDates.add(dateKey);
 
-  const cursor = new Date(dateKey + "T00:00:00Z");
-  let streak = 0;
-  while (playedDates.has(cursor.toISOString().slice(0, 10))) {
-    streak++;
-    cursor.setUTCDate(cursor.getUTCDate() - 1);
-  }
-
-  const { data: profile } = await supabase
+  // Load streak state. The freeze columns may not exist yet (migration not
+  // applied) — fall back to a basic read so streak updates never break.
+  let streakLongest = 0;
+  let freezes = 0;
+  let frozenDates: string[] = [];
+  let freezesAvailable = false;
+  const full = await supabase
     .from("profiles")
-    .select("streak_longest")
+    .select("streak_longest, streak_freezes, streak_frozen_dates")
     .eq("id", userId)
     .single();
+  if (!full.error && full.data) {
+    streakLongest = full.data.streak_longest ?? 0;
+    freezes = (full.data as { streak_freezes?: number }).streak_freezes ?? 0;
+    const fd = (full.data as { streak_frozen_dates?: unknown }).streak_frozen_dates;
+    frozenDates = Array.isArray(fd) ? (fd as string[]) : [];
+    freezesAvailable = true;
+  } else {
+    const basic = await supabase
+      .from("profiles")
+      .select("streak_longest")
+      .eq("id", userId)
+      .single();
+    streakLongest = basic.data?.streak_longest ?? 0;
+  }
 
-  const newLongest = Math.max(profile?.streak_longest ?? 0, streak);
+  // Walk back from today. A single missed day is bridged with a streak-freeze
+  // (or a day already frozen on a prior run), so one lapse no longer resets a
+  // streak to zero. A frozen day bridges the gap but does NOT add to the count.
+  const frozenSet = new Set(frozenDates);
+  let remainingFreezes = freezes;
+  const cursor = new Date(dateKey + "T00:00:00Z");
+  let streak = 0;
+  while (true) {
+    const key = cursor.toISOString().slice(0, 10);
+    if (playedDates.has(key)) {
+      streak++;
+      cursor.setUTCDate(cursor.getUTCDate() - 1);
+      continue;
+    }
+    if (freezesAvailable && streak > 0 && key !== dateKey) {
+      if (frozenSet.has(key)) {
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+        continue;
+      }
+      const prev = new Date(cursor);
+      prev.setUTCDate(prev.getUTCDate() - 1);
+      const prevKey = prev.toISOString().slice(0, 10);
+      // Only bridge a one-day gap bounded by a played day, and only while a
+      // freeze is available to spend.
+      if (remainingFreezes > 0 && playedDates.has(prevKey)) {
+        remainingFreezes--;
+        frozenSet.add(key);
+        cursor.setUTCDate(cursor.getUTCDate() - 1);
+        continue;
+      }
+    }
+    break;
+  }
 
-  await supabase
-    .from("profiles")
-    .update({
-      streak_current: streak,
-      streak_longest: newLongest,
-      last_daily_date: dateKey,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", userId);
+  const newLongest = Math.max(streakLongest, streak);
+
+  const patch: Record<string, unknown> = {
+    streak_current: streak,
+    streak_longest: newLongest,
+    last_daily_date: dateKey,
+    updated_at: new Date().toISOString(),
+  };
+  if (freezesAvailable) {
+    patch.streak_freezes = remainingFreezes;
+    // Keep only frozen dates inside the lookback window so the array stays small.
+    patch.streak_frozen_dates = Array.from(frozenSet).filter((d) => d >= lookbackKey);
+  }
+  await supabase.from("profiles").update(patch).eq("id", userId);
 }
 
 // ─── Per-Game Result Validation ───────────────────────────────────
@@ -525,6 +584,61 @@ function validateGameResult(
         if (scoreRaw > scoreMax) return "score_exceeds_total";
         break;
       }
+      case "geo-wordle": {
+        const guesses = resultJson.guesses;
+        if (!Array.isArray(guesses)) return "invalid_result";
+        if (typeof resultJson.won !== "boolean") return "invalid_result";
+        if (typeof resultJson.answerIso3 !== "string") return "invalid_result";
+        // scoreRaw = guesses used: a win uses exactly guesses.length tries (1..6),
+        // a loss is recorded as the full 6.
+        if (guesses.length < 1 || guesses.length > 6) return "invalid_result";
+        if (resultJson.won) {
+          if (scoreRaw !== guesses.length) return "score_mismatch";
+          const last = guesses[guesses.length - 1] as { correct?: boolean };
+          if (!last || last.correct !== true) return "score_mismatch";
+        } else {
+          if (scoreRaw !== 6) return "score_mismatch";
+          if (guesses.length !== 6) return "score_mismatch";
+        }
+        if (scoreRaw > scoreMax) return "score_exceeds_total";
+        break;
+      }
+      case "cluster": {
+        const solved = resultJson.solved;
+        const mistakes = resultJson.mistakes;
+        if (typeof solved !== "number") return "invalid_result";
+        if (solved !== scoreRaw) return "score_mismatch";
+        if (scoreRaw < 0 || scoreRaw > 4) return "score_exceeds_total";
+        if (scoreMax !== 4) return "invalid_result";
+        if (typeof mistakes !== "number" || mistakes < 0 || mistakes > 4) return "invalid_result";
+        // A win (4 solved) cannot coexist with the max mistake count.
+        if (scoreRaw === 4 && mistakes >= 4) return "invalid_result";
+        const guesses = resultJson.guesses;
+        if (guesses !== undefined && !Array.isArray(guesses)) return "invalid_result";
+        // Each correct group + each mistake is one submitted quartet.
+        if (Array.isArray(guesses) && guesses.length < solved + mistakes) return "score_mismatch";
+        break;
+      }
+      case "risk-zone": {
+        if (typeof resultJson.score !== "number") return "invalid_result";
+        if (resultJson.score !== scoreRaw) return "score_mismatch";
+        const chains = resultJson.chains as Array<{ outcome?: string; points?: number }> | undefined;
+        if (!Array.isArray(chains)) return "invalid_result";
+        if (chains.length > 5) return "invalid_result";
+        // Sum of per-chain points must equal the reported score.
+        const sum = chains.reduce((acc, c) => acc + (typeof c.points === "number" ? c.points : 0), 0);
+        if (sum !== scoreRaw) return "score_mismatch";
+        if (scoreRaw > scoreMax) return "score_exceeds_total";
+        break;
+      }
+      // Practice-only games with no canonical daily puzzle to replay-validate.
+      // They appear in the scoreSortValue switch above (so they DO submit) —
+      // accept their structural shape here instead of bouncing every run as
+      // "unvalidated_game". TODO: add real replay validation for these three.
+      case "blitz":
+      case "supremacy":
+      case "borderline":
+        break;
       default:
         return "unvalidated_game";
     }

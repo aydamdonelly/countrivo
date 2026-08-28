@@ -60,9 +60,14 @@ export function moveItem(state: SortGameState, fromIdx: number, toIdx: number): 
 }
 
 export function submitSort(state: SortGameState): SortGameState {
+  // Value-based: a position counts as correct when its stat value matches the
+  // value the canonical order has there. Two countries tied on the stat now
+  // score in EITHER order (an exact-index check made tie days unwinnable).
   let score = 0;
   for (let i = 0; i < state.userOrder.length; i++) {
-    if (state.userOrder[i] === state.correctOrder[i]) score++;
+    const userVal = stats[state.countries[state.userOrder[i]].iso3]?.[state.category.slug];
+    const correctVal = stats[state.countries[state.correctOrder[i]].iso3]?.[state.category.slug];
+    if (userVal != null && userVal === correctVal) score++;
   }
   return { ...state, phase: "results", score };
 }

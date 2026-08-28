@@ -1,0 +1,39 @@
+# Verify every day that AI and search crawlers still get a full server-rendered
+# page from countrivo.com. A red run emails the repo owner.
+#
+# This has to keep running periodically rather than being a one-off audit.
+# "AI crawlers never execute JavaScript" is current fact, not permanent law —
+# OAI-SearchBot now ships a Chrome-based user-agent string, which hints at
+# headless-Chrome infrastructure behind it. The day that changes, or the day a
+# Cloudflare rule starts challenging bots, or the day a page stops streaming its
+# metadata inside <head>, this check is what tells us.
+
+name: Crawler access check
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # daily 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: crawler-check
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Check crawler reachability and server rendering
+        run: npx tsx scripts/check-crawler-access.ts

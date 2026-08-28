@@ -67,7 +67,7 @@ export default async function OGImage() {
             fontFamily: "monospace",
           }}
         >
-          <span>14 games</span>
+          <span>17 games</span>
           <span style={{ color: "#b8860b" }}>·</span>
           <span>243 countries</span>
           <span style={{ color: "#b8860b" }}>·</span>

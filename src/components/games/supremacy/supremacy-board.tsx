@@ -14,6 +14,7 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
@@ -97,6 +98,16 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
     }
   }, [state.phase, state.isPlayerTurn, state.currentRound, state.aiHand, state.categories, round?.winner]);
 
+  /* Round verdict: fire haptic + sound the moment the winner is known,
+     so it lands together with the reveal visuals. */
+  useEffect(() => {
+    if (state.phase === "reveal" && round?.winner) {
+      if (round.winner === "player") juice.correct();
+      else if (round.winner === "ai") juice.wrong();
+      else juice.tap();
+    }
+  }, [state.phase, round?.winner]);
+
   /* Auto-advance after reveal */
   useEffect(() => {
     if (state.phase === "reveal" && round?.winner) {
@@ -107,11 +118,17 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
     }
   }, [state.phase, round?.winner]);
 
+  /* Completion flourish when the match ends. */
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
+
   /* ── Handle player stat pick ────────────────────────────────────── */
 
   const handlePickStat = useCallback(
     (slug: string) => {
       if (state.phase !== "picking" || !state.isPlayerTurn) return;
+      juice.select();
       dispatch({ type: "PICK_STAT", slug });
     },
     [state.phase, state.isPlayerTurn],
@@ -305,7 +322,7 @@ export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
       {/* Stat picker — only shown when it's player's turn in picking phase */}
       {state.phase === "picking" && state.isPlayerTurn && (
         <div className="space-y-2">
-          <p className="text-center text-sm text-cream-muted uppercase tracking-wide font-medium mb-3">
+          <p className="text-center text-sm text-cream-muted font-medium mb-3">
             Choose a stat to compare
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">

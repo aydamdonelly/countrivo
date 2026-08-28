@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy policy for Countrivo, including analytics and Google AdSense advertising disclosures.",
+    "Privacy policy for Countrivo, covering analytics and optional account data.",
 };
 
 export default function PrivacyPage() {
@@ -15,8 +15,8 @@ export default function PrivacyPage() {
       </h1>
       <p className="mt-4 text-cream-muted leading-relaxed">
         Countrivo is a free geography games and country data website. This page
-        explains what limited data may be collected when you use the site and how
-        advertising and analytics services may process that data.
+        explains what limited data may be collected when you use the site, how
+        analytics services may process it, and what optional account data is stored.
       </p>
 
       <div className="mt-10 space-y-10 text-cream-muted leading-relaxed">
@@ -34,44 +34,34 @@ export default function PrivacyPage() {
         <section>
           <h2 className="text-2xl font-bold text-cream">Analytics</h2>
           <p className="mt-3">
-            Countrivo uses site analytics tools to understand traffic, popular
-            pages, and general product usage. These tools may process technical
-            information such as IP address, browser metadata, pages visited, and
-            approximate session details.
+            Countrivo uses Vercel Web Analytics, and Vercel Speed Insights for
+            performance, to understand traffic, popular pages, and general
+            product usage. These privacy-friendly tools process technical
+            information such as IP address, browser metadata, and pages visited.
+            They do not track you across other apps or websites, and Countrivo
+            runs no advertising trackers.
+          </p>
+          <p className="mt-3">
+            Account data (email, username, scores, streaks, friends, and any iOS
+            notification token) is stored and processed by Supabase, our backend
+            and database provider, acting as our data processor.
           </p>
         </section>
 
         <section>
-          <h2 className="text-2xl font-bold text-cream">
-            Advertising and Google AdSense
-          </h2>
+          <h2 className="text-2xl font-bold text-cream">Accounts</h2>
           <p className="mt-3">
-            Countrivo may display ads served by Google AdSense. Google and its
-            partners may use cookies or similar technologies to show ads based on
-            your visits to this and other websites, measure ad performance, and
-            help prevent fraud and abuse.
+            Playing is free and needs no account. If you choose to create one, we
+            store your email address and a username so we can save your scores,
+            streaks, and friends. You can delete your account and all associated
+            data at any time from your profile — deletion is immediate and
+            permanent. Countrivo shows no ads and does not sell your data.
           </p>
           <p className="mt-3">
-            You can learn more about how Google uses information in advertising by
-            visiting{" "}
-            <a
-              href="https://policies.google.com/technologies/ads"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gold hover:underline"
-            >
-              Google&apos;s advertising policies
-            </a>
-            . You can also manage ad personalization through{" "}
-            <a
-              href="https://adssettings.google.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gold hover:underline"
-            >
-              Google Ads Settings
-            </a>
-            .
+            You can sign in with your Apple ID. In the iOS app, if you allow
+            notifications we store a device token so we can send daily-streak
+            reminders and challenge alerts; the token is removed when you turn
+            notifications off or delete your account.
           </p>
         </section>
 
@@ -79,8 +69,8 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-bold text-cream">Cookies</h2>
           <p className="mt-3">
             Cookies and local browser storage may be used to keep the site
-            functional, remember gameplay preferences, measure traffic, and
-            support advertising. Most browsers let you block or delete cookies in
+            functional, remember gameplay preferences, and measure traffic.
+            Most browsers let you block or delete cookies in
             settings, although some site features may work less reliably if you do
             so.
           </p>
@@ -98,7 +88,7 @@ export default function PrivacyPage() {
           <h2 className="text-2xl font-bold text-cream">Policy Updates</h2>
           <p className="mt-3">
             This policy may be updated as the site evolves, including when new
-            advertising or analytics features are introduced.
+            features or analytics tools are introduced.
           </p>
         </section>
       </div>

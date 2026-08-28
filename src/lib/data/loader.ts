@@ -1,10 +1,18 @@
 import countriesData from "@/data/countries.json";
 import categoriesData from "@/data/categories.json";
+import centroidsData from "@/data/centroids.json";
 import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
 
 export const countries: Country[] = countriesData as Country[];
 export const categories: Category[] = categoriesData as Category[];
+
+// Country centroids [lat, lng] for distance/bearing games (geo-wordle).
+// 237/243 countries (6 disputed/dependency territories lack a centroid).
+// Regenerate with: npx tsx scripts/fetch-centroids.ts
+// [lat, lng] per iso3 (typed as number[] — the JSON infers number[] not a tuple).
+export const centroids: Record<string, number[]> =
+  centroidsData as Record<string, number[]>;
 
 // gameRegistry now lives in the lightweight "@/lib/data/registry" module so
 // client components can access it without dragging in countries/categories JSON.

@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Profile } from "@/types/server";
+import { isAllowedHandle } from "@/lib/profanity";
 
 // ─── Update Profile ──────────────────────────────────────────────────
 
@@ -25,6 +26,9 @@ export async function updateProfile(input: UpdateProfileInput): Promise<UpdatePr
   const name = input.displayName.trim();
   if (name.length < 1 || name.length > 30) {
     return { success: false, error: "Display name must be 1-30 characters" };
+  }
+  if (!isAllowedHandle(name)) {
+    return { success: false, error: "That display name isn't allowed" };
   }
 
   const { data, error } = await supabase
@@ -57,6 +61,9 @@ export async function updateUsername(newUsername: string): Promise<UpdateUsernam
   const cleaned = newUsername.trim().toLowerCase();
   if (!/^[a-z0-9][a-z0-9-]{1,18}[a-z0-9]$/.test(cleaned)) {
     return { success: false, error: "Username must be 3-20 characters, lowercase alphanumeric and hyphens, cannot start or end with hyphen" };
+  }
+  if (!isAllowedHandle(cleaned)) {
+    return { success: false, error: "That username isn't available" };
   }
 
   const { data: existing } = await supabase
@@ -179,6 +186,28 @@ export async function getHeadToHead(userId: string, friendId: string): Promise<{
   recent: { gameSlug: string; dailyDate: string; myScore: string; theirScore: string; mySort: number; theirSort: number }[];
 }> {
   const supabase = await createClient();
+
+  // Authz: only a member of this pair, and only when they are accepted friends,
+  // may see 30 days of head-to-head daily history. A third party gets nothing
+  // (game_runs has no RLS, so this gate lives here).
+  const empty = {
+    wins: 0,
+    losses: 0,
+    draws: 0,
+    recent: [] as { gameSlug: string; dailyDate: string; myScore: string; theirScore: string; mySort: number; theirSort: number }[],
+  };
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || (user.id !== userId && user.id !== friendId)) return empty;
+  const { data: friendship } = await supabase
+    .from("friendships")
+    .select("id")
+    .eq("status", "accepted")
+    .or(
+      `and(requester_id.eq.${userId},addressee_id.eq.${friendId}),` +
+        `and(requester_id.eq.${friendId},addressee_id.eq.${userId})`,
+    )
+    .maybeSingle();
+  if (!friendship) return empty;
 
   const thirtyDaysAgo = new Date();
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);

@@ -1,0 +1,41 @@
+# Ping IndexNow (api.indexnow.org fans out to Bing, Yandex, Naver, Seznam.cz,
+# Yep, Amazon) whenever main changes, plus a weekly safety net.
+#
+# The script diffs against scripts/.indexnow-snapshot.json and exits without
+# POSTing when nothing changed, so re-runs are cheap and never earn a 429.
+# This workflow deliberately does NOT push the updated snapshot back to main —
+# no bot commits, no write permissions, no push loops. The snapshot is committed
+# by hand alongside data changes; a stale snapshot only means a URL is submitted
+# once more than strictly necessary.
+
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 5 * * 1" # Mondays 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Submit changed URLs to IndexNow
+        run: npx tsx scripts/submit-indexnow.ts

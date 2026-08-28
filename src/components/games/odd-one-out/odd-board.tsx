@@ -15,6 +15,7 @@ import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
@@ -61,6 +62,9 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
   const handlePick = useCallback((idx: number) => {
     if (state.phase !== "playing") return;
     const isCorrect = idx === round.oddIndex;
+    // Verdict feel: fire haptic + sound on the SAME frame the visual feedback starts.
+    if (isCorrect) juice.correct();
+    else juice.wrong();
     setFeedbackType(isCorrect ? "good" : "bad");
     setFeedbackMessage(isCorrect ? "Correct!" : "Wrong!");
     setFeedbackKey((k) => k + 1);
@@ -114,10 +118,15 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.score, state.rounds.length, state.answers, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   if (state.phase === "results") {
     const handleSaveScore = pendingPayload ? () => {
@@ -130,9 +139,15 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
 
     return (
       <GameOverScreen
-        title="Odd One Out Complete!"
+        title={`${state.score} / ${state.rounds.length} correct`}
         score={`${state.score} / ${state.rounds.length}`}
-        subtitle={state.score === state.rounds.length ? "Perfect!" : "Keep practicing!"}
+        subtitle={
+          state.score === state.rounds.length
+            ? "Perfect. Every odd one spotted."
+            : state.score >= Math.ceil(state.rounds.length * 0.7)
+              ? "Good eye. A few slipped through."
+              : "Pattern recognition takes practice."
+        }
         onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.score}
@@ -229,8 +244,8 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
               onClick={() => handlePick(idx)}
               disabled={isFeedback}
               className={cn(
-                "flex flex-col items-center p-5 rounded-xl border-2 transition-all",
-                !isFeedback && "border-border hover:border-border-hover hover:bg-surface",
+                "flex flex-col items-center p-5 min-h-[44px] rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60",
+                !isFeedback && "border-border hover:border-border-hover hover:bg-surface active:scale-[0.97]",
                 isFeedback && isOdd && "border-correct bg-correct/10",
                 isFeedback && isChosen && !isOdd && "border-incorrect bg-incorrect/10",
                 isFeedback && !isOdd && !isChosen && "border-border opacity-50"
@@ -264,7 +279,7 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors"
+            className="mx-auto block px-8 py-3 min-h-[44px] bg-gold text-bg font-semibold rounded-xl hover:opacity-90 active:scale-[0.97] transition-all"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>

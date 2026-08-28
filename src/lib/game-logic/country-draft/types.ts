@@ -17,6 +17,8 @@ export interface DraftGameState {
   assignments: (number | null)[]; // assignments[countryIdx] = categoryIdx or null
   usedCategories: Set<number>;
   phase: "playing" | "results";
+  /** Each run gets exactly ONE undo of the last pick. */
+  undoUsed: boolean;
 }
 
 export interface DraftAssignment {

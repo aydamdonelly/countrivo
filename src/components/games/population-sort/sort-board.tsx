@@ -13,6 +13,7 @@ import { cn, formatStat } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
@@ -56,12 +57,30 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
   const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);  const { user, openAuthModal } = useAuth();
 
   const handleMoveUp = useCallback((idx: number) => {
-    if (idx > 0) dispatch({ type: "MOVE", from: idx, to: idx - 1 });
+    if (idx > 0) {
+      juice.select();
+      dispatch({ type: "MOVE", from: idx, to: idx - 1 });
+    }
   }, []);
 
   const handleMoveDown = useCallback((idx: number) => {
-    if (idx < state.userOrder.length - 1) dispatch({ type: "MOVE", from: idx, to: idx + 1 });
+    if (idx < state.userOrder.length - 1) {
+      juice.select();
+      dispatch({ type: "MOVE", from: idx, to: idx + 1 });
+    }
   }, [state.userOrder.length]);
+
+  const handleSubmit = useCallback(() => {
+    if (state.phase !== "playing") return;
+    // Verdict feel: land sound + haptic on the same frame the results reveal.
+    let score = 0;
+    for (let i = 0; i < state.userOrder.length; i++) {
+      if (state.userOrder[i] === state.correctOrder[i]) score++;
+    }
+    if (score === state.userOrder.length) juice.correct();
+    else juice.wrong();
+    dispatch({ type: "SUBMIT" });
+  }, [state.phase, state.userOrder, state.correctOrder]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -70,15 +89,21 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
       setSelectedIdx((i) => Math.min(state.userOrder.length - 1, i + 1));
     map[" "] = () => {
       if (selectedIdx > 0) {
+        juice.select();
         dispatch({ type: "MOVE", from: selectedIdx, to: selectedIdx - 1 });
         setSelectedIdx((i) => i - 1);
       }
     };
-    map["Enter"] = () => dispatch({ type: "SUBMIT" });
+    map["Enter"] = () => handleSubmit();
     return map;
-  }, [state.userOrder.length, selectedIdx]);
+  }, [state.userOrder.length, selectedIdx, handleSubmit]);
 
   useGameKeys(keymap, state.phase !== "results");
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   // Submit to server when game ends
   useEffect(() => {
@@ -114,7 +139,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.score, state.countries.length, state.category.slug, state.userOrder, state.correctOrder, mode, user]);
@@ -236,7 +261,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
 
       <div className="flex justify-center">
         <button
-          onClick={() => dispatch({ type: "SUBMIT" })}
+          onClick={handleSubmit}
           className="w-full sm:w-auto px-12 py-5 bg-gold text-bg font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
         >
           Submit Order

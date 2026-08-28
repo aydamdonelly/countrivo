@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getGameColor } from "@/lib/game-colors";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { ListItemJsonLd } from "@/components/seo/list-jsonld";
@@ -155,20 +154,15 @@ export default function HighestLifeExpectancyPage() {
             { href: "/games/higher-or-lower", name: "Higher or Lower" },
             { href: "/games/country-draft", name: "Country Draft" },
             { href: "/games/flag-quiz", name: "Flag Quiz" },
-          ].map((g) => {
-            const slug = g.href.replace("/games/", "");
-            const colors = getGameColor(slug);
-            return (
-              <Link
-                key={g.href}
-                href={g.href}
-                className="px-4 py-2 font-semibold rounded-full text-sm transition-all hover:scale-105"
-                style={{ backgroundColor: colors.bg, color: colors.text }}
-              >
-                {g.name}
-              </Link>
-            );
-          })}
+          ].map((g) => (
+            <Link
+              key={g.href}
+              href={g.href}
+              className="px-4 py-2 bg-surface-elevated border border-border font-semibold rounded-full text-sm transition-colors [@media(hover:hover)]:hover:border-border-hover"
+            >
+              {g.name}
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -178,25 +172,25 @@ export default function HighestLifeExpectancyPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Populated Countries
           </Link>
           <Link
             href="/lists/highest-fertility-rate"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Highest Fertility Rate
           </Link>
           <Link
             href="/lists/richest-countries"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Richest Countries
           </Link>
           <Link
             href="/lists/greenest-countries"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Greenest Countries
           </Link>

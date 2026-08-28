@@ -19,9 +19,9 @@ export function EndgameRamp({ picksRemaining, totalPicks }: EndgameRampProps) {
       }`}
     >
       {isFinal ? (
-        <span>Final pick — this decides your run</span>
+        <span>Final pick. This decides your run.</span>
       ) : (
-        <span>2 picks left — choose carefully</span>
+        <span>2 picks left. Choose carefully.</span>
       )}
     </div>
   );

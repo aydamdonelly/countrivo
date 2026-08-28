@@ -1,21 +1,42 @@
-/** Unique color palette for each game — used across the site for visual identity */
-export const GAME_COLORS: Record<string, { bg: string; text: string }> = {
-  "country-draft":    { bg: "#fee2e2", text: "#991b1b" },
-  "flag-quiz":        { bg: "#dbeafe", text: "#1e3a5f" },
-  "higher-or-lower":  { bg: "#d1fae5", text: "#064e3b" },
-  "capital-match":    { bg: "#fef3c7", text: "#78350f" },
-  "population-sort":  { bg: "#ede9fe", text: "#4c1d95" },
-  "country-streak":   { bg: "#ffedd5", text: "#7c2d12" },
-  "border-buddies":   { bg: "#ccfbf1", text: "#134e4a" },
-  "continent-sprint": { bg: "#e0e7ff", text: "#312e81" },
-  "stat-guesser":     { bg: "#fce7f3", text: "#831843" },
-  "speed-flags":      { bg: "#ecfccb", text: "#365314" },
-  "odd-one-out":      { bg: "#f3e8ff", text: "#581c87" },
-  "supremacy":        { bg: "#fef9c3", text: "#713f12" },
-  "borderline":       { bg: "#cffafe", text: "#155e75" },
-  "blitz":            { bg: "#fecaca", text: "#7f1d1d" },
-};
+/**
+ * Unique color palette for each game — used across the site for visual identity.
+ *
+ * Values are CSS variables (defined in globals.css with light + dark twins),
+ * NOT hardcoded hex, so the per-game washes flip automatically with the color
+ * scheme when applied via inline `style`. The var() fallback covers the rare
+ * unknown slug. Do not feed these into a <canvas> / Satori OG image — `var()`
+ * does not resolve there (no current call site does this).
+ */
+const GAME_SLUGS = [
+  "country-draft",
+  "flag-quiz",
+  "higher-or-lower",
+  "capital-match",
+  "population-sort",
+  "country-streak",
+  "border-buddies",
+  "continent-sprint",
+  "stat-guesser",
+  "speed-flags",
+  "odd-one-out",
+  "supremacy",
+  "borderline",
+  "blitz",
+  "geo-wordle",
+  "cluster",
+  "risk-zone",
+] as const;
 
-export function getGameColor(slug: string) {
-  return GAME_COLORS[slug] ?? { bg: "#f3f4f6", text: "#374151" };
+function gameColor(slug: string): { bg: string; text: string } {
+  return {
+    bg: `var(--game-${slug}-bg, var(--color-surface-elevated))`,
+    text: `var(--game-${slug}-fg, var(--color-cream))`,
+  };
+}
+
+export const GAME_COLORS: Record<string, { bg: string; text: string }> =
+  Object.fromEntries(GAME_SLUGS.map((slug) => [slug, gameColor(slug)]));
+
+export function getGameColor(slug: string): { bg: string; text: string } {
+  return GAME_COLORS[slug] ?? { bg: "var(--color-surface-elevated)", text: "var(--color-cream)" };
 }

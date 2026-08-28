@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -12,10 +14,54 @@ import { getAllCategories } from "@/lib/data/categories";
 import { getCategoryBySlug } from "@/lib/data/categories";
 import { getAllGames } from "@/lib/data/games";
 import { formatStat, ordinal } from "@/lib/utils";
-import { getGameColor } from "@/lib/game-colors";
+import { IconFlag, IconBars, IconTarget, IconController, IconPin } from "@/components/icons";
+import { AnswerCapsules } from "@/components/seo/answer-capsules";
+import { RelatedCountries } from "@/components/seo/related-countries";
 import bordersData from "@/data/borders.json";
 
 const borders: Record<string, string[]> = bordersData;
+
+/**
+ * "Data updated" is read from the generated src/data/data-timestamps.json at
+ * build time via fs, so a missing file degrades to no line instead of a build
+ * error. The date is never hand-written or bumped — it only ever reflects when
+ * the data pipeline last actually rewrote the stats.
+ */
+function readDataUpdatedDate(): string | null {
+  const candidateKeys = ["generatedAt", "updatedAt", "lastUpdated", "dataUpdated", "date"];
+
+  let parsed: unknown;
+  try {
+    const raw = readFileSync(
+      join(process.cwd(), "src/data/data-timestamps.json"),
+      "utf8",
+    );
+    parsed = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+
+  if (typeof parsed === "string") return formatDataDate(parsed);
+  if (typeof parsed !== "object" || parsed === null) return null;
+
+  const record: Record<string, unknown> = { ...parsed };
+  for (const key of candidateKeys) {
+    const value = record[key];
+    if (typeof value === "string" && value.length > 0) return formatDataDate(value);
+  }
+  return null;
+}
+
+function formatDataDate(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}
 
 export async function generateStaticParams() {
   return getAllCountries().map((c) => ({ slug: c.slug }));
@@ -89,6 +135,8 @@ export default async function CountryPage({
   const neighborCountries = borderIso3s
     .map((iso3) => getCountryByIso3(iso3))
     .filter(Boolean) as NonNullable<ReturnType<typeof getCountryByIso3>>[];
+
+  const dataUpdated = readDataUpdatedDate();
 
   // Countries in the same continent
   const continentCountries = getCountriesByContinent(country.continent)
@@ -182,6 +230,13 @@ export default async function CountryPage({
         </div>
       </header>
 
+      {/* Direct answers to the questions people actually search for */}
+      <AnswerCapsules
+        country={country}
+        ranks={ranks}
+        neighbors={neighborCountries}
+      />
+
       {/* Quick stats highlights */}
       {topRanks.length > 0 && (
         <section className="mb-12">
@@ -191,7 +246,7 @@ export default async function CountryPage({
               <Link
                 key={cat.slug}
                 href={`/categories/${cat.slug}`}
-                className="flex items-start gap-4 rounded-xl border border-black/5 bg-white shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-start gap-4 rounded-xl border border-black/5 bg-surface shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-3xl shrink-0">{cat.emoji}</span>
                 <div className="min-w-0">
@@ -258,6 +313,11 @@ export default async function CountryPage({
             </tbody>
           </table>
         </div>
+        {dataUpdated && (
+          <p className="mt-3 text-xs text-cream-muted">
+            Data updated {dataUpdated}
+          </p>
+        )}
       </section>
 
       {/* Neighboring countries */}
@@ -274,7 +334,7 @@ export default async function CountryPage({
               <Link
                 key={neighbor.iso3}
                 href={`/countries/${neighbor.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-black/5 bg-white shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-2xl shrink-0">{neighbor.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -297,7 +357,7 @@ export default async function CountryPage({
               <Link
                 key={related.iso3}
                 href={`/countries/${related.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-black/5 bg-white shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
                 <span className="text-2xl shrink-0">{related.flagEmoji}</span>
                 <span className="text-sm font-medium truncate">
@@ -317,37 +377,32 @@ export default async function CountryPage({
         </section>
       )}
 
+      {/* Data-derived internal links: borders, stat neighbours, regional hubs */}
+      <RelatedCountries country={country} neighbors={neighborCountries} />
+
       {/* Play games featuring this country */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4">
-          Test Your Knowledge of {country.displayName}
+          Play Games with {country.displayName}
         </h2>
-        <p className="text-cream-muted mb-4">
-          Think you know {country.displayName}? Challenge yourself with these geography games.
-        </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {[
-            { href: "/games/flag-quiz", emoji: "🏁", title: "Flag Quiz", desc: `Can you identify ${country.displayName}'s flag?` },
-            { href: "/games/higher-or-lower", emoji: "⬆️", title: "Higher or Lower", desc: `How does ${country.displayName} compare?` },
-            { href: "/games/capital-match", emoji: "🏛️", title: "Capital Match", desc: `Do you know the capital of ${country.displayName}?` },
-            { href: "/games/country-draft", emoji: "🎯", title: "Country Draft", desc: "Assign countries to their strongest stats" },
-            { href: "/games/border-buddies", emoji: "🤝", title: "Border Buddies", desc: `Name all countries bordering ${country.displayName}` },
-          ].map((game) => {
-            const slug = game.href.replace("/games/", "");
-            const colors = getGameColor(slug);
-            return (
-              <Link
-                key={game.href}
-                href={game.href}
-                className="rounded-2xl p-5 transition-all hover:scale-[1.02] hover:shadow-md"
-                style={{ backgroundColor: colors.bg }}
-              >
-                <span className="text-3xl shrink-0 block mb-2">{game.emoji}</span>
-                <p className="font-bold" style={{ color: colors.text }}>{game.title}</p>
-                <p className="text-sm mt-0.5 opacity-70" style={{ color: colors.text }}>{game.desc}</p>
-              </Link>
-            );
-          })}
+            { href: "/games/flag-quiz", icon: <IconFlag width={20} height={20} aria-hidden="true" />, title: "Flag Quiz", desc: `Can you identify ${country.displayName}'s flag?` },
+            { href: "/games/higher-or-lower", icon: <IconBars width={20} height={20} aria-hidden="true" />, title: "Higher or Lower", desc: `How does ${country.displayName} compare?` },
+            { href: "/games/capital-match", icon: <IconPin width={20} height={20} aria-hidden="true" />, title: "Capital Match", desc: `Do you know the capital of ${country.displayName}?` },
+            { href: "/games/country-draft", icon: <IconTarget width={20} height={20} aria-hidden="true" />, title: "Country Draft", desc: "Assign countries to their strongest stats" },
+            { href: "/games/border-buddies", icon: <IconController width={20} height={20} aria-hidden="true" />, title: "Border Buddies", desc: `Name all countries bordering ${country.displayName}` },
+          ].map((game) => (
+            <Link
+              key={game.href}
+              href={game.href}
+              className="rounded-2xl p-4 bg-surface-elevated border border-border hover:border-border-hover transition-colors [@media(hover:hover)]:hover:shadow-sm"
+            >
+              <span className="block mb-2 text-gold">{game.icon}</span>
+              <p className="font-bold text-sm">{game.title}</p>
+              <p className="text-xs text-cream-muted mt-1">{game.desc}</p>
+            </Link>
+          ))}
         </div>
         <Link
           href="/games"
@@ -359,18 +414,18 @@ export default async function CountryPage({
 
       {/* Related lists */}
       <section className="mb-12 pt-8 border-t border-border">
-        <h2 className="text-lg font-bold mb-4">Explore More Rankings</h2>
+        <h2 className="text-lg font-bold mb-4">More Rankings</h2>
         <div className="flex flex-wrap gap-3">
-          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Most Populated Countries
           </Link>
-          <Link href="/lists/largest-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/largest-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Largest Countries
           </Link>
-          <Link href="/lists/richest-countries" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/richest-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
             Richest Countries
           </Link>
-          <Link href="/categories" className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium text-gold hover:border-black/10 transition-colors">
+          <Link href="/categories" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium text-gold hover:border-black/10 transition-colors">
             All Rankings →
           </Link>
         </div>

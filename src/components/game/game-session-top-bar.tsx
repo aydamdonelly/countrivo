@@ -20,12 +20,12 @@ export function GameSessionTopBar({
   const pct = progressTotal && progressTotal > 0 ? (progressCurrent / progressTotal) * 100 : 0;
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-surface-elevated border border-border">
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-elevated border border-border">
       {/* Mode badge */}
       <span
-        className={`shrink-0 px-2.5 py-1 text-xxs font-bold uppercase tracking-wider rounded-lg ${
+        className={`shrink-0 px-2 py-1 text-xxs font-bold uppercase tracking-wider rounded-lg ${
           mode === "daily"
-            ? "bg-gold text-white"
+            ? "bg-gold text-bg"
             : "bg-black/5 text-cream-muted"
         }`}
       >
@@ -35,8 +35,8 @@ export function GameSessionTopBar({
       {/* Progress bar */}
       <div className="flex-1 h-2 bg-black/5 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gold rounded-full transition-all duration-500 ease-out"
-          style={{ width: `${pct}%` }}
+          className="h-full bg-gold rounded-full origin-left transition-[transform] duration-[480ms] ease-out"
+          style={{ transform: `scaleX(${pct / 100})` }}
         />
       </div>
 

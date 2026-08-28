@@ -2,11 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { IconArrowRight } from "@/components/icons";
-import { getStorageItem } from "@/lib/storage";
+import { IconArrowRight, IconFlame, IconGlobe, IconController } from "@/components/icons";
+import { getStorageItem, setStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/registry";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { useResetCountdown } from "@/hooks/use-reset-countdown";
+import { fireConfetti } from "@/lib/confetti";
+
+// A brand-new player gets routed here (an easy, ~60s first win) instead of the
+// hard flagship, so a first-touch failure doesn't kill habit formation.
+const EASY_FIRST_ROUTE = "/games/flag-quiz/play?mode=daily";
+const STREAK_MILESTONES = [7, 30, 100, 365];
 
 function computeLocalStreak(): number {
   if (typeof window === "undefined") return 0;
@@ -68,12 +74,13 @@ export function DailyHero({
   const [completed, setCompleted] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [nextRoute, setNextRoute] = useState<string | null>(null);
+  const [milestone, setMilestone] = useState<number | null>(null);
 
   // Live ticking HH:MM:SS until the real Berlin-midnight reset.
   const resetCountdown = useResetCountdown();
 
   const playedFlagship = serverPlayedToday;
-  const totalDaily = 9;
+  const totalDaily = getAllGames().filter((g) => g.availableModes.includes("daily")).length;
 
   useEffect(() => {
     // Hydrating from localStorage / props that are only available client-side.
@@ -89,24 +96,65 @@ export function DailyHero({
     setMounted(true);
   }, [serverStreak]);
 
+  // Celebrate crossing a streak milestone once (confetti + banner), persisted
+  // so it never re-fires on a later visit the same day.
+  useEffect(() => {
+    if (!mounted || streak <= 0 || !STREAK_MILESTONES.includes(streak)) return;
+    const key = `streak_milestone_${streak}`;
+    if (getStorageItem<boolean>(key, false)) return;
+    setStorageItem(key, true);
+    setMilestone(streak);
+    fireConfetti(2600);
+  }, [mounted, streak]);
+
   const progressPct = totalDaily > 0 ? (completed / totalDaily) * 100 : 0;
   const allDone = completed >= totalDaily;
   // Calm, ignorable streak-keep nudge: only when there's a live streak AND
   // today's daily set hasn't been touched yet. No guilt, no urgency.
   const showStreakNudge = mounted && streak > 0 && completed === 0 && !allDone;
+  // Cold-start: a brand-new player (no streak, nothing played) is sent to an
+  // easy first win instead of the hard flagship daily.
+  const coldStart = mounted && streak === 0 && completed === 0 && !playedFlagship;
+  const ctaHref = allDone
+    ? "/games"
+    : coldStart
+      ? EASY_FIRST_ROUTE
+      : nextRoute ?? (playedFlagship ? "/games" : `${flagshipRoute}/play?mode=daily`);
+
+  function shareMilestone() {
+    const text = `I've kept a ${milestone}-day Countrivo streak. Can you beat it? https://countrivo.com`;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      navigator.share({ text }).catch(() => {});
+    } else {
+      navigator.clipboard?.writeText(text).catch(() => {});
+    }
+  }
 
   return (
     <section className="text-center py-8 sm:py-12">
+      {milestone && (
+        <div className="mb-6 mx-auto max-w-md rounded-2xl border border-gold/30 bg-gold/10 px-5 py-4 flex items-center justify-center gap-3 animate-in">
+          <IconFlame width={22} height={22} className="text-gold shrink-0" aria-hidden />
+          <span className="font-bold text-gold">{milestone} days in a row. Keep it alive.</span>
+          <button
+            onClick={shareMilestone}
+            className="ml-1 px-3 min-h-[44px] inline-flex items-center text-sm font-semibold text-gold-ink active:scale-[0.97]"
+          >
+            Share
+          </button>
+        </div>
+      )}
       {/* Date · month-day · reset countdown */}
       <div className="flex items-center justify-center gap-3 mb-5 flex-wrap">
         <p className="text-sm font-mono text-cream-muted tabular-nums">
-          <span>
-            {new Date().toLocaleDateString("en-US", { weekday: "long" })}
-          </span>
-          <span className="text-gold mx-1.5">·</span>
-          <span>
-            {new Date().toLocaleDateString("en-US", { month: "long", day: "numeric" })}
-          </span>
+          {/* Gated behind `mounted` to avoid a UTC-vs-local hydration mismatch. */}
+          {mounted && (
+            <>
+              <span>{new Date().toLocaleDateString("en-US", { weekday: "long", timeZone: "Europe/Berlin" })}</span>
+              <span className="text-gold mx-1.5">·</span>
+              <span>{new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "Europe/Berlin" })}</span>
+            </>
+          )}
           {resetCountdown && (
             <>
               <span className="text-gold mx-1.5">·</span>
@@ -145,16 +193,14 @@ export function DailyHero({
       {/* Calm streak-keep nudge — celebratory, no guilt, trivially ignorable */}
       {showStreakNudge && (
         <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-gold">
-          <span aria-hidden="true">🔥</span>
+          <IconFlame width={16} height={16} aria-hidden />
           Play today to keep your {streak}-day streak
         </p>
       )}
 
       {/* Primary CTA */}
       <Link
-        href={allDone
-          ? "/games"
-          : nextRoute ?? (playedFlagship ? "/games" : `${flagshipRoute}/play?mode=daily`)}
+        href={ctaHref}
         className="cta-primary mt-6 text-lg sm:text-xl px-10 py-4"
       >
         {allDone
@@ -195,19 +241,19 @@ export function DailyHero({
         <div className="flex items-center justify-center gap-5 sm:gap-8 mt-5 text-sm">
           {streak > 0 && (
             <div className="flex items-center gap-1.5">
-              <span className="text-base">🔥</span>
+              <IconFlame width={16} height={16} className="text-gold" aria-hidden />
               <span className="font-bold text-gold font-mono">
                 {streak}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
               </span>
             </div>
           )}
           <div className="flex items-center gap-1.5">
-            <span className="text-base">🌍</span>
+            <IconGlobe width={16} height={16} className="text-cream-muted" aria-hidden />
             <span className="font-medium text-cream-muted">243 countries</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-base">🎮</span>
-            <span className="font-medium text-cream-muted">14 games</span>
+            <IconController width={16} height={16} className="text-cream-muted" aria-hidden />
+            <span className="font-medium text-cream-muted">{getAllGames().length} games</span>
           </div>
         </div>
       )}

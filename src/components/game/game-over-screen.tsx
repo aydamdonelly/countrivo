@@ -19,9 +19,13 @@ import {
 } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
+import { fireConfetti } from "@/lib/confetti";
 import { getAllGames } from "@/lib/data/registry";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { useResetCountdown } from "@/hooks/use-reset-countdown";
+import { buildShareGrid } from "@/components/share/share-utils";
+import { LeaderboardJoin } from "@/components/game/leaderboard-join";
+import { requestPushPermission } from "@/lib/native/bootstrap";
 import { Button } from "@/components/ui/button";
 
 // Heavy, interaction-only subtrees: code-split out of the initial game bundle.
@@ -49,7 +53,7 @@ interface ServerData {
   dailyDate?: string;
 }
 
-type ShareGame = "country-draft" | "stat-guesser";
+type ShareGame = "country-draft" | "stat-guesser" | "geo-wordle";
 
 interface ShareData {
   game: ShareGame;
@@ -101,14 +105,14 @@ function getGradeTier(pct: number): GradeTier {
       label: "Solid",
       message: "You know your stuff.",
       className: "grade-strong",
-      bgClassName: "bg-blue-50 border-blue-200/50",
+      bgClassName: "bg-accent/5 border-accent/20",
     };
   if (pct >= 50)
     return {
       label: "Decent",
       message: "Room to improve.",
       className: "grade-close",
-      bgClassName: "bg-amber-50 border-amber-200/50",
+      bgClassName: "bg-warning/5 border-warning/20",
     };
   return {
     label: "Rough",
@@ -174,23 +178,9 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
   return `${numericScore}/${maxScore}.`;
 }
 
-/* ---------- Share ----------
- * TODO (Phase 4 — Share-Grids): replace shareResult plain-text with the
- * brand-bracket share-card component (Countrivo · <Game> · DD · MM · YY).
- * The middle-dot signature should carry over to the emoji-grid header.
- */
+/* ---------- Share ---------- */
 
-async function shareResult(
-  title: string, score: string, tier: string | null,
-  percentile: number | null, rank: number | null, totalPlayers: number
-) {
-  const lines = [`${title}`, `${score}`];
-  if (tier) lines.push(tier);
-  if (rank && totalPlayers > 0) lines.push(`#${rank} of ${totalPlayers} players`);
-  else if (rank) lines.push(`Rank #${rank} today`);
-  if (percentile) lines.push(`Better than ${percentile}% of players`);
-  lines.push("", "Can you beat me?", "countrivo.com");
-  const text = lines.join("\n");
+async function shareText(text: string) {
   if (navigator.share) {
     try { await navigator.share({ text }); } catch { /* cancelled */ }
   } else {
@@ -294,6 +284,27 @@ export function GameOverScreen({
   // callback (practice mode does) but we still know which game this is.
   const isDailyFinish = !onPlayAgain && gameSlug !== undefined;
 
+  // Native iOS: ask for push permission AFTER the first completed daily (value
+  // felt first), never on cold launch. Once per device. No-op on the website.
+  useEffect(() => {
+    if (!isDailyFinish) return;
+    if (getStorageItem<boolean>("push_prompt_seen", false)) return;
+    setStorageItem("push_prompt_seen", true);
+    void requestPushPermission();
+  }, [isDailyFinish]);
+
+  // One confetti burst for a great score (≥90%) or a personal best. Fires once;
+  // reduced-motion is honored inside fireConfetti.
+  const confettiFired = useRef(false);
+  useEffect(() => {
+    if (confettiFired.current) return;
+    const great = (hasTier && pct !== null && pct >= 90) || serverData?.isPersonalBest === true;
+    if (great) {
+      confettiFired.current = true;
+      fireConfetti();
+    }
+  }, [hasTier, pct, serverData?.isPersonalBest]);
+
   // Live ticking countdown to the next Berlin-midnight reset (real scarcity).
   const resetCountdown = useResetCountdown();
 
@@ -338,10 +349,15 @@ export function GameOverScreen({
       setShowShareModal(true);
       return;
     }
-    shareResult(title, score, tier?.label ?? null, percentile, rankToday, totalPlayers);
+    const game = gameSlug ? getAllGames().find((g) => g.slug === gameSlug) : undefined;
+    const gameTitle = game?.title ?? (title.replace(/[:!].*$/, "").trim() || "Daily");
+    const dateKey = serverData?.dailyDate ?? getTodayDateKey();
+    void shareText(
+      buildShareGrid({ gameTitle, gameSlug, scoreDisplay: score, numericScore, maxScore, dateKey }),
+    );
     setShared(true);
     setTimeout(() => setShared(false), 2000);
-  }, [shareData, title, score, tier, percentile, rankToday, totalPlayers]);
+  }, [shareData, title, score, gameSlug, numericScore, maxScore, serverData]);
 
   // Inject server-side rank into the share payload so country-draft can print it.
   const enrichedShareResult = useMemo(() => {
@@ -355,13 +371,13 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 1: VERDICT ═══════ */}
       <div className={`w-full rounded-2xl border p-6 sm:p-10 text-center verdict-reveal ${tier?.bgClassName ?? "bg-surface-elevated border-border"}`}>
-        <div className="text-5xl sm:text-7xl font-extrabold font-mono text-gold score-pop">
+        <div className="text-5xl sm:text-7xl font-extrabold font-display text-gold score-pop">
           {score}
         </div>
 
         {tier && (
           <div className="mt-3 flex items-center justify-center gap-3 flex-wrap">
-            <span className={`inline-block px-4 py-1.5 text-sm font-bold rounded-full ${tier.className}`}>
+            <span className={`inline-block px-4 py-1.5 text-sm font-bold rounded-full font-display ${tier.className}`}>
               {tier.label}
             </span>
           </div>
@@ -461,13 +477,19 @@ export function GameOverScreen({
       {/* ═══════ LAYER 2.5: GAME-SPECIFIC ANALYSIS ═══════ */}
       {children && <div className="w-full mt-5">{children}</div>}
 
+      {/* Sits directly under the score, above the action row: the moment the
+          player most wants their result to count is the moment they see it. */}
+      {onSaveScore && (
+        <div className="w-full mt-5">
+          <LeaderboardJoin onJoined={onSaveScore} daily={isDailyFinish} />
+        </div>
+      )}
+
       {/* ═══════ LAYER 3: ACTIONS ═══════ */}
       <div className="w-full mt-6 grid grid-cols-2 sm:flex sm:flex-row items-center gap-3 max-w-md mx-auto">
-        {onSaveScore && (
-          <Button onClick={onSaveScore} variant="primary" size="lg" className="sm:flex-1">
-            Save my score
-          </Button>
-        )}
+        {/* onSaveScore is only passed when the run finished with no session.
+            It used to render a button straight into the sign-in modal; the name
+            field below replaces that gate entirely. See LeaderboardJoin. */}
         {onPlayAgain && (
           <Button onClick={onPlayAgain} variant="primary" size="lg" className="sm:flex-1">
             Play again
@@ -481,7 +503,7 @@ export function GameOverScreen({
             Play again (practice)
           </Link>
         )}
-        <button onClick={handleShare} className="cta-secondary sm:flex-1">
+        <button onClick={handleShare} className="cta-primary sm:flex-1">
           {shared ? "Copied!" : "Share result"}
         </button>
         {serverData?.runId && gameSlug && (
@@ -631,14 +653,16 @@ function ShareModal({ onClose, children }: { onClose: () => void; children: Reac
       }}
       role="presentation"
     >
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" aria-hidden="true" />
+      <div className="absolute inset-0 bg-scrim backdrop-blur-sm" aria-hidden="true" />
       <div
         ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label="Share your result"
-        className="relative bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl p-6 max-h-[92vh] overflow-y-auto animate-slide-up sm:animate-scale-in"
+        className="relative bg-surface w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-xl p-6 pb-[calc(env(safe-area-inset-bottom)+1.5rem)] sm:pb-6 max-h-[92vh] overflow-y-auto animate-slide-up sm:animate-scale-in"
       >
+        {/* Grabber — native bottom-sheet affordance (mobile only) */}
+        <div aria-hidden className="sm:hidden mx-auto -mt-3 mb-3 h-1.5 w-10 rounded-full bg-cream-dim" />
         <button
           onClick={onClose}
           className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-lg text-cream-muted/60 hover:text-cream hover:bg-cream-ghost transition-colors"

@@ -11,6 +11,7 @@ import {
   type Continent,
 } from "@/lib/game-logic/continent-sprint/engine";
 import { countries } from "@/lib/data/loader";
+import { juice } from "@/hooks/use-juice";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
@@ -75,7 +76,9 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
   const [feedbackKey, setFeedbackKey] = useState(0);
   const [feedbackType, setFeedbackType] = useState<"good" | "bad">("good");
   const [feedbackMessage, setFeedbackMessage] = useState("Found!");
-  const [serverData, setServerData] = useState<ServerGameRun | null>(null);  const { user } = useAuth();
+  const [serverData, setServerData] = useState<ServerGameRun | null>(null);
+  const [pendingPayload, setPendingPayload] = useState<Parameters<typeof submitGameRun>[0] | null>(null);
+  const { user, openAuthModal } = useAuth();
 
   // Timer tick
   useEffect(() => {
@@ -117,8 +120,15 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
+    } else {
+      setPendingPayload(payload);
     }
   }, [state.phase, state.found, state.allCountries.length, state.continent, state.elapsed, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   const suggestions = useMemo(() => {
     if (input.length < 1 || state.phase !== "playing") return [];
@@ -135,10 +145,14 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
   const handleSelect = useCallback(
     (iso3: string) => {
       const isNew = !state.found.includes(iso3) && state.allCountries.some((c) => c.iso3 === iso3);
+      // Verdict feel: fire haptic + sound on the same frame the visual feedback starts.
       if (isNew) {
+        juice.correct();
         setFeedbackType("good");
         setFeedbackMessage("Found!");
         setFeedbackKey((k) => k + 1);
+      } else {
+        juice.wrong();
       }
       dispatch({ type: "GUESS", iso3 });
       setInput("");
@@ -170,10 +184,10 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
             return (
               <button
                 key={continent}
-                onClick={() => dispatch({ type: "PICK_CONTINENT", continent })}
-                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all"
+                onClick={() => { juice.tap(); dispatch({ type: "PICK_CONTINENT", continent }); }}
+                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 active:scale-[0.97]"
               >
-                <span className="text-3xl mb-2">{CONTINENT_EMOJIS[continent]}</span>
+                <span className="text-3xl mb-2" aria-hidden="true">{CONTINENT_EMOJIS[continent]}</span>
                 <span className="font-bold">{continent}</span>
                 <span className="text-xs text-cream-muted mt-1">{count} countries</span>
               </button>
@@ -187,10 +201,21 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
   if (state.phase === "results") {
     return (
       <GameOverScreen
-        title="Sprint Complete!"
-        score={`${state.found.length} / ${state.allCountries.length}`}
-        subtitle={`${state.continent} in ${formatTime(state.elapsed)}`}
-        onPlayAgain={() => { setServerData(null); dispatch({ type: "RESET" }); }}
+        title={`${state.found.length} / ${state.allCountries.length} named`}
+        score={`${state.continent} in ${formatTime(state.elapsed)}`}
+        subtitle={state.found.length === state.allCountries.length ? "Every country named." : `${state.allCountries.length - state.found.length} missed.`}
+        onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
+        onSaveScore={
+          pendingPayload
+            ? () => {
+                openAuthModal(async () => {
+                  const res = await submitGameRun(pendingPayload);
+                  if (res.success && res.run) setServerData(res.run);
+                  setPendingPayload(null);
+                });
+              }
+            : undefined
+        }
         numericScore={state.found.length}
         maxScore={state.allCountries.length}
         gameSlug="continent-sprint"
@@ -236,7 +261,8 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
       {/* Header stats */}
       <div className="flex items-center justify-between text-sm text-cream-muted">
         <span>
-          {CONTINENT_EMOJIS[state.continent!]} <span className="font-bold text-cream">{state.continent}</span>
+          <span aria-hidden="true">{CONTINENT_EMOJIS[state.continent!]}</span>{" "}
+          <span className="font-bold text-cream">{state.continent}</span>
         </span>
         <span className="font-mono font-bold text-cream">{formatTime(state.elapsed)}</span>
       </div>
@@ -262,7 +288,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
           className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
         />
         {showDropdown && suggestions.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-lg z-10 overflow-hidden">
+          <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-[var(--shadow-lg,0_4px_16px_rgb(0,0,0,0.12))] z-10 overflow-hidden">
             {suggestions.map((c) => (
               <button
                 key={c.iso3}
@@ -299,7 +325,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
 
       {/* Give Up button */}
       <button
-        onClick={() => dispatch({ type: "FINISH" })}
+        onClick={() => { juice.tap(); dispatch({ type: "FINISH" }); }}
         className="mx-auto px-6 py-3 text-sm text-cream-muted border border-border rounded-xl hover:bg-surface transition-colors"
       >
         Finish

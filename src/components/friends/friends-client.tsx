@@ -161,7 +161,7 @@ export function FriendsClient({
                   </div>
                   <Link
                     href={`/games/${c.gameSlug}/play?mode=daily`}
-                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-white/80 transition-opacity"
+                    className="text-xs font-bold px-3 py-1.5 rounded-lg bg-surface/80 transition-opacity"
                     style={{ color: colors.text }}
                   >
                     Play now →

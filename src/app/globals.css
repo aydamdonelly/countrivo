@@ -2,8 +2,16 @@
 
 @theme {
   /* ─── Typografie ─── */
-  --font-sans: var(--font-sans);
-  /* serif gelöscht (Bruckner): zeigte auf sich selbst, kein Konsument */
+  /* Body/UI: prefer the native Apple system face on iOS/macOS (the single
+     biggest "native vs website" lever — near-zero layout risk, Inter ≈ SF
+     metrics), falling back to the loaded Inter (--font-inter, set by
+     next/font) and then system fonts everywhere else. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+    var(--font-inter), system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* Display: Space Grotesk (loaded via next/font as --font-display-src) for
+     game titles, the hero H1, big tabular scores and game-over verdicts. */
+  --font-display: var(--font-display-src), "Space Grotesk", var(--font-inter),
+    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
   /* Font-size additions — text-xxs schliesst die [10px]/[11px]-Hacks.
      Restliche Skala bleibt Tailwind-Default (text-xs..text-9xl) — kein
@@ -28,12 +36,24 @@
   --color-gold-dim: rgba(184,134,11,0.08);
   /* alias for legacy --color-gold-solid (now -deep) */
   --color-gold-solid: #96700a;
+  /* AA-safe gold for small TEXT on light surfaces — #b8860b is only ~3.2:1 at
+     body size. Keep #b8860b for fills/borders/large numerals. Brightened in the
+     dark theme (where #b8860b already passes). */
+  --color-gold-ink: #8a6708;
+
+  /* ─── Scrim ─── modal/overlay backdrop; stays dark in BOTH themes (NOT
+     affected by the dark black-flip below). */
+  --color-scrim: rgba(0,0,0,0.45);
 
   /* ─── Akzent (semantisch, nicht Brand) ─── */
   --color-accent: #2563eb;
   --color-accent-light: #dbeafe;
 
-  /* ─── Text ─── */
+  /* ─── Text ───
+     NOTE: --color-cream is the PRIMARY TEXT color, not a light cream. It is
+     dark ink (#1a1a1a) in the light theme and flips to true cream in the dark
+     theme (see the prefers-color-scheme block at the bottom of this file). The
+     name is kept for back-compat with the many `text-cream` callsites. */
   --color-cream: #1a1a1a;
   --color-cream-muted: rgba(26,26,26,0.62);
   --color-cream-dim: rgba(26,26,26,0.40);
@@ -52,14 +72,15 @@
   --color-warning: #d97706;
   --color-warning-light: #fef3c7;
 
-  /* ─── Per-Game-Tokens — nur die VERDICT-Spiele + Drills. ─── */
-  --game-country-draft-bg: #fee2e2;
-  --game-country-draft-fg: #991b1b;
-  --game-stat-guesser-bg: #fce7f3;
-  --game-stat-guesser-fg: #831843;
-  /* Drills: gemeinsame Sektion-Identität für alle 11 Practice-Spiele */
-  --game-drills-bg: #f5f4f0;
-  --game-drills-fg: #1a1a1a;
+  /* Cluster group colors (NYT-Connections-style), easiest → trickiest. Saturated
+     fills with white text — read on both light and dark tiles. */
+  --color-cluster-1: #d4a017;
+  --color-cluster-2: #16a34a;
+  --color-cluster-3: #2563eb;
+  --color-cluster-4: #7c3aed;
+
+  /* Per-game identity colors moved to a dedicated :root block below (so they
+     get light + dark twins). See "Per-game identity colors". */
 
   /* ─── Radius ─── */
   --radius-sm:  6px;
@@ -88,6 +109,44 @@
   --ease-emphasis: cubic-bezier(0.2, 0, 0, 1);         /* Section-Reveal */
 }
 
+/* ─── Per-game identity colors ───
+   Single source of truth for the 14 game accent washes. Exposed as CSS vars
+   (not hardcoded hex in JS) so inline styles flip with the theme — game-colors.ts
+   returns `var(--game-{slug}-bg/fg)`. Light values here; dark twins live in the
+   prefers-color-scheme block at the bottom of this file. */
+:root {
+  --game-country-draft-bg: #fee2e2;    --game-country-draft-fg: #991b1b;
+  --game-flag-quiz-bg: #dbeafe;        --game-flag-quiz-fg: #1e3a5f;
+  --game-higher-or-lower-bg: #d1fae5;  --game-higher-or-lower-fg: #064e3b;
+  --game-capital-match-bg: #fef3c7;    --game-capital-match-fg: #78350f;
+  --game-population-sort-bg: #ede9fe;  --game-population-sort-fg: #4c1d95;
+  --game-country-streak-bg: #ffedd5;   --game-country-streak-fg: #7c2d12;
+  --game-border-buddies-bg: #ccfbf1;   --game-border-buddies-fg: #134e4a;
+  --game-continent-sprint-bg: #e0e7ff; --game-continent-sprint-fg: #312e81;
+  --game-stat-guesser-bg: #fce7f3;     --game-stat-guesser-fg: #831843;
+  --game-speed-flags-bg: #ecfccb;      --game-speed-flags-fg: #365314;
+  --game-odd-one-out-bg: #f3e8ff;      --game-odd-one-out-fg: #581c87;
+  --game-supremacy-bg: #fef9c3;        --game-supremacy-fg: #713f12;
+  --game-borderline-bg: #cffafe;       --game-borderline-fg: #155e75;
+  --game-blitz-bg: #fecaca;            --game-blitz-fg: #7f1d1d;
+  --game-geo-wordle-bg: #e0f2fe;       --game-geo-wordle-fg: #075985;
+  --game-cluster-bg: #fae8ff;          --game-cluster-fg: #701a75;
+  --game-risk-zone-bg: #ffe4e6;        --game-risk-zone-fg: #9f1239;
+  /* shared "drills" section identity */
+  --game-drills-bg: #f5f4f0;           --game-drills-fg: #1a1a1a;
+
+  /* ─── GeoWordle proximity ramp ───
+     Hot-to-cold, cut by great-circle distance (see game-logic/geo-wordle/engine.ts).
+     Deliberately orange→blue rather than green→red: red already means "incorrect"
+     everywhere else on the site, and here a close guess is a GOOD guess. Solved
+     uses --color-correct so the win state stays the site-wide green. */
+  --color-geo-burning: #ea580c;   /* < 1,000 km  */
+  --color-geo-hot:     #d97706;   /* < 2,500 km  */
+  --color-geo-warm:    #ca8a04;   /* < 5,000 km  */
+  --color-geo-cool:    #0891b2;   /* < 9,000 km  */
+  --color-geo-cold:    #2563eb;   /* ≥ 9,000 km  */
+}
+
 /* Base */
 body {
   background-color: var(--color-bg);
@@ -95,6 +154,14 @@ body {
   -webkit-font-smoothing: antialiased;
   /* Bruckner: tnum für gleichbreite Ziffern überall — Scores, Streaks, Codes */
   font-feature-settings: "tnum" 1, "ss01" 1;
+}
+
+/* Display face (Space Grotesk via --font-display) on every primary page title:
+   every page <h1> plus the home hero and game-landing titles. Body/UI text
+   stays on the SF Pro/Inter stack. tnum still inherits from body, so numerals
+   in titles stay tabular. */
+h1 {
+  font-family: var(--font-display);
 }
 
 /* Mono — alle Stat-Anzeigen erben tnum */
@@ -259,9 +326,11 @@ body {
   border-radius: var(--radius-xl);
   transition: transform 0.2s var(--ease-game), box-shadow 0.2s ease;
 }
-.game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+@media (hover: hover) {
+  .game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
 }
 .game-card:active {
   transform: scale(0.97);
@@ -286,10 +355,12 @@ body {
   cursor: pointer;
   border: none;
 }
-.cta-primary:hover {
-  filter: brightness(1.1);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .cta-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
 }
 .cta-primary:active {
   transform: scale(0.98);
@@ -313,8 +384,10 @@ body {
   cursor: pointer;
   border: none;
 }
-.cta-secondary:hover {
-  background-color: rgba(0,0,0,0.10);
+@media (hover: hover) {
+  .cta-secondary:hover {
+    background-color: rgba(0,0,0,0.10);
+  }
 }
 .cta-secondary:active {
   transform: scale(0.98);
@@ -324,14 +397,16 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: var(--color-gold);
+  color: var(--color-gold-ink);
   font-weight: 500;
   text-decoration: none;
   transition: opacity 0.15s ease;
   cursor: pointer;
 }
-.cta-tertiary:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .cta-tertiary:hover {
+    opacity: 0.8;
+  }
 }
 
 /* Rank colors */
@@ -444,10 +519,12 @@ textarea:focus-visible {
   color: white;
   box-shadow: var(--shadow-gold), var(--shadow-inset);
 }
-.btn-primary:hover:not(:disabled) {
-  background-color: var(--color-gold-bright);
-  box-shadow: var(--shadow-lg), var(--shadow-inset);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-gold-bright);
+    box-shadow: var(--shadow-lg), var(--shadow-inset);
+    transform: translateY(-1px);
+  }
 }
 .btn-primary:active:not(:disabled) {
   background-color: var(--color-gold-deep);
@@ -460,9 +537,11 @@ textarea:focus-visible {
   color: var(--color-gold);
   box-shadow: inset 0 0 0 1px transparent;
 }
-.btn-secondary:hover:not(:disabled) {
-  box-shadow: inset 0 0 0 1px var(--color-gold);
-  background-color: var(--color-gold-on-bg-soft);
+@media (hover: hover) {
+  .btn-secondary:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 1px var(--color-gold);
+    background-color: var(--color-gold-on-bg-soft);
+  }
 }
 .btn-secondary:active:not(:disabled) {
   transform: scale(0.98);
@@ -472,9 +551,11 @@ textarea:focus-visible {
   background-color: transparent;
   color: var(--color-gold);
 }
-.btn-ghost:hover:not(:disabled) {
-  background-color: var(--color-gold-on-bg-soft);
-  color: var(--color-gold-deep);
+@media (hover: hover) {
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-gold-on-bg-soft);
+    color: var(--color-gold-deep);
+  }
 }
 .btn-ghost:active:not(:disabled) {
   transform: scale(0.98);
@@ -532,4 +613,132 @@ textarea:focus-visible {
   svg animateMotion {
     animation-play-state: paused !important;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Dark theme — table stakes for a native-feeling iOS app.
+   We do NOT rename tokens (hundreds of `text-cream` callsites). Instead we
+   re-point the SAME design tokens under prefers-color-scheme: dark, so every
+   `bg-bg / text-cream / border-border / bg-surface` utility flips for free.
+   Gold is intentionally kept at its light-theme value: #b8860b reads ~5:1 as
+   text on the dark base (passes AA) and keeps white-on-gold buttons identical
+   to the shipped light build (no regression).
+   ───────────────────────────────────────────────────────────────────────── */
+:root { color-scheme: light dark; }
+html { background-color: var(--color-bg); }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Surfaces — deep ink-navy base; elevate by LIGHTENING (shadows vanish on dark). */
+    --color-bg:               #10141b;
+    --color-surface:          #161c26;
+    --color-surface-elevated: #1e2531;
+    --color-surface-sunken:   #0c1016;
+
+    /* Primary text → true cream + its muted/dim/ghost steps. */
+    --color-cream:        #ECEAE3;
+    --color-cream-muted:  rgba(236,234,227,0.62);
+    --color-cream-dim:    rgba(236,234,227,0.40);
+    --color-cream-ghost:  rgba(236,234,227,0.07);
+
+    /* Borders — light hairlines on dark. */
+    --color-border:       rgba(255,255,255,0.10);
+    --color-border-hover: rgba(255,255,255,0.22);
+
+    /* Accent (semantic blue) — brighter so it reads on dark. */
+    --color-accent:       #5b8cff;
+    --color-accent-light: rgba(91,140,255,0.16);
+
+    /* Semantic tint backgrounds — low-alpha so they sit calmly on dark. */
+    --color-correct-light:   rgba(22,163,74,0.18);
+    --color-incorrect-light: rgba(220,38,38,0.18);
+    --color-warning-light:   rgba(217,119,6,0.18);
+
+    /* Brighter semantic mids so semantic TEXT/borders read on the dark base. */
+    --color-correct:   #22c55e;
+    --color-incorrect: #f87171;
+    --color-warning:   #fbbf24;
+
+    /* Flip the Tailwind `black` primitive. The codebase uses ~250 subtle
+       black-alpha overlays (bg-black/N ×43, border-black/N ×191 — verified: no
+       solid black, no black gradients/rings/shadows/text). On dark they would
+       vanish; re-pointing --color-black to white turns them into matching
+       white-alpha overlays, preserving every 3/5/10/20 opacity step + hover
+       emphasis. Modal scrims use bg-scrim (not bg-black), so they stay dark. */
+    --color-black: #ffffff;
+
+    /* Darker scrim for separation on dark; AA gold-text can be brighter here. */
+    --color-scrim:    rgba(0,0,0,0.6);
+    --color-gold-ink: #d4a017;
+
+    /* Per-game identity — low-chroma dark washes + light text so the 14
+       accents don't glare on the dark base. */
+    --game-country-draft-bg: rgba(220,38,38,0.16);    --game-country-draft-fg: #fca5a5;
+    --game-flag-quiz-bg: rgba(59,130,246,0.16);       --game-flag-quiz-fg: #93c5fd;
+    --game-higher-or-lower-bg: rgba(16,185,129,0.16); --game-higher-or-lower-fg: #6ee7b7;
+    --game-capital-match-bg: rgba(245,158,11,0.16);   --game-capital-match-fg: #fcd34d;
+    --game-population-sort-bg: rgba(139,92,246,0.16); --game-population-sort-fg: #c4b5fd;
+    --game-country-streak-bg: rgba(249,115,22,0.16);  --game-country-streak-fg: #fdba74;
+    --game-border-buddies-bg: rgba(20,184,166,0.16);  --game-border-buddies-fg: #5eead4;
+    --game-continent-sprint-bg: rgba(99,102,241,0.16);--game-continent-sprint-fg: #a5b4fc;
+    --game-stat-guesser-bg: rgba(236,72,153,0.16);    --game-stat-guesser-fg: #f9a8d4;
+    --game-speed-flags-bg: rgba(132,204,22,0.16);     --game-speed-flags-fg: #bef264;
+    --game-odd-one-out-bg: rgba(168,85,247,0.16);     --game-odd-one-out-fg: #d8b4fe;
+    --game-supremacy-bg: rgba(234,179,8,0.16);        --game-supremacy-fg: #fde047;
+    --game-borderline-bg: rgba(6,182,212,0.16);       --game-borderline-fg: #67e8f9;
+    --game-blitz-bg: rgba(248,113,113,0.16);          --game-blitz-fg: #fca5a5;
+    --game-geo-wordle-bg: rgba(14,165,233,0.16);      --game-geo-wordle-fg: #7dd3fc;
+    --game-cluster-bg: rgba(217,70,239,0.16);         --game-cluster-fg: #f0abfc;
+    --game-risk-zone-bg: rgba(244,63,94,0.16);        --game-risk-zone-fg: #fda4af;
+    --game-drills-bg: #1e2531;                        --game-drills-fg: #ECEAE3;
+
+    /* GeoWordle proximity ramp — lifted for contrast against the dark surface. */
+    --color-geo-burning: #fb923c;
+    --color-geo-hot:     #fbbf24;
+    --color-geo-warm:    #facc15;
+    --color-geo-cool:    #22d3ee;
+    --color-geo-cold:    #60a5fa;
+  }
+
+  /* A handful of component classes use hardcoded black alphas that disappear
+     on dark — re-point them to white alphas / dark tints here. */
+  .cta-secondary        { background-color: rgba(255,255,255,0.07); color: var(--color-cream); }
+  .cta-secondary:hover  { background-color: rgba(255,255,255,0.12); }
+
+  ::-webkit-scrollbar-thumb       { background: rgba(255,255,255,0.16); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.28); }
+
+  .skeleton {
+    background: linear-gradient(90deg, #171d27 25%, #202836 50%, #171d27 75%);
+    background-size: 200% 100%;
+  }
+
+  .grade-elite  { color: #4ade80; background-color: rgba(22,163,74,0.16); }
+  .grade-strong { color: #60a5fa; background-color: rgba(37,99,235,0.18); }
+  .grade-close  { color: #fbbf24; background-color: rgba(217,119,6,0.18); }
+  .grade-tough  { color: var(--color-cream-muted); background-color: var(--color-surface-elevated); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Native iOS feel — safe-area insets + tap polish.
+   Tailwind v4 already ships dvh units (use `min-h-dvh`/`h-dvh`), so we only
+   add the safe-area helpers here. Applied to every fixed/edge-anchored
+   surface (header, bottom tab bar, sheets, game-over).
+   ───────────────────────────────────────────────────────────────────────── */
+.safe-top    { padding-top:    env(safe-area-inset-top, 0px); }
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-left   { padding-left:   env(safe-area-inset-left, 0px); }
+.safe-right  { padding-right:  env(safe-area-inset-right, 0px); }
+.safe-x      { padding-left:   env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+
+/* Margin variants for fixed bars that sit flush to a device edge. */
+.mb-safe { margin-bottom: env(safe-area-inset-bottom, 0px); }
+.mt-safe { margin-top:    env(safe-area-inset-top, 0px); }
+
+/* Kill the iOS tap-highlight flash; we own the active state via :active scale.
+   touch-action: manipulation removes the 300ms double-tap-zoom delay so every
+   tap registers instantly — the single biggest "feels native" lever on touch. */
+a, button, [role="button"], summary, input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }

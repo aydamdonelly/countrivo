@@ -19,7 +19,7 @@ export default function HomeLoading() {
         <div className="h-4 w-36 skeleton rounded-lg mb-3" />
         <div className="grid grid-cols-3 gap-3">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="p-3 rounded-lg bg-white h-24 skeleton" />
+            <div key={i} className="p-3 rounded-lg bg-surface h-24 skeleton" />
           ))}
         </div>
       </section>

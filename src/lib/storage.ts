@@ -33,7 +33,12 @@ export function getStorageItem<T>(key: string, defaultValue: T): T {
 
 export function setStorageItem<T>(key: string, value: T): void {
   if (typeof window === "undefined") return;
-  localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value, replaceTypes));
+  try {
+    localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value, replaceTypes));
+  } catch {
+    // Quota exceeded / storage disabled (private mode, locked-down WebView).
+    // Never let a persistence failure crash the live game.
+  }
 }
 
 export function removeStorageItem(key: string): void {
@@ -76,6 +81,10 @@ export function getDailyLockout(gameSlug: string, dateKey: string, edition: stri
 
 export function setDailyLockout(gameSlug: string, dateKey: string, entry: DailyLockoutEntry, edition: string): void {
   setStorageItem(`lockout_${gameSlug}_${dateKey}_e${edition}`, entry);
+  // Mark "played today" under the edition-agnostic key the home progress ring,
+  // header counter, streak nudge, and game-chaining actually read. (Previously
+  // only the unused useDailyChallenge hook wrote this, so the habit loop was dead.)
+  setStorageItem(`daily_${gameSlug}_${dateKey}_completed`, true);
   // The game is over: the in-progress blob is now superseded by the lockout.
   clearDailyProgress(gameSlug, dateKey, edition);
 }

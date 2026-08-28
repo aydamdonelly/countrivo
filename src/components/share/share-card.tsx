@@ -3,8 +3,9 @@
 import { useMemo, useState } from "react";
 import { buildCountryDraftShareText } from "./country-draft-grid";
 import { buildStatGuesserShareText } from "./stat-guesser-grid";
+import { buildGeoWordleShareText } from "./geo-wordle-grid";
 
-type ShareGame = "country-draft" | "stat-guesser";
+type ShareGame = "country-draft" | "stat-guesser" | "geo-wordle";
 
 interface ShareCardProps {
   game: ShareGame;
@@ -16,6 +17,7 @@ interface ShareCardProps {
 /* ---------- per-game shape narrowing ---------- */
 
 type DraftAssignment = { countryIdx: number; rank: number };
+type GeoWordleGuessShape = { band?: string; correct?: boolean };
 
 function buildShareText(game: ShareGame, result: Record<string, unknown>, dateKey: string): string {
   switch (game) {
@@ -43,6 +45,11 @@ function buildShareText(game: ShareGame, result: Record<string, unknown>, dateKe
         dateKey,
       );
     }
+
+    case "geo-wordle": {
+      const guesses = (result.guesses ?? []) as GeoWordleGuessShape[];
+      return buildGeoWordleShareText({ won: Boolean(result.won), guesses }, dateKey);
+    }
   }
 }
 
@@ -60,7 +67,7 @@ export function ShareCard({ game, result, dateKey }: ShareCardProps) {
       setShareError(null);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      setShareError("Copy failed — try selecting the text.");
+      setShareError("Copy failed. Try selecting the text.");
     }
   };
 

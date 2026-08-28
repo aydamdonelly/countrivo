@@ -22,8 +22,12 @@ export interface HoLState {
   bestStreak: number;
   phase: "playing" | "reveal" | "gameover";
   lastAnswer: "correct" | "wrong" | null;
-  rng: () => number;
 }
+
+// Enough rounds for any realistic streak. The full set is precomputed up front
+// from the seeded RNG so the state stays JSON-serializable (no live rng closure
+// to lose on a daily-progress resume) AND deterministic across reloads.
+const BATCH_SIZE = 80;
 
 const GOOD_CATEGORIES = [
   "population", "area-km2", "gdp-per-capita", "gdp", "life-expectancy",
@@ -48,19 +52,24 @@ function generateRound(rng: () => number): HoLRound | null {
   const leftVal = stats[pair[0].iso3][cat.slug] as number;
   const rightVal = stats[pair[1].iso3][cat.slug] as number;
 
+  // Equal values make the round unwinnable (either answer is "wrong"); skip it.
+  if (leftVal === rightVal) return null;
+
   return {
     left: pair[0],
     right: pair[1],
     category: cat,
     leftValue: leftVal,
     rightValue: rightVal,
-    answer: rightVal >= leftVal ? "higher" : "lower",
+    answer: rightVal > leftVal ? "higher" : "lower",
   };
 }
 
 function generateBatch(rng: () => number, count: number): HoLRound[] {
   const rounds: HoLRound[] = [];
-  for (let i = 0; i < count; i++) {
+  let attempts = 0;
+  while (rounds.length < count && attempts < count * 5) {
+    attempts++;
     const round = generateRound(rng);
     if (round) rounds.push(round);
   }
@@ -69,13 +78,12 @@ function generateBatch(rng: () => number, count: number): HoLRound[] {
 
 export function createHoL(rng: () => number): HoLState {
   return {
-    rounds: generateBatch(rng, 10),
+    rounds: generateBatch(rng, BATCH_SIZE),
     currentRound: 0,
     streak: 0,
     bestStreak: 0,
     phase: "playing",
     lastAnswer: null,
-    rng,
   };
 }
 
@@ -87,21 +95,12 @@ export function guess(state: HoLState, choice: "higher" | "lower"): HoLState {
 
   if (isCorrect) {
     const newStreak = state.streak + 1;
-    const nextRound = state.currentRound + 1;
-
-    // Generate more rounds when running low
-    let rounds = state.rounds;
-    if (nextRound >= rounds.length - 3) {
-      rounds = [...rounds, ...generateBatch(state.rng, 10)];
-    }
-
     return {
       ...state,
-      rounds,
       streak: newStreak,
       bestStreak: Math.max(state.bestStreak, newStreak),
-      currentRound: nextRound,
-      phase: "playing",
+      currentRound: state.currentRound + 1,
+      phase: state.currentRound + 1 >= state.rounds.length ? "gameover" : "playing",
       lastAnswer: "correct",
     };
   }

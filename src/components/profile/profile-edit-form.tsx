@@ -2,6 +2,9 @@
 
 import { useState, useTransition } from "react";
 import { updateProfile, updateUsername } from "@/app/actions/profile";
+import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/components/auth/auth-provider";
+import { useJuice } from "@/hooks/use-juice";
 import { countries } from "@/lib/data/loader";
 
 interface ProfileEditFormProps {
@@ -18,6 +21,26 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
   const [usernameFeedback, setUsernameFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [isPending, startTransition] = useTransition();
   const [isUsernamePending, startUsernameTransition] = useTransition();
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const { signOut } = useAuth();
+  const juice = useJuice();
+
+  // App Store Guideline 5.1.1(v): in-app account deletion. Calls the
+  // delete-account Edge Function (service-role; deletes only the caller).
+  const handleDelete = async () => {
+    setDeleting(true);
+    const supabase = createClient();
+    const { error } = await supabase.functions.invoke("delete-account");
+    if (error) {
+      setFeedback({ type: "error", message: "Could not delete account. Please try again." });
+      setDeleting(false);
+      setConfirmingDelete(false);
+      return;
+    }
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,6 +160,63 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
           </p>
         )}
       </form>
+
+      {/* Preferences — sound/haptics toggle + sign-out (the only mobile sign-out) */}
+      <div className="pt-6 border-t border-border space-y-3">
+        <h2 className="text-sm font-bold mb-1">Preferences</h2>
+        <button
+          type="button"
+          onClick={juice.toggleMute}
+          aria-pressed={!juice.muted}
+          className="w-full flex items-center justify-between rounded-xl border-2 border-border px-4 py-3 hover:bg-cream-ghost transition-colors"
+        >
+          <span className="font-medium">Sound &amp; haptics</span>
+          <span className="text-sm font-semibold text-cream-muted">{juice.muted ? "Off" : "On"}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => { void signOut(); }}
+          className="w-full text-left rounded-xl border-2 border-border px-4 py-3 font-semibold hover:bg-cream-ghost transition-colors"
+        >
+          Sign out
+        </button>
+      </div>
+
+      {/* Danger zone — in-app account deletion (required for the App Store) */}
+      <div className="pt-6 border-t border-border">
+        <h2 className="text-sm font-bold text-incorrect mb-1">Delete account</h2>
+        <p className="text-sm text-cream-muted mb-3">
+          Permanently deletes your account, scores and streaks. This can&apos;t be undone.
+        </p>
+        {!confirmingDelete ? (
+          <button
+            type="button"
+            onClick={() => setConfirmingDelete(true)}
+            className="px-4 py-3 rounded-xl border-2 border-incorrect/40 text-incorrect font-semibold hover:bg-incorrect/10 transition-colors active:scale-[0.97] min-h-[44px]"
+          >
+            Delete my account
+          </button>
+        ) : (
+          <div className="flex flex-col gap-2 sm:flex-row">
+            <button
+              type="button"
+              onClick={() => { void handleDelete(); }}
+              disabled={deleting}
+              className="px-4 py-3 rounded-xl bg-incorrect text-white font-bold hover:brightness-110 transition-all active:scale-[0.97] disabled:opacity-50 min-h-[44px]"
+            >
+              {deleting ? "Deleting..." : "Yes, permanently delete"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setConfirmingDelete(false)}
+              disabled={deleting}
+              className="px-4 py-3 rounded-xl border-2 border-border font-semibold hover:bg-cream-ghost transition-colors active:scale-[0.97] min-h-[44px]"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

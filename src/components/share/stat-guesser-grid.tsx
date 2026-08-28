@@ -1,22 +1,23 @@
 /**
- * Stat-Guesser share-grid generator.
+ * Stat-Guesser share text — SPOILER-SAFE.
  *
  * Format:
- *   Countrivo · Stat-Guesser · DD · MM · YY
- *   🎯 Off by 12%
- *   Anchor: Spain → Tanzania
- *   countrivo.com
+ *   Countrivo Stat Guesser #<dailyNumber> 🎯 off by 12%
  *
- * For multi-round practice runs we show the average error and the first
- * anchor/target — the daily uses a single round so this collapses naturally.
+ *   https://countrivo.com
+ *
+ * NOTE: never print the anchor/target country names — the daily is deterministic
+ * (same anchor→target for everyone today), so naming them would reveal the
+ * puzzle to anyone who hasn't played yet.
  */
 
-import { formatBrandDate } from "./share-utils";
+import { dailyNumber, gameShareUrl } from "./share-utils";
 
 export interface StatGuesserShareInput {
   avgError: number;
-  anchorName: string;
-  targetName: string;
+  /** kept for back-compat with the caller; intentionally NOT printed (spoiler). */
+  anchorName?: string;
+  targetName?: string;
 }
 
 export function buildStatGuesserShareText(
@@ -25,9 +26,8 @@ export function buildStatGuesserShareText(
 ): string {
   const pct = Math.round(input.avgError);
   return [
-    `Countrivo · Stat-Guesser · ${formatBrandDate(dateKey)}`,
-    `🎯 Off by ${pct}%`,
-    `Anchor: ${input.anchorName} → ${input.targetName}`,
-    "countrivo.com",
+    `Countrivo Stat Guesser #${dailyNumber(dateKey)} 🎯 off by ${pct}%`,
+    "",
+    gameShareUrl("stat-guesser"),
   ].join("\n");
 }

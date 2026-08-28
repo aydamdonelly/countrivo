@@ -19,6 +19,7 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
@@ -106,6 +107,12 @@ export function BorderlineBoard({
     }
   }, [error]);
 
+  /* ── Completion flourish ───────────────────────────────────────── */
+
+  useEffect(() => {
+    if (game.phase === "finished") juice.celebrate();
+  }, [game.phase]);
+
   /* ── Compute autocomplete suggestions ──────────────────────────── */
 
   const suggestions = useMemo(() => {
@@ -129,11 +136,18 @@ export function BorderlineBoard({
     (name: string) => {
       if (game.phase !== "playing" || !name.trim()) return;
 
+      // Determine the verdict (pure check) so haptic + sound land with the
+      // visual update: a valid step advances the path, an invalid one errors.
+      const { state: nextGame, error: moveError } = makeMove(game, name);
+      if (moveError) juice.wrong();
+      else if (nextGame.phase === "finished") juice.correct();
+      else juice.select();
+
       dispatch({ type: "MOVE", name });
       setInputValue("");
       setShowSuggestions(false);
     },
-    [game.phase],
+    [game],
   );
 
   /* ── Keyboard handling ─────────────────────────────────────────── */
@@ -322,7 +336,7 @@ export function BorderlineBoard({
                   e.preventDefault();
                   submitMove(c.displayName);
                 }}
-                className="flex items-center gap-3 w-full px-4 py-2.5 text-left hover:bg-gold-dim transition-colors"
+                className="flex items-center gap-3 w-full px-4 py-2 text-left hover:bg-gold-dim transition-colors min-h-[44px]"
               >
                 <span className="text-xl">{c.flagEmoji}</span>
                 <span className="font-medium text-cream">
@@ -336,7 +350,7 @@ export function BorderlineBoard({
 
       {/* Path display (vertical chain) */}
       <div className="mt-4">
-        <p className="text-sm text-cream-muted uppercase tracking-wide font-medium mb-3 text-center">
+        <p className="text-sm text-cream-muted font-medium mb-3 text-center">
           Your path
         </p>
         <div className="flex flex-wrap items-center justify-center gap-2">
@@ -369,7 +383,7 @@ export function BorderlineBoard({
 
       {/* Available neighbors hint */}
       <div className="mt-2">
-        <p className="text-xs text-cream-muted uppercase tracking-wide font-medium mb-2 text-center">
+        <p className="text-xs text-cream-muted font-medium mb-2 text-center">
           Neighbors ({availableNeighbors.length})
         </p>
         <div className="flex flex-wrap items-center justify-center gap-1.5">

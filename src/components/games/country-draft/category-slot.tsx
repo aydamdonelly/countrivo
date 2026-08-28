@@ -29,7 +29,7 @@ export function CategorySlot({
           : `${category.label} — unavailable`
       }
       className={cn(
-        "relative flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-200 min-h-30 sm:min-h-35",
+        "relative flex flex-col items-center justify-center p-4 sm:p-5 rounded-2xl border-2 transition-[transform,border-color,background-color,box-shadow] duration-200 min-h-30 sm:min-h-35",
         isAvailable &&
           "border-border-hover bg-gold-dim hover:border-gold hover:bg-gold-dim hover:shadow-lg cursor-pointer active:scale-[0.96]",
         !isAvailable && assignedCountry &&

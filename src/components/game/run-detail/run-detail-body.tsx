@@ -1,5 +1,6 @@
 import { getCountryByIso3 } from "@/lib/data/countries";
 import type { RunDetail } from "@/types/server";
+import { IconCheck } from "@/components/icons";
 
 interface Props {
   run: RunDetail;
@@ -101,7 +102,7 @@ function BorderBuddiesBody({ run, colors }: Props) {
                 key={iso3}
                 className="flex items-center gap-2 rounded-xl px-3 py-2 bg-green-500/10 border border-green-500/20"
               >
-                <span className="text-green-700 font-bold">✓</span>
+                <IconCheck className="w-4 h-4 text-correct shrink-0" />
                 <FlagName iso3={iso3} className="text-sm font-medium" />
               </li>
             ))}
@@ -230,10 +231,10 @@ function CountryDraftBody({ run, colors }: Props) {
                   : "far";
             const qualityClass =
               quality === "optimal"
-                ? "bg-green-500/10 border-green-500/20 text-green-700"
+                ? "bg-green-500/10 border-green-500/20 text-correct"
                 : quality === "close"
-                  ? "bg-amber-500/10 border-amber-500/20 text-amber-700"
-                  : "bg-red-500/10 border-red-500/20 text-red-700";
+                  ? "bg-amber-500/10 border-amber-500/20 text-warning"
+                  : "bg-red-500/10 border-red-500/20 text-incorrect";
 
             return (
               <li
@@ -257,7 +258,7 @@ function CountryDraftBody({ run, colors }: Props) {
                   <span
                     className={`text-xs font-bold rounded-full px-2 py-0.5 border ${qualityClass}`}
                   >
-                    {isOptimal ? "✓ optimal" : quality === "close" ? "close" : "off"}
+                    {isOptimal ? <span className="flex items-center gap-1"><IconCheck className="w-3 h-3" />optimal</span> : quality === "close" ? "close" : "off"}
                   </span>
                 </div>
               </li>
@@ -289,10 +290,10 @@ function StatGuesserBody({ run, colors }: Props) {
 
   const errColor = (err: number) =>
     err <= 10
-      ? "text-green-700"
+      ? "text-correct"
       : err <= 30
-        ? "text-amber-700"
-        : "text-red-700";
+        ? "text-warning"
+        : "text-incorrect";
 
   return (
     <div className="space-y-5">

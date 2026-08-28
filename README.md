@@ -1,6 +1,6 @@
 # Countrivo
 
-Geography gaming platform. 14 games, 243 countries, daily challenges and practice mode.
+Geography gaming platform. 17 games, 243 countries, daily challenges and practice mode.
 
 Live at [countrivo.com](https://countrivo.com).
 

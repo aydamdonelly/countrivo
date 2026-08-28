@@ -57,7 +57,7 @@ export function ForgotPasswordForm() {
         <button
           type="button"
           onClick={() => { setStatus("idle"); setEmail(""); setErrorMsg(""); }}
-          className="mt-5 text-xs text-gold font-medium hover:underline"
+          className="mt-5 inline-block text-xs text-gold-ink font-medium hover:underline min-h-[44px] py-3"
         >
           Use a different email
         </button>
@@ -80,7 +80,7 @@ export function ForgotPasswordForm() {
         placeholder="your@email.com"
         required
         aria-describedby={errorMsg ? "reset-error" : undefined}
-        className="w-full px-4 py-2.5 rounded-xl border border-border bg-white text-sm
+        className="w-full px-4 py-3 rounded-xl border border-border bg-surface text-sm
           focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
           placeholder:text-cream-muted/50"
       />

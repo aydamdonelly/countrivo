@@ -13,7 +13,9 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
+import { IconFlame } from "@/components/icons";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
 import { useDailyProgress } from "@/hooks/use-daily-progress";
@@ -57,8 +59,17 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
   const handleGuess = useCallback((choice: "higher" | "lower") => {
     if (showReveal) return;
     const isCorrect = choice === round.answer;
+    // Verdict feel: fire haptic + sound on the SAME frame the visual feedback starts.
+    if (isCorrect) {
+      const nextStreak = state.streak + 1;
+      // Tasteful streak milestone every 5 correct; otherwise the standard success cue.
+      if (nextStreak > 0 && nextStreak % 5 === 0) juice.milestone();
+      else juice.correct();
+    } else {
+      juice.wrong();
+    }
     setFeedbackType(isCorrect ? "good" : "bad");
-    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong — streak ends");
+    setFeedbackMessage(isCorrect ? "Correct!" : "Wrong. Streak ends.");
     setFeedbackKey((k) => k + 1);
     setLastChoice(choice);
     setShowReveal(true);
@@ -67,7 +78,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
       setShowReveal(false);
       setLastChoice(null);
     }, 1500);
-  }, [showReveal, round]);
+  }, [showReveal, round, state.streak]);
 
   const keymap = useMemo(() => {
     const map: Record<string, () => void> = {};
@@ -114,10 +125,15 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.streak, state.bestStreak, state.rounds.length, state.lastAnswer, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "gameover") juice.celebrate();
+  }, [state.phase]);
 
   if (state.phase === "gameover") {
     const handleSaveScore = pendingPayload ? () => {
@@ -130,13 +146,12 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
 
     return (
       <GameOverScreen
-        title="Game Over!"
+        title={`${state.streak} in a row`}
         score={`${state.streak} streak`}
         subtitle={`Best: ${state.bestStreak}`}
         onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.streak}
-        maxScore={state.streak}
         gameSlug="higher-or-lower"
         serverData={serverData ? {
           rankToday: serverData.rankDaily,
@@ -166,7 +181,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
       {/* Streak counter */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🔥</span>
+          <IconFlame className="w-6 h-6 text-amber-500" aria-hidden="true" />
           <span className={cn(
             "font-extrabold font-mono transition-all",
             state.streak > 0 ? "text-4xl text-gold" : "text-3xl text-cream-muted"
@@ -226,17 +241,17 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
         <button
           onClick={() => handleGuess("higher")}
           disabled={showReveal}
-          className="py-6 px-4 rounded-xl border-2 border-correct/30 bg-correct/5 hover:border-correct hover:bg-correct/10 font-bold text-xl transition-all w-full disabled:opacity-60"
+          className="py-6 px-4 rounded-xl border-2 border-correct/30 bg-correct/5 hover:border-correct hover:bg-correct/10 font-bold text-xl transition-all w-full disabled:opacity-60 active:scale-[0.97]"
         >
-          <span className="block text-2xl mb-1">⬆️</span>
+          <span className="block text-2xl mb-1" aria-hidden="true">⬆️</span>
           Higher
         </button>
         <button
           onClick={() => handleGuess("lower")}
           disabled={showReveal}
-          className="py-6 px-4 rounded-xl border-2 border-incorrect/30 bg-incorrect/5 hover:border-incorrect hover:bg-incorrect/10 font-bold text-xl transition-all w-full disabled:opacity-60"
+          className="py-6 px-4 rounded-xl border-2 border-incorrect/30 bg-incorrect/5 hover:border-incorrect hover:bg-incorrect/10 font-bold text-xl transition-all w-full disabled:opacity-60 active:scale-[0.97]"
         >
-          <span className="block text-2xl mb-1">⬇️</span>
+          <span className="block text-2xl mb-1" aria-hidden="true">⬇️</span>
           Lower
         </button>
       </div>

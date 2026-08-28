@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getAllGames, getFlagshipGame, getMainGames, getDrillGames } from "@/lib/data/games";
 import type { Metadata } from "next";
 import { GAME_COLORS } from "@/lib/game-colors";
-import { IconArrowRight } from "@/components/icons";
+import { IconArrowRight, IconTrophy } from "@/components/icons";
 import type { GameMeta } from "@/types/game";
 
 export const metadata: Metadata = {
@@ -71,7 +71,8 @@ function GameCard({ game }: { game: GameMeta }) {
           className="absolute right-3 bottom-3 z-10 inline-flex items-center gap-1 px-2 py-1 rounded-full bg-black/10 text-xxs font-bold transition-[background-color,transform] duration-150 ease-[var(--ease-out)] hover:bg-black/20 active:scale-95"
           style={{ color: colors.text }}
         >
-          🏆 Leaderboard
+          <IconTrophy width={12} height={12} aria-hidden />
+          Leaderboard
         </Link>
       )}
     </div>
@@ -213,7 +214,7 @@ export default async function GamesPage({ searchParams }: GamesPageProps) {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
               <div>
                 <h2
-                  className="text-2xl sm:text-3xl font-extrabold"
+                  className="text-2xl sm:text-3xl font-extrabold font-display"
                   style={{ color: GAME_COLORS[flagship.slug]?.text ?? "#374151" }}
                 >
                   {flagship.emoji} {flagship.title}

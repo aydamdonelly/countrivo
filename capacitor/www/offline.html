@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Countrivo — Offline</title>
+    <style>
+      html, body {
+        margin: 0; height: 100%;
+        background: #10141b; color: #ECEAE3;
+        font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+        display: flex; align-items: center; justify-content: center; text-align: center;
+        padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
+      }
+      h1 { font-size: 20px; margin: 0 0 8px; }
+      p { opacity: .7; margin: 0 0 22px; font-size: 15px; }
+      button {
+        background: #b8860b; color: #fff; border: 0; border-radius: 12px;
+        padding: 13px 22px; font-size: 16px; font-weight: 700; min-height: 48px;
+      }
+      .globe { font-size: 44px; margin-bottom: 12px; }
+    </style>
+  </head>
+  <!-- Shown by Capacitor (server.errorPath) when the live site can't load (offline). -->
+  <body>
+    <div>
+      <div class="globe">🌍</div>
+      <h1>You're offline</h1>
+      <p>Countrivo needs a connection to play the daily.</p>
+      <button onclick="location.href='https://countrivo.com'">Retry</button>
+    </div>
+  </body>
+</html>

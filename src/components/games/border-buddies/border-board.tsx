@@ -13,6 +13,7 @@ import { mulberry32 } from "@/lib/seeded-random";
 import { cn } from "@/lib/utils";
 import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
+import { juice } from "@/hooks/use-juice";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useAuth } from "@/components/auth/auth-provider";
@@ -78,6 +79,9 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
   const handleSelect = useCallback(
     (c: Country) => {
       const isValidBorder = state.borders.includes(c.iso3) && !state.found.includes(c.iso3);
+      // Verdict feel: fire haptic + sound on the SAME frame the visual feedback starts.
+      if (isValidBorder) juice.correct();
+      else juice.wrong();
       setFeedbackType(isValidBorder ? "good" : "bad");
       setFeedbackMessage(isValidBorder ? "Found!" : "Not a border");
       setFeedbackKey((k) => k + 1);
@@ -137,10 +141,15 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.found, state.borders, state.country.iso3, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   if (state.phase === "results") {
     const allFound = state.found.length === state.borders.length;
@@ -155,9 +164,9 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
 
     return (
       <GameOverScreen
-        title={allFound ? "All Borders Found!" : "Border Buddies"}
-        score={`${state.found.length} / ${state.borders.length}`}
-        subtitle={allFound ? "Perfect!" : "Better luck next time!"}
+        title={allFound ? "All borders found." : `${state.found.length} / ${state.borders.length} found`}
+        score={allFound ? "Flawless." : `${state.borders.length - state.found.length} missed.`}
+        subtitle={allFound ? "" : "Run it again to find the rest."}
         onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={state.found.length}
@@ -282,9 +291,9 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
       {/* Give Up button */}
       <button
         onClick={() => dispatch({ type: "GIVE_UP" })}
-        className="mx-auto px-6 py-3 text-sm text-cream-muted border border-border rounded-xl hover:bg-surface transition-colors"
+        className="mx-auto px-6 py-4 text-sm text-cream-muted border border-border rounded-xl hover:bg-surface transition-colors min-h-[44px]"
       >
-        Give Up
+        Give up
       </button>
     </div>
   );

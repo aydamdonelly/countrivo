@@ -24,6 +24,46 @@ interface GameSeo {
 }
 
 const GAME_SEO: Record<string, GameSeo> = {
+  "geo-wordle": {
+    title: "GeoWordle — Guess the Mystery Country in 6 Tries | Countrivo",
+    description:
+      "A daily geography Wordle. Guess the hidden country — each try reveals the distance and direction to the answer. Solve it in six. Free, no signup.",
+    genre: "Geography Puzzle",
+    playMode: "SinglePlayer",
+    rules: [
+      "A mystery country is hidden each day",
+      "Type a country to guess it",
+      "Each guess shows the distance and a direction arrow to the answer",
+      "Use the clues to narrow down the country",
+      "Solve it in six guesses or fewer",
+    ],
+  },
+  "cluster": {
+    title: "Cluster — Group 16 Countries Into 4 Hidden Connections | Countrivo",
+    description:
+      "Sixteen countries, four secret groups. Find the connection binding each quartet — region, letter or stat — before four mistakes end your run. Free daily puzzle.",
+    genre: "Geography Puzzle",
+    playMode: "SinglePlayer",
+    rules: [
+      "Sixteen countries are shown in a grid",
+      "Four hidden groups of four each share one connection",
+      "Tap four countries you think belong together and submit",
+      "A correct group locks in; four wrong guesses end the game",
+    ],
+  },
+  "risk-zone": {
+    title: "Risk Zone — Bank Your Points or Gamble One More Reveal | Countrivo",
+    description:
+      "Guess higher or lower one country at a time. Each correct call grows your multiplier — bank the pot or push your luck. One wrong answer wipes the chain. Free daily.",
+    genre: "Geography Strategy",
+    playMode: "SinglePlayer",
+    rules: [
+      "A country's stat value is shown — guess if the next country is higher or lower",
+      "Each correct guess grows your multiplier and your pot",
+      "Bank the pot to lock the points, or push your luck for one more reveal",
+      "One wrong guess wipes the entire chain — play 5 chains for the highest total",
+    ],
+  },
   "country-draft": {
     title: "Country Draft — Assign Countries to Their Best Stat | Countrivo",
     description:

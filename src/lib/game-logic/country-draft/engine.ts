@@ -14,6 +14,46 @@ export function createGame(
     assignments: new Array(config.countries.length).fill(null),
     usedCategories: new Set(),
     phase: "playing",
+    undoUsed: false,
+  };
+}
+
+/**
+ * Index of the pick that an undo would take back. While playing that's the
+ * previous step; once the final pick locked the run into "results" it's the
+ * current (last) step, which is where currentStep stays on completion.
+ */
+function lastPickIndex(state: DraftGameState): number {
+  return state.phase === "results" ? state.currentStep : state.currentStep - 1;
+}
+
+/** One undo per run, and only if there is a pick to take back. */
+export function canUndo(state: DraftGameState): boolean {
+  if (state.undoUsed) return false;
+  const idx = lastPickIndex(state);
+  return idx >= 0 && state.assignments[idx] != null;
+}
+
+/** Take back the last pick — frees its category and returns to that country. */
+export function undoLastAssignment(state: DraftGameState): DraftGameState {
+  if (!canUndo(state)) return state;
+
+  const idx = lastPickIndex(state);
+  const categoryIdx = state.assignments[idx]!;
+
+  const newAssignments = [...state.assignments];
+  newAssignments[idx] = null;
+
+  const newUsed = new Set(state.usedCategories);
+  newUsed.delete(categoryIdx);
+
+  return {
+    ...state,
+    assignments: newAssignments,
+    usedCategories: newUsed,
+    currentStep: idx,
+    phase: "playing",
+    undoUsed: true,
   };
 }
 

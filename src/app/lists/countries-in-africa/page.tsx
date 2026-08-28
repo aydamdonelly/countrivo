@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getGameColor } from "@/lib/game-colors";
 import { getCountriesByContinent } from "@/lib/data/countries";
 import { getStatValue } from "@/lib/data/ranks";
 import { formatNumber } from "@/lib/utils";
@@ -152,27 +151,22 @@ export default function CountriesInAfricaPage() {
       <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
         <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
-          Can you name every African country? Challenge yourself with these games.
+          Can you name every African country? Pick a game to find out.
         </p>
         <div className="flex flex-wrap gap-3">
           {[
             { href: "/games/continent-sprint", name: "Continent Sprint" },
             { href: "/games/flag-quiz", name: "Flag Quiz" },
             { href: "/games/capital-match", name: "Capital Match" },
-          ].map((g) => {
-            const slug = g.href.replace("/games/", "");
-            const colors = getGameColor(slug);
-            return (
-              <Link
-                key={g.href}
-                href={g.href}
-                className="px-4 py-2 font-semibold rounded-full text-sm transition-all hover:scale-105"
-                style={{ backgroundColor: colors.bg, color: colors.text }}
-              >
-                {g.name}
-              </Link>
-            );
-          })}
+          ].map((g) => (
+            <Link
+              key={g.href}
+              href={g.href}
+              className="px-4 py-2 bg-surface-elevated border border-border font-semibold rounded-full text-sm transition-colors [@media(hover:hover)]:hover:border-border-hover"
+            >
+              {g.name}
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -182,31 +176,31 @@ export default function CountriesInAfricaPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/countries-in-europe"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Europe
           </Link>
           <Link
             href="/lists/countries-in-asia"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in Asia
           </Link>
           <Link
             href="/lists/countries-in-americas"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Countries in the Americas
           </Link>
           <Link
             href="/lists/largest-countries"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Largest Countries by Area
           </Link>
           <Link
             href="/lists/most-populated-countries"
-            className="px-4 py-2 bg-white border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
+            className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors"
           >
             Most Populated Countries
           </Link>

@@ -15,6 +15,7 @@ import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { EndgameRamp } from "@/components/game/endgame-ramp";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { setDailyLockout, dailyProgressKey } from "@/lib/storage";
@@ -87,6 +88,9 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
     const result = submitGuess(state, parsed);
     const error = result.scores[state.currentRound] ?? 0;
     const type = error < 20 ? "good" : error < 50 ? "neutral" : "bad";
+    // Verdict feel: fire haptic + sound on the same frame the feedback lands.
+    if (type === "good") juice.correct();
+    else juice.wrong();
     setFeedbackType(type);
     setFeedbackMessage(`${error}% off`);
     setFeedbackKey((k) => k + 1);
@@ -132,8 +136,8 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
       }, edition);
     }
 
-    // Atlas album: ISO3 codes of all countries that appeared this run.
-    // Read by extract_countries SQL to stamp stickers on completion.
+    // ISO3 codes of the run's countries — used by the run-detail replay and the
+    // server-side daily validator (stat-guesser/server-validate.ts).
     const targetIso3s = state.rounds.map((r) => r.country.iso3);
 
     const payload = {
@@ -161,10 +165,15 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
       submitGameRun(payload).then((res) => {
         if (res.success && res.run) setServerData(res.run);
       });
-    } else if (mode === "daily") {
+    } else {
       setPendingPayload(payload);
     }
   }, [state.phase, state.scores, state.rounds, state.guesses, mode, user]);
+
+  // Gentle completion flourish when the run ends.
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
 
   if (state.phase === "results") {
     const totalError = state.scores.reduce((sum, s) => sum! + (s ?? 0), 0) as number;
@@ -183,9 +192,9 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
 
     return (
       <GameOverScreen
-        title="Stat Guesser Complete!"
-        score={`${avgError}% avg error`}
-        subtitle={avgError < 20 ? "Excellent!" : avgError < 50 ? "Good effort!" : "Keep practicing!"}
+        title={`${avgError}% avg error`}
+        score={avgError < 20 ? "Sharp. Well above average." : avgError < 50 ? "Good read on these numbers." : "Hard stats. Run it again."}
+        subtitle={`${state.rounds.length} round${state.rounds.length !== 1 ? "s" : ""}`}
         onPlayAgain={mode === "practice" ? () => { setServerData(null); setPendingPayload(null); dispatch({ type: "RESET" }); } : undefined}
         onSaveScore={handleSaveScore}
         numericScore={Math.round(Math.max(0, 100 - avgError))}
@@ -328,9 +337,9 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors"
+            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
           >
-            {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
+            {state.currentRound + 1 >= state.rounds.length ? "See results" : "Next round"}
           </button>
         </div>
       ) : (
@@ -349,9 +358,9 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
           <button
             onClick={handleSubmit}
             disabled={!inputValue.trim()}
-            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 transition-colors disabled:opacity-50"
+            className="mx-auto block px-8 py-3 bg-gold text-bg font-semibold rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors disabled:opacity-50"
           >
-            Submit Guess
+            Submit guess
           </button>
         </div>
       )}

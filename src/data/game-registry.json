@@ -208,5 +208,50 @@
     "isFlagship": false,
     "availableModes": ["practice"],
     "route": "/games/blitz"
+  },
+  {
+    "slug": "geo-wordle",
+    "title": "GeoWordle",
+    "shortDescription": "Guess the mystery country in 6 tries.",
+    "description": "A mystery country is hidden. Each guess reveals how far away you are and which direction to head. Narrow it down and solve it in six tries.",
+    "emoji": "🌍",
+    "difficulty": "medium",
+    "estimatedTime": "1-2 min",
+    "category": "knowledge",
+    "tier": "main",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["daily", "practice"],
+    "route": "/games/geo-wordle"
+  },
+  {
+    "slug": "cluster",
+    "title": "Cluster",
+    "shortDescription": "16 countries, 4 hidden groups. Find what connects each quartet.",
+    "description": "Sixteen countries hide four secret groups of four. Tap the four you think share a connection — a region, a starting letter, a stat extreme — and lock them in. Four mistakes and you're out.",
+    "emoji": "🧩",
+    "difficulty": "hard",
+    "estimatedTime": "2-3 min",
+    "category": "quiz",
+    "tier": "main",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["daily", "practice"],
+    "route": "/games/cluster"
+  },
+  {
+    "slug": "risk-zone",
+    "title": "Risk Zone",
+    "shortDescription": "Bank it or push your luck.",
+    "description": "Guess higher or lower one country at a time. Each correct call grows your multiplier — bank the pot or gamble one more reveal. A single wrong answer wipes the chain. 5 chains, press your luck.",
+    "emoji": "🎲",
+    "difficulty": "medium",
+    "estimatedTime": "1-2 min",
+    "category": "strategy",
+    "tier": "main",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": ["daily", "practice"],
+    "route": "/games/risk-zone"
   }
 ]

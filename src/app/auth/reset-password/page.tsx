@@ -12,7 +12,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="min-h-[calc(100vh-200px)] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
-        <div className="bg-white rounded-2xl shadow-xl border border-border p-6 sm:p-7">
+        <div className="bg-surface rounded-2xl shadow-xl border border-border p-6 sm:p-7">
           <div className="text-center mb-6">
             <h1 className="text-xl font-extrabold">
               Set a new <span className="text-gold">password</span>

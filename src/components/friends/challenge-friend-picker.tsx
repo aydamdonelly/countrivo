@@ -27,9 +27,9 @@ export function ChallengeFriendPicker({ gameSlug, dailyDate, runId, onClose }: C
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-scrim backdrop-blur-sm p-4" onClick={onClose}>
       <div
-        className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-5 animate-slide-up"
+        className="w-full max-w-sm bg-surface rounded-2xl shadow-xl p-5 animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">

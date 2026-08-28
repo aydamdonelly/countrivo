@@ -21,6 +21,7 @@ import { GameOverScreen } from "@/components/game/game-over-screen";
 import { GameSessionTopBar } from "@/components/game/game-session-top-bar";
 import { PickFeedback } from "@/components/game/pick-feedback";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 
 /* ── Props ─────────────────────────────────────────────────────────── */
 
@@ -102,6 +103,12 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
     }
   }, [state.phase, state.currentRound]);
 
+  /* ── Completion flourish ───────────────────────────────────────── */
+
+  useEffect(() => {
+    if (state.phase === "results") juice.celebrate();
+  }, [state.phase]);
+
   /* ── Submit answer ─────────────────────────────────────────────── */
 
   const handleSubmit = useCallback(() => {
@@ -111,6 +118,10 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
     const result = submitAnswer(state, inputValue);
     const wasCorrect =
       result.rounds[state.currentRound].correct;
+
+    /* Verdict feel: fire haptic + sound on the same frame the visual feedback starts. */
+    if (wasCorrect) juice.correct();
+    else juice.wrong();
 
     if (wasCorrect) {
       setFeedbackType("good");
@@ -165,10 +176,10 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
 
     const title =
       state.myScore >= 7
-        ? "Great Job!"
+        ? `${state.myScore} / ${state.totalRounds}. Sharp!`
         : state.myScore >= 4
-          ? "Not Bad!"
-          : "Keep Practicing!";
+          ? `${state.myScore} / ${state.totalRounds}. Solid.`
+          : `${state.myScore} / ${state.totalRounds}. Keep going.`;
     const scoreText = `${state.myScore} / ${state.totalRounds}`;
     const subtitle =
       avgTime > 0
@@ -251,14 +262,14 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
 
       {/* Big flag */}
       <div className="flex flex-col items-center py-8">
-        <span
+        <img
+          src={round.country.flagSvgPath}
+          alt="Flag to type"
           className={cn(
-            "text-8xl sm:text-9xl transition-all",
+            "h-24 sm:h-32 w-auto rounded-md shadow-[var(--shadow-sm)] transition-all",
             flashCorrect && "scale-110",
           )}
-        >
-          {round.country.flagEmoji}
-        </span>
+        />
 
         {/* Between rounds: show correct country name */}
         {state.phase === "between" && (

@@ -7,14 +7,17 @@ import {
   getCurrentCountry,
   assignCategory,
   isComplete,
+  canUndo,
+  undoLastAssignment,
 } from "@/lib/game-logic/country-draft/engine";
 import { computeResult } from "@/lib/game-logic/country-draft/scoring";
 import type { DraftGameState, DraftResult } from "@/lib/game-logic/country-draft/types";
 import { CategorySlot } from "./category-slot";
 import { CountryReveal } from "./country-reveal";
 import { OptimalComparison } from "./optimal-comparison";
-import { DraftShareCard } from "./draft-share-card";
+import { ShareCard } from "@/components/share/share-card";
 import { useGameKeys } from "@/hooks/use-game-keys";
+import { juice } from "@/hooks/use-juice";
 import { useAuth } from "@/components/auth/auth-provider";
 import { submitGameRun } from "@/app/actions/game-runs";
 import { getDailyRng, getTodayDateKey } from "@/lib/daily-seed";
@@ -28,7 +31,16 @@ import type { ServerGameRun } from "@/types/server";
 
 type Action =
   | { type: "ASSIGN"; categoryIdx: number }
+  | { type: "UNDO" }
   | { type: "RESET"; mode: "daily" | "practice" };
+
+/**
+ * After the 8th pick the board stays up so you can actually read the rank you
+ * just landed — the run only resolves to the result screen when this window
+ * closes (or you tap "See result"). Nothing is submitted until then, so the
+ * one free undo still works on the final pick.
+ */
+const RESULT_REVEAL_MS = 60_000;
 
 function init(mode: "daily" | "practice", edition: string): DraftGameState {
   const dateKey = mode === "daily" ? getTodayDateKey() : `practice-${Date.now()}`;
@@ -40,6 +52,8 @@ function reducer(state: DraftGameState, action: Action): DraftGameState {
   switch (action.type) {
     case "ASSIGN":
       return assignCategory(state, action.categoryIdx);
+    case "UNDO":
+      return undoLastAssignment(state);
     case "RESET":
       return init(action.mode, "");
     default:
@@ -68,6 +82,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
     enabled: mode === "daily",
   });
   const [mounted, setMounted] = useState(false);
+  const [revealDone, setRevealDone] = useState(false);
   const [result, setResult] = useState<DraftResult | null>(null);
   const [serverData, setServerData] = useState<ServerGameRun | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -82,22 +97,31 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
   const currentCountry = getCurrentCountry(state);
   const gameComplete = isComplete(state);
 
-  // Compute running score from assignments so far
+  // Running score across every pick made so far. Looping the whole board (not
+  // just < currentStep) keeps the 8th pick counted during the reveal window.
   const runningScore = useMemo(() => {
     let total = 0;
-    for (let i = 0; i < state.currentStep; i++) {
+    for (let i = 0; i < state.assignments.length; i++) {
       const catIdx = state.assignments[i];
       if (catIdx != null) {
         total += state.config.costMatrix[i][catIdx];
       }
     }
     return total;
-  }, [state.currentStep, state.assignments, state.config.costMatrix]);
+  }, [state.assignments, state.config.costMatrix]);
 
   useEffect(() => { setMounted(true); }, []);
 
+  // Hold the finished board on screen after the final pick so its rank is
+  // readable, then resolve into the result screen.
   useEffect(() => {
-    if (gameComplete && !result) {
+    if (!gameComplete) return;
+    const t = setTimeout(() => setRevealDone(true), RESULT_REVEAL_MS);
+    return () => clearTimeout(t);
+  }, [gameComplete]);
+
+  useEffect(() => {
+    if (gameComplete && revealDone && !result) {
       const r = computeResult(state);
       setResult(r);
       onComplete?.(r);
@@ -134,8 +158,8 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
             stars: r.stars,
             assignments: r.assignments,
             optimalAssignments: r.optimalAssignments,
-            // Atlas album: ISO3 codes of all countries that appeared this run.
-            // Read by extract_countries SQL to stamp stickers on completion.
+            // ISO3 codes of the run's countries — used by the run-detail replay
+            // and the server-side daily validator (country-draft/server-validate.ts).
             countryIso3s: state.config.countries.map((c) => c.iso3),
           },
           startedAt: startedAtRef.current,
@@ -146,7 +170,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           if (res.success && res.run) {
             setServerData(res.run);
           }
-        } else if (mode === "daily") {
+        } else {
           setPendingPayload(payload);
         }
         setSubmitting(false);
@@ -154,7 +178,12 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
       doSubmit();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameComplete]);
+  }, [gameComplete, revealDone]);
+
+  // Gentle completion flourish when the run resolves to a result.
+  useEffect(() => {
+    if (result) juice.celebrate();
+  }, [result]);
 
   const handleAssign = useCallback(
     (categoryIdx: number) => {
@@ -164,13 +193,18 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
       const countryIdx = state.currentStep;
       const rank = state.config.costMatrix[countryIdx][categoryIdx];
 
+      // Fire haptic + sound the moment the pick quality is known, so it lands
+      // together with the visual feedback below.
       if (rank <= 5) {
+        juice.correct();
         setFeedbackType("good");
         setFeedbackMsg(`Great pick! Rank #${rank}`);
       } else if (rank <= 30) {
+        juice.select();
         setFeedbackType("neutral");
         setFeedbackMsg(`Solid. Rank #${rank}`);
       } else {
+        juice.wrong();
         setFeedbackType("bad");
         setFeedbackMsg(`Costly. Rank #${rank}`);
       }
@@ -182,8 +216,20 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
     [gameComplete, state.currentStep, state.config.costMatrix]
   );
 
+  // One free undo per run — also available on the final pick, because nothing
+  // is submitted until the reveal window closes.
+  const undoAvailable = canUndo(state);
+
+  const handleUndo = useCallback(() => {
+    if (!canUndo(state)) return;
+    juice.select();
+    setRevealDone(false);
+    dispatch({ type: "UNDO" });
+  }, [state]);
+
   const handlePlayAgain = useCallback(() => {
     setResult(null);
+    setRevealDone(false);
     setPendingPayload(null);
     dispatch({ type: "RESET", mode: "practice" });
   }, []);
@@ -205,9 +251,14 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
   // Prevent hydration mismatch — don't render game content until mounted
   if (!mounted) {
     return (
-      <div className="text-center py-20">
-        <div className="text-4xl mb-4 animate-pulse">🎯</div>
-        <p className="text-cream-muted">Setting up your game...</p>
+      <div className="flex flex-col gap-6 animate-pulse">
+        <div className="h-10 rounded-xl bg-surface-elevated" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="h-28 rounded-2xl bg-surface-elevated" />
+          ))}
+        </div>
+        <div className="h-6 rounded-lg bg-surface-elevated max-w-xs mx-auto" />
       </div>
     );
   }
@@ -225,9 +276,9 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
     } : undefined;
 
     return (
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-8">
         {/* Score hero */}
-        <div className={`text-center p-10 sm:p-14 rounded-2xl ${grade.bg}`}>
+        <div className={`text-center p-8 sm:p-12 rounded-2xl ${grade.bg}`}>
           <div className="text-6xl sm:text-7xl mb-4 animate-scale-in">
             {"⭐".repeat(result.stars)}
           </div>
@@ -284,15 +335,23 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           optimalAssignments={result.optimalAssignments}
         />
 
-        {/* Share */}
-        <DraftShareCard result={result} dateKey={state.config.dateKey} config={state.config} />
+        {/* Share — spoiler-safe emoji grid (never the country answers) */}
+        <ShareCard
+          game="country-draft"
+          result={{
+            assignments: result.assignments,
+            optimalAssignments: result.optimalAssignments,
+            playerScore: result.playerScore,
+          }}
+          dateKey={state.config.dateKey}
+        />
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {handleSaveScore && (
             <button
               onClick={handleSaveScore}
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
             >
               Save my score
             </button>
@@ -300,15 +359,15 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           {mode === "practice" && (
             <button
               onClick={handlePlayAgain}
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors"
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
             >
-              Play Again
+              Play again
             </button>
           )}
           {mode === "daily" && (
             <Link
               href="/games/country-draft/play?mode=practice"
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 transition-colors text-center"
+              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors text-center"
             >
               Practice unlimited
             </Link>
@@ -319,19 +378,19 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
         <div className="border-t border-border pt-8">
           <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4">Try another game</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
+            <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
               <span className="text-3xl block mb-2">⬆️</span>
               <span className="text-base font-bold">Higher or Lower</span>
             </Link>
-            <Link href="/games/flag-quiz" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
+            <Link href="/games/flag-quiz" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
               <span className="text-3xl block mb-2">🏁</span>
               <span className="text-base font-bold">Flag Quiz</span>
             </Link>
-            <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
+            <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
               <span className="text-3xl block mb-2">📊</span>
               <span className="text-base font-bold">Population Sort</span>
             </Link>
-            <Link href="/games/capital-match" className="game-card p-5 border border-black/5 bg-white shadow-sm text-center">
+            <Link href="/games/capital-match" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
               <span className="text-3xl block mb-2">🏛️</span>
               <span className="text-base font-bold">Capital Match</span>
             </Link>
@@ -341,11 +400,85 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
     );
   }
 
+  // ─── Final reveal ─────────────────────────────────────────────────
+  // The 8th pick used to jump straight to the result screen, so you never got
+  // to see what that last placement actually scored. Hold the finished board
+  // here instead — nothing is submitted yet, so the free undo still applies.
+  if (gameComplete) {
+    return (
+      <div className="flex flex-col gap-6">
+        <GameSessionTopBar
+          mode={mode}
+          scoreLabel="Score"
+          scoreValue={String(runningScore)}
+          progressCurrent={state.config.countries.length}
+          progressTotal={state.config.countries.length}
+          extraInfo="All picks in"
+        />
+
+        <div className="text-center py-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold">Final pick locked in</h2>
+          <p className="text-base text-cream-muted mt-1">
+            Your board finished on{" "}
+            <span className="font-mono font-bold text-cream">{runningScore}</span>. Take a
+            look, then see how close to optimal you got.
+          </p>
+        </div>
+
+        {/* The completed board — every country with the rank it scored */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {state.config.categories.map((cat, idx) => {
+            const assignedStep = state.assignments.indexOf(idx);
+            const assignedCountry =
+              assignedStep !== -1 ? state.config.countries[assignedStep] : null;
+            const rank =
+              assignedStep !== -1 ? state.config.costMatrix[assignedStep][idx] : null;
+
+            return (
+              <CategorySlot
+                key={cat.slug}
+                category={cat}
+                isAvailable={false}
+                assignedCountry={assignedCountry}
+                rank={rank}
+                onClick={() => {}}
+              />
+            );
+          })}
+        </div>
+
+        <PickFeedback
+          type={feedbackType}
+          message={feedbackMsg}
+          delta={feedbackDelta}
+          triggerKey={feedbackKey}
+        />
+
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          {undoAvailable && (
+            <button
+              onClick={handleUndo}
+              className="px-6 py-3 rounded-xl border border-border font-bold text-cream-muted hover:text-cream hover:border-border-hover transition-colors active:scale-[0.97]"
+            >
+              ↩ Undo last pick
+            </button>
+          )}
+          <button
+            onClick={() => setRevealDone(true)}
+            className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
+          >
+            See result →
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   // ─── Playing Phase ────────────────────────────────────────────────
   const picksRemaining = state.config.countries.length - state.currentStep;
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-6">
       {/* Session top bar */}
       <GameSessionTopBar
         mode={mode}
@@ -396,6 +529,18 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
         delta={feedbackDelta}
         triggerKey={feedbackKey}
       />
+
+      {/* One free undo per run */}
+      {undoAvailable && (
+        <div className="flex justify-center">
+          <button
+            onClick={handleUndo}
+            className="px-4 py-2 rounded-xl border border-border text-sm font-bold text-cream-muted hover:text-cream hover:border-border-hover transition-colors active:scale-[0.97]"
+          >
+            ↩ Undo last pick &middot; 1 left
+          </button>
+        </div>
+      )}
 
       {/* Hint */}
       <p className="text-center text-lg text-cream-muted">

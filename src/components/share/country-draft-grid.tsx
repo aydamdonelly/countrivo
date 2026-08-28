@@ -13,7 +13,7 @@
  *   ⬛  otherwise
  */
 
-import { formatBrandDate, ordinal } from "./share-utils";
+import { dailyNumber, gameShareUrl, ordinal } from "./share-utils";
 
 interface DraftAssignmentLike {
   countryIdx: number;
@@ -49,7 +49,10 @@ export function buildCountryDraftShareText(
     .map((pa) => symbolFor(pa.rank, optimalByCountry.get(pa.countryIdx) ?? pa.rank))
     .join("");
 
-  const header = `Countrivo · Country Draft · ${formatBrandDate(dateKey)}`;
+  // Match every other game's share grid: a #<dayNumber> puzzle id (not a date)
+  // and a full https:// link on its own last line so it auto-links in iMessage /
+  // WhatsApp / X.
+  const header = `Countrivo · Country Draft · #${dailyNumber(dateKey)}`;
   const scoreLine = `${symbols}  Score: ${input.playerScore}/${MAX_DRAFT_SCORE}`;
   const padding = " ".repeat(symbols.length + 2); // align under symbols
   const rankLine =
@@ -57,6 +60,6 @@ export function buildCountryDraftShareText(
 
   const lines = [header, scoreLine];
   if (rankLine) lines.push(rankLine);
-  lines.push("countrivo.com");
+  lines.push(gameShareUrl("country-draft"));
   return lines.join("\n");
 }

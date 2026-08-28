@@ -7,13 +7,13 @@ export default function NotFound() {
         <div className="text-5xl mb-4">🗺️</div>
         <h1 className="text-2xl font-extrabold mb-2">Page not found</h1>
         <p className="text-sm text-cream-muted mb-6">
-          This page doesn&apos;t exist — maybe the URL is wrong, or the page was moved.
+          This page doesn&apos;t exist. Check the URL or go back to safety.
         </p>
         <div className="flex items-center justify-center gap-3">
-          <Link href="/" className="cta-primary text-sm px-6 py-2.5">
+          <Link href="/" className="cta-primary text-sm px-6 py-3 min-h-[44px] inline-flex items-center active:scale-[0.97]">
             Go home
           </Link>
-          <Link href="/games" className="cta-secondary text-sm px-6 py-2.5">
+          <Link href="/games" className="cta-secondary text-sm px-6 py-3 min-h-[44px] inline-flex items-center active:scale-[0.97]">
             Browse games
           </Link>
         </div>

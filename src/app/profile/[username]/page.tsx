@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getPublicProfile, getProfileTodayRuns, getHeadToHead } from "@/app/actions/profile";
 import { GAME_COLORS } from "@/lib/game-colors";
+import { IconFlame } from "@/components/icons";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -12,7 +13,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { username } = await params;
   return {
-    title: `${username} | Countrivo`,
+    title: `${username}`,
     description: `View ${username}'s Countrivo profile and game stats.`,
   };
 }
@@ -56,11 +57,14 @@ export default async function PublicProfilePage({ params }: Props) {
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-extrabold truncate">{profile.displayName ?? profile.username}</h1>
           <p className="text-sm text-cream-muted">@{profile.username}</p>
-          {profile.streakCurrent > 0 && (
-            <p className="text-sm text-gold font-bold font-mono mt-0.5">
-              🔥 {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
-            </p>
-          )}
+          <p className="flex items-center gap-1 text-sm font-bold font-mono mt-0.5">
+            <IconFlame width={16} height={16} className="text-amber-500 shrink-0" aria-hidden="true" />
+            {profile.streakCurrent > 0 ? (
+              <span className="text-gold">{profile.streakCurrent} day streak</span>
+            ) : (
+              <span className="text-cream-muted font-normal">0 day streak</span>
+            )}
+          </p>
         </div>
       </div>
 
@@ -161,12 +165,12 @@ export default async function PublicProfilePage({ params }: Props) {
         </section>
       )}
 
-      {/* Add friend link */}
+      {/* Add friend CTA */}
       {user && (
         <div className="text-center">
           <Link
-            href="/friends"
-            className="text-sm font-medium text-gold hover:underline"
+            href={`/friends/add/${profile.username}`}
+            className="cta-primary inline-flex items-center justify-center gap-2 px-6 min-h-[44px] active:scale-[0.97]"
           >
             Add as friend
           </Link>

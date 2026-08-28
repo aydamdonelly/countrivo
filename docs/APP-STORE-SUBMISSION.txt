@@ -1,0 +1,180 @@
+════════════════════════════════════════════════════════════════════════════
+ COUNTRIVO — APP STORE SUBMISSION PACKET  (copy → paste → click)
+════════════════════════════════════════════════════════════════════════════
+Everything below is ready to paste. The "→ PASTE IN" line tells you exactly where
+each value goes in App Store Connect / Xcode. Bundle ID: com.countrivo.app
+
+Do the steps in docs/SHIP-CHECKLIST.md (Apple portal, APNs key, Supabase, Xcode
+signing) — this file is the CONTENT for the App Store Connect screens.
+
+────────────────────────────────────────────────────────────────────────────
+⚠️ ONE THING TO HANDLE FIRST (Apple checks it for "Sign in with Apple" accounts)
+────────────────────────────────────────────────────────────────────────────
+When a user deletes an account that was created with Sign in with Apple, Apple
+REQUIRES the app to also revoke the Apple token server-side (REST API). The
+current delete-account function removes the Supabase user but does not yet call
+Apple's token-revocation endpoint. Options:
+  (a) Add server-side Apple token revocation to supabase/functions/delete-account
+      (store the Apple refresh_token at sign-in, build the Apple client secret JWT,
+      POST to https://appleid.apple.com/auth/revoke), OR
+  (b) If the reviewer flags it, explain in Resolution Center and patch in 1.0.1.
+Until (a) is done, expect a possible 5.1.1(v) note. Everything else is ready.
+
+────────────────────────────────────────────────────────────────────────────
+APP NAME (max 30)
+→ PASTE IN: App Store Connect ▸ create record + App Information ▸ Name
+────────────────────────────────────────────────────────────────────────────
+Countrivo: Daily Geography
+
+────────────────────────────────────────────────────────────────────────────
+SUBTITLE (max 30)
+→ PASTE IN: App Information ▸ Subtitle
+────────────────────────────────────────────────────────────────────────────
+Flags, capitals & countries
+
+────────────────────────────────────────────────────────────────────────────
+PROMOTIONAL TEXT (max 170 — editable anytime, no review)
+→ PASTE IN: 1.0 version page ▸ Promotional Text
+────────────────────────────────────────────────────────────────────────────
+A fresh geography challenge every day. New puzzles at midnight, 14 games, streaks, and friend leaderboards. 100% free, no ads, no purchases.
+
+────────────────────────────────────────────────────────────────────────────
+KEYWORDS (max 100 chars, comma-separated, NO spaces)
+→ PASTE IN: 1.0 version page ▸ Keywords
+────────────────────────────────────────────────────────────────────────────
+geography,quiz,trivia,world,map,atlas,nation,puzzle,brain,daily,learn,states,memory,streak
+
+────────────────────────────────────────────────────────────────────────────
+DESCRIPTION (max 4000)
+→ PASTE IN: 1.0 version page ▸ Description
+────────────────────────────────────────────────────────────────────────────
+One new geography challenge every day. Countrivo gives you a fresh daily puzzle across 14 games, then resets at midnight so everyone in the world plays the same board. Build a streak, climb the leaderboard, and find out how well you really know the planet.
+
+Pick a game and play in two minutes:
+
+- Flag Quiz: name the country from its flag, ten rounds, no second chances.
+- Capital Match: given a country, choose the correct capital.
+- Higher or Lower: two countries, one stat, keep your streak alive.
+- Country Draft: assign revealed countries to the category they rank highest in and beat the optimal score.
+- Stat Guesser: guess a real number — population, GDP, area — closer is better.
+- Population Sort: order countries from highest to lowest.
+- Country Streak: identify countries until one wrong answer ends the run.
+- Border Buddies: name every neighbor a country shares a border with.
+- Continent Sprint, Speed Flags, Odd One Out, Supremacy, Borderline, Blitz and more.
+
+Why players keep coming back:
+
+- A shared daily challenge that resets at midnight, so it's the same puzzle for everyone.
+- Streaks that reward showing up every day.
+- Friends and leaderboards. Add friends, compare scores, and tap any player to replay their decisions.
+- Practice mode with unlimited rounds when you want to train.
+- 243 countries with real, up-to-date data: flags, capitals, populations, borders, and more.
+
+Built for people who love a quick daily brain workout and anyone curious about the world. Smart, fast, and genuinely free — no ads and no in-app purchases, ever.
+
+Sign in with Apple in one tap, get a gentle daily reminder so your streak never breaks, and enjoy a clean native experience.
+
+Today's puzzle is waiting. How far can your streak go?
+
+────────────────────────────────────────────────────────────────────────────
+CATEGORY  → PASTE IN: App Information ▸ Category
+────────────────────────────────────────────────────────────────────────────
+Primary:   Games  (subcategory: Trivia)
+Secondary: Education
+
+────────────────────────────────────────────────────────────────────────────
+URLs  → PASTE IN: App Information / version page (as noted)
+────────────────────────────────────────────────────────────────────────────
+Support URL (version page ▸ Support URL):          https://countrivo.com/support
+Marketing URL (version page ▸ Marketing URL):      https://countrivo.com
+Privacy Policy URL (App Information ▸ Privacy URL): https://countrivo.com/privacy
+Copyright (App Information ▸ Copyright):            2026 Countrivo
+
+────────────────────────────────────────────────────────────────────────────
+AGE RATING  → PASTE IN: App Information ▸ Age Rating ▸ Edit (answer questionnaire)
+Result must read 4+. Do NOT set an override. Made for Kids = OFF.
+────────────────────────────────────────────────────────────────────────────
+Parental Controls: No        Age Assurance: No
+Unrestricted Web Access: No  (loads only countrivo.com via WKAppBoundDomains)
+User-Generated Content: No   (only usernames + scores; no posts/chat)
+Messaging / Chat: No         In-App Advertising: No
+Violence / Profanity / Horror / Mature / Sexual / Alcohol-Tobacco-Drugs: None
+Gambling (real or simulated): None   Contests: None   Loot Boxes: None
+Medical / Health & Wellness: None
+
+────────────────────────────────────────────────────────────────────────────
+APP PRIVACY (Nutrition Labels)  → PASTE IN: App Privacy ▸ Get Started, then PUBLISH
+"Data Used to Track You" = NONE (answer No to tracking for every type → no ATT prompt)
+────────────────────────────────────────────────────────────────────────────
+Contact Info ▸ Email Address  — Collected: Yes | Linked: Yes | Tracking: No | App Functionality (account / Sign in with Apple; Hide-My-Email relay still counts)
+Contact Info ▸ Name           — Collected: Yes | Linked: Yes | Tracking: No | App Functionality (display name on leaderboards)
+Identifiers ▸ User ID         — Collected: Yes | Linked: Yes | Tracking: No | App Functionality (account, friends, streaks, runs)
+Identifiers ▸ Device ID       — Collected: Yes | Linked: Yes | Tracking: No | App Functionality (APNs push token for the daily reminder) — do NOT omit
+Usage Data ▸ Product Interaction — Collected: Yes | Linked: No | Tracking: No | Analytics (Vercel Web Analytics)
+Diagnostics ▸ Performance Data   — Yes ONLY IF Vercel Speed Insights is on, else leave unchecked
+Everything else (Location, Health, Financial, Contacts, User Content, Browsing, Purchases, Crash Data, …): Not Collected
+
+────────────────────────────────────────────────────────────────────────────
+APP REVIEW — DEMO ACCOUNT
+→ PASTE IN: version page ▸ App Review Information ▸ Sign-In Information (tick "Sign-in required")
+PRE-SEED this account on countrivo.com first (a multi-day streak, 2–3 friends, several finished games).
+────────────────────────────────────────────────────────────────────────────
+User Name: review@countrivo.com
+Password:  AppleReview2026
+(Email confirmation is OFF in Supabase, so this real account logs in instantly.)
+
+────────────────────────────────────────────────────────────────────────────
+APP REVIEW — NOTES
+→ PASTE IN: version page ▸ App Review Information ▸ Notes
+────────────────────────────────────────────────────────────────────────────
+Countrivo is a free daily geography game. No ads, no in-app purchases, no subscriptions.
+
+NATIVE VALUE (pre-empting Guideline 4.2). This is a Capacitor app that renders countrivo.com inside a locked-down WKWebView (WKAppBoundDomains: only countrivo.com), and it adds real native capabilities mobile Safari cannot:
+- Sign in with Apple, native one-tap (ASAuthorization), on the login sheet.
+- APNs push: on first run the app asks for notification permission for the daily streak reminder; the token is saved to the account.
+- Taptic Engine haptics on answers and result screens.
+- Native splash + status-bar styling, no browser chrome.
+- Native offline screen (Airplane Mode + relaunch shows a custom offline page, not the WebKit error).
+
+HOW TO TEST: log in with review@countrivo.com / AppleReview2026 (pre-seeded with a streak, friends, and finished games), or just play the daily challenges with no login.
+
+ACCOUNT DELETION (5.1.1 v): in-app at Profile ▸ Edit profile ▸ Delete account ▸ confirm. Server-side delete removes the account and all data (profile, runs, streaks, friendships, push tokens) via cascading deletes.
+
+SOCIAL SAFETY (1.2): the only user content is a username + scores — no chat or free-text. Usernames are filtered for objectionable content. Users can remove friends; support is published in-app and at countrivo.com/support.
+
+────────────────────────────────────────────────────────────────────────────
+WHAT'S NEW
+────────────────────────────────────────────────────────────────────────────
+Leave BLANK for 1.0 (the field doesn't appear on a first version). For 1.0.1+:
+"Smoother daily play, faster loads, and small polish across all 14 games. New: tap a friend on the leaderboard to replay their run. Thanks for playing Countrivo every day."
+
+────────────────────────────────────────────────────────────────────────────
+SCREENSHOTS  → PASTE IN: version page ▸ Previews and Screenshots ▸ 6.9-inch iPhone
+Required size: exactly 1320 x 2868 px portrait, PNG, RGB, NO alpha, ≤10 MB. 3–8 images.
+Generated for you in: resources/store-screenshots/  (upload the strongest 3 first)
+────────────────────────────────────────────────────────────────────────────
+1. Daily hub / game grid + midnight countdown — "A new geography challenge every day"
+2. Flag Quiz mid-round                          — "Name the flag. 243 countries."
+3. Higher or Lower (streak visible)             — "Keep your streak alive"
+4. Country Draft / Stat Guesser                 — "Outsmart the optimal score"
+5. Friends leaderboard                          — "Beat your friends"
+6. Result / game-over (score + share + streak)  — "Same puzzle, worldwide"
+(7/8 optional: Profile streak stats; Country detail page.)
+App icon (1024², no alpha) ships inside the build — nothing to upload separately.
+
+────────────────────────────────────────────────────────────────────────────
+SUBMISSION ORDER (the clicks)
+────────────────────────────────────────────────────────────────────────────
+0. developer.apple.com: App ID com.countrivo.app with Push + Sign in with Apple; create APNs .p8.
+1. App Store Connect ▸ Apps ▸ "+" ▸ New App: iOS, name above, Bundle ID com.countrivo.app, SKU countrivo-ios-001.
+2. App Information: subtitle, categories, copyright, Privacy URL, Age Rating (→ 4+).
+3. 1.0 version page: promo text, description, keywords, support/marketing URLs, screenshots.
+4. App Privacy: declare data types above ▸ Publish.
+5. Pricing and Availability: Free, all countries.
+6. Xcode (ios/App): Release scheme, "Any iOS Device (arm64)", Marketing Version 1.0, Build 1, auto-signing → Product ▸ Archive.
+7. Organizer: Validate App → Distribute App ▸ App Store Connect ▸ Upload (no export prompt — Info.plist already set).
+8. TestFlight: add yourself to Internal Testing, smoke-test on a real device (Apple sign-in, push, haptics, offline, Delete Account).
+9. Version page ▸ Build ▸ "+" ▸ pick the build. Fill App Review Information (demo creds + notes above). IDFA/ads = No.
+10. Version Release: "Manually release this version" → Save.
+11. "Add for Review" → "Submit for Review". (Waiting → In Review, ~24–48h.)
+12. After Approved (Pending Developer Release): open the version ▸ "Release This Version". Live within ~24h. 🎉

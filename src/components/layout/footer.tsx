@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getAllGames } from "@/lib/data/registry";
 
 export function Footer() {
   return (
@@ -32,15 +33,14 @@ export function Footer() {
                 <Link href="/games/country-draft" className="block hover:text-cream transition-colors">Country Draft</Link>
                 <Link href="/games/flag-quiz" className="block hover:text-cream transition-colors">Flag Quiz</Link>
                 <Link href="/games/higher-or-lower" className="block hover:text-cream transition-colors">Higher or Lower</Link>
-                <Link href="/games" className="block hover:text-cream transition-colors text-gold font-medium">All 14 games →</Link>
+                <Link href="/games" className="block hover:text-cream transition-colors text-gold font-medium">All {getAllGames().length} games →</Link>
               </div>
             </div>
 
-            {/* Explore */}
+            {/* Browse */}
             <div>
-              <h3 className="font-bold text-sm mb-3">Explore</h3>
+              <h3 className="font-bold text-sm mb-3">Browse</h3>
               <div className="space-y-2 text-sm text-cream-muted">
-                <Link href="/album" className="block hover:text-cream transition-colors">Atlas</Link>
                 <Link href="/countries" className="block hover:text-cream transition-colors">All 243 countries</Link>
                 <Link href="/categories" className="block hover:text-cream transition-colors">All rankings</Link>
                 <Link href="/lists" className="block hover:text-cream transition-colors">All lists</Link>
@@ -55,7 +55,6 @@ export function Footer() {
               <div className="space-y-2 text-sm text-cream-muted">
                 <Link href="/profile" className="block hover:text-cream transition-colors">Profile</Link>
                 <Link href="/friends" className="block hover:text-cream transition-colors">Friends</Link>
-                <Link href="/album" className="block hover:text-cream transition-colors">Your Atlas</Link>
               </div>
             </div>
 
@@ -63,8 +62,10 @@ export function Footer() {
             <div>
               <h3 className="font-bold text-sm mb-3">Countrivo</h3>
               <div className="space-y-2 text-sm text-cream-muted">
-                <p className="text-xs">Competitive daily geography games with stats depth. 14 games, 243 countries.</p>
+                <p className="text-xs">Competitive daily geography games with stats depth. {getAllGames().length} games, 243 countries.</p>
                 <Link href="/privacy" className="block hover:text-cream transition-colors">Privacy</Link>
+                <Link href="/terms" className="block hover:text-cream transition-colors">Terms</Link>
+                <Link href="/support" className="block hover:text-cream transition-colors">Support</Link>
                 <p className="text-xxs text-cream-muted mt-3">Data: World Bank, REST Countries, WHO, UNWTO</p>
               </div>
             </div>

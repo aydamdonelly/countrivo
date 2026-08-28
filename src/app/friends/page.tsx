@@ -7,7 +7,7 @@ import { FriendsClient } from "@/components/friends/friends-client";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Friends | Countrivo",
+  title: "Friends",
   description: "Challenge friends, track their scores, and climb the leaderboard together.",
 };
 

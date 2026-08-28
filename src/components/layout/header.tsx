@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
+import { IconFlame } from "@/components/icons";
 import { useAuth } from "@/components/auth/auth-provider";
 import { getStorageItem } from "@/lib/storage";
 import { getAllGames } from "@/lib/data/registry";
@@ -13,7 +14,6 @@ import { getPendingChallengeCount } from "@/app/actions/challenges";
 const NAV_ITEMS = [
   { href: "/games", label: "Play" },
   { href: "/categories", label: "Rankings" },
-  { href: "/album", label: "Atlas" },
   { href: "/friends", label: "Friends" },
 ];
 
@@ -65,16 +65,16 @@ export function Header() {
   const pendingFriendsBadge = pendingFriendCount + pendingChallengeCount;
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
-  const totalDaily = 9;
+  const totalDaily = getAllGames().filter((g) => g.availableModes.includes("daily")).length;
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-black/5">
+    <header className="sticky top-0 z-50 safe-top backdrop-blur-md bg-surface/80 border-b border-black/5">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-14">
         <Link href="/" className="text-xl font-extrabold tracking-tight shrink-0">
           Coun<span className="text-gold mx-[1px]">·</span>trivo
         </Link>
 
-        <div className="flex items-center gap-1 sm:gap-2 flex-1 min-w-0 justify-center overflow-hidden">
+        <div className="hidden sm:flex items-center gap-1 sm:gap-2 flex-1 min-w-0 justify-center overflow-hidden">
           {[...NAV_ITEMS, ...(user ? [...AUTH_NAV_ITEMS, { href: "/profile", label: "Profile" }] : [])].map((item) => {
             const isActive =
               pathname === item.href || pathname.startsWith(item.href + "/");
@@ -128,13 +128,14 @@ export function Header() {
               </button>
 
               {menuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-lg border border-border py-1.5 animate-in z-50">
+                <div className="absolute right-0 top-full mt-2 w-52 bg-surface rounded-xl shadow-lg border border-border py-1.5 animate-in z-50">
                   <div className="px-3 py-2 border-b border-border">
                     <p className="text-sm font-bold truncate">{profile?.displayName ?? "Player"}</p>
                     <p className="text-xs text-cream-muted truncate">@{profile?.username}</p>
                     {profile && profile.streakCurrent > 0 && (
-                      <p className="text-xs text-gold font-bold font-mono mt-1">
-                        🔥 {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
+                      <p className="flex items-center gap-1 text-xs text-gold font-bold font-mono mt-1">
+                        <IconFlame width={12} height={12} aria-hidden />
+                        {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
                       </p>
                     )}
                   </div>

@@ -5,7 +5,7 @@ import { getAllCategories, getCategoryBySlug } from "@/lib/data/categories";
 import { getTopCountries, getStatValue } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { formatStat } from "@/lib/utils";
-import { getGameColor } from "@/lib/game-colors";
+import { IconTarget, IconBars, IconController } from "@/components/icons";
 
 export async function generateStaticParams() {
   return getAllCategories().map((c) => ({ slug: c.slug }));
@@ -30,6 +30,11 @@ export async function generateMetadata({
     title: `${category.label} by Country | World Ranking`,
     description: `Which countries rank highest in ${category.label.toLowerCase()}? Full world ranking of all countries. Top 3: ${topNames}. Source: ${category.source} (${category.sourceYear}).`,
     alternates: { canonical: `https://countrivo.com/categories/${slug}` },
+    openGraph: {
+      title: `${category.label} by Country | World Ranking`,
+      description: `Which countries rank highest in ${category.label.toLowerCase()}? Full world ranking. Top 3: ${topNames}. Source: ${category.source} (${category.sourceYear}).`,
+      type: "website",
+    },
   };
 }
 
@@ -117,14 +122,14 @@ export default async function CategoryPage({
             <Link
               key={iso3}
               href={`/countries/${country.slug}`}
-              className="game-card p-6 border border-black/5 bg-white shadow-sm text-center group"
+              className="game-card p-6 border border-black/5 bg-surface shadow-sm text-center group"
             >
               <span className="text-3xl">{medals[i]}</span>
               <span className="text-5xl block mt-2">{country.flagEmoji}</span>
               <h3 className="text-xl font-extrabold mt-3 group-hover:text-gold transition-colors">
                 {country.displayName}
               </h3>
-              <p className="text-lg font-mono text-cream-muted mt-1">
+              <p className="text-lg tabular-nums text-cream-muted mt-1">
                 {value !== null ? formatStat(value, category.unit) : "—"}
               </p>
               <p className="text-sm text-cream-muted mt-1">#{rank} worldwide</p>
@@ -190,7 +195,7 @@ export default async function CategoryPage({
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-black/5 shadow-sm rounded-lg text-sm hover:border-black/10 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-black/5 shadow-sm rounded-lg text-sm hover:border-black/10 transition-colors"
               >
                 <span>{c.emoji}</span>
                 <span>{c.label}</span>
@@ -204,25 +209,20 @@ export default async function CategoryPage({
         <h2 className="text-xl font-extrabold mb-4">Test Your Knowledge</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
-            { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
-            { href: "/games/population-sort", emoji: "📊", name: "Population Sort" },
-            { href: "/games/stat-guesser", emoji: "🔢", name: "Stat Guesser" },
-          ].map((game) => {
-            const gameSlug = game.href.replace("/games/", "");
-            const colors = getGameColor(gameSlug);
-            return (
-              <Link
-                key={game.href}
-                href={game.href}
-                className="game-card p-5 rounded-2xl text-center transition-all hover:scale-[1.02] hover:shadow-md"
-                style={{ backgroundColor: colors.bg }}
-              >
-                <span className="text-3xl block mb-2">{game.emoji}</span>
-                <span className="text-sm font-bold" style={{ color: colors.text }}>{game.name}</span>
-              </Link>
-            );
-          })}
+            { href: "/games/country-draft", icon: <IconTarget width={20} height={20} aria-hidden="true" />, name: "Country Draft" },
+            { href: "/games/higher-or-lower", icon: <IconBars width={20} height={20} aria-hidden="true" />, name: "Higher or Lower" },
+            { href: "/games/population-sort", icon: <IconBars width={20} height={20} aria-hidden="true" />, name: "Population Sort" },
+            { href: "/games/stat-guesser", icon: <IconController width={20} height={20} aria-hidden="true" />, name: "Stat Guesser" },
+          ].map((game) => (
+            <Link
+              key={game.href}
+              href={game.href}
+              className="p-4 rounded-2xl text-center bg-surface-elevated border border-border [@media(hover:hover)]:hover:border-border-hover transition-colors"
+            >
+              <span className="flex justify-center mb-2 text-gold">{game.icon}</span>
+              <span className="text-sm font-bold">{game.name}</span>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

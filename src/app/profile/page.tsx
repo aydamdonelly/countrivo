@@ -6,10 +6,13 @@ import { ProfileEditForm } from "@/components/profile/profile-edit-form";
 import { AdminRerollButton } from "@/components/admin/admin-reroll-button";
 import { ADMIN_USER_ID } from "@/lib/admin";
 import { GAME_COLORS } from "@/lib/game-colors";
+import { IconFlame } from "@/components/icons";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "My Profile | Countrivo",
+  // The root layout applies the "%s | Countrivo" template — never repeat the
+  // brand here or the <title> ends up "My Profile | Countrivo | Countrivo".
+  title: "My Profile",
   description: "View and edit your Countrivo profile, stats, and streaks.",
 };
 
@@ -44,11 +47,17 @@ export default async function ProfilePage() {
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-extrabold truncate">{profile.displayName ?? profile.username}</h1>
           <p className="text-sm text-cream-muted">@{profile.username}</p>
-          {profile.streakCurrent > 0 && (
-            <p className="text-sm text-gold font-bold font-mono mt-0.5">
-              🔥 {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak <span className="text-cream-muted font-normal">(best: {profile.streakLongest})</span>
-            </p>
-          )}
+          <p className="flex items-center gap-1 text-sm font-bold font-mono mt-0.5">
+            <IconFlame width={16} height={16} className="text-amber-500 shrink-0" aria-hidden="true" />
+            {profile.streakCurrent > 0 ? (
+              <span className="text-gold">
+                {profile.streakCurrent} day streak
+                <span className="text-cream-muted font-normal ml-1">(best: {profile.streakLongest})</span>
+              </span>
+            ) : (
+              <span className="text-cream-muted font-normal">0 day streak. Play today to start one.</span>
+            )}
+          </p>
         </div>
       </div>
 
