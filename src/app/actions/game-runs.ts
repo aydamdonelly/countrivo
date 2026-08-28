@@ -189,13 +189,16 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Check if personal best
   const { data: stats } = await supabase
     .from("user_game_stats")
-    .select("best_sort_value")
+    .select("best_sort_value, total_runs")
     .eq("user_id", user.id)
     .eq("game_slug", input.gameSlug)
     .single();
 
-  // A first run is a baseline and a zero is never a record.
-  const isPersonalBest = input.scoreRaw > 0 && (stats ? scoreSortValue > stats.best_sort_value : true);
+  // user_game_stats is updated by an AFTER INSERT trigger, so it already includes this
+  // run. A record means: not the first run, a non-zero score, and at least as good as
+  // the best on file (which, if this run is the best, equals this run).
+  const isPersonalBest =
+    input.scoreRaw > 0 && !!stats && Number(stats.total_runs) > 1 && scoreSortValue >= Number(stats.best_sort_value);
 
   if (isPersonalBest && finalRun) {
     await supabase
