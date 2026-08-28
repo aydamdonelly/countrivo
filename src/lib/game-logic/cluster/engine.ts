@@ -26,6 +26,7 @@ export interface ClusterTile {
   iso3: string;
   displayName: string;
   flagEmoji: string;
+  iso2: string;
 }
 
 export interface ClusterState {
@@ -194,6 +195,7 @@ function finalize(built: BuiltGroup[], rng: () => number): ClusterState {
     iso3: c.iso3,
     displayName: c.displayName,
     flagEmoji: c.flagEmoji,
+    iso2: c.iso2,
   }));
   return { tiles, groups, selected: [], solvedGroupIds: [], guesses: [], mistakes: 0, phase: "playing" };
 }

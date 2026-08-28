@@ -102,7 +102,7 @@ function LinkGroup({ title, links }: { title: string; links: RelatedLink[] }) {
 export function RelatedCountries({ country, neighbors }: RelatedCountriesProps) {
   const borderLinks: RelatedLink[] = neighbors.map((neighbor) => ({
     href: `/countries/${neighbor.slug}`,
-    label: `${neighbor.flagEmoji} ${neighbor.displayName}`,
+    label: `${neighbor.displayName}`,
     detail: `Shares a land border with ${country.displayName}`,
   }));
 

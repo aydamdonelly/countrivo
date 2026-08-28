@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getCountriesByContinent } from "@/lib/data/countries";
@@ -128,7 +129,7 @@ export default function CountriesInAfricaPage() {
                     href={`/countries/${country.slug}`}
                     className="inline-flex items-center gap-2 font-medium hover:text-gold transition-colors"
                   >
-                    <span className="text-lg shrink-0">{country.flagEmoji}</span>
+                    <CountryFlag iso2={country.iso2} width={24} className="shrink-0" />
                     {country.displayName}
                   </Link>
                 </td>

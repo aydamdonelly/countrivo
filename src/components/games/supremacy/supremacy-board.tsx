@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useReducer, useCallback, useMemo, useEffect, useRef } from "react";
 import {
@@ -182,11 +183,11 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
               )}
             >
               <span className="font-medium">
-                {r.playerCard.country.flagEmoji} {r.playerCard.country.displayName}
+                <CountryFlag iso2={r.playerCard.country.iso2} width={20} className="mr-1.5 align-[-3px]" />{r.playerCard.country.displayName}
               </span>
               <span className="text-cream-muted text-xs">vs</span>
               <span className="font-medium">
-                {r.aiCard.country.flagEmoji} {r.aiCard.country.displayName}
+                <CountryFlag iso2={r.aiCard.country.iso2} width={20} className="mr-1.5 align-[-3px]" />{r.aiCard.country.displayName}
               </span>
             </div>
           ))}
@@ -252,7 +253,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
             !showReveal && "border-border bg-surface",
           )}
         >
-          <span className="text-6xl sm:text-7xl mb-2">{playerCard.country.flagEmoji}</span>
+          <CountryFlag iso2={playerCard.country.iso2} width={68} className="mb-2" />
           <span className="font-bold text-base sm:text-lg text-center">
             {playerCard.country.displayName}
           </span>
@@ -289,7 +290,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
         >
           {showReveal ? (
             <>
-              <span className="text-6xl sm:text-7xl mb-2">{aiCard.country.flagEmoji}</span>
+              <CountryFlag iso2={aiCard.country.iso2} width={68} className="mb-2" />
               <span className="font-bold text-base sm:text-lg text-center">
                 {aiCard.country.displayName}
               </span>
@@ -396,7 +397,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
                 !isCurrentCard && !isPlayed && "border-border bg-surface",
               )}
             >
-              <span className="text-xl">{card.country.flagEmoji}</span>
+              <CountryFlag iso2={card.country.iso2} width={26} />
               <span className="text-xxs font-medium text-cream-muted leading-tight mt-0.5 max-w-[60px] truncate">
                 {card.country.displayName}
               </span>

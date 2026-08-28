@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useMemo, useState, useEffect } from "react";
 import {
@@ -191,7 +192,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
                   <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-bold text-lg shrink-0">
                     {rank + 1}
                   </span>
-                  <span className="text-3xl">{country.flagEmoji}</span>
+                  <CountryFlag iso2={country.iso2} width={36} />
                   <span className="font-bold text-lg flex-1">{country.displayName}</span>
                   <span className="text-base font-mono text-cream-muted">
                     {value ? formatStat(value, state.category.unit) : "N/A"}
@@ -236,7 +237,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
               <span className="w-10 h-10 rounded-full bg-surface flex items-center justify-center font-bold text-lg shrink-0">
                 {position + 1}
               </span>
-              <span className="text-3xl sm:text-4xl">{country.flagEmoji}</span>
+              <CountryFlag iso2={country.iso2} width={36} />
               <span className="font-bold text-lg flex-1">{country.displayName}</span>
               <div className="flex flex-col gap-1">
                 <button

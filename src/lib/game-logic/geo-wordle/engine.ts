@@ -17,6 +17,7 @@ export interface GeoGuess {
   iso3: string;
   name: string;
   flagEmoji: string;
+  iso2: string;
   distanceKm: number; // great-circle km from guess to answer (0 if correct)
   bearingDeg: number; // 0..360 compass bearing FROM guess TO answer (0 if correct)
   arrow: string; // 8-way direction emoji; 🎯 when correct — share text + a11y fallback
@@ -184,6 +185,7 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
     iso3: country.iso3,
     name: country.displayName,
     flagEmoji: country.flagEmoji,
+    iso2: country.iso2,
     distanceKm,
     bearingDeg: bearing,
     arrow: correct ? "🎯" : arrowFor(bearing),

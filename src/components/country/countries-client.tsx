@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
@@ -126,7 +127,7 @@ export function CountriesClient({
                   className="flex items-center gap-3 p-3 rounded-xl border border-border hover:border-border-hover hover:bg-surface transition-all group"
                 >
                   <span className="text-2xl shrink-0">
-                    {country.flagEmoji}
+                    <CountryFlag iso2={country.iso2} width={28} />
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold text-sm group-hover:text-gold transition-colors truncate">

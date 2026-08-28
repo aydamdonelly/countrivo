@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
@@ -196,7 +197,7 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
                     : "border-incorrect/30 bg-incorrect/5"
                 )}
               >
-                <span className="text-2xl">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={30} />
                 <span className="font-medium flex-1">{c.displayName}</span>
                 <span className="text-sm">
                   {wasFound ? "✓" : "✗"}
@@ -221,7 +222,7 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
       <PickFeedback type={feedbackType} message={feedbackMessage} triggerKey={feedbackKey} />
       {/* Target country */}
       <div className="text-center py-6">
-        <span className="text-7xl block mb-3">{state.country.flagEmoji}</span>
+        <CountryFlag iso2={state.country.iso2} width={80} className="block mb-3" />
         <h2 className="text-2xl font-bold">{state.country.displayName}</h2>
         <p className="text-sm text-cream-muted mt-1">
           Name the bordering countries
@@ -258,7 +259,7 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
                 onClick={() => handleSelect(c)}
                 className="w-full text-left px-4 py-3 hover:bg-surface transition-colors flex items-center gap-3"
               >
-                <span className="text-xl">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={26} />
                 <span className="font-medium">{c.displayName}</span>
               </button>
             ))}
@@ -278,7 +279,7 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
                 className="flex items-center gap-3 p-3 rounded-lg border border-correct/30 bg-correct/5"
               >
                 <span className="text-correct">✓</span>
-                <span className="text-xl">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={26} />
                 <span className="font-medium">{c.displayName}</span>
               </div>
             );

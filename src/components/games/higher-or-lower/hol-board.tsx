@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import {
@@ -202,7 +203,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
           showReveal && isCorrectGuess ? "border-correct/50 bg-correct/5" : "border-border bg-surface",
           showReveal && !isCorrectGuess ? "border-incorrect/50 bg-incorrect/5" : ""
         )}>
-          <span className="text-7xl sm:text-8xl mb-3">{round.left.flagEmoji}</span>
+          <CountryFlag iso2={round.left.iso2} width={80} className="mb-3" />
           <span className="font-bold text-base sm:text-lg text-center">{round.left.displayName}</span>
           <span className="text-2xl sm:text-3xl font-mono font-extrabold mt-3 text-cream">
             {formatStat(round.leftValue, round.category.unit)}
@@ -216,7 +217,7 @@ export function HoLBoard({ mode, edition }: HoLBoardProps) {
           showReveal && isCorrectGuess && "border-correct bg-correct/10",
           showReveal && !isCorrectGuess && "border-incorrect bg-incorrect/10"
         )}>
-          <span className="text-7xl sm:text-8xl mb-3">{round.right.flagEmoji}</span>
+          <CountryFlag iso2={round.right.iso2} width={80} className="mb-3" />
           <span className="font-bold text-base sm:text-lg text-center">{round.right.displayName}</span>
           {showReveal ? (
             <span className={cn(

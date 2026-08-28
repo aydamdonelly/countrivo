@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import type { RunDetail } from "@/types/server";
 import { IconCheck } from "@/components/icons";
@@ -29,7 +30,7 @@ function FlagName({ iso3, className }: { iso3: string; className?: string }) {
   const country = getCountryByIso3(iso3);
   return (
     <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
-      <span className="text-xl leading-none">{country?.flagEmoji ?? "🏳️"}</span>
+      {country ? <CountryFlag iso2={country.iso2} width={26} /> : null}
       <span className="truncate">{country?.displayName ?? iso3}</span>
     </span>
   );
@@ -78,7 +79,7 @@ function BorderBuddiesBody({ run, colors }: Props) {
       <SectionCard title="Target country">
         <div className="flex flex-col items-center text-center py-2">
           <span className="text-6xl mb-2">
-            {getCountryByIso3(target)?.flagEmoji ?? "🏳️"}
+            {(() => { const cc = getCountryByIso3(target); return cc ? <CountryFlag iso2={cc.iso2} width={24} /> : null; })()}
           </span>
           <p className="text-xl font-extrabold">
             {getCountryByIso3(target)?.displayName ?? target}

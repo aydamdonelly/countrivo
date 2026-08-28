@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -229,7 +230,7 @@ function GuessRow({ g, index }: { g: GeoGuess; index: number }) {
   return (
     <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-border bg-surface">
       <span className="text-2xl shrink-0" aria-hidden>
-        {g.flagEmoji}
+        <CountryFlag iso2={g.iso2} width={28} />
       </span>
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline justify-between gap-2">
@@ -468,7 +469,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
                 ? "Sharp geography."
                 : "Got there."
             : answer
-              ? `It was ${answer.flagEmoji} ${answer.displayName}`
+              ? `It was ${answer.displayName}`
               : "Better luck tomorrow."
         }
         onPlayAgain={
@@ -519,7 +520,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
             {!won && answer && (
               <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-correct/40 bg-correct/5">
                 <span className="text-2xl" aria-hidden>
-                  {answer.flagEmoji}
+                  <CountryFlag iso2={answer.iso2} width={28} />
                 </span>
                 <span className="font-bold text-sm">{answer.displayName}</span>
                 <span className="ml-auto text-xs font-bold text-correct uppercase tracking-wide">
@@ -554,7 +555,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
           {latest ? (
             <>
               <span className="text-cream-muted">
-                {latest.flagEmoji} {latest.name} is{" "}
+                <CountryFlag iso2={latest.iso2} width={20} className="mr-1.5 align-[-3px]" />{latest.name} is{" "}
               </span>
               <span className="font-bold tabular-nums" style={{ color: bandStyle(latest.band).color }}>
                 {km(latest.distanceKm)} km
@@ -639,7 +640,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
                 )}
               >
                 <span className="text-xl" aria-hidden>
-                  {c.flagEmoji}
+                  <CountryFlag iso2={c.iso2} width={28} />
                 </span>
                 <span className="font-medium text-cream">{c.displayName}</span>
               </button>

@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { Category } from "@/types/category";
 import type { Country } from "@/types/country";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,7 @@ export function CategorySlot({
     >
       {assignedCountry ? (
         <>
-          <span className="text-3xl sm:text-4xl">{assignedCountry.flagEmoji}</span>
+          <CountryFlag iso2={assignedCountry.iso2} width={36} />
           <span className="text-sm sm:text-base font-bold text-cream mt-2 truncate max-w-full px-1">
             {assignedCountry.displayName}
           </span>

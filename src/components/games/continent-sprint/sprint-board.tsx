@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import {
@@ -234,7 +235,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
                     : "border-incorrect/30 bg-incorrect/5"
                 )}
               >
-                <span className="text-lg">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={24} />
                 <span className="text-sm font-medium flex-1">{c.displayName}</span>
                 <span className="text-xs">
                   {wasFound ? "✓" : "✗"}
@@ -296,7 +297,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
                 onClick={() => handleSelect(c.iso3)}
                 className="w-full text-left px-4 py-3 hover:bg-surface transition-colors flex items-center gap-3"
               >
-                <span className="text-xl">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={26} />
                 <span className="font-medium">{c.displayName}</span>
               </button>
             ))}
@@ -315,7 +316,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
                 key={iso3}
                 className="flex items-center gap-2 p-2 rounded-lg border border-correct/30 bg-correct/5"
               >
-                <span className="text-lg">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={24} />
                 <span className="text-sm font-medium">{c.displayName}</span>
               </div>
             );

@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -248,7 +249,7 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
                     const t = tileByIso.get(iso);
                     return (
                       <span key={iso} className="inline-flex items-center gap-1 text-xs font-medium">
-                        <span>{t?.flagEmoji}</span>
+                        {t ? <CountryFlag iso2={t.iso2} width={22} /> : null}
                         {t?.displayName}
                       </span>
                     );
@@ -311,7 +312,7 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
                     : "border-border bg-surface hover:border-border-hover active:scale-[0.97]",
               )}
             >
-              <span className="text-2xl leading-none">{tile.flagEmoji}</span>
+              <CountryFlag iso2={tile.iso2} width={30} />
               <span
                 className={cn(
                   "text-xxs font-medium text-center leading-tight line-clamp-2",

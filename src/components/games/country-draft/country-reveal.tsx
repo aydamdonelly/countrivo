@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { Country } from "@/types/country";
 
 interface CountryRevealProps {
@@ -11,7 +12,7 @@ export function CountryReveal({ country, step }: CountryRevealProps) {
       key={`${country.iso3}-${step}`}
       className="flex flex-col items-center py-10 sm:py-14 animate-in"
     >
-      <span className="text-[6rem] sm:text-[8rem] lg:text-[10rem] leading-none mb-4">{country.flagEmoji}</span>
+      <CountryFlag iso2={country.iso2} width={78} className="mb-4" />
       <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-cream">
         {country.displayName}
       </h2>

@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -125,7 +126,7 @@ export default async function CategoryPage({
               className="game-card p-6 border border-black/5 bg-surface shadow-sm text-center group"
             >
               <span className="text-3xl">{medals[i]}</span>
-              <span className="text-5xl block mt-2">{country.flagEmoji}</span>
+              <CountryFlag iso2={country.iso2} width={56} className="block mt-2" />
               <h3 className="text-xl font-extrabold mt-3 group-hover:text-gold transition-colors">
                 {country.displayName}
               </h3>
@@ -169,7 +170,7 @@ export default async function CategoryPage({
                         href={`/countries/${country.slug}`}
                         className="inline-flex items-center gap-2.5 hover:text-gold transition-colors"
                       >
-                        <span className="text-xl shrink-0">{country.flagEmoji}</span>
+                        <CountryFlag iso2={country.iso2} width={26} className="shrink-0" />
                         <span className="font-medium">{country.displayName}</span>
                       </Link>
                     </td>

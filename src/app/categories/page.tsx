@@ -1,9 +1,9 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllCategories } from "@/lib/data/categories";
 import { getTopCountries } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
-import { CountryFlag } from "@/components/ui/country-flag";
 
 export const metadata: Metadata = {
   title: "World Rankings by Statistic | Population, GDP, Area & More",

@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import {
@@ -198,7 +199,7 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
 
       {/* Country display */}
       <div className="text-center py-6">
-        <span className="text-[10rem] leading-none mb-4 block">{currentQ.country.flagEmoji}</span>
+        <CountryFlag iso2={currentQ.country.iso2} width={130} className="mb-4 block" />
         <h2 className="text-3xl font-bold">{currentQ.country.displayName}</h2>
         <p className="text-cream-muted text-base mt-2">{currentQ.country.continent}</p>
         <p className="text-cream-muted text-lg mt-3 font-medium">What is the capital?</p>

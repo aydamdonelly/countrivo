@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import type { DraftGameConfig, DraftAssignment } from "@/lib/game-logic/country-draft/types";
 import { cn } from "@/lib/utils";
 
@@ -43,7 +44,7 @@ export function OptimalComparison({
             )}
           >
             <div className="flex items-center gap-3 min-w-0">
-              <span className="text-2xl sm:text-3xl shrink-0">{country.flagEmoji}</span>
+              <CountryFlag iso2={country.iso2} width={30} className="shrink-0" />
               <span className="text-base font-semibold truncate">{country.displayName}</span>
             </div>
             <div className="flex items-center justify-center gap-1.5 w-28 sm:w-32">

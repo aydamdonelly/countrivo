@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -83,7 +84,7 @@ function CountryCard({
         tone === "neutral" && "border-border bg-surface",
       )}
     >
-      <span className="text-5xl">{country.flagEmoji}</span>
+      <CountryFlag iso2={country.iso2} width={56} />
       <span className="font-bold text-base text-center">{country.displayName}</span>
       <span className="text-xxs text-cream-muted uppercase tracking-wide">{label}</span>
       <span className="font-mono font-extrabold text-lg tabular-nums">

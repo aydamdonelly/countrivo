@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useCallback, useMemo, useState, useEffect } from "react";
 import {
@@ -187,7 +188,7 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
                           ci === r.oddIndex && "underline"
                         )}
                       >
-                        {c.flagEmoji}
+                        <CountryFlag iso2={c.iso2} width={28} />
                       </span>
                     ))}
                   </div>
@@ -251,7 +252,7 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
                 isFeedback && !isOdd && !isChosen && "border-border opacity-50"
               )}
             >
-              <span className="text-4xl mb-2">{country.flagEmoji}</span>
+              <CountryFlag iso2={country.iso2} width={44} className="mb-2" />
               <span className="font-medium text-sm text-center">{country.displayName}</span>
             </button>
           );

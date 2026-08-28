@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import type { Metadata } from "next";
@@ -195,7 +196,7 @@ export default async function CountryPage({
       <header className="mb-12">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <span className="text-8xl shrink-0 leading-none" aria-hidden="true">
-            {country.flagEmoji}
+            <CountryFlag iso2={country.iso2} width={28} />
           </span>
           <div>
             <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
@@ -336,7 +337,7 @@ export default async function CountryPage({
                 href={`/countries/${neighbor.slug}`}
                 className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
-                <span className="text-2xl shrink-0">{neighbor.flagEmoji}</span>
+                <CountryFlag iso2={neighbor.iso2} width={30} className="shrink-0" />
                 <span className="text-sm font-medium truncate">
                   {neighbor.displayName}
                 </span>
@@ -359,7 +360,7 @@ export default async function CountryPage({
                 href={`/countries/${related.slug}`}
                 className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
               >
-                <span className="text-2xl shrink-0">{related.flagEmoji}</span>
+                <CountryFlag iso2={related.iso2} width={30} className="shrink-0" />
                 <span className="text-sm font-medium truncate">
                   {related.displayName}
                 </span>

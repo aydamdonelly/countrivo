@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import {
   useReducer,
@@ -212,7 +213,7 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
               )}
             >
               <span className="flex items-center gap-2">
-                <span className="text-xl">{r.country.flagEmoji}</span>
+                <CountryFlag iso2={r.country.iso2} width={26} />
                 <span className="font-medium">
                   {r.country.displayName}
                 </span>

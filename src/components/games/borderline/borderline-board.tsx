@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import {
   useReducer,
@@ -219,7 +220,7 @@ export function BorderlineBoard({
                   "border-border bg-surface",
               )}
             >
-              <span className="text-xl">{c.flagEmoji}</span>
+              <CountryFlag iso2={c.iso2} width={26} />
               <span className="font-medium">{c.displayName}</span>
               {i === 0 && (
                 <span className="ml-auto text-xs text-gold font-bold uppercase">
@@ -254,7 +255,7 @@ export function BorderlineBoard({
       <div className="flex items-center justify-center gap-4 py-4 px-4 rounded-xl border-2 border-border bg-surface">
         <div className="flex items-center gap-2 text-center">
           <span className="text-3xl sm:text-4xl">
-            {game.startCountry.flagEmoji}
+            <CountryFlag iso2={game.startCountry.iso2} width={28} />
           </span>
           <span className="font-bold text-sm sm:text-base">
             {game.startCountry.displayName}
@@ -263,7 +264,7 @@ export function BorderlineBoard({
         <span className="text-cream-muted text-xl font-bold px-2">&rarr;</span>
         <div className="flex items-center gap-2 text-center">
           <span className="text-3xl sm:text-4xl">
-            {game.targetCountry.flagEmoji}
+            <CountryFlag iso2={game.targetCountry.iso2} width={28} />
           </span>
           <span className="font-bold text-sm sm:text-base">
             {game.targetCountry.displayName}
@@ -285,7 +286,7 @@ export function BorderlineBoard({
       {/* Current country (prominent) */}
       <div className="flex flex-col items-center py-6">
         <span className="text-7xl sm:text-8xl mb-3">
-          {game.currentCountry.flagEmoji}
+          <CountryFlag iso2={game.currentCountry.iso2} width={28} />
         </span>
         <span className="font-bold text-2xl sm:text-3xl">
           {game.currentCountry.displayName}
@@ -342,7 +343,7 @@ export function BorderlineBoard({
                 }}
                 className="flex items-center gap-3 w-full px-4 py-2 text-left hover:bg-gold-dim transition-colors min-h-[44px]"
               >
-                <span className="text-xl">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={26} />
                 <span className="font-medium text-cream">
                   {c.displayName}
                 </span>
@@ -377,7 +378,7 @@ export function BorderlineBoard({
                     "border-border bg-surface opacity-70",
                 )}
               >
-                <span className="text-lg">{c.flagEmoji}</span>
+                <CountryFlag iso2={c.iso2} width={24} />
                 <span className="font-medium">{c.displayName}</span>
               </div>
             </div>
@@ -397,7 +398,7 @@ export function BorderlineBoard({
               onClick={() => submitMove(c.displayName)}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-surface hover:border-gold hover:bg-gold-dim transition-all text-sm"
             >
-              <span className="text-base">{c.flagEmoji}</span>
+              <CountryFlag iso2={c.iso2} width={22} />
               <span className="font-medium text-cream-muted">
                 {c.displayName}
               </span>

@@ -1,4 +1,5 @@
 "use client";
+import { CountryFlag } from "@/components/ui/country-flag";
 
 import { useState, useCallback, useMemo, useEffect } from "react";
 import {
@@ -231,7 +232,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
                     : "border-incorrect/30 bg-incorrect/5"
                 )}
               >
-                <span className="text-2xl">{r.country.flagEmoji}</span>
+                <CountryFlag iso2={r.country.iso2} width={30} />
                 <div className="flex-1">
                   <div className="text-sm font-medium">{r.country.displayName}</div>
                   <div className="text-xs text-cream-muted">{r.category.label}</div>
@@ -279,7 +280,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
           For reference
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-3xl">{round.anchor.country.flagEmoji}</span>
+          <CountryFlag iso2={round.anchor.country.iso2} width={36} />
           <div className="flex-1 min-w-0">
             <div className="text-sm font-semibold truncate">
               {round.anchor.country.displayName}
@@ -296,7 +297,7 @@ export function GuesserBoard({ mode, edition }: GuesserBoardProps) {
 
       {/* Country */}
       <div className="text-center py-4">
-        <span className="text-7xl block mb-3">{round.country.flagEmoji}</span>
+        <CountryFlag iso2={round.country.iso2} width={80} className="block mb-3" />
         <h2 className="text-2xl font-bold">{round.country.displayName}</h2>
         <p className="text-sm text-cream-muted mt-2">
           What&apos;s its <span className="font-bold text-cream">{round.category.label}</span>

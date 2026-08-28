@@ -1,3 +1,4 @@
+import { CountryFlag } from "@/components/ui/country-flag";
 import Link from "next/link";
 import { getDailyLeaderboard, getDailySummary } from "@/app/actions/game-runs";
 import { getFriendsLeaderboard } from "@/app/actions/friends";
@@ -5,7 +6,6 @@ import { getGameBySlug } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { createClient } from "@/lib/supabase/server";
 import { GameMark } from "@/components/home/game-mark";
-import { CountryFlag } from "@/components/ui/country-flag";
 
 interface Props {
   params: Promise<{ slug: string }>;
