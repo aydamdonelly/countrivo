@@ -42,7 +42,7 @@ export default function HighestFertilityRatePage() {
           {
             "@type": "Question",
             "name": "What are the top 5 countries by fertility rate?",
-            "acceptedAnswer": {"@type": "Answer", "text": "The top 5 countries by fertility rate are: 1. Niger (~7.0), 2. Chad (~6.4), 3. Somalia (~6.1), 4. Mali (~6.0), 5. DR Congo (~6.0) — all in Sub-Saharan Africa."}
+            "acceptedAnswer": {"@type": "Answer", "text": "The top 5 countries by fertility rate are: 1. Niger (~7.0), 2. Chad (~6.4), 3. Somalia (~6.1), 4. Mali (~6.0), 5. DR Congo (~6.0), all in Sub-Saharan Africa."}
           }
         ]
       }
@@ -66,12 +66,12 @@ export default function HighestFertilityRatePage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
-        className="text-sm font-medium text-gold hover:text-gold transition-colors"
+        className="text-sm font-medium text-cream-muted hover:text-cream transition-colors"
       >
         ← All Lists
       </Link>
 
-      <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight">
+      <h1 className="mt-4 text-4xl sm:text-5xl font-display font-semibold tracking-tight">
         Countries with Highest Fertility Rate
       </h1>
 
@@ -84,7 +84,7 @@ export default function HighestFertilityRatePage() {
           of female education.
         </p>
         <p>
-          The global replacement rate is 2.1 births per woman — the level
+          The global replacement rate is 2.1 births per woman, the level
           needed to maintain a stable population. Many European and East Asian
           countries now sit well below this threshold, leading to aging
           populations and shrinking workforces.
@@ -97,7 +97,7 @@ export default function HighestFertilityRatePage() {
 
       {/* Fun facts */}
       <div className="mt-10 bg-surface-elevated border border-black/5 rounded-xl p-6">
-        <h2 className="text-lg font-bold mb-3">Quick Facts</h2>
+        <h2 className="font-display font-semibold text-xl mb-3">Quick Facts</h2>
         <ul className="space-y-2 text-sm text-cream-muted">
           <li>Niger has the highest fertility rate at approximately 7 births per woman.</li>
           <li>The replacement rate is 2.1 births per woman.</li>
@@ -124,19 +124,19 @@ export default function HighestFertilityRatePage() {
                   key={country.iso3}
                   className="border-b border-border/50 hover:bg-surface/50 transition-colors"
                 >
-                  <td className="py-3 pr-4 text-cream-muted font-mono text-sm">
+                  <td className="py-3 pr-4 text-cream-muted tabular-nums text-sm">
                     {rank}
                   </td>
                   <td className="py-3 pr-4">
                     <Link
                       href={`/countries/${country.slug}`}
-                      className="inline-flex items-center gap-2 font-medium hover:text-gold transition-colors"
+                      className="inline-flex items-center gap-2 font-medium underline underline-offset-4 decoration-border-hover hover:decoration-cream transition-colors"
                     >
                       <CountryFlag iso2={country.iso2} width={24} className="shrink-0" />
                       {country.displayName}
                     </Link>
                   </td>
-                  <td className="py-3 text-right font-mono text-sm">
+                  <td className="py-3 text-right tabular-nums text-sm">
                     {value !== null ? value?.toFixed(2) : "—"}
                   </td>
                 </tr>
@@ -148,7 +148,7 @@ export default function HighestFertilityRatePage() {
 
       {/* Game CTAs */}
       <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
-        <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
+        <h2 className="font-display font-semibold text-xl mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
           Can you guess which countries have the highest birth rates? Try these geography games.
         </p>
@@ -161,7 +161,7 @@ export default function HighestFertilityRatePage() {
             <Link
               key={g.href}
               href={g.href}
-              className="px-4 py-2 bg-surface-elevated border border-border font-semibold rounded-full text-sm transition-colors [@media(hover:hover)]:hover:border-border-hover"
+              className="px-4 py-2 bg-surface-elevated font-medium rounded-lg text-sm transition-colors hover:bg-surface-sunken"
             >
               {g.name}
             </Link>
@@ -171,7 +171,7 @@ export default function HighestFertilityRatePage() {
 
       {/* See also */}
       <div className="mt-12 pt-8 border-t border-border">
-        <h2 className="text-lg font-bold mb-4">See Also</h2>
+        <h2 className="font-display font-semibold text-xl mb-4">See Also</h2>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/most-populated-countries"

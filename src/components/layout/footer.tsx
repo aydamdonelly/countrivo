@@ -59,13 +59,11 @@ export function Footer() {
         </nav>
 
         {/* Brand mark strip — middle-dot bracket signature */}
-        <div className="mt-10 pt-6 border-t border-border text-center text-xxs font-mono text-cream-muted">
-          <span className="font-extrabold not-italic text-cream tracking-tight">
-            Coun<span className="text-gold mx-[1px]">·</span>trivo
-          </span>
-          <span className="text-gold mx-1.5">·</span>
-          <span>One puzzle a day</span>
-          <span className="text-gold mx-1.5">·</span>
+        <div className="mt-10 pt-6 border-t border-border text-center text-xs text-cream-dim">
+          <span className="font-display font-semibold text-sm text-cream">Countrivo</span>
+          <span className="mx-2">·</span>
+          <span>One shot a day</span>
+          <span className="mx-2">·</span>
           <span>Since 2026</span>
         </div>
       </div>

@@ -71,12 +71,12 @@ export default function CountriesInAsiaPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/lists"
-        className="text-sm font-medium text-gold hover:text-gold transition-colors"
+        className="text-sm font-medium text-cream-muted hover:text-cream transition-colors"
       >
         ← All Lists
       </Link>
 
-      <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight">
+      <h1 className="mt-4 text-4xl sm:text-5xl font-display font-semibold tracking-tight">
         All Countries in Asia
       </h1>
 
@@ -90,7 +90,7 @@ export default function CountriesInAsiaPage() {
         </p>
         <p>
           The continent contains the two most populated countries on
-          Earth — India and China — as well as some of the wealthiest nations per
+          Earth, India and China, as well as some of the wealthiest nations per
           capita, including Singapore, Qatar, and the United Arab Emirates. Asia
           also includes vast, sparsely populated regions like Mongolia and
           Kazakhstan.
@@ -126,7 +126,7 @@ export default function CountriesInAsiaPage() {
                 <td className="py-3 pr-4">
                   <Link
                     href={`/countries/${country.slug}`}
-                    className="inline-flex items-center gap-2 font-medium hover:text-gold transition-colors"
+                    className="inline-flex items-center gap-2 font-medium underline underline-offset-4 decoration-border-hover hover:decoration-cream transition-colors"
                   >
                     <CountryFlag iso2={country.iso2} width={24} className="shrink-0" />
                     {country.displayName}
@@ -135,10 +135,10 @@ export default function CountriesInAsiaPage() {
                 <td className="py-3 pr-4 text-cream-muted text-sm">
                   {country.capital || "—"}
                 </td>
-                <td className="py-3 pr-4 text-right font-mono text-sm">
+                <td className="py-3 pr-4 text-right tabular-nums text-sm">
                   {population !== null ? formatNumber(population) : "—"}
                 </td>
-                <td className="py-3 text-right font-mono text-sm">
+                <td className="py-3 text-right tabular-nums text-sm">
                   {area !== null ? formatNumber(area) : "—"}
                 </td>
               </tr>
@@ -149,7 +149,7 @@ export default function CountriesInAsiaPage() {
 
       {/* Game CTAs */}
       <div className="mt-12 bg-surface-elevated border border-black/5 rounded-xl p-6">
-        <h2 className="text-lg font-bold mb-2">Test Your Knowledge</h2>
+        <h2 className="font-display font-semibold text-xl mb-2">Test Your Knowledge</h2>
         <p className="text-sm text-cream-muted mb-4">
           How well do you know Asian geography? Try these free games.
         </p>
@@ -162,7 +162,7 @@ export default function CountriesInAsiaPage() {
             <Link
               key={g.href}
               href={g.href}
-              className="px-4 py-2 bg-surface-elevated border border-border font-semibold rounded-full text-sm transition-colors [@media(hover:hover)]:hover:border-border-hover"
+              className="px-4 py-2 bg-surface-elevated font-medium rounded-lg text-sm transition-colors hover:bg-surface-sunken"
             >
               {g.name}
             </Link>
@@ -172,7 +172,7 @@ export default function CountriesInAsiaPage() {
 
       {/* See also */}
       <div className="mt-12 pt-8 border-t border-border">
-        <h2 className="text-lg font-bold mb-4">See Also</h2>
+        <h2 className="font-display font-semibold text-xl mb-4">See Also</h2>
         <div className="flex flex-wrap gap-3">
           <Link
             href="/lists/countries-in-europe"
