@@ -3,11 +3,9 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
+import { ResetLabel } from "@/components/home/reset-label";
 import { IconFlame } from "@/components/icons";
 import { useAuth } from "@/components/auth/auth-provider";
-import { getStorageItem } from "@/lib/storage";
-import { getAllGames } from "@/lib/data/registry";
-import { getTodayDateKey } from "@/lib/daily-seed";
 import { getPendingRequestCount } from "@/app/actions/profile";
 import { getPendingChallengeCount } from "@/app/actions/challenges";
 
@@ -19,21 +17,10 @@ const NAV_ITEMS = [
 
 const AUTH_NAV_ITEMS: { href: string; label: string }[] = [];
 
-function countTodayCompleted(): number {
-  if (typeof window === "undefined") return 0;
-  const games = getAllGames();
-  const dateKey = getTodayDateKey();
-  return games.filter((g) =>
-    g.availableModes.includes("daily") &&
-    getStorageItem<boolean>(`daily_${g.slug}_${dateKey}_completed`, false)
-  ).length;
-}
-
 export function Header() {
   const pathname = usePathname();
   const { user, profile, loading, openAuthModal, signOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dailyCount, setDailyCount] = useState(0);
   const [mounted, setMounted] = useState(false);
   const [pendingFriendCount, setPendingFriendCount] = useState(0);
   const [pendingChallengeCount, setPendingChallengeCount] = useState(0);
@@ -51,8 +38,7 @@ export function Header() {
   }, [menuOpen]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- external-system hydration on mount (localStorage)
-    setDailyCount(countTodayCompleted());
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount flag for badges that depend on client data
     setMounted(true);
   }, []);
 
@@ -65,13 +51,12 @@ export function Header() {
   const pendingFriendsBadge = pendingFriendCount + pendingChallengeCount;
 
   const initial = profile?.displayName?.[0]?.toUpperCase() ?? profile?.username?.[0]?.toUpperCase() ?? "?";
-  const totalDaily = getAllGames().filter((g) => g.availableModes.includes("daily")).length;
 
   return (
     <header className="sticky top-0 z-50 safe-top backdrop-blur-md bg-surface/80 border-b border-black/5">
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-14">
-        <Link href="/" className="text-xl font-extrabold tracking-tight shrink-0">
-          Coun<span className="text-gold mx-[1px]">·</span>trivo
+        <Link href="/" className="font-display font-semibold text-[22px] tracking-tight shrink-0">
+          Countrivo
         </Link>
 
         <div className="hidden sm:flex items-center gap-1 sm:gap-2 flex-1 min-w-0 justify-center overflow-hidden">
@@ -82,10 +67,10 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative px-2 sm:px-3 py-2.5 sm:py-1.5 text-xs sm:text-sm font-medium rounded-lg transition-colors whitespace-nowrap ${
+                className={`relative px-2 sm:px-3 py-2.5 sm:py-1.5 text-xs sm:text-sm rounded-lg transition-colors whitespace-nowrap ${
                   isActive
-                    ? "text-cream bg-black/5"
-                    : "text-cream-muted hover:text-cream hover:bg-black/3"
+                    ? "text-cream font-semibold"
+                    : "text-cream-muted font-medium hover:text-cream"
                 }`}
               >
                 {item.label}
@@ -96,25 +81,15 @@ export function Header() {
                     {pendingFriendsBadge > 9 ? "9+" : pendingFriendsBadge}
                   </span>
                 )}
-                {isActive && (
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-gold rounded-full" />
-                )}
+
               </Link>
             );
           })}
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3 shrink-0 relative z-10">
+          <ResetLabel className="hidden lg:inline" />
           <StreakBadge />
-
-          {/* Daily progress pill — slot reserved post-mount to avoid layout shift */}
-          {mounted && dailyCount > 0 && (
-            <span
-              className="hidden sm:inline-flex items-center justify-center gap-1 text-xxs font-bold text-cream-muted px-2 py-1 rounded-lg bg-black/5 min-w-[3rem] tabular-nums opacity-0 animate-[fade-in_0.25s_var(--ease-out)_forwards]"
-            >
-              {dailyCount}/{totalDaily}
-            </span>
-          )}
 
           {!loading && user ? (
             <div className="relative" ref={menuRef}>

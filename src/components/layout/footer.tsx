@@ -8,20 +8,6 @@ export function Footer() {
       className="border-t border-border bg-surface-elevated rounded-t-2xl"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* CTA row — honest invitation, trivially ignorable */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 pb-8 border-b border-border">
-          <div>
-            <p className="font-extrabold text-lg">Ready for today&apos;s challenge?</p>
-            <p className="text-sm text-cream-muted">Same puzzle. Every player. One shot.</p>
-          </div>
-          <Link
-            href="/games/country-draft/play?mode=daily"
-            className="cta-primary text-sm px-6 py-2.5 min-h-11 shrink-0"
-          >
-            Play now
-          </Link>
-        </div>
-
         <nav aria-label="Footer navigation">
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Play */}

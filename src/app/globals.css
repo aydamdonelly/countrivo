@@ -10,8 +10,7 @@
     var(--font-inter), system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* Display: Space Grotesk (loaded via next/font as --font-display-src) for
      game titles, the hero H1, big tabular scores and game-over verdicts. */
-  --font-display: var(--font-display-src), "Space Grotesk", var(--font-inter),
-    -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: var(--font-display-src), "Erode", Georgia, "Times New Roman", serif;
 
   /* Font-size additions — text-xxs schliesst die [10px]/[11px]-Hacks.
      Restliche Skala bleibt Tailwind-Default (text-xs..text-9xl) — kein
@@ -20,44 +19,44 @@
   --text-xxs--line-height: calc(0.875 / 0.625); /* ~1.4 */
 
   /* ─── Hintergrund & Oberfläche ─── */
-  --color-bg: #fafaf8;
+  --color-bg: #fbfaf6;
   --color-surface: #ffffff;
-  --color-surface-elevated: #f5f4f0;
-  --color-surface-sunken: #efeee8;
+  --color-surface-elevated: #f1f0ea;
+  --color-surface-sunken: #e9e8e1;
 
   /* ─── Brand: Gold (eine Single-Source-Goldnaht) ─── */
-  --color-gold: #b8860b;                  /* Brand-Gold — Default */
-  --color-gold-bright: #d4a017;           /* Hover-State only */
-  --color-gold-deep: #96700a;             /* Active-State only */
-  --color-gold-on-bg-soft: rgba(184,134,11,0.10);
-  --color-gold-on-bg-medium: rgba(184,134,11,0.20);
-  --color-gold-shadow: rgba(184,134,11,0.25);
+  --color-gold: #b8432a;                  /* Brand accent: burnt red. Name kept for the ~200 callsites. */
+  --color-gold-bright: #cf5a3f;           /* Hover-State only */
+  --color-gold-deep: #96351f;             /* Active-State only */
+  --color-gold-on-bg-soft: rgba(184,67,42,0.10);
+  --color-gold-on-bg-medium: rgba(184,67,42,0.20);
+  --color-gold-shadow: rgba(184,67,42,0.18);
   /* alias for legacy callsites (still widely used as bg-gold-dim) */
-  --color-gold-dim: rgba(184,134,11,0.08);
+  --color-gold-dim: rgba(184,67,42,0.08);
   /* alias for legacy --color-gold-solid (now -deep) */
-  --color-gold-solid: #96700a;
+  --color-gold-solid: #96351f;
   /* AA-safe gold for small TEXT on light surfaces — #b8860b is only ~3.2:1 at
      body size. Keep #b8860b for fills/borders/large numerals. Brightened in the
      dark theme (where #b8860b already passes). */
-  --color-gold-ink: #8a6708;
+  --color-gold-ink: #9a3622;
 
   /* ─── Scrim ─── modal/overlay backdrop; stays dark in BOTH themes (NOT
      affected by the dark black-flip below). */
   --color-scrim: rgba(0,0,0,0.45);
 
   /* ─── Akzent (semantisch, nicht Brand) ─── */
-  --color-accent: #2563eb;
-  --color-accent-light: #dbeafe;
+  --color-accent: #b8432a;
+  --color-accent-light: rgba(184,67,42,0.12);
 
   /* ─── Text ───
      NOTE: --color-cream is the PRIMARY TEXT color, not a light cream. It is
      dark ink (#1a1a1a) in the light theme and flips to true cream in the dark
      theme (see the prefers-color-scheme block at the bottom of this file). The
      name is kept for back-compat with the many `text-cream` callsites. */
-  --color-cream: #1a1a1a;
-  --color-cream-muted: rgba(26,26,26,0.62);
-  --color-cream-dim: rgba(26,26,26,0.40);
-  --color-cream-ghost: rgba(26,26,26,0.06);
+  --color-cream: #17181a;
+  --color-cream-muted: rgba(23,24,26,0.62);
+  --color-cream-dim: rgba(23,24,26,0.38);
+  --color-cream-ghost: rgba(23,24,26,0.06);
 
   /* ─── Border ─── */
   --color-border: rgba(0,0,0,0.08);
@@ -115,25 +114,25 @@
    returns `var(--game-{slug}-bg/fg)`. Light values here; dark twins live in the
    prefers-color-scheme block at the bottom of this file. */
 :root {
-  --game-country-draft-bg: #fee2e2;    --game-country-draft-fg: #991b1b;
-  --game-flag-quiz-bg: #dbeafe;        --game-flag-quiz-fg: #1e3a5f;
-  --game-higher-or-lower-bg: #d1fae5;  --game-higher-or-lower-fg: #064e3b;
-  --game-capital-match-bg: #fef3c7;    --game-capital-match-fg: #78350f;
-  --game-population-sort-bg: #ede9fe;  --game-population-sort-fg: #4c1d95;
-  --game-country-streak-bg: #ffedd5;   --game-country-streak-fg: #7c2d12;
-  --game-border-buddies-bg: #ccfbf1;   --game-border-buddies-fg: #134e4a;
-  --game-continent-sprint-bg: #e0e7ff; --game-continent-sprint-fg: #312e81;
-  --game-stat-guesser-bg: #fce7f3;     --game-stat-guesser-fg: #831843;
-  --game-speed-flags-bg: #ecfccb;      --game-speed-flags-fg: #365314;
-  --game-odd-one-out-bg: #f3e8ff;      --game-odd-one-out-fg: #581c87;
-  --game-supremacy-bg: #fef9c3;        --game-supremacy-fg: #713f12;
-  --game-borderline-bg: #cffafe;       --game-borderline-fg: #155e75;
-  --game-blitz-bg: #fecaca;            --game-blitz-fg: #7f1d1d;
-  --game-geo-wordle-bg: #e0f2fe;       --game-geo-wordle-fg: #075985;
-  --game-cluster-bg: #fae8ff;          --game-cluster-fg: #701a75;
-  --game-risk-zone-bg: #ffe4e6;        --game-risk-zone-fg: #9f1239;
+  --game-country-draft-bg: #f1f0ea; --game-country-draft-fg: #17181a;
+  --game-flag-quiz-bg: #f1f0ea; --game-flag-quiz-fg: #17181a;
+  --game-higher-or-lower-bg: #f1f0ea; --game-higher-or-lower-fg: #17181a;
+  --game-capital-match-bg: #f1f0ea; --game-capital-match-fg: #17181a;
+  --game-population-sort-bg: #f1f0ea; --game-population-sort-fg: #17181a;
+  --game-country-streak-bg: #f1f0ea; --game-country-streak-fg: #17181a;
+  --game-border-buddies-bg: #f1f0ea; --game-border-buddies-fg: #17181a;
+  --game-continent-sprint-bg: #f1f0ea; --game-continent-sprint-fg: #17181a;
+  --game-stat-guesser-bg: #f1f0ea; --game-stat-guesser-fg: #17181a;
+  --game-speed-flags-bg: #f1f0ea; --game-speed-flags-fg: #17181a;
+  --game-odd-one-out-bg: #f1f0ea; --game-odd-one-out-fg: #17181a;
+  --game-supremacy-bg: #f1f0ea; --game-supremacy-fg: #17181a;
+  --game-borderline-bg: #f1f0ea; --game-borderline-fg: #17181a;
+  --game-blitz-bg: #f1f0ea; --game-blitz-fg: #17181a;
+  --game-geo-wordle-bg: #f1f0ea; --game-geo-wordle-fg: #17181a;
+  --game-cluster-bg: #f1f0ea; --game-cluster-fg: #17181a;
+  --game-risk-zone-bg: #f1f0ea; --game-risk-zone-fg: #17181a;
   /* shared "drills" section identity */
-  --game-drills-bg: #f5f4f0;           --game-drills-fg: #1a1a1a;
+  --game-drills-bg: #f1f0ea; --game-drills-fg: #17181a;
 
   /* ─── GeoWordle proximity ramp ───
      Hot-to-cold, cut by great-circle distance (see game-logic/geo-wordle/engine.ts).
@@ -328,8 +327,7 @@ h1 {
 }
 @media (hover: hover) {
   .game-card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    background-color: var(--color-surface-elevated);
   }
 }
 .game-card:active {
@@ -344,27 +342,24 @@ h1 {
   gap: 0.5rem;
   padding: 0.875rem 2rem;
   min-height: 52px;
-  background-color: var(--color-gold);
-  color: white;
-  font-weight: 700;
-  font-size: 1.125rem;
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-gold);
-  transition: all 0.2s ease;
+  background-color: var(--color-cream);
+  color: var(--color-bg);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  border-radius: var(--radius-md);
+  transition: background-color 0.2s ease, transform 0.15s ease;
   text-decoration: none;
   cursor: pointer;
   border: none;
 }
 @media (hover: hover) {
   .cta-primary:hover {
-    filter: brightness(1.1);
-    box-shadow: var(--shadow-lg);
-    transform: translateY(-1px);
+    background-color: var(--color-gold);
+    color: #fbfaf6;
   }
 }
 .cta-primary:active {
   transform: scale(0.98);
-  box-shadow: var(--shadow-sm);
 }
 
 .cta-secondary {
@@ -630,24 +625,24 @@ html { background-color: var(--color-bg); }
 @media (prefers-color-scheme: dark) {
   :root {
     /* Surfaces — deep ink-navy base; elevate by LIGHTENING (shadows vanish on dark). */
-    --color-bg:               #10141b;
-    --color-surface:          #161c26;
-    --color-surface-elevated: #1e2531;
-    --color-surface-sunken:   #0c1016;
+    --color-bg:               #17181a;
+    --color-surface:          #1e1f1c;
+    --color-surface-elevated: #26271f;
+    --color-surface-sunken:   #111210;
 
     /* Primary text → true cream + its muted/dim/ghost steps. */
-    --color-cream:        #ECEAE3;
-    --color-cream-muted:  rgba(236,234,227,0.62);
-    --color-cream-dim:    rgba(236,234,227,0.40);
-    --color-cream-ghost:  rgba(236,234,227,0.07);
+    --color-cream:        #f3f1ea;
+    --color-cream-muted:  rgba(243,241,234,0.62);
+    --color-cream-dim:    rgba(243,241,234,0.40);
+    --color-cream-ghost:  rgba(243,241,234,0.07);
 
     /* Borders — light hairlines on dark. */
     --color-border:       rgba(255,255,255,0.10);
     --color-border-hover: rgba(255,255,255,0.22);
 
     /* Accent (semantic blue) — brighter so it reads on dark. */
-    --color-accent:       #5b8cff;
-    --color-accent-light: rgba(91,140,255,0.16);
+    --color-accent:       #e07a5f;
+    --color-accent-light: rgba(224,122,95,0.16);
 
     /* Semantic tint backgrounds — low-alpha so they sit calmly on dark. */
     --color-correct-light:   rgba(22,163,74,0.18);
@@ -669,28 +664,28 @@ html { background-color: var(--color-bg); }
 
     /* Darker scrim for separation on dark; AA gold-text can be brighter here. */
     --color-scrim:    rgba(0,0,0,0.6);
-    --color-gold-ink: #d4a017;
+    --color-gold-ink: #e07a5f;
 
     /* Per-game identity — low-chroma dark washes + light text so the 14
        accents don't glare on the dark base. */
-    --game-country-draft-bg: rgba(220,38,38,0.16);    --game-country-draft-fg: #fca5a5;
-    --game-flag-quiz-bg: rgba(59,130,246,0.16);       --game-flag-quiz-fg: #93c5fd;
-    --game-higher-or-lower-bg: rgba(16,185,129,0.16); --game-higher-or-lower-fg: #6ee7b7;
-    --game-capital-match-bg: rgba(245,158,11,0.16);   --game-capital-match-fg: #fcd34d;
-    --game-population-sort-bg: rgba(139,92,246,0.16); --game-population-sort-fg: #c4b5fd;
-    --game-country-streak-bg: rgba(249,115,22,0.16);  --game-country-streak-fg: #fdba74;
-    --game-border-buddies-bg: rgba(20,184,166,0.16);  --game-border-buddies-fg: #5eead4;
-    --game-continent-sprint-bg: rgba(99,102,241,0.16);--game-continent-sprint-fg: #a5b4fc;
-    --game-stat-guesser-bg: rgba(236,72,153,0.16);    --game-stat-guesser-fg: #f9a8d4;
-    --game-speed-flags-bg: rgba(132,204,22,0.16);     --game-speed-flags-fg: #bef264;
-    --game-odd-one-out-bg: rgba(168,85,247,0.16);     --game-odd-one-out-fg: #d8b4fe;
-    --game-supremacy-bg: rgba(234,179,8,0.16);        --game-supremacy-fg: #fde047;
-    --game-borderline-bg: rgba(6,182,212,0.16);       --game-borderline-fg: #67e8f9;
-    --game-blitz-bg: rgba(248,113,113,0.16);          --game-blitz-fg: #fca5a5;
-    --game-geo-wordle-bg: rgba(14,165,233,0.16);      --game-geo-wordle-fg: #7dd3fc;
-    --game-cluster-bg: rgba(217,70,239,0.16);         --game-cluster-fg: #f0abfc;
-    --game-risk-zone-bg: rgba(244,63,94,0.16);        --game-risk-zone-fg: #fda4af;
-    --game-drills-bg: #1e2531;                        --game-drills-fg: #ECEAE3;
+    --game-country-draft-bg: #f1f0ea; --game-country-draft-fg: #17181a;
+    --game-flag-quiz-bg: #f1f0ea; --game-flag-quiz-fg: #17181a;
+    --game-higher-or-lower-bg: #f1f0ea; --game-higher-or-lower-fg: #17181a;
+    --game-capital-match-bg: #f1f0ea; --game-capital-match-fg: #17181a;
+    --game-population-sort-bg: #f1f0ea; --game-population-sort-fg: #17181a;
+    --game-country-streak-bg: #f1f0ea; --game-country-streak-fg: #17181a;
+    --game-border-buddies-bg: #f1f0ea; --game-border-buddies-fg: #17181a;
+    --game-continent-sprint-bg: #f1f0ea; --game-continent-sprint-fg: #17181a;
+    --game-stat-guesser-bg: #f1f0ea; --game-stat-guesser-fg: #17181a;
+    --game-speed-flags-bg: #f1f0ea; --game-speed-flags-fg: #17181a;
+    --game-odd-one-out-bg: #f1f0ea; --game-odd-one-out-fg: #17181a;
+    --game-supremacy-bg: #f1f0ea; --game-supremacy-fg: #17181a;
+    --game-borderline-bg: #f1f0ea; --game-borderline-fg: #17181a;
+    --game-blitz-bg: #f1f0ea; --game-blitz-fg: #17181a;
+    --game-geo-wordle-bg: #f1f0ea; --game-geo-wordle-fg: #17181a;
+    --game-cluster-bg: #f1f0ea; --game-cluster-fg: #17181a;
+    --game-risk-zone-bg: #f1f0ea; --game-risk-zone-fg: #17181a;
+    --game-drills-bg: #f1f0ea; --game-drills-fg: #17181a;
 
     /* GeoWordle proximity ramp — lifted for contrast against the dark surface. */
     --color-geo-burning: #fb923c;
@@ -741,4 +736,40 @@ html { background-color: var(--color-bg); }
 a, button, [role="button"], summary, input, select, textarea {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+
+/* ─── Home: flame, carousel, board ─── */
+@keyframes fl-o{0%{transform:scaleY(1) skewX(0)}20%{transform:scaleY(1.06) skewX(-3deg)}45%{transform:scaleY(.96) skewX(2.5deg)}70%{transform:scaleY(1.04) skewX(-1.5deg)}100%{transform:scaleY(1) skewX(0)}}
+@keyframes fl-m{0%{transform:scaleY(1) skewX(0)}30%{transform:scaleY(1.12) skewX(3deg)}55%{transform:scaleY(.92) skewX(-3deg)}80%{transform:scaleY(1.06) skewX(1deg)}100%{transform:scaleY(1) skewX(0)}}
+@keyframes fl-c{0%,100%{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.18) scaleX(.9)}}
+@keyframes fl-e{0%{opacity:0;transform:translateY(2px)}15%{opacity:.9}100%{opacity:0;transform:translateY(-9px)}}
+.flame .fl-outer{transform-origin:12px 21px;animation:fl-o 1.1s ease-in-out infinite}
+.flame .fl-mid{transform-origin:12px 21px;animation:fl-m .8s ease-in-out infinite}
+.flame .fl-core{transform-origin:12px 20px;animation:fl-c .55s ease-in-out infinite}
+.flame .fl-e1{animation:fl-e 1.4s ease-out infinite}
+.flame .fl-e2{animation:fl-e 1.9s ease-out .6s infinite}
+
+.no-scrollbar{scrollbar-width:none}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.carousel{scroll-padding-inline:1.25rem;overscroll-behavior-x:contain}
+
+@keyframes rows-in{from{transform:translateY(6px);opacity:.001}to{transform:none;opacity:1}}
+.board-rows > *{animation:rows-in .32s var(--ease-out) both}
+.board-rows > *:nth-child(2){animation-delay:40ms}
+.board-rows > *:nth-child(3){animation-delay:80ms}
+.board-rows > *:nth-child(4){animation-delay:120ms}
+.board-rows > *:nth-child(5){animation-delay:160ms}
+.board-rows > *:nth-child(n+6){animation-delay:200ms}
+
+@keyframes pane-in{from{transform:translateY(8px);opacity:.001}to{transform:none;opacity:1}}
+.mode-pane{animation:pane-in .28s var(--ease-out) both}
+
+.shoot{transition:transform .15s var(--ease-out),background-color .2s ease}
+.shoot:active{transform:scale(.97)}
+@media (hover:hover){.shoot:hover{background-color:var(--color-gold);color:#fbfaf6}}
+
+@media (prefers-reduced-motion: reduce){
+  .flame .fl-outer,.flame .fl-mid,.flame .fl-core,.flame .fl-e1,.flame .fl-e2{animation:none}
+  .board-rows > *,.mode-pane{animation:none}
 }

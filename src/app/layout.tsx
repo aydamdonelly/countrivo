@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -21,15 +22,17 @@ const inter = Inter({
   adjustFontFallback: true,
 });
 
-// Display face for game titles, hero H1, big scores and verdicts. Only the
-// weights we actually render — keeps the payload tiny.
-const display = Space_Grotesk({
-  subsets: ["latin"],
+// Display face: Erode (self-hosted, ITF Free Font License) for the wordmark,
+// game titles, big scores and verdicts. Two weights, nothing else.
+const display = localFont({
+  src: [
+    { path: "../fonts/erode-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/erode-600.woff2", weight: "600", style: "normal" },
+  ],
   variable: "--font-display-src",
   display: "swap",
-  weight: ["500", "600", "700"],
   preload: true,
-  fallback: ["system-ui", "arial"],
+  fallback: ["Georgia", "serif"],
 });
 
 export const metadata: Metadata = {
@@ -77,8 +80,8 @@ export const viewport: Viewport = {
   // Themed status-bar / browser-chrome color, per scheme. Matches --color-bg.
   // Themed status-bar / browser-chrome color, per scheme. Matches --color-bg.
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafaf8" },
-    { media: "(prefers-color-scheme: dark)", color: "#10141b" },
+    { media: "(prefers-color-scheme: light)", color: "#fbfaf6" },
+    { media: "(prefers-color-scheme: dark)", color: "#17181a" },
   ],
   width: "device-width",
   initialScale: 1,

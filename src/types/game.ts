@@ -16,6 +16,8 @@ export interface GameMeta {
   isFlagship: boolean;
   availableModes: GameMode[];
   route: string;
+  /** Announced on the site, not playable yet. */
+  comingSoon?: boolean;
 }
 
 export interface GameResult {
