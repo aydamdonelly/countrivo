@@ -92,28 +92,28 @@ function getGradeTier(pct: number): GradeTier {
       label: "Perfect",
       message: "Every answer correct.",
       className: "grade-perfect",
-      bgClassName: "bg-gold-dim border-gold/20",
+      bgClassName: "bg-surface-elevated border-border",
     };
   if (pct >= 90)
     return {
       label: "Elite",
       message: "Near-perfect. Few can touch this.",
       className: "grade-elite",
-      bgClassName: "bg-correct/5 border-correct/20",
+      bgClassName: "bg-surface-elevated border-border",
     };
   if (pct >= 70)
     return {
       label: "Solid",
       message: "You know your stuff.",
       className: "grade-strong",
-      bgClassName: "bg-accent/5 border-accent/20",
+      bgClassName: "bg-surface-elevated border-border",
     };
   if (pct >= 50)
     return {
       label: "Decent",
       message: "Room to improve.",
       className: "grade-close",
-      bgClassName: "bg-warning/5 border-warning/20",
+      bgClassName: "bg-surface-elevated border-border",
     };
   return {
     label: "Rough",
@@ -172,6 +172,9 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
     }
   }
 
+  // Point-based hints only make sense for fixed-count games (10 flags, 5 rounds);
+  // open-ended scores (speed runs, streaks) would turn into nonsense like "21 points left".
+  if (maxScore > 25) return "";
   if (pct >= 100) return "Nothing to improve.";
   if (missed === 1) return "One away from perfect.";
   if (missed <= 3) return `${missed} from perfect.`;
@@ -378,7 +381,7 @@ export function GameOverScreen({
 
         {tier && (
           <div className="mt-3 flex items-center justify-center gap-3 flex-wrap">
-            <span className={`inline-block px-4 py-1.5 text-sm font-bold rounded-full font-display ${tier.className}`}>
+            <span className={`inline-block text-base font-display font-semibold ${tier.className}`}>
               {tier.label}
             </span>
           </div>

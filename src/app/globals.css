@@ -473,11 +473,12 @@ textarea:focus-visible {
 }
 
 /* Grade badges */
-.grade-perfect { color: var(--color-gold); background-color: var(--color-gold-dim); }
-.grade-elite { color: #16a34a; background-color: #dcfce7; }
-.grade-strong { color: #2563eb; background-color: #dbeafe; }
-.grade-close { color: #d97706; background-color: #fef3c7; }
-.grade-tough { color: var(--color-cream-muted); background-color: var(--color-surface-elevated); }
+/* Grade words are tonal steps of the ink, not coloured pills. */
+.grade-perfect { color: var(--color-cream); }
+.grade-elite { color: var(--color-cream); }
+.grade-strong { color: var(--color-cream-muted); }
+.grade-close { color: var(--color-cream-muted); }
+.grade-tough { color: var(--color-cream-dim); }
 
 /* Streak badge */
 .streak-badge {
@@ -716,10 +717,7 @@ html { background-color: var(--color-bg); }
     background-size: 200% 100%;
   }
 
-  .grade-elite  { color: #4ade80; background-color: rgba(22,163,74,0.16); }
-  .grade-strong { color: #60a5fa; background-color: rgba(37,99,235,0.18); }
-  .grade-close  { color: #fbbf24; background-color: rgba(217,119,6,0.18); }
-  .grade-tough  { color: var(--color-cream-muted); background-color: var(--color-surface-elevated); }
+
 }
 
 /* ─────────────────────────────────────────────────────────────────────────
