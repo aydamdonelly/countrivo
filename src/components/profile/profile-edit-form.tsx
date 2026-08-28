@@ -98,7 +98,7 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
           <button
             type="submit"
             disabled={isUsernamePending || usernameUnchanged || usernameTooShort}
-            className="px-4 py-3 bg-gold text-white font-bold rounded-xl hover:brightness-110 transition-all active:scale-[0.97] disabled:opacity-50 whitespace-nowrap"
+            className="px-4 py-3 bg-cream text-bg font-semibold rounded-md hover:bg-gold hover:text-[#fbfaf6] transition-colors active:scale-[0.97] disabled:opacity-50 whitespace-nowrap"
           >
             {isUsernamePending ? "Saving..." : "Save"}
           </button>
@@ -149,7 +149,7 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
         <button
           type="submit"
           disabled={isPending || displayName.trim().length === 0}
-          className="px-6 py-3 bg-gold text-white font-bold rounded-xl hover:brightness-110 transition-all active:scale-[0.97] disabled:opacity-50"
+          className="px-6 py-3 bg-cream text-bg font-semibold rounded-md hover:bg-gold hover:text-[#fbfaf6] transition-colors active:scale-[0.97] disabled:opacity-50"
         >
           {isPending ? "Saving..." : "Save changes"}
         </button>

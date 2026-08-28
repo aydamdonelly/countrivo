@@ -90,7 +90,7 @@ export function Board({ board, title, signedIn, friendCount, meCrest = null }: {
         ) : friendCount === 0 ? (
           <div className="py-4 text-sm text-cream-muted">
             <p>No friends yet. Add a few and today&apos;s shots line up here.</p>
-            <Link href="/friends/add" className="mt-2 inline-block text-cream font-semibold underline underline-offset-4">Add friends</Link>
+            <Link href="/friends" className="mt-2 inline-block text-cream font-semibold underline underline-offset-4">Add friends</Link>
           </div>
         ) : (
           board.friends.map((f, i) => (

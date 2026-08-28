@@ -120,7 +120,7 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
           {activeTab === "friends" ? (
             <>
               <p>No friends have shot {isToday ? "today" : "on this day"}.</p>
-              <Link href="/friends/add" className="mt-2 inline-block text-cream font-semibold underline underline-offset-4">Add friends</Link>
+              <Link href="/friends" className="mt-2 inline-block text-cream font-semibold underline underline-offset-4">Add friends</Link>
             </>
           ) : isToday ? (
             <>

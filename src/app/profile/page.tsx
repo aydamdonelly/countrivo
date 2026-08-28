@@ -69,7 +69,7 @@ export default async function ProfilePage() {
 
       {/* Edit form */}
       <section className="mb-8">
-        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Edit profile</h2>
+        <h2 className="text-xs text-cream-muted mb-2">Edit profile</h2>
         <ProfileEditForm
           initialUsername={profile.username}
           initialDisplayName={profile.displayName ?? ""}
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
       {/* Today's dailies */}
       {todayRuns.length > 0 && (
         <section className="mb-8">
-          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Today</h2>
+          <h2 className="text-xs text-cream-muted mb-2">Today</h2>
           <div className="flex flex-wrap gap-2">
             {todayRuns.map((r) => {
               const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
@@ -103,7 +103,7 @@ export default async function ProfilePage() {
 
       {/* Stats overview */}
       <section className="mb-8">
-        <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Stats</h2>
+        <h2 className="text-xs text-cream-muted mb-2">Stats</h2>
         <div className="grid grid-cols-3 gap-3">
           <StatCard label="Games played" value={String(totalRuns)} />
           <StatCard label="Daily challenges" value={String(totalDailyRuns)} />
@@ -114,7 +114,7 @@ export default async function ProfilePage() {
       {/* Per-game stats */}
       {gameStats.length > 0 && (
         <section>
-          <h2 className="text-sm font-bold text-cream-muted label-caps mb-3">Games</h2>
+          <h2 className="text-xs text-cream-muted mb-2">Games</h2>
           <div className="space-y-2">
             {gameStats.map((s) => {
               const colors = GAME_COLORS[s.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
