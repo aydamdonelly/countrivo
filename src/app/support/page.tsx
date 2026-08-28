@@ -21,7 +21,7 @@ export default function SupportPage() {
       <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">Support</h1>
       <p className="mt-4 text-cream-muted leading-relaxed">
         Need help? Email{" "}
-        <a href="mailto:countrivo@gmail.com" className="text-gold-ink font-medium hover:underline">
+        <a href="mailto:countrivo@gmail.com" className="text-cream font-medium underline underline-offset-4">
           countrivo@gmail.com
         </a>{" "}
         and we&apos;ll get back to you.
@@ -40,9 +40,9 @@ export default function SupportPage() {
           Turn them off in your device Settings → Countrivo → Notifications. We only send a daily
           streak reminder and challenge alerts.
         </Faq>
-        <Faq q="How do I report or block a player?">
-          Open their profile and use the “…” menu to block or report. Blocking removes any
-          friendship and hides their activity.
+        <Faq q="How do I report a player?">
+          Email us the username and what happened. We review every report, rename or remove
+          abusive accounts, and you can remove anyone from your friends list at any time.
         </Faq>
         <Faq q="I lost my streak / a score didn’t save">
           Scores save automatically when you finish; if you were offline, they sync when you
@@ -51,9 +51,9 @@ export default function SupportPage() {
       </div>
 
       <div className="mt-12 pt-8 border-t border-border text-sm text-cream-muted flex gap-4">
-        <Link href="/privacy" className="text-gold-ink hover:underline">Privacy</Link>
-        <Link href="/terms" className="text-gold-ink hover:underline">Terms</Link>
-        <Link href="/" className="text-gold-ink hover:underline">Home</Link>
+        <Link href="/privacy" className="text-cream underline underline-offset-4">Privacy</Link>
+        <Link href="/terms" className="text-cream underline underline-offset-4">Terms</Link>
+        <Link href="/" className="text-cream underline underline-offset-4">Home</Link>
       </div>
     </div>
   );

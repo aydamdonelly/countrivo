@@ -53,16 +53,16 @@ export default function TermsPage() {
         </Section>
         <Section title="Contact">
           Questions? Email{" "}
-          <a href="mailto:countrivo@gmail.com" className="text-gold-ink hover:underline">
+          <a href="mailto:countrivo@gmail.com" className="text-cream underline underline-offset-4">
             countrivo@gmail.com
           </a>
           . See also our{" "}
-          <Link href="/privacy" className="text-gold-ink hover:underline">Privacy Policy</Link>.
+          <Link href="/privacy" className="text-cream underline underline-offset-4">Privacy Policy</Link>.
         </Section>
       </div>
 
       <div className="mt-12 pt-8 border-t border-border text-sm text-cream-muted">
-        <Link href="/" className="text-gold-ink hover:underline">Return to Countrivo</Link>
+        <Link href="/" className="text-cream underline underline-offset-4">Return to Countrivo</Link>
       </div>
     </div>
   );

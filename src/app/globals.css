@@ -392,7 +392,10 @@ h1 {
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  color: var(--color-gold-ink);
+  color: var(--color-cream);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-border-hover);
   font-weight: 500;
   text-decoration: none;
   transition: opacity 0.15s ease;

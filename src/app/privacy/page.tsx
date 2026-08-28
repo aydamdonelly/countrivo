@@ -94,7 +94,7 @@ export default function PrivacyPage() {
       </div>
 
       <div className="mt-12 pt-8 border-t border-border text-sm text-cream-muted">
-        <Link href="/" className="text-gold hover:underline">
+        <Link href="/" className="text-cream underline underline-offset-4">
           Return to Countrivo
         </Link>
       </div>
