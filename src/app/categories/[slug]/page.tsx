@@ -119,15 +119,14 @@ export default async function CategoryPage({
           const country = getCountryByIso3(iso3);
           if (!country) return null;
           const value = getStatValue(iso3, slug);
-          const medals = ["🥇", "🥈", "🥉"];
           return (
             <Link
               key={iso3}
               href={`/countries/${country.slug}`}
               className="game-card p-6 bg-surface-elevated text-center group"
             >
-              <span className="text-3xl">{medals[i]}</span>
-              <CountryFlag iso2={country.iso2} width={56} className="block mt-2" />
+              <span className="font-display font-semibold text-2xl text-cream-muted tabular-nums">#{i + 1}</span>
+              <CountryFlag iso2={country.iso2} width={56} className="block mt-2 mx-auto" />
               <h3 className="font-display font-semibold text-xl mt-3">
                 {country.displayName}
               </h3>
@@ -142,7 +141,7 @@ export default async function CategoryPage({
 
       {/* Full leaderboard */}
       <section>
-        <h2 className="text-2xl font-extrabold mb-4">Full World Ranking</h2>
+        <h2 className="font-display font-semibold text-xl mb-3">Full world ranking</h2>
         <div className="overflow-x-auto rounded-xl border border-border">
           <table className="w-full">
             <thead>
@@ -175,7 +174,7 @@ export default async function CategoryPage({
                         <span className="font-medium">{country.displayName}</span>
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-right tabular-nums font-mono">
+                    <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
                       {value !== null ? formatStat(value, category.unit) : "—"}
                     </td>
                   </tr>
