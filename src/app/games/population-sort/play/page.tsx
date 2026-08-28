@@ -2,6 +2,12 @@ import { GameShell } from "@/components/game/game-shell";
 import { SortBoard } from "@/components/games/population-sort/sort-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { getDailyEdition } from "@/lib/daily-edition";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Population Sort · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

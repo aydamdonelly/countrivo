@@ -1,5 +1,11 @@
 import { GameShell } from "@/components/game/game-shell";
 import { BlitzBoard } from "@/components/games/blitz/blitz-board";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blitz · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

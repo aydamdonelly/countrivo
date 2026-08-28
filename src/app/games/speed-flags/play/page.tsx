@@ -2,6 +2,12 @@ import { GameShell } from "@/components/game/game-shell";
 import { SpeedBoard } from "@/components/games/speed-flags/speed-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { getDailyEdition } from "@/lib/daily-edition";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Speed Flags · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

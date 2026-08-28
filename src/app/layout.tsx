@@ -1,23 +1,35 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { FooterGate } from "@/components/layout/footer-gate";
+import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
+import { NativeBootstrap } from "@/components/native/native-bootstrap";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { AuthModal } from "@/components/auth/auth-modal";
 import { ToastProvider } from "@/components/ui/toast";
-import Script from "next/script";
-import { ADSENSE_CLIENT } from "@/lib/ads/config";
 
-const sans = Inter({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-inter",
   display: "swap",
   preload: true,
   fallback: ["system-ui", "arial"],
   adjustFontFallback: true,
+});
+
+// Display face for game titles, hero H1, big scores and verdicts. Only the
+// weights we actually render — keeps the payload tiny.
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-display-src",
+  display: "swap",
+  weight: ["500", "600", "700"],
+  preload: true,
+  fallback: ["system-ui", "arial"],
 });
 
 export const metadata: Metadata = {
@@ -27,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | Countrivo",
   },
   description:
-    "Play 14 free geography games online. Daily challenges, flag quizzes, country rankings, capitals matching, and stat puzzles. 243 countries. No signup needed.",
+    "Play 17 free geography games online. Daily challenges, flag quizzes, country rankings, capitals matching, and stat puzzles. 243 countries. No signup needed.",
   keywords: [
     "geography games", "country quiz", "flag quiz", "world quiz",
     "geography trivia", "country ranking game", "daily geography challenge",
@@ -35,19 +47,20 @@ export const metadata: Metadata = {
     "flag quiz online", "world capitals quiz", "geography quiz game",
     "guess the flag", "country flag quiz game",
   ],
-  alternates: {
-    canonical: "https://countrivo.com",
-    languages: { "en": "https://countrivo.com", "x-default": "https://countrivo.com" },
-  },
   openGraph: {
     type: "website",
     siteName: "Countrivo",
     title: "Countrivo | Free Geography Games & Daily Challenges",
     description:
-      "14 free geography games. Daily challenges, flag quizzes, country stats, and strategy puzzles. 243 countries. No signup.",
+      "17 free geography games. Daily challenges, flag quizzes, country stats, and strategy puzzles. 243 countries. No signup.",
   },
   twitter: {
     card: "summary_large_image",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Countrivo",
+    statusBarStyle: "default",
   },
   robots: {
     index: true,
@@ -60,6 +73,19 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  // Themed status-bar / browser-chrome color, per scheme. Matches --color-bg.
+  // Themed status-bar / browser-chrome color, per scheme. Matches --color-bg.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafaf8" },
+    { media: "(prefers-color-scheme: dark)", color: "#10141b" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  // Draw under the notch / home indicator so safe-area insets can do their job.
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -68,22 +94,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${sans.variable} font-sans`}
+      className={`${inter.variable} ${display.variable} font-sans`}
     >
       <head>
-        <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/favicon.svg" />
-        <link rel="preconnect" href="https://fundingchoicesmessages.google.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossOrigin="anonymous" />
+        {/* apple-touch-icon is auto-generated as a 180×180 PNG from
+            app/apple-icon.tsx — iOS Safari ignores SVG touch icons. */}
       </head>
       <body className="min-h-full flex flex-col bg-bg text-cream font-sans">
-        <Script
-          id="adsbygoogle-init"
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8870420849024785"
-          crossOrigin="anonymous"
-        />
         {/* Structured data for the website */}
         <script
           type="application/ld+json"
@@ -116,11 +134,13 @@ export default function RootLayout({
           }}
         />
         <AuthProvider>
+        <NativeBootstrap />
         <ToastProvider>
         <Header />
         <AuthModal />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <FooterGate><Footer /></FooterGate>
+        <BottomTabBar />
         <Analytics />
         <SpeedInsights />
         </ToastProvider>

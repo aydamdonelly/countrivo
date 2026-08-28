@@ -2,6 +2,12 @@ import Link from "next/link";
 import { DraftBoard } from "@/components/games/country-draft/draft-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { getDailyEdition } from "@/lib/daily-edition";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Country Draft · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

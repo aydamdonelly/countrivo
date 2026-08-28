@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getFlagshipGame, getAllGames, getMainGames, getDrillGames } from "@/lib/data/games";
-import { IconArrowRight } from "@/components/icons";
+import { IconArrowRight, IconTrophy, IconUsers, IconTarget } from "@/components/icons";
 import { GAME_COLORS } from "@/lib/game-colors";
 import { DailyHero } from "@/components/daily-hero";
 import { Pill } from "@/components/ui/pill";
@@ -47,6 +47,8 @@ export default async function HomePage() {
     getServerProfile(),
     getPendingChallenges().catch(() => []),
   ]);
+  // Social proof only once it is actually proof: hide the player count while it is single-digit.
+  const showPlayerCount = summary.playerCount >= 10;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
@@ -102,7 +104,7 @@ export default async function HomePage() {
                       {c.challengerScore ? ` · ${c.challengerScore}` : ""}
                     </p>
                   </div>
-                  <span className="text-xs font-bold px-2 py-1 rounded-lg bg-white/60 shrink-0" style={{ color: colors.text }}>
+                  <span className="text-xs font-bold px-2 py-1 rounded-lg bg-surface/60 shrink-0" style={{ color: colors.text }}>
                     Play →
                   </span>
                 </Link>
@@ -134,7 +136,7 @@ export default async function HomePage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="max-w-md">
               <h3
-                className="text-xl sm:text-2xl font-extrabold leading-tight"
+                className="text-xl sm:text-2xl font-extrabold leading-tight font-display"
                 style={{ color: GAME_COLORS[flagship.slug]?.text ?? "#374151" }}
               >
                 {flagship.emoji} {flagship.title}
@@ -177,9 +179,9 @@ export default async function HomePage() {
             See all rankings →
           </Link>
         </div>
-        <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="p-3 rounded-lg bg-white">
-            <div className="text-xl mb-1">🥇</div>
+        <div className={`grid ${showPlayerCount ? "grid-cols-3" : "grid-cols-2"} gap-3 text-center`}>
+          <div className="p-3 rounded-lg bg-surface border border-gold/30">
+            <IconTrophy width={20} height={20} className="mx-auto mb-1 text-gold" aria-hidden />
             <div className="text-xs font-bold text-gold">Top score</div>
             <div className="text-lg font-extrabold font-mono">
               {summary.topScoreDisplay ?? "—"}
@@ -188,8 +190,8 @@ export default async function HomePage() {
               {summary.playerCount > 0 ? "today's best" : "be the first"}
             </div>
           </div>
-          <div className="p-3 rounded-lg bg-white">
-            <div className="text-xl mb-1">👥</div>
+          {showPlayerCount && <div className="p-3 rounded-lg bg-surface">
+            <IconUsers width={20} height={20} className="mx-auto mb-1 text-cream-muted" aria-hidden />
             <div className="text-xs font-bold">Players today</div>
             <div className="text-lg font-extrabold font-mono">
               {summary.playerCount > 0 ? summary.playerCount : "—"}
@@ -197,9 +199,9 @@ export default async function HomePage() {
             <div className="text-xxs text-cream-muted">
               {summary.playerCount > 0 ? "and counting" : "play to join"}
             </div>
-          </div>
-          <div className="p-3 rounded-lg bg-white">
-            <div className="text-xl mb-1">🎯</div>
+          </div>}
+          <div className="p-3 rounded-lg bg-surface">
+            <IconTarget width={20} height={20} className="mx-auto mb-1 text-cream-muted" aria-hidden />
             <div className="text-xs font-bold">Avg score</div>
             <div className="text-lg font-extrabold font-mono">
               {summary.playerCount > 0 ? Math.round(summary.avgScore) : "—"}

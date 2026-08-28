@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { GameEntityBlock } from "@/components/game/game-entity-block";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
 import { getGameColor } from "@/lib/game-colors";
+import { DateStamp } from "@/components/game/date-stamp";
+export { DateStamp };
 
 interface RelatedGame {
   href: string;
@@ -68,7 +71,7 @@ export function GameLanding({
 
       {/* Compact hero */}
       <div
-        className="px-4 py-10 sm:py-12 text-center -mx-4 sm:-mx-6 lg:-mx-8 rounded-b-2xl"
+        className="px-4 py-10 sm:py-12 text-center rounded-2xl"
         style={{ backgroundColor: colors.bg }}
       >
         <span className="text-6xl mb-3 block">{emoji}</span>
@@ -161,7 +164,7 @@ export function GameLanding({
           <h3 className="font-bold text-base mb-3">How it works</h3>
           <ol className="space-y-2 text-sm text-cream-muted">
             {displayRules.map((rule, i) => (
-              <li key={i} className="flex gap-2.5">
+              <li key={i} className="flex gap-2">
                 <span className="w-6 h-6 rounded-full bg-gold-dim text-gold font-bold text-xs flex items-center justify-center shrink-0">
                   {i + 1}
                 </span>
@@ -200,25 +203,10 @@ export function GameLanding({
           })}
         </div>
       </div>
+
+      {/* Plain-prose facts — lowest block, never competes with the CTA */}
+      <GameEntityBlock slug={slug} />
     </div>
   );
 }
 
-/**
- * Today's puzzle stamp — DD · MM · YY in Europe/Berlin time.
- * Renders at request time on the server so the date matches the
- * daily-seed reset window.
- */
-export function DateStamp({ accentClassName = "text-gold mx-0.5" }: { accentClassName?: string }) {
-  const berlin = new Date().toLocaleDateString("en-CA", { timeZone: "Europe/Berlin" });
-  const [yyyy, mm, dd] = berlin.split("-");
-  const yy = yyyy.slice(2);
-  return (
-    <time
-      dateTime={berlin}
-      className="font-mono text-cream-muted text-sm tabular-nums mt-3 inline-flex items-center justify-center"
-    >
-      {dd}<span className={accentClassName}>·</span>{mm}<span className={accentClassName}>·</span>{yy}
-    </time>
-  );
-}

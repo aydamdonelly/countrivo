@@ -5,7 +5,8 @@ import { getTopCountries } from "@/lib/data/ranks";
 import { getCountryByIso3 } from "@/lib/data/countries";
 
 export const metadata: Metadata = {
-  title: "All Categories",
+  title: "World Rankings by Statistic | Population, GDP, Area & More",
+  alternates: { canonical: "https://countrivo.com/categories" },
   description:
     "Browse world statistics categories — population, GDP, area, life expectancy, and more. View global leaderboards for each stat.",
 };
@@ -92,7 +93,7 @@ export default function CategoriesPage() {
                   )}
 
                   <span className="inline-block mt-2 text-xs text-gold font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                    Explore ranking →
+                    View ranking →
                   </span>
                 </div>
               </div>

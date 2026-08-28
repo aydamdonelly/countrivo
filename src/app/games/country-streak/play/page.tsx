@@ -2,6 +2,12 @@ import { GameShell } from "@/components/game/game-shell";
 import { StreakBoard } from "@/components/games/country-streak/streak-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { getDailyEdition } from "@/lib/daily-edition";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Country Streak · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

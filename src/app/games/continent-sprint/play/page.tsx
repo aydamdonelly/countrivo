@@ -2,6 +2,12 @@ import { GameShell } from "@/components/game/game-shell";
 import { SprintBoard } from "@/components/games/continent-sprint/sprint-board";
 import { DailyLockoutGuard } from "@/components/game/daily-lockout-guard";
 import { getDailyEdition } from "@/lib/daily-edition";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Continent Sprint · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

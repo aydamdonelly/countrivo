@@ -5,7 +5,8 @@ import { CountriesClient } from "@/components/country/countries-client";
 import { getTodayDateKey } from "@/lib/daily-seed";
 
 export const metadata: Metadata = {
-  title: "All Countries",
+  title: "All 243 Countries | Flags, Capitals & World Rankings",
+  alternates: { canonical: "https://countrivo.com/countries" },
   description:
     "Explore 243 countries with flags, capitals, continents, and world statistics. Search, filter, and compare.",
 };
@@ -39,7 +40,7 @@ export default function CountriesPage() {
             Countries
           </h1>
           <p className="text-sm text-cream-muted mt-1">
-            {countries.length} countries and territories. Search, filter, explore.
+            {countries.length} countries and territories. Search or filter by region.
           </p>
         </div>
         <Link href="/games/flag-quiz" className="cta-tertiary text-sm shrink-0">

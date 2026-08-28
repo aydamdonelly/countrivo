@@ -1,5 +1,11 @@
 import { GameShell } from "@/components/game/game-shell";
 import { SupremacyBoard } from "@/components/games/supremacy/supremacy-board";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Supremacy · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;

@@ -1,5 +1,11 @@
 import { GameShell } from "@/components/game/game-shell";
 import { BorderlineBoard } from "@/components/games/borderline/borderline-board";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Borderline · Play",
+  robots: { index: false, follow: true },
+};
 
 interface Props {
   searchParams: Promise<{ mode?: string }>;
