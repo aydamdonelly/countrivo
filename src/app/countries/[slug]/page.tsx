@@ -242,17 +242,17 @@ export default async function CountryPage({
       {/* Quick stats highlights */}
       {topRanks.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Top Rankings</h2>
+          <h2 className="font-display font-semibold text-xl mb-3">Top Rankings</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {topRanks.map(({ cat, rank, value }) => (
               <Link
                 key={cat.slug}
                 href={`/categories/${cat.slug}`}
-                className="flex items-start gap-4 rounded-xl border border-black/5 bg-surface shadow-sm p-5 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-start gap-4 rounded-xl bg-surface-elevated p-5 hover:bg-surface-sunken transition-colors"
               >
                 <span className="shrink-0 text-cream mt-1"><StatIcon slug={cat.slug} size={26} /></span>
                 <div className="min-w-0">
-                  <p className="text-2xl font-bold tabular-nums text-gold">
+                  <p className="font-display font-semibold text-2xl tabular-nums text-cream">
                     #{rank}
                   </p>
                   <p className="text-sm font-medium truncate">{cat.label}</p>
@@ -270,7 +270,7 @@ export default async function CountryPage({
 
       {/* Full stats table */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="font-display font-semibold text-xl mb-3">
           All Statistics &amp; World Rankings
         </h2>
         <div className="overflow-x-auto rounded-xl border border-border">
@@ -297,7 +297,7 @@ export default async function CountryPage({
                     <td className="px-4 py-3">
                       <Link
                         href={`/categories/${cat.slug}`}
-                        className="hover:text-gold transition-colors"
+                        className="hover:underline underline-offset-4"
                       >
                         <StatIcon slug={cat.slug} size={16} className="mr-2" />
                         {cat.label}
@@ -325,7 +325,7 @@ export default async function CountryPage({
       {/* Neighboring countries */}
       {neighborCountries.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Neighboring Countries</h2>
+          <h2 className="font-display font-semibold text-xl mb-3">Neighboring Countries</h2>
           <p className="text-cream-muted mb-4">
             {country.displayName} shares a border with{" "}
             {neighborCountries.length}{" "}
@@ -336,7 +336,7 @@ export default async function CountryPage({
               <Link
                 key={neighbor.iso3}
                 href={`/countries/${neighbor.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-center gap-3 rounded-xl bg-surface-elevated p-4 hover:bg-surface-sunken transition-colors"
               >
                 <CountryFlag iso2={neighbor.iso2} width={30} className="shrink-0" />
                 <span className="text-sm font-medium truncate">
@@ -351,7 +351,7 @@ export default async function CountryPage({
       {/* Countries in the same continent */}
       {continentCountries.length > 0 && (
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">
+          <h2 className="font-display font-semibold text-xl mb-3">
             More Countries in {country.continent}
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -359,7 +359,7 @@ export default async function CountryPage({
               <Link
                 key={related.iso3}
                 href={`/countries/${related.slug}`}
-                className="flex items-center gap-3 rounded-xl border border-black/5 bg-surface shadow-sm p-4 hover:border-black/10 hover:shadow transition-colors"
+                className="flex items-center gap-3 rounded-xl bg-surface-elevated p-4 hover:bg-surface-sunken transition-colors"
               >
                 <CountryFlag iso2={related.iso2} width={30} className="shrink-0" />
                 <span className="text-sm font-medium truncate">
@@ -371,7 +371,7 @@ export default async function CountryPage({
           <div className="mt-4">
             <Link
               href="/countries"
-              className="text-sm text-gold hover:underline"
+              className="text-sm text-cream underline underline-offset-4"
             >
               View all countries &rarr;
             </Link>
@@ -384,7 +384,7 @@ export default async function CountryPage({
 
       {/* Play games featuring this country */}
       <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">
+        <h2 className="font-display font-semibold text-xl mb-3">
           Play Games with {country.displayName}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -398,9 +398,9 @@ export default async function CountryPage({
             <Link
               key={game.href}
               href={game.href}
-              className="rounded-2xl p-4 bg-surface-elevated border border-border hover:border-border-hover transition-colors [@media(hover:hover)]:hover:shadow-sm"
+              className="rounded-2xl p-4 bg-surface-elevated hover:bg-surface-sunken transition-colors"
             >
-              <span className="block mb-2 text-gold">{game.icon}</span>
+              <span className="block mb-2 text-cream">{game.icon}</span>
               <p className="font-bold text-sm">{game.title}</p>
               <p className="text-xs text-cream-muted mt-1">{game.desc}</p>
             </Link>
@@ -408,7 +408,7 @@ export default async function CountryPage({
         </div>
         <Link
           href="/games"
-          className="inline-block mt-4 text-sm text-gold hover:underline"
+          className="inline-block mt-4 text-sm text-cream underline underline-offset-4"
         >
           View all {games.length} games →
         </Link>
@@ -416,18 +416,18 @@ export default async function CountryPage({
 
       {/* Related lists */}
       <section className="mb-12 pt-8 border-t border-border">
-        <h2 className="text-lg font-bold mb-4">More Rankings</h2>
+        <h2 className="font-display font-semibold text-lg mb-3">More Rankings</h2>
         <div className="flex flex-wrap gap-3">
-          <Link href="/lists/most-populated-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/most-populated-countries" className="px-3 py-2 bg-surface-elevated rounded-md text-sm font-medium hover:border-black/10 transition-colors">
             Most Populated Countries
           </Link>
-          <Link href="/lists/largest-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/largest-countries" className="px-3 py-2 bg-surface-elevated rounded-md text-sm font-medium hover:border-black/10 transition-colors">
             Largest Countries
           </Link>
-          <Link href="/lists/richest-countries" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium hover:border-black/10 transition-colors">
+          <Link href="/lists/richest-countries" className="px-3 py-2 bg-surface-elevated rounded-md text-sm font-medium hover:border-black/10 transition-colors">
             Richest Countries
           </Link>
-          <Link href="/categories" className="px-4 py-2 bg-surface border border-black/5 shadow-sm rounded-lg text-sm font-medium text-gold hover:border-black/10 transition-colors">
+          <Link href="/categories" className="px-3 py-2 bg-surface-elevated rounded-md text-sm font-medium hover:border-black/10 transition-colors">
             All Rankings →
           </Link>
         </div>

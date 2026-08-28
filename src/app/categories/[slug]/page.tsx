@@ -94,7 +94,7 @@ export default async function CategoryPage({
 
       <Link
         href="/categories"
-        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-gold transition-colors mb-6"
+        className="inline-flex items-center gap-1 text-sm text-cream-muted hover:text-cream transition-colors mb-6"
       >
         ← All rankings
       </Link>
@@ -124,11 +124,11 @@ export default async function CategoryPage({
             <Link
               key={iso3}
               href={`/countries/${country.slug}`}
-              className="game-card p-6 border border-black/5 bg-surface shadow-sm text-center group"
+              className="game-card p-6 bg-surface-elevated text-center group"
             >
               <span className="text-3xl">{medals[i]}</span>
               <CountryFlag iso2={country.iso2} width={56} className="block mt-2" />
-              <h3 className="text-xl font-extrabold mt-3 group-hover:text-gold transition-colors">
+              <h3 className="font-display font-semibold text-xl mt-3">
                 {country.displayName}
               </h3>
               <p className="text-lg tabular-nums text-cream-muted mt-1">
@@ -169,7 +169,7 @@ export default async function CategoryPage({
                     <td className="px-4 py-3">
                       <Link
                         href={`/countries/${country.slug}`}
-                        className="inline-flex items-center gap-2.5 hover:text-gold transition-colors"
+                        className="inline-flex items-center gap-2.5 hover:underline underline-offset-4"
                       >
                         <CountryFlag iso2={country.iso2} width={26} className="shrink-0" />
                         <span className="font-medium">{country.displayName}</span>
@@ -197,7 +197,7 @@ export default async function CategoryPage({
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}`}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-black/5 shadow-sm rounded-lg text-sm hover:border-black/10 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface-elevated rounded-md text-sm hover:bg-surface-sunken transition-colors"
               >
                 <StatIcon slug={c.slug} size={16} />
                 <span>{c.label}</span>
@@ -221,7 +221,7 @@ export default async function CategoryPage({
               href={game.href}
               className="p-4 rounded-2xl text-center bg-surface-elevated border border-border [@media(hover:hover)]:hover:border-border-hover transition-colors"
             >
-              <span className="flex justify-center mb-2 text-gold">{game.icon}</span>
+              <span className="flex justify-center mb-2 text-cream">{game.icon}</span>
               <span className="text-sm font-bold">{game.name}</span>
             </Link>
           ))}
