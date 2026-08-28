@@ -126,7 +126,7 @@ export function Header() {
                     className="block px-3 py-2 text-sm hover:bg-black/3 transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
-                    Daily challenge
+                    Today&apos;s shot
                   </Link>
                   <Link
                     href="/games"
