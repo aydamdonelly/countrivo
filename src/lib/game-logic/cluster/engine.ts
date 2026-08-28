@@ -25,7 +25,6 @@ export interface ClusterGroup {
 export interface ClusterTile {
   iso3: string;
   displayName: string;
-  flagEmoji: string;
   iso2: string;
 }
 
@@ -53,7 +52,7 @@ interface BuiltGroup {
   predicate: (c: Country) => boolean;
 }
 
-const pool = countries.filter((c) => c.flagEmoji && c.flagEmoji.trim().length > 0);
+const pool = countries.filter((c) => c.iso2.length === 2);
 const byIso3 = new Map(countries.map((c) => [c.iso3, c]));
 
 const CONTINENTS = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
@@ -194,7 +193,6 @@ function finalize(built: BuiltGroup[], rng: () => number): ClusterState {
   const tiles: ClusterTile[] = seededShuffle(memberCountries, rng).map((c) => ({
     iso3: c.iso3,
     displayName: c.displayName,
-    flagEmoji: c.flagEmoji,
     iso2: c.iso2,
   }));
   return { tiles, groups, selected: [], solvedGroupIds: [], guesses: [], mistakes: 0, phase: "playing" };

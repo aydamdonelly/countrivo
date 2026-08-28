@@ -140,7 +140,7 @@ export function ProfileEditForm({ initialUsername, initialDisplayName, initialCo
             <option value="">Not set</option>
             {sortedCountries.map((c) => (
               <option key={c.iso3} value={c.iso3}>
-                {c.flagEmoji} {c.displayName}
+                {c.displayName}
               </option>
             ))}
           </select>

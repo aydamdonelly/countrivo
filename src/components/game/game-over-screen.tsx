@@ -218,7 +218,7 @@ interface DailyChainInfo {
   total: number;
   completed: number;
   remaining: number;
-  next: { title: string; emoji: string; route: string } | null;
+  next: { title: string; route: string } | null;
 }
 
 function getDailyChainInfo(currentSlug: string | undefined): DailyChainInfo {
@@ -236,7 +236,7 @@ function getDailyChainInfo(currentSlug: string | undefined): DailyChainInfo {
     } else if (!next && g.slug !== currentSlug) {
       // The current game's flag may not be flushed yet at render time; skip it
       // so we always point at a genuinely different next daily.
-      next = { title: g.title, emoji: g.emoji, route: g.route };
+      next = { title: g.title, route: g.route };
     }
   }
   return {

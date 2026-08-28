@@ -152,7 +152,6 @@ async function main() {
     region: string;
     subregion: string;
     continent: string;
-    flagEmoji: string;
     flagSvgPath: string;
     capital: string;
     borders: string[];
@@ -177,7 +176,6 @@ async function main() {
       region: c.region || "Unknown",
       subregion: c.subregion || c.region || "Unknown",
       continent: regionToContinent[c.region] || "Unknown",
-      flagEmoji: c.flag || "",
       flagSvgPath: `/flags/${c.cca2.toLowerCase()}.svg`,
       capital: c.capital?.[0] || "",
       borders: c.borders || [],

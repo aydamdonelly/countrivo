@@ -9,7 +9,6 @@
     "source": "World Bank",
     "sourceYear": 2023,
     "coveragePercent": 99,
-    "emoji": "👥",
     "clarifier": "total people"
   },
   {
@@ -22,7 +21,6 @@
     "source": "REST Countries",
     "sourceYear": 2023,
     "coveragePercent": 99,
-    "emoji": "🗺️",
     "clarifier": "total km²"
   },
   {
@@ -35,7 +33,6 @@
     "source": "World Bank",
     "sourceYear": 2023,
     "coveragePercent": 90,
-    "emoji": "💰",
     "clarifier": "USD per person"
   },
   {
@@ -48,7 +45,6 @@
     "source": "World Bank",
     "sourceYear": 2023,
     "coveragePercent": 90,
-    "emoji": "💵",
     "clarifier": "USD · whole economy"
   },
   {
@@ -61,7 +57,6 @@
     "source": "World Bank",
     "sourceYear": 2022,
     "coveragePercent": 95,
-    "emoji": "❤️",
     "clarifier": "years, at birth"
   },
   {
@@ -74,7 +69,6 @@
     "source": "World Bank",
     "sourceYear": 2022,
     "coveragePercent": 95,
-    "emoji": "🏙️",
     "clarifier": "% living in cities"
   },
   {
@@ -87,7 +81,6 @@
     "source": "World Bank",
     "sourceYear": 2022,
     "coveragePercent": 90,
-    "emoji": "🌐",
     "clarifier": "% of people online"
   },
   {
@@ -100,7 +93,6 @@
     "source": "World Bank",
     "sourceYear": 2022,
     "coveragePercent": 95,
-    "emoji": "👶",
     "clarifier": "children per woman"
   },
   {
@@ -113,7 +105,6 @@
     "source": "World Bank / UNWTO",
     "sourceYear": 2022,
     "coveragePercent": 80,
-    "emoji": "✈️",
     "clarifier": "visitors per year"
   },
   {
@@ -126,7 +117,6 @@
     "source": "World Bank",
     "sourceYear": 2021,
     "coveragePercent": 90,
-    "emoji": "🌲",
     "clarifier": "% of land forested"
   },
   {
@@ -139,7 +129,6 @@
     "source": "World Bank",
     "sourceYear": 2023,
     "coveragePercent": 88,
-    "emoji": "📉",
     "clarifier": "% of labor force"
   },
   {
@@ -152,7 +141,6 @@
     "source": "World Bank / SIPRI",
     "sourceYear": 2022,
     "coveragePercent": 80,
-    "emoji": "🎖️",
     "clarifier": "% of GDP"
   },
   {
@@ -165,7 +153,6 @@
     "source": "World Bank",
     "sourceYear": 2021,
     "coveragePercent": 85,
-    "emoji": "♻️",
     "clarifier": "% of energy use"
   },
   {
@@ -178,7 +165,6 @@
     "source": "World Bank",
     "sourceYear": 2023,
     "coveragePercent": 85,
-    "emoji": "📈",
     "clarifier": "annual CPI change"
   },
   {
@@ -191,7 +177,6 @@
     "source": "Kirin Holdings / WHO",
     "sourceYear": 2022,
     "coveragePercent": 40,
-    "emoji": "🍺",
     "clarifier": "liters per year"
   },
   {
@@ -204,7 +189,6 @@
     "source": "ICO",
     "sourceYear": 2022,
     "coveragePercent": 35,
-    "emoji": "☕",
     "clarifier": "kg per year"
   },
   {
@@ -217,7 +201,6 @@
     "source": "OIV",
     "sourceYear": 2022,
     "coveragePercent": 35,
-    "emoji": "🍷",
     "clarifier": "liters per year"
   },
   {
@@ -230,7 +213,6 @@
     "source": "World Bank / UNESCO",
     "sourceYear": 2021,
     "coveragePercent": 75,
-    "emoji": "🎓",
     "clarifier": "% of GDP"
   },
   {
@@ -243,7 +225,6 @@
     "source": "World Bank / WHO",
     "sourceYear": 2021,
     "coveragePercent": 85,
-    "emoji": "🏥",
     "clarifier": "% of GDP"
   },
   {
@@ -256,7 +237,6 @@
     "source": "World Bank",
     "sourceYear": 2021,
     "coveragePercent": 90,
-    "emoji": "🌾",
     "clarifier": "% of land arable"
   },
   {
@@ -269,7 +249,6 @@
     "source": "World Bank",
     "sourceYear": 2022,
     "coveragePercent": 82,
-    "emoji": "🏦",
     "clarifier": "USD inflow/year"
   }
 ]

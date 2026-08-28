@@ -1,0 +1,12 @@
+/* The K3 flame (blueprint 6.1): three tongues with different wobble rates, a core
+   that breathes, two embers that rise. The embers are decoration inside the flame,
+   so their opacity keyframe is allowed. Reduced motion stops all five. */
+@keyframes fl-o{0%{transform:scaleY(1) skewX(0)}20%{transform:scaleY(1.06) skewX(-3deg)}45%{transform:scaleY(.96) skewX(2.5deg)}70%{transform:scaleY(1.04) skewX(-1.5deg)}100%{transform:scaleY(1) skewX(0)}}
+@keyframes fl-m{0%{transform:scaleY(1) skewX(0)}30%{transform:scaleY(1.12) skewX(3deg)}55%{transform:scaleY(.92) skewX(-3deg)}80%{transform:scaleY(1.06) skewX(1deg)}100%{transform:scaleY(1) skewX(0)}}
+@keyframes fl-c{0%,100%{transform:scaleY(1) scaleX(1)}50%{transform:scaleY(1.18) scaleX(.9)}}
+@keyframes fl-e{0%{opacity:0;transform:translateY(2px)}15%{opacity:.9}100%{opacity:0;transform:translateY(-9px)}}
+.fl-outer{animation:fl-o 1.1s ease-in-out infinite;transform-origin:12px 21px}
+.fl-mid{animation:fl-m .8s ease-in-out infinite;transform-origin:12px 21px}
+.fl-core{animation:fl-c .55s ease-in-out infinite;transform-origin:12px 20px}
+.fl-e1{animation:fl-e 1.4s ease-out infinite}.fl-e2{animation:fl-e 1.9s ease-out .6s infinite}
+@media (prefers-reduced-motion:reduce){.fl-outer,.fl-mid,.fl-core,.fl-e1,.fl-e2{animation:none}}

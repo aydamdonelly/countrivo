@@ -7,7 +7,6 @@ export interface Country {
   region: string;
   subregion: string;
   continent: string;
-  flagEmoji: string;
   flagSvgPath: string;
   capital: string;
   borders: string[];
