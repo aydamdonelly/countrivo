@@ -101,3 +101,21 @@ Each game has 3 layers:
 - Vercel auto-deploy on push to main
 - Domain: countrivo.com
 - No feature branches — commit directly to main
+
+## Design system (since 2026-08-28)
+
+- Display face: Erode, self-hosted in `src/fonts` via `next/font/local` (`--font-display`). Body: system stack. No Google fonts for the identity.
+- One palette in `globals.css` `@theme`: off-white `--color-bg`, ink `--color-cream` (name kept for the ~250 callsites), burnt-red accent `--color-gold` (name kept), warm dark twins under `prefers-color-scheme: dark`. Per-game washes are neutral on purpose.
+- No emoji in the UI. Country flags: `<CountryFlag iso2 />` (SVG from `public/flags`). Statistic categories: `<StatIcon slug />`. Games: `<GameMark slug />` (uses `src/data/mark-silhouettes.json`, client-safe). Country outlines for crests: `getSilhouettePath(iso3)` from `src/data/silhouettes.json` (server only; rebuild with `node scripts/build-silhouettes.mjs`).
+- Buttons: `.btn-primary` / `.cta-primary` are ink-filled, no shadow, no hover lift. Secondary is a quiet surface. Never pair a filled and an outlined button.
+- Home: `src/app/page.tsx` + `src/components/home/*`. Data from `getHomeData()` (`src/app/actions/home.ts`): public boards cached 30 s with the anon key, viewer data per request, every query with a timeout.
+
+## Product rules
+
+- Daily = one shot per game per day, same board for everyone, on the 24 h global board. Practice = random boards, never counts. No duels, blitz timers, levels, quests or live counters on the home.
+- Friends are identified by a crest (their chosen country outline via `profiles.country_code`); real flags only on the global board.
+- Country Draft (8 countries into 8 stats) and World Draft (draft 5 people, conquer 195) are different games.
+
+## Deploy
+
+Vercel is git-linked to GitHub `aydamdonelly/countrivo`: every push to `main` deploys production. Build and playtest locally first (`npm run build`, then `npx next start -p 3100`). Do not use the file-upload deploy path repeatedly (5000 files/day limit).
