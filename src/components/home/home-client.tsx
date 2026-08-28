@@ -51,8 +51,10 @@ export function HomeClient({ slugs, titles, cards, boards, signedIn, friendCount
             ) : (
               <p className="mt-5 text-sm text-cream-muted">{titles[active]} is not a daily yet. Practice it anytime.</p>
             )}
+            {/* Desktop: the list lives under the board so both columns carry weight. */}
+            <div className="hidden lg:block">{dailyList}</div>
           </aside>
-          <div key="daily-c" className="mode-pane lg:col-start-1">{dailyList}</div>
+          <div key="daily-c" className="mode-pane lg:hidden">{dailyList}</div>
         </>
       ) : (
         <>

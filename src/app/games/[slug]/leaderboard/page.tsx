@@ -144,7 +144,7 @@ export default async function LeaderboardPage({ params, searchParams }: Props) {
                 href={`/games/${slug}/run/${entry.runId}`}
                 className={`grid grid-cols-[22px_26px_1fr_auto] items-center gap-2.5 py-2.5 text-sm border-t border-border first:border-t-0 hover:bg-surface-elevated -mx-2 px-2 rounded-md transition-colors ${isMe ? "bg-surface-elevated" : ""}`}
               >
-                <i className="not-italic text-xs text-cream-muted tabular-nums">{entry.rankDaily ?? i + 1}</i>
+                <i className="not-italic text-xs text-cream-muted tabular-nums">{i + 1}</i>
                 {cc ? (
                   <CountryFlag iso2={cc} width={26} />
                 ) : (
