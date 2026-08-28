@@ -510,27 +510,24 @@ textarea:focus-visible {
 }
 
 .btn-primary {
-  background-color: var(--color-gold);
-  color: white;
-  box-shadow: var(--shadow-gold), var(--shadow-inset);
+  background-color: var(--color-cream);
+  color: var(--color-bg);
 }
 @media (hover: hover) {
   .btn-primary:hover:not(:disabled) {
-    background-color: var(--color-gold-bright);
-    box-shadow: var(--shadow-lg), var(--shadow-inset);
-    transform: translateY(-1px);
+    background-color: var(--color-gold);
+    color: #fbfaf6;
   }
 }
 .btn-primary:active:not(:disabled) {
-  background-color: var(--color-gold-deep);
   transform: scale(0.98);
   box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary {
-  background-color: var(--color-cream-ghost);
-  color: var(--color-gold);
-  box-shadow: inset 0 0 0 1px transparent;
+  background-color: var(--color-surface-elevated);
+  color: var(--color-cream);
+  box-shadow: none;
 }
 @media (hover: hover) {
   .btn-secondary:hover:not(:disabled) {

@@ -36,7 +36,6 @@ export default function GlobalError({
         }}
       >
         <div style={{ maxWidth: 360 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🌍</div>
           <h1 style={{ fontSize: 22, fontWeight: 800, margin: "0 0 8px" }}>
             Something went wrong
           </h1>
