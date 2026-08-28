@@ -354,11 +354,11 @@ export function GameOverScreen({
     const gameTitle = game?.title ?? (title.replace(/[:!].*$/, "").trim() || "Daily");
     const dateKey = serverData?.dailyDate ?? getTodayDateKey();
     void shareText(
-      buildShareGrid({ gameTitle, gameSlug, scoreDisplay: score, numericScore, maxScore, dateKey }),
+      buildShareGrid({ gameTitle, gameSlug, scoreDisplay: score, numericScore, maxScore, dateKey, practice: !isDailyFinish }),
     );
     setShared(true);
     setTimeout(() => setShared(false), 2000);
-  }, [shareData, title, score, gameSlug, numericScore, maxScore, serverData]);
+  }, [shareData, title, score, gameSlug, numericScore, maxScore, serverData, isDailyFinish]);
 
   // Inject server-side rank into the share payload so country-draft can print it.
   const enrichedShareResult = useMemo(() => {

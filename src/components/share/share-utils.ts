@@ -41,9 +41,13 @@ export function buildShareGrid(opts: {
   numericScore?: number;
   maxScore?: number;
   dateKey: string;
+  /** Practice boards are random, so they carry no daily number. */
+  practice?: boolean;
 }): string {
-  const { gameTitle, gameSlug, scoreDisplay, numericScore, maxScore, dateKey } = opts;
-  const lines = [`Countrivo ${gameTitle} #${dailyNumber(dateKey)} ${scoreDisplay}`];
+  const { gameTitle, gameSlug, scoreDisplay, numericScore, maxScore, dateKey, practice } = opts;
+  const lines = [practice
+    ? `Countrivo ${gameTitle} practice ${scoreDisplay}`
+    : `Countrivo ${gameTitle} #${dailyNumber(dateKey)} ${scoreDisplay}`];
   if (
     typeof numericScore === "number" &&
     typeof maxScore === "number" &&

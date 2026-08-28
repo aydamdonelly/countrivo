@@ -59,7 +59,7 @@ export function Footer() {
         </nav>
 
         {/* Brand mark strip — middle-dot bracket signature */}
-        <div className="mt-10 pt-6 border-t border-border text-center text-xs text-cream-dim">
+        <div className="mt-10 pt-6 border-t border-border text-center text-xs text-cream-muted">
           <span className="font-display font-semibold text-sm text-cream">Countrivo</span>
           <span className="mx-2">·</span>
           <span>One shot a day</span>
