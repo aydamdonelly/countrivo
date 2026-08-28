@@ -18,8 +18,7 @@ export default function GlobalError({
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <div className="text-5xl mb-4">🌍</div>
-        <h1 className="text-2xl font-extrabold mb-2">Something went wrong</h1>
+        <h1 className="font-display font-semibold text-3xl mb-2">Something went wrong</h1>
         <p className="text-sm text-cream-muted mb-6">
           Something broke on this page. Reload to try again.
         </p>

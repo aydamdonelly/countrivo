@@ -114,7 +114,7 @@ export default async function CategoryPage({
       </div>
 
       {/* Top 3 highlight cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-12">
         {top3.map(({ iso3, rank }, i) => {
           const country = getCountryByIso3(iso3);
           if (!country) return null;
@@ -123,14 +123,14 @@ export default async function CategoryPage({
             <Link
               key={iso3}
               href={`/countries/${country.slug}`}
-              className="game-card p-6 bg-surface-elevated text-center group"
+              className="game-card p-3 sm:p-6 bg-surface-elevated text-center group min-w-0"
             >
-              <span className="font-display font-semibold text-2xl text-cream-muted tabular-nums">#{i + 1}</span>
+              <div className="font-display font-semibold text-2xl text-cream-muted tabular-nums">#{i + 1}</div>
               <CountryFlag iso2={country.iso2} width={56} className="block mt-2 mx-auto" />
-              <h3 className="font-display font-semibold text-xl mt-3">
+              <h3 className="font-display font-semibold text-base sm:text-xl mt-3 leading-tight">
                 {country.displayName}
               </h3>
-              <p className="text-lg tabular-nums text-cream-muted mt-1">
+              <p className="text-sm sm:text-lg tabular-nums text-cream-muted mt-1">
                 {value !== null ? formatStat(value, category.unit) : "—"}
               </p>
               <p className="text-sm text-cream-muted mt-1">#{rank} worldwide</p>
@@ -146,9 +146,9 @@ export default async function CategoryPage({
           <table className="w-full">
             <thead>
               <tr className="bg-surface text-left text-sm">
-                <th className="px-4 py-3 font-bold w-16 text-right">Rank</th>
-                <th className="px-4 py-3 font-bold">Country</th>
-                <th className="px-4 py-3 font-bold text-right">{category.label}</th>
+                <th className="px-3 py-3 font-semibold w-12 text-right">#</th>
+                <th className="px-3 py-3 font-semibold">Country</th>
+                <th className="px-3 py-3 font-semibold text-right">{category.label}</th>
               </tr>
             </thead>
             <tbody>
@@ -162,10 +162,10 @@ export default async function CategoryPage({
                     key={iso3}
                     className="border-t border-border hover:bg-surface/50 transition-colors"
                   >
-                    <td className="px-4 py-3 text-right tabular-nums text-cream-muted font-bold">
+                    <td className="px-3 py-3 text-right tabular-nums text-cream-muted">
                       {rank}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 py-3">
                       <Link
                         href={`/countries/${country.slug}`}
                         className="inline-flex items-center gap-2.5 hover:underline underline-offset-4"
@@ -174,7 +174,7 @@ export default async function CategoryPage({
                         <span className="font-medium">{country.displayName}</span>
                       </Link>
                     </td>
-                    <td className="px-4 py-3 text-right tabular-nums whitespace-nowrap">
+                    <td className="px-3 py-3 text-right tabular-nums whitespace-nowrap">
                       {value !== null ? formatStat(value, category.unit) : "—"}
                     </td>
                   </tr>
