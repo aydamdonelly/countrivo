@@ -51,7 +51,7 @@ export function LeaderboardJoin({ onJoined, daily }: LeaderboardJoinProps) {
         {daily ? "Get on the leaderboard" : "Save this result"}
       </p>
       <p className="text-xs text-cream-muted text-center mt-0.5">
-        Just pick a name — no account needed.
+        Just pick a name, no account needed.
       </p>
 
       <div className="mt-3 flex gap-2">

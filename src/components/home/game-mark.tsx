@@ -1,5 +1,9 @@
-import { getSilhouettePath } from "@/lib/silhouettes";
+import marks from "@/data/mark-silhouettes.json";
 import { Silhouette } from "./silhouette";
+
+// Only the dozen outlines the marks need (5 KB), so this component is safe in client bundles too.
+const MARKS: Record<string, string> = marks;
+const getSilhouettePath = (iso3: string): string | null => MARKS[iso3] ?? null;
 
 /**
  * One mark per game, each saying what the game is: Chile for Higher or Lower

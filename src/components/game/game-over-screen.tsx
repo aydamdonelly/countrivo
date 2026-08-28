@@ -1,4 +1,5 @@
 "use client";
+import { GameMark } from "@/components/home/game-mark";
 
 import { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
@@ -134,7 +135,8 @@ function getScoreHistory(gameSlug: string): number[] {
 
 function saveScore(gameSlug: string, score: number): { isNewBest: boolean; history: number[] } {
   const best = getPersonalBest(gameSlug);
-  const isNewBest = best === null || score > best;
+  // A first run is a baseline, not a record; only a beaten, non-zero best counts.
+  const isNewBest = best !== null && score > best && score > 0;
   if (isNewBest) setStorageItem(`best_${gameSlug}`, score);
   const history = getScoreHistory(gameSlug);
   const updated = [...history, score].slice(-20);
@@ -371,7 +373,7 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 1: VERDICT ═══════ */}
       <div className={`w-full rounded-2xl border p-6 sm:p-10 text-center verdict-reveal ${tier?.bgClassName ?? "bg-surface-elevated border-border"}`}>
-        <div className="text-5xl sm:text-7xl font-extrabold font-display text-gold score-pop">
+        <div className="text-5xl sm:text-7xl font-semibold font-display text-cream score-pop tabular-nums">
           {score}
         </div>
 
@@ -418,9 +420,7 @@ export function GameOverScreen({
 
         {/* Personal best banner */}
         {(serverData?.isPersonalBest || isNewBest) && (
-          <div className="mt-4 inline-block px-5 py-2 bg-gold text-white text-sm font-bold rounded-full animate-scale-in">
-            New personal best!
-          </div>
+          <p className="mt-4 text-sm font-semibold text-gold-ink animate-scale-in">New personal best</p>
         )}
 
         {/* Brand-bracket score line: score · rank · date */}
@@ -503,7 +503,7 @@ export function GameOverScreen({
             Play again (practice)
           </Link>
         )}
-        <button onClick={handleShare} className="cta-primary sm:flex-1">
+        <button onClick={handleShare} className="cta-secondary sm:flex-1">
           {shared ? "Copied!" : "Share result"}
         </button>
         {serverData?.runId && gameSlug && (
@@ -556,7 +556,7 @@ export function GameOverScreen({
               href={`${chain.next.route}/play?mode=daily`}
               className="cta-primary mt-3 w-full"
             >
-              <span className="mr-1">{chain.next.emoji}</span>
+              <GameMark slug={chain.next.route.replace("/games/", "")} size={18} className="mr-1" />
               Next daily: {chain.next.title}
               <span className="text-xs font-normal opacity-80">
                 · {chain.remaining} left today
@@ -582,8 +582,8 @@ export function GameOverScreen({
 
       {/* ═══════ LAYER 4: DISCOVERY ═══════ */}
       <div className="w-full border-t border-border pt-6 mt-6">
-        <p className="text-sm font-bold text-cream-muted label-caps mb-3 text-center">
-          Try another game
+        <p className="text-xs text-cream-muted mb-3 text-center">
+          More games
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {suggestions.map((s) => {
@@ -596,7 +596,7 @@ export function GameOverScreen({
                 className="game-card p-4 text-center"
                 style={{ backgroundColor: colors.bg }}
               >
-                <s.icon className="w-7 h-7 mx-auto mb-1.5" style={{ color: colors.text }} />
+                <span className="flex justify-center mb-1.5" style={{ color: colors.text }}><GameMark slug={slug} size={26} /></span>
                 <span className="text-sm font-bold" style={{ color: colors.text }}>
                   {s.name}
                 </span>

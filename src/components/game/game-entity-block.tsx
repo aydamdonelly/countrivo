@@ -144,7 +144,7 @@ export function GameEntityBlock({ slug }: { slug: string }) {
       className="mt-4 px-4 sm:px-0 pb-12 max-w-2xl mx-auto"
     >
       <h2 id="about-game" className="font-bold text-lg mb-3">
-        What {title} is
+        {title} in numbers
       </h2>
 
       <div className="space-y-3 text-sm text-cream-muted leading-relaxed">
