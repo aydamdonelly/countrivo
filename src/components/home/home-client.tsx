@@ -14,12 +14,13 @@ interface Props {
   boards: Record<string, GameBoard>;
   signedIn: boolean;
   friendCount: number;
+  meCrest?: string | null;
   dailyList: ReactNode;
   practiceHero: ReactNode;
   practiceList: ReactNode;
 }
 
-export function HomeClient({ slugs, titles, cards, boards, signedIn, friendCount, dailyList, practiceHero, practiceList }: Props) {
+export function HomeClient({ slugs, titles, cards, boards, signedIn, friendCount, meCrest = null, dailyList, practiceHero, practiceList }: Props) {
   const [mode, setMode] = useState<HomeMode>("daily");
   const [active, setActive] = useState(0);
 
@@ -46,7 +47,7 @@ export function HomeClient({ slugs, titles, cards, boards, signedIn, friendCount
           </div>
           <aside key="daily-b" className="mode-pane lg:col-start-2 lg:row-start-1 lg:row-span-3 lg:sticky lg:top-20">
             {board ? (
-              <Board board={board} title={titles[active]} signedIn={signedIn} friendCount={friendCount} />
+              <Board board={board} title={titles[active]} signedIn={signedIn} friendCount={friendCount} meCrest={meCrest} />
             ) : (
               <p className="mt-5 text-sm text-cream-muted">{titles[active]} is not a daily yet. Practice it anytime.</p>
             )}

@@ -102,11 +102,11 @@ const lists = [
 
 export default function ListsIndexPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
-        Country Lists & Rankings
+    <div className="max-w-md sm:max-w-lg lg:max-w-2xl mx-auto px-5 sm:px-6 pt-3 pb-12">
+      <h1 className="font-display font-semibold text-[30px] leading-tight mt-2">
+        Country lists
       </h1>
-      <div className="mt-6 max-w-3xl space-y-4 text-cream-muted leading-relaxed">
+      <div className="mt-2 max-w-3xl space-y-3 text-[14px] text-cream-muted leading-relaxed">
         <p>
           Browse curated lists of countries organized by size, population, wealth,
           and geography. Each list includes up-to-date statistics sourced from the
@@ -120,25 +120,24 @@ export default function ListsIndexPage() {
         </p>
       </div>
 
-      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-6">
         {lists.map((list) => (
           <Link
             key={list.href}
             href={list.href}
-            className="group bg-surface border border-black/5 shadow-sm rounded-xl p-6 hover:border-black/10 hover:shadow transition-colors"
+            className="flex items-center gap-3 py-3.5 border-t border-border -mx-2 px-2 rounded-md hover:bg-surface-elevated transition-colors"
           >
-            <h2 className="text-lg font-bold group-hover:text-gold transition-colors">
-              {list.title}
-            </h2>
-            <p className="text-sm text-cream-muted mt-2 leading-relaxed">
-              {list.description}
-            </p>
+            <span className="flex-1 min-w-0">
+              <h2 className="text-base leading-tight font-normal">{list.title}</h2>
+              <p className="text-xs text-cream-muted mt-0.5 truncate">{list.description}</p>
+            </span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-cream-dim shrink-0" aria-hidden><path d="M9 6l6 6-6 6" /></svg>
           </Link>
         ))}
       </div>
 
-      <div className="mt-16 pt-8 border-t border-border">
-        <h2 className="text-xl font-bold mb-4">Test Your Knowledge</h2>
+      <div className="mt-10 pt-6 border-t border-border">
+        <h2 className="font-display font-semibold text-xl mb-3">Test your knowledge</h2>
         <p className="text-cream-muted mb-6">
           Think you know these rankings by heart? Put your geography skills to
           the test with our free games.

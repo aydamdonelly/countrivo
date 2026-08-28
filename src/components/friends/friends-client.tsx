@@ -124,7 +124,7 @@ export function FriendsClient({
                 <button
                   onClick={() => handleRespond(req.friendshipId, true)}
                   disabled={isPending}
-                  className="text-xs font-bold px-3 py-1.5 rounded-lg bg-gold text-white disabled:opacity-50"
+                  className="text-xs font-semibold px-3 py-1.5 rounded-md bg-cream text-bg disabled:opacity-50"
                 >
                   Accept
                 </button>
@@ -263,7 +263,7 @@ export function FriendsClient({
                 <button
                   onClick={() => handleSendRequest(p.id)}
                   disabled={sentTo.has(p.id)}
-                  className="text-xs font-bold px-3 py-1.5 rounded-lg bg-gold text-white disabled:opacity-50 transition-opacity"
+                  className="text-xs font-semibold px-3 py-1.5 rounded-md bg-cream text-bg disabled:opacity-50 transition-opacity"
                 >
                   {sentTo.has(p.id) ? "Sent!" : "Add"}
                 </button>
@@ -289,7 +289,7 @@ export function FriendsClient({
               setInviteCopied(true);
               setTimeout(() => setInviteCopied(false), 2000);
             }}
-            className="shrink-0 px-3 py-2 text-sm font-bold text-gold border border-gold/30 rounded-lg hover:bg-gold-dim transition-colors"
+            className="shrink-0 px-3 py-2 text-sm font-semibold text-cream bg-surface-elevated rounded-md hover:bg-surface-sunken transition-colors"
           >
             {inviteCopied ? "Copied!" : "Copy"}
           </button>
@@ -413,7 +413,7 @@ function GamePill({ run, myRunsBySlug }: GamePillProps) {
 
 function Avatar({ name }: { name: string }) {
   return (
-    <div className="w-9 h-9 rounded-full bg-gold-dim flex items-center justify-center text-sm font-bold text-gold shrink-0">
+    <div className="w-9 h-9 rounded-full bg-cream flex items-center justify-center text-sm font-display font-semibold text-bg shrink-0">
       {name[0]?.toUpperCase() ?? "?"}
     </div>
   );

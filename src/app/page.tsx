@@ -69,6 +69,7 @@ export default async function HomePage() {
           boards={data.boards}
           signedIn={data.signedIn}
           friendCount={data.friendCount}
+          meCrest={data.meCrest}
           dailyList={<DailyList games={moreDailies} boards={data.boards} />}
           practiceHero={<PracticeHero game={cardGames[0]} />}
           practiceList={<PracticeList games={practiceGames} />}

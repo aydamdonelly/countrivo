@@ -29,7 +29,7 @@ function Flag({ iso2, label }: { iso2: string | null; label: string }) {
  * Today's board for the active game. Global shows real origin flags; Friends
  * shows crests (everyone in a friend group tends to live in the same country).
  */
-export function Board({ board, title, signedIn, friendCount }: { board: GameBoard; title: string; signedIn: boolean; friendCount: number }) {
+export function Board({ board, title, signedIn, friendCount, meCrest = null }: { board: GameBoard; title: string; signedIn: boolean; friendCount: number; meCrest?: string | null }) {
   const [tab, setTab] = useState<Tab>("global");
   const { openAuthModal } = useAuth();
   const meInTop = board.global.some((r) => r.isMe);
@@ -72,7 +72,7 @@ export function Board({ board, title, signedIn, friendCount }: { board: GameBoar
             {!meInTop && (
               <div className="grid grid-cols-[18px_26px_1fr_auto] items-center gap-2.5 py-2 text-sm bg-surface-elevated -mx-2 px-2 rounded-md mt-1">
                 <i className="not-italic text-xs text-cream-muted tabular-nums">{board.me ? board.me.rank : "–"}</i>
-                <CrestDot d={null} label="?" muted={!signedIn} />
+                <CrestDot d={meCrest} label={signedIn ? "you" : "?"} muted={!signedIn} />
                 <span>you</span>
                 {board.me ? (
                   <b className="font-display font-semibold tabular-nums">{board.me.score}</b>

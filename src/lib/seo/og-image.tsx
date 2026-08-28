@@ -20,11 +20,11 @@ import type { GameMeta } from "@/types/game";
  */
 
 /** Mirrors --color-bg / --color-cream / --color-cream-muted / --color-gold (light). */
-const PAGE_BG = "#fafaf8";
-const INK = "#1a1a1a";
+const PAGE_BG = "#fbfaf6";
+const INK = "#17181a";
 const INK_MUTED = "#555555";
 const INK_FAINT = "#999999";
-const GOLD = "#b8860b";
+const GOLD = "#b8432a";
 
 interface Accent {
   /** Wash behind the emoji tile — mirrors --game-{slug}-bg. */
@@ -35,25 +35,25 @@ interface Accent {
 
 /** Mirrors the light values of --game-{slug}-bg / -fg in globals.css. */
 const GAME_ACCENTS: Record<string, Accent> = {
-  "country-draft": { bg: "#fee2e2", fg: "#991b1b" },
-  "flag-quiz": { bg: "#dbeafe", fg: "#1e3a5f" },
-  "higher-or-lower": { bg: "#d1fae5", fg: "#064e3b" },
-  "capital-match": { bg: "#fef3c7", fg: "#78350f" },
-  "population-sort": { bg: "#ede9fe", fg: "#4c1d95" },
-  "country-streak": { bg: "#ffedd5", fg: "#7c2d12" },
-  "border-buddies": { bg: "#ccfbf1", fg: "#134e4a" },
-  "continent-sprint": { bg: "#e0e7ff", fg: "#312e81" },
-  "stat-guesser": { bg: "#fce7f3", fg: "#831843" },
-  "speed-flags": { bg: "#ecfccb", fg: "#365314" },
-  "odd-one-out": { bg: "#f3e8ff", fg: "#581c87" },
-  supremacy: { bg: "#fef9c3", fg: "#713f12" },
-  borderline: { bg: "#cffafe", fg: "#155e75" },
-  blitz: { bg: "#fecaca", fg: "#7f1d1d" },
+  "country-draft": { bg: "#f1f0ea", fg: "#17181a" },
+  "flag-quiz": { bg: "#f1f0ea", fg: "#17181a" },
+  "higher-or-lower": { bg: "#f1f0ea", fg: "#17181a" },
+  "capital-match": { bg: "#f1f0ea", fg: "#17181a" },
+  "population-sort": { bg: "#f1f0ea", fg: "#17181a" },
+  "country-streak": { bg: "#f1f0ea", fg: "#17181a" },
+  "border-buddies": { bg: "#f1f0ea", fg: "#17181a" },
+  "continent-sprint": { bg: "#f1f0ea", fg: "#17181a" },
+  "stat-guesser": { bg: "#f1f0ea", fg: "#17181a" },
+  "speed-flags": { bg: "#f1f0ea", fg: "#17181a" },
+  "odd-one-out": { bg: "#f1f0ea", fg: "#17181a" },
+  supremacy: { bg: "#f1f0ea", fg: "#17181a" },
+  borderline: { bg: "#f1f0ea", fg: "#17181a" },
+  blitz: { bg: "#f1f0ea", fg: "#17181a" },
   // The three newest games have no DOM wash yet; these keep the OG set complete
   // and stay inside the same tint family as the tokens above.
-  "geo-wordle": { bg: "#dcfce7", fg: "#14532d" },
-  cluster: { bg: "#ffe4e6", fg: "#881337" },
-  "risk-zone": { bg: "#fae8ff", fg: "#701a75" },
+  "geo-wordle": { bg: "#f1f0ea", fg: "#17181a" },
+  cluster: { bg: "#f1f0ea", fg: "#17181a" },
+  "risk-zone": { bg: "#f1f0ea", fg: "#17181a" },
 };
 
 /** Mirrors --game-drills-bg / -fg — used for unknown slugs. */
