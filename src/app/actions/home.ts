@@ -124,8 +124,27 @@ export async function getHomeData(): Promise<HomeData> {
     getPublicBoards(dateKey, dailySlugs),
   ]);
   lap("auth+public");
-  const runs = pub.runs;
   const edition = pub.edition;
+  // The public boards are cached for 30 s; the viewer's own shots must show up at once,
+  // so they are read per request and merged over the cached rows.
+  let runs: RunRow[] = pub.runs;
+  if (user) {
+    try {
+      const { data: own } = await supabase
+        .from("game_runs")
+        .select("user_id, game_slug, score_display, score_raw, score_sort_value")
+        .eq("user_id", user.id)
+        .eq("daily_date", dateKey)
+        .eq("mode", "daily")
+        .abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS));
+      if (own && own.length) {
+        const ownSlugs = new Set(own.map((r) => r.game_slug));
+        runs = [...pub.runs.filter((r) => !(r.user_id === user.id && ownSlugs.has(r.game_slug))), ...(own as RunRow[])];
+      }
+    } catch (err) {
+      console.error("[home] own runs failed", err);
+    }
+  }
 
   let friendIds: string[] = [];
   const extraProfiles: ProfileRow[] = [];

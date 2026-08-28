@@ -178,6 +178,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // geo handle; overwrite the display name with what the player typed.
       const res = await updateProfile({ displayName, countryCode: null });
       if (!res.success) return { ok: false, error: res.error ?? "Could not save that name" };
+      // Show the chosen name in the header right away instead of waiting for the next refetch.
+      if (res.profile) setProfile(res.profile);
       return { ok: true };
     },
     [],

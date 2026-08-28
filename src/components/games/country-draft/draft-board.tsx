@@ -1,4 +1,6 @@
 "use client";
+import { GameMark } from "@/components/home/game-mark";
+import { LeaderboardJoin } from "@/components/game/leaderboard-join";
 
 import { useCallback, useState, useEffect, useMemo } from "react";
 import Link from "next/link";
@@ -282,31 +284,31 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           <div className="text-6xl sm:text-7xl mb-4 animate-scale-in">
             {Array.from({ length: result.stars }).map((_, i) => (<svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden className="inline-block"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z" /></svg>))}
           </div>
-          <h2 className={`text-4xl sm:text-5xl font-extrabold capitalize ${grade.color} animate-count-up`}>
-            {result.grade}!
+          <h2 className={`font-display font-semibold text-4xl sm:text-5xl capitalize ${grade.color} animate-count-up`}>
+            {result.grade}
           </h2>
           <p className="text-lg text-cream-muted mt-3">{grade.message}</p>
 
           <div className="flex items-center justify-center gap-6 sm:gap-10 mt-8 flex-wrap">
             <div className="text-center">
-              <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.playerScore}</div>
+              <div className="font-display font-semibold text-4xl sm:text-5xl tabular-nums">{result.playerScore}</div>
               <div className="text-base text-cream-muted mt-1">Your Score</div>
             </div>
             <div className="w-px h-14 bg-border hidden sm:block" />
             <div className="text-center">
-              <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.optimalScore}</div>
+              <div className="font-display font-semibold text-4xl sm:text-5xl tabular-nums">{result.optimalScore}</div>
               <div className="text-base text-cream-muted mt-1">Optimal</div>
             </div>
             <div className="w-px h-14 bg-border hidden sm:block" />
             <div className="text-center">
-              <div className="text-4xl sm:text-5xl font-extrabold font-mono">{result.gap}</div>
+              <div className="font-display font-semibold text-4xl sm:text-5xl tabular-nums">{result.gap}</div>
               <div className="text-base text-cream-muted mt-1">Gap</div>
             </div>
             {serverData?.rankDaily != null && (
               <>
                 <div className="w-px h-14 bg-border hidden sm:block" />
                 <div className="text-center">
-                  <div className="text-4xl sm:text-5xl font-extrabold font-mono text-gold">#{serverData.rankDaily}</div>
+                  <div className="font-display font-semibold text-4xl sm:text-5xl tabular-nums">#{serverData.rankDaily}</div>
                   <div className="text-base text-cream-muted mt-1">Rank today</div>
                 </div>
               </>
@@ -315,7 +317,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
               <>
                 <div className="w-px h-14 bg-border hidden sm:block" />
                 <div className="text-center">
-                  <div className="text-4xl sm:text-5xl font-extrabold font-mono">{Math.round(serverData.percentile)}%</div>
+                  <div className="font-display font-semibold text-4xl sm:text-5xl tabular-nums">{Math.round(serverData.percentile)}%</div>
                   <div className="text-base text-cream-muted mt-1">Better than</div>
                 </div>
               </>
@@ -346,20 +348,17 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           dateKey={state.config.dateKey}
         />
 
+        {/* One name field is the whole barrier between the run and the board. */}
+        {handleSaveScore && (
+          <LeaderboardJoin onJoined={handleSaveScore} daily={mode === "daily"} />
+        )}
+
         {/* Actions */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          {handleSaveScore && (
-            <button
-              onClick={handleSaveScore}
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
-            >
-              Save my score
-            </button>
-          )}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           {mode === "practice" && (
             <button
               onClick={handlePlayAgain}
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
+              className="shoot px-6 py-3 bg-cream text-bg font-semibold text-base rounded-md active:scale-[0.97]"
             >
               Play again
             </button>
@@ -367,29 +366,26 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           {mode === "daily" && (
             <Link
               href="/games/country-draft/play?mode=practice"
-              className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors text-center"
+              className="px-6 py-3 bg-surface-elevated text-cream font-semibold text-base rounded-md hover:bg-surface-sunken transition-colors text-center"
             >
-              Practice unlimited
+              Practice a board, it won&apos;t count
             </Link>
           )}
+          <Link href="/games/country-draft/leaderboard" className="px-6 py-3 bg-surface-elevated text-cream font-semibold text-base rounded-md hover:bg-surface-sunken transition-colors text-center">
+            Today&apos;s board
+          </Link>
         </div>
 
         {/* Discovery: play another game */}
         <div className="border-t border-border pt-8">
-          <p className="text-base font-bold text-cream-muted uppercase tracking-wide mb-4">Try another game</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <Link href="/games/higher-or-lower" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-base font-bold">Higher or Lower</span>
-            </Link>
-            <Link href="/games/flag-quiz" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-base font-bold">Flag Quiz</span>
-            </Link>
-            <Link href="/games/population-sort" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-base font-bold">Population Sort</span>
-            </Link>
-            <Link href="/games/capital-match" className="game-card p-5 border border-black/5 bg-surface shadow-sm text-center">
-              <span className="text-base font-bold">Capital Match</span>
-            </Link>
+          <p className="text-xs text-cream-muted mb-3 text-center">More games</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {[["higher-or-lower", "Higher or Lower"], ["geo-wordle", "GeoWordle"], ["cluster", "Cluster"], ["stat-guesser", "Stat Guesser"]].map(([slug, name]) => (
+              <Link key={slug} href={`/games/${slug}`} className="game-card p-4 bg-surface-elevated text-center">
+                <span className="flex justify-center mb-1.5 text-cream"><GameMark slug={slug} size={26} /></span>
+                <span className="text-sm font-semibold">{name}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
