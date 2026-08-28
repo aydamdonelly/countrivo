@@ -58,7 +58,7 @@ export function CountriesClient({
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search countries..."
             autoComplete="off"
-            className="flex-1 bg-surface border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold/50 focus:ring-2 focus:ring-gold/10 transition-all"
+            className="flex-1 bg-surface border border-black/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-cream/60 focus:ring-2 focus:ring-cream/10 transition-all"
           />
           {(search || activeContinent) && (
             <button
@@ -77,7 +77,7 @@ export function CountriesClient({
             onClick={() => setActiveContinent(null)}
             className={`shrink-0 text-xs font-medium px-3 py-2 min-h-[44px] rounded-full transition-colors ${
               !activeContinent
-                ? "bg-gold text-white"
+                ? "bg-cream text-bg"
                 : "bg-black/5 text-cream-muted hover:bg-black/10"
             }`}
           >
@@ -91,7 +91,7 @@ export function CountriesClient({
               }
               className={`shrink-0 text-xs font-medium px-3 py-2 min-h-[44px] rounded-full transition-colors ${
                 activeContinent === c
-                  ? "bg-gold text-white"
+                  ? "bg-cream text-bg"
                   : "bg-black/5 text-cream-muted hover:bg-black/10"
               }`}
             >

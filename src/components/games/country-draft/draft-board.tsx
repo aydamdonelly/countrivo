@@ -457,7 +457,7 @@ export function DraftBoard({ mode, edition, onComplete }: DraftBoardProps) {
           )}
           <button
             onClick={() => setRevealDone(true)}
-            className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
+            className="px-8 py-4 bg-cream text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
           >
             See result →
           </button>

@@ -43,8 +43,8 @@ export function ForgotPasswordForm() {
   if (status === "sent") {
     return (
       <div className="text-center py-3" role="status">
-        <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-gold-dim flex items-center justify-center">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gold" aria-hidden="true">
+        <div className="mx-auto mb-3 flex items-center justify-center">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cream" aria-hidden="true">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
             <polyline points="22,6 12,13 2,6" />
           </svg>
@@ -81,7 +81,7 @@ export function ForgotPasswordForm() {
         required
         aria-describedby={errorMsg ? "reset-error" : undefined}
         className="w-full px-4 py-3 rounded-xl border border-border bg-surface text-sm
-          focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+          focus:outline-none focus:border-cream focus:ring-1 focus:ring-cream/20
           placeholder:text-cream-muted/50"
       />
       {errorMsg && (

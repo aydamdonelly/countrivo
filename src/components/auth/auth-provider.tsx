@@ -81,6 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // re-created on every sign-in (its identity is a dep in several boards).
   // Written only from effects/handlers — never during render.
   const userRef = useRef<User | null>(null);
+  // Bumped whenever a fresher profile is written locally (guest rename, edit form);
+  // a background fetch that started before the bump must not overwrite it.
+  const profileGenRef = useRef(0);
 
   useEffect(() => {
     const supabase = createClient();
@@ -92,8 +95,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (u) {
         userRef.current = u;
         setUser(u);
+        const gen = profileGenRef.current;
         const p = await fetchProfile(u.id);
-        setProfile(p);
+        if (gen === profileGenRef.current) setProfile(p);
       }
     }).catch(() => {
       // Auth check failed — proceed as unauthenticated
@@ -104,38 +108,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       const u = session?.user ?? null;
       userRef.current = u;
       setUser(u);
       setLoading(false);
 
-      if (u) {
-        const p = await fetchProfile(u.id);
-        setProfile(p);
-
-        // Native shell only: mirror the session to secure storage so it survives
-        // a WKWebView cookie purge (no-op on the website).
-        void persistSession();
-
-        // PASSWORD_RECOVERY means the user is mid-reset on /auth/reset-password.
-        // Don't run the post-sign-in callback or close the modal — let the
-        // reset page handle the flow.
-        if (event === "PASSWORD_RECOVERY") return;
-
-        if (callbackRef.current) {
-          try {
-            await callbackRef.current();
-          } catch {
-            // Callback failed — don't block modal close
-          }
-          callbackRef.current = null;
-        }
-        setAuthModalOpen(false);
-      } else {
+      if (!u) {
         setProfile(null);
         void clearPersistedSession();
+        return;
       }
+
+      // Supabase holds its auth lock while this callback runs (INITIAL_SESSION in
+      // particular): any supabase call awaited in here deadlocks and the profile
+      // never loads. Defer all follow-up work to the next tick.
+      setTimeout(() => {
+        void (async () => {
+          const gen = profileGenRef.current;
+          const p = await fetchProfile(u.id);
+          if (gen === profileGenRef.current) setProfile(p);
+
+          // Native shell only: mirror the session to secure storage so it survives
+          // a WKWebView cookie purge (no-op on the website).
+          void persistSession();
+
+          // PASSWORD_RECOVERY means the user is mid-reset on /auth/reset-password.
+          // Don't run the post-sign-in callback or close the modal: let the
+          // reset page handle the flow.
+          if (event === "PASSWORD_RECOVERY") return;
+
+          if (callbackRef.current) {
+            try {
+              await callbackRef.current();
+            } catch {
+              // Callback failed: don't block modal close
+            }
+            callbackRef.current = null;
+          }
+          setAuthModalOpen(false);
+        })();
+      }, 0);
     });
 
     return () => subscription.unsubscribe();
@@ -191,10 +204,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
       if (upErr) {
         // The session exists and the run will save; keep the name attempt in the background.
-        void updateProfile({ displayName: name, countryCode: null }).then((r) => { if (r.success && r.profile) setProfile(r.profile); });
+        void updateProfile({ displayName: name, countryCode: null }).then((r) => { if (r.success && r.profile) { profileGenRef.current++; setProfile(r.profile); } });
         return { ok: true };
       }
       if (row) {
+        profileGenRef.current++;
         setProfile({
           id: row.id, username: row.username, displayName: row.display_name, avatarUrl: row.avatar_url,
           countryCode: row.country_code, streakCurrent: row.streak_current ?? 0, streakLongest: row.streak_longest ?? 0,

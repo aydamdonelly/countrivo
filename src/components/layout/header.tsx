@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { StreakBadge } from "@/components/streak-badge";
 import { ResetLabel } from "@/components/home/reset-label";
-import { IconFlame } from "@/components/icons";
+import { Flame } from "@/components/home/flame";
 import { useAuth } from "@/components/auth/auth-provider";
 import { getPendingRequestCount } from "@/app/actions/profile";
 import { getPendingChallengeCount } from "@/app/actions/challenges";
@@ -108,9 +108,9 @@ export function Header() {
                     <p className="text-sm font-bold truncate">{profile?.displayName ?? "Player"}</p>
                     <p className="text-xs text-cream-muted truncate">@{profile?.username}</p>
                     {profile && profile.streakCurrent > 0 && (
-                      <p className="flex items-center gap-1 text-xs text-gold font-bold font-mono mt-1">
-                        <IconFlame width={12} height={12} aria-hidden />
-                        {profile.streakCurrent}<span className="text-gold mx-1">·</span>day<span className="text-gold mx-1">·</span>streak
+                      <p className="flex items-center gap-1 text-xs font-semibold tabular-nums mt-1">
+                        <Flame size={12} className="text-gold" />
+                        {profile.streakCurrent} day streak
                       </p>
                     )}
                   </div>

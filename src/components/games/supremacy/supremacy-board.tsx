@@ -338,7 +338,7 @@ export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardP
                   onClick={() => handlePickStat(cat.slug)}
                   className={cn(
                     "flex flex-col items-center px-3 py-3 rounded-lg border-2",
-                    "border-border bg-surface hover:border-gold hover:bg-gold-dim",
+                    "border-border bg-surface hover:border-cream/50 hover:bg-gold-dim",
                     "transition-all text-center",
                   )}
                 >

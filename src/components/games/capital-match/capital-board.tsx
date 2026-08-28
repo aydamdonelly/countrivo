@@ -191,7 +191,7 @@ export function CapitalBoard({ mode, edition }: CapitalBoardProps) {
         </div>
         <div className="w-full h-3 bg-surface rounded-full overflow-hidden">
           <div
-            className="h-full bg-gold rounded-full transition-all duration-500"
+            className="h-full bg-cream rounded-full transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>

@@ -248,7 +248,7 @@ export function BorderBoard({ mode, edition }: BorderBoardProps) {
           onFocus={() => input.length > 0 && setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."
-          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
+          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-cream focus:outline-none transition-colors"
         />
         {showDropdown && suggestions.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-lg z-10 overflow-hidden">

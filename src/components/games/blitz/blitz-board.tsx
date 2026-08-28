@@ -308,7 +308,7 @@ export function BlitzBoard({ mode, dailyKey }: BlitzBoardProps) {
             spellCheck={false}
             className={cn(
               "w-full px-4 py-3 rounded-xl border-2 bg-surface text-cream text-lg",
-              "placeholder:text-cream-muted/50 focus:outline-none focus:border-gold",
+              "placeholder:text-cream-muted/50 focus:outline-none focus:border-cream",
               "transition-all",
               shaking && "animate-[shake_0.5s_ease-in-out] border-incorrect",
               !shaking && "border-border",

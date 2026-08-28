@@ -280,7 +280,7 @@ export function FriendsClient({
       <section>
         <h2 className="text-xs text-cream-muted mb-2">Invite a friend</h2>
         <div className="flex items-center gap-2 p-3 rounded-xl bg-surface-elevated border border-border">
-          <code className="flex-1 text-sm text-gold font-mono break-all truncate">
+          <code className="flex-1 text-sm text-cream-muted font-mono break-all truncate">
             {inviteUrl || `countrivo.com/friends/add/${currentUsername}`}
           </code>
           <button

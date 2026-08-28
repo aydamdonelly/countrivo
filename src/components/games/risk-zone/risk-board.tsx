@@ -340,13 +340,13 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
           <div className="flex flex-col gap-3 max-w-xs mx-auto w-full">
             <button
               onClick={() => handleGuess("higher")}
-              className="min-h-[52px] rounded-xl border-2 border-border bg-surface font-bold text-lg hover:border-gold active:scale-[0.97] transition-all"
+              className="min-h-[52px] rounded-xl border-2 border-border bg-surface font-bold text-lg hover:border-cream/50 active:scale-[0.97] transition-all"
             >
               ↑ Higher
             </button>
             <button
               onClick={() => handleGuess("lower")}
-              className="min-h-[52px] rounded-xl border-2 border-border bg-surface font-bold text-lg hover:border-gold active:scale-[0.97] transition-all"
+              className="min-h-[52px] rounded-xl border-2 border-border bg-surface font-bold text-lg hover:border-cream/50 active:scale-[0.97] transition-all"
             >
               ↓ Lower
             </button>
@@ -371,7 +371,7 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
           <div className="flex flex-col gap-3 max-w-xs mx-auto w-full">
             <button
               onClick={handleBank}
-              className="min-h-[52px] rounded-xl bg-gold text-bg font-bold text-lg active:scale-[0.97] transition-all"
+              className="min-h-[52px] rounded-xl bg-cream text-bg font-bold text-lg active:scale-[0.97] transition-all"
             >
               Bank {state.pendingPot} pts
             </button>
@@ -402,7 +402,7 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
           <p className="text-center font-bold text-incorrect">Busted. The chain is wiped.</p>
           <button
             onClick={handleNext}
-            className="min-h-[52px] max-w-xs mx-auto w-full rounded-xl bg-gold text-bg font-bold text-lg active:scale-[0.97] transition-all"
+            className="min-h-[52px] max-w-xs mx-auto w-full rounded-xl bg-cream text-bg font-bold text-lg active:scale-[0.97] transition-all"
           >
             {state.chainIndex + 1 >= RISK_CHAIN_COUNT ? "See results" : "Next chain"}
           </button>
@@ -414,7 +414,7 @@ export function RiskBoard({ mode, edition }: RiskBoardProps) {
           <p className="text-center font-bold text-correct text-lg">Banked {state.pendingPot} pts.</p>
           <button
             onClick={handleNext}
-            className="min-h-[52px] max-w-xs mx-auto w-full rounded-xl bg-gold text-bg font-bold text-lg active:scale-[0.97] transition-all"
+            className="min-h-[52px] max-w-xs mx-auto w-full rounded-xl bg-cream text-bg font-bold text-lg active:scale-[0.97] transition-all"
           >
             {state.chainIndex + 1 >= RISK_CHAIN_COUNT ? "See results" : "Next chain"}
           </button>

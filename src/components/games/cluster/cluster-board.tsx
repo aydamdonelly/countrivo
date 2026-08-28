@@ -304,11 +304,11 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
               disabled={solvedId !== null}
               style={solvedId !== null ? { backgroundColor: groupColor(solvedId) } : undefined}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 p-1.5 min-h-[68px] rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60",
+                "flex flex-col items-center justify-center gap-1 p-1.5 min-h-[68px] rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/50",
                 solvedId !== null
                   ? "border-transparent"
                   : isSel
-                    ? "border-gold bg-gold/10 scale-[0.97]"
+                    ? "border-cream bg-surface-sunken scale-[0.97]"
                     : "border-border bg-surface hover:border-border-hover active:scale-[0.97]",
               )}
             >
@@ -338,7 +338,7 @@ export function ClusterBoard({ mode, edition }: ClusterBoardProps) {
         <button
           onClick={handleSubmit}
           disabled={state.selected.length !== CLUSTER_GROUP_SIZE}
-          className="px-6 py-3 min-h-[44px] rounded-xl bg-gold text-bg font-bold text-sm disabled:opacity-40 active:scale-[0.97] transition-all"
+          className="px-6 py-3 min-h-[44px] rounded-xl bg-cream text-bg font-bold text-sm disabled:opacity-40 active:scale-[0.97] transition-all"
         >
           Submit ({state.selected.length}/{CLUSTER_GROUP_SIZE})
         </button>

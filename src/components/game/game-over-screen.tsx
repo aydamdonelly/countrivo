@@ -175,9 +175,8 @@ function getInsight(pct: number, history: number[], numericScore: number, maxSco
   if (pct >= 100) return "Nothing to improve.";
   if (missed === 1) return "One away from perfect.";
   if (missed <= 3) return `${missed} from perfect.`;
-  if (pct >= 70) return `${numericScore}/${maxScore}.`;
   if (pct >= 50) return `${missed} points left on the table.`;
-  return `${numericScore}/${maxScore}.`;
+  return "";
 }
 
 /* ---------- Share ---------- */
@@ -479,7 +478,7 @@ export function GameOverScreen({
 
       {/* Sits directly under the score, above the action row: the moment the
           player most wants their result to count is the moment they see it. */}
-      {onSaveScore && (
+      {onSaveScore && isDailyFinish && (
         <div className="w-full mt-5">
           <LeaderboardJoin onJoined={onSaveScore} daily={isDailyFinish} />
         </div>

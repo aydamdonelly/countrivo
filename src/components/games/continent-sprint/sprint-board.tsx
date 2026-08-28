@@ -177,7 +177,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
               <button
                 key={continent}
                 onClick={() => { juice.tap(); dispatch({ type: "PICK_CONTINENT", continent }); }}
-                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60 active:scale-[0.97]"
+                className="flex flex-col items-center p-6 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/50 active:scale-[0.97]"
               >
                 <span className="font-bold">{continent}</span>
                 <span className="text-xs text-cream-muted mt-1">{count} countries</span>
@@ -275,7 +275,7 @@ export function SprintBoard({ mode, edition }: SprintBoardProps) {
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
           placeholder="Type a country name..."
           autoFocus
-          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-gold focus:outline-none transition-colors"
+          className="w-full p-4 rounded-xl border-2 border-border bg-surface text-cream placeholder:text-cream-muted focus:border-cream focus:outline-none transition-colors"
         />
         {showDropdown && suggestions.length > 0 && (
           <div className="absolute top-full left-0 right-0 mt-1 bg-surface border-2 border-border rounded-xl shadow-[var(--shadow-lg,0_4px_16px_rgb(0,0,0,0.12))] z-10 overflow-hidden">

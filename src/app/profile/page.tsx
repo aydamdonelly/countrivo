@@ -5,7 +5,8 @@ import { getPublicProfile, getProfileTodayRuns } from "@/app/actions/profile";
 import { ProfileEditForm } from "@/components/profile/profile-edit-form";
 import { AdminRerollButton } from "@/components/admin/admin-reroll-button";
 import { ADMIN_USER_ID } from "@/lib/admin";
-import { GAME_COLORS } from "@/lib/game-colors";
+import { GameMark } from "@/components/home/game-mark";
+import { getGameBySlug } from "@/lib/data/registry";
 import { Flame } from "@/components/home/flame";
 import { Crest } from "@/components/home/silhouette";
 import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
@@ -82,21 +83,18 @@ export default async function ProfilePage() {
         <section className="mb-8">
           <h2 className="text-xs text-cream-muted mb-2">Today</h2>
           <div className="flex flex-wrap gap-2">
-            {todayRuns.map((r) => {
-              const colors = GAME_COLORS[r.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
-              return (
-                <Link
-                  key={r.gameSlug}
-                  href={`/games/${r.gameSlug}/leaderboard`}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold border border-transparent hover:border-gold/30 transition-colors"
-                  style={{ backgroundColor: colors.bg, color: colors.text }}
-                >
-                  <span className="capitalize">{r.gameSlug.replace(/-/g, " ")}</span>
-                  <span className="opacity-70">{r.scoreDisplay}</span>
-                  {r.rankDaily != null && <span className="opacity-50">#{r.rankDaily}</span>}
-                </Link>
-              );
-            })}
+            {todayRuns.map((r) => (
+              <Link
+                key={r.gameSlug}
+                href={`/games/${r.gameSlug}/leaderboard`}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-sm bg-surface-elevated hover:bg-surface-sunken transition-colors"
+              >
+                <GameMark slug={r.gameSlug} size={18} className="shrink-0 text-cream" />
+                <span className="font-semibold">{getGameBySlug(r.gameSlug)?.title ?? r.gameSlug.replace(/-/g, " ")}</span>
+                <span className="text-cream-muted tabular-nums">{r.scoreDisplay}</span>
+                {r.rankDaily != null && <span className="text-cream-dim tabular-nums">#{r.rankDaily}</span>}
+              </Link>
+            ))}
           </div>
         </section>
       )}
@@ -107,7 +105,7 @@ export default async function ProfilePage() {
         <div className="grid grid-cols-3 gap-3">
           <StatCard label="Games played" value={String(totalRuns)} />
           <StatCard label="Daily challenges" value={String(totalDailyRuns)} />
-          <StatCard label="Longest streak" value={`${profile.streakLongest} days`} />
+          <StatCard label="Longest streak" value={`${profile.streakLongest} ${profile.streakLongest === 1 ? "day" : "days"}`} />
         </div>
       </section>
 
@@ -116,25 +114,21 @@ export default async function ProfilePage() {
         <section>
           <h2 className="text-xs text-cream-muted mb-2">Games</h2>
           <div className="space-y-2">
-            {gameStats.map((s) => {
-              const colors = GAME_COLORS[s.gameSlug] ?? { bg: "#f3f4f6", text: "#374151" };
-              return (
-                <div
-                  key={s.gameSlug}
-                  className="flex items-center gap-3 p-3 rounded-xl border border-border"
-                  style={{ backgroundColor: colors.bg }}
-                >
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm capitalize" style={{ color: colors.text }}>
-                      {s.gameSlug.replace(/-/g, " ")}
-                    </p>
-                    <p className="text-xs opacity-70" style={{ color: colors.text }}>
-                      {s.totalRuns} {s.totalRuns === 1 ? "run" : "runs"} · Best: {s.bestScoreRaw}/{s.bestScoreMax}
-                    </p>
-                  </div>
+            {gameStats.map((s) => (
+              <Link
+                key={s.gameSlug}
+                href={`/games/${s.gameSlug}`}
+                className="flex items-center gap-3 p-3 rounded-xl bg-surface-elevated hover:bg-surface-sunken transition-colors"
+              >
+                <GameMark slug={s.gameSlug} size={28} className="shrink-0 text-cream" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm truncate">{getGameBySlug(s.gameSlug)?.title ?? s.gameSlug.replace(/-/g, " ")}</p>
+                  <p className="text-xs text-cream-muted tabular-nums">
+                    {s.totalRuns} {s.totalRuns === 1 ? "run" : "runs"} · best {s.bestScoreRaw}/{s.bestScoreMax}
+                  </p>
                 </div>
-              );
-            })}
+              </Link>
+            ))}
           </div>
         </section>
       )}
@@ -145,7 +139,7 @@ export default async function ProfilePage() {
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="p-4 rounded-xl bg-surface-elevated border border-border text-center">
-      <p className="text-xl font-extrabold font-mono">{value}</p>
+      <p className="font-display font-semibold text-2xl tabular-nums">{value}</p>
       <p className="text-xs text-cream-muted mt-1">{label}</p>
     </div>
   );

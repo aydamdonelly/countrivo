@@ -231,7 +231,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
               className={cn(
                 "flex items-center gap-3 p-5 rounded-xl border-2 bg-surface",
                 selectedIdx === position
-                  ? "border-gold ring-2 ring-gold"
+                  ? "border-cream ring-2 ring-cream/30"
                   : "border-border"
               )}
             >
@@ -264,7 +264,7 @@ export function SortBoard({ mode, edition }: SortBoardProps) {
       <div className="flex justify-center">
         <button
           onClick={handleSubmit}
-          className="w-full sm:w-auto px-12 py-5 bg-gold text-bg font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
+          className="w-full sm:w-auto px-12 py-5 bg-cream text-bg font-bold text-xl rounded-xl hover:opacity-90 transition-colors"
         >
           Submit Order
         </button>

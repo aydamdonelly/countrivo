@@ -245,7 +245,7 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
               onClick={() => handlePick(idx)}
               disabled={isFeedback}
               className={cn(
-                "flex flex-col items-center p-5 min-h-[44px] rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60",
+                "flex flex-col items-center p-5 min-h-[44px] rounded-xl border-2 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/50",
                 !isFeedback && "border-border hover:border-border-hover hover:bg-surface active:scale-[0.97]",
                 isFeedback && isOdd && "border-correct bg-correct/10",
                 isFeedback && isChosen && !isOdd && "border-incorrect bg-incorrect/10",
@@ -280,7 +280,7 @@ export function OddBoard({ mode, edition }: OddBoardProps) {
 
           <button
             onClick={() => dispatch({ type: "NEXT" })}
-            className="mx-auto block px-8 py-3 min-h-[44px] bg-gold text-bg font-semibold rounded-xl hover:opacity-90 active:scale-[0.97] transition-all"
+            className="mx-auto block px-8 py-3 min-h-[44px] bg-cream text-bg font-semibold rounded-xl hover:opacity-90 active:scale-[0.97] transition-all"
           >
             {state.currentRound + 1 >= state.rounds.length ? "See Results" : "Next Round"}
           </button>

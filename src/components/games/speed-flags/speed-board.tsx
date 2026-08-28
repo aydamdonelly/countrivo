@@ -155,7 +155,7 @@ export function SpeedBoard({ mode, edition }: SpeedBoardProps) {
         </p>
         <button
           onClick={() => dispatch({ type: "START", now: Date.now() })}
-          className="px-8 py-4 bg-gold text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
+          className="px-8 py-4 bg-cream text-bg font-bold text-lg rounded-xl hover:opacity-90 active:scale-[0.97] transition-colors"
         >
           Start
         </button>
@@ -249,7 +249,7 @@ export function SpeedBoard({ mode, edition }: SpeedBoardProps) {
           <button
             key={option.iso3}
             onClick={() => handleAnswer(idx)}
-            className="p-5 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface font-bold text-sm transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
+            className="p-5 rounded-xl border-2 border-border hover:border-border-hover hover:bg-surface font-bold text-sm transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cream/50"
           >
             {option.displayName}
           </button>

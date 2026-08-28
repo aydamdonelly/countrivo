@@ -329,7 +329,7 @@ export function AuthModal() {
             required
             aria-label="Email address"
             className="w-full px-4 py-3 rounded-xl border border-border bg-surface text-sm
-              focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+              focus:outline-none focus:border-cream focus:ring-1 focus:ring-cream/20
               placeholder:text-cream-muted/50"
           />
 
@@ -351,7 +351,7 @@ export function AuthModal() {
               aria-label="Password"
               aria-describedby={tab === "signup" ? "auth-pw-hint" : undefined}
               className="w-full px-4 py-3 pr-12 rounded-xl border border-border bg-surface text-sm
-                focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+                focus:outline-none focus:border-cream focus:ring-1 focus:ring-cream/20
                 placeholder:text-cream-muted/50"
             />
             <button

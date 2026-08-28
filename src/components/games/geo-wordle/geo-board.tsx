@@ -608,7 +608,7 @@ export function GeoBoard({ mode, edition }: GeoBoardProps) {
           spellCheck={false}
           className={cn(
             "w-full px-4 py-3 rounded-xl border-2 bg-surface text-cream text-lg",
-            "placeholder:text-cream-muted/50 focus:outline-none focus:border-gold transition-colors",
+            "placeholder:text-cream-muted/50 focus:outline-none focus:border-cream transition-colors",
             error ? "border-incorrect" : "border-border",
           )}
         />

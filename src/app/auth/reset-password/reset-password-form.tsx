@@ -151,7 +151,7 @@ export function ResetPasswordForm() {
           minLength={8}
           aria-describedby="reset-pw-hint"
           className="w-full px-4 py-3 pr-11 rounded-xl border border-border bg-surface text-sm
-            focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+            focus:outline-none focus:border-cream focus:ring-1 focus:ring-cream/20
             placeholder:text-cream-muted/50"
         />
         <button
@@ -189,7 +189,7 @@ export function ResetPasswordForm() {
         required
         minLength={8}
         className="w-full px-4 py-3 rounded-xl border border-border bg-surface text-sm
-          focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30
+          focus:outline-none focus:border-cream focus:ring-1 focus:ring-cream/20
           placeholder:text-cream-muted/50"
       />
 

@@ -318,7 +318,7 @@ export function BorderlineBoard({
           spellCheck={false}
           className={cn(
             "w-full px-4 py-3 rounded-xl border-2 bg-surface text-cream text-lg",
-            "placeholder:text-cream-muted/50 focus:outline-none focus:border-gold",
+            "placeholder:text-cream-muted/50 focus:outline-none focus:border-cream",
             "transition-colors",
             error ? "border-incorrect" : "border-border",
           )}
@@ -396,7 +396,7 @@ export function BorderlineBoard({
             <button
               key={c.iso3}
               onClick={() => submitMove(c.displayName)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-surface hover:border-gold hover:bg-gold-dim transition-all text-sm"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-border bg-surface hover:border-cream/50 hover:bg-gold-dim transition-all text-sm"
             >
               <CountryFlag iso2={c.iso2} width={22} />
               <span className="font-medium text-cream-muted">

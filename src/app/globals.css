@@ -412,7 +412,7 @@ h1 {
 /* Focus ring — keyboard-only, gold, on-brand. Covers interactive elements
    that otherwise communicate state through hover alone. */
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-cream);
   outline-offset: 2px;
 }
 
@@ -427,7 +427,7 @@ textarea:focus-visible,
 summary:focus-visible,
 [role="button"]:focus-visible,
 [tabindex]:not([tabindex="-1"]):focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-cream);
   outline-offset: 2px;
   border-radius: var(--radius-md);
   box-shadow: 0 0 0 4px var(--color-gold-on-bg-soft);
@@ -498,7 +498,7 @@ textarea:focus-visible {
 
 /* <Button> component variants — paired with src/components/ui/button.tsx */
 .countrivo-btn:focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-cream);
   outline-offset: 2px;
 }
 .countrivo-btn:disabled {
