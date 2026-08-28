@@ -12,6 +12,7 @@ import {
 import { createClient } from "@/lib/supabase/client";
 import { persistSession, clearPersistedSession } from "@/lib/native/session-fallback";
 import type { User } from "@supabase/supabase-js";
+import { isAllowedHandle } from "@/lib/profanity";
 import { updateProfile } from "@/app/actions/profile";
 import type { Profile } from "@/types/server";
 
@@ -176,10 +177,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       // The handle_new_user trigger already created a profile with a random
       // geo handle; overwrite the display name with what the player typed.
-      const res = await updateProfile({ displayName, countryCode: null });
-      if (!res.success) return { ok: false, error: res.error ?? "Could not save that name" };
-      // Show the chosen name in the header right away instead of waiting for the next refetch.
-      if (res.profile) setProfile(res.profile);
+      // Rename through the browser client (RLS: own row), not a server action: it is one
+      // round-trip, and it is not lost if the player navigates away a moment later.
+      const name = displayName.trim();
+      if (name.length < 1 || name.length > 30) return { ok: false, error: "Pick a name between 1 and 30 characters" };
+      if (!isAllowedHandle(name)) return { ok: false, error: "That name isn't allowed" };
+      const uid = data.user!.id;
+      const { data: row, error: upErr } = await supabase
+        .from("profiles")
+        .update({ display_name: name, updated_at: new Date().toISOString() })
+        .eq("id", uid)
+        .select("*")
+        .single();
+      if (upErr) {
+        // The session exists and the run will save; keep the name attempt in the background.
+        void updateProfile({ displayName: name, countryCode: null }).then((r) => { if (r.success && r.profile) setProfile(r.profile); });
+        return { ok: true };
+      }
+      if (row) {
+        setProfile({
+          id: row.id, username: row.username, displayName: row.display_name, avatarUrl: row.avatar_url,
+          countryCode: row.country_code, streakCurrent: row.streak_current ?? 0, streakLongest: row.streak_longest ?? 0,
+          lastDailyDate: row.last_daily_date, createdAt: row.created_at,
+        });
+      }
       return { ok: true };
     },
     [],

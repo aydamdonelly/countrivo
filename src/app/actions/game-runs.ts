@@ -129,6 +129,21 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Calls the SECURITY DEFINER RPC `ensure_daily_puzzle` which handles the
   // race between concurrent first-submitters of the day without needing a
   // permissive RLS INSERT policy on daily_puzzles.
+  // Boards can submit the same finished run twice (an auth-change effect plus the join
+  // callback). started_at is set once per run, so it works as an idempotency key.
+  {
+    const { data: existing } = await supabase
+      .from("game_runs")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("game_slug", input.gameSlug)
+      .eq("started_at", input.startedAt)
+      .maybeSingle();
+    if (existing) {
+      return { success: true, run: mapGameRun(existing, existing.is_personal_best) };
+    }
+  }
+
   let dailyPuzzleId: number | null = null;
   if (input.mode === "daily") {
     const seed = dateSeed(input.dateKey + input.gameSlug);

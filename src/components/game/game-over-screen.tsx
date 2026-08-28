@@ -137,7 +137,7 @@ function saveScore(gameSlug: string, score: number): { isNewBest: boolean; histo
   const best = getPersonalBest(gameSlug);
   // A first run is a baseline, not a record; only a beaten, non-zero best counts.
   const isNewBest = best !== null && score > best && score > 0;
-  if (isNewBest) setStorageItem(`best_${gameSlug}`, score);
+  if (best === null || score > best) setStorageItem(`best_${gameSlug}`, score);
   const history = getScoreHistory(gameSlug);
   const updated = [...history, score].slice(-20);
   setStorageItem(`history_${gameSlug}`, updated);
