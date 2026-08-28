@@ -1,18 +1,22 @@
 import Link from "next/link";
 import { GameEntityBlock } from "@/components/game/game-entity-block";
 import { GameJsonLd } from "@/components/seo/game-jsonld";
-import { getGameColor } from "@/lib/game-colors";
 import { DateStamp } from "@/components/game/date-stamp";
+import { GameMark } from "@/components/home/game-mark";
+import { GameRow } from "@/components/home/game-list";
+import { ResetLabel } from "@/components/home/reset-label";
+import { getGameBySlug, getAllGames } from "@/lib/data/registry";
+import { getGameCopy } from "@/lib/seo/game-copy";
 export { DateStamp };
 
 interface RelatedGame {
   href: string;
-  emoji: string;
+  emoji?: string;
   name: string;
 }
 
 interface GameLandingProps {
-  emoji: string;
+  emoji?: string;
   title: string;
   description: string;
   playHref: string;
@@ -25,17 +29,14 @@ interface GameLandingProps {
   estimatedTime?: string;
 }
 
-const DEFAULT_RELATED: RelatedGame[] = [
-  { href: "/games/country-draft", emoji: "🎯", name: "Country Draft" },
-  { href: "/games/higher-or-lower", emoji: "⬆️", name: "Higher or Lower" },
-  { href: "/games/flag-quiz", emoji: "🏁", name: "Flag Quiz" },
-  { href: "/games/capital-match", emoji: "🏛️", name: "Capital Match" },
-  { href: "/games/population-sort", emoji: "📊", name: "Population Sort" },
-  { href: "/games/country-streak", emoji: "🔥", name: "Country Streak" },
-];
+const DEFAULT_RELATED = ["country-draft", "higher-or-lower", "geo-wordle", "flag-quiz", "capital-match", "cluster"];
 
+/**
+ * One landing page for every game, in the home's language: the mark, the title,
+ * one plain sentence, one button. Below the fold: how it works, what it is
+ * (prose for people and search engines), questions, and more games.
+ */
 export function GameLanding({
-  emoji,
   title,
   description,
   playHref,
@@ -44,21 +45,21 @@ export function GameLanding({
   showDateStamp = false,
   relatedGames,
   category = "quiz",
-  difficulty,
-  estimatedTime,
 }: GameLandingProps) {
   const slug = playHref.replace("/play", "").replace("/games/", "");
-  const colors = getGameColor(slug);
-
-  const related = (relatedGames ?? DEFAULT_RELATED).filter(
-    (g) => g.href !== playHref.replace("/play", "")
-  );
-
-  // Show max 3 rules
-  const displayRules = rules.slice(0, 3);
+  const copy = getGameCopy(slug);
+  const relatedSlugs = relatedGames
+    ? relatedGames.map((g) => g.href.replace("/games/", ""))
+    : DEFAULT_RELATED;
+  const related = relatedSlugs
+    .filter((s) => s !== slug)
+    .map((s) => getGameBySlug(s))
+    .filter((g): g is NonNullable<typeof g> => !!g)
+    .slice(0, 4);
+  const dailyCount = getAllGames().filter((g) => g.availableModes.includes("daily")).length;
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-md sm:max-w-lg lg:max-w-2xl mx-auto px-5 sm:px-6 pt-2 pb-12">
       <GameJsonLd
         name={`${title} | Countrivo`}
         title={title}
@@ -68,145 +69,100 @@ export function GameLanding({
         playMode="SinglePlayer"
         rules={rules}
       />
+      {copy && copy.faq.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: copy.faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+            }),
+          }}
+        />
+      )}
 
-      {/* Compact hero */}
-      <div
-        className="px-4 py-10 sm:py-12 text-center rounded-2xl"
-        style={{ backgroundColor: colors.bg }}
-      >
-        <span className="text-6xl mb-3 block">{emoji}</span>
-        <h1
-          className="text-3xl sm:text-4xl font-extrabold tracking-tight"
-          style={{ color: colors.text }}
-        >
-          {title}
-        </h1>
-        <p className="text-cream-muted text-base mt-2 max-w-md mx-auto">
-          {description}
-        </p>
-
-        {hasDailyMode && showDateStamp && (
-          <DateStamp accentClassName="text-gold mx-0.5" />
-        )}
-
-        {/* Meta chips */}
-        {(difficulty || estimatedTime || category) && (
-          <div className="flex items-center justify-center gap-2 mt-3">
-            {difficulty && (
-              <span
-                className="text-xs font-medium px-2 py-0.5 rounded-full bg-black/5 capitalize"
-                style={{ color: colors.text }}
-              >
-                {difficulty}
-              </span>
-            )}
-            {estimatedTime && (
-              <span
-                className="text-xs opacity-60"
-                style={{ color: colors.text }}
-              >
-                {estimatedTime}
-              </span>
-            )}
-            {category && (
-              <span
-                className="text-xs font-medium px-2 py-0.5 rounded-full bg-black/5 capitalize"
-                style={{ color: colors.text }}
-              >
-                {category}
-              </span>
-            )}
+      {/* Hero: same card language as the home carousel */}
+      <section className="rounded-2xl bg-cream text-bg p-5 pb-6 mt-2">
+        <div className="flex justify-between items-center text-[11px] tracking-[.02em] text-bg/60">
+          <span>{hasDailyMode ? "DAILY" : "PRACTICE"} · {title.toUpperCase()}</span>
+          {hasDailyMode ? <ResetLabel className="!text-bg/60 [&_b]:!text-bg" /> : <span>unlimited</span>}
+        </div>
+        <div className="mt-4 flex items-start gap-4">
+          <span className="text-bg shrink-0 mt-1"><GameMark slug={slug} size={44} /></span>
+          <div className="min-w-0">
+            <h1 className="font-display font-semibold text-[32px] leading-tight">{title}</h1>
+            <p className="mt-2 text-[14px] leading-snug text-bg/70">{description}</p>
+            {hasDailyMode && showDateStamp && <div className="mt-2 text-bg/60"><DateStamp accentClassName="text-gold mx-0.5" /></div>}
           </div>
-        )}
-
-        {/* Side-by-side CTAs */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8 px-4">
-          {hasDailyMode && (
-            <Link
-              href={`${playHref}?mode=daily`}
-              className="cta-primary w-full sm:w-auto"
-            >
-              Play today&apos;s challenge
-            </Link>
-          )}
+        </div>
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <Link href={`${playHref}?mode=practice`} className="text-[13px] text-bg/70 underline underline-offset-4 decoration-bg/30 hover:text-bg">
+            {hasDailyMode ? "or practice, it won't count" : "Practice, as often as you like"}
+          </Link>
           <Link
-            href={`${playHref}?mode=practice`}
-            className="cta-secondary w-full sm:w-auto"
+            href={hasDailyMode ? `${playHref}?mode=daily` : `${playHref}?mode=practice`}
+            className="shoot px-5 py-2.5 rounded-md bg-bg text-cream font-semibold text-[15px] shrink-0"
           >
-            Practice unlimited
+            {hasDailyMode ? "Shoot today's" : "Play"}
           </Link>
         </div>
+      </section>
 
-        {/* Mode descriptions — compact, below CTAs */}
-        <div className="flex items-center justify-center gap-6 mt-4 text-xs text-cream-muted">
-          {hasDailyMode && (
-            <span>One puzzle. One shot. Same draw for everyone.</span>
-          )}
-          <span>New countries every run.</span>
-        </div>
+      {hasDailyMode && (
+        <p className="mt-3 text-xs text-cream-muted">
+          One shot per day, the same board for everyone, on the global board until midnight Berlin time. <Link href={`/games/${slug}/leaderboard`} className="text-cream underline underline-offset-4">Today&apos;s board</Link>
+        </p>
+      )}
 
-        {hasDailyMode && (
-          <div className="mt-3">
-            <Link
-              href={`/games/${slug}/leaderboard`}
-              className="text-sm font-medium text-cream-muted hover:text-cream transition-colors underline underline-offset-4"
-              style={{ color: colors.text, opacity: 0.7 }}
-            >
-              View today&apos;s leaderboard →
-            </Link>
-          </div>
-        )}
-      </div>
-
-      {/* How it works — compact */}
-      {displayRules.length > 0 && (
-        <div className="mt-8 px-4 sm:px-0 p-6 bg-surface-elevated rounded-xl max-w-md mx-auto">
-          <h3 className="font-bold text-base mb-3">How it works</h3>
-          <ol className="space-y-2 text-sm text-cream-muted">
-            {displayRules.map((rule, i) => (
-              <li key={i} className="flex gap-2">
-                <span className="w-6 h-6 rounded-full bg-gold-dim text-gold font-bold text-xs flex items-center justify-center shrink-0">
-                  {i + 1}
-                </span>
-                <span className="pt-0.5">{rule}</span>
+      {rules.length > 0 && (
+        <section className="mt-8" aria-labelledby="how">
+          <h2 id="how" className="font-display font-semibold text-xl">How it works</h2>
+          <ol className="mt-3 space-y-2">
+            {rules.slice(0, 4).map((rule, i) => (
+              <li key={i} className="flex gap-3 text-[15px] leading-snug">
+                <span className="font-display font-semibold text-cream-muted tabular-nums w-5 shrink-0">{i + 1}</span>
+                <span>{rule}</span>
               </li>
             ))}
           </ol>
-        </div>
+        </section>
       )}
 
-      {/* Related games */}
-      <div className="mt-10 px-4 pb-8">
-        <h3 className="font-bold text-sm text-cream-muted label-caps mb-3 text-center">
-          Try next
-        </h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-md mx-auto stagger-children">
-          {related.slice(0, 6).map((g) => {
-            const gSlug = g.href.replace("/games/", "");
-            const gColors = getGameColor(gSlug);
-            return (
-              <Link
-                key={g.href}
-                href={g.href}
-                className="game-card p-4 text-center"
-                style={{ backgroundColor: gColors.bg }}
-              >
-                <span className="text-2xl block mb-1">{g.emoji}</span>
-                <span
-                  className="text-sm font-bold"
-                  style={{ color: gColors.text }}
-                >
-                  {g.name}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+      {copy && (
+        <section className="mt-8" aria-labelledby="about">
+          <h2 id="about" className="font-display font-semibold text-xl">What {title} is</h2>
+          {copy.about.map((p, i) => (
+            <p key={i} className="mt-3 text-[15px] leading-relaxed text-cream-muted">{p}</p>
+          ))}
+        </section>
+      )}
 
-      {/* Plain-prose facts — lowest block, never competes with the CTA */}
+      {copy && copy.faq.length > 0 && (
+        <section className="mt-8" aria-labelledby="faq">
+          <h2 id="faq" className="font-display font-semibold text-xl">Questions</h2>
+          <div className="mt-2">
+            {copy.faq.map((f) => (
+              <details key={f.q} className="group border-t border-border py-3">
+                <summary className="flex items-center justify-between cursor-pointer list-none text-[15px] font-medium [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-cream-dim transition-transform duration-200 group-open:rotate-180" aria-hidden><path d="M6 9l6 6 6-6" /></svg>
+                </summary>
+                <p className="mt-2 text-[14px] leading-relaxed text-cream-muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="mt-8" aria-label="More games">
+        <h2 className="flex justify-between text-xs text-cream-muted mb-1"><span>More games</span><span>{dailyCount} dailies</span></h2>
+        {related.map((g) => (
+          <GameRow key={g.slug} game={g} meta={g.shortDescription} href={g.route} tag={g.isNew ? "NEW" : undefined} />
+        ))}
+      </section>
+
       <GameEntityBlock slug={slug} />
     </div>
   );
 }
-

@@ -3,7 +3,7 @@ import type { GameMeta } from "@/types/game";
 import type { GameBoard } from "@/app/actions/home";
 import { GameMark } from "./game-mark";
 
-function Row({ game, meta, href, tag }: { game: GameMeta; meta: string; href: string; tag?: string }) {
+export function GameRow({ game, meta, href, tag }: { game: GameMeta; meta: string; href: string; tag?: string }) {
   return (
     <Link href={href} className="list-row flex items-center gap-3 py-3 border-t border-border text-cream hover:bg-surface-elevated -mx-2 px-2 rounded-md transition-colors">
       <span className="w-11 flex justify-center text-cream shrink-0"><GameMark slug={game.slug} size={26} /></span>
@@ -29,7 +29,7 @@ export function DailyList({ games, boards }: { games: GameMeta[]; boards: Record
       {games.map((g) => {
         const b = boards[g.slug];
         const meta = b?.me ? `your shot ${b.me.score} · #${b.me.rank} of ${b.shots}` : b && b.shots > 0 ? `${b.shots} ${b.shots === 1 ? "shot" : "shots"} · top ${b.top}` : "no shots yet today";
-        return <Row key={g.slug} game={g} meta={meta} href={b?.me ? g.route : `${g.route}/play?mode=daily`} tag={g.isNew ? "NEW" : undefined} />;
+        return <GameRow key={g.slug} game={g} meta={meta} href={b?.me ? g.route : `${g.route}/play?mode=daily`} tag={g.isNew ? "NEW" : undefined} />;
       })}
     </section>
   );
@@ -43,7 +43,7 @@ export function PracticeList({ games }: { games: GameMeta[] }) {
         <span>{games.length} games</span>
       </h3>
       {games.map((g) => (
-        <Row key={g.slug} game={g} meta={g.shortDescription} href={`${g.route}/play?mode=practice`} tag={g.isNew ? "NEW" : undefined} />
+        <GameRow key={g.slug} game={g} meta={g.shortDescription} href={`${g.route}/play?mode=practice`} tag={g.isNew ? "NEW" : undefined} />
       ))}
     </section>
   );
