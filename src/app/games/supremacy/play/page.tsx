@@ -16,7 +16,7 @@ export default async function SupremacyPlayPage({ searchParams }: Props) {
   // SupremacyBoard only supports practice mode today; daily lives elsewhere.
   return (
     <GameShell title="Supremacy" backHref="/games/supremacy" mode="practice">
-      <SupremacyBoard mode="practice" />
+      <SupremacyBoard mode="practice" practiceSeed={Date.now()} />
     </GameShell>
   );
 }

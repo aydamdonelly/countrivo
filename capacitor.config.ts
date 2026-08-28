@@ -16,14 +16,14 @@ const config: CapacitorConfig = {
   },
   ios: {
     contentInset: "always",
-    backgroundColor: "#10141b", // matches --color-bg (dark); no white flash
+    backgroundColor: "#fbfaf6", // matches --color-bg (light); the site is light-first, dark follows the system
     limitsNavigationsToAppBoundDomains: true, // pairs w/ WKAppBoundDomains → exempts from ITP 7-day purge
   },
   plugins: {
-    StatusBar: { style: "DARK", overlaysWebView: false }, // Style.Dark = LIGHT text (correct on dark theme)
+    StatusBar: { style: "DEFAULT", overlaysWebView: false }, // follows the system scheme, like the site
     SplashScreen: {
       launchAutoHide: false, // hidden manually once the remote site is interactive
-      backgroundColor: "#10141b",
+      backgroundColor: "#fbfaf6",
       launchFadeOutDuration: 200,
       showSpinner: false,
     },

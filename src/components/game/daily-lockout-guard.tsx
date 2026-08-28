@@ -36,9 +36,9 @@ export function DailyPlayedMessage({
   const timeLeft = useResetCountdown();
   return (
     <div className="flex flex-col items-center gap-6 py-12 sm:py-16 text-center max-w-md mx-auto">
-      <div className="text-5xl">{gameEmoji}</div>
       <div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold">Already played today</h2>
+        <p className="text-xs text-cream-muted mb-2">{gameTitle}</p>
+        <h2 className="font-display font-semibold text-2xl sm:text-3xl">Already played today</h2>
         <p className="text-sm text-cream-muted mt-1.5">
           You completed today&apos;s {gameTitle} daily challenge.
         </p>

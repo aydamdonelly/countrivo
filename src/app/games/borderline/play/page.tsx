@@ -16,7 +16,7 @@ export default async function BorderlinePlayPage({ searchParams }: Props) {
   // BorderlineBoard only supports practice mode today; daily lives elsewhere.
   return (
     <GameShell title="Borderline" backHref="/games/borderline" mode="practice">
-      <BorderlineBoard mode="practice" />
+      <BorderlineBoard mode="practice" practiceSeed={Date.now()} />
     </GameShell>
   );
 }

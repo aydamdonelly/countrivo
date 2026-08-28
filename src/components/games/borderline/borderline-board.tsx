@@ -24,6 +24,8 @@ import { juice } from "@/hooks/use-juice";
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface BorderlineBoardProps {
+  /** Server-supplied seed for the first practice board, so SSR and hydration agree. */
+  practiceSeed?: number;
   mode: "practice";
   dailyKey?: string | null;
 }
@@ -43,11 +45,12 @@ interface ReducerState {
 function initState(args: {
   mode: string;
   dailyKey?: string | null;
+  seed?: number;
 }): ReducerState {
   const rng =
     args.mode === "daily" && args.dailyKey
       ? getDailyRng(args.dailyKey)
-      : mulberry32(Date.now());
+      : mulberry32(args.seed ?? Date.now());
   return { game: createBorderline(rng), error: null };
 }
 
@@ -71,10 +74,11 @@ function reducer(state: ReducerState, action: Action): ReducerState {
 export function BorderlineBoard({
   mode,
   dailyKey,
+  practiceSeed,
 }: BorderlineBoardProps) {
   const [state, dispatch] = useReducer(
     reducer,
-    { mode: dailyKey ? "daily" : mode, dailyKey },
+    { mode: dailyKey ? "daily" : mode, dailyKey, seed: practiceSeed },
     initState,
   );
 

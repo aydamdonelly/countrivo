@@ -19,6 +19,8 @@ import { juice } from "@/hooks/use-juice";
 /* ── Props ─────────────────────────────────────────────────────────── */
 
 interface SupremacyBoardProps {
+  /** Server-supplied seed for the first practice board, so SSR and hydration agree. */
+  practiceSeed?: number;
   mode: "practice";
   dailyKey?: string | null;
 }
@@ -31,11 +33,11 @@ type Action =
   | { type: "ADVANCE" }
   | { type: "RESET"; mode: "practice" | "daily" };
 
-function initState(args: { mode: string; dailyKey?: string | null }): SupremacyState {
+function initState(args: { mode: string; dailyKey?: string | null; seed?: number }): SupremacyState {
   const rng =
     args.mode === "daily" && args.dailyKey
       ? getDailyRng(args.dailyKey)
-      : mulberry32(Date.now());
+      : mulberry32(args.seed ?? Date.now());
   return createSupremacy(rng);
 }
 
@@ -56,10 +58,10 @@ function reducer(state: SupremacyState, action: Action): SupremacyState {
 
 /* ── Board ─────────────────────────────────────────────────────────── */
 
-export function SupremacyBoard({ mode, dailyKey }: SupremacyBoardProps) {
+export function SupremacyBoard({ mode, dailyKey, practiceSeed }: SupremacyBoardProps) {
   const [state, dispatch] = useReducer(
     reducer,
-    { mode: dailyKey ? "daily" : mode, dailyKey },
+    { mode: dailyKey ? "daily" : mode, dailyKey, seed: practiceSeed },
     initState,
   );
 

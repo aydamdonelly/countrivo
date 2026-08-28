@@ -159,13 +159,15 @@ export function Header() {
               >
                 Sign in
               </button>
-              <Link
-                href="/games/country-draft/play?mode=daily"
-                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-gold text-white text-xs sm:text-sm font-bold rounded-lg shadow-sm hover:brightness-110 transition-all active:scale-[0.97]"
-              >
-                <span className="sm:hidden">Daily</span>
-                <span className="hidden sm:inline">Daily challenge</span>
-              </Link>
+              {pathname !== "/" && (
+                <Link
+                  href="/games/country-draft/play?mode=daily"
+                  className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-cream text-bg text-xs sm:text-sm font-semibold rounded-md hover:bg-gold hover:text-[#fbfaf6] transition-colors active:scale-[0.97]"
+                >
+                  <span className="sm:hidden">Today</span>
+                  <span className="hidden sm:inline">Today&apos;s shot</span>
+                </Link>
+              )}
             </>
           ) : (
             <div className="w-10 h-10 min-w-[44px] min-h-[44px] rounded-full bg-black/5 animate-pulse" />
