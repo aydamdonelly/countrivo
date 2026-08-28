@@ -43,6 +43,8 @@ export function LeaderboardJoin({ onJoined, daily }: LeaderboardJoinProps) {
       return;
     }
     onJoined();
+    // The parent normally unmounts this panel once the run is saved; if it stays, don't look stuck.
+    setBusy(false);
   }, [name, joinAsGuest, onJoined]);
 
   return (
