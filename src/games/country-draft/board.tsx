@@ -181,10 +181,12 @@ export function Board({ state, dispatch, busy }: BoardProps<CountryDraftState, C
                 <small className="t-meta">{SEAT_WANTS[seat]}</small>
               </span>
               {fit === null ? (
-                <span className="key t-num num">{seat + 1}</span>
+                // Nothing is held, so the seat key does nothing: showing it would be a lie.
+                null
               ) : (
                 <b className={cn("t-body read", `dr-q-${fitQuality(fit)}`)}>
                   {fitWord(fit)} <span className="num">{fit}</span>
+                  <span className="key t-num num">{seat + 1}</span>
                 </b>
               )}
             </button>

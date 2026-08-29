@@ -9,9 +9,10 @@ import { createClient } from "@/lib/supabase/server";
 import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
 import { bestLabel } from "@/server/home-lists";
 import { getClock } from "@/server/clock";
+import { SignedOut } from "@/features/social/signed-out";
 import { getViewer } from "@/server/viewer";
 import type { Profile } from "@/types/server";
-import { Button, GAME_SLUGS, GameList, GameRow, SectionHead, StreakWeek, isGameSlug, type GameSlug, type WeekDay } from "@/ui";
+import { Button, GAME_SLUGS, GameList, GameRow, PageTitle, SectionHead, StreakWeek, isGameSlug, type GameSlug, type WeekDay } from "@/ui";
 import { RerollButton } from "@/features/admin/reroll-button";
 import { friendshipWith } from "./friendship";
 import { HeadToHead } from "./head-to-head";
@@ -206,7 +207,14 @@ function countryOptions(): CountryOption[] {
  */
 export async function OwnProfilePage() {
   const viewer = await getViewer();
-  if (!viewer.signedIn || !viewer.user || !viewer.profile) redirect("/");
+  if (!viewer.signedIn || !viewer.user || !viewer.profile) {
+    return (
+      <>
+        <PageTitle title="You" />
+        <SignedOut line="Your streak, your crest and every shot you have taken live here." reason="profile" />
+      </>
+    );
+  }
 
   const clock = await getClock();
   const profile: Profile = viewer.profile;

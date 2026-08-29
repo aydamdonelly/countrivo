@@ -139,3 +139,9 @@
 
   /* The invite row has one action; its hit area must reach 44 without moving the label off the gutter. */
   .invite .btn-text { min-width: 44px; justify-content: flex-end; }
+
+  /* Friends and You are in the tab bar for everyone. Signed out they still render their
+     own page: the line says what lives here, the action is the only thing to press. */
+  .signed-out { padding: 24px 0 0; max-width: 22rem; }
+  .signed-out p { color: var(--color-mute); }
+  .signed-out .act { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; color: var(--color-ember); font-weight: 600; }

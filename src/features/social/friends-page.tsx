@@ -1,7 +1,7 @@
-import { redirect } from "next/navigation";
 import { getFriends, getPendingRequests } from "@/app/actions/friends";
 import { getUserTodayRuns } from "@/app/actions/game-runs";
 import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
+import { SignedOut } from "@/features/social/signed-out";
 import { getViewer } from "@/server/viewer";
 import { FriendsStrip, PageTitle, isGameSlug, type GameSlug, type StripFriend } from "@/ui";
 import { FriendRequests, FriendRows, type FriendItem, type FriendShot, type RequestItem } from "./friend-rows";
@@ -44,7 +44,14 @@ function stripScore(runs: readonly DayRun[]): string | null {
  */
 export async function FriendsPage() {
   const viewer = await getViewer();
-  if (!viewer.signedIn || !viewer.user) redirect("/");
+  if (!viewer.signedIn || !viewer.user) {
+    return (
+      <>
+        <PageTitle title="Friends" />
+        <SignedOut line="Add the people you play against and today's shots line up here." reason="friends" />
+      </>
+    );
+  }
 
   const [friends, requests, myRuns] = await Promise.all([getFriends(), getPendingRequests(), getUserTodayRuns(viewer.user.id)]);
 

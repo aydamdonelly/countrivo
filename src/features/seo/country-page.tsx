@@ -149,7 +149,8 @@ export function CountryPage({ country }: { country: Country }) {
                   key={n.slug}
                   href={`/countries/${n.slug}`}
                   title={n.displayName}
-                  meta="shares a land border"
+                  // The heading already says these share a border; the row carries a fact instead.
+                  meta={n.capital ? `capital ${n.capital}` : n.region}
                   lead={<Flag iso2={n.iso2} size="xs" alt="" />}
                 />
               ))

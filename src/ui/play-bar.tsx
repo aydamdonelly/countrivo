@@ -23,7 +23,10 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
       </Link>
       <Mark slug={slug} size={22} />
       <h1 className="t-h3">{title}</h1>
-      <span className={cn("mode t-meta", mode)}>{mode === "daily" ? "Daily · one shot" : "Practice · doesn't count"}</span>
+      <span className={cn("mode t-meta", mode)}>
+        {mode === "daily" ? "Daily" : "Practice"}
+        <span className="mode-long">{mode === "daily" ? " · one shot" : " · doesn't count"}</span>
+      </span>
     </div>
   );
 }

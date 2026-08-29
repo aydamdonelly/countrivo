@@ -192,7 +192,9 @@
   /* ── play bar, progress ──────────────────────────────────────────────── */
   .pb { height: 56px; display: flex; align-items: center; gap: 12px; }
   .pb .back { width: 44px; height: 44px; margin-left: -10px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-ink); flex: none; }
-  .pb h1 { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pb h1 { flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+  /* The title is never shaved: at narrow widths the mode word yields first. */
+  @media (max-width: 430px) { .pb .mode .mode-long { display: none; } }
   .pb .mode { margin-left: auto; white-space: nowrap; flex: none; }
   .pb .mode.daily { color: var(--color-ink); }
   .pb .mode.practice { color: var(--color-mute); }
@@ -240,7 +242,7 @@
   @media (hover: none) { .opt .key, .slot .key { display: none; } }
   .opt.right, .opt.answer { background: var(--color-ink); color: var(--color-paper); }
   .opt.wrong { box-shadow: inset 0 0 0 2px var(--color-ember); animation: shake 240ms; }
-  .opt.dim { color: var(--color-wait); }
+  .opt.dim { color: var(--color-mute); }   /* the eliminated answer stays readable: it is the thing you learn from */
   .opt.tile { height: 72px; flex-direction: column; justify-content: center; gap: 6px; padding: 0 10px; text-align: center; }
   .opt.tile .lbl { white-space: normal; font-size: 13px; line-height: 1.2; }
   .opts.tall .opt { height: 60px; }
