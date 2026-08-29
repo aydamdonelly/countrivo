@@ -101,3 +101,18 @@ export type Tone =
 export function toneVar(tone: Tone): string {
   return `var(--color-${tone})`;
 }
+
+/** The two tabs of the one board. */
+export type BoardTab = "global" | "friends";
+
+/**
+ * The DOM event a primitive fires when it needs the auth sheet (the "Sign in" link
+ * in the friends pane, the join row's "sign in" line). The auth provider (P1)
+ * listens for it and calls `openAuthModal()`; primitives never import the provider.
+ */
+export const AUTH_EVENT = "cv:auth";
+
+export function requestAuth(reason?: string): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(AUTH_EVENT, { detail: { reason } }));
+}

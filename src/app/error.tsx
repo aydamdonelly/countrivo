@@ -1,36 +1,34 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, FadeBar, Header, PageTitle, TabBar } from "@/ui";
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+/*
+ * The route error boundary (blueprint 7.18): "Something went wrong", Try again, Home. It
+ * replaces the route-group layout it caught, so it carries the static chrome itself.
+ */
+export default function RouteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
     console.error("Unhandled error:", error);
   }, [error]);
 
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4">
-      <div className="text-center max-w-md">
-        <h1 className="font-display font-semibold text-3xl mb-2">Something went wrong</h1>
-        <p className="text-sm text-cream-muted mb-6">
-          Something broke on this page. Reload to try again.
+    <>
+      <div className="frame frame-bar">
+        <Header variant="static" />
+        <PageTitle title="Something went wrong" />
+        <p className="t-body" style={{ color: "var(--color-mute)" }}>
+          Something broke on this page. Try again, or head home.
         </p>
-        <div className="flex items-center justify-center gap-3">
-          <Button onClick={reset} variant="primary" size="md" className="min-h-[44px] active:scale-[0.97]">
-            Reload
+        <div className="flex flex-wrap items-center gap-4 mt-6">
+          <Button onClick={() => reset()}>Try again</Button>
+          <Button variant="text" href="/">
+            Home
           </Button>
-          <Link href="/" className="cta-secondary text-sm px-6 py-3 min-h-[44px] inline-flex items-center active:scale-[0.97]">
-            Go home
-          </Link>
         </div>
       </div>
-    </div>
+      <FadeBar />
+      <TabBar />
+    </>
   );
 }

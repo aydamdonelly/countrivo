@@ -25,7 +25,7 @@ export function Crest({ path, size = 26, muted, ring, label, className }: CrestP
   const name = path === null ? "no crest yet" : label;
   return (
     <span
-      className={cn("crest", muted && "muted", ring && "ring", className)}
+      className={cn("crest", muted && "muted", ring && "crest-ring", className)}
       style={{ width: size, height: size }}
       role={name ? "img" : undefined}
       aria-label={name}

@@ -15,8 +15,9 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#10141b",
-    theme_color: "#10141b",
+    // Paper (--color-paper); written as rgb() so no hex literal lives outside tokens.css.
+    background_color: "rgb(251, 250, 246)",
+    theme_color: "rgb(251, 250, 246)",
     categories: ["games", "education", "trivia"],
     icons: [
       {

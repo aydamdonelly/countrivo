@@ -63,6 +63,13 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // The apex is canonical; www served duplicates with a 200 (SEO audit, Aug 2026).
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.countrivo.com" }],
+        destination: "https://countrivo.com/:path*",
+        permanent: true,
+      },
       { source: "/vs/:code", destination: "/games", permanent: true },
       { source: "/games/countryle", destination: "/games", permanent: true },
       { source: "/games/countryle/play", destination: "/games", permanent: true },
