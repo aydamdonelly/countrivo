@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllCountries } from "@/lib/data/countries";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames } from "@/lib/data/registry";
 import { PAPER } from "@/lib/seo/og-image";
 
 /**

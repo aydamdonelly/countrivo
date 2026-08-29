@@ -57,6 +57,16 @@ export function RunDetail({ run }: RunDetailProps) {
         </div>
       ) : null}
       <div className="rrows t-row">
+        <div className="rrow cols4 border-t-0 min-h-0 pt-2 pb-1">
+          <span />
+          <span />
+          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
+            pick
+          </span>
+          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
+            optimal
+          </span>
+        </div>
         {picks.map((a) => {
           const country = getCountryByIso3(iso3s[a.countryIdx] ?? "");
           const optimal = optimalByCountry.get(a.countryIdx);

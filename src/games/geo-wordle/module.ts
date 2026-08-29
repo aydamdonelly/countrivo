@@ -12,8 +12,15 @@ import { buildGeoWordleShareText } from "@/lib/share";
 import type { GameModule } from "@/games/types";
 import { codec } from "./codec";
 
-/** One guess. `iso3` is always three uppercase letters, so the log token is `g{ISO}`. */
-export type GeoAction = { t: "guess"; iso3: string };
+/**
+ * One guess (`iso3` is always three uppercase letters, so the log token is `g{ISO}`), or a
+ * word the board refused before it ever reached the engine. The refusal changes nothing and
+ * is never persisted; it exists so a rejected input still carries the wrong sound and clears
+ * a verdict that belongs to an older guess.
+ */
+export type GeoAction = { t: "guess"; iso3: string } | { t: "reject"; ui: true };
+
+export const REJECTED: GeoAction = { t: "reject", ui: true };
 
 /**
  * `2 340 km`. Grouped by hand rather than through `toLocaleString`, so the server and the
@@ -38,7 +45,7 @@ export function answerName(state: GeoWordleState): string {
 /**
  * GeoWordle (blueprint 8.8): a hidden country, six tries, every guess resolved to a
  * distance, a bearing and a proximity band. The engine is pure and seeded, so
- * `create(dateSeed(dateKey + edition))` gives every player the same answer.
+ * `create(dateSeed(dateKey + edition))` gives every player in the world the same answer.
  */
 export const gameModule: GameModule<GeoWordleState, GeoAction> = {
   slug: "geo-wordle",
@@ -76,10 +83,10 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
    * so the verdict line carries what that line cannot: whether the guess moved you closer
    * than the one before it, and by how much. An input the engine refuses (an unknown name, a
    * repeat) keeps its message under the field where it was typed, and the verdict carries the
-   * tone alone so the wrong sound still plays and no stale line is left standing.
+   * tone alone, so the wrong sound still plays and no stale line is left standing.
    */
   verdict(prev, next, action) {
-    if (action.t !== "guess") return null;
+    if (action.t === "reject") return { tone: "bad", text: "" };
     if (next === prev) return { tone: "bad", text: "" };
     const guess = next.guesses[next.guesses.length - 1];
     if (guess.correct) return { tone: "good", text: "Solved." };

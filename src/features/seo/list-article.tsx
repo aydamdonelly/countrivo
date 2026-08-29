@@ -86,12 +86,24 @@ function statFact(fact: ListFact, rows: readonly RankRow[]): Fact | null {
   }
   const row = rows.find((r) => r.rank === fact.rank);
   if (!row) return null;
-  return {
-    value: row.value,
-    label: `${row.name}, ${fact.label}`,
-    sub: row.unit,
-    href: row.href,
-  };
+  return { value: valueWithUnit(row.value, row.unit), label: `${row.name}, ${fact.label}`, href: row.href };
+}
+
+/** The unit sits on the value line in the system face, so every tile is two lines tall. */
+function valueWithUnit(value: string, unit?: string) {
+  if (!unit) return value;
+  return (
+    <>
+      {value}
+      <span className="fact-unit">{unit}</span>
+    </>
+  );
+}
+
+/** "742.3M people" split the same way as a table value. */
+function statTile(raw: number, unit: string, label: string, href?: string): Fact {
+  const { value, unit: suffix } = splitStat(raw, unit);
+  return { value: valueWithUnit(value, suffix), label, ...(href ? { href } : {}) };
 }
 
 function buildContinentList(list: ListContent, continent: string, sovereign: number): Built {
@@ -116,26 +128,32 @@ function buildContinentList(list: ListContent, continent: string, sovereign: num
   });
 
   const totalPopulation = countries.reduce((sum, c) => sum + c.pop, 0);
-  const biggest = [...countries].sort((a, b) => (b.area ?? 0) - (a.area ?? 0))[0];
+  const withArea = countries.filter((c) => c.area !== null && c.area > 0);
+  const byArea = [...withArea].sort((a, b) => (b.area ?? 0) - (a.area ?? 0));
+  const biggest = byArea[0];
+  const smallest = byArea[byArea.length - 1];
   const mostPeople = countries[0];
 
   const facts: Fact[] = list.quickFacts
     .map((fact): Fact | null => {
       if (fact.kind === "count") return { value: String(rows.length), label: fact.label };
-      if (fact.kind === "sum" && population)
-        return { value: formatStat(totalPopulation, population.unit), label: fact.label };
+      if (fact.kind === "sum" && population) return statTile(totalPopulation, population.unit, fact.label);
       if (fact.kind === "top" && fact.stat === "population" && mostPeople && population)
-        return {
-          value: formatStat(mostPeople.pop, population.unit),
-          label: `${mostPeople.country.displayName}, ${fact.label}`,
-          href: `/countries/${mostPeople.country.slug}`,
-        };
-      if (fact.kind === "top" && fact.stat === "area-km2" && biggest && biggest.area !== null && area)
-        return {
-          value: formatStat(biggest.area, area.unit),
-          label: `${biggest.country.displayName}, ${fact.label}`,
-          href: `/countries/${biggest.country.slug}`,
-        };
+        return statTile(
+          mostPeople.pop,
+          population.unit,
+          `${mostPeople.country.displayName}, ${fact.label}`,
+          `/countries/${mostPeople.country.slug}`,
+        );
+      if (fact.kind !== "top" && fact.kind !== "bottom") return null;
+      const areaPick = fact.kind === "top" ? biggest : smallest;
+      if (areaPick && fact.stat === "area-km2" && areaPick.area !== null && area)
+        return statTile(
+          areaPick.area,
+          area.unit,
+          `${areaPick.country.displayName}, ${fact.label}`,
+          `/countries/${areaPick.country.slug}`,
+        );
       return null;
     })
     .filter((f): f is Fact => f !== null);

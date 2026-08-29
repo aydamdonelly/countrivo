@@ -88,19 +88,21 @@ export async function FriendsPage() {
     .map(({ username, name, crest, score, isMe }) => ({ username, name, crest, score, isMe }));
 
   const shot = friends.filter((f) => f.todayRuns.length > 0).length;
+  /* The title block carries the standing count; the day's live fact belongs to the strip
+     right below it in ember, and printing it twice, 40 px apart, would say nothing new. */
   const meta = friends.length === 0 ? "no friends yet" : `${friends.length} ${friends.length === 1 ? "friend" : "friends"}`;
 
   return (
     <>
       <PageTitle title="Friends" meta={meta} />
-      <div className="social-two">
-        <div>
+      <div className="frame-app social-grid">
+        <div className="col">
           {friends.length > 0 ? <FriendsStrip friends={strip} fact={`${shot} of ${friends.length} have shot`} /> : null}
           <FriendRequests requests={pending} />
           <FriendSearch />
           <InviteRow username={viewer.profile?.username ?? ""} />
         </div>
-        <div className="side">
+        <div className="rail">
           <FriendRows friends={items} />
         </div>
       </div>

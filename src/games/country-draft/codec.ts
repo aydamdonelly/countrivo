@@ -3,15 +3,26 @@ import type { DraftAction } from "./module";
 
 /*
  * The resume log (blueprint 8.3): `p{c}` a pick on category 0 to 7, `u` the one undo, `s` the
- * reveal acknowledged. Worst case 8 picks plus an undo plus the reveal token = 18 characters,
- * far inside the 900-byte cookie cap. `dec` throws on anything it cannot read, and the play
- * page then drops the cookie rather than replaying nonsense.
+ * reveal acknowledged. Worst case is eight picks, the undo, the re-pick and the reveal token:
+ * 20 characters, far inside the 900-byte cookie cap. `dec` throws on anything it cannot read,
+ * and the play page then drops the cookie rather than replaying nonsense.
  */
 const MAX_CATEGORY = 7;
 
 export const codec: Codec<DraftAction> = {
   enc(log) {
-    return log.map((a) => (a.t === "pick" ? `p${a.c}` : a.t === "undo" ? "u" : "s")).join("");
+    return log
+      .map((a) => {
+        switch (a.t) {
+          case "pick":
+            return `p${a.c}`;
+          case "undo":
+            return "u";
+          case "seen":
+            return "s";
+        }
+      })
+      .join("");
   },
 
   dec(s) {

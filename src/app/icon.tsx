@@ -10,6 +10,12 @@ export const contentType = "image/png";
  * tile. Ink because a paper tile disappears into a light browser chrome, and the
  * letterform because it is the one shape that belongs to this brand alone.
  * Colours come from the Satori palette mirror (blueprint section 1).
+ *
+ * One geometry across the four marks: cap height 58.9 % of the side with the
+ * glyph's bounding box centred, and a tile radius of 22 % on the three browser
+ * marks (this route, public/favicon.svg, src/app/favicon.ico). apple-icon.tsx is
+ * the exception and is full bleed, because iOS cuts its own shape. Measured on
+ * the rendered pixels, not eyeballed.
  */
 export default function Icon() {
   return new ImageResponse(
@@ -22,7 +28,7 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: INK,
-          borderRadius: 8,
+          borderRadius: 7,
           color: PAPER,
           fontFamily: "Erode",
         }}

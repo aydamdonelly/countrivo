@@ -1,12 +1,14 @@
 /*
- * Higher or Lower (blueprint 8.8): two countries, one stat, call which ranks higher. A
- * wrong call ends the streak. The engine (src/lib/game-logic/higher-or-lower/engine.ts)
- * precomputes 80 rounds from the seed and advances on `guess`; this adapter adds the one
- * thing the board needs and the engine has no concept of, the 1500 ms reveal: the call is
- * held in `pending` while the hidden value counts up, and the engine only sees it when the
- * host dispatches `advance` at the end of the window (or replay applies it at once).
+ * Higher or Lower (blueprint 8.8): two countries, one stat, call which of the two ranks
+ * higher. A wrong call ends the streak. The pure engine
+ * (src/lib/game-logic/higher-or-lower/engine.ts) precomputes 80 rounds from the seed and
+ * advances on `guess`; this adapter adds the one thing the board needs and the engine has no
+ * concept of, the 1500 ms reveal (blueprint 8.5): the call is held in `pending` while the
+ * hidden value counts up, and the engine only sees it when the host dispatches `advance` at
+ * the end of the window (replay applies that at once, so a resumed board waits on nothing).
  */
 import { mulberry32 } from "@/lib/seeded-random";
+import { formatStat } from "@/lib/utils";
 import { createHoL, guess, type HoLRound, type HoLState as EngineState } from "@/lib/game-logic/higher-or-lower/engine";
 import { buildShareGrid } from "@/lib/share";
 import type { GameModule } from "@/games/types";
@@ -17,7 +19,7 @@ export type Call = "higher" | "lower";
 /** The two options in the order the board renders them: 0 higher, 1 lower. */
 export const CALLS: readonly Call[] = ["higher", "lower"];
 
-/** How long the answered pair stays on screen (blueprint 8.5). */
+/** How long the answered pair stays on screen before the engine takes the call (blueprint 8.5). */
 export const REVEAL_MS = 1500;
 
 export interface HoLState {
@@ -41,13 +43,26 @@ function commit(s: HoLState): HoLState {
 
 /**
  * The unit printed beside a pair value. The stat line above the pair already names the
- * measure, and the two wordy units would wrap the 22 px numeral onto a second line
- * ("4.556 births/woman"), so those two are dropped and the number stands alone.
+ * measure, so the three units that would wrap a 22 px Erode numeral onto a second line in a
+ * 165 px column ("1.1M arrivals/year", "4.6 births/woman", "84.5M people") are dropped and
+ * the number stands alone. `%`, `years`, `km²` and `USD` stay: they carry meaning the stat
+ * line does not.
  */
-const PAIR_UNITS: Record<string, string> = { "births/woman": "", "arrivals/year": "" };
+const DROPPED_UNITS = new Set(["people", "births/woman", "arrivals/year"]);
 
 export function pairUnit(unit: string): string {
-  return PAIR_UNITS[unit] ?? unit;
+  return DROPPED_UNITS.has(unit) ? "" : unit;
+}
+
+/**
+ * `41.6%`, `84.5 years`, `1.1M`, `4.556`: the house formatter with no dangling space when the
+ * unit is dropped. The figures are printed at the precision the data carries and are never
+ * rounded further: a fertility pair is often decided in the second decimal (rounding the
+ * category to one would print the same number on both sides of 4 rounds in 100), and a pair
+ * that reads as a tie is a round the player cannot call.
+ */
+export function pairValue(value: number, unit: string): string {
+  return formatStat(value, pairUnit(unit)).trimEnd();
 }
 
 /** The pair on screen: during the reveal it is still the round that was just called. */
@@ -94,12 +109,14 @@ export const gameModule: GameModule<HoLState, HoLAction> = {
   },
   codec,
   feedback: { ms: REVEAL_MS, inWindow: (s) => s.pending !== null, advance: ADVANCE },
-  done: (s) => s.pending === null && s.g.phase === "gameover",
+  // A deck the generator could not fill (every candidate pair tied) has nothing to play, so
+  // it is finished on arrival rather than rendering a board with no round in it.
+  done: (s) => s.g.rounds.length === 0 || (s.pending === null && s.g.phase === "gameover"),
   /*
-   * The session line: the burning flame, `streak`, the numeral, and no pips (blueprint
-   * 8.8 asks for `best 22` beside it, but the engine's bestStreak only ever equals the
-   * running streak, and the viewer's own best never reaches `progress`, so a `best` here
-   * would print the same number twice).
+   * The session line: the burning flame, `streak`, the numeral, and no pips (blueprint 8.8
+   * also asks for `best 22` beside it, but the engine's bestStreak only ever equals the
+   * running streak, so it would print the same number twice, and the viewer's own best
+   * across sessions never reaches `progress`, which sees the state alone).
    */
   progress(s) {
     const g = settled(s);
@@ -127,7 +144,8 @@ export const gameModule: GameModule<HoLState, HoLAction> = {
   },
   scoreLabel: (s) => `${settled(s).streak} in a row`,
   share(s, ctx) {
-    // A streak has no fixed maximum, so the share carries the brag line without a grid row.
+    // A streak has no fixed maximum, so the share carries the brag line without a grid row
+    // (the rule buildShareGrid documents for open-ended scores).
     return buildShareGrid({
       gameTitle: ctx.title,
       gameSlug: "higher-or-lower",

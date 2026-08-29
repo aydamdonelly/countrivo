@@ -65,7 +65,9 @@ async function streakWeek(userId: string, todayKey: string, total: number): Prom
   } catch (err) {
     console.error("[profile] week read failed", err);
   }
-  return keys.map((key) => ({ label: dayLetters(key), played: counts.get(key) ?? 0, total, today: key === todayKey }));
+  /* A day with no shot carries no counter at all (blueprint 3.12: the `4/12` belongs to the
+     days that were played); the tile is then just the letter. */
+  return keys.map((key) => ({ label: dayLetters(key), played: counts.get(key) ?? null, total, today: key === todayKey }));
 }
 
 /** `612 · #9 of 41` (blueprint 10.4). */
@@ -186,12 +188,22 @@ export async function OwnProfilePage() {
         longest={profile.streakLongest}
         own
         hasCountry={Boolean(profile.countryCode)}
+        weekFollows
       />
-      <div className="social-two">
-        <div>
-          <StreakWeek n={profile.streakCurrent} days={week} className="sec" />
+      <div className="frame-app social-grid">
+        <div className="col">
+          <section className="sec">
+            <SectionHead title="Streak" fact={profile.streakLongest > 0 ? `best ${profile.streakLongest}` : undefined} />
+            <StreakWeek n={profile.streakCurrent} days={week} />
+          </section>
           <Today shots={shots} own />
           <Numbers runs={data.totalRuns} dailies={data.totalDailyRuns} games={data.gameStats.length} />
+        </div>
+        {/* On a phone this follows the day; on desktop it is the rail beside it. */}
+        <div className="rail">
+          <Games stats={stats} />
+        </div>
+        <div className="col">
           <SectionHead title="Your profile" />
           <ProfileEdit
             username={profile.username}
@@ -203,9 +215,6 @@ export async function OwnProfilePage() {
           <SignOutButton />
           <DeleteAccount />
           {viewer.user.id === ADMIN_USER_ID ? <RerollButton /> : null}
-        </div>
-        <div className="side">
-          <Games stats={stats} />
         </div>
       </div>
     </>
@@ -245,12 +254,12 @@ export async function PublicProfilePage({ username }: { username: string }) {
           <Button href={`/friends/add/${profile.username}`}>Add as friend</Button>
         </div>
       ) : null}
-      <div className="social-two">
-        <div>
+      <div className="frame-app social-grid">
+        <div className="col">
           <Today shots={shots} own={false} />
           <Numbers runs={data.totalRuns} dailies={data.totalDailyRuns} games={data.gameStats.length} />
         </div>
-        <div className="side">
+        <div className="rail">
           <Games stats={gameStats(data.gameStats)} />
           {h2h ? <HeadToHead wins={h2h.wins} losses={h2h.losses} draws={h2h.draws} recent={h2h.recent} /> : null}
         </div>

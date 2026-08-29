@@ -5,25 +5,37 @@ import type { StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { Flag } from "@/ui/flag";
 import type { ResultProps } from "@/games/types";
 import { statLabel } from "@/games/_shared/format";
+import { errorText, errorTone, gradeWord, reportedError } from "./module";
 
-/** Five rows: the flag, the country and stat, the actual value, the error. */
+/**
+ * The result rows (blueprint 8.8): the grade word and the spread, then the five countries
+ * with the stat, the number that was true, and how far the guess landed from it.
+ */
 export function Result({ state }: ResultProps<StatGuesserState>) {
+  const errors = state.scores.map((x) => x ?? 0);
+  const best = Math.min(...errors);
+  const worst = Math.max(...errors);
   return (
-    <div className="rrows t-row">
-      {state.rounds.map((r, i) => {
-        const e = state.scores[i] ?? 0;
-        return (
-          <div key={`${r.country.iso3}-${i}`} className="rrow cols4">
-            <Flag iso2={r.country.iso2} size="xs" alt="" />
+    <div>
+      <div className="rhead">
+        <b className="t-h3">{gradeWord(reportedError(state))}</b>
+        <span className="rfacts t-body">
+          best <b className="num">{errorText(best)} %</b> · worst <b className="num">{errorText(worst)} %</b>
+        </span>
+      </div>
+      <div className="rrows t-row">
+        {state.rounds.map((round, i) => (
+          <div key={`${round.country.iso3}-${i}`} className="rrow cols4">
+            <Flag iso2={round.country.iso2} size="xs" alt="" />
             <span className="nm">
-              {r.country.displayName}
-              <small className="t-meta">{statLabel(r.category.slug, r.category.shortLabel)}</small>
+              {round.country.displayName}
+              <small className="t-meta">{statLabel(round.category.slug, round.category.shortLabel)}</small>
             </span>
-            <b className="v t-score num">{formatStat(r.actualValue, r.category.unit)}</b>
-            <span className={`v t-meta ${e >= 50 ? "bad" : "mute"}`}>{e} % off</span>
+            <b className="v t-score num">{formatStat(round.actualValue, round.category.unit)}</b>
+            <span className={`v t-meta ${errorTone(errors[i]) === "bad" ? "bad" : "mute"}`}>{errorText(errors[i])} % off</span>
           </div>
-        );
-      })}
+        ))}
+      </div>
     </div>
   );
 }

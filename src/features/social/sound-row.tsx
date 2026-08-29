@@ -18,8 +18,7 @@ export function SoundRow() {
       <SectionHead title="Sound and haptics" />
       <div className="snd t-row">
         {on ? <SoundIcon size={22} /> : <SoundOffIcon size={22} />}
-        <span className="lbl">Sound and haptics</span>
-        <span className="opts">
+        <span className="sndopts">
           <button type="button" aria-pressed={on} onClick={() => juice.setMuted(false)}>
             On
           </button>

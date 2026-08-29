@@ -14,7 +14,7 @@ export function ListsHub() {
       <PageTitle title={LISTS_HUB.h1} meta={`${LISTS.length} curated rankings`} />
       <Prose paragraphs={LISTS_INTRO} />
 
-      <section className="ls">
+      <section className="ls lists-rows">
         {LISTS.map((list) => {
           const category = list.source.kind === "stat" ? getCategoryBySlug(list.source.category) : null;
           return (

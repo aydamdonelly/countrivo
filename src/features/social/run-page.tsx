@@ -28,7 +28,9 @@ export function runDate(dailyDate: string): string {
 export async function RunPage({ slug, runId }: RunPageProps) {
   const id = Number(runId);
   const run = Number.isFinite(id) ? await getRunDetail(id) : null;
-  if (!run || run.gameSlug !== slug) notFound();
+  /* `get_run_detail` answers for daily runs only; the null guard keeps a practice row from
+     ever printing a date it does not have. */
+  if (!run || run.gameSlug !== slug || !run.dailyDate) notFound();
 
   const game = getGameBySlug(slug);
   const title = game?.title ?? slug;
@@ -36,7 +38,10 @@ export async function RunPage({ slug, runId }: RunPageProps) {
 
   const [summary, crest] = await Promise.all([getDailySummary(slug, run.dailyDate), ownerCrest(run.userId)]);
   const shots = summary.playerCount;
-  const topPercent = run.percentile !== null ? Math.max(1, Math.round(100 - run.percentile)) : null;
+  /* The kicker's right side is the standing itself (blueprint 7.7): `#9 of 41`, or the day's
+     size when the rank never landed. A percentile is not printed beside it: with the rank and
+     the field both on the card it says nothing new, and on a small board it reads `top 100 %`. */
+  const counter = shots > 0 ? (run.rankDaily !== null ? `#${run.rankDaily} of ${shots}` : `${shots} ${shots === 1 ? "shot" : "shots"}`) : undefined;
   const Detail = isPlayable(slug) ? RUN_DETAILS[slug] : null;
 
   return (
@@ -57,8 +62,7 @@ export async function RunPage({ slug, runId }: RunPageProps) {
         game={title}
         score={compactScore(run.scoreDisplay, run.scoreRaw)}
         kicker={`${title.toUpperCase()} · ${date.toUpperCase()}`}
-        counter={topPercent !== null ? `top ${topPercent} %` : undefined}
-        ranks={shots > 0 ? { globalRank: run.rankDaily, globalShots: shots, friendRank: null, friendCount: 0 } : undefined}
+        counter={counter}
         actions={
           <>
             <Button href={`/games/${slug}`}>Play {title}</Button>

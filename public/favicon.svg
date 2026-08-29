@@ -1,6 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="48" fill="#b8860b"/>
-  <text x="50" y="58" text-anchor="middle" dominant-baseline="middle"
-    font-size="56" font-family="system-ui, sans-serif" font-weight="800"
-    fill="white">C</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Countrivo">
+  <rect width="100" height="100" rx="22" fill="#17181a"/>
+  <path d="M25.96 50.56Q25.96 37.2 34.24 28.88Q42.52 20.55 55.79 20.55Q64.54 20.55 73.85 24.78V38.05H69.34Q68.3 32.59 64.91 29.35Q61.53 26.1 55.69 26.1Q47.88 26.1 43.18 32.64Q38.47 39.18 38.47 49.62Q38.47 60.63 43.32 67.27Q48.17 73.9 55.88 73.9Q67.92 73.9 69.52 60.91H74.04V75.03Q64.82 79.45 54.94 79.45Q41.96 79.45 33.96 71.5Q25.96 63.55 25.96 50.56Z" fill="#fbfaf6"/>
 </svg>

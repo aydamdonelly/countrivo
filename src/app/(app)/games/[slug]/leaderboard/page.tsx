@@ -12,11 +12,13 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const game = getGameBySlug(slug);
+  // Only a game with a daily has a board; the page itself answers 404 for the rest.
+  const daily = game?.availableModes.includes("daily") ? game : null;
   return {
-    title: game ? `${game.title}: Today's Board` : "Today's board",
-    description: game
-      ? `Today's ${game.title} shots, ranked. One shot per player, same board for everyone, resets at midnight Berlin time.`
-      : "Today's board.",
+    title: daily ? `${daily.title}: Today's Board` : "Board not found",
+    description: daily
+      ? `Today's ${daily.title} shots, ranked. One shot per player, same board for everyone, resets at midnight Berlin time.`
+      : "This game has no daily board.",
     robots: { index: false, follow: true },
   };
 }

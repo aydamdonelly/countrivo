@@ -212,6 +212,24 @@ export const GAME_CONTENT: Record<string, GameContent> = {
   },
 };
 
+/**
+ * Row metas that correct a registry `shortDescription` the rebuild contradicts (blueprint
+ * 8.9): Population Sort renders six countries, Supremacy is played against the AI and
+ * never against a person, and the site spells the border word the British way everywhere
+ * else. The JSON itself is only ever rewritten by the data scripts, so the correction
+ * lives here until the next run.
+ */
+const HUB_META: Record<string, string> = {
+  "population-sort": "Sort 6 countries. Every position matters.",
+  supremacy: "Five cards, five stats. Beat the AI.",
+  "border-buddies": "Name every neighbour. Miss one and it shows.",
+};
+
+/** The row meta for a game: the correction if there is one, else the registry line. */
+export function gameMeta(slug: string, shortDescription: string): string {
+  return HUB_META[slug] ?? shortDescription;
+}
+
 export function getGameContent(slug: string): GameContent | null {
   return GAME_CONTENT[slug] ?? null;
 }

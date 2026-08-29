@@ -32,13 +32,13 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "flag-quiz": {
     about: [
-      "Flag Quiz is a free flag game with all 243 countries and territories. A flag appears, you pick the country from four options, ten rounds per run. The daily challenge gives everyone the same ten flags, so your score is comparable with every other player's that day; practice mode shuffles new flags every time.",
+      "Flag Quiz is a free flag game with all 243 countries and territories. A flag appears, you pick the country from four options, ten rounds per run. The daily board gives everyone the same ten flags, so your score is comparable with every other player's that day; practice mode shuffles new flags every time.",
       "It is the quickest way to learn the flags of the world: the distractors are chosen to be plausible (similar colours, same region), so you learn to tell Chad from Romania and Indonesia from Monaco instead of guessing.",
     ],
     faq: [
       { q: "How many flags are in the flag quiz?", a: "Every one of the 243 countries and territories on Countrivo has its flag in the pool, including small territories and dependencies." },
       { q: "Is the flag quiz multiple choice?", a: "Yes. Each flag comes with four country names, one correct. Ten flags make a round." },
-      { q: "Is there a daily flag quiz?", a: "Yes. The daily challenge shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
+      { q: "Is there a daily flag quiz?", a: "Yes. The daily board shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
     ],
   },
   "geo-wordle": {
@@ -69,7 +69,7 @@ export const GAME_COPY: Record<string, GameCopy> = {
     ],
     faq: [
       { q: "Does the capitals quiz cover every country?", a: "Yes, all 243 countries and territories on Countrivo, each with its capital city." },
-      { q: "Is there a daily capitals quiz?", a: "Yes. The daily challenge gives everyone the same ten countries; practice mode is unlimited." },
+      { q: "Is there a daily capitals quiz?", a: "Yes. The daily board gives everyone the same ten countries; practice mode is unlimited." },
       { q: "Are trick capitals included?", a: "Yes. Countries whose largest city is not the capital appear regularly, because those are the ones worth learning." },
     ],
   },
@@ -84,10 +84,10 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "country-streak": {
     about: [
-      "Country Streak is a fast geography quiz with a single rule: keep answering correctly. Questions mix flags, capitals and facts about countries; one wrong answer ends the streak. The daily run is the same question sequence for everyone.",
+      "Country Streak is a fast flag quiz with a single rule: keep answering correctly. A flag appears, you pick the country from four options, and one wrong answer ends the streak. The daily run is the same flag sequence for everyone.",
     ],
     faq: [
-      { q: "What kind of questions are in Country Streak?", a: "Flags, capitals, continents and quick facts about the 243 countries and territories on Countrivo." },
+      { q: "What kind of questions are in Country Streak?", a: "Flags. Every one of the 243 countries and territories on Countrivo can appear, four names to a flag." },
       { q: "Is Country Streak timed?", a: "No timer. The pressure is the streak: one miss and the run is over." },
     ],
   },
@@ -97,7 +97,7 @@ export const GAME_COPY: Record<string, GameCopy> = {
     ],
     faq: [
       { q: "How many countries have land borders?", a: "Most do; island nations are excluded from Border Buddies because they have none." },
-      { q: "Do I need to spell the countries?", a: "You pick from options, so spelling is not part of the challenge." },
+      { q: "Do I need to spell the countries?", a: "You type, and the suggestion list completes the name for you, so spelling is not part of the game." },
     ],
   },
   "continent-sprint": {
@@ -131,9 +131,9 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "supremacy": {
     about: [
-      "Supremacy is a two-player country draft: you and an opponent take turns picking countries, and each pick is scored on a hidden statistic. Outsmart the other side by reading which stats are in play.",
+      "Supremacy is a country stat card battle: you and the AI hold five country cards each, and every round one side picks the statistic the cards are compared on. Outsmart the AI by reading which stats are still in its hand.",
     ],
-    faq: [{ q: "Is Supremacy multiplayer?", a: "It is a versus format against an opponent. Practice mode plays against the computer." }],
+    faq: [{ q: "Do I play Supremacy against another person?", a: "No. Supremacy is one player against the computer, five rounds a game." }],
   },
   "borderline": {
     about: [
@@ -143,7 +143,7 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "blitz": {
     about: [
-      "Blitz is the typing flag and capital quiz: a prompt appears, you type the country, the fastest correct answers score highest. Practice only.",
+      "Blitz is the typing flag quiz: a flag appears, you type the country, and the fastest correct answers score highest. Ten flags, practice only.",
     ],
     faq: [{ q: "Is Blitz timed?", a: "Yes. Speed and accuracy both count." }],
   },

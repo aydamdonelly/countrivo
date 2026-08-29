@@ -3,7 +3,7 @@ import { getGameBySlug } from "@/lib/data/registry";
 import { getGameCopy } from "@/lib/seo/game-copy";
 import { buildGameJsonLd } from "@/lib/seo/game-metadata";
 import { getPublicBoard } from "@/server/boards";
-import { getGameContent, relatedSlugs } from "@/content/games";
+import { gameMeta, getGameContent, relatedSlugs } from "@/content/games";
 import { LANDING_DRAFT_CHIPS } from "@/content/chips";
 import {
   AnchorCard,
@@ -150,7 +150,7 @@ export async function GameLanding({ slug }: { slug: string }) {
                 key={g.slug}
                 slug={g.slug as GameSlug}
                 title={g.title}
-                meta={g.shortDescription}
+                meta={gameMeta(g.slug, g.shortDescription)}
                 href={g.route}
               />
             ))}

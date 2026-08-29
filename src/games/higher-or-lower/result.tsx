@@ -5,7 +5,12 @@ import type { ResultProps } from "@/games/types";
 import { statLabel } from "@/games/_shared/format";
 import { callLog, settled, type HoLState } from "./module";
 
-/** The last five pairs (blueprint 8.8): left vs right, the stat, your call; the wrong one in ember. */
+/**
+ * The rows under the result card (blueprint 8.8): the last five pairs, each `left vs right`
+ * with the stat under it and the call you made at the right. The call that ended the streak
+ * is the only one in ember; the rest stay mute, so the row that cost the run reads at a
+ * glance without a second colour family.
+ */
 export function Result({ state }: ResultProps<HoLState>) {
   const log = callLog(settled(state));
   if (log.length === 0) return null;
@@ -22,10 +27,13 @@ export function Result({ state }: ResultProps<HoLState>) {
       </div>
       <div className="rrows t-row">
         {rows.map(({ index, round, call, ok }) => (
-          <div key={index} className="rrow">
-            <Flag iso2={round.right.iso2} size="xs" alt="" />
-            {/* two country names in one cell: let the pair wrap rather than lose the
-                second name to the row's ellipsis */}
+          // Two flags need more than the shared 26 px identity column, and the two country
+          // names need to wrap rather than lose the second one to the row's ellipsis.
+          <div key={index} className="rrow" style={{ gridTemplateColumns: "auto minmax(0, 1fr) auto" }}>
+            <span className="flags">
+              <Flag iso2={round.left.iso2} size="xs" alt="" />
+              <Flag iso2={round.right.iso2} size="xs" alt="" />
+            </span>
             <span className="nm" style={{ whiteSpace: "normal" }}>
               {round.left.displayName} vs {round.right.displayName}
               <small className="t-meta">{statLabel(round.category.slug, round.category.shortLabel)}</small>

@@ -38,6 +38,9 @@
   .under p + p { margin-top: 6px; }
   .ilink { color: var(--color-ember); font-weight: 600; padding: 6px 0; }
   .rail-board { margin-bottom: 24px; }
+  /* The public board's me-row is one link to the leaderboard, so it takes the full 44 px
+     target here (the home's 40 px K3 row is a row of text, not a control). */
+  .rail-board .gb a.row.me { padding-top: 9px; padding-bottom: 9px; }
   .steps-ol li span { min-width: 0; }
 
   /* ── entity block ────────────────────────────────────────────────────── */
@@ -47,13 +50,16 @@
   .dl dd { color: var(--color-ink); text-align: right; }
   @media (min-width: 768px) { .dl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; } }
   .src-line { color: var(--color-mute); margin-top: 12px; max-width: 62ch; }
+  /* The source note ends a block; without this the next section head sits on its last line. */
+  .src-block { margin-bottom: 24px; }
 
   /* ── country page ────────────────────────────────────────────────────── */
   .sfx { font-family: var(--font-sans); font-size: 13px; font-weight: 400; margin-left: 1px; }
   .standing { margin-bottom: 8px; }
   .empty-row { color: var(--color-mute); padding: 12px 0; border-top: 1px solid var(--color-line); }
   .entity-line { color: var(--color-mute); margin-top: 28px; }
-  @media (min-width: 1024px) { .col.side .narrow-only { display: none; } }
+  /* The continent list runs to twelve on the phone and to six in the desktop rail. */
+  @media (min-width: 1024px) { .col.side .rail-hidden { display: none; } }
 
   /* ── countries hub ───────────────────────────────────────────────────── */
   .cx-search { margin-bottom: 4px; }
@@ -62,6 +68,22 @@
   .cx-anchors { margin: 16px 0 20px; color: var(--color-mute); }
   .cx-anchors a { color: var(--color-ink); padding: 8px 0; }
   .cx a.row[data-hide], .cx section[data-hide] { display: none; }
+
+  /* ── fact tiles ──────────────────────────────────────────────────────── */
+  /* Tiles are a comparison row: the value line, the label and the third line must sit on
+     the same baselines across every tile, whatever the label's length (the law's
+     misaligned-parallel-columns rule). Equal-height tiles plus a bottom-anchored third
+     line do it without reserving empty rows. */
+  .facts[data-n] .f { display: flex; flex-direction: column; height: 100%; }
+  .facts[data-n] .s { margin-top: auto; padding-top: 2px; }
+  /* The unit rides the value line in the system face, never as a third line. */
+  .facts .fact-unit { font-family: var(--font-sans); font-size: 12px; font-weight: 400; letter-spacing: 0; color: var(--color-mute); margin-left: 5px; }
+  /* A tile is a control, not an inline text link: it carries a full 44 px target. */
+  .facts[data-n] a.f { min-height: 44px; }
+  /* Four Erode values do not fit across a 328 px rail either. */
+  @media (min-width: 1024px) {
+    .col.side .facts[data-n="4"] { grid-auto-flow: row; grid-template-columns: 1fr 1fr; row-gap: 16px; }
+  }
 
   /* ── category page ───────────────────────────────────────────────────── */
   .lead-line { color: var(--color-mute); max-width: 62ch; margin-bottom: 20px; }
@@ -83,6 +105,11 @@
     .rank.cols4 td.cap { grid-area: cp; }
     .rank.cols4 td.v { grid-area: vl; }
   }
+
+  /* ── lists hub ───────────────────────────────────────────────────────── */
+  /* The 15 rows follow the intro directly (7.12 has no head there); without a gap the
+     first row's hairline reads as an underline of the last paragraph. */
+  .lists-rows { margin-top: 24px; }
 
   /* ── list page ───────────────────────────────────────────────────────── */
   .figure { margin-bottom: 20px; }

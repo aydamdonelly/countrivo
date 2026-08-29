@@ -12,7 +12,7 @@ export interface HomePageProps {
 }
 
 /** The half of a pane that carries no tabpanel id: same data-pane, same hidden and inert. */
-function Part({ mode, active, className, children }: { mode: Mode; active: Mode; className: string; children: ReactNode }) {
+function ModeGroup({ mode, active, className, children }: { mode: Mode; active: Mode; className: string; children: ReactNode }) {
   const on = mode === active;
   return (
     <div data-pane={mode} hidden={!on} inert={!on} className={className}>
@@ -42,17 +42,17 @@ export function HomePage({ mode, daily, practice }: HomePageProps) {
         <DailyRail {...daily} />
       </div>
 
-      <Part mode="daily" active={mode} className="home-lists">
+      <ModeGroup mode="daily" active={mode} className="home-lists">
         <DailyLists {...daily} />
-      </Part>
+      </ModeGroup>
 
       <ModePane mode="practice" active={mode} className="home-anchor">
         <PracticeAnchor {...practice} />
       </ModePane>
 
-      <Part mode="practice" active={mode} className="home-lists">
+      <ModeGroup mode="practice" active={mode} className="home-lists">
         <PracticeList {...practice} />
-      </Part>
+      </ModeGroup>
     </div>
   );
 }

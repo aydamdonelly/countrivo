@@ -67,10 +67,12 @@ export function CategoryPage({ category }: { category: Category }) {
     })
     .filter((r): r is RankRow => r !== null);
 
+  // Two lines per tile, never three, and no unit: the page title, the lead and every row
+  // of the table below already say what is being counted, and three Erode values plus a
+  // unit do not fit the 328 px rail.
   const facts: Fact[] = rows.slice(0, 3).map((r) => ({
     value: r.value,
     label: `${ordinal(r.rank)} · ${r.name}`,
-    sub: r.unit,
     href: r.href,
   }));
 
@@ -105,7 +107,7 @@ export function CategoryPage({ category }: { category: Category }) {
             <FactRow facts={facts} />
           </div>
 
-          <section data-o="5">
+          <section data-o="5" className="src-block">
             <SectionHead title="Source" variant="strip" />
             <p className="t-body src-line">
               {category.source}, {category.sourceYear}. Coverage {category.coveragePercent} % of countries.{" "}

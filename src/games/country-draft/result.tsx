@@ -8,7 +8,11 @@ import { rankQuality } from "@/ui/slot";
 import type { ResultProps } from "@/games/types";
 import { GRADE_WORD, RANK_CELL, type DraftState } from "./module";
 
-/** The head line and the eight pick rows (blueprint 8.8): your pick beside the optimal one. */
+/**
+ * The head line and the eight pick rows (blueprint 8.8): your pick beside the optimal one.
+ * The two rank columns are pinned to one width, so the eight rows read as columns and the
+ * numbers under `your pick` and under `optimal` each land on one right edge.
+ */
 export function Result({ state }: ResultProps<DraftState>) {
   const r = computeResult(state.g);
   const cfg = state.g.config;
@@ -21,6 +25,16 @@ export function Result({ state }: ResultProps<DraftState>) {
         </span>
       </div>
       <div className="rrows t-row">
+        <div className="rrow cols4 border-t-0 min-h-0 pt-2 pb-1">
+          <span />
+          <span />
+          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
+            your pick
+          </span>
+          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
+            optimal
+          </span>
+        </div>
         {r.assignments.map((a) => {
           const country = cfg.countries[a.countryIdx];
           const optimal = r.optimalAssignments[a.countryIdx];

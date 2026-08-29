@@ -1,5 +1,6 @@
 import { getAllGames } from "@/lib/data/games";
 import { GAMES_HUB, gamesHubFaq } from "@/content/hubs";
+import { gameMeta } from "@/content/games";
 import { TOTAL_COUNTRIES } from "@/content/entity";
 import { EditorialHead, GameList, PageTitle, QaList, SiteFoot } from "@/ui";
 import type { GameSlug } from "@/ui";
@@ -51,9 +52,8 @@ export function GamesHub() {
             rows={mainFirst.map((g) => ({
               slug: g.slug as GameSlug,
               title: g.title,
-              meta: g.shortDescription,
+              meta: gameMeta(g.slug, g.shortDescription),
               href: g.route,
-              tag: g.isNew ? ("NEW" as const) : undefined,
             }))}
           />
         </div>
@@ -64,9 +64,8 @@ export function GamesHub() {
             rows={practiceOnly.map((g) => ({
               slug: g.slug as GameSlug,
               title: g.title,
-              meta: g.shortDescription,
+              meta: gameMeta(g.slug, g.shortDescription),
               href: g.route,
-              tag: g.isNew ? ("NEW" as const) : undefined,
             }))}
           />
           {soon.length > 0 ? (

@@ -48,9 +48,6 @@
     .home-rail {
       display: block;
     }
-    [data-pane][hidden] {
-      display: none;
-    }
     .home-sw {
       grid-area: sw;
     }

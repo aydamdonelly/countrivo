@@ -8,7 +8,6 @@ import { Crest } from "@/ui/crest";
 import { Field } from "@/ui/field";
 import { SectionHead } from "@/ui/section-head";
 import { useToast } from "@/ui/toast";
-import { SearchIcon } from "@/ui/icons/search";
 
 const DEBOUNCE_MS = 300;
 const MIN_CHARS = 2;
@@ -58,20 +57,17 @@ export function FriendSearch() {
   return (
     <section className="sec">
       <SectionHead title="Find players" />
-      <div className="find">
-        <SearchIcon size={20} />
-        <Field
-          id="friend-search"
-          label="Search by name"
-          hideLabel
-          type="search"
-          autoComplete="off"
-          enterKeyHint="search"
-          placeholder="Search by name"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-      </div>
+      <Field
+        id="friend-search"
+        label="Search by name"
+        hideLabel
+        type="search"
+        autoComplete="off"
+        enterKeyHint="search"
+        placeholder="Search by name"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
       {results.map((p) => (
         <div key={p.id} className="prow t-row">
           <Crest path={p.crest} size={26} label={p.displayName ?? p.username} />

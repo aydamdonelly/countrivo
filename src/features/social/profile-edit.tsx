@@ -32,7 +32,7 @@ export interface ProfileEditProps {
 export function ProfileEdit({ username, displayName, countryCode, countries }: ProfileEditProps) {
   const router = useRouter();
   const toast = useToast();
-  const { applyProfile } = useAuth();
+  const { applyProfile, refreshProfile } = useAuth();
 
   const [name, setName] = useState(displayName);
   const [country, setCountry] = useState(countryCode);
@@ -56,7 +56,11 @@ export function ProfileEdit({ username, displayName, countryCode, countries }: P
         setProfileError(res.error ?? "Could not save. Try again.");
         return;
       }
+      /* The provider holds the profile every client component reads (the header crest, the
+         tab bar, this form). The action already returns the fresher row, so it goes in
+         directly; only a server that answered without one costs a re-fetch. */
       if (res.profile) applyProfile(res.profile);
+      else await refreshProfile();
       toast("Saved");
       router.refresh();
     });
@@ -71,6 +75,7 @@ export function ProfileEdit({ username, displayName, countryCode, countries }: P
         setHandleError(res.error ?? "Could not save. Try again.");
         return;
       }
+      await refreshProfile();
       toast("Saved");
       router.refresh();
     });
@@ -97,7 +102,7 @@ export function ProfileEdit({ username, displayName, countryCode, countries }: P
               </option>
             ))}
           </Select>
-          <Flag iso2={iso2} size="m" alt="" />
+          {iso2 ? <Flag iso2={iso2} size="m" alt="" /> : null}
         </div>
         {profileError ? <p className="msg err t-meta">{profileError}</p> : null}
         <Button type="submit" className="act" disabled={savingProfile || name.trim().length === 0} pending={savingProfile} pendingLabel="Saving">
@@ -106,22 +111,21 @@ export function ProfileEdit({ username, displayName, countryCode, countries }: P
       </form>
 
       <form className="form" onSubmit={saveHandle}>
-        <div className="pair">
-          <Field
-            id="username"
-            label="Username"
-            maxLength={20}
-            autoCapitalize="off"
-            autoComplete="username"
-            spellCheck={false}
-            value={handle}
-            onChange={(e) => setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
-          />
-          <Button type="submit" disabled={savingHandle || handleUnchanged || handleTooShort} pending={savingHandle} pendingLabel="Saving">
-            Save
-          </Button>
-        </div>
+        <Field
+          id="username"
+          label="Username"
+          maxLength={20}
+          autoCapitalize="off"
+          autoComplete="username"
+          spellCheck={false}
+          value={handle}
+          onChange={(e) => setHandle(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
+          hint="Letters, numbers and hyphens. This is your invite link."
+        />
         {handleError ? <p className="msg err t-meta">{handleError}</p> : null}
+        <Button type="submit" className="act" disabled={savingHandle || handleUnchanged || handleTooShort} pending={savingHandle} pendingLabel="Saving">
+          Save
+        </Button>
       </form>
     </>
   );

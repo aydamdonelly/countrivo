@@ -1,8 +1,8 @@
 /*
  * The resume log (blueprint 8.3): one letter per call, `h` higher and `l` lower. The
- * reveal's `advance` is a ui action and never reaches the log; replay applies it after
- * every decoded call, so a resumed board lands on the next pair with no timer to wait on.
- * Worst case: 80 rounds, 80 chars, far inside the 900-byte cookie cap.
+ * reveal's `advance` is a ui action and never reaches the log; replay applies it after every
+ * decoded call, so a resumed board lands on the next pair with no timer to wait on. Worst
+ * case: 80 rounds, 80 characters, far inside the 900-byte cookie cap.
  */
 import type { Codec } from "@/games/types";
 import type { HoLAction } from "./module";

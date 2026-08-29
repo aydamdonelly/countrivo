@@ -164,7 +164,7 @@ export function CountryPage({ country }: { country: Country }) {
           </p>
         </div>
 
-        <div className="col side">
+        <div className="col side pin">
           <div data-o="2" className="standing">
             <Standing iso3={country.iso3} name={name} ranks={ranks} />
           </div>
@@ -184,6 +184,8 @@ export function CountryPage({ country }: { country: Country }) {
 
           <section data-o="7" className="ls">
             <SectionHead title={`More in ${country.continent}`} fact={`${continentAll.length} countries`} />
+            {/* Twelve rows on the phone, the first six in the desktop rail (blueprint 7.9);
+                all twelve stay in the HTML, so the link graph is the same either way. */}
             {continentRows.map((c, i) => (
               <GameRow
                 key={c.slug}
@@ -191,7 +193,7 @@ export function CountryPage({ country }: { country: Country }) {
                 title={c.displayName}
                 meta={c.capital || "no capital"}
                 lead={<Flag iso2={c.iso2} size="xs" alt="" />}
-                className={i >= 6 ? "narrow-only" : undefined}
+                className={i >= 6 ? "rail-hidden" : undefined}
               />
             ))}
           </section>

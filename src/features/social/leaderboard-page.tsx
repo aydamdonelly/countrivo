@@ -43,7 +43,9 @@ export function shiftDateKey(dateKey: string, days: number): string {
  */
 export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps) {
   const game = getGameBySlug(slug);
-  if (!game || !isGameSlug(slug)) notFound();
+  /* A board exists only where a daily exists: the five practice-only games and World Draft
+     have no shots to rank, so the URL is not a page (blueprint 7.5 and 7.6). */
+  if (!game || !isGameSlug(slug) || !game.availableModes.includes("daily")) notFound();
 
   const todayKey = getTodayDateKey();
   const dateKey = date && DATE_KEY.test(date) && date <= todayKey ? date : todayKey;
@@ -118,7 +120,9 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
         runId: run?.runId ?? null,
       });
     }
-    friendRows.sort((a, b) => (b.sort ?? -Infinity) - (a.sort ?? -Infinity));
+    /* Highest first; everyone still out keeps the order the friends list gave them
+       (subtracting two -Infinity sentinels would compare NaN and scramble them). */
+    friendRows.sort((x, y) => (x.sort === null ? 1 : y.sort === null ? -1 : y.sort - x.sort));
   }
 
   const shots = summary.playerCount || global.length;
@@ -134,9 +138,10 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
   const shot = isToday ? await resolveShot(slug, dateKey, edition, viewer, jar) : null;
   const showNudge = isToday && !shot && !mine;
 
+  /* The day and its numbers. An empty day says nothing here: the row under the tabs already
+     says it in a sentence, and printing it twice, 50 px apart, adds nothing. */
   const facts: string[] = [isToday ? "Today's board" : shortDate(dateKey)];
-  if (shots === 0) facts.push("no shots yet");
-  else {
+  if (shots > 0) {
     facts.push(shots === 1 ? "1 shot" : `${shots} shots`);
     if (board.top) facts.push(`top ${board.top}`);
     if (summary.avgScore > 0) facts.push(`avg ${Math.round(summary.avgScore)}`);
@@ -157,7 +162,7 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
         <Link href={`/games/${slug}/leaderboard?date=${prevKey}${tabQuery}`} aria-label={`Board for ${shortDate(prevKey)}`}>
           <ChevronLeftIcon size={20} />
         </Link>
-        <p className="facts num">{facts.join(" · ")}</p>
+        <p className="day num">{facts.join(" · ")}</p>
         {canGoForward ? (
           <Link href={`/games/${slug}/leaderboard?date=${nextKey}${tabQuery}`} aria-label={`Board for ${shortDate(nextKey)}`}>
             <ChevronRightIcon size={20} />

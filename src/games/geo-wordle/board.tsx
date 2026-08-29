@@ -13,22 +13,58 @@ import { CheckIcon } from "@/ui/icons/check";
 import { Suggest, type SuggestItem } from "@/ui/suggest";
 import type { BoardProps } from "@/games/types";
 import { WorldMap, type MapGuess } from "@/games/_shared/world-map";
-import { kmLabel, type GeoAction } from "./module";
+import { REJECTED, kmLabel, type GeoAction } from "./module";
 
 const INTRO = "A hidden country. Every guess tells you how far and which way.";
 
 /*
- * The map is the wide subject; the field and the six rows sit in a narrower column under it,
- * centred. Without the cap a 720 px play column strands the country name at one rim and the
- * distance at the other with a hand's width of nothing between them.
+ * Everything this board needs on top of the shared play furniture, in one place. Three
+ * decisions worth their comment:
+ *
+ * 1. The row grid (blueprint 8.8): flag, name, distance, the 3 px proximity bar, the needle.
+ *    The shared rule sizes the bar column at 64, which leaves 150 px for the name and clips
+ *    ten of the 237 country names on a 390 px phone; 48 gives the name 162 and only the three
+ *    longest ("Saint Vincent and the Grenadines" and its kin) still end in an ellipsis.
+ *
+ * 2. The proximity ramp. Blueprint 1 cuts the six bands out of the grey ramp starting at
+ *    `line`, which is the value of the bar's own track: a cold guess would draw an invisible
+ *    bar, and cold is exactly the guess a player most needs to read. The two coldest bands
+ *    move one step down the same ramp (cold `wait`, cool `faint`) so all six clear the track
+ *    and still darken monotonically towards the answer. Warm, hot, burning and hit are
+ *    untouched.
+ *
+ * 3. The map dots. The same ramp cannot run on the map, whose backdrop of 237 centroids is
+ *    itself `wait`: a cold or cool guess would sit lighter than the world behind it. On a map
+ *    the dot's position already IS its distance, so the guesses take one tone, ink, and the
+ *    answer takes ember when it is revealed. The band ramp lives in the bars, where it reads.
+ *
+ * The two keyframes animate out of the element's own final transform (blueprint 6.3.8), so a
+ * board with animation off (reduced motion, a screenshot pass, no JS at all) still shows
+ * every bar at its true length and every needle on its true bearing.
  */
-const COLUMN = { width: "100%", maxWidth: 520, marginLeft: "auto", marginRight: "auto" } as const;
+const STYLE = `
+.geo .grow { grid-template-columns: 26px minmax(0, 1fr) 62px 48px 20px; }
+.geo .grow .bar { background: var(--color-card); }
+.geo .grow.empty .dash { border-radius: 1px; }
+.geo .grow > :last-child { justify-self: center; }
+.geo .band-cold { background: var(--color-wait); }
+.geo .band-cool { background: var(--color-faint); }
+.geo-map .dot-cold, .geo-map .dot-cool, .geo-map .dot-warm, .geo-map .dot-hot, .geo-map .dot-burning { fill: var(--color-ink); }
+.geo-map .dot-hit { fill: var(--color-ember); }
+.geo .grow .bar i { animation: geo-bar 240ms var(--ease-out); }
+.geo .grow .needle { animation: geo-needle 300ms var(--ease-out); }
+@keyframes geo-bar { from { transform: scaleX(0); } }
+@keyframes geo-needle { from { transform: rotate(0deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .geo .grow .bar i, .geo .grow .needle { animation: none; }
+}
+`;
 
-/** Accents folded, so `cote` finds Côte d'Ivoire and `sao` finds São Tomé. */
+/** Accents folded, so `curacao` finds Curaçao and `sao tome` finds São Tomé and Príncipe. */
 function fold(s: string): string {
   return s
     .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[̀-ͯ]/g, "")
     .toLowerCase();
 }
 
@@ -40,31 +76,29 @@ const POOL = guessableCountries().map((c) => {
     iso2: c.iso2,
     name: c.displayName,
     keys,
-    /** Every word start, so `ivoire` finds Cote d'Ivoire and `guinea` finds Papua New Guinea. */
+    /** Every word start, so `guinea` finds Papua New Guinea and `verde` finds Cape Verde. */
     words: [...new Set(keys.flatMap((k) => k.split(/[^a-z0-9]+/).filter(Boolean)))],
   };
 });
 
 /**
- * The compass needle: a solid ink head and a wait-coloured tail meeting on a paper pivot,
- * point-symmetric about the box centre so it turns cleanly around its own axis. The bearing
- * is rounded to a whole degree because the browser re-serialises a long one and hydration
- * would then read the server string as a mismatch.
+ * The needle: one ink dart, drawn with a notched tail so the direction reads at 20 px and at
+ * any rotation (a two-tone lens turns into a bowtie the moment it is small, and a bare
+ * triangle loses its tail). The bearing is rounded to a whole degree because the browser
+ * re-serialises a long one and hydration would then read the server's string as a mismatch.
  */
 function Needle({ deg, label }: { deg: number; label: string }) {
   return (
     <svg
       className="needle"
-      width="18"
-      height="18"
+      width="20"
+      height="20"
       viewBox="0 0 24 24"
       role="img"
       aria-label={label}
       style={{ transform: `rotate(${Math.round(deg)}deg)` }}
     >
-      <path d="M12 3.6 15.2 12.8 12 11.2 8.8 12.8Z" fill="currentColor" />
-      <path d="M12 20.4 8.8 11.2 12 12.8 15.2 11.2Z" fill="var(--color-wait)" />
-      <circle cx="12" cy="12" r="1.5" fill="var(--color-paper)" />
+      <path d="M12 3 17 21 12 17 7 21Z" fill="currentColor" />
     </svg>
   );
 }
@@ -87,19 +121,37 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
     return () => window.clearTimeout(id);
   }, [error]);
 
-  function fail(message: string): void {
+  function focusField(): void {
+    fieldWrap.current?.querySelector("input")?.focus();
+  }
+
+  /*
+   * A word the engine cannot use. The message sits under the field where it was typed, and
+   * the refusal still goes to the host: it leaves the state untouched (nothing is logged, no
+   * guess is spent) but it carries the wrong sound and clears a verdict that belongs to an
+   * older guess (blueprint 8.8: the two errors juice wrong).
+   */
+  function reject(message: string): void {
     errorSeq.current += 1;
     setError({ id: errorSeq.current, text: message });
+    dispatch(REJECTED);
+    focusField();
   }
 
   const guessed = useMemo(() => new Set(state.guesses.map((g) => g.iso3)), [state.guesses]);
   /*
-   * `bearingDeg` comes out of Math.atan2, whose last bits are implementation-defined, so
-   * Node and the browser disagree on the sixteenth digit. Rounding to a whole degree before
-   * it reaches any attribute keeps the server HTML and the hydrated tree identical.
+   * `bearingDeg` comes out of Math.atan2, whose last bits are implementation-defined, so Node
+   * and the browser disagree on the sixteenth digit. Rounding to a whole degree before it
+   * reaches any attribute keeps the server HTML and the hydrated tree identical.
    */
   const mapGuesses = useMemo<MapGuess[]>(
-    () => state.guesses.map((g) => ({ iso3: g.iso3, band: g.band, bearingDeg: Math.round(g.bearingDeg), correct: g.correct })),
+    () =>
+      state.guesses.map((g) => ({
+        iso3: g.iso3,
+        band: g.band,
+        bearingDeg: Math.round(g.bearingDeg),
+        correct: g.correct,
+      })),
     [state.guesses],
   );
   const needle = fold(text.trim());
@@ -123,25 +175,25 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
 
   function guess(iso3: string): void {
     if (guessed.has(iso3)) {
-      fail("Already guessed.");
+      reject("Already guessed.");
       return;
     }
     setText("");
     setError(null);
     dispatch({ t: "guess", iso3 });
-    fieldWrap.current?.querySelector("input")?.focus();
+    focusField();
   }
 
   function guessTyped(raw: string): void {
     const typed = raw.trim();
     if (!typed) {
-      fieldWrap.current?.querySelector("input")?.focus();
+      focusField();
       return;
     }
     // The button does what Enter does: an exact name, else the top suggestion.
     const iso3 = resolveGuess(typed)?.iso3 ?? items[0]?.key;
     if (!iso3) {
-      fail("Not a country.");
+      reject("Not a country.");
       return;
     }
     guess(iso3);
@@ -150,12 +202,15 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
   const last = state.guesses.length ? state.guesses[state.guesses.length - 1] : null;
 
   return (
-    <div className="play-stack">
-      <WorldMap guesses={mapGuesses} answerIso3={live ? null : state.answerIso3} />
-      <p className="t-body play-line play-center" style={{ minHeight: "2.9em" }}>
+    <div className="play-stack geo">
+      <style href="geo-wordle" precedence="default">
+        {STYLE}
+      </style>
+      <WorldMap className="geo-map" guesses={mapGuesses} answerIso3={live ? null : state.answerIso3} />
+      <p className="t-body play-line" style={{ minHeight: "2.9em" }} aria-live="polite">
         {!last ? (
           INTRO
-        ) : last.correct ? (
+        ) : state.phase === "won" ? (
           <>
             <b>{last.name}</b>. Solved in {state.guesses.length}.
           </>
@@ -166,7 +221,7 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
         )}
       </p>
       {live ? (
-        <div className="typed" ref={fieldWrap} style={COLUMN}>
+        <div className="typed" ref={fieldWrap}>
           <Suggest
             id="geo-guess"
             label="Country"
@@ -192,14 +247,14 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
           </Button>
         </div>
       ) : null}
-      <div className="grows t-row" style={COLUMN}>
+      <div className="grows t-row">
         {Array.from({ length: MAX_GUESSES }, (_, i) => {
           const g = state.guesses[i];
           if (!g) {
             return (
               <div key={`open-${i}`} className="grow empty">
                 <span className="t-num num">{i + 1}</span>
-                <span className="dash" style={{ borderRadius: "1px" }} />
+                <span className="dash" />
               </div>
             );
           }
@@ -212,13 +267,14 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
               ) : (
                 <b className="km t-score num">{kmLabel(g.distanceKm)}</b>
               )}
-              <span className="bar" style={{ background: "var(--color-card)" }} aria-hidden="true">
-                <i
-                  className={`band-${g.band}`}
-                  style={{ transform: `scaleX(${Math.max(g.proximityPct, 3) / 100})` }}
-                />
+              <span className="bar" aria-hidden="true">
+                <i className={`band-${g.band}`} style={{ transform: `scaleX(${Math.max(g.proximityPct, 3) / 100})` }} />
               </span>
-              {g.correct ? <CheckIcon size={16} className="ic-ok" /> : <Needle deg={g.bearingDeg} label={g.direction} />}
+              {g.correct ? (
+                <CheckIcon size={18} className="ic-ok" />
+              ) : (
+                <Needle deg={g.bearingDeg} label={`${g.direction} of the answer`} />
+              )}
             </div>
           );
         })}

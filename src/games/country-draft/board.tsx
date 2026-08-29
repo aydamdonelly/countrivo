@@ -15,6 +15,22 @@ import type { DraftAction, DraftState } from "./module";
  * eighth pick. Everything is drawn from `state`, so the server HTML is already the board and
  * a resumed run arrives with its picks in place.
  */
+
+/*
+ * One geometry for all eight slots, open or filled, phone or desktop.
+ *   min-h-[76px]      every slot is the height of a two-line label, so a row never goes
+ *                     ragged when `Foreign investment` wraps beside `Coffee`.
+ *   justify-between   the label line sits at the top and the stat line at the bottom of
+ *                     every slot, so both read across the grid on one baseline.
+ *   items-start       the icon (or the flag) and the corner numeral hold the first line
+ *                     while the label wraps under them.
+ *   min-w-0           a 1fr grid track cannot shrink below its content, and a long country
+ *                     name would otherwise widen both columns and push the page sideways.
+ *   whitespace-normal names and category labels wrap to a second line instead of being cut;
+ *                     the reserved height is already there to hold them.
+ */
+const SLOT = "min-h-[76px] min-w-0 justify-between [&_.lbl]:items-start [&_.nm]:whitespace-normal";
+
 export function Board({ state, dispatch, busy }: BoardProps<DraftState, DraftAction>) {
   const { g } = state;
   const country = getCurrentCountry(g);
@@ -37,12 +53,6 @@ export function Board({ state, dispatch, busy }: BoardProps<DraftState, DraftAct
         </div>
       ) : null}
 
-      {/* min-w-0 on every slot: a grid track sized 1fr cannot shrink below its item's
-          min-content width, and the slot's text is set nowrap, so a long country name would
-          widen both tracks and push the page sideways. With the minimum released the track
-          stays at half the column and the name ellipsizes instead (Slot's own overflow rule).
-          The open slots also let their category label wrap: it is fixed copy the player has to
-          read to make the pick, and `Foreign investment` does not fit one line on a 390 phone. */}
       <div className="slot-grid">
         {g.config.categories.map((cat, i) => {
           const countryIdx = g.assignments.indexOf(i);
@@ -51,7 +61,7 @@ export function Board({ state, dispatch, busy }: BoardProps<DraftState, DraftAct
             return (
               <Slot
                 key={cat.slug}
-                className="min-w-0 [&_.lbl]:flex-wrap [&_.lbl]:gap-y-0 [&_.nm]:basis-[calc(100%-32px)]"
+                className={SLOT}
                 state="assigned"
                 iso2={picked.iso2}
                 country={picked.displayName}
@@ -64,7 +74,7 @@ export function Board({ state, dispatch, busy }: BoardProps<DraftState, DraftAct
           return (
             <Slot
               key={cat.slug}
-              className="min-w-0 [&_.nm]:whitespace-normal"
+              className={SLOT}
               state="open"
               slug={cat.slug}
               label={chipLabel(cat.slug)}

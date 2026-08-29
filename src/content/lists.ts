@@ -17,6 +17,8 @@ export type ListFact =
   | { kind: "count"; label: string }
   /** The continent's leader on `stat`: value = its stat, label = `{name}, {label}`. */
   | { kind: "top"; stat: string; label: string }
+  /** The continent's smallest on `stat`, same shape as `top`. */
+  | { kind: "bottom"; stat: string; label: string }
   /** The continent's total on `stat`. */
   | { kind: "sum"; stat: string; label: string };
 
@@ -68,9 +70,9 @@ export const LISTS: readonly ListContent[] = [
       "A country's size has profound effects on its climate diversity, natural resources, and logistical challenges. Brazil, for example, contains the world's largest tropical rainforest, while Australia's vast interior is predominantly arid desert.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the largest" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -104,9 +106,9 @@ export const LISTS: readonly ListContent[] = [
       "The figures below reflect the most recent estimates available from the World Bank and United Nations Population Division. Total population includes all residents regardless of citizenship or legal status.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the most people" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -140,9 +142,9 @@ export const LISTS: readonly ListContent[] = [
       "Oil-rich Gulf states like Qatar and the United Arab Emirates also rank highly, illustrating how natural resource wealth can inflate per-capita figures. Meanwhile, large advanced economies like the United States and Germany rank lower than some microstates despite having far greater total GDP.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the richest" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -176,10 +178,10 @@ export const LISTS: readonly ListContent[] = [
       "Below is the full list of European countries sorted by population, along with each nation's capital city, total population, and geographic area.",
     ],
     quickFacts: [
-      { kind: "count", label: "countries and territories" },
-      { kind: "top", stat: "population", label: "the most people" },
+      { kind: "sum", stat: "population", label: "everyone in Europe" },
+      { kind: "top", stat: "population", label: "the most populous" },
       { kind: "top", stat: "area-km2", label: "the largest" },
-      { kind: "sum", stat: "population", label: "people in Europe" },
+      { kind: "bottom", stat: "area-km2", label: "the smallest" },
     ],
     faq: [
       {
@@ -218,10 +220,10 @@ export const LISTS: readonly ListContent[] = [
       "Below is the complete list of Asian countries sorted by population, with each nation's capital, population, and total area included for reference.",
     ],
     quickFacts: [
-      { kind: "count", label: "countries and territories" },
-      { kind: "top", stat: "population", label: "the most people" },
+      { kind: "sum", stat: "population", label: "everyone in Asia" },
+      { kind: "top", stat: "population", label: "the most populous" },
       { kind: "top", stat: "area-km2", label: "the largest" },
-      { kind: "sum", stat: "population", label: "people in Asia" },
+      { kind: "bottom", stat: "area-km2", label: "the smallest" },
     ],
     faq: [
       {
@@ -260,10 +262,10 @@ export const LISTS: readonly ListContent[] = [
       "The continent holds tremendous geographic diversity: the Sahara Desert in the north, the Congo rainforest in Central Africa, the Great Rift Valley in East Africa, and the savannas and wildlife reserves that draw visitors from around the globe. Below is the complete list of African countries sorted by population.",
     ],
     quickFacts: [
-      { kind: "count", label: "countries and territories" },
-      { kind: "top", stat: "population", label: "the most people" },
+      { kind: "sum", stat: "population", label: "everyone in Africa" },
+      { kind: "top", stat: "population", label: "the most populous" },
       { kind: "top", stat: "area-km2", label: "the largest" },
-      { kind: "sum", stat: "population", label: "people in Africa" },
+      { kind: "bottom", stat: "area-km2", label: "the smallest" },
     ],
     faq: [
       {
@@ -304,10 +306,10 @@ export const LISTS: readonly ListContent[] = [
       "Below is the complete list of countries in the Americas sorted by population, with each nation's capital, total population, and area.",
     ],
     quickFacts: [
-      { kind: "count", label: "countries and territories" },
-      { kind: "top", stat: "population", label: "the most people" },
+      { kind: "sum", stat: "population", label: "everyone in the Americas" },
+      { kind: "top", stat: "population", label: "the most populous" },
       { kind: "top", stat: "area-km2", label: "the largest" },
-      { kind: "sum", stat: "population", label: "people in the Americas" },
+      { kind: "bottom", stat: "area-km2", label: "the smallest" },
     ],
     faq: [
       {
@@ -346,9 +348,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking is based on international tourist arrivals as reported by the World Tourism Organization (UNWTO) and national tourism agencies.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the most visited" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -382,9 +384,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking uses life expectancy at birth data from the World Bank and the World Health Organization.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the longest lives" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -418,9 +420,9 @@ export const LISTS: readonly ListContent[] = [
       "The USA and China together represent roughly 40% of world GDP, while India is the fastest-growing large economy. This ranking uses nominal GDP in current US dollars from World Bank data.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the biggest economy" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -454,9 +456,9 @@ export const LISTS: readonly ListContent[] = [
       "Forest coverage is critical for biodiversity, carbon sequestration, and climate regulation. This ranking is based on the percentage of total land area covered by forest, sourced from the World Bank and the FAO Global Forest Resources Assessment.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the most forest" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -490,9 +492,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking uses the percentage of population using the internet, sourced from the International Telecommunication Union (ITU) and World Bank data.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the most online" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -526,9 +528,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking uses total fertility rate data from the World Bank and the United Nations Population Division.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the highest rate" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -562,9 +564,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking uses military expenditure as a percentage of GDP, sourced from the Stockholm International Peace Research Institute (SIPRI) and World Bank data.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the biggest share" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [
@@ -598,9 +600,9 @@ export const LISTS: readonly ListContent[] = [
       "This ranking uses the share of total energy consumption from renewable sources, based on data from the International Energy Agency (IEA) and World Bank.",
     ],
     quickFacts: [
-      { kind: "row", rank: 1, label: "the greenest" },
       { kind: "row", rank: 2, label: "second" },
       { kind: "row", rank: 3, label: "third" },
+      { kind: "row", rank: 10, label: "tenth" },
       { kind: "row", rank: 50, label: "fiftieth" },
     ],
     faq: [

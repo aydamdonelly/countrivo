@@ -1,4 +1,4 @@
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames } from "@/lib/data/registry";
 import { ogContentType, ogSize, renderGameOgImageForSlug } from "@/lib/seo/og-image";
 
 // One image route for all 18 landings (the 18 per-slug files went with the

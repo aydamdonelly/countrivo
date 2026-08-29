@@ -1,5 +1,5 @@
 /**
- * Builds src/data/data-timestamps.json — a per-page content fingerprint + the
+ * Builds src/data/data-timestamps.json: a per-page content fingerprint and the
  * date that content last actually changed.
  *
  * Google only honours <lastmod> when it is "consistently and verifiably
@@ -58,7 +58,7 @@ interface TimestampFile {
 type StatTable = Record<string, Record<string, number | null>>;
 type RankTable = Record<string, Record<string, number>>;
 
-// Each list page is a deterministic view over stats.json — so its fingerprint
+// Each list page is a deterministic view over stats.json, so its fingerprint
 // is the slice of data it actually renders, not the whole dataset.
 type ListSource =
   | { kind: "stat"; stat: string; limit: number }
@@ -132,7 +132,7 @@ function hash(value: unknown): string {
   return createHash("sha256").update(stableStringify(value)).digest("hex").slice(0, 16);
 }
 
-/** Top-N iso3 codes for a stat, ranked highest value first — mirrors
+/** Top-N iso3 codes for a stat, ranked highest value first: mirrors
  *  getTopCountries() so the fingerprint tracks what the page renders. */
 function topForStat(stat: string, limit: number): { iso3: string; value: number }[] {
   const entries: { iso3: string; value: number }[] = [];
@@ -203,7 +203,7 @@ const now = new Date().toISOString();
  * Seed date for a key seen for the FIRST time.
  *
  * A first run has no previous hash to compare against, so every key looks
- * "changed" and would be stamped `now` — which republishes the very bug this
+ * "changed" and would be stamped `now`, which republishes the very bug this
  * script exists to kill: 301 URLs all claiming they changed today. The honest
  * answer for data that has not been touched since it was committed is the
  * commit date of the file it comes from. Only a hash that moves on a LATER run
@@ -221,7 +221,7 @@ function sourceCommitDate(relPath: string): string {
     }).trim();
     if (out) iso = new Date(out).toISOString();
   } catch {
-    // Not a git checkout (or the file is untracked) — fall back to now.
+    // Not a git checkout (or the file is untracked): fall back to now.
   }
   gitDateCache.set(relPath, iso);
   return iso;

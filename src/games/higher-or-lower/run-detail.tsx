@@ -1,8 +1,10 @@
 import type { RunDetailProps } from "@/games/types";
 
 /**
- * The run page rows (blueprint 7.7): the streak and what ended it. The engine's best streak
- * is the streak itself, so it is never printed twice.
+ * The run page rows (blueprint 7.7): the streak and what ended it. GenericDetail would print
+ * `streak` and `best streak` as two rows, and in this engine the best streak IS the streak
+ * (one wrong call ends the run), so the second row would repeat the first number. This one
+ * prints the streak once and says how the run finished instead.
  */
 export function RunDetail({ run }: RunDetailProps) {
   const json = run.resultJson ?? {};

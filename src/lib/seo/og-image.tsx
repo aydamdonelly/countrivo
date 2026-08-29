@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import conquest from "@/assets/marks/conquest.json";
+import { getGameContent } from "@/content/games";
 import { getAllCountries } from "@/lib/data/countries";
 import { getAllGames, getGameBySlug } from "@/lib/data/registry";
 import type { GameMeta } from "@/types/game";
@@ -168,7 +169,7 @@ export async function renderGameOgImage({
               fontSize: 32,
               lineHeight: 1.4,
               color: ON_INK_BODY,
-              maxWidth: map ? 540 : 700,
+              maxWidth: map ? 540 : 920,
             }}
           >
             {how}
@@ -232,12 +233,6 @@ export async function renderGameOgImage({
   );
 }
 
-/** Alt text for a game's card. Falls back to the brand line for unknown slugs. */
-export function gameOgAlt(slug: string): string {
-  const game = getGameBySlug(slug);
-  return game ? `${game.title}: ${game.shortDescription}` : "Countrivo · One shot a day";
-}
-
 interface SlugOgOptions {
   /** Overrides the kicker's first half: "Daily board" / "Practice" / "Shared result". */
   badge?: string;
@@ -275,8 +270,10 @@ export function renderGameOgImageForSlug(
     });
   }
 
-  // World Draft is announced, not playable: its card is the landing's card, with
-  // no button and the two facts of the promise instead of difficulty and length.
+  // World Draft is announced, not playable: no button, and the conquest map takes
+  // the space the chips would use. Its landing rule is a full paragraph, so this
+  // one card keeps the registry's one-liner; every other card takes the landing's
+  // own words below.
   if (game.comingSoon) {
     return renderGameOgImage({
       kicker: "NEW · IN DEVELOPMENT",
@@ -291,13 +288,20 @@ export function renderGameOgImageForSlug(
 
   const isDaily = game.availableModes.includes("daily");
   const badge = options.badge ?? (isDaily ? "Daily board" : "Practice");
+  // The landing's own rule and facts (blueprint 10.5), so the card and the page it
+  // opens say the same thing in the same words. The registry strings are the
+  // fallback only: several are off-voice and one of them still says five countries
+  // where Population Sort sorts six (blueprint 8.9).
+  const content = getGameContent(slug);
 
   return renderGameOgImage({
     kicker: `${badge} · ${game.title}`.toUpperCase(),
     counter: options.counter ?? (isDaily ? "resets at midnight Berlin" : "unlimited"),
     title: game.title,
-    how: options.shortDescription ?? game.shortDescription,
-    chips: [DIFFICULTY_LABEL[game.difficulty], spellTime(game.estimatedTime)],
+    how: options.shortDescription ?? content?.how ?? game.shortDescription,
+    chips: content
+      ? [...content.facts]
+      : [DIFFICULTY_LABEL[game.difficulty], spellTime(game.estimatedTime)],
     cta: isDaily ? "Shoot" : "Play",
   });
 }

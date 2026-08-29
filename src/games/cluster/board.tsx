@@ -30,16 +30,28 @@ const SHORT_NAME: Record<string, string> = {
   "Saint Vincent and the Grenadines": "Saint Vincent",
 };
 
+/*
+ * A tight label is measured against the narrowest tile (83 px on a 390 px phone) and then
+ * held to that share of the tile, so the same name grows with the 111 px desktop tile
+ * instead of sitting shrunken in it. The 11 px cap keeps it from ever outgrowing the names
+ * beside it. (The tile wrapper is the query container.)
+ */
+const TIGHT: Record<number, string> = {
+  10: "min(11px, 12cqw)",
+  9: "min(11px, 10.8cqw)",
+  8: "min(11px, 9.6cqw)",
+};
+
 const TIGHT_NAME: Record<string, string> = {
-  "British Virgin Islands": "10px",
-  "São Tomé and Príncipe": "10px",
-  "Svalbard and Jan Mayen": "10px",
-  "Saint Pierre and Miquelon": "9px",
-  "United States Virgin Islands": "9px",
-  "Central African Republic": "8px",
-  "Cocos (Keeling) Islands": "8px",
-  "Northern Mariana Islands": "8px",
-  "Turks and Caicos Islands": "8px",
+  "British Virgin Islands": TIGHT[10],
+  "São Tomé and Príncipe": TIGHT[10],
+  "Svalbard and Jan Mayen": TIGHT[10],
+  "Saint Pierre and Miquelon": TIGHT[9],
+  "United States Virgin Islands": TIGHT[9],
+  "Central African Republic": TIGHT[8],
+  "Cocos (Keeling) Islands": TIGHT[8],
+  "Northern Mariana Islands": TIGHT[8],
+  "Turks and Caicos Islands": TIGHT[8],
 };
 
 /** The label a tile carries, and the size it needs. `undefined` keeps the 11 px default. */
@@ -48,9 +60,12 @@ function tileLabel(name: string): { label: string; size: string | undefined } {
   const measured = TIGHT_NAME[label];
   // Data can grow a longer name than the measured set; anything past the longest name that
   // fits today steps down rather than risking the clamp.
-  const size = measured ?? (label.length > 24 ? "8px" : undefined);
+  const size = measured ?? (label.length > 24 ? TIGHT[8] : undefined);
   return { label, size };
 }
+
+/** The width the bands, the grid and the action row share (see the board comment). */
+const BOARD_W = 460;
 
 const SLIDE_MS = 260;
 const SLIDE_EASE = "cubic-bezier(0.2, 0, 0, 1)";
@@ -141,53 +156,66 @@ export function Board({ state, dispatch, busy }: BoardProps<ClusterState, Cluste
   return (
     <div className="play-stack" ref={stackRef}>
       {live ? <p className="t-body play-line play-center">Tap four countries that share a connection.</p> : null}
-      {bands.map((group) => (
-        // The band sits a layer above the grid, so the tiles that survive a solve slide
-        // under it instead of over its label.
-        <div key={group.id} data-band={group.id} style={{ position: "relative", zIndex: 1 }}>
-          <GroupBand
-            group={group.id as GroupId}
-            trait={group.trait}
-            members={bandMembers(group.members)}
-            // Only the groups that got away are called out: on a clean board the score
-            // says 4/4 and four "solved" labels would be four dead words.
-            status={live || state.solvedGroupIds.includes(group.id) ? undefined : "missed"}
-          />
-        </div>
-      ))}
-      {live ? (
-        <TileGrid>
-          {openTiles.map((tile) => {
-            const { label, size } = tileLabel(tile.displayName);
-            return (
-              // min-width 0 keeps every column an exact quarter: a `1fr` track is
-              // minmax(auto, 1fr), so one long word would otherwise widen its column and
-              // squeeze the other three.
-              <div key={tile.iso3} data-iso3={tile.iso3} style={{ minWidth: 0 }}>
-                <Tile
-                  iso2={tile.iso2}
-                  name={label}
-                  selected={state.selected.includes(tile.iso3)}
-                  disabled={busy}
-                  title={label === tile.displayName ? undefined : tile.displayName}
-                  style={size ? { fontSize: size } : undefined}
-                  onClick={() => dispatch({ t: "toggle", iso3: tile.iso3 })}
-                />
-              </div>
-            );
-          })}
-        </TileGrid>
-      ) : null}
-      {live ? (
-        <div className="play-actions under-grid">
-          <Button variant="ink" onClick={() => dispatch({ t: "submit" })} disabled={busy || picked < CLUSTER_GROUP_SIZE}>
-            {picked < CLUSTER_GROUP_SIZE ? `Submit ${picked}/${CLUSTER_GROUP_SIZE}` : "Submit"}
-          </Button>
-          <Button variant="quiet" onClick={() => dispatch({ t: "clear" })} disabled={busy || picked === 0}>
-            Deselect
-          </Button>
-        </div>
-      ) : null}
+      {/*
+       * The board is one object, so the bands, the grid and the action row share one width.
+       * BOARD_W caps it: a 4x4 grid stretched across the 680 px play column would draw 167 px
+       * squares around a 24 px flag and push the action row off an 800 px screen. At 460 the
+       * squares are 111 px, flag and name sit in proportion, and the board is one screen
+       * everywhere.
+       */}
+      <div className="play-stack" style={{ width: "100%", maxWidth: BOARD_W, margin: "0 auto" }}>
+        {bands.map((group) => (
+          // The band sits a layer above the grid, so the tiles that survive a solve slide
+          // under it instead of over its label. While the board is live it takes no pointer
+          // events: for 260 ms of that slide the band travels across the grid, and a tap it
+          // swallowed would read as a dead tile.
+          <div key={group.id} data-band={group.id} style={{ position: "relative", zIndex: 1, pointerEvents: live ? "none" : undefined }}>
+            <GroupBand
+              group={group.id as GroupId}
+              trait={group.trait}
+              members={bandMembers(group.members)}
+              // Only the groups that got away are called out: on a clean board the score
+              // says 4/4 and four "solved" labels would be four dead words.
+              status={live || state.solvedGroupIds.includes(group.id) ? undefined : "missed"}
+            />
+          </div>
+        ))}
+        {live ? (
+          <TileGrid>
+            {openTiles.map((tile) => {
+              const { label, size } = tileLabel(tile.displayName);
+              return (
+                // min-width 0 keeps every column an exact quarter: a `1fr` track is
+                // minmax(auto, 1fr), so one long word would otherwise widen its column and
+                // squeeze the other three.
+                <div key={tile.iso3} data-iso3={tile.iso3} style={{ minWidth: 0, containerType: "inline-size" }}>
+                  <Tile
+                    iso2={tile.iso2}
+                    name={label}
+                    selected={state.selected.includes(tile.iso3)}
+                    disabled={busy}
+                    title={label === tile.displayName ? undefined : tile.displayName}
+                    style={size ? { fontSize: size } : undefined}
+                    onClick={() => dispatch({ t: "toggle", iso3: tile.iso3 })}
+                  />
+                </div>
+              );
+            })}
+          </TileGrid>
+        ) : null}
+        {live ? (
+          // Enter submits the board, bound on the window; a button that answers Enter itself
+          // keeps it, so Deselect is never shadowed while it holds focus.
+          <div className="play-actions under-grid" onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") e.stopPropagation(); }}>
+            <Button variant="ink" onClick={() => dispatch({ t: "submit" })} disabled={busy || picked < CLUSTER_GROUP_SIZE}>
+              {picked < CLUSTER_GROUP_SIZE ? `Submit ${picked}/${CLUSTER_GROUP_SIZE}` : "Submit"}
+            </Button>
+            <Button variant="quiet" onClick={() => dispatch({ t: "clear" })} disabled={busy || picked === 0}>
+              Deselect
+            </Button>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }

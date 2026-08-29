@@ -34,7 +34,7 @@ export function lastModifiedFor(key: string): Date {
 }
 
 /**
- * Newest lastModified across a set of keys — used for hub pages, which are only
+ * Newest lastModified across a set of keys: used for hub pages, which are only
  * as fresh as the freshest thing they link to.
  *
  * Seeded from `null`, NOT from the fallback: seeding with the fallback makes it
@@ -71,7 +71,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/lists`, lastModified: listsUpdated },
   ];
 
-  // Category detail pages live here rather than in a shard — there are only 21
+  // Category detail pages live here rather than in a shard: there are only 21
   // of them and /app/categories has no sitemap.ts of its own.
   const categoryPages: MetadataRoute.Sitemap = getAllCategories().map((cat) => ({
     url: `${BASE_URL}/categories/${cat.slug}`,

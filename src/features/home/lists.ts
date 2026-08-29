@@ -227,11 +227,19 @@ export async function buildStrip(friends: readonly FriendRow[], meUsername: stri
   return out;
 }
 
-/** The friend to beat: the day's leader among the viewer's friends, before the viewer's own shot. */
+/**
+ * The friend to beat: the day's leader among the viewer's friends, and only before the
+ * viewer's own shot. The leader is picked by sort value, not by position, so the line is
+ * right whatever order the rows arrive in.
+ */
 export function stripTarget(friends: readonly FriendRow[]): { name: string; score: string } | null {
   const me = friends.find((f) => f.isMe);
   if (me?.score) return null;
-  const leader = friends.find((f) => !f.isMe && f.score !== null);
+  let leader: FriendRow | null = null;
+  for (const f of friends) {
+    if (f.isMe || f.score === null) continue;
+    if (!leader || (f.sort ?? -1) > (leader.sort ?? -1)) leader = f;
+  }
   return leader?.score ? { name: leader.name, score: leader.score } : null;
 }
 

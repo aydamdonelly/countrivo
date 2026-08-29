@@ -1,31 +1,38 @@
 "use client";
 
+import type { CSSProperties } from "react";
 import { formatStat } from "@/lib/utils";
-import { getStatValue } from "@/lib/data/ranks";
 import { Flag } from "@/ui/flag";
 import { CheckIcon } from "@/ui/icons/check";
 import { CrossIcon } from "@/ui/icons/cross";
 import type { ResultProps } from "@/games/types";
-import type { SortState } from "./module";
+import { placedRight, statOf, type SortState } from "./module";
 
-/** The correct order with the value, a check where you placed it right. */
+const COLS: CSSProperties = { gridTemplateColumns: "18px 26px minmax(0, 1fr) auto auto" };
+const RANK: CSSProperties = { color: "var(--color-mute)" };
+
+/**
+ * The order as it really runs, with each country's value; a check where the player had that
+ * position right, a cross where they did not (blueprint 8.8). The kept board above shows
+ * what they submitted, so the two read as their order against the world's.
+ */
 export function Result({ state }: ResultProps<SortState>) {
   const { g } = state;
   return (
     <div className="rrows t-row">
       {g.correctOrder.map((ci, pos) => {
-        const c = g.countries[ci];
-        const value = getStatValue(c.iso3, g.category.slug);
-        const placed = getStatValue(g.countries[g.userOrder[pos]].iso3, g.category.slug);
-        const ok = value !== null && value === placed;
+        const country = g.countries[ci];
+        const value = statOf(g, ci);
+        const right = placedRight(g, pos);
         return (
-          <div key={c.iso3} className="rrow cols4">
-            <Flag iso2={c.iso2} size="xs" alt="" />
-            <span className="nm">
-              {pos + 1}. {c.displayName}
-            </span>
+          <div key={country.iso3} className="rrow" style={COLS}>
+            <b className="t-num num" style={RANK}>
+              {pos + 1}
+            </b>
+            <Flag iso2={country.iso2} size="xs" alt="" />
+            <span className="nm">{country.displayName}</span>
             <b className="v t-score num">{value === null ? "" : formatStat(value, g.category.unit)}</b>
-            {ok ? <CheckIcon size={16} className="ic-ok" /> : <CrossIcon size={16} className="ic-miss" />}
+            {right ? <CheckIcon size={16} className="ic-ok" title="in place" /> : <CrossIcon size={16} className="ic-miss" title="out of place" />}
           </div>
         );
       })}

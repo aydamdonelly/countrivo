@@ -64,7 +64,7 @@ export default async function AddFriend({ params }: Props) {
       </div>
       {!viewer.signedIn ? (
         <>
-          <p className="ask t-body">Sign in to add {name}.</p>
+          <p className="ask t-body">Add {name}?</p>
           <SignInToAdd name={name} />
         </>
       ) : status === "accepted" ? (
@@ -76,13 +76,20 @@ export default async function AddFriend({ params }: Props) {
             </Button>
           </div>
         </>
-      ) : status === "pending" ? (
+      ) : status === "sent" ? (
         <>
           <p className="ask t-body">Friend request already sent to {name}.</p>
           <div className="acts">
             <Button variant="text" href="/friends">
               Go to friends
             </Button>
+          </div>
+        </>
+      ) : status === "received" ? (
+        <>
+          <p className="ask t-body">{name} asked you first. Answer it on your friends page.</p>
+          <div className="acts">
+            <Button href="/friends">Go to friends</Button>
           </div>
         </>
       ) : (
