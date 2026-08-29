@@ -16,7 +16,7 @@ export function errorTone(e: number): "good" | "neutral" | "bad" {
   return e < 20 ? "good" : e < 50 ? "neutral" : "bad";
 }
 
-export const module: GameModule<StatGuesserState, GuesserAction> = {
+export const gameModule: GameModule<StatGuesserState, GuesserAction> = {
   slug: "stat-guesser",
   create(seed) {
     return createStatGuesser(mulberry32(seed), 5);
@@ -63,7 +63,7 @@ export const module: GameModule<StatGuesserState, GuesserAction> = {
   },
   scoreLabel: (s) => `${avgError(s)} % avg error`,
   share: (s, ctx) => buildStatGuesserShareText({ avgError: avgError(s) }, ctx.dateKey),
-  keys(s, dispatch) {
+  keys(s, dispatch): Record<string, () => void> {
     return s.phase === "feedback" ? { Enter: () => dispatch({ t: "next" }) } : {};
   },
   keyHint: "Enter next",

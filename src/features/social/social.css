@@ -1,0 +1,126 @@
+/* The social surfaces (blueprint 7.6, 7.7, 7.14, 7.15, 7.16, 7.17): leaderboard, run,
+   friends, add friend, profile and the two password pages. Same language as the K3 home:
+   hairline rows, card fill for the row that is you, no borders, no shadows, no gradients.
+   Colours are tokens only. */
+@layer components {
+  /* one column where a board wants one (leaderboard, run, add friend) */
+  .col-640 { width: 100%; max-width: 640px; margin: 0 auto; }
+
+  /* ── leaderboard head ────────────────────────────────────────────────── */
+  .lb-head { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .lb-head h1 { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-days { display: flex; align-items: center; gap: 8px; margin: 6px 0 16px; color: var(--color-mute); }
+  .lb-days .facts { flex: 1; min-width: 0; text-align: center; }
+  .lb-days a, .lb-days span.step { width: 44px; height: 44px; margin: -10px 0; display: inline-flex; align-items: center; justify-content: center; flex: none; color: var(--color-mute); }
+  .lb-days span.step { color: var(--color-faint); }
+  .lb-nudge { margin-bottom: var(--stack); }
+
+  /* ── run page byline ─────────────────────────────────────────────────── */
+  .run-by { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; min-width: 0; }
+  .run-by .who { min-width: 0; }
+  .run-by .nm { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .run-by .nm a { display: inline-block; padding: 3px 0; margin: -3px 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
+  .run-by .when { display: block; color: var(--color-mute); }
+
+  /* ── shared section rhythm ───────────────────────────────────────────── */
+  .sec { margin-bottom: var(--stack); }
+  .sec-tight { margin-bottom: 8px; }
+  .empty-row { padding: 12px 0; border-top: 1px solid var(--color-line); color: var(--color-mute); }
+  .empty-row a, .empty-row button { display: inline-block; padding: 13px 0; margin: -13px 0; color: var(--color-ember); font-weight: 600; }
+  .line { color: var(--color-mute); }
+  .line b { color: var(--color-ink); font-weight: 600; }
+
+  /* ── person rows (requests, search results, friends) ─────────────────── */
+  .prow { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--color-line); color: var(--color-ink); }
+  .prow .who { flex: 1; min-width: 0; }
+  .prow .nm { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow .sub { display: block; color: var(--color-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .prow .acts { display: flex; align-items: center; gap: 12px; flex: none; }
+  .prow .sent { color: var(--color-mute); }
+  .prow .icon-btn { width: 44px; height: 44px; margin: -10px -10px -10px 0; display: inline-flex; align-items: center; justify-content: center; flex: none; color: var(--color-faint); border-radius: var(--radius-ctl); }
+  @media (hover: hover) { .prow .icon-btn:hover { color: var(--color-ink); } }
+  .prow .icon-btn:disabled { color: var(--color-wait); cursor: default; }
+  /* the friend's shots today: mark + score pairs, one line under the name */
+  .shots { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; margin-top: 2px; }
+  .shots a { display: inline-flex; align-items: center; gap: 4px; padding: 5px 0; margin: -5px 0; color: var(--color-mute); }
+  .shots a b { color: var(--color-ink); font-weight: 600; margin-left: 2px; }
+
+  /* ── the search field and its results ────────────────────────────────── */
+  .find { display: flex; align-items: center; gap: 10px; }
+  .find .field { flex: 1; }
+  .find .ic { color: var(--color-faint); flex: none; }
+
+  /* ── the invite link row ─────────────────────────────────────────────── */
+  .invite { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--color-line); }
+  .invite .url { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-mute); }
+
+  /* ── add friend ──────────────────────────────────────────────────────── */
+  .addf { padding: 24px 0; }
+  .addf .who { display: flex; align-items: center; gap: 16px; }
+  .addf .who .nm { min-width: 0; }
+  .addf .who h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .addf .who .at { color: var(--color-mute); margin-top: 4px; }
+  .addf .ask { margin-top: 20px; }
+  .addf .acts { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+  .addf .err { color: var(--color-ember); margin-top: 8px; }
+  .addf .miss { display: flex; align-items: center; gap: 10px; color: var(--color-mute); }
+  .addf .miss .ic { color: var(--color-faint); flex: none; }
+
+  /* ── profile ─────────────────────────────────────────────────────────── */
+  .ph { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; min-width: 0; }
+  .ph .who { min-width: 0; flex: 1; }
+  .ph h1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ph .at { color: var(--color-mute); margin-top: 4px; }
+  .ph .streak { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  .ph .streak b { color: var(--color-ink); }
+  .ph .streak small { color: var(--color-mute); }
+  .profile-cta { margin-bottom: var(--stack); }
+  .h2h { display: flex; flex-direction: column; }
+  .h2h .row { display: grid; grid-template-columns: 42px 1fr auto; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid var(--color-line); color: var(--color-ink); }
+  .h2h .row .lead { display: inline-flex; align-items: center; justify-content: center; }
+  .h2h .row .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .h2h .row .nm small { display: block; color: var(--color-mute); }
+  .h2h .row .v { white-space: nowrap; }
+  .h2h .row .v .vs { color: var(--color-mute); font-family: var(--font-sans); font-weight: 400; margin: 0 5px; }
+  .h2h .row .v .them { color: var(--color-mute); }
+
+  /* ── forms (profile edit, sound, delete, password pages) ─────────────── */
+  .form { display: flex; flex-direction: column; gap: 12px; margin-bottom: var(--stack); }
+  .form .pair { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
+  .form .with-flag { display: flex; align-items: flex-end; gap: 12px; }
+  .form .with-flag .select { flex: 1; min-width: 0; }
+  .form .msg { color: var(--color-mute); }
+  .form .msg.err { color: var(--color-ember); }
+  .form .act { align-self: flex-start; }
+  .snd { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--color-line); }
+  .snd .ic { color: var(--color-ink); flex: none; }
+  .snd .lbl { flex: 1; }
+  .snd .opts { display: flex; align-items: baseline; gap: 16px; }
+  .snd .opts button { color: var(--color-mute); padding: 12px 0 3px; margin-top: -12px; border-bottom: 2px solid transparent; }
+  .snd .opts button[aria-pressed="true"] { color: var(--color-ink); font-weight: 600; border-bottom-color: var(--color-ink); }
+  .danger { margin-top: 8px; }
+  .danger .sub { color: var(--color-mute); margin-top: 2px; }
+  .danger .acts, .admin .acts { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+  .danger .err { color: var(--color-ember); margin-top: 8px; }
+  .admin { margin-top: 24px; }
+  .admin .sub, .danger .sub { color: var(--color-mute); margin-top: 2px; }
+  .admin .err { color: var(--color-ember); margin-top: 8px; }
+
+  /* ── password pages ──────────────────────────────────────────────────── */
+  .pwd { padding-top: 8px; }
+  .pwd .lead { color: var(--color-mute); margin: 0 0 20px; }
+  .pwd .stack { display: flex; flex-direction: column; gap: 12px; }
+  .pwd .head { font-weight: 600; }
+  .pwd .pw { position: relative; }
+  .pwd .pw .field input { padding-right: 64px; }
+  .pwd .pw .show { position: absolute; right: 0; top: 0; height: 44px; padding: 0 12px; }
+  .pwd .err { color: var(--color-ember); }
+  .pwd .done { color: var(--color-mute); }
+  .pwd .done b { color: var(--color-ink); font-weight: 600; }
+
+  /* ── two-column composition at 1024 ──────────────────────────────────── */
+  @media (min-width: 1024px) {
+    .social-two { display: grid; grid-template-columns: minmax(0, 1fr) 420px; column-gap: 48px; align-items: start; }
+    .social-two > .side { position: sticky; top: 24px; }
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { formatStat } from "@/lib/utils";
 import type { StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { Button } from "@/ui/button";
@@ -11,13 +11,14 @@ import type { BoardProps } from "@/games/types";
 import { CountryBlock } from "@/games/_shared/country-block";
 import { parseHumanNumber } from "@/games/_shared/format";
 import { errorTone, type GuesserAction } from "./module";
+import { statLabel } from "@/games/_shared/format";
 
 /** Stat Guesser (blueprint 8.8): the stat, the reference line, the target, a decimal field; then the two lines and Next round. */
 export function Board({ state, dispatch, busy }: BoardProps<StatGuesserState, GuesserAction>) {
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const round = state.rounds[state.currentRound];
-  const first = useRef(state.currentRound);
+  const [first] = useState(state.currentRound);
   const unit = round.category.unit;
   const feedback = state.phase === "feedback";
   const last = state.currentRound === state.rounds.length - 1;
@@ -37,11 +38,11 @@ export function Board({ state, dispatch, busy }: BoardProps<StatGuesserState, Gu
   const e = state.scores[state.currentRound] ?? 0;
   return (
     <div className="play-stack">
-      <Subject variant="stat" slug={round.category.slug} label={round.category.label} clarifier={round.category.clarifier} />
+      <Subject variant="stat" slug={round.category.slug} label={statLabel(round.category.slug, round.category.label)} clarifier={round.category.clarifier} />
       <p className="t-body play-line play-center">
         <Flag iso2={round.anchor.country.iso2} size="xs" alt="" /> For reference: <b>{round.anchor.country.displayName}</b> {formatStat(round.anchor.value, unit)}
       </p>
-      <CountryBlock key={state.currentRound} country={round.country} animate={state.currentRound !== first.current} alt={round.country.displayName} />
+      <CountryBlock key={state.currentRound} country={round.country} animate={state.currentRound !== first} alt={round.country.displayName} />
       {feedback ? (
         <>
           <div className="guess-lines">

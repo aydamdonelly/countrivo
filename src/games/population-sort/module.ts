@@ -1,6 +1,7 @@
 import { mulberry32 } from "@/lib/seeded-random";
 import { createSortGame, submitSort, type SortGameState } from "@/lib/game-logic/population-sort/engine";
 import type { GameModule } from "@/games/types";
+import { statLabel } from "@/games/_shared/format";
 import { codec } from "./codec";
 
 export interface SortState {
@@ -22,7 +23,7 @@ export function moved(order: number[], from: number, to: number): number[] {
   return next;
 }
 
-export const module: GameModule<SortState, SortAction> = {
+export const gameModule: GameModule<SortState, SortAction> = {
   slug: "population-sort",
   create(seed) {
     return { g: createSortGame(mulberry32(seed), 6), cursor: 0 };
@@ -39,7 +40,7 @@ export const module: GameModule<SortState, SortAction> = {
   codec,
   done: (s) => s.g.phase === "results",
   progress(s) {
-    return { done: 0, label: `sort ${s.g.countries.length} by`, value: s.g.category.shortLabel, extra: "highest first" };
+    return { done: 0, label: `sort ${s.g.countries.length} by`, value: statLabel(s.g.category.slug, s.g.category.shortLabel), extra: "highest first" };
   },
   verdict(prev, next, a) {
     if (a.t !== "submit" || next === prev) return null;
@@ -61,7 +62,7 @@ export const module: GameModule<SortState, SortAction> = {
     };
   },
   scoreLabel: (s) => `${s.g.score} / ${s.g.countries.length}`,
-  keys(s, dispatch) {
+  keys(s, dispatch): Record<string, () => void> {
     if (s.g.phase !== "playing") return {};
     const n = s.g.countries.length;
     return {

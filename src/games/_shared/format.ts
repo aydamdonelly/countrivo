@@ -1,4 +1,14 @@
+import { CHIP_LABELS } from "@/content/chips";
 import type { Country } from "@/types/country";
+
+/**
+ * The house label for a statistic (blueprint 10.6): the draft chip wording where there is
+ * one, so a board reads `Urban share`, not the registry's Title Case `Urban Population`.
+ * Categories outside the 20 draft chips (military spending) keep their registry label.
+ */
+export function statLabel(slug: string, fallback: string): string {
+  return CHIP_LABELS[slug] ?? fallback;
+}
 
 /** `1280` as `1 280` (the voice spaces its thousands). */
 export function spaceThousands(n: number): string {

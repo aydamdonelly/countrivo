@@ -40,8 +40,8 @@
   .rrow .flags { display: inline-flex; gap: 4px; }
   .rrow .flags .odd { outline: 2px solid var(--color-ember); outline-offset: 1px; }
   .rhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
-  .rhead .facts { color: var(--color-mute); }
-  .rhead .facts b { color: var(--color-ink); font-weight: 600; }
+  .rhead .rfacts { color: var(--color-mute); }
+  .rhead .rfacts b { color: var(--color-ink); font-weight: 600; }
   .rscroll { max-height: 240px; overflow-y: auto; }
 
   /* found lists (Border Buddies, Continent Sprint) */
@@ -110,10 +110,50 @@
   /* the sprint continent options carry a mute count */
   .ready { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 0; text-align: center; }
 
+  /* Blitz: a missed answer shakes the field once as it takes the ember ring (blueprint 8.8) */
+  .field.ember-ring input { animation: shake 240ms; }
+
   /* the reveal name under a flag (Blitz, Country Streak) */
   .reveal-name { text-align: center; font-weight: 600; min-height: 20px; }
   .reveal-name.bad { color: var(--color-ember); }
 
   /* the field row (typed games): a field and its button */
   .typed { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start; }
+
+  /* the real-time timer (Speed Flags): the bar runs linearly, the numeral burns under 5 s */
+  .prog.timer .bar i { transition: width 1s linear; }
+  .prog .score.hot b { color: var(--color-ember); }
+
+  /* four flags in one result row (Odd One Out), the odd one ringed; the trait wraps rather
+     than being cut, so no row ever ends in an ellipsis */
+  .rrow.flags4 { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .rrow.flags4 .nm { white-space: normal; }
+
+  /* a stat option (Supremacy): the icon, the label, the card's value */
+  .opt .lbl .opt-stat { display: flex; align-items: center; gap: 10px; }
+  .opt .lbl .opt-stat .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .opt .lbl .opt-stat .v { color: var(--color-mute); font-weight: 400; }
+
+  /* Cluster on desktop: the 720 column would stretch the squares to 168 px, which both pushes
+     Submit off a 800 px screen and leaves a 24 px flag swimming in a huge tile. 520 px of grid
+     gives 125 px tiles: bigger than the phone's 83, and the whole board stays on one screen.
+     (A width as well as the max-width: auto margins on a flex item cancel the stretch and the
+     grid would otherwise shrink to its content.) */
+  @media (min-width: 1024px) {
+    .tile-grid, .play-actions.under-grid { width: 100%; max-width: 520px; margin-left: auto; margin-right: auto; }
+  }
+
+  /* the assigned rank sits at its own width: as a plain auto-width flex item it eats the
+     row and the country name gets clipped to nothing */
+  .slot .lbl .rank { width: max-content; }
+
+  /* a result head keeps each fact whole: a label and its number never break apart */
+  .rhead { flex-wrap: wrap; }
+  .rhead .rfacts { white-space: nowrap; }
+
+  /* the key numeral sits over the slot's top-right corner: keep the long labels clear of it */
+  @media (hover: hover) and (pointer: fine) { .slot[data-state="open"] .lbl .nm { padding-right: 16px; } }
+
+  /* the Borderline path chain */
+  .path .path-step { display: inline-flex; align-items: center; gap: 4px; }
 }

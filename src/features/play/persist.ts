@@ -1,6 +1,6 @@
 "use client";
 
-import { DONE_COOKIE, PROGRESS_MAX_BYTES, encodeDone, encodeProgress, mergeDone, progressCookieName, readDone, type CookieReader } from "@/server/progress";
+import { DONE_COOKIE, encodeDone, encodeProgress, mergeDone, progressCookieName, progressWithinBudget, readDone, type CookieReader } from "@/server/progress";
 import { setDailyLockout } from "@/lib/storage";
 
 /*
@@ -50,7 +50,7 @@ export interface ProgressWrite {
  */
 export function writeProgress(p: ProgressWrite): boolean {
   const value = encodeProgress({ dateKey: p.dateKey, edition: p.edition, startedAt: p.startedAtMs, log: p.log });
-  if (new TextEncoder().encode(value).length > PROGRESS_MAX_BYTES) return false;
+  if (!progressWithinBudget(value)) return false;
   write(progressCookieName(p.slug), value, p.maxAge);
   return true;
 }

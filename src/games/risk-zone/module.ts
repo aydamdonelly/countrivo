@@ -6,7 +6,7 @@ import { codec } from "./codec";
 
 export type RiskAction = { t: "guess"; c: "higher" | "lower" } | { t: "bank" } | { t: "push" } | { t: "next" };
 
-export const module: GameModule<RiskZoneState, RiskAction> = {
+export const gameModule: GameModule<RiskZoneState, RiskAction> = {
   slug: "risk-zone",
   create(seed) {
     return createRiskZone(mulberry32(seed));
@@ -59,7 +59,7 @@ export const module: GameModule<RiskZoneState, RiskAction> = {
     };
   },
   scoreLabel: (s) => `${spaceThousands(s.bankedTotal)} pts`,
-  keys(s, dispatch) {
+  keys(s, dispatch): Record<string, () => void> {
     if (s.phase === "guess") return { ArrowUp: () => dispatch({ t: "guess", c: "higher" }), ArrowDown: () => dispatch({ t: "guess", c: "lower" }), h: () => dispatch({ t: "guess", c: "higher" }), l: () => dispatch({ t: "guess", c: "lower" }) };
     if (s.phase === "decide") return { b: () => dispatch({ t: "bank" }), p: () => dispatch({ t: "push" }) };
     if (s.phase === "wiped" || s.phase === "banked") return { Enter: () => dispatch({ t: "next" }) };

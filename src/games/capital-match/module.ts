@@ -16,7 +16,7 @@ function commit(s: CapitalState): CapitalState {
   return s.pending === null ? s : { g: answerCapital(s.g, s.pending), pending: null };
 }
 
-export const module: GameModule<CapitalState, CapitalAction> = {
+export const gameModule: GameModule<CapitalState, CapitalAction> = {
   slug: "capital-match",
   create(seed) {
     return { g: createCapitalMatch(mulberry32(seed), 10), pending: null };
@@ -61,7 +61,7 @@ export const module: GameModule<CapitalState, CapitalAction> = {
     };
   },
   scoreLabel: (s) => `${commit(s).g.score} / ${s.g.questions.length}`,
-  keys(s, dispatch) {
+  keys(s, dispatch): Record<string, () => void> {
     if (s.pending !== null || s.g.phase !== "playing") return {};
     return { "1": () => dispatch({ t: "answer", i: 0 }), "2": () => dispatch({ t: "answer", i: 1 }), "3": () => dispatch({ t: "answer", i: 2 }), "4": () => dispatch({ t: "answer", i: 3 }) };
   },

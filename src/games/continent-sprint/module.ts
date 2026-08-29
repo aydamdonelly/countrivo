@@ -8,7 +8,7 @@ export type SprintAction = { t: "start"; continent: Continent; now: number } | {
 /** The five playable continents (Antarctica has no countries to name). */
 export const SPRINT_CONTINENTS = CONTINENTS.filter((c) => c !== "Antarctica");
 
-export const module: GameModule<SprintState, SprintAction> = {
+export const gameModule: GameModule<SprintState, SprintAction> = {
   slug: "continent-sprint",
   create() {
     return createSprint();

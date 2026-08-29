@@ -11,7 +11,7 @@ export function Result({ state }: ResultProps<SprintState>) {
   return (
     <div>
       <p className="rhead t-body">
-        <span className="facts">
+        <span className="rfacts">
           <b>{state.continent}</b> in <b>{mmss(state.elapsed)}</b>
         </span>
       </p>

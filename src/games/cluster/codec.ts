@@ -1,45 +1,63 @@
 import type { Codec } from "@/games/types";
+import { CLUSTER_GROUP_SIZE } from "@/lib/game-logic/cluster/engine";
 import type { ClusterAction } from "./module";
 
-/**
- * `q{ISO}{ISO}{ISO}{ISO}` per submitted quartet, then `S{ISO...}` for the current selection
- * (rewritten, blueprint 8.3): 8 submits + a selection = 117 chars worst case. `dec` expands
- * a quartet into four toggles and a submit, the selection into toggles.
+/*
+ * The resume log (blueprint 8.3): a state snapshot, not the raw event stream. Every
+ * submitted quartet is one `q{ISO}{ISO}{ISO}{ISO}` token (13 chars) and the selection still
+ * on the board is one trailing `S{ISO...}` token (at most 13). A board runs to at most
+ * seven quartets (four groups plus three mistakes, or three plus four), so the worst log is
+ * 104 chars, far under the 900-byte cookie cap. `dec` expands a quartet into four toggles
+ * and a submit and the selection into toggles, which is exactly what the reducer replays.
  */
+const ISO3 = /^[A-Z]{3}$/;
+const QUARTET_LEN = 1 + CLUSTER_GROUP_SIZE * 3;
+
 export const codec: Codec<ClusterAction> = {
   enc(log) {
     let out = "";
-    let sel: string[] = [];
-    for (const a of log) {
-      if (a.t === "toggle") sel = sel.includes(a.iso3) ? sel.filter((x) => x !== a.iso3) : [...sel, a.iso3];
-      else if (a.t === "submit") {
-        if (sel.length === 4) out += `q${sel.join("")}`;
-        sel = [];
-      } else if (a.t === "clear") sel = [];
+    let selected: string[] = [];
+    for (const action of log) {
+      if (action.t === "toggle") {
+        // Mirrors toggleTile: a second tap removes, a fifth tile is refused.
+        if (selected.includes(action.iso3)) selected = selected.filter((iso3) => iso3 !== action.iso3);
+        else if (selected.length < CLUSTER_GROUP_SIZE) selected = [...selected, action.iso3];
+      } else if (action.t === "clear") {
+        selected = [];
+      } else if (action.t === "submit" && selected.length === CLUSTER_GROUP_SIZE) {
+        out += `q${selected.join("")}`;
+        selected = [];
+      }
     }
-    if (sel.length) out += `S${sel.join("")}`;
+    if (selected.length > 0) out += `S${selected.join("")}`;
     return out;
   },
   dec(s) {
     const out: ClusterAction[] = [];
     let i = 0;
-    const iso = (at: number) => {
+    const iso3 = (at: number): string => {
       const code = s.slice(at, at + 3);
-      if (!/^[A-Z]{3}$/.test(code)) throw new Error(`bad iso3 at ${at}`);
+      if (!ISO3.test(code)) throw new Error(`cluster log: no iso3 code at ${at}`);
       return code;
     };
     while (i < s.length) {
-      if (s[i] === "q") {
-        for (let k = 0; k < 4; k++) out.push({ t: "toggle", iso3: iso(i + 1 + k * 3) });
+      const tag = s[i];
+      if (tag === "q") {
+        for (let k = 0; k < CLUSTER_GROUP_SIZE; k += 1) out.push({ t: "toggle", iso3: iso3(i + 1 + k * 3) });
         out.push({ t: "submit" });
-        i += 13;
-      } else if (s[i] === "S") {
+        i += QUARTET_LEN;
+      } else if (tag === "S") {
+        // The selection token is always last and holds at most four codes, so anything
+        // after it is a corrupt log; the page then drops the cookie and deals a fresh board.
         i += 1;
-        while (i < s.length && s[i] !== "q" && s[i] !== "S") {
-          out.push({ t: "toggle", iso3: iso(i) });
+        for (let k = 0; k < CLUSTER_GROUP_SIZE && i < s.length; k += 1) {
+          out.push({ t: "toggle", iso3: iso3(i) });
           i += 3;
         }
-      } else throw new Error(`bad token ${s[i]} at ${i}`);
+        if (i !== s.length) throw new Error(`cluster log: trailing data at ${i}`);
+      } else {
+        throw new Error(`cluster log: unknown token ${tag} at ${i}`);
+      }
     }
     return out;
   },

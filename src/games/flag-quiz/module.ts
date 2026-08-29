@@ -21,7 +21,7 @@ export function pendingCorrect(s: QuizState): boolean {
   return s.pending !== null && s.pending === s.g.questions[s.g.currentQuestion].correctIndex;
 }
 
-export const module: GameModule<QuizState, QuizAction> = {
+export const gameModule: GameModule<QuizState, QuizAction> = {
   slug: "flag-quiz",
   create(seed) {
     return { g: createFlagQuiz(mulberry32(seed), 10), pending: null };
@@ -65,7 +65,7 @@ export const module: GameModule<QuizState, QuizAction> = {
     };
   },
   scoreLabel: (s) => `${commit(s).g.score} / ${s.g.questions.length}`,
-  keys(s, dispatch) {
+  keys(s, dispatch): Record<string, () => void> {
     if (s.pending !== null || s.g.phase !== "playing") return {};
     return { "1": () => dispatch({ t: "answer", i: 0 }), "2": () => dispatch({ t: "answer", i: 1 }), "3": () => dispatch({ t: "answer", i: 2 }), "4": () => dispatch({ t: "answer", i: 3 }) };
   },

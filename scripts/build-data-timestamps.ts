@@ -8,12 +8,22 @@
  * each page and only move the date when the hash moves.
  *
  * Re-run after any data refresh:  npx tsx scripts/build-data-timestamps.ts
+ *
+ * `--rebaseline` re-fingerprints the data WITHOUT moving a single date. Use it
+ * after a change that alters the JSON but not what any page renders, so the dates
+ * stay verifiable: the rebuild's emoji strip (the `emoji` / `flagEmoji` keys the UI
+ * no longer reads) moved 281 of 297 fingerprints, and a plain run would stamp all
+ * 281 URLs with the same day, which is exactly the unverifiable lastmod this file
+ * exists to prevent. Run it once after such a change, never as routine.
  */
 
 import { createHash } from "node:crypto";
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
+import { LISTS } from "../src/content/lists";
+
+const REBASELINE = process.argv.includes("--rebaseline");
 
 const REPO_ROOT = join(__dirname, "..");
 const DATA_DIR = join(__dirname, "../src/data");
@@ -54,39 +64,34 @@ type ListSource =
   | { kind: "stat"; stat: string; limit: number }
   | { kind: "continent"; continent: string; stats: string[] };
 
-const LIST_SOURCES: Record<string, ListSource> = {
-  "largest-countries": { kind: "stat", stat: "area-km2", limit: 50 },
-  "most-populated-countries": { kind: "stat", stat: "population", limit: 50 },
-  "richest-countries": { kind: "stat", stat: "gdp-per-capita", limit: 50 },
-  "countries-in-europe": {
-    kind: "continent",
-    continent: "Europe",
-    stats: ["population", "area-km2"],
-  },
-  "countries-in-asia": {
-    kind: "continent",
-    continent: "Asia",
-    stats: ["population", "area-km2"],
-  },
-  "countries-in-africa": {
-    kind: "continent",
-    continent: "Africa",
-    stats: ["population", "area-km2"],
-  },
-  "countries-in-americas": {
-    kind: "continent",
-    continent: "Americas",
-    stats: ["population", "area-km2"],
-  },
-  "most-visited-countries": { kind: "stat", stat: "tourism-arrivals", limit: 50 },
-  "highest-life-expectancy": { kind: "stat", stat: "life-expectancy", limit: 50 },
-  "highest-gdp-countries": { kind: "stat", stat: "gdp", limit: 50 },
-  "most-forested-countries": { kind: "stat", stat: "forest-coverage-pct", limit: 50 },
-  "most-connected-countries": { kind: "stat", stat: "internet-users-pct", limit: 50 },
-  "highest-fertility-rate": { kind: "stat", stat: "fertility-rate", limit: 50 },
-  "biggest-military-spenders": { kind: "stat", stat: "military-spending-pct", limit: 50 },
-  "greenest-countries": { kind: "stat", stat: "renewable-energy-pct", limit: 50 },
-};
+/** A stat list renders the top 50 of one category (blueprint 7.13, "The ranking"). */
+const statList = (stat: string): ListSource => ({ kind: "stat", stat, limit: 50 });
+
+/** A continent list renders every country of the continent with population and area. */
+const continentList = (continent: string): ListSource => ({
+  kind: "continent",
+  continent,
+  stats: ["population", "area-km2"],
+});
+
+/**
+ * The 15 list pages, keyed by slug, derived from src/content/lists.ts: the one source
+ * the hub, the 15 pages and lists/sitemap.ts read too (blueprint 7.12). A list added
+ * there gets a fingerprint here on the next run with no second edit, and no slug can
+ * drift between the sitemap and the timestamps.
+ *
+ * The two helpers above are the mapping rule: a stat list is fingerprinted by the top
+ * 50 rows it prints, a continent list by every country it prints with the two values
+ * its table shows.
+ */
+const LIST_SOURCES: Record<string, ListSource> = Object.fromEntries(
+  LISTS.map((list) => [
+    list.slug,
+    list.source.kind === "stat"
+      ? statList(list.source.category)
+      : continentList(list.source.continent),
+  ])
+);
 
 // --------------- load ---------------
 
@@ -248,7 +253,8 @@ for (const key of Object.keys(hashes).sort()) {
     entries[key] = { hash: prev.hash, lastModified: prev.lastModified };
     unchanged++;
   } else if (prev) {
-    entries[key] = { hash: hashes[key], lastModified: now };
+    // --rebaseline: take the new fingerprint, keep the date the page already claims.
+    entries[key] = { hash: hashes[key], lastModified: REBASELINE ? prev.lastModified : now };
     changed++;
   } else {
     entries[key] = { hash: hashes[key], lastModified: seedDateFor(key) };
@@ -263,7 +269,8 @@ writeFileSync(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`);
 
 console.log(
   `data-timestamps.json: ${Object.keys(entries).length} keys ` +
-    `(${added} new, ${changed} changed, ${unchanged} unchanged, ${removed.length} dropped)`
+    `(${added} new, ${changed} ${REBASELINE ? "re-fingerprinted, dates kept" : "changed"}, ` +
+    `${unchanged} unchanged, ${removed.length} dropped)`
 );
 if (removed.length > 0) {
   console.log(`  dropped: ${removed.join(", ")}`);

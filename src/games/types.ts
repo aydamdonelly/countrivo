@@ -57,6 +57,10 @@ export interface ProgressInfo {
   current?: number | null;
   /** The streak games: a burning flame before the label. */
   flame?: boolean;
+  /** A real-time bar (Speed Flags): the fill moves linearly, one second per tick. */
+  timer?: boolean;
+  /** The value burns and beats on every change (Speed Flags under 5 s, blueprint 6.3.9). */
+  hot?: boolean;
 }
 
 export interface VerdictInfo {
@@ -199,6 +203,13 @@ export type HostComponent = ComponentType<HostProps>;
 export type BoardComponent<S, A extends Action> = ComponentType<BoardProps<S, A>>;
 export type ResultComponent<S> = ComponentType<ResultProps<S>>;
 export type RunDetailComponent = ComponentType<RunDetailProps>;
+
+/**
+ * The export names a game folder publishes, so the registry and the host can find them:
+ * `module.ts` exports `gameModule` (never `module`: the name is reserved by the Next lint
+ * rule), `codec.ts` exports `codec`, `board.tsx` exports `Board`, `result.tsx` exports
+ * `Result`, `run-detail.tsx` exports `RunDetail`, `host.tsx` exports `{Game}Host`.
+ */
 
 /** The persistence rule every module gets unless it overrides `persist`. */
 export function persistsByDefault(action: Action): boolean {

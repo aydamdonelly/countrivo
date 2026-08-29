@@ -12,7 +12,7 @@ export function RunDetail({ run }: RunDetailProps) {
     <div>
       {typeof json.avgError === "number" ? (
         <p className="rhead t-body">
-          <span className="facts">
+          <span className="rfacts">
             avg error <b>{json.avgError} %</b>
           </span>
         </p>

@@ -25,6 +25,10 @@ export interface ProgressProps {
   pips?: readonly PipState[];
   /** The streak games: a burning flame before the label (blueprint 8.8). */
   flame?: boolean;
+  /** A real-time bar (Speed Flags): the fill moves linearly over one second per tick. */
+  timer?: boolean;
+  /** The value burns and beats on every change (Speed Flags under 5 s, blueprint 6.3.9). */
+  hot?: boolean;
   className?: string;
 }
 
@@ -42,12 +46,12 @@ export function derivePips({ done, total = 0, misses = [], current }: Pick<Progr
  * The session line (blueprint 3.19): 6x6 pips (done ink, current ember, remaining wait,
  * mistake ember outline) or a 3 px bar, and the label + Erode value at the right.
  */
-export function Progress({ done, total, label, value, extra, bar, misses, current, pips, flame, className }: ProgressProps) {
+export function Progress({ done, total, label, value, extra, bar, misses, current, pips, flame, timer, hot, className }: ProgressProps) {
   const showBar = bar || (total != null && total > MAX_PIPS);
   const states = !showBar && total ? pips ?? derivePips({ done, total, misses, current }) : null;
   const pct = total ? Math.max(0, Math.min(100, Math.round((done / total) * 100))) : 0;
   return (
-    <div className={cn("prog", className)}>
+    <div className={cn("prog", timer && "timer", className)}>
       {states ? (
         <div className="pips" role="img" aria-label={`${done} of ${total}`}>
           {states.map((s, i) => (
@@ -59,10 +63,12 @@ export function Progress({ done, total, label, value, extra, bar, misses, curren
           <i style={{ width: `${pct}%` }} />
         </div>
       ) : null}
-      <div className="score">
+      <div className={cn("score", hot && "hot")}>
         {flame ? <Flame size={18} /> : null}
         <span className="lbl t-meta">{label}</span>
-        <b className="t-score num">{value}</b>
+        <b key={hot ? value : undefined} className={cn("t-score num", hot && "num-pop")}>
+          {value}
+        </b>
         {extra ? <span className="extra t-meta num">{extra}</span> : null}
       </div>
     </div>

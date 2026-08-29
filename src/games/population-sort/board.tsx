@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, formatStat } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { Flag } from "@/ui/flag";
 import { ArrowDownIcon } from "@/ui/icons/arrow-down";
@@ -8,6 +8,7 @@ import { ArrowUpIcon } from "@/ui/icons/arrow-up";
 import { StatIcon } from "@/ui/icons/stat";
 import type { BoardProps } from "@/games/types";
 import { moved, type SortAction, type SortState } from "./module";
+import { statLabel } from "@/games/_shared/format";
 
 /** Population Sort (blueprint 8.8): six rows with up and down arrows, Submit order; the finished board shows the values. */
 export function Board({ state, dispatch, busy }: BoardProps<SortState, SortAction>) {
@@ -18,7 +19,7 @@ export function Board({ state, dispatch, busy }: BoardProps<SortState, SortActio
     <div className="play-stack">
       <div className="stat-line t-list">
         <StatIcon slug={g.category.slug} size={22} />
-        <span>{g.category.label}</span>
+        <span>{statLabel(g.category.slug, g.category.label)}</span>
         <span className="mult t-meta">highest first</span>
       </div>
       <div className="play-stack" style={{ gap: 8 }}>

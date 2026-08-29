@@ -13,7 +13,7 @@ export function RunDetail({ run }: RunDetailProps) {
     <div>
       {target ? (
         <p className="rhead t-body">
-          <span className="facts">
+          <span className="rfacts">
             neighbours of <b>{target.displayName}</b>
           </span>
         </p>

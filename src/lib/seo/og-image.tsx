@@ -1,64 +1,42 @@
 import { ImageResponse } from "next/og";
-import { getGameBySlug } from "@/lib/data/registry";
+import conquest from "@/assets/marks/conquest.json";
+import { getAllCountries } from "@/lib/data/countries";
+import { getAllGames, getGameBySlug } from "@/lib/data/registry";
 import type { GameMeta } from "@/types/game";
 import { erodeFontData } from "./erode-font";
 
 /**
- * Shared Open Graph card renderer for every game route.
+ * The Open Graph card family: root, game landings and shared runs.
  *
- * Design language is copied from src/app/opengraph-image.tsx: cream page, the
- * "Coun·trivo" wordmark with a gold separator, monospace metadata rows.
- * Each game gets its own accent wash so a link dropped in Discord/iMessage is
- * recognisable at a glance.
+ * Every card is the home screen's own composition, not a poster about it: paper
+ * ground, a 6 px ember rule along the top edge, the Erode wordmark, and the ink
+ * anchor card carrying the kicker row, the title, the one-line rule, the chips
+ * and the paper Shoot button that overlaps them. Somebody who taps the link
+ * lands on the same object.
  *
  * ── Why hex literals live here ──
- * ImageResponse (Satori) cannot resolve CSS custom properties, so `var(--…)`
- * renders as nothing. game-colors.ts deliberately returns `var(--game-{slug}-…)`
- * for the DOM and warns against feeding those into an OG image. The maps below
- * therefore MIRROR the light-mode tokens in globals.css (`--game-{slug}-bg/fg`
- * and the core palette) as literals. This file is the single sanctioned
- * exception to the no-hardcoded-colour rule — never copy these values out.
+ * Satori (ImageResponse) cannot resolve CSS custom properties: `var(--color-ink)`
+ * renders as nothing. The constants below therefore MIRROR src/styles/tokens.css
+ * one for one, and this file is the sanctioned exception to the no-hex rule
+ * (blueprint section 1) together with tokens.css, global-error.tsx and
+ * capacitor/www/offline.html. `icon.tsx`, `apple-icon.tsx`, `opengraph-image.tsx`
+ * and `manifest.ts` import these names instead of writing their own literals.
+ * If a token moves in tokens.css, move it here in the same commit.
  */
+export const PAPER = "#fbfaf6"; /* --color-paper */
+export const CARD = "#f1f0ea"; /* --color-card */
+export const INK = "#17181a"; /* --color-ink */
+export const INK_2 = "#2b2c2e"; /* --color-ink-2 */
+export const INK_MUTED = "#74756f"; /* --color-mute */
+export const INK_FAINT = "#b9b8b1"; /* --color-faint */
+export const EMBER = "#b8432a"; /* --color-ember */
+export const ON_INK = "#fbfaf6"; /* --color-on-ink */
+export const ON_INK_BODY = "#c9c8c1"; /* --color-on-ink-body */
+export const ON_INK_KICKER = "#a9aaa3"; /* --color-on-ink-kicker */
+export const ON_INK_CHIP = "#d9d8d1"; /* --color-on-ink-chip */
 
-/** Mirrors --color-bg / --color-cream / --color-cream-muted / --color-gold (light). */
-const PAGE_BG = "#fbfaf6";
-const INK = "#17181a";
-const INK_MUTED = "#555555";
-const INK_FAINT = "#999999";
-const GOLD = "#b8432a";
-
-interface Accent {
-  /** Wash behind the emoji tile — mirrors --game-{slug}-bg. */
-  bg: string;
-  /** Ink on the wash — mirrors --game-{slug}-fg. */
-  fg: string;
-}
-
-/** Mirrors the light values of --game-{slug}-bg / -fg in globals.css. */
-const GAME_ACCENTS: Record<string, Accent> = {
-  "country-draft": { bg: "#f1f0ea", fg: "#17181a" },
-  "flag-quiz": { bg: "#f1f0ea", fg: "#17181a" },
-  "higher-or-lower": { bg: "#f1f0ea", fg: "#17181a" },
-  "capital-match": { bg: "#f1f0ea", fg: "#17181a" },
-  "population-sort": { bg: "#f1f0ea", fg: "#17181a" },
-  "country-streak": { bg: "#f1f0ea", fg: "#17181a" },
-  "border-buddies": { bg: "#f1f0ea", fg: "#17181a" },
-  "continent-sprint": { bg: "#f1f0ea", fg: "#17181a" },
-  "stat-guesser": { bg: "#f1f0ea", fg: "#17181a" },
-  "speed-flags": { bg: "#f1f0ea", fg: "#17181a" },
-  "odd-one-out": { bg: "#f1f0ea", fg: "#17181a" },
-  supremacy: { bg: "#f1f0ea", fg: "#17181a" },
-  borderline: { bg: "#f1f0ea", fg: "#17181a" },
-  blitz: { bg: "#f1f0ea", fg: "#17181a" },
-  // The three newest games have no DOM wash yet; these keep the OG set complete
-  // and stay inside the same tint family as the tokens above.
-  "geo-wordle": { bg: "#f1f0ea", fg: "#17181a" },
-  cluster: { bg: "#f1f0ea", fg: "#17181a" },
-  "risk-zone": { bg: "#f1f0ea", fg: "#17181a" },
-};
-
-/** Mirrors --game-drills-bg / -fg — used for unknown slugs. */
-const FALLBACK_ACCENT: Accent = { bg: "#f5f4f0", fg: INK };
+/** The same precomputed Natural Earth paths the World Draft mark draws (blueprint 3.36). */
+const MAP = conquest as { viewBox: string; land: string; countries: Record<string, string> };
 
 const DIFFICULTY_LABEL: Record<GameMeta["difficulty"], string> = {
   easy: "Easy",
@@ -69,30 +47,45 @@ const DIFFICULTY_LABEL: Record<GameMeta["difficulty"], string> = {
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
 
-export interface GameOgProps {
-  title: string;
-  emoji?: string;
-  shortDescription: string;
-  accent: Accent;
-  /** Small pill in the top-right — e.g. "Daily challenge". */
-  badge: string;
-  /** Monospace footer items, rendered with gold separators. */
-  footer: string[];
-}
-
-/** Low-level renderer. Everything is explicit flex — Satori needs it. */
+/**
+ * Erode 600, embedded as base64 (src/lib/seo/erode-font.ts) because Satori reads
+ * ttf/otf/woff and the app's faces are woff2. Passing `fonts` replaces Satori's
+ * bundled default outright, so the whole card is set in the display face: there
+ * is no system-ui inside an OG image, and a second embedded family would be a
+ * font nobody chose. Hierarchy comes from size, weight of colour and space.
+ */
 let erode: ArrayBuffer | null = null;
 function erodeFont(): ArrayBuffer {
   if (!erode) erode = erodeFontData();
   return erode;
 }
 
+export interface GameOgProps {
+  /** Left half of the card kicker, typed in caps: "DAILY BOARD · FLAG QUIZ". */
+  kicker: string;
+  /** Right half of the kicker row: "resets at midnight Berlin". */
+  counter: string;
+  /** The card headline, Erode. */
+  title: string;
+  /** The one-line rule under the headline. */
+  how: string;
+  /** Two or three facts as chips; they sit beside the button. */
+  chips: string[];
+  /** The paper button in the card's bottom-right corner; null for a card with no action. */
+  cta: string | null;
+  /** Draws the conquest map in the card instead of a button (World Draft only). */
+  map?: boolean;
+}
+
+/** Everything is explicit flex: Satori has no block layout. */
 export async function renderGameOgImage({
+  kicker,
+  counter,
   title,
-  shortDescription,
-  accent,
-  badge,
-  footer,
+  how,
+  chips,
+  cta,
+  map = false,
 }: GameOgProps): Promise<ImageResponse> {
   const font = erodeFont();
   return new ImageResponse(
@@ -103,57 +96,165 @@ export async function renderGameOgImage({
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          background: PAGE_BG,
-          fontFamily: "Inter, system-ui, sans-serif",
-          padding: "56px 72px 52px 72px",
-          justifyContent: "space-between",
+          background: PAPER,
+          fontFamily: "Erode",
+          color: INK,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", fontFamily: "Erode", fontSize: 40, color: INK, lineHeight: 1 }}>Countrivo</div>
-          <div style={{ display: "flex", fontSize: 24, color: INK_MUTED }}>{badge}</div>
+        {/* the one ember rule, along the top edge of every card in the family */}
+        <div style={{ display: "flex", height: 6, width: "100%", background: EMBER }} />
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            padding: "40px 64px 0 64px",
+          }}
+        >
+          <div style={{ display: "flex", fontSize: 40, lineHeight: 1, color: INK }}>Countrivo</div>
+          <div style={{ display: "flex", fontSize: 26, lineHeight: 1, color: INK_MUTED }}>
+            countrivo.com
+          </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", fontFamily: "Erode", fontSize: 96, color: accent.fg, lineHeight: 1.02, maxWidth: 1000 }}>{title}</div>
-          <div style={{ display: "flex", marginTop: 26, fontSize: 34, color: INK_MUTED, lineHeight: 1.35, maxWidth: 960 }}>{shortDescription}</div>
-        </div>
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            margin: "32px 64px 56px 64px",
+            padding: "44px 48px 46px 48px",
+            background: INK,
+            borderRadius: 32,
+            flex: 1,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "baseline",
+              fontSize: 26,
+              lineHeight: 1.2,
+              letterSpacing: "0.02em",
+              color: ON_INK_KICKER,
+            }}
+          >
+            <div style={{ display: "flex" }}>{kicker}</div>
+            <div style={{ display: "flex" }}>{counter}</div>
+          </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 24, color: INK_FAINT }}>
-          {footer.map((item, i) => (
-            <div key={item} style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              {i > 0 ? <span style={{ color: GOLD }}>·</span> : null}
-              <span>{item}</span>
+          {/* the title block floats between the kicker and the chip row, so the two
+              gaps read as one deliberate measure instead of a hole in the middle */}
+          <div style={{ display: "flex", flex: 1 }} />
+
+          <div
+            style={{
+              display: "flex",
+              fontSize: 104,
+              lineHeight: 1.05,
+              color: ON_INK,
+              maxWidth: map ? 540 : 976,
+            }}
+          >
+            {title}
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              marginTop: 18,
+              fontSize: 32,
+              lineHeight: 1.4,
+              color: ON_INK_BODY,
+              maxWidth: map ? 540 : 700,
+            }}
+          >
+            {how}
+          </div>
+
+          <div style={{ display: "flex", flex: 1 }} />
+
+          <div style={{ display: "flex", gap: 14, paddingRight: 260 }}>
+            {chips.map((chip) => (
+              <div
+                key={chip}
+                style={{
+                  display: "flex",
+                  padding: "11px 20px",
+                  borderRadius: 12,
+                  background: INK_2,
+                  color: ON_INK_CHIP,
+                  fontSize: 26,
+                  lineHeight: 1.2,
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {chip}
+              </div>
+            ))}
+          </div>
+
+          {map ? (
+            <div style={{ position: "absolute", right: 44, bottom: 44, display: "flex" }}>
+              <svg width={430} height={202} viewBox={MAP.viewBox}>
+                <path d={MAP.land} fill={INK_2} />
+                {Object.entries(MAP.countries).map(([iso3, d]) => (
+                  <path key={iso3} d={d} fill={ON_INK} />
+                ))}
+              </svg>
             </div>
-          ))}
+          ) : null}
+
+          {cta ? (
+            <div
+              style={{
+                position: "absolute",
+                right: 40,
+                bottom: 40,
+                display: "flex",
+                padding: "22px 32px",
+                borderRadius: 16,
+                background: PAPER,
+                color: INK,
+                fontSize: 38,
+                lineHeight: 1,
+              }}
+            >
+              {cta}
+            </div>
+          ) : null}
         </div>
-        <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: 14, background: GOLD, display: "flex" }} />
       </div>
     ),
     { ...ogSize, fonts: [{ name: "Erode", data: font, weight: 600, style: "normal" }] }
   );
 }
 
-function accentFor(slug: string): Accent {
-  return GAME_ACCENTS[slug] ?? FALLBACK_ACCENT;
-}
-
 /** Alt text for a game's card. Falls back to the brand line for unknown slugs. */
 export function gameOgAlt(slug: string): string {
   const game = getGameBySlug(slug);
-  return game ? `${game.title} — ${game.shortDescription}` : "Countrivo · One puzzle a day";
+  return game ? `${game.title}: ${game.shortDescription}` : "Countrivo · One shot a day";
 }
 
 interface SlugOgOptions {
-  /** Overrides the mode pill. */
+  /** Overrides the kicker's first half: "Daily board" / "Practice" / "Shared result". */
   badge?: string;
-  /** Overrides the description line. */
+  /** Overrides the kicker's right half. */
+  counter?: string;
+  /** Overrides the one-line rule. */
   shortDescription?: string;
 }
 
+/** "3-5 min" is registry data; the house writes spans in words. */
+function spellTime(estimated: string): string {
+  return estimated.replace("-", " to ");
+}
+
 /**
- * Registry-driven entry point used by every games/{slug}/opengraph-image.tsx.
- * Unknown slugs degrade to a generic Countrivo card instead of throwing.
+ * Registry-driven entry point used by the landing and run OG routes.
+ * Unknown slugs degrade to the brand card instead of throwing.
  */
 export function renderGameOgImageForSlug(
   slug: string,
@@ -163,21 +264,40 @@ export function renderGameOgImageForSlug(
 
   if (!game) {
     return renderGameOgImage({
+      kicker: (options.badge ?? "Geography games").toUpperCase(),
+      counter: options.counter ?? "one shot a day",
       title: "Countrivo",
-      shortDescription: options.shortDescription ?? "One geography puzzle a day.",
-      accent: FALLBACK_ACCENT,
-      badge: options.badge ?? "Geography games",
-      footer: ["18 games", "243 countries", "countrivo.com"],
+      how:
+        options.shortDescription ??
+        "Free geography games. One shot a day, same board for everyone.",
+      chips: [`${getAllGames().length} games`, `${getAllCountries().length} countries`],
+      cta: "Play",
+    });
+  }
+
+  // World Draft is announced, not playable: its card is the landing's card, with
+  // no button and the two facts of the promise instead of difficulty and length.
+  if (game.comingSoon) {
+    return renderGameOgImage({
+      kicker: "NEW · IN DEVELOPMENT",
+      counter: options.counter ?? "draft 5 people · conquer 195",
+      title: game.title,
+      how: options.shortDescription ?? game.shortDescription,
+      chips: [],
+      cta: null,
+      map: true,
     });
   }
 
   const isDaily = game.availableModes.includes("daily");
+  const badge = options.badge ?? (isDaily ? "Daily board" : "Practice");
 
   return renderGameOgImage({
+    kicker: `${badge} · ${game.title}`.toUpperCase(),
+    counter: options.counter ?? (isDaily ? "resets at midnight Berlin" : "unlimited"),
     title: game.title,
-    shortDescription: options.shortDescription ?? game.shortDescription,
-    accent: accentFor(slug),
-    badge: options.badge ?? (isDaily ? "Daily challenge" : "Practice mode"),
-    footer: [DIFFICULTY_LABEL[game.difficulty], game.estimatedTime, "countrivo.com"],
+    how: options.shortDescription ?? game.shortDescription,
+    chips: [DIFFICULTY_LABEL[game.difficulty], spellTime(game.estimatedTime)],
+    cta: isDaily ? "Shoot" : "Play",
   });
 }

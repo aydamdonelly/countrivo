@@ -5,7 +5,7 @@ import { codec } from "./codec";
 
 export type BorderAction = { t: "found"; iso3: string } | { t: "giveup" };
 
-export const module: GameModule<BorderBuddiesState, BorderAction> = {
+export const gameModule: GameModule<BorderBuddiesState, BorderAction> = {
   slug: "border-buddies",
   create(seed) {
     return createBorderBuddies(mulberry32(seed));

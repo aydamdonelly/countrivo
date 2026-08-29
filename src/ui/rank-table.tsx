@@ -14,12 +14,16 @@ export interface RankRow {
   highlight?: boolean;
   /** Continent lists: the capital column. */
   capital?: string;
+  /** Continent lists at >= 1024: the area column. */
+  area?: string;
 }
 
 export interface RankTableProps {
   rows: readonly RankRow[];
   /** 4 adds the capital column (continent lists). */
   columns?: 3 | 4;
+  /** Continent lists: adds the area column, shown from 1024 up (blueprint 7.13). */
+  wide?: boolean;
   caption?: string;
   className?: string;
 }
@@ -28,9 +32,9 @@ export interface RankTableProps {
  * A ranking laid out as the board grid (blueprint 3.34): rank mute, Flag xs, the name
  * linking to the country, the Erode value with a mute unit. No pagination, no crowns.
  */
-export function RankTable({ rows, columns = 3, caption, className }: RankTableProps) {
+export function RankTable({ rows, columns = 3, wide, caption, className }: RankTableProps) {
   return (
-    <table className={cn("rank t-row", columns === 4 && "cols4", className)}>
+    <table className={cn("rank t-row", columns === 4 && "cols4", wide && "cols5", className)}>
       {caption ? <caption className="sr-only">{caption}</caption> : null}
       <tbody>
         {rows.map((r) => (
@@ -47,6 +51,7 @@ export function RankTable({ rows, columns = 3, caption, className }: RankTablePr
               <b className="t-score num">{r.value}</b>
               {r.unit ? <span className="u t-meta">{r.unit}</span> : null}
             </td>
+            {wide ? <td className="ar t-meta num">{r.area ?? ""}</td> : null}
           </tr>
         ))}
       </tbody>

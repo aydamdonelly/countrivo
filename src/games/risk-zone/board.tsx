@@ -8,6 +8,7 @@ import type { BoardProps } from "@/games/types";
 import { optionState } from "@/games/_shared/option-list";
 import { PairSubject } from "@/games/_shared/pair";
 import { multiplierLabel, type RiskAction } from "./module";
+import { statLabel } from "@/games/_shared/format";
 
 /** Risk Zone (blueprint 8.8): the pair with the multiplier; guess, decide (Bank / Push), wiped or banked (Next chain). */
 export function Board({ state, dispatch, busy }: BoardProps<RiskZoneState, RiskAction>) {
@@ -27,7 +28,7 @@ export function Board({ state, dispatch, busy }: BoardProps<RiskZoneState, RiskA
     <div className="play-stack">
       <PairSubject
         key={`${state.chainIndex}-${stepIdx}`}
-        stat={{ slug: chain.category.slug, label: chain.category.label }}
+        stat={{ slug: chain.category.slug, label: statLabel(chain.category.slug, chain.category.label) }}
         multiplier={multiplierLabel(state.correctInChain)}
         left={{ iso2: anchor.iso2, name: anchor.displayName, value: formatStat(anchorValue, unit) }}
         right={{ iso2: step.challenger.iso2, name: step.challenger.displayName, value: revealed ? formatStat(step.challengerValue, unit) : null, count: revealed ? { value: step.challengerValue, unit } : undefined }}

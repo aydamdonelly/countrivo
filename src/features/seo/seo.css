@@ -1,0 +1,96 @@
+/* The static pages (blueprint 7.2 to 7.4 and 7.8 to 7.13). Phone is one column in the
+   order the blueprint lists; at 1024 the same blocks split into a main column and a
+   328 px side column without being rendered twice: the side wrapper is display: contents
+   on phones, so every block is a flex item of .split and data-o puts it in place.
+   Colours are tokens only; no shadow, no gradient, no border but the 1 px row line. */
+@layer components {
+  .split { display: flex; flex-direction: column; }
+  .split > .col { display: contents; }
+  .split [data-o="1"] { order: 1; }
+  .split [data-o="2"] { order: 2; }
+  .split [data-o="3"] { order: 3; }
+  .split [data-o="4"] { order: 4; }
+  .split [data-o="5"] { order: 5; }
+  .split [data-o="6"] { order: 6; }
+  .split [data-o="7"] { order: 7; }
+  .split [data-o="8"] { order: 8; }
+  .split [data-o="9"] { order: 9; }
+  .split [data-o="10"] { order: 10; }
+  @media (min-width: 1024px) {
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 56px; align-items: start; }
+    .split > .col { display: block; min-width: 0; }
+    .split > .col.pin { position: sticky; top: 24px; }
+  }
+
+  /* two equal columns (the games hub) */
+  @media (min-width: 1024px) {
+    .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; align-items: start; }
+  }
+
+  /* long row lists flow into two columns on a wide screen */
+  @media (min-width: 1024px) {
+    .cols2 { columns: 2; column-gap: 48px; }
+    .cols2 > * { break-inside: avoid; }
+  }
+
+  /* ── landing ─────────────────────────────────────────────────────────── */
+  .under { margin-bottom: 20px; color: var(--color-mute); }
+  .under p + p { margin-top: 6px; }
+  .ilink { color: var(--color-ember); font-weight: 600; padding: 6px 0; }
+  .rail-board { margin-bottom: 24px; }
+  .steps-ol li span { min-width: 0; }
+
+  /* ── entity block ────────────────────────────────────────────────────── */
+  .dl { margin-top: 16px; }
+  .dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--color-line); }
+  .dl dt { color: var(--color-mute); flex: none; }
+  .dl dd { color: var(--color-ink); text-align: right; }
+  @media (min-width: 768px) { .dl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+  .src-line { color: var(--color-mute); margin-top: 12px; max-width: 62ch; }
+
+  /* ── country page ────────────────────────────────────────────────────── */
+  .sfx { font-family: var(--font-sans); font-size: 13px; font-weight: 400; margin-left: 1px; }
+  .standing { margin-bottom: 8px; }
+  .empty-row { color: var(--color-mute); padding: 12px 0; border-top: 1px solid var(--color-line); }
+  .entity-line { color: var(--color-mute); margin-top: 28px; }
+  @media (min-width: 1024px) { .col.side .narrow-only { display: none; } }
+
+  /* ── countries hub ───────────────────────────────────────────────────── */
+  .cx-search { margin-bottom: 4px; }
+  .cx-count { color: var(--color-mute); margin-top: 6px; min-height: 17px; }
+  .cx-facts { margin: 16px 0; }
+  .cx-anchors { margin: 16px 0 20px; color: var(--color-mute); }
+  .cx-anchors a { color: var(--color-ink); padding: 8px 0; }
+  .cx a.row[data-hide], .cx section[data-hide] { display: none; }
+
+  /* ── category page ───────────────────────────────────────────────────── */
+  .lead-line { color: var(--color-mute); max-width: 62ch; margin-bottom: 20px; }
+  .cat-facts, .list-facts { margin-bottom: 8px; }
+  .rank.cols5 td.ar { display: none; }
+  @media (min-width: 1024px) {
+    .rank.cols5 tr { grid-template-columns: 18px 26px minmax(0, 1fr) auto auto auto; }
+    .rank.cols5 td.ar { display: block; text-align: right; color: var(--color-mute); white-space: nowrap; }
+  }
+  @media (max-width: 639px) {
+    .rank.cols4 tr {
+      grid-template-columns: 18px 26px minmax(0, 1fr) auto;
+      grid-template-areas: "rk fl nm vl" ". . cp .";
+      row-gap: 2px;
+    }
+    .rank.cols4 td.r { grid-area: rk; }
+    .rank.cols4 tr > td:nth-child(2) { grid-area: fl; }
+    .rank.cols4 td.nm { grid-area: nm; }
+    .rank.cols4 td.cap { grid-area: cp; }
+    .rank.cols4 td.v { grid-area: vl; }
+  }
+
+  /* ── list page ───────────────────────────────────────────────────────── */
+  .figure { margin-bottom: 20px; }
+  .figure > b { display: block; }
+  .figure .unit { font-family: var(--font-sans); font-size: 17px; font-weight: 400; letter-spacing: 0; color: var(--color-mute); margin-left: 10px; }
+  .figure > span { display: block; color: var(--color-mute); margin-top: 8px; max-width: 44ch; }
+  .intro { margin-bottom: 4px; }
+
+  /* ── legal ───────────────────────────────────────────────────────────── */
+  .mail-line { color: var(--color-mute); margin-top: 32px; }
+}
