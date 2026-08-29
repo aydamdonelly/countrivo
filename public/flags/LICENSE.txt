@@ -1,0 +1,1 @@
+Flags: flag-icons (https://github.com/lipis/flag-icons), MIT License, 4x3 set copied by scripts/build-flags.ts.

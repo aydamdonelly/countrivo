@@ -1,22 +1,30 @@
-import Link from "next/link";
+import { Button, FadeBar, Header, PageTitle, TabBar } from "@/ui";
 
+/*
+ * The 404 (blueprint 7.18): the static chrome, "Not on the map", one line, Home and All
+ * games. Rendered for unmatched URLs and for every notFound() in the tree; it carries its
+ * own chrome because the root layout renders none.
+ */
 export default function NotFound() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4">
-      <div className="text-center max-w-md">
-        <h1 className="font-display font-semibold text-3xl mb-2">Page not found</h1>
-        <p className="text-sm text-cream-muted mb-6">
-          This page doesn&apos;t exist. Check the URL or go back to safety.
+    <>
+      <div className="frame frame-bar">
+        <Header variant="static" />
+        <PageTitle title="Not on the map" />
+        <p className="t-body" style={{ color: "var(--color-mute)" }}>
+          That page does not exist.
         </p>
-        <div className="flex items-center justify-center gap-3">
-          <Link href="/" className="cta-primary text-sm px-6 py-3 min-h-[44px] inline-flex items-center active:scale-[0.97]">
-            Go home
-          </Link>
-          <Link href="/games" className="cta-secondary text-sm px-6 py-3 min-h-[44px] inline-flex items-center active:scale-[0.97]">
-            Browse games
-          </Link>
+        <div className="flex flex-wrap items-center gap-4 mt-6">
+          <Button href="/" prefetch>
+            Home
+          </Button>
+          <Button variant="text" href="/games" prefetch>
+            All games
+          </Button>
         </div>
       </div>
-    </div>
+      <FadeBar />
+      <TabBar />
+    </>
   );
 }

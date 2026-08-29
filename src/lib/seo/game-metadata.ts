@@ -38,36 +38,23 @@ const GAME_SEO: Record<string, GameSeo> = {
       "Solve it in six guesses or fewer",
     ],
   },
-  "cluster": {
-    title: "Cluster: Connections With Countries, Daily Geography Puzzle | Countrivo",
+  "country-draft": {
+    title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
     description:
-      "Sixteen countries, four secret groups. Find the connection binding each quartet: region, letter or stat: before four mistakes end your run. Free daily puzzle.",
-    genre: "Geography Puzzle",
-    playMode: "SinglePlayer",
-    rules: [
-      "Sixteen countries are shown in a grid",
-      "Four hidden groups of four each share one connection",
-      "Tap four countries you think belong together and submit",
-      "A correct group locks in; four wrong guesses end the game",
-    ],
-  },
-  "risk-zone": {
-    title: "Risk Zone: Push-Your-Luck Country Stats Game, Free Daily | Countrivo",
-    description:
-      "Guess higher or lower one country at a time. Each correct call grows your multiplier: bank the pot or push your luck. One wrong answer wipes the chain. Free daily.",
+      "Five countries, five rounds. Each country offers three of its people: take one and give them a seat in your cabinet. Score out of 195. Free daily game, no signup.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
-      "A country's stat value is shown: guess if the next country is higher or lower",
-      "Each correct guess grows your multiplier and your pot",
-      "Bank the pot to lock the points, or push your luck for one more reveal",
-      "One wrong guess wipes the entire chain: play 5 chains for the highest total",
+      "Five countries are on the board from the first second",
+      "Every round is one of them, and it offers three of its people",
+      "Give them one of five seats, the seat decides most of the points",
+      "After five appointments the cabinet is scored out of 195",
     ],
   },
-  "country-draft": {
-    title: "Country Draft: Draft 8 Countries Into Their Best Stat, Free Daily Game | Countrivo",
+  "blind-pick": {
+    title: "Blind Pick: Which Country Ranks Highest? Daily Stats Puzzle | Countrivo",
     description:
-      "8 countries, 8 stat categories. Assign each country to where it ranks highest in the world and beat the optimal score. Free daily strategy puzzle.",
+      "Eight world rankings are open and eight countries arrive one at a time. Put each country on the stat where it ranks highest. Free daily puzzle, no signup.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
@@ -80,7 +67,7 @@ const GAME_SEO: Record<string, GameSeo> = {
   "flag-quiz": {
     title: "Flag Quiz: Guess the Country by Its Flag, Free Daily Flag Game | Countrivo",
     description:
-      "Name the country from its flag across 10 rounds. A free flag quiz with daily challenges and unlimited practice. 243 countries, no signup.",
+      "Name the country from its flag across 10 rounds. A free flag quiz with a daily board and unlimited practice. 243 countries, no signup.",
     genre: "Geography Quiz",
     playMode: "SinglePlayer",
     rules: [
@@ -103,71 +90,6 @@ const GAME_SEO: Record<string, GameSeo> = {
       "One wrong answer ends your streak",
     ],
   },
-  "capital-match": {
-    title: "World Capitals Quiz: Match Countries to Capitals, Free Daily | Countrivo",
-    description:
-      "Given a country, pick its capital city from four options across 10 rounds. Test your world capitals knowledge with a free daily challenge.",
-    genre: "Geography Quiz",
-    playMode: "SinglePlayer",
-    rules: [
-      "A country is shown with its flag",
-      "Pick the correct capital from 4 options",
-      "10 questions per round",
-      "Score equals correct answers out of 10",
-    ],
-  },
-  "population-sort": {
-    title: "Population Sort: Order Countries by Population, Daily Quiz | Countrivo",
-    description:
-      "Sort countries from highest to lowest by population, GDP, area and more. Every position counts. Free daily ranking puzzle with unlimited practice.",
-    genre: "Geography Ranking",
-    playMode: "SinglePlayer",
-    rules: [
-      "A set of countries is shown in random order",
-      "A stat category is given, such as population or GDP",
-      "Rearrange the countries from highest to lowest",
-      "Submit when you are confident in your order",
-    ],
-  },
-  "country-streak": {
-    title: "Country Streak: How Long Can Your Flag Streak Last? | Countrivo",
-    description:
-      "Identify countries from their flags one after another. One wrong answer ends the run. How far can your streak go? Free flag game, no signup.",
-    genre: "Geography Quiz",
-    playMode: "SinglePlayer",
-    rules: [
-      "A flag is shown on screen",
-      "Pick the correct country from 4 options",
-      "Each correct answer extends your streak",
-      "One wrong answer ends the game",
-    ],
-  },
-  "border-buddies": {
-    title: "Border Buddies: Name Every Neighboring Country | Countrivo",
-    description:
-      "A country appears: can you name every country that borders it? Test your knowledge of national borders with a free daily challenge and practice mode.",
-    genre: "Geography Knowledge",
-    playMode: "SinglePlayer",
-    rules: [
-      "A country is shown with its flag",
-      "Type the names of all bordering countries",
-      "Use the autocomplete dropdown to select matches",
-      "Find every border or give up to reveal the answer",
-    ],
-  },
-  "continent-sprint": {
-    title: "Continent Sprint: Name Every Country on a Continent | Countrivo",
-    description:
-      "Pick a continent and name every country in it against the clock: Europe, Asia, Africa, the Americas and more. Free geography sprint, no signup.",
-    genre: "Geography Speed",
-    playMode: "SinglePlayer",
-    rules: [
-      "Choose a continent to start",
-      "Type country names as fast as you can",
-      "The timer counts up with no time limit",
-      "Finish when you have found them all or give up",
-    ],
-  },
   "stat-guesser": {
     title: "Stat Guesser: Guess Country Statistics, Daily Geography Trivia | Countrivo",
     description:
@@ -182,7 +104,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "speed-flags": {
-    title: "Speed Flags: 20-Second Flag Quiz Challenge | Countrivo",
+    title: "Speed Flags: Name as Many Flags as You Can in 20 Seconds | Countrivo",
     description:
       "Twenty seconds on the clock: how many flags can you identify? A fast-paced flag quiz where speed and accuracy both count. Free, no signup.",
     genre: "Geography Speed",
@@ -192,59 +114,6 @@ const GAME_SEO: Record<string, GameSeo> = {
       "Pick the correct country as fast as you can",
       "A 20-second countdown runs the whole round",
       "Score equals total correct answers",
-    ],
-  },
-  "odd-one-out": {
-    title: "Odd One Out: Spot the Country That Doesn't Belong | Countrivo",
-    description:
-      "Four countries, one hidden trait. Three belong together and one doesn't: can you spot the odd one out? Free daily geography puzzle, no signup.",
-    genre: "Geography Puzzle",
-    playMode: "SinglePlayer",
-    rules: [
-      "Four countries are displayed with their flags",
-      "Three share a common trait such as continent or region",
-      "Pick the one country that does not belong",
-      "Play 5 rounds per game",
-    ],
-  },
-  supremacy: {
-    title: "Supremacy: Country Stat Card Battle Game | Countrivo",
-    description:
-      "A Top Trumps style card battle with real country data. Pick the stat category, compare cards and outsmart the AI across 5 rounds. Free, no signup.",
-    genre: "Geography Strategy",
-    playMode: "SinglePlayer",
-    rules: [
-      "Each player gets 5 country cards with real stats",
-      "The attacker picks a stat category to compare",
-      "Both cards are revealed: the higher value wins the round",
-      "Players alternate who picks for 5 rounds",
-      "Whoever wins the most rounds takes the game",
-    ],
-  },
-  borderline: {
-    title: "Borderline: Race Through Country Borders to a Target | Countrivo",
-    description:
-      "Start at one country and navigate through national borders to reach a target. Knowing who borders whom wins. Free geography path puzzle, no signup.",
-    genre: "Geography Strategy",
-    playMode: "SinglePlayer",
-    rules: [
-      "You start at a random country with a target destination",
-      "Type the name of a bordering country to move there",
-      "Keep moving through borders until you reach the target",
-      "Try to match the optimal, shortest path length",
-    ],
-  },
-  blitz: {
-    title: "Blitz: Type the Country Before Time Runs Out | Countrivo",
-    description:
-      "A flag appears: type the country name as fast as you can across 10 rounds of pure speed. Beat your own time. Free flag typing game, no signup.",
-    genre: "Geography Speed",
-    playMode: "SinglePlayer",
-    rules: [
-      "A flag appears on screen: identify the country",
-      "Type the country name and press Enter",
-      "A correct answer wins the round; a wrong one lets you retry",
-      "After 10 rounds, see your final score and average time",
     ],
   },
 };

@@ -1,174 +1,168 @@
-/**
- * Server-side anti-cheat validator for the Country Draft daily game.
- *
- * Re-creates the daily config from the same seed convention the client uses
- * (`getDailyRng(dateKey)` — plain dateKey, no slug suffix) and verifies the
- * submitted assignments only use countries/categories from the daily set and
- * that the recomputed player score matches `scoreRaw`.
- *
- * Returns `{ valid: true }` when the submission is consistent. Returns
- * `{ valid: false, reason }` only when the submission is clearly impossible.
+/*
+ * Country Draft server validation (SPEC 21.2). The daily board is deterministic, so the
+ * server regenerates it from (dateKey + edition) and checks the submitted cabinet against
+ * the real people, the real fits and the real ceiling. Nothing in the payload is trusted
+ * except as a claim to be re-derived.
  */
-import { getDailyRng } from "@/lib/daily-seed";
-import { generateDraftConfig } from "./generator";
+import { dateSeed } from "@/lib/daily-seed";
+import { mulberry32 } from "@/lib/seeded-random";
+import { createBoard } from "./generator";
+import { bonusTotalOf, bonusesOf, fitOf, standingPointsOf } from "./scoring";
+import { FIT, MAX_BASE, MAX_BONUS, MAX_CEILING, MAX_SCORE, ROUNDS, STANDING_POINTS, bandOf } from "./tables";
+import { POOL_VERSION } from "./roster";
+import type { SeatIdx } from "./types";
 
-const MAX_POSSIBLE_SCORE = 8 * 243; // 8 countries × worst rank (243) = 1944
-
-interface SubmittedAssignment {
-  countryIdx: number;
-  categoryIdx: number;
-  rank: number;
+interface SubmittedPick {
+  round?: unknown;
+  seat?: unknown;
+  name?: unknown;
+  standing?: unknown;
+  fit?: unknown;
+  standingPoints?: unknown;
+  points?: unknown;
 }
 
-function isAssignment(x: unknown): x is SubmittedAssignment {
-  if (typeof x !== "object" || x === null) return false;
-  const obj = x as Record<string, unknown>;
-  return (
-    Number.isInteger(obj.countryIdx) &&
-    Number.isInteger(obj.categoryIdx) &&
-    Number.isFinite(obj.rank as number)
-  );
+const LEGAL_FITS = new Set(FIT.flat());
+const LEGAL_STANDING_POINTS = new Set(STANDING_POINTS);
+
+function fail(reason: string): { valid: false; reason: string } {
+  return { valid: false, reason };
 }
 
 export function validateCountryDraftResult(
   dateKey: string,
   scoreRaw: number,
   resultJson: Record<string, unknown>,
-  edition: string
+  edition: string = "",
 ): { valid: boolean; reason?: string } {
-  // 1. Recreate the daily config deterministically.
-  let config;
-  try {
-    const rng = getDailyRng(dateKey, edition);
-    config = generateDraftConfig(rng, "daily", dateKey);
-  } catch {
-    return { valid: true };
-  }
+  const score = resultJson.score;
+  if (typeof score !== "number" || !Number.isInteger(score)) return fail("score_not_an_integer");
+  if (score < 0 || score > MAX_SCORE) return fail("score_out_of_range");
+  if (score !== scoreRaw) return fail("score_mismatch");
 
-  // 2. Sanity bounds on scoreRaw.
+  const fitTotal = resultJson.fitTotal;
+  const standingTotal = resultJson.standingTotal;
+  const bonusTotal = resultJson.bonusTotal;
+  if (typeof fitTotal !== "number" || typeof standingTotal !== "number" || typeof bonusTotal !== "number") {
+    return fail("totals_missing");
+  }
+  if (fitTotal < 0 || fitTotal > 125) return fail("fit_total_out_of_range");
+  if (standingTotal < 0 || standingTotal > MAX_BASE - 125) return fail("standing_total_out_of_range");
+  if (bonusTotal < 0 || bonusTotal > MAX_BONUS) return fail("bonus_total_out_of_range");
+  if (fitTotal + standingTotal + bonusTotal !== score) return fail("totals_do_not_sum");
+
+  const appointments = resultJson.appointments;
+  if (!Array.isArray(appointments) || appointments.length !== ROUNDS) return fail("appointments_missing");
+  const picks = appointments as SubmittedPick[];
+  const rounds = new Set<number>();
+  const seats = new Set<number>();
+  for (const p of picks) {
+    if (typeof p.round !== "number" || p.round < 0 || p.round >= ROUNDS) return fail("round_out_of_range");
+    if (typeof p.seat !== "number" || p.seat < 0 || p.seat >= ROUNDS) return fail("seat_out_of_range");
+    rounds.add(p.round);
+    seats.add(p.seat);
+  }
+  if (rounds.size !== ROUNDS) return fail("round_repeated");
+  if (seats.size !== ROUNDS) return fail("seat_repeated");
+
+  if (bandOf(score).key !== resultJson.band) return fail("band_mismatch");
+
+  // The arithmetic of the cabinet as submitted: every fit and every standing has to be a
+  // value the table can produce, the parts have to add up to the row and the rows to the
+  // totals, and the three bonuses have to follow from the five appointments. This holds
+  // with no roster at all, so it is the floor a fabricated payload has to clear.
+  let claimedFit = 0;
+  let claimedStanding = 0;
+  const claimedStandings: number[] = [];
+  for (const p of picks) {
+    if (typeof p.fit !== "number" || !LEGAL_FITS.has(p.fit)) return fail("fit_not_on_the_table");
+    if (typeof p.standingPoints !== "number" || !LEGAL_STANDING_POINTS.has(p.standingPoints)) return fail("standing_not_on_the_curve");
+    if (typeof p.standing !== "number" || STANDING_POINTS[p.standing] !== p.standingPoints) return fail("standing_does_not_match");
+    if (p.points !== p.fit + p.standingPoints) return fail("appointment_does_not_sum");
+    claimedFit += p.fit;
+    claimedStanding += p.standingPoints;
+    claimedStandings.push(p.standing);
+  }
+  if (claimedFit !== fitTotal) return fail("fit_total_does_not_sum");
+  if (claimedStanding !== standingTotal) return fail("standing_total_does_not_sum");
+  const claimedPicks = picks.map((p) => ({
+    round: p.round as number,
+    seat: p.seat as SeatIdx,
+    poolIdx: 0 as const,
+    fit: p.fit as number,
+    standingPoints: p.standingPoints as number,
+    points: p.points as number,
+  }));
+  const claimedBonuses = bonusesOf(claimedPicks, claimedStandings);
+  const submittedBonuses = resultJson.bonuses as Record<string, unknown> | undefined;
   if (
-    !Number.isFinite(scoreRaw) ||
-    scoreRaw < 0 ||
-    scoreRaw > MAX_POSSIBLE_SCORE
+    !submittedBonuses ||
+    submittedBonuses.fullCabinet !== claimedBonuses.fullCabinet ||
+    submittedBonuses.rightHand !== claimedBonuses.rightHand ||
+    submittedBonuses.threeNaturals !== claimedBonuses.threeNaturals
   ) {
-    return { valid: false, reason: `scoreRaw out of range: ${scoreRaw}` };
+    return fail("bonus_mismatch");
+  }
+  if (bonusTotalOf(claimedBonuses) !== bonusTotal) return fail("bonus_total_does_not_sum");
+
+  // Everything above holds whatever the roster is. Only the replay below is skipped when
+  // the roster was deployed mid-day: rejecting honest runs for that would be worse than
+  // accepting a run whose board is one version behind.
+  if (resultJson.poolVersion !== POOL_VERSION) {
+    // The roster was deployed mid-day and this run's board cannot be re-derived. The
+    // arithmetic above still holds, and no board the generator will accept allows more
+    // than MAX_CEILING, so a claim above that is a fabrication whatever roster it came
+    // from. Everything at or under it is taken on trust rather than thrown away.
+    return score > MAX_CEILING ? fail("above_any_board") : { valid: true };
   }
 
-  // Player score must be at least optimal (lower is better).
-  if (scoreRaw < config.optimalScore) {
-    return {
-      valid: false,
-      reason: `scoreRaw=${scoreRaw} below optimal=${config.optimalScore}`,
-    };
+  const board = createBoard(mulberry32(dateSeed(dateKey + edition)));
+  if (board.ceiling !== resultJson.ceiling) return fail("ceiling_mismatch");
+  if (resultJson.gap !== board.ceiling - score) return fail("gap_mismatch");
+
+  const expectedCountries = board.rounds.map((r) => r.iso3);
+  const claimedCountries = resultJson.roundCountries;
+  if (!Array.isArray(claimedCountries) || claimedCountries.join(",") !== expectedCountries.join(",")) {
+    return fail("board_mismatch");
+  }
+  const expectedNames = board.rounds.flatMap((r) => r.pool.map((p) => p.name));
+  const claimedNames = resultJson.poolNames;
+  if (Array.isArray(claimedNames) && claimedNames.length !== expectedNames.length) return fail("pool_size_mismatch");
+  if (!Array.isArray(claimedNames) || claimedNames.join("|") !== expectedNames.join("|")) {
+    return fail("pool_mismatch");
   }
 
-  // 3. Verify the playerScore reported in resultJson matches scoreRaw.
-  if (resultJson.playerScore !== undefined) {
-    if (typeof resultJson.playerScore !== "number") {
-      return { valid: false, reason: "playerScore must be a number" };
-    }
-    if (resultJson.playerScore !== scoreRaw) {
-      return {
-        valid: false,
-        reason: `playerScore=${resultJson.playerScore} != scoreRaw=${scoreRaw}`,
-      };
-    }
+  // Every fit and every standing is taken from the regenerated roster, never from the
+  // payload: a client that renames a person or inflates their standing changes nothing.
+  const ordered = [...picks].sort((a, b) => (a.round as number) - (b.round as number));
+  let fit = 0;
+  let standing = 0;
+  const standings: number[] = [];
+  const recomputed = ordered.map((p) => {
+    const round = board.rounds[p.round as number];
+    const seat = p.seat as SeatIdx;
+    const figure = round.pool.find((f) => f.name === p.name);
+    if (!figure) return null;
+    const f = fitOf(figure.archetype, seat);
+    const sp = standingPointsOf(figure.standing);
+    fit += f;
+    standing += sp;
+    standings.push(figure.standing);
+    return { round: p.round as number, seat, poolIdx: 0 as const, fit: f, standingPoints: sp, points: f + sp };
+  });
+  if (recomputed.some((p) => p === null)) return fail("person_not_on_the_board");
+  const real = recomputed as NonNullable<(typeof recomputed)[number]>[];
+  if (fit !== fitTotal) return fail("fit_total_mismatch");
+  if (standing !== standingTotal) return fail("standing_total_mismatch");
+
+  const bonuses = bonusesOf(real, standings);
+  if (
+    bonuses.fullCabinet !== claimedBonuses.fullCabinet ||
+    bonuses.rightHand !== claimedBonuses.rightHand ||
+    bonuses.threeNaturals !== claimedBonuses.threeNaturals
+  ) {
+    return fail("replayed_bonus_mismatch");
   }
-
-  // 4. Verify optimalScore matches the engine's.
-  if (resultJson.optimalScore !== undefined) {
-    if (
-      typeof resultJson.optimalScore !== "number" ||
-      resultJson.optimalScore !== config.optimalScore
-    ) {
-      return {
-        valid: false,
-        reason: `optimalScore mismatch: expected ${config.optimalScore}, got ${resultJson.optimalScore}`,
-      };
-    }
-  }
-
-  // 5. Verify countryIso3s match the daily eligible set (atlas album field).
-  if (resultJson.countryIso3s !== undefined) {
-    if (!Array.isArray(resultJson.countryIso3s)) {
-      return { valid: false, reason: "countryIso3s must be an array" };
-    }
-    const expectedIso3s = config.countries.map((c) => c.iso3);
-    const submittedIso3s = resultJson.countryIso3s;
-    if (submittedIso3s.length !== expectedIso3s.length) {
-      return {
-        valid: false,
-        reason: `countryIso3s length mismatch: expected ${expectedIso3s.length}, got ${submittedIso3s.length}`,
-      };
-    }
-    // Order-independent set comparison.
-    const expectedSet = new Set(expectedIso3s);
-    for (const iso3 of submittedIso3s) {
-      if (typeof iso3 !== "string" || !expectedSet.has(iso3)) {
-        return {
-          valid: false,
-          reason: `countryIso3s contains unexpected country: ${String(iso3)}`,
-        };
-      }
-    }
-  }
-
-  // 6. Recompute player score from submitted assignments and compare.
-  if (resultJson.assignments !== undefined) {
-    if (!Array.isArray(resultJson.assignments)) {
-      return { valid: false, reason: "assignments must be an array" };
-    }
-    if (resultJson.assignments.length !== config.countries.length) {
-      return {
-        valid: false,
-        reason: `assignments length=${resultJson.assignments.length} != ${config.countries.length}`,
-      };
-    }
-
-    const usedCategoryIdxs = new Set<number>();
-    let recomputed = 0;
-
-    for (const a of resultJson.assignments) {
-      if (!isAssignment(a)) {
-        return { valid: false, reason: "malformed assignment entry" };
-      }
-      if (a.countryIdx < 0 || a.countryIdx >= config.countries.length) {
-        return {
-          valid: false,
-          reason: `countryIdx out of range: ${a.countryIdx}`,
-        };
-      }
-      if (a.categoryIdx < 0 || a.categoryIdx >= config.categories.length) {
-        return {
-          valid: false,
-          reason: `categoryIdx out of range: ${a.categoryIdx}`,
-        };
-      }
-      if (usedCategoryIdxs.has(a.categoryIdx)) {
-        return {
-          valid: false,
-          reason: `category ${a.categoryIdx} assigned more than once`,
-        };
-      }
-      usedCategoryIdxs.add(a.categoryIdx);
-
-      const expectedRank = config.costMatrix[a.countryIdx][a.categoryIdx];
-      if (a.rank !== expectedRank) {
-        return {
-          valid: false,
-          reason: `rank mismatch at country ${a.countryIdx}, category ${a.categoryIdx}: expected ${expectedRank}, got ${a.rank}`,
-        };
-      }
-      recomputed += expectedRank;
-    }
-
-    if (recomputed !== scoreRaw) {
-      return {
-        valid: false,
-        reason: `recomputed score ${recomputed} != scoreRaw ${scoreRaw}`,
-      };
-    }
-  }
-
+  if (fit + standing + bonusTotalOf(bonuses) !== score) return fail("recomputed_score_mismatch");
   return { valid: true };
 }

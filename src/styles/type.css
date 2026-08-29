@@ -1,0 +1,30 @@
+/* Type scale (blueprint section 2). Erode 600 only on the .t-wm .t-card .t-h1 .t-h2
+   .t-h3 .t-score-xl .t-score-l .t-score .t-num .t-big classes; system-ui elsewhere.
+   Weights that depend on state (active rows, live counters) are set by the components. */
+@layer components {
+  .t-wm       { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1; }
+  .t-card     { font-family: var(--font-display); font-weight: 600; font-size: 30px; line-height: 1.1; }
+  .t-h1       { font-family: var(--font-display); font-weight: 600; font-size: 28px; line-height: 1.1; }
+  .t-h2       { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1.15; }
+  .t-h3       { font-family: var(--font-display); font-weight: 600; font-size: 18px; line-height: 1.2; }
+  .t-score-xl { font-family: var(--font-display); font-weight: 600; font-size: 56px; line-height: 1; }
+  .t-score-l  { font-family: var(--font-display); font-weight: 600; font-size: 22px; line-height: 1; }
+  .t-score    { font-family: var(--font-display); font-weight: 600; font-size: 14px; line-height: inherit; }
+  .t-num      { font-family: var(--font-display); font-weight: 600; font-size: 15px; line-height: 1; }
+  .t-big      { font-family: var(--font-display); font-weight: 600; font-size: 40px; line-height: 1; }
+
+  .t-kicker { font-size: 11px; line-height: 1.2; letter-spacing: 0.02em; font-weight: 400; }
+  .t-meta   { font-size: 12px; line-height: 1.35; font-weight: 400; }
+  .t-body   { font-size: 13px; line-height: 1.45; font-weight: 400; }
+  .t-row    { font-size: 14px; line-height: 1.3; font-weight: 400; }
+  .t-cta    { font-size: 15px; line-height: 1; font-weight: 600; }
+  .t-list   { font-size: 16px; line-height: 1.25; font-weight: 400; }
+  .t-lead   { font-size: 17px; line-height: 1.5; font-weight: 400; }
+  .t-prose  { font-size: 15px; line-height: 1.6; font-weight: 400; }
+
+  @media (min-width: 1024px) {
+    .t-card     { font-size: 40px; line-height: 1.05; }
+    .t-h1       { font-size: 34px; line-height: 1.05; }
+    .t-score-xl { font-size: 64px; }
+  }
+}

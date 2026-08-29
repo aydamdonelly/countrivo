@@ -7,7 +7,6 @@ export interface GameMeta {
   title: string;
   shortDescription: string;
   description: string;
-  emoji: string;
   difficulty: "easy" | "medium" | "hard";
   estimatedTime: string;
   category: "quiz" | "ranking" | "strategy" | "speed" | "knowledge";

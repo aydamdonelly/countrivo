@@ -1,0 +1,156 @@
+/* The static pages (blueprint 7.2 to 7.4 and 7.8 to 7.13). Phone is one column in the
+   order the blueprint lists; at 1024 the same blocks split into a main column and a
+   328 px side column without being rendered twice: the side wrapper is display: contents
+   on phones, so every block is a flex item of .split and data-o puts it in place.
+   Colours are tokens only; no shadow, no gradient, no border but the 1 px row line. */
+@layer components {
+  .split { display: flex; flex-direction: column; }
+  .split > .col { display: contents; }
+  .split [data-o="1"] { order: 1; }
+  .split [data-o="2"] { order: 2; }
+  .split [data-o="3"] { order: 3; }
+  .split [data-o="4"] { order: 4; }
+  .split [data-o="5"] { order: 5; }
+  .split [data-o="6"] { order: 6; }
+  .split [data-o="7"] { order: 7; }
+  .split [data-o="8"] { order: 8; }
+  .split [data-o="9"] { order: 9; }
+  .split [data-o="10"] { order: 10; }
+  @media (min-width: 1024px) {
+    .split { display: grid; grid-template-columns: minmax(0, 1fr) 328px; column-gap: 56px; align-items: start; }
+    .split > .col { display: block; min-width: 0; }
+    .split > .col.pin { position: sticky; top: 24px; }
+  }
+
+  /* two equal columns (the games hub) */
+  @media (min-width: 1024px) {
+    .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 56px; align-items: start; }
+  }
+
+  /* long row lists flow into two columns on a wide screen */
+  @media (min-width: 1024px) {
+    .cols2 { columns: 2; column-gap: 48px; }
+    .cols2 > * { break-inside: avoid; }
+  }
+
+  /* ── landing ─────────────────────────────────────────────────────────── */
+  .under { margin-bottom: 20px; color: var(--color-mute); }
+  .under p + p { margin-top: 6px; }
+  /* Padding on an INLINE link grows the touch target to 44 px without moving a line:
+     an inline box's padding does not enter the line box (the law's 44 px rule). */
+  .ilink { color: var(--color-ember); font-weight: 600; padding: 14px 0; }
+  .rail-board { margin-bottom: 24px; }
+  /* The public board's me-row is one link to the leaderboard, so it takes the full 44 px
+     target here (the home's 40 px K3 row is a row of text, not a control). */
+  .rail-board .gb a.row.me { padding-top: 9px; padding-bottom: 9px; }
+  .steps-ol li span { min-width: 0; }
+
+  /* ── Country Draft: the published scoring model (SPEC 20.5) ──────────── */
+  /* Six columns on a 350 px phone: the archetype takes a third, the five seats split the
+     rest, and every number stays on one line, so nothing scrolls sideways. */
+  .fit table { table-layout: fixed; }
+  .fit th:first-child, .fit td:first-child { width: 34%; }
+  .fit th, .fit td { padding-right: 0; }
+  .fit td.v { color: var(--color-mute); }
+  /* The natural fit is the one number that matters in its row: tone, never a colour. */
+  .fit td.v .nat { color: var(--color-ink); }
+  .fit-legend { color: var(--color-mute); margin-top: 10px; }
+  .after-table { color: var(--color-ink); margin-top: 20px; max-width: 62ch; }
+  .bonus { margin-top: 20px; }
+  /* The condition rides under the bonus name, so a three-column row cannot go ragged. */
+  .bonus .sub { display: block; color: var(--color-mute); margin-top: 2px; }
+  .bonus td { vertical-align: baseline; }
+  .seats td:nth-child(2) { color: var(--color-mute); }
+  @media (max-width: 639px) {
+    .fit th:first-child, .fit td:first-child { width: 30%; }
+  }
+
+  /* ── entity block ────────────────────────────────────────────────────── */
+  .dl { margin-top: 16px; }
+  .dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 10px 0; border-top: 1px solid var(--color-line); }
+  .dl dt { color: var(--color-mute); flex: none; }
+  .dl dd { color: var(--color-ink); text-align: right; }
+  @media (min-width: 768px) { .dl { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+  .src-line { color: var(--color-mute); margin-top: 12px; max-width: 62ch; }
+  /* The source note ends a block; without this the next section head sits on its last line. */
+  .src-block { margin-bottom: 24px; }
+
+  /* ── country page ────────────────────────────────────────────────────── */
+  .sfx { font-family: var(--font-sans); font-size: 13px; font-weight: 400; margin-left: 1px; }
+  .standing { margin-bottom: 8px; }
+  .empty-row { color: var(--color-mute); padding: 12px 0; border-top: 1px solid var(--color-line); }
+  .entity-line { color: var(--color-mute); margin-top: 28px; }
+  /* The continent list runs to twelve on the phone and to six in the desktop rail. */
+  @media (min-width: 1024px) { .col.side .rail-hidden { display: none; } }
+
+  /* ── countries hub ───────────────────────────────────────────────────── */
+  .cx-search { margin-bottom: 4px; }
+  .cx-count { color: var(--color-mute); margin-top: 6px; min-height: 17px; }
+  .cx-facts { margin: 16px 0; }
+  .cx-anchors { margin: 16px 0 20px; color: var(--color-mute); }
+  .cx-anchors a { color: var(--color-ink); padding: 14px 0; }
+  .cx a.row[data-hide], .cx section[data-hide] { display: none; }
+
+  /* The foot's inline links take the same inline-padding target as .ilink. */
+  .foot a { padding: 14px 0; }
+
+  /* ── 44 px targets in the editorial tables ───────────────────────────── */
+  /* The row height is the blueprint's (7 and 10 px), so the link takes its target from
+     padding that a matching negative margin gives straight back to the grid cell. */
+  .rank .nm a { padding: 13px 0; margin: -13px 0; }
+  .stat-rows .lbl a { padding: 13px 0; margin: -13px 0; }
+
+  /* ── fact tiles ──────────────────────────────────────────────────────── */
+  /* The three roles share one set of rows: ui.css gives .facts three rows and every tile
+     subgrids them, so nothing here may re-introduce a per-tile column (a flex column plus a
+     bottom-anchored third line aligns a wrapped LABEL but goes ragged the moment the third
+     line itself wraps, which is the common case: "4.84 births/woman", "14.986 % of GDP"). */
+  /* The unit rides the value line in the system face, never as a third line. */
+  .facts .fact-unit { font-family: var(--font-sans); font-size: 12px; font-weight: 400; letter-spacing: 0; color: var(--color-mute); margin-left: 5px; }
+  /* Four Erode values do not fit across a 328 px rail either: the same hand-placed 2x2 as
+     the phone, spacer row included. */
+  @media (min-width: 1024px) {
+    .col.side .facts[data-n="4"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto 16px auto auto auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(1) { grid-area: 1 / 1 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(2) { grid-area: 1 / 2 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(3) { grid-area: 5 / 1 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(4) { grid-area: 5 / 2 / span 3 / auto; }
+    .col.side .facts[data-n="4"]:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
+  }
+
+  /* ── category page ───────────────────────────────────────────────────── */
+  .lead-line { color: var(--color-mute); max-width: 62ch; margin-bottom: 20px; }
+  .cat-facts, .list-facts { margin-bottom: 8px; }
+  .rank.cols5 td.ar { display: none; }
+  @media (min-width: 1024px) {
+    .rank.cols5 tr { grid-template-columns: 18px 26px minmax(0, 1fr) auto auto auto; }
+    .rank.cols5 td.ar { display: block; text-align: right; color: var(--color-mute); white-space: nowrap; }
+  }
+  @media (max-width: 639px) {
+    .rank.cols4 tr {
+      grid-template-columns: 18px 26px minmax(0, 1fr) auto;
+      grid-template-areas: "rk fl nm vl" ". . cp .";
+      row-gap: 2px;
+    }
+    .rank.cols4 td.r { grid-area: rk; }
+    .rank.cols4 tr > td:nth-child(2) { grid-area: fl; }
+    .rank.cols4 td.nm { grid-area: nm; }
+    .rank.cols4 td.cap { grid-area: cp; }
+    .rank.cols4 td.v { grid-area: vl; }
+  }
+
+  /* ── lists hub ───────────────────────────────────────────────────────── */
+  /* The 15 rows follow the intro directly (7.12 has no head there); without a gap the
+     first row's hairline reads as an underline of the last paragraph. */
+  .lists-rows { margin-top: 24px; }
+
+  /* ── list page ───────────────────────────────────────────────────────── */
+  .figure { margin-bottom: 20px; }
+  .figure > b { display: block; }
+  .figure .unit { font-family: var(--font-sans); font-size: 17px; font-weight: 400; letter-spacing: 0; color: var(--color-mute); margin-left: 10px; }
+  .figure > span { display: block; color: var(--color-mute); margin-top: 8px; max-width: 44ch; }
+  .intro { margin-bottom: 4px; }
+
+  /* ── legal ───────────────────────────────────────────────────────────── */
+  .mail-line { color: var(--color-mute); margin-top: 32px; }
+}

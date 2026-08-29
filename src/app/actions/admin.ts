@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { ADMIN_USER_ID } from "@/lib/admin";
+import { revalidateEdition } from "@/server/edition";
 
 interface RerollResult {
   success: boolean;
@@ -28,5 +29,7 @@ export async function rerollDailyAction(): Promise<RerollResult> {
   });
 
   if (error) return { success: false, error: error.message };
+  // The edition is cached for 60 s under the "edition" tag; mark it stale right away.
+  revalidateEdition();
   return { success: true, edition: data == null ? undefined : String(data) };
 }

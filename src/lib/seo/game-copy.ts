@@ -13,32 +13,40 @@ export interface GameCopy {
 export const GAME_COPY: Record<string, GameCopy> = {
   "country-draft": {
     about: [
-      "Country Draft is a daily geography strategy game. Eight statistics are on the board, from population and GDP per person to forest cover or coffee consumption. Eight countries then appear one at a time, and for each one you decide which open stat it should take. The catch: you do not know which countries are still to come, so every pick is a bet on what the rest of the draft will look like.",
+      "Country Draft is a free daily strategy game about filling a cabinet. Five rounds, and every round is one country: Argentina, then Japan, then Mali. That country puts three of its people on the table, each of a different kind, you take one, and you give that person one of five seats: the Chair, the Field, the Purse, the Voice, the Desk.",
+      "Every person carries an archetype and a standing, and both are printed on the card. The seat decides most of the points, the standing decides the rest, and the whole table is published on this page. After five appointments the cabinet is scored out of 195, which is how many of the world's countries it takes.",
+      "Everyone gets the same five rounds and the same fifteen people each day, the board resets at midnight Europe/Berlin time, and there is no random bonus anywhere in the score. Outside the daily board, Country Draft can be played an unlimited number of times in practice mode, where nothing counts and the best possible line is shown at the end so the next daily goes better.",
+    ],
+    faq: [
+      { q: "Is this the game where you draft five people and conquer 195 countries?", a: "Yes. Five rounds, five seats, a score out of 195. This one publishes the whole scoring table, shows all five countries from the start so holding a seat is a decision rather than a guess, and has no random bonus, so two identical cabinets always score the same." },
+      { q: "How is the score out of 195 worked out?", a: "Each appointment scores the fit between the person's archetype and the seat, 0 to 25, plus their standing, 0 to 10. Five appointments make 0 to 175, and three bonuses add up to 20 more. The full table is on this page." },
+      { q: "Is there a random bonus?", a: "No. Nothing in the score is rolled. The only random part of Country Draft is the board, and everybody gets the same board on the same day." },
+      { q: "What is the best possible score today?", a: "It depends on the board, and it is shown on your result as the best possible line, appointment by appointment. Boards are generated until that number falls between 166 and 186 out of 195, and until a player who simply takes the biggest number in front of them lands well short of it." },
+      { q: "Who is in the roster?", a: "Public figures with a public record, drawn from twelve fields: leaders, commanders, rulers by force, founders and financiers, scientists and explorers, writers and poets, musicians, screen and stage, comedians, athletes, broadcasters and outlaws. Rulers by force and outlaws hold nobody living, and no sitting head of state or government is in the roster at all." },
+      { q: "Can I play more than once a day?", a: "The daily board is one shot and it resets at midnight Europe/Berlin time. Practice is unlimited and nothing there touches the leaderboard." },
+      { q: "What happened to the old Country Draft?", a: "The game about putting countries on the statistic where they rank best is now Blind Pick, at countrivo.com/games/blind-pick. Nothing about it changed except the name and the address." },
+    ],
+  },
+  "blind-pick": {
+    about: [
+      "Blind Pick is a daily geography strategy game. Eight statistics are on the board, from population and GDP per person to forest cover or coffee consumption. Eight countries then appear one at a time, and for each one you decide which open stat it should take. The catch: you do not know which countries are still to come, so every pick is a bet on what the rest of the draft will look like.",
       "Your score is the sum of the world ranks you landed. The game then shows the mathematically optimal assignment, so you can see exactly where the draft slipped. Everyone gets the same eight countries on the same day, one shot each, and the result sits on the global board until midnight in Berlin.",
     ],
     faq: [
-      { q: "How is Country Draft scored?", a: "Each country scores the rank it holds in the stat you assigned it. Lower ranks are better, and the total is compared with the optimal assignment for that day's board." },
-      { q: "Can I play Country Draft more than once a day?", a: "The daily board is one shot. Practice mode gives you a fresh, random board as often as you like, and practice runs never touch the leaderboard." },
-      { q: "Is Country Draft the same as the 'draft 5 people, conquer 195 countries' game?", a: "No. That is a different format, which we are building as World Draft. Country Draft is about placing real countries on the statistics where they rank best." },
-    ],
-  },
-  "world-draft": {
-    about: [
-      "World Draft is Countrivo's version of the draft-a-cabinet, conquer-the-world game: pick five real people, hand each a role, and watch how many of the 195 countries your team can take. It is in development, with the same rules as every Countrivo daily: one draft for everyone, one shot, a score you can share.",
-    ],
-    faq: [
-      { q: "When does World Draft launch?", a: "It is being built now. Country Draft, the daily stats draft, is playable today." },
+      { q: "How is Blind Pick scored?", a: "Each country scores the rank it holds in the stat you assigned it. Lower ranks are better, and the total is compared with the optimal assignment for that day's board." },
+      { q: "Can I play Blind Pick more than once a day?", a: "The daily board is one shot. Practice mode gives you a fresh, random board as often as you like, and practice runs never touch the leaderboard." },
+      { q: "Is Blind Pick the same as the game where you draft five people and conquer 195 countries?", a: "No. That one is Country Draft, the cabinet draft, at countrivo.com/games/country-draft. Blind Pick is about placing real countries on the statistics where they rank best, and it carried the Country Draft name until August 2026." },
     ],
   },
   "flag-quiz": {
     about: [
-      "Flag Quiz is a free flag game with all 243 countries and territories. A flag appears, you pick the country from four options, ten rounds per run. The daily challenge gives everyone the same ten flags, so your score is comparable with every other player's that day; practice mode shuffles new flags every time.",
+      "Flag Quiz is a free flag game with all 243 countries and territories. A flag appears, you pick the country from four options, ten rounds per run. The daily board gives everyone the same ten flags, so your score is comparable with every other player's that day; practice mode shuffles new flags every time.",
       "It is the quickest way to learn the flags of the world: the distractors are chosen to be plausible (similar colours, same region), so you learn to tell Chad from Romania and Indonesia from Monaco instead of guessing.",
     ],
     faq: [
       { q: "How many flags are in the flag quiz?", a: "Every one of the 243 countries and territories on Countrivo has its flag in the pool, including small territories and dependencies." },
       { q: "Is the flag quiz multiple choice?", a: "Yes. Each flag comes with four country names, one correct. Ten flags make a round." },
-      { q: "Is there a daily flag quiz?", a: "Yes. The daily challenge shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
+      { q: "Is there a daily flag quiz?", a: "Yes. The daily board shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
     ],
   },
   "geo-wordle": {
@@ -63,51 +71,6 @@ export const GAME_COPY: Record<string, GameCopy> = {
       { q: "Can I practice Higher or Lower?", a: "Yes. Practice mode draws new country pairs every run and does not affect the daily board." },
     ],
   },
-  "capital-match": {
-    about: [
-      "Capital Match is a world capitals quiz: a country and its flag appear, you pick the capital from four options, ten rounds. It covers all 243 countries and territories, including the ones people get wrong most (Australia's Canberra, Turkey's Ankara, Switzerland's Bern, Brazil's Brasília).",
-    ],
-    faq: [
-      { q: "Does the capitals quiz cover every country?", a: "Yes, all 243 countries and territories on Countrivo, each with its capital city." },
-      { q: "Is there a daily capitals quiz?", a: "Yes. The daily challenge gives everyone the same ten countries; practice mode is unlimited." },
-      { q: "Are trick capitals included?", a: "Yes. Countries whose largest city is not the capital appear regularly, because those are the ones worth learning." },
-    ],
-  },
-  "population-sort": {
-    about: [
-      "Population Sort shows five countries and asks you to put them in order by population. Every position counts, so a near miss still scores. It trains the sense of scale that most geography quizzes skip: knowing that Nigeria has passed 200 million, or that Canada and Poland are closer than they feel.",
-    ],
-    faq: [
-      { q: "How is Population Sort scored?", a: "Each country in the right position scores; the daily board ranks by correct positions and then by how close the rest were." },
-      { q: "Where do the population numbers come from?", a: "World Bank figures, refreshed with each data update on Countrivo." },
-    ],
-  },
-  "country-streak": {
-    about: [
-      "Country Streak is a fast geography quiz with a single rule: keep answering correctly. Questions mix flags, capitals and facts about countries; one wrong answer ends the streak. The daily run is the same question sequence for everyone.",
-    ],
-    faq: [
-      { q: "What kind of questions are in Country Streak?", a: "Flags, capitals, continents and quick facts about the 243 countries and territories on Countrivo." },
-      { q: "Is Country Streak timed?", a: "No timer. The pressure is the streak: one miss and the run is over." },
-    ],
-  },
-  "border-buddies": {
-    about: [
-      "Border Buddies is a borders quiz: a country is shown and you name every country it shares a land border with. Miss one and the round shows you which. It is the fastest way to learn the map itself rather than the trivia around it.",
-    ],
-    faq: [
-      { q: "How many countries have land borders?", a: "Most do; island nations are excluded from Border Buddies because they have none." },
-      { q: "Do I need to spell the countries?", a: "You pick from options, so spelling is not part of the challenge." },
-    ],
-  },
-  "continent-sprint": {
-    about: [
-      "Continent Sprint is a timed geography drill: a continent is chosen and you name as many of its countries as you can before the clock runs out. It is the practice tool for anyone who wants to be able to list every country in Africa, Asia, Europe, the Americas or Oceania from memory.",
-    ],
-    faq: [
-      { q: "How long is a Continent Sprint round?", a: "A short timed run per continent; the score is the number of countries named before time runs out." },
-    ],
-  },
   "stat-guesser": {
     about: [
       "Stat Guesser is geography trivia with numbers. Five rounds, each a country and a statistic: what is the population of Brazil, the GDP per person of Norway, the forest cover of Finland. You type your guess and the closer you are, the more points you score. It is the game for people who like being roughly right about the world.",
@@ -122,48 +85,6 @@ export const GAME_COPY: Record<string, GameCopy> = {
       "Speed Flags is the twenty-second flag quiz: as many flags as you can name before the timer ends. Practice only, built for repetition.",
     ],
     faq: [{ q: "Is Speed Flags a daily game?", a: "No, Speed Flags is practice only: unlimited runs, no leaderboard." }],
-  },
-  "odd-one-out": {
-    about: [
-      "Odd One Out shows four countries, three of which share a trait: a continent, a language, a border, a statistic. Find the one that does not belong. It rewards knowing countries as places, not just as names.",
-    ],
-    faq: [{ q: "What traits does Odd One Out use?", a: "Continents, regions, languages, borders, coastlines, and statistics from the Countrivo data set." }],
-  },
-  "supremacy": {
-    about: [
-      "Supremacy is a two-player country draft: you and an opponent take turns picking countries, and each pick is scored on a hidden statistic. Outsmart the other side by reading which stats are in play.",
-    ],
-    faq: [{ q: "Is Supremacy multiplayer?", a: "It is a versus format against an opponent. Practice mode plays against the computer." }],
-  },
-  "borderline": {
-    about: [
-      "Borderline is a route puzzle: start in one country and reach the target by moving only across land borders, in as few steps as possible. It turns the world map into a board.",
-    ],
-    faq: [{ q: "How is Borderline scored?", a: "By the number of borders crossed; the shortest route scores best." }],
-  },
-  "blitz": {
-    about: [
-      "Blitz is the typing flag and capital quiz: a prompt appears, you type the country, the fastest correct answers score highest. Practice only.",
-    ],
-    faq: [{ q: "Is Blitz timed?", a: "Yes. Speed and accuracy both count." }],
-  },
-  "cluster": {
-    about: [
-      "Cluster is Connections with countries. Sixteen countries in a grid, four hidden groups of four, one connection each: a region, a first letter, a shared border, a statistic. Tap four you think belong together and submit; four wrong guesses end the run. The daily grid is the same for everyone.",
-    ],
-    faq: [
-      { q: "What connects the groups in Cluster?", a: "Anything true of exactly those four countries: geography, names, borders, or statistics. Some groups overlap on purpose." },
-      { q: "How many mistakes are allowed?", a: "Four. The daily board ranks by groups found and mistakes made." },
-    ],
-  },
-  "risk-zone": {
-    about: [
-      "Risk Zone is a push-your-luck geography game. Guess higher or lower one country at a time; each correct call grows the multiplier. Bank the pot to keep the points or take one more reveal for a bigger one. One wrong call wipes the chain. Five chains, highest total wins the day.",
-    ],
-    faq: [
-      { q: "When should I bank in Risk Zone?", a: "Whenever the next comparison feels like a coin flip. The multiplier rewards confidence, the wipe punishes greed." },
-      { q: "Is Risk Zone a daily game?", a: "Yes, one shot a day on the same chains for everyone, plus unlimited practice." },
-    ],
   },
 };
 

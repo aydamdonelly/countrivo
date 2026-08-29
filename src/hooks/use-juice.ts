@@ -161,7 +161,7 @@ function tap(): void {
   haptic("light");
 }
 
-/** Moving/reordering selection (e.g. population-sort drag steps). */
+/** Moving a selection cursor between targets. */
 function select(): void {
   playTone([{ f: 440, t: 0, d: 0.035 }], "square");
   haptic("selection");

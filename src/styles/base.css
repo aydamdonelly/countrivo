@@ -1,0 +1,48 @@
+/* Base: reset details on top of Tailwind's preflight, the single colour scheme,
+   the focus ring, selection, .on-ink, .num, .fade and reduced motion. */
+@layer base {
+  :root { color-scheme: light; }
+  html { background: var(--color-paper); }
+  body {
+    min-height: 100%;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--color-card); }
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink);
+    border-radius: inherit;
+  }
+  .on-ink :focus-visible { box-shadow: 0 0 0 2px var(--color-ink), 0 0 0 4px var(--color-paper); }
+
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+  input, select, textarea { font: inherit; color: inherit; color-scheme: light; }
+  a, button, [role="button"], summary, input, select, textarea {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  b, strong { font-weight: 600; }
+  em, i { font-style: normal; }
+  ul, ol { list-style: none; }
+  img { display: block; max-width: 100%; }
+  svg { display: block; }
+  /* Inline icons and the flame sit in text flow. */
+  .ic { display: inline-block; vertical-align: middle; flex: none; }
+  .fl { display: inline-block; vertical-align: -3px; overflow: visible; flex: none; }
+
+  .on-ink { color: var(--color-on-ink); }
+  .num { font-variant-numeric: tabular-nums; }
+  .fade { position: relative; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

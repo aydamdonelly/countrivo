@@ -8,7 +8,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇦🇫",
     "flagSvgPath": "/flags/af.svg",
     "capital": "Kabul",
     "borders": [
@@ -29,7 +28,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇦🇽",
     "flagSvgPath": "/flags/ax.svg",
     "capital": "Mariehamn",
     "borders": []
@@ -43,7 +41,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇦🇱",
     "flagSvgPath": "/flags/al.svg",
     "capital": "Tirana",
     "borders": [
@@ -62,7 +59,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇩🇿",
     "flagSvgPath": "/flags/dz.svg",
     "capital": "Algiers",
     "borders": [
@@ -84,7 +80,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇦🇸",
     "flagSvgPath": "/flags/as.svg",
     "capital": "Pago Pago",
     "borders": []
@@ -98,7 +93,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇦🇩",
     "flagSvgPath": "/flags/ad.svg",
     "capital": "Andorra la Vella",
     "borders": [
@@ -115,7 +109,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇦🇴",
     "flagSvgPath": "/flags/ao.svg",
     "capital": "Luanda",
     "borders": [
@@ -134,7 +127,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇦🇮",
     "flagSvgPath": "/flags/ai.svg",
     "capital": "The Valley",
     "borders": []
@@ -148,7 +140,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇦🇬",
     "flagSvgPath": "/flags/ag.svg",
     "capital": "Saint John's",
     "borders": []
@@ -162,7 +153,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇦🇷",
     "flagSvgPath": "/flags/ar.svg",
     "capital": "Buenos Aires",
     "borders": [
@@ -182,7 +172,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇦🇲",
     "flagSvgPath": "/flags/am.svg",
     "capital": "Yerevan",
     "borders": [
@@ -201,7 +190,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇦🇼",
     "flagSvgPath": "/flags/aw.svg",
     "capital": "Oranjestad",
     "borders": []
@@ -215,7 +203,6 @@
     "region": "Oceania",
     "subregion": "Australia and New Zealand",
     "continent": "Oceania",
-    "flagEmoji": "🇦🇺",
     "flagSvgPath": "/flags/au.svg",
     "capital": "Canberra",
     "borders": []
@@ -229,7 +216,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇦🇹",
     "flagSvgPath": "/flags/at.svg",
     "capital": "Vienna",
     "borders": [
@@ -252,7 +238,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇦🇿",
     "flagSvgPath": "/flags/az.svg",
     "capital": "Baku",
     "borders": [
@@ -272,7 +257,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇧🇸",
     "flagSvgPath": "/flags/bs.svg",
     "capital": "Nassau",
     "borders": []
@@ -286,7 +270,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇧🇭",
     "flagSvgPath": "/flags/bh.svg",
     "capital": "Manama",
     "borders": []
@@ -300,7 +283,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇧🇩",
     "flagSvgPath": "/flags/bd.svg",
     "capital": "Dhaka",
     "borders": [
@@ -317,7 +299,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇧🇧",
     "flagSvgPath": "/flags/bb.svg",
     "capital": "Bridgetown",
     "borders": []
@@ -331,7 +312,6 @@
     "region": "Europe",
     "subregion": "Eastern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇧🇾",
     "flagSvgPath": "/flags/by.svg",
     "capital": "Minsk",
     "borders": [
@@ -351,7 +331,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇧🇪",
     "flagSvgPath": "/flags/be.svg",
     "capital": "Brussels",
     "borders": [
@@ -370,7 +349,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇧🇿",
     "flagSvgPath": "/flags/bz.svg",
     "capital": "Belmopan",
     "borders": [
@@ -387,7 +365,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇧🇯",
     "flagSvgPath": "/flags/bj.svg",
     "capital": "Porto-Novo",
     "borders": [
@@ -406,7 +383,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇧🇲",
     "flagSvgPath": "/flags/bm.svg",
     "capital": "Hamilton",
     "borders": []
@@ -420,7 +396,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇧🇹",
     "flagSvgPath": "/flags/bt.svg",
     "capital": "Thimphu",
     "borders": [
@@ -437,7 +412,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇧🇴",
     "flagSvgPath": "/flags/bo.svg",
     "capital": "Sucre",
     "borders": [
@@ -457,7 +431,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇧🇦",
     "flagSvgPath": "/flags/ba.svg",
     "capital": "Sarajevo",
     "borders": [
@@ -475,7 +448,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇧🇼",
     "flagSvgPath": "/flags/bw.svg",
     "capital": "Gaborone",
     "borders": [
@@ -494,7 +466,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇧🇷",
     "flagSvgPath": "/flags/br.svg",
     "capital": "Brasília",
     "borders": [
@@ -519,7 +490,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇻🇬",
     "flagSvgPath": "/flags/vg.svg",
     "capital": "Road Town",
     "borders": []
@@ -533,7 +503,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇧🇳",
     "flagSvgPath": "/flags/bn.svg",
     "capital": "Bandar Seri Begawan",
     "borders": [
@@ -549,7 +518,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇧🇬",
     "flagSvgPath": "/flags/bg.svg",
     "capital": "Sofia",
     "borders": [
@@ -569,7 +537,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇧🇫",
     "flagSvgPath": "/flags/bf.svg",
     "capital": "Ouagadougou",
     "borders": [
@@ -590,7 +557,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇧🇮",
     "flagSvgPath": "/flags/bi.svg",
     "capital": "Gitega",
     "borders": [
@@ -608,7 +574,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇭",
     "flagSvgPath": "/flags/kh.svg",
     "capital": "Phnom Penh",
     "borders": [
@@ -626,7 +591,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇲",
     "flagSvgPath": "/flags/cm.svg",
     "capital": "Yaoundé",
     "borders": [
@@ -647,7 +611,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇨🇦",
     "flagSvgPath": "/flags/ca.svg",
     "capital": "Ottawa",
     "borders": [
@@ -663,7 +626,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇻",
     "flagSvgPath": "/flags/cv.svg",
     "capital": "Praia",
     "borders": []
@@ -677,7 +639,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇧🇶",
     "flagSvgPath": "/flags/bq.svg",
     "capital": "Kralendijk",
     "borders": []
@@ -691,7 +652,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇰🇾",
     "flagSvgPath": "/flags/ky.svg",
     "capital": "George Town",
     "borders": []
@@ -705,7 +665,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇫",
     "flagSvgPath": "/flags/cf.svg",
     "capital": "Bangui",
     "borders": [
@@ -726,7 +685,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇹🇩",
     "flagSvgPath": "/flags/td.svg",
     "capital": "N'Djamena",
     "borders": [
@@ -747,7 +705,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇨🇱",
     "flagSvgPath": "/flags/cl.svg",
     "capital": "Santiago",
     "borders": [
@@ -765,7 +722,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇨🇳",
     "flagSvgPath": "/flags/cn.svg",
     "capital": "Beijing",
     "borders": [
@@ -796,7 +752,6 @@
     "region": "Oceania",
     "subregion": "Australia and New Zealand",
     "continent": "Oceania",
-    "flagEmoji": "🇨🇽",
     "flagSvgPath": "/flags/cx.svg",
     "capital": "Flying Fish Cove",
     "borders": []
@@ -810,7 +765,6 @@
     "region": "Oceania",
     "subregion": "Australia and New Zealand",
     "continent": "Oceania",
-    "flagEmoji": "🇨🇨",
     "flagSvgPath": "/flags/cc.svg",
     "capital": "West Island",
     "borders": []
@@ -824,7 +778,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇨🇴",
     "flagSvgPath": "/flags/co.svg",
     "capital": "Bogotá",
     "borders": [
@@ -844,7 +797,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇰🇲",
     "flagSvgPath": "/flags/km.svg",
     "capital": "Moroni",
     "borders": []
@@ -858,7 +810,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇨🇰",
     "flagSvgPath": "/flags/ck.svg",
     "capital": "Avarua",
     "borders": []
@@ -872,7 +823,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇨🇷",
     "flagSvgPath": "/flags/cr.svg",
     "capital": "San José",
     "borders": [
@@ -889,7 +839,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇭🇷",
     "flagSvgPath": "/flags/hr.svg",
     "capital": "Zagreb",
     "borders": [
@@ -909,7 +858,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇨🇺",
     "flagSvgPath": "/flags/cu.svg",
     "capital": "Havana",
     "borders": []
@@ -923,7 +871,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇨🇼",
     "flagSvgPath": "/flags/cw.svg",
     "capital": "Willemstad",
     "borders": []
@@ -937,7 +884,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇨🇾",
     "flagSvgPath": "/flags/cy.svg",
     "capital": "Nicosia",
     "borders": []
@@ -951,7 +897,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇨🇿",
     "flagSvgPath": "/flags/cz.svg",
     "capital": "Prague",
     "borders": [
@@ -970,7 +915,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇩🇰",
     "flagSvgPath": "/flags/dk.svg",
     "capital": "Copenhagen",
     "borders": [
@@ -986,7 +930,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇩🇯",
     "flagSvgPath": "/flags/dj.svg",
     "capital": "Djibouti",
     "borders": [
@@ -1004,7 +947,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇩🇲",
     "flagSvgPath": "/flags/dm.svg",
     "capital": "Roseau",
     "borders": []
@@ -1018,7 +960,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇩🇴",
     "flagSvgPath": "/flags/do.svg",
     "capital": "Santo Domingo",
     "borders": [
@@ -1034,7 +975,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇩",
     "flagSvgPath": "/flags/cd.svg",
     "capital": "Kinshasa",
     "borders": [
@@ -1058,7 +998,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇪🇨",
     "flagSvgPath": "/flags/ec.svg",
     "capital": "Quito",
     "borders": [
@@ -1075,7 +1014,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇪🇬",
     "flagSvgPath": "/flags/eg.svg",
     "capital": "Cairo",
     "borders": [
@@ -1094,7 +1032,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇸🇻",
     "flagSvgPath": "/flags/sv.svg",
     "capital": "San Salvador",
     "borders": [
@@ -1111,7 +1048,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇶",
     "flagSvgPath": "/flags/gq.svg",
     "capital": "Ciudad de la Paz",
     "borders": [
@@ -1128,7 +1064,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇪🇷",
     "flagSvgPath": "/flags/er.svg",
     "capital": "Asmara",
     "borders": [
@@ -1146,7 +1081,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇪🇪",
     "flagSvgPath": "/flags/ee.svg",
     "capital": "Tallinn",
     "borders": [
@@ -1163,7 +1097,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇿",
     "flagSvgPath": "/flags/sz.svg",
     "capital": "Mbabane",
     "borders": [
@@ -1180,7 +1113,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇪🇹",
     "flagSvgPath": "/flags/et.svg",
     "capital": "Addis Ababa",
     "borders": [
@@ -1201,7 +1133,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇫🇰",
     "flagSvgPath": "/flags/fk.svg",
     "capital": "Stanley",
     "borders": []
@@ -1215,7 +1146,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇫🇴",
     "flagSvgPath": "/flags/fo.svg",
     "capital": "Tórshavn",
     "borders": []
@@ -1229,7 +1159,6 @@
     "region": "Oceania",
     "subregion": "Melanesia",
     "continent": "Oceania",
-    "flagEmoji": "🇫🇯",
     "flagSvgPath": "/flags/fj.svg",
     "capital": "Suva",
     "borders": []
@@ -1243,7 +1172,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇫🇮",
     "flagSvgPath": "/flags/fi.svg",
     "capital": "Helsinki",
     "borders": [
@@ -1261,7 +1189,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇫🇷",
     "flagSvgPath": "/flags/fr.svg",
     "capital": "Paris",
     "borders": [
@@ -1284,7 +1211,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇬🇫",
     "flagSvgPath": "/flags/gf.svg",
     "capital": "Cayenne",
     "borders": [
@@ -1301,7 +1227,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇵🇫",
     "flagSvgPath": "/flags/pf.svg",
     "capital": "Papeetē",
     "borders": []
@@ -1315,7 +1240,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇦",
     "flagSvgPath": "/flags/ga.svg",
     "capital": "Libreville",
     "borders": [
@@ -1333,7 +1257,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇲",
     "flagSvgPath": "/flags/gm.svg",
     "capital": "Banjul",
     "borders": [
@@ -1349,7 +1272,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇬🇪",
     "flagSvgPath": "/flags/ge.svg",
     "capital": "Tbilisi",
     "borders": [
@@ -1368,7 +1290,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇩🇪",
     "flagSvgPath": "/flags/de.svg",
     "capital": "Berlin",
     "borders": [
@@ -1392,7 +1313,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇭",
     "flagSvgPath": "/flags/gh.svg",
     "capital": "Accra",
     "borders": [
@@ -1410,7 +1330,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇬🇮",
     "flagSvgPath": "/flags/gi.svg",
     "capital": "Gibraltar",
     "borders": [
@@ -1426,7 +1345,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇬🇷",
     "flagSvgPath": "/flags/gr.svg",
     "capital": "Athens",
     "borders": [
@@ -1445,7 +1363,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇬🇱",
     "flagSvgPath": "/flags/gl.svg",
     "capital": "Nuuk",
     "borders": []
@@ -1459,7 +1376,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇬🇩",
     "flagSvgPath": "/flags/gd.svg",
     "capital": "St. George's",
     "borders": []
@@ -1473,7 +1389,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇬🇵",
     "flagSvgPath": "/flags/gp.svg",
     "capital": "Basse-Terre",
     "borders": []
@@ -1487,7 +1402,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇬🇺",
     "flagSvgPath": "/flags/gu.svg",
     "capital": "Hagåtña",
     "borders": []
@@ -1501,7 +1415,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇬🇹",
     "flagSvgPath": "/flags/gt.svg",
     "capital": "Guatemala City",
     "borders": [
@@ -1520,7 +1433,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇬🇬",
     "flagSvgPath": "/flags/gg.svg",
     "capital": "St. Peter Port",
     "borders": []
@@ -1534,7 +1446,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇳",
     "flagSvgPath": "/flags/gn.svg",
     "capital": "Conakry",
     "borders": [
@@ -1555,7 +1466,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇬🇼",
     "flagSvgPath": "/flags/gw.svg",
     "capital": "Bissau",
     "borders": [
@@ -1572,7 +1482,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇬🇾",
     "flagSvgPath": "/flags/gy.svg",
     "capital": "Georgetown",
     "borders": [
@@ -1590,7 +1499,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇭🇹",
     "flagSvgPath": "/flags/ht.svg",
     "capital": "Port-au-Prince",
     "borders": [
@@ -1606,7 +1514,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇭🇳",
     "flagSvgPath": "/flags/hn.svg",
     "capital": "Tegucigalpa",
     "borders": [
@@ -1624,7 +1531,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇭🇰",
     "flagSvgPath": "/flags/hk.svg",
     "capital": "City of Victoria",
     "borders": [
@@ -1640,7 +1546,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇭🇺",
     "flagSvgPath": "/flags/hu.svg",
     "capital": "Budapest",
     "borders": [
@@ -1662,7 +1567,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇮🇸",
     "flagSvgPath": "/flags/is.svg",
     "capital": "Reykjavik",
     "borders": []
@@ -1676,7 +1580,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇮🇳",
     "flagSvgPath": "/flags/in.svg",
     "capital": "New Delhi",
     "borders": [
@@ -1697,7 +1600,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇮🇩",
     "flagSvgPath": "/flags/id.svg",
     "capital": "Jakarta",
     "borders": [
@@ -1715,7 +1617,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇮🇷",
     "flagSvgPath": "/flags/ir.svg",
     "capital": "Tehran",
     "borders": [
@@ -1737,7 +1638,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇮🇶",
     "flagSvgPath": "/flags/iq.svg",
     "capital": "Baghdad",
     "borders": [
@@ -1758,7 +1658,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇮🇪",
     "flagSvgPath": "/flags/ie.svg",
     "capital": "Dublin",
     "borders": [
@@ -1774,7 +1673,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇮🇲",
     "flagSvgPath": "/flags/im.svg",
     "capital": "Douglas",
     "borders": []
@@ -1788,7 +1686,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇮🇱",
     "flagSvgPath": "/flags/il.svg",
     "capital": "Jerusalem",
     "borders": [
@@ -1808,7 +1705,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇮🇹",
     "flagSvgPath": "/flags/it.svg",
     "capital": "Rome",
     "borders": [
@@ -1829,7 +1725,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇮",
     "flagSvgPath": "/flags/ci.svg",
     "capital": "Yamoussoukro",
     "borders": [
@@ -1849,7 +1744,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇯🇲",
     "flagSvgPath": "/flags/jm.svg",
     "capital": "Kingston",
     "borders": []
@@ -1863,7 +1757,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇯🇵",
     "flagSvgPath": "/flags/jp.svg",
     "capital": "Tokyo",
     "borders": []
@@ -1877,7 +1770,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇯🇪",
     "flagSvgPath": "/flags/je.svg",
     "capital": "Saint Helier",
     "borders": []
@@ -1891,7 +1783,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇯🇴",
     "flagSvgPath": "/flags/jo.svg",
     "capital": "Amman",
     "borders": [
@@ -1911,7 +1802,6 @@
     "region": "Asia",
     "subregion": "Central Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇿",
     "flagSvgPath": "/flags/kz.svg",
     "capital": "Astana",
     "borders": [
@@ -1931,7 +1821,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇰🇪",
     "flagSvgPath": "/flags/ke.svg",
     "capital": "Nairobi",
     "borders": [
@@ -1951,7 +1840,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇰🇮",
     "flagSvgPath": "/flags/ki.svg",
     "capital": "South Tarawa",
     "borders": []
@@ -1965,7 +1853,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇽🇰",
     "flagSvgPath": "/flags/xk.svg",
     "capital": "Pristina",
     "borders": [
@@ -1984,7 +1871,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇼",
     "flagSvgPath": "/flags/kw.svg",
     "capital": "Kuwait City",
     "borders": [
@@ -2001,7 +1887,6 @@
     "region": "Asia",
     "subregion": "Central Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇬",
     "flagSvgPath": "/flags/kg.svg",
     "capital": "Bishkek",
     "borders": [
@@ -2020,7 +1905,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇱🇦",
     "flagSvgPath": "/flags/la.svg",
     "capital": "Vientiane",
     "borders": [
@@ -2040,7 +1924,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇱🇻",
     "flagSvgPath": "/flags/lv.svg",
     "capital": "Riga",
     "borders": [
@@ -2059,7 +1942,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇱🇧",
     "flagSvgPath": "/flags/lb.svg",
     "capital": "Beirut",
     "borders": [
@@ -2076,7 +1958,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇱🇸",
     "flagSvgPath": "/flags/ls.svg",
     "capital": "Maseru",
     "borders": [
@@ -2092,7 +1973,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇱🇷",
     "flagSvgPath": "/flags/lr.svg",
     "capital": "Monrovia",
     "borders": [
@@ -2110,7 +1990,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇱🇾",
     "flagSvgPath": "/flags/ly.svg",
     "capital": "Tripoli",
     "borders": [
@@ -2131,7 +2010,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇱🇮",
     "flagSvgPath": "/flags/li.svg",
     "capital": "Vaduz",
     "borders": [
@@ -2148,7 +2026,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇱🇹",
     "flagSvgPath": "/flags/lt.svg",
     "capital": "Vilnius",
     "borders": [
@@ -2167,7 +2044,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇱🇺",
     "flagSvgPath": "/flags/lu.svg",
     "capital": "Luxembourg",
     "borders": [
@@ -2185,7 +2061,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇲🇴",
     "flagSvgPath": "/flags/mo.svg",
     "capital": "",
     "borders": [
@@ -2201,7 +2076,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇬",
     "flagSvgPath": "/flags/mg.svg",
     "capital": "Antananarivo",
     "borders": []
@@ -2215,7 +2089,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇼",
     "flagSvgPath": "/flags/mw.svg",
     "capital": "Lilongwe",
     "borders": [
@@ -2233,7 +2106,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇲🇾",
     "flagSvgPath": "/flags/my.svg",
     "capital": "Kuala Lumpur",
     "borders": [
@@ -2251,7 +2123,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇲🇻",
     "flagSvgPath": "/flags/mv.svg",
     "capital": "Malé",
     "borders": []
@@ -2265,7 +2136,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇱",
     "flagSvgPath": "/flags/ml.svg",
     "capital": "Bamako",
     "borders": [
@@ -2287,7 +2157,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇲🇹",
     "flagSvgPath": "/flags/mt.svg",
     "capital": "Valletta",
     "borders": []
@@ -2301,7 +2170,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇲🇭",
     "flagSvgPath": "/flags/mh.svg",
     "capital": "Majuro",
     "borders": []
@@ -2315,7 +2183,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇲🇶",
     "flagSvgPath": "/flags/mq.svg",
     "capital": "Fort-de-France",
     "borders": []
@@ -2329,7 +2196,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇷",
     "flagSvgPath": "/flags/mr.svg",
     "capital": "Nouakchott",
     "borders": [
@@ -2348,7 +2214,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇺",
     "flagSvgPath": "/flags/mu.svg",
     "capital": "Port Louis",
     "borders": []
@@ -2362,7 +2227,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇾🇹",
     "flagSvgPath": "/flags/yt.svg",
     "capital": "Mamoudzou",
     "borders": []
@@ -2376,7 +2240,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇲🇽",
     "flagSvgPath": "/flags/mx.svg",
     "capital": "Mexico City",
     "borders": [
@@ -2394,7 +2257,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇫🇲",
     "flagSvgPath": "/flags/fm.svg",
     "capital": "Palikir",
     "borders": []
@@ -2408,7 +2270,6 @@
     "region": "Europe",
     "subregion": "Eastern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇲🇩",
     "flagSvgPath": "/flags/md.svg",
     "capital": "Chișinău",
     "borders": [
@@ -2425,7 +2286,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇲🇨",
     "flagSvgPath": "/flags/mc.svg",
     "capital": "Monaco",
     "borders": [
@@ -2441,7 +2301,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇲🇳",
     "flagSvgPath": "/flags/mn.svg",
     "capital": "Ulan Bator",
     "borders": [
@@ -2458,7 +2317,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇲🇪",
     "flagSvgPath": "/flags/me.svg",
     "capital": "Podgorica",
     "borders": [
@@ -2478,7 +2336,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇲🇸",
     "flagSvgPath": "/flags/ms.svg",
     "capital": "Plymouth",
     "borders": []
@@ -2492,7 +2349,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇦",
     "flagSvgPath": "/flags/ma.svg",
     "capital": "Rabat",
     "borders": [
@@ -2510,7 +2366,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇲🇿",
     "flagSvgPath": "/flags/mz.svg",
     "capital": "Maputo",
     "borders": [
@@ -2531,7 +2386,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇲🇲",
     "flagSvgPath": "/flags/mm.svg",
     "capital": "Naypyidaw",
     "borders": [
@@ -2551,7 +2405,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇳🇦",
     "flagSvgPath": "/flags/na.svg",
     "capital": "Windhoek",
     "borders": [
@@ -2570,7 +2423,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇳🇷",
     "flagSvgPath": "/flags/nr.svg",
     "capital": "Yaren",
     "borders": []
@@ -2584,7 +2436,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇳🇵",
     "flagSvgPath": "/flags/np.svg",
     "capital": "Kathmandu",
     "borders": [
@@ -2601,7 +2452,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇳🇱",
     "flagSvgPath": "/flags/nl.svg",
     "capital": "Amsterdam",
     "borders": [
@@ -2618,7 +2468,6 @@
     "region": "Oceania",
     "subregion": "Melanesia",
     "continent": "Oceania",
-    "flagEmoji": "🇳🇨",
     "flagSvgPath": "/flags/nc.svg",
     "capital": "Nouméa",
     "borders": []
@@ -2632,7 +2481,6 @@
     "region": "Oceania",
     "subregion": "Australia and New Zealand",
     "continent": "Oceania",
-    "flagEmoji": "🇳🇿",
     "flagSvgPath": "/flags/nz.svg",
     "capital": "Wellington",
     "borders": []
@@ -2646,7 +2494,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇳🇮",
     "flagSvgPath": "/flags/ni.svg",
     "capital": "Managua",
     "borders": [
@@ -2663,7 +2510,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇳🇪",
     "flagSvgPath": "/flags/ne.svg",
     "capital": "Niamey",
     "borders": [
@@ -2685,7 +2531,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇳🇬",
     "flagSvgPath": "/flags/ng.svg",
     "capital": "Abuja",
     "borders": [
@@ -2704,7 +2549,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇳🇺",
     "flagSvgPath": "/flags/nu.svg",
     "capital": "Alofi",
     "borders": []
@@ -2718,7 +2562,6 @@
     "region": "Oceania",
     "subregion": "Australia and New Zealand",
     "continent": "Oceania",
-    "flagEmoji": "🇳🇫",
     "flagSvgPath": "/flags/nf.svg",
     "capital": "Kingston",
     "borders": []
@@ -2732,7 +2575,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇵",
     "flagSvgPath": "/flags/kp.svg",
     "capital": "Pyongyang",
     "borders": [
@@ -2750,7 +2592,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇲🇰",
     "flagSvgPath": "/flags/mk.svg",
     "capital": "Skopje",
     "borders": [
@@ -2770,7 +2611,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇲🇵",
     "flagSvgPath": "/flags/mp.svg",
     "capital": "Saipan",
     "borders": []
@@ -2784,7 +2624,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇳🇴",
     "flagSvgPath": "/flags/no.svg",
     "capital": "Oslo",
     "borders": [
@@ -2802,7 +2641,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇴🇲",
     "flagSvgPath": "/flags/om.svg",
     "capital": "Muscat",
     "borders": [
@@ -2820,7 +2658,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇵🇰",
     "flagSvgPath": "/flags/pk.svg",
     "capital": "Islamabad",
     "borders": [
@@ -2839,7 +2676,6 @@
     "region": "Oceania",
     "subregion": "Micronesia",
     "continent": "Oceania",
-    "flagEmoji": "🇵🇼",
     "flagSvgPath": "/flags/pw.svg",
     "capital": "Ngerulmud",
     "borders": []
@@ -2853,7 +2689,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇵🇸",
     "flagSvgPath": "/flags/ps.svg",
     "capital": "Ramallah",
     "borders": [
@@ -2871,7 +2706,6 @@
     "region": "Americas",
     "subregion": "Central America",
     "continent": "Americas",
-    "flagEmoji": "🇵🇦",
     "flagSvgPath": "/flags/pa.svg",
     "capital": "Panama City",
     "borders": [
@@ -2888,7 +2722,6 @@
     "region": "Oceania",
     "subregion": "Melanesia",
     "continent": "Oceania",
-    "flagEmoji": "🇵🇬",
     "flagSvgPath": "/flags/pg.svg",
     "capital": "Port Moresby",
     "borders": [
@@ -2904,7 +2737,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇵🇾",
     "flagSvgPath": "/flags/py.svg",
     "capital": "Asunción",
     "borders": [
@@ -2922,7 +2754,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇵🇪",
     "flagSvgPath": "/flags/pe.svg",
     "capital": "Lima",
     "borders": [
@@ -2942,7 +2773,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇵🇭",
     "flagSvgPath": "/flags/ph.svg",
     "capital": "Manila",
     "borders": []
@@ -2956,7 +2786,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇵🇳",
     "flagSvgPath": "/flags/pn.svg",
     "capital": "Adamstown",
     "borders": []
@@ -2970,7 +2799,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇵🇱",
     "flagSvgPath": "/flags/pl.svg",
     "capital": "Warsaw",
     "borders": [
@@ -2992,7 +2820,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇵🇹",
     "flagSvgPath": "/flags/pt.svg",
     "capital": "Lisbon",
     "borders": [
@@ -3008,7 +2835,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇵🇷",
     "flagSvgPath": "/flags/pr.svg",
     "capital": "San Juan",
     "borders": []
@@ -3022,7 +2848,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇶🇦",
     "flagSvgPath": "/flags/qa.svg",
     "capital": "Doha",
     "borders": [
@@ -3038,7 +2863,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇨🇬",
     "flagSvgPath": "/flags/cg.svg",
     "capital": "Brazzaville",
     "borders": [
@@ -3058,7 +2882,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇷🇪",
     "flagSvgPath": "/flags/re.svg",
     "capital": "Saint-Denis",
     "borders": []
@@ -3072,7 +2895,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇷🇴",
     "flagSvgPath": "/flags/ro.svg",
     "capital": "Bucharest",
     "borders": [
@@ -3092,7 +2914,6 @@
     "region": "Europe",
     "subregion": "Eastern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇷🇺",
     "flagSvgPath": "/flags/ru.svg",
     "capital": "Moscow",
     "borders": [
@@ -3121,7 +2942,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇷🇼",
     "flagSvgPath": "/flags/rw.svg",
     "capital": "Kigali",
     "borders": [
@@ -3140,7 +2960,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇧🇱",
     "flagSvgPath": "/flags/bl.svg",
     "capital": "Gustavia",
     "borders": []
@@ -3154,7 +2973,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇭",
     "flagSvgPath": "/flags/sh.svg",
     "capital": "Jamestown",
     "borders": []
@@ -3168,7 +2986,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇰🇳",
     "flagSvgPath": "/flags/kn.svg",
     "capital": "Basseterre",
     "borders": []
@@ -3182,7 +2999,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇱🇨",
     "flagSvgPath": "/flags/lc.svg",
     "capital": "Castries",
     "borders": []
@@ -3196,7 +3012,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇲🇫",
     "flagSvgPath": "/flags/mf.svg",
     "capital": "Marigot",
     "borders": [
@@ -3212,7 +3027,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇵🇲",
     "flagSvgPath": "/flags/pm.svg",
     "capital": "Saint-Pierre",
     "borders": []
@@ -3226,7 +3040,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇻🇨",
     "flagSvgPath": "/flags/vc.svg",
     "capital": "Kingstown",
     "borders": []
@@ -3240,7 +3053,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇼🇸",
     "flagSvgPath": "/flags/ws.svg",
     "capital": "Apia",
     "borders": []
@@ -3254,7 +3066,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇸🇲",
     "flagSvgPath": "/flags/sm.svg",
     "capital": "City of San Marino",
     "borders": [
@@ -3270,7 +3081,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇹",
     "flagSvgPath": "/flags/st.svg",
     "capital": "São Tomé",
     "borders": []
@@ -3284,7 +3094,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇸🇦",
     "flagSvgPath": "/flags/sa.svg",
     "capital": "Riyadh",
     "borders": [
@@ -3306,7 +3115,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇳",
     "flagSvgPath": "/flags/sn.svg",
     "capital": "Dakar",
     "borders": [
@@ -3326,7 +3134,6 @@
     "region": "Europe",
     "subregion": "Southeast Europe",
     "continent": "Europe",
-    "flagEmoji": "🇷🇸",
     "flagSvgPath": "/flags/rs.svg",
     "capital": "Belgrade",
     "borders": [
@@ -3349,7 +3156,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇨",
     "flagSvgPath": "/flags/sc.svg",
     "capital": "Victoria",
     "borders": []
@@ -3363,7 +3169,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇱",
     "flagSvgPath": "/flags/sl.svg",
     "capital": "Freetown",
     "borders": [
@@ -3380,7 +3185,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇸🇬",
     "flagSvgPath": "/flags/sg.svg",
     "capital": "Singapore",
     "borders": []
@@ -3394,7 +3198,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇸🇽",
     "flagSvgPath": "/flags/sx.svg",
     "capital": "Philipsburg",
     "borders": [
@@ -3410,7 +3213,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇸🇰",
     "flagSvgPath": "/flags/sk.svg",
     "capital": "Bratislava",
     "borders": [
@@ -3430,7 +3232,6 @@
     "region": "Europe",
     "subregion": "Central Europe",
     "continent": "Europe",
-    "flagEmoji": "🇸🇮",
     "flagSvgPath": "/flags/si.svg",
     "capital": "Ljubljana",
     "borders": [
@@ -3449,7 +3250,6 @@
     "region": "Oceania",
     "subregion": "Melanesia",
     "continent": "Oceania",
-    "flagEmoji": "🇸🇧",
     "flagSvgPath": "/flags/sb.svg",
     "capital": "Honiara",
     "borders": []
@@ -3463,7 +3263,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇴",
     "flagSvgPath": "/flags/so.svg",
     "capital": "Mogadishu",
     "borders": [
@@ -3481,7 +3280,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇿🇦",
     "flagSvgPath": "/flags/za.svg",
     "capital": "Pretoria",
     "borders": [
@@ -3502,7 +3300,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇰🇷",
     "flagSvgPath": "/flags/kr.svg",
     "capital": "Seoul",
     "borders": [
@@ -3518,7 +3315,6 @@
     "region": "Africa",
     "subregion": "Middle Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇸",
     "flagSvgPath": "/flags/ss.svg",
     "capital": "Juba",
     "borders": [
@@ -3539,7 +3335,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇪🇸",
     "flagSvgPath": "/flags/es.svg",
     "capital": "Madrid",
     "borders": [
@@ -3559,7 +3354,6 @@
     "region": "Asia",
     "subregion": "Southern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇱🇰",
     "flagSvgPath": "/flags/lk.svg",
     "capital": "Sri Jayawardenepura Kotte",
     "borders": []
@@ -3573,7 +3367,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇸🇩",
     "flagSvgPath": "/flags/sd.svg",
     "capital": "Khartoum",
     "borders": [
@@ -3595,7 +3388,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇸🇷",
     "flagSvgPath": "/flags/sr.svg",
     "capital": "Paramaribo",
     "borders": [
@@ -3613,7 +3405,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇸🇯",
     "flagSvgPath": "/flags/sj.svg",
     "capital": "Longyearbyen",
     "borders": []
@@ -3627,7 +3418,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇸🇪",
     "flagSvgPath": "/flags/se.svg",
     "capital": "Stockholm",
     "borders": [
@@ -3644,7 +3434,6 @@
     "region": "Europe",
     "subregion": "Western Europe",
     "continent": "Europe",
-    "flagEmoji": "🇨🇭",
     "flagSvgPath": "/flags/ch.svg",
     "capital": "Bern",
     "borders": [
@@ -3664,7 +3453,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇸🇾",
     "flagSvgPath": "/flags/sy.svg",
     "capital": "Damascus",
     "borders": [
@@ -3684,7 +3472,6 @@
     "region": "Asia",
     "subregion": "Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇼",
     "flagSvgPath": "/flags/tw.svg",
     "capital": "Taipei",
     "borders": []
@@ -3698,7 +3485,6 @@
     "region": "Asia",
     "subregion": "Central Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇯",
     "flagSvgPath": "/flags/tj.svg",
     "capital": "Dushanbe",
     "borders": [
@@ -3717,7 +3503,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇹🇿",
     "flagSvgPath": "/flags/tz.svg",
     "capital": "Dodoma",
     "borders": [
@@ -3740,7 +3525,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇭",
     "flagSvgPath": "/flags/th.svg",
     "capital": "Bangkok",
     "borders": [
@@ -3759,7 +3543,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇱",
     "flagSvgPath": "/flags/tl.svg",
     "capital": "Dili",
     "borders": [
@@ -3775,7 +3558,6 @@
     "region": "Africa",
     "subregion": "Western Africa",
     "continent": "Africa",
-    "flagEmoji": "🇹🇬",
     "flagSvgPath": "/flags/tg.svg",
     "capital": "Lomé",
     "borders": [
@@ -3793,7 +3575,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇹🇰",
     "flagSvgPath": "/flags/tk.svg",
     "capital": "Fakaofo",
     "borders": []
@@ -3807,7 +3588,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇹🇴",
     "flagSvgPath": "/flags/to.svg",
     "capital": "Nuku'alofa",
     "borders": []
@@ -3821,7 +3601,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇹🇹",
     "flagSvgPath": "/flags/tt.svg",
     "capital": "Port of Spain",
     "borders": []
@@ -3835,7 +3614,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇹🇳",
     "flagSvgPath": "/flags/tn.svg",
     "capital": "Tunis",
     "borders": [
@@ -3852,7 +3630,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇷",
     "flagSvgPath": "/flags/tr.svg",
     "capital": "Ankara",
     "borders": [
@@ -3875,7 +3652,6 @@
     "region": "Asia",
     "subregion": "Central Asia",
     "continent": "Asia",
-    "flagEmoji": "🇹🇲",
     "flagSvgPath": "/flags/tm.svg",
     "capital": "Ashgabat",
     "borders": [
@@ -3894,7 +3670,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇹🇨",
     "flagSvgPath": "/flags/tc.svg",
     "capital": "Cockburn Town",
     "borders": []
@@ -3908,7 +3683,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇹🇻",
     "flagSvgPath": "/flags/tv.svg",
     "capital": "Funafuti",
     "borders": []
@@ -3922,7 +3696,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇺🇬",
     "flagSvgPath": "/flags/ug.svg",
     "capital": "Kampala",
     "borders": [
@@ -3942,7 +3715,6 @@
     "region": "Europe",
     "subregion": "Eastern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇺🇦",
     "flagSvgPath": "/flags/ua.svg",
     "capital": "Kyiv",
     "borders": [
@@ -3964,7 +3736,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇦🇪",
     "flagSvgPath": "/flags/ae.svg",
     "capital": "Abu Dhabi",
     "borders": [
@@ -3981,7 +3752,6 @@
     "region": "Europe",
     "subregion": "Northern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇬🇧",
     "flagSvgPath": "/flags/gb.svg",
     "capital": "London",
     "borders": [
@@ -3997,7 +3767,6 @@
     "region": "Americas",
     "subregion": "North America",
     "continent": "Americas",
-    "flagEmoji": "🇺🇸",
     "flagSvgPath": "/flags/us.svg",
     "capital": "Washington, D.C.",
     "borders": [
@@ -4014,7 +3783,6 @@
     "region": "Americas",
     "subregion": "Caribbean",
     "continent": "Americas",
-    "flagEmoji": "🇻🇮",
     "flagSvgPath": "/flags/vi.svg",
     "capital": "Charlotte Amalie",
     "borders": []
@@ -4028,7 +3796,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇺🇾",
     "flagSvgPath": "/flags/uy.svg",
     "capital": "Montevideo",
     "borders": [
@@ -4045,7 +3812,6 @@
     "region": "Asia",
     "subregion": "Central Asia",
     "continent": "Asia",
-    "flagEmoji": "🇺🇿",
     "flagSvgPath": "/flags/uz.svg",
     "capital": "Tashkent",
     "borders": [
@@ -4065,7 +3831,6 @@
     "region": "Oceania",
     "subregion": "Melanesia",
     "continent": "Oceania",
-    "flagEmoji": "🇻🇺",
     "flagSvgPath": "/flags/vu.svg",
     "capital": "Port Vila",
     "borders": []
@@ -4079,7 +3844,6 @@
     "region": "Europe",
     "subregion": "Southern Europe",
     "continent": "Europe",
-    "flagEmoji": "🇻🇦",
     "flagSvgPath": "/flags/va.svg",
     "capital": "Vatican City",
     "borders": [
@@ -4095,7 +3859,6 @@
     "region": "Americas",
     "subregion": "South America",
     "continent": "Americas",
-    "flagEmoji": "🇻🇪",
     "flagSvgPath": "/flags/ve.svg",
     "capital": "Caracas",
     "borders": [
@@ -4113,7 +3876,6 @@
     "region": "Asia",
     "subregion": "South-Eastern Asia",
     "continent": "Asia",
-    "flagEmoji": "🇻🇳",
     "flagSvgPath": "/flags/vn.svg",
     "capital": "Hanoi",
     "borders": [
@@ -4131,7 +3893,6 @@
     "region": "Oceania",
     "subregion": "Polynesia",
     "continent": "Oceania",
-    "flagEmoji": "🇼🇫",
     "flagSvgPath": "/flags/wf.svg",
     "capital": "Mata-Utu",
     "borders": []
@@ -4145,7 +3906,6 @@
     "region": "Africa",
     "subregion": "Northern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇪🇭",
     "flagSvgPath": "/flags/eh.svg",
     "capital": "El Aaiún",
     "borders": [
@@ -4163,7 +3923,6 @@
     "region": "Asia",
     "subregion": "Western Asia",
     "continent": "Asia",
-    "flagEmoji": "🇾🇪",
     "flagSvgPath": "/flags/ye.svg",
     "capital": "Sana'a",
     "borders": [
@@ -4180,7 +3939,6 @@
     "region": "Africa",
     "subregion": "Eastern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇿🇲",
     "flagSvgPath": "/flags/zm.svg",
     "capital": "Lusaka",
     "borders": [
@@ -4203,7 +3961,6 @@
     "region": "Africa",
     "subregion": "Southern Africa",
     "continent": "Africa",
-    "flagEmoji": "🇿🇼",
     "flagSvgPath": "/flags/zw.svg",
     "capital": "Harare",
     "borders": [

@@ -12,5 +12,4 @@ export interface Category {
   source: string;
   sourceYear: number;
   coveragePercent: number;
-  emoji: string;
 }

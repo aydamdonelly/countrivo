@@ -2,14 +2,13 @@
   {
     "slug": "country-draft",
     "title": "Country Draft",
-    "shortDescription": "8 picks. Beat the optimal score.",
-    "description": "8 categories. 8 countries revealed one by one. Assign each country to the category where it ranks highest globally. Beat the optimal score.",
-    "emoji": "\ud83c\udfaf",
-    "difficulty": "hard",
-    "estimatedTime": "3-5 min",
+    "shortDescription": "5 rounds. 5 seats. 195 countries.",
+    "description": "Five countries, five rounds. Each country puts three of its people on the table. Take one, give them a seat in your cabinet, and see how much of the map they take.",
+    "difficulty": "medium",
+    "estimatedTime": "1-2 min",
     "category": "strategy",
     "tier": "main",
-    "isNew": false,
+    "isNew": true,
     "isFlagship": true,
     "availableModes": [
       "daily",
@@ -18,29 +17,27 @@
     "route": "/games/country-draft"
   },
   {
-    "slug": "flag-quiz",
-    "title": "Flag Quiz",
-    "shortDescription": "10 flags. Name the country or fail.",
-    "description": "A flag appears with four options. Pick the right country. 10 rounds, no second chances.",
-    "emoji": "\ud83c\udfc1",
-    "difficulty": "easy",
-    "estimatedTime": "2-3 min",
-    "category": "quiz",
-    "tier": "drill",
+    "slug": "blind-pick",
+    "title": "Blind Pick",
+    "shortDescription": "8 stats. 8 countries. No idea what comes next.",
+    "description": "Eight stat categories are on the board. Countries arrive one at a time and you never know what is coming, so you put each one on the stat where it ranks highest in the world. Eight picks, scored against the optimal assignment.",
+    "difficulty": "hard",
+    "estimatedTime": "3-5 min",
+    "category": "strategy",
+    "tier": "main",
     "isNew": false,
     "isFlagship": false,
     "availableModes": [
       "daily",
       "practice"
     ],
-    "route": "/games/flag-quiz"
+    "route": "/games/blind-pick"
   },
   {
     "slug": "higher-or-lower",
     "title": "Higher or Lower",
     "shortDescription": "Keep your streak alive. One wrong pick ends it.",
     "description": "Two countries, one stat. Pick which ranks higher. One mistake and your streak dies.",
-    "emoji": "\u2b06\ufe0f",
     "difficulty": "easy",
     "estimatedTime": "2-5 min",
     "category": "ranking",
@@ -54,100 +51,27 @@
     "route": "/games/higher-or-lower"
   },
   {
-    "slug": "capital-match",
-    "title": "Capital Match",
-    "shortDescription": "4 options. One correct capital.",
-    "description": "Given a country, pick the correct capital from four options. 10 rounds of pure knowledge.",
-    "emoji": "\ud83c\udfdb\ufe0f",
-    "difficulty": "easy",
-    "estimatedTime": "2-3 min",
-    "category": "quiz",
-    "tier": "drill",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/capital-match"
-  },
-  {
-    "slug": "population-sort",
-    "title": "Population Sort",
-    "shortDescription": "Sort 5 countries. Every position matters.",
-    "description": "Drag and sort countries from highest to lowest for a given statistic. Accuracy matters.",
-    "emoji": "\ud83d\udcca",
+    "slug": "geo-wordle",
+    "title": "GeoWordle",
+    "shortDescription": "Guess the mystery country in 6 tries.",
+    "description": "A mystery country is hidden. Each guess reveals how far away you are and which direction to head. Narrow it down and solve it in six tries.",
     "difficulty": "medium",
-    "estimatedTime": "2-4 min",
-    "category": "ranking",
-    "tier": "drill",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/population-sort"
-  },
-  {
-    "slug": "country-streak",
-    "title": "Country Streak",
-    "shortDescription": "One wrong answer ends your run.",
-    "description": "Identify countries from their flags. One wrong answer and it's game over. How long can you streak?",
-    "emoji": "\ud83d\udd25",
-    "difficulty": "medium",
-    "estimatedTime": "2-5 min",
-    "category": "quiz",
-    "tier": "drill",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/country-streak"
-  },
-  {
-    "slug": "border-buddies",
-    "title": "Border Buddies",
-    "shortDescription": "Name every neighbor. Miss one and it shows.",
-    "description": "A country appears. Name every country that shares a border with it. Every miss counts.",
-    "emoji": "\ud83e\udd1d",
-    "difficulty": "medium",
-    "estimatedTime": "2-4 min",
+    "estimatedTime": "1-2 min",
     "category": "knowledge",
-    "tier": "drill",
+    "tier": "main",
     "isNew": false,
     "isFlagship": false,
     "availableModes": [
       "daily",
       "practice"
     ],
-    "route": "/games/border-buddies"
-  },
-  {
-    "slug": "continent-sprint",
-    "title": "Continent Sprint",
-    "shortDescription": "Name every country. The clock doesn't stop.",
-    "description": "Pick a continent and name every country in it as fast as you can. The clock is ticking.",
-    "emoji": "\ud83c\udfc3",
-    "difficulty": "medium",
-    "estimatedTime": "3-10 min",
-    "category": "knowledge",
-    "tier": "drill",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "practice"
-    ],
-    "route": "/games/continent-sprint"
+    "route": "/games/geo-wordle"
   },
   {
     "slug": "stat-guesser",
     "title": "Stat Guesser",
     "shortDescription": "Guess the number. Closer wins.",
     "description": "What's the population of Brazil? The GDP of Norway? Guess the number. Closer is better.",
-    "emoji": "\ud83d\udd22",
     "difficulty": "hard",
     "estimatedTime": "3-5 min",
     "category": "knowledge",
@@ -161,11 +85,27 @@
     "route": "/games/stat-guesser"
   },
   {
+    "slug": "flag-quiz",
+    "title": "Flag Quiz",
+    "shortDescription": "10 flags. Name the country or fail.",
+    "description": "A flag appears with four options. Pick the right country. 10 rounds, no second chances.",
+    "difficulty": "easy",
+    "estimatedTime": "2-3 min",
+    "category": "quiz",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/flag-quiz"
+  },
+  {
     "slug": "speed-flags",
     "title": "Speed Flags",
     "shortDescription": "20 seconds. How many flags can you name?",
     "description": "20 seconds on the clock. Identify as many flags as you can. Speed and accuracy both count.",
-    "emoji": "\u26a1",
     "difficulty": "easy",
     "estimatedTime": "1 min",
     "category": "speed",
@@ -176,144 +116,5 @@
       "practice"
     ],
     "route": "/games/speed-flags"
-  },
-  {
-    "slug": "odd-one-out",
-    "title": "Odd One Out",
-    "shortDescription": "Three share a trait. One doesn't. Find it.",
-    "description": "Four countries. Three share a trait. One doesn't. Find the odd one out.",
-    "emoji": "\ud83d\udd0d",
-    "difficulty": "medium",
-    "estimatedTime": "3-5 min",
-    "category": "knowledge",
-    "tier": "drill",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/odd-one-out"
-  },
-  {
-    "slug": "supremacy",
-    "title": "Supremacy",
-    "shortDescription": "Draft countries. Outsmart your opponent.",
-    "description": "A card battle using real country data. Pick the stat category, compare cards, and outsmart the AI across 5 rounds.",
-    "emoji": "\ud83d\udc51",
-    "difficulty": "medium",
-    "estimatedTime": "3-5 min",
-    "category": "strategy",
-    "tier": "drill",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "practice"
-    ],
-    "route": "/games/supremacy"
-  },
-  {
-    "slug": "borderline",
-    "title": "Borderline",
-    "shortDescription": "Navigate borders to reach the target.",
-    "description": "Start at a random country and navigate through borders to reach your target. Beat the optimal path.",
-    "emoji": "\ud83d\uddfa\ufe0f",
-    "difficulty": "medium",
-    "estimatedTime": "2-5 min",
-    "category": "strategy",
-    "tier": "drill",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "practice"
-    ],
-    "route": "/games/borderline"
-  },
-  {
-    "slug": "blitz",
-    "title": "Blitz",
-    "shortDescription": "Type the country. Fastest answer wins.",
-    "description": "A flag appears. Type the country name as fast as you can. 10 rounds of pure speed.",
-    "emoji": "\u26a1",
-    "difficulty": "easy",
-    "estimatedTime": "2-3 min",
-    "category": "speed",
-    "tier": "drill",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "practice"
-    ],
-    "route": "/games/blitz"
-  },
-  {
-    "slug": "geo-wordle",
-    "title": "GeoWordle",
-    "shortDescription": "Guess the mystery country in 6 tries.",
-    "description": "A mystery country is hidden. Each guess reveals how far away you are and which direction to head. Narrow it down and solve it in six tries.",
-    "emoji": "\ud83c\udf0d",
-    "difficulty": "medium",
-    "estimatedTime": "1-2 min",
-    "category": "knowledge",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/geo-wordle"
-  },
-  {
-    "slug": "cluster",
-    "title": "Cluster",
-    "shortDescription": "16 countries, 4 hidden groups. Find what connects each quartet.",
-    "description": "Sixteen countries hide four secret groups of four. Tap the four you think share a connection \u2014 a region, a starting letter, a stat extreme \u2014 and lock them in. Four mistakes and you're out.",
-    "emoji": "\ud83e\udde9",
-    "difficulty": "hard",
-    "estimatedTime": "2-3 min",
-    "category": "quiz",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/cluster"
-  },
-  {
-    "slug": "risk-zone",
-    "title": "Risk Zone",
-    "shortDescription": "Bank it or push your luck.",
-    "description": "Guess higher or lower one country at a time. Each correct call grows your multiplier \u2014 bank the pot or gamble one more reveal. A single wrong answer wipes the chain. 5 chains, press your luck.",
-    "emoji": "\ud83c\udfb2",
-    "difficulty": "medium",
-    "estimatedTime": "1-2 min",
-    "category": "strategy",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/risk-zone"
-  },
-  {
-    "slug": "world-draft",
-    "title": "World Draft",
-    "shortDescription": "Draft 5 people. Conquer 195 countries.",
-    "description": "Draft five real people, give each a role in your cabinet, and see how many of the world's 195 countries they can take. In development.",
-    "emoji": "\ud83c\udf0d",
-    "difficulty": "medium",
-    "estimatedTime": "5 min",
-    "category": "strategy",
-    "tier": "main",
-    "isNew": true,
-    "isFlagship": false,
-    "availableModes": [],
-    "route": "/games/world-draft",
-    "comingSoon": true
   }
 ]

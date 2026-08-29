@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
+import { validateBlindPickResult } from "@/lib/game-logic/blind-pick/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
 import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
 import { getDailyEdition } from "@/lib/daily-edition";
@@ -64,6 +65,9 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     let serverCheck: { valid: boolean; reason?: string } | null = null;
     const edition = await getDailyEdition();
     switch (input.gameSlug) {
+      case "blind-pick":
+        serverCheck = validateBlindPickResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
+        break;
       case "country-draft":
         serverCheck = validateCountryDraftResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
@@ -83,30 +87,20 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // Prevents client manipulation of ranking values
   let scoreSortValue = input.scoreSortValue;
   switch (input.gameSlug) {
-    case "risk-zone":
-    case "cluster":
+    case "country-draft":
     case "flag-quiz":
-    case "capital-match":
-    case "odd-one-out":
-    case "country-streak":
     case "speed-flags":
-    case "blitz":
-    case "continent-sprint":
-    case "border-buddies":
-    case "population-sort":
     case "stat-guesser":
-    case "supremacy":
     case "higher-or-lower":
       // For these games, higher score_raw = better
       scoreSortValue = input.scoreRaw;
       break;
-    case "country-draft":
+    case "blind-pick":
       // Lower score = better, invert for ranking (8*243 = theoretical max)
       scoreSortValue = 1944 - input.scoreRaw;
       break;
     case "geo-wordle":
-    case "borderline":
-      // Fewer guesses/moves = better, invert so higher sort = better
+      // Fewer guesses = better, invert so higher sort = better
       scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
       break;
   }
@@ -534,8 +528,7 @@ function validateGameResult(
 ): string | null {
   try {
     switch (gameSlug) {
-      case "flag-quiz":
-      case "capital-match": {
+      case "flag-quiz": {
         // Boards send `answers` as the picked option index per question (number | null)
         // plus a `score`; older payloads sent objects with a `correct` flag. Accept both.
         const answers = resultJson.answers as unknown[] | undefined;
@@ -551,23 +544,9 @@ function validateGameResult(
         if (scoreRaw > answers.length) return "score_exceeds_total";
         break;
       }
-      case "odd-one-out": {
-        const answers = resultJson.answers as unknown[] | undefined;
-        if (!answers || !Array.isArray(answers)) return "invalid_result";
-        if (typeof resultJson.score !== "number") return "invalid_result";
-        if (resultJson.score !== scoreRaw) return "score_mismatch";
-        if (scoreRaw > answers.length) return "score_exceeds_total";
-        break;
-      }
       case "higher-or-lower": {
         if (typeof resultJson.streak !== "number") return "invalid_result";
         if (resultJson.streak !== scoreRaw) return "score_mismatch";
-        break;
-      }
-      case "country-streak": {
-        if (typeof resultJson.streak !== "number") return "invalid_result";
-        if (resultJson.streak !== scoreRaw) return "score_mismatch";
-        if (scoreRaw > 243) return "score_exceeds_total";
         break;
       }
       case "speed-flags": {
@@ -576,22 +555,14 @@ function validateGameResult(
         if (typeof resultJson.total === "number" && scoreRaw > resultJson.total) return "score_exceeds_total";
         break;
       }
-      case "population-sort": {
-        if (typeof resultJson.score !== "number") return "invalid_result";
-        if (resultJson.score !== scoreRaw) return "score_mismatch";
-        const userOrder = resultJson.userOrder;
-        const correctOrder = resultJson.correctOrder;
-        if (!Array.isArray(userOrder) || !Array.isArray(correctOrder)) return "invalid_result";
-        if (userOrder.length !== correctOrder.length) return "invalid_result";
-        break;
-      }
       case "stat-guesser": {
         if (typeof resultJson.avgError !== "number") return "invalid_result";
         const expectedScore = Math.round(Math.max(0, 100 - resultJson.avgError));
         if (Math.abs(expectedScore - scoreRaw) > 1) return "score_mismatch";
         break;
       }
-      case "country-draft": {
+      case "blind-pick": {
+        // Renamed from "country-draft" (P0-swap): same eight-pick game, same payload.
         if (typeof resultJson.playerScore !== "number") return "invalid_result";
         if (resultJson.playerScore !== scoreRaw) return "score_mismatch";
         if (typeof resultJson.optimalScore === "number" && typeof resultJson.gap === "number") {
@@ -599,19 +570,6 @@ function validateGameResult(
             return "score_mismatch";
           }
         }
-        break;
-      }
-      case "border-buddies": {
-        const found = resultJson.found;
-        if (!Array.isArray(found)) return "invalid_result";
-        if (found.length !== scoreRaw) return "score_mismatch";
-        if (scoreRaw > scoreMax) return "score_exceeds_total";
-        break;
-      }
-      case "continent-sprint": {
-        if (typeof resultJson.found !== "number") return "invalid_result";
-        if (resultJson.found !== scoreRaw) return "score_mismatch";
-        if (scoreRaw > scoreMax) return "score_exceeds_total";
         break;
       }
       case "geo-wordle": {
@@ -633,42 +591,20 @@ function validateGameResult(
         if (scoreRaw > scoreMax) return "score_exceeds_total";
         break;
       }
-      case "cluster": {
-        const solved = resultJson.solved;
-        const mistakes = resultJson.mistakes;
-        if (typeof solved !== "number") return "invalid_result";
-        if (solved !== scoreRaw) return "score_mismatch";
-        if (scoreRaw < 0 || scoreRaw > 4) return "score_exceeds_total";
-        if (scoreMax !== 4) return "invalid_result";
-        if (typeof mistakes !== "number" || mistakes < 0 || mistakes > 4) return "invalid_result";
-        // A win (4 solved) cannot coexist with the max mistake count.
-        if (scoreRaw === 4 && mistakes >= 4) return "invalid_result";
-        const guesses = resultJson.guesses;
-        if (guesses !== undefined && !Array.isArray(guesses)) return "invalid_result";
-        // Each correct group + each mistake is one submitted quartet.
-        if (Array.isArray(guesses) && guesses.length < solved + mistakes) return "score_mismatch";
-        break;
-      }
-      case "risk-zone": {
+      case "country-draft": {
+        // The cabinet draft. The structural check here holds in both modes; the daily
+        // switch above additionally replays the board and re-derives every fit and every
+        // standing from the regenerated roster.
         if (typeof resultJson.score !== "number") return "invalid_result";
         if (resultJson.score !== scoreRaw) return "score_mismatch";
-        const chains = resultJson.chains as Array<{ outcome?: string; points?: number }> | undefined;
-        if (!Array.isArray(chains)) return "invalid_result";
-        if (chains.length > 5) return "invalid_result";
-        // Sum of per-chain points must equal the reported score.
-        const sum = chains.reduce((acc, c) => acc + (typeof c.points === "number" ? c.points : 0), 0);
-        if (sum !== scoreRaw) return "score_mismatch";
-        if (scoreRaw > scoreMax) return "score_exceeds_total";
+        if (scoreRaw < 0 || scoreRaw > scoreMax) return "score_exceeds_total";
+        const appointments = resultJson.appointments;
+        if (!Array.isArray(appointments) || appointments.length !== 5) return "invalid_result";
+        const parts = [resultJson.fitTotal, resultJson.standingTotal, resultJson.bonusTotal];
+        if (parts.some((n) => typeof n !== "number")) return "invalid_result";
+        if ((parts as number[]).reduce((a, b) => a + b, 0) !== scoreRaw) return "score_mismatch";
         break;
       }
-      // Practice-only games with no canonical daily puzzle to replay-validate.
-      // They appear in the scoreSortValue switch above (so they DO submit) —
-      // accept their structural shape here instead of bouncing every run as
-      // "unvalidated_game". TODO: add real replay validation for these three.
-      case "blitz":
-      case "supremacy":
-      case "borderline":
-        break;
       default:
         return "unvalidated_game";
     }

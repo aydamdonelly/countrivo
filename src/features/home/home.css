@@ -1,0 +1,87 @@
+/* The home (blueprint 7.1). The phone is the design: one column in K3's order, the switch,
+   the anchor card, the one board, the lists, in plain block flow so the K3 rhythm holds to
+   the pixel. Desktop composes the same pieces as two columns with today's board sticky in
+   the 380 rail. Both modes are in the HTML; the inactive pane is hidden and inert. */
+@layer components {
+  /* On the phone the wrappers only group what the switch toggles; the page flow is K3's. */
+  .home-anchor,
+  .home-lists,
+  .home-rail {
+    display: contents;
+  }
+  [data-pane][hidden] {
+    display: none;
+  }
+
+  /* The shot number holds one line. K3 drew it at 56 px for a three-digit score; a longer
+     compact score steps down rather than wrapping under itself and squeezing the ranks. */
+  .anc .res b { white-space: nowrap; }
+  @media (max-width: 1023px) {
+    .anc.shot-m .res b { font-size: 40px; }
+    .anc.shot-s .res b { font-size: 32px; }
+  }
+
+  /* The rail's head line and the friends strip belong to the desktop composition;
+     K3's phone home carries the card and one board and nothing else. */
+  .home-rail-head,
+  .home-strip {
+    display: none;
+  }
+
+  /* Practice has no board, so on the phone the rail goes with the daily pane. */
+  @media (max-width: 1023px) {
+    .home:has([data-pane="practice"]:not([hidden])) .home-rail {
+      display: none;
+    }
+    /* K3's fold puts the list head straight under the me-row: the full board is one
+       tap away through the game, and the rail carries the link where there is room. */
+    .home-rail .gb-foot {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 380px;
+      grid-template-areas:
+        "sw rail"
+        "anchor rail"
+        "lists rail";
+      column-gap: 48px;
+      align-items: start;
+    }
+    .home-anchor,
+    .home-lists,
+    .home-rail {
+      display: block;
+    }
+    .home-sw {
+      grid-area: sw;
+    }
+    .home-anchor {
+      grid-area: anchor;
+    }
+    .home-lists {
+      grid-area: lists;
+    }
+    .home-rail {
+      grid-area: rail;
+    }
+    .home-rail-head {
+      display: block;
+      color: var(--color-mute);
+      margin-bottom: 10px;
+    }
+    .home-strip {
+      display: block;
+      margin-top: 24px;
+    }
+    /* The practice card's copy is width-limited so the button never sits under it. On the
+       phone that limit is 200px; at desktop the card is nearly three times as wide, so the
+       same limit would strand the sentence on the left with a gulf beside it. */
+    .home .anc.prac .how {
+      max-width: 340px;
+    }
+  }
+}

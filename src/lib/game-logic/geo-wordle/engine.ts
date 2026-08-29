@@ -16,7 +16,6 @@ export type GeoBand = "hit" | "burning" | "hot" | "warm" | "cool" | "cold";
 export interface GeoGuess {
   iso3: string;
   name: string;
-  flagEmoji: string;
   iso2: string;
   distanceKm: number; // great-circle km from guess to answer (0 if correct)
   bearingDeg: number; // 0..360 compass bearing FROM guess TO answer (0 if correct)
@@ -184,7 +183,6 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
   const guess: GeoGuess = {
     iso3: country.iso3,
     name: country.displayName,
-    flagEmoji: country.flagEmoji,
     iso2: country.iso2,
     distanceKm,
     bearingDeg: bearing,

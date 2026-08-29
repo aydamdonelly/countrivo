@@ -1,101 +1,100 @@
-import type { DraftGameState } from "./types";
-import { generateDraftConfig } from "./generator";
-
-export function createGame(
-  rng: () => number,
-  mode: "daily" | "practice",
-  dateKey: string
-): DraftGameState {
-  const config = generateDraftConfig(rng, mode, dateKey);
-
-  return {
-    config,
-    currentStep: 0,
-    assignments: new Array(config.countries.length).fill(null),
-    usedCategories: new Set(),
-    phase: "playing",
-    undoUsed: false,
-  };
-}
-
-/**
- * Index of the pick that an undo would take back. While playing that's the
- * previous step; once the final pick locked the run into "results" it's the
- * current (last) step, which is where currentStep stays on completion.
+/*
+ * The Country Draft state machine. Pure: every transition is a function of the state and
+ * the action, so the host replays a resume log through it and lands on the same board the
+ * player left. Illegal actions return the state unchanged, per the module contract.
  */
-function lastPickIndex(state: DraftGameState): number {
-  return state.phase === "results" ? state.currentStep : state.currentStep - 1;
-}
+import { mulberry32 } from "@/lib/seeded-random";
+import { createBoard } from "./generator";
+import { makePick, scoreOf } from "./scoring";
+import { ROUNDS } from "./tables";
+import type { DraftBoard, DraftPick, DraftScore, DraftState, PoolIdx, SeatIdx } from "./types";
 
-/** One undo per run, and only if there is a pick to take back. */
-export function canUndo(state: DraftGameState): boolean {
-  if (state.undoUsed) return false;
-  const idx = lastPickIndex(state);
-  return idx >= 0 && state.assignments[idx] != null;
-}
-
-/** Take back the last pick — frees its category and returns to that country. */
-export function undoLastAssignment(state: DraftGameState): DraftGameState {
-  if (!canUndo(state)) return state;
-
-  const idx = lastPickIndex(state);
-  const categoryIdx = state.assignments[idx]!;
-
-  const newAssignments = [...state.assignments];
-  newAssignments[idx] = null;
-
-  const newUsed = new Set(state.usedCategories);
-  newUsed.delete(categoryIdx);
-
+export function createGame(seed: number): DraftState {
   return {
-    ...state,
-    assignments: newAssignments,
-    usedCategories: newUsed,
-    currentStep: idx,
+    board: createBoard(mulberry32(seed)),
+    round: 0,
+    held: null,
+    seats: [null, null, null, null, null],
+    undoUsed: false,
     phase: "playing",
-    undoUsed: true,
+    moves: 0,
+    lastSeat: null,
   };
 }
 
-export function getCurrentCountry(state: DraftGameState) {
-  if (state.phase !== "playing") return null;
-  return state.config.countries[state.currentStep];
+export function filledSeats(s: DraftState): number {
+  return s.seats.filter((x) => x !== null).length;
 }
 
-export function getAvailableCategories(state: DraftGameState) {
-  return state.config.categories
-    .map((cat, idx) => ({ category: cat, index: idx }))
-    .filter(({ index }) => !state.usedCategories.has(index));
+/** The appointments in round order: what the payload and the result rows read. */
+export function appointmentsOf(s: DraftState): DraftPick[] {
+  return s.seats.filter((x): x is DraftPick => x !== null).sort((a, b) => a.round - b.round);
 }
 
-export function canAssign(state: DraftGameState, categoryIdx: number): boolean {
-  return state.phase === "playing" && !state.usedCategories.has(categoryIdx);
+export function figureAt(board: DraftBoard, pick: DraftPick) {
+  return board.rounds[pick.round].pool[pick.poolIdx];
 }
 
-export function assignCategory(
-  state: DraftGameState,
-  categoryIdx: number
-): DraftGameState {
-  if (!canAssign(state, categoryIdx)) return state;
+export function scoreState(s: DraftState): DraftScore {
+  const picks = appointmentsOf(s);
+  return scoreOf(picks, picks.map((p) => figureAt(s.board, p).standing));
+}
 
-  const newAssignments = [...state.assignments];
-  newAssignments[state.currentStep] = categoryIdx;
+export function canUndo(s: DraftState): boolean {
+  return !s.undoUsed && s.phase !== "done" && filledSeats(s) > 0;
+}
 
-  const newUsed = new Set(state.usedCategories);
-  newUsed.add(categoryIdx);
+export function hold(s: DraftState, i: PoolIdx): DraftState {
+  if (s.phase !== "playing" || s.round >= ROUNDS) return s;
+  if (i < 0 || i >= s.board.rounds[s.round].pool.length) return s;
+  return { ...s, held: s.held === i ? null : i };
+}
 
-  const nextStep = state.currentStep + 1;
-  const isComplete = nextStep >= state.config.countries.length;
+export function drop(s: DraftState): DraftState {
+  return s.held === null ? s : { ...s, held: null };
+}
 
+/** Seat one of the round's three. Fills the fifth seat and the reveal window opens. */
+export function appoint(s: DraftState, i: PoolIdx, seat: SeatIdx): DraftState {
+  if (s.phase !== "playing" || s.round >= ROUNDS) return s;
+  if (seat < 0 || seat >= s.seats.length || s.seats[seat] !== null) return s;
+  const round = s.board.rounds[s.round];
+  if (i < 0 || i >= round.pool.length) return s;
+  const pick = makePick(s.round, seat, i, round.pool[i]);
+  const seats = s.seats.map((x, k) => (k === seat ? pick : x));
+  const round1 = s.round + 1;
   return {
-    ...state,
-    assignments: newAssignments,
-    usedCategories: newUsed,
-    currentStep: isComplete ? state.currentStep : nextStep,
-    phase: isComplete ? "results" : "playing",
+    ...s,
+    seats,
+    round: round1,
+    held: null,
+    phase: round1 >= ROUNDS ? "reveal" : "playing",
+    moves: s.moves + 1,
+    lastSeat: seat,
   };
 }
 
-export function isComplete(state: DraftGameState): boolean {
-  return state.phase === "results";
+/** One take-back per run, allowed while playing and during the reveal window. */
+export function undo(s: DraftState): DraftState {
+  if (!canUndo(s)) return s;
+  const last = appointmentsOf(s).pop();
+  if (!last) return s;
+  return {
+    ...s,
+    seats: s.seats.map((x, k) => (k === last.seat ? null : x)),
+    round: last.round,
+    held: null,
+    undoUsed: true,
+    phase: "playing",
+    moves: s.moves + 1,
+    lastSeat: null,
+  };
+}
+
+export function seen(s: DraftState): DraftState {
+  return s.phase === "reveal" ? { ...s, phase: "done" } : s;
+}
+
+export function isComplete(s: DraftState): boolean {
+  return filledSeats(s) === ROUNDS;
 }

@@ -1,0 +1,53 @@
+/* Countrivo design tokens: the single theme (blueprint section 1). Every value is
+   measured from the K3 demo. Nothing else in src/ may contain a hex literal except
+   src/lib/seo/og-image.tsx, src/app/global-error.tsx and capacitor/www/offline.html. */
+@import "tailwindcss";
+
+@theme {
+  /* surfaces */
+  --color-paper:  #fbfaf6;   /* page ground; label text on ink; Shoot fill; crest silhouette fill; flame core */
+  --color-card:   #f1f0ea;   /* switch track; me-row; practice card; nudge; week tiles; quiet buttons; fields; slots; option rows */
+  --color-line:   #e9e8e1;   /* the only hairline: 1px between rows; GeoWordle "cold" */
+  --color-bar:    #ffffff;   /* bottom tab bar; sheets */
+  --color-wait:   #cfcec6;   /* waiting crest fill; conquest-map land; empty pips; disabled fills; GeoWordle "cool" */
+  --color-faint:  #b9b8b1;   /* chevrons; inactive tab-bar icons and labels */
+  --color-mute:   #74756f;   /* every secondary text; GeoWordle "hot" */
+  --color-down:   #8a8b85;   /* disabled text; tertiary meta */
+  --color-ink:    #17181a;   /* text; anchor card; switch knob; crest circle; active tab underline; correct fills; GeoWordle "burning" */
+  --color-ink-2:  #2b2c2e;   /* pressed/hover state of ink fills; chip fill on the ink card */
+  --color-ember:  #b8432a;   /* THE colour: flame, live counters, NEW, friends-link facts, me-crest ring, active tab seed, wrong verdicts, GeoWordle "hit" */
+
+  /* text on ink (anchor card, result panel) */
+  --color-on-ink:        #fbfaf6;
+  --color-on-ink-body:   #c9c8c1;   /* how-text on the card */
+  --color-on-ink-kicker: #a9aaa3;   /* kicker row and counter on the card; GeoWordle "warm" */
+  --color-on-ink-chip:   #d9d8d1;   /* chip text on the card (chip fill is --color-ink-2) */
+
+  /* alphas: the only two allowed */
+  --color-scrim: rgba(23, 24, 26, 0.45);   /* behind sheets; never derived from black */
+  --color-edge:  rgba(23, 24, 26, 0.08);   /* the 1px inset ring on flags only */
+
+  /* type */
+  --font-sans: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-erode), "Erode", Georgia, serif;   /* --font-erode is injected by next/font/local */
+
+  /* radii: nothing rounder than 12px anywhere; crests are 50% */
+  --radius-card: 12px;   /* ink card, practice card, switch track, sheets (top corners), fields */
+  --radius-note: 10px;   /* nudge */
+  --radius-knob: 9px;    /* switch knob */
+  --radius-ctl:  6px;    /* buttons, me-row, week tiles, tiles, slots, option rows, toast, suggestion panel */
+  --radius-chip: 4px;    /* category chips */
+  --radius-flag: 3px;    /* flags */
+
+  /* spacing rhythm (phone) */
+  --gutter: 20px;        /* side padding; content = 350 at 390 */
+  --stack: 16px;         /* between sections */
+  --row-y: 7px;          /* board row vertical padding */
+  --list-y: 12px;        /* list row vertical padding */
+
+  /* motion */
+  --ease-out: cubic-bezier(0.2, 0, 0, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-knob: 300ms;
+}

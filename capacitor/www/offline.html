@@ -3,31 +3,124 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-    <title>Countrivo — Offline</title>
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#fbfaf6" />
+    <title>Countrivo · Offline</title>
+    <!--
+      Shown by Capacitor (server.errorPath) when the live site cannot load. It loads
+      without the app's stylesheet, so it mirrors four tokens by hand: paper #fbfaf6,
+      ink #17181a, mute #74756f, ember #b8432a (blueprint section 1 sanctions the
+      literals here, in tokens.css, og-image.tsx and global-error.tsx). One theme, no
+      dark branch, no emoji. The flame burns here too: it is the signature.
+    -->
     <style>
-      html, body {
-        margin: 0; height: 100%;
-        background: #10141b; color: #ECEAE3;
-        font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
-        display: flex; align-items: center; justify-content: center; text-align: center;
-        padding: env(safe-area-inset-top) 24px env(safe-area-inset-bottom);
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #fbfaf6;
+        color: #17181a;
+        font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
-      h1 { font-size: 20px; margin: 0 0 8px; }
-      p { opacity: .7; margin: 0 0 22px; font-size: 15px; }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom);
+      }
+      .box {
+        width: 100%;
+        max-width: 350px;
+      }
+      h1 {
+        font-size: 22px;
+        line-height: 1.15;
+        font-weight: 600;
+        margin: 14px 0 0;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.45;
+        color: #74756f;
+        margin: 8px 0 0;
+        max-width: 30em;
+      }
       button {
-        background: #b8860b; color: #fff; border: 0; border-radius: 12px;
-        padding: 13px 22px; font-size: 16px; font-weight: 700; min-height: 48px;
+        appearance: none;
+        background: none;
+        border: 0;
+        margin: 10px 0 0;
+        padding: 11px 0;
+        min-height: 44px;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 600;
+        color: #b8432a;
+        cursor: pointer;
       }
-      .globe { font-size: 44px; margin-bottom: 12px; }
+      button:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px #fbfaf6, 0 0 0 4px #17181a;
+        border-radius: 6px;
+      }
+      @keyframes fl-o {
+        0% { transform: scaleY(1) skewX(0); }
+        20% { transform: scaleY(1.06) skewX(-3deg); }
+        45% { transform: scaleY(0.96) skewX(2.5deg); }
+        70% { transform: scaleY(1.04) skewX(-1.5deg); }
+        100% { transform: scaleY(1) skewX(0); }
+      }
+      @keyframes fl-m {
+        0% { transform: scaleY(1) skewX(0); }
+        30% { transform: scaleY(1.12) skewX(3deg); }
+        55% { transform: scaleY(0.92) skewX(-3deg); }
+        80% { transform: scaleY(1.06) skewX(1deg); }
+        100% { transform: scaleY(1) skewX(0); }
+      }
+      @keyframes fl-c {
+        0%, 100% { transform: scaleY(1) scaleX(1); }
+        50% { transform: scaleY(1.18) scaleX(0.9); }
+      }
+      .fl-outer { animation: fl-o 1.1s ease-in-out infinite; transform-origin: 12px 21px; }
+      .fl-mid { animation: fl-m 0.8s ease-in-out infinite; transform-origin: 12px 21px; }
+      .fl-core { animation: fl-c 0.55s ease-in-out infinite; transform-origin: 12px 20px; }
+      @media (prefers-reduced-motion: reduce) {
+        .fl-outer,
+        .fl-mid,
+        .fl-core {
+          animation: none;
+        }
+      }
     </style>
   </head>
-  <!-- Shown by Capacitor (server.errorPath) when the live site can't load (offline). -->
   <body>
-    <div>
-      <div class="globe">🌍</div>
-      <h1>You're offline</h1>
-      <p>Countrivo needs a connection to play the daily.</p>
-      <button onclick="location.href='https://countrivo.com'">Retry</button>
+    <div class="box">
+      <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true">
+        <g class="fl-outer">
+          <path
+            d="M12 2.5c.6 3.2 4.4 5 4.4 9.4 0 2.6-1.3 4.6-3.1 5.7-.3-1.4-1-2.4-2-3.1-.9.9-1.6 2-1.8 3.3C7.6 16.7 6.4 14.6 6.4 12c0-2 .8-3.4 1.9-4.5.3 1.3 1 2.1 2 2.4C9.6 7.4 10 4.6 12 2.5z"
+            fill="#b8432a"
+          />
+        </g>
+        <g class="fl-mid">
+          <path
+            d="M12 8.5c.5 2 2.6 3.1 2.6 5.6 0 1.6-.8 2.9-2 3.6-.2-.9-.6-1.6-1.2-2.1-.6.6-1 1.3-1.1 2.2-1.1-.7-1.9-2-1.9-3.5 0-1.3.5-2.2 1.2-2.9.2.8.6 1.3 1.2 1.5-.2-1.6.2-3.2 1.2-4.4z"
+            fill="#b8432a"
+            opacity=".55"
+          />
+        </g>
+        <g class="fl-core">
+          <path
+            d="M12 13.2c.4 1.2 1.5 1.9 1.5 3.3 0 1.1-.7 2-1.5 2.4-.8-.4-1.5-1.3-1.5-2.4 0-1.4 1.1-2.1 1.5-3.3z"
+            fill="#fbfaf6"
+            opacity=".9"
+          />
+        </g>
+      </svg>
+      <h1>You are offline</h1>
+      <p>Countrivo needs a connection. Today's board is waiting.</p>
+      <button type="button" onclick="location.href='https://countrivo.com'">Retry</button>
     </div>
   </body>
 </html>

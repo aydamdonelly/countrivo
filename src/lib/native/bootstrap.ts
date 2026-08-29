@@ -36,23 +36,14 @@ export async function bootstrapNative(
     }
   });
 
-  // Status bar: Style.Dark renders LIGHT text — correct over the dark theme.
-  // Follow the system theme: Style.Dark = light text (over the dark bg),
-  // Style.Light = dark text (over the light bg). Hardcoding Dark made the
-  // status-bar text invisible in the light-default theme.
+  // Status bar: one theme, so one style. Style.Light = dark text over the paper ground.
+  // Set once; there is no colour-scheme listener because the page never changes scheme.
   const { StatusBar, Style } = await import("@capacitor/status-bar");
-  const applyStatusBarStyle = async () => {
-    const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    try {
-      await StatusBar.setStyle({ style: isDark ? Style.Dark : Style.Light });
-    } catch {
-      /* simulator / unsupported — ignore */
-    }
-  };
-  await applyStatusBarStyle();
-  window
-    .matchMedia("(prefers-color-scheme: dark)")
-    .addEventListener("change", () => void applyStatusBarStyle());
+  try {
+    await StatusBar.setStyle({ style: Style.Light });
+  } catch {
+    /* simulator / unsupported: ignore */
+  }
 
   // Re-hydrate the Supabase session from secure storage if the WebView dropped cookies.
   await rehydrateSession();

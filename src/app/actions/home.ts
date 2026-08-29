@@ -1,12 +1,11 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { createClient as createAnonClient } from "@supabase/supabase-js";
-import { unstable_cache } from "next/cache";
 import { getTodayDateKey, getDailyRng } from "@/lib/daily-seed";
 import { getAllGames } from "@/lib/data/games";
 import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
-import { generateDraftConfig } from "@/lib/game-logic/country-draft/generator";
+import { generateBlindPickConfig } from "@/lib/game-logic/blind-pick/generator";
+import { compactScore, getPublicBoards, type ProfileRow, type RunRow } from "@/server/boards";
 
 export interface BoardRow {
   userId: string;
@@ -50,63 +49,11 @@ export interface HomeData {
   draftCategories: string[];
 }
 
-type RunRow = { user_id: string; game_slug: string; score_display: string | null; score_raw: number | null; score_sort_value: number | string | null };
-type ProfileRow = { id: string; username: string; display_name: string | null; country_code: string | null; streak_current: number | null };
-
 const QUERY_TIMEOUT_MS = 6000;
-
-/** "Score: 635 (Gap: 424)" → "635". Boards want the number, the game-over screen keeps the sentence. */
-function compactScore(display: string | null | undefined, raw: unknown): string {
-  const d = (display ?? "").trim();
-  const m = d.match(/^Score:\s*([^\s(]+)/i);
-  if (m) return m[1];
-  if (d.length > 0 && d.length <= 10) return d;
-  return raw != null ? String(raw) : d;
-}
 
 function crestFor(countryCode: string | null | undefined): string | null {
   return getSilhouettePath(iso2ToIso3(countryCode));
 }
-
-/**
- * Today's daily runs plus the profiles behind them. Public data (RLS lets
- * anyone read daily runs), fetched with the anon key, cached for 30 s and
- * shared by every visitor. Every query carries a timeout, so one slow
- * round-trip degrades to "no shots yet" instead of stalling the page.
- */
-const getPublicBoards = unstable_cache(
-  async (dateKey: string, dailySlugs: string[]) => {
-    const anon = createAnonClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, { auth: { persistSession: false } });
-    let runs: RunRow[] = [];
-    let profiles: ProfileRow[] = [];
-    let edition = "";
-    try {
-      const [r, e] = await Promise.all([
-        anon
-          .from("game_runs")
-          .select("user_id, game_slug, score_display, score_raw, score_sort_value")
-          .eq("daily_date", dateKey)
-          .eq("mode", "daily")
-          .in("game_slug", dailySlugs)
-          .limit(5000)
-          .abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS)),
-        anon.from("app_config").select("value").eq("key", "daily_edition").abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS)).maybeSingle(),
-      ]);
-      runs = (r.data ?? []) as RunRow[];
-      edition = (e.data?.value as string | undefined) ?? "";
-      const ids = [...new Set(runs.map((x) => x.user_id))];
-      if (ids.length) {
-        const p = await anon.from("profiles").select("id, username, display_name, country_code, streak_current").in("id", ids).abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS));
-        profiles = (p.data ?? []) as ProfileRow[];
-      }
-    } catch (err) {
-      console.error("[home] public boards failed", err);
-    }
-    return { runs, profiles, edition };
-  },
-  ["home-public-boards"],
-  { revalidate: 30 },
-);
 
 /**
  * Everything the home page needs: the cached public boards, plus (signed in)
@@ -218,7 +165,7 @@ export async function getHomeData(): Promise<HomeData> {
   // Today's Country Draft categories are public (rules: stats are shown up front).
   let draftCategories: string[] = [];
   try {
-    const cfg = generateDraftConfig(getDailyRng(dateKey, edition), "daily", dateKey);
+    const cfg = generateBlindPickConfig(getDailyRng(dateKey, edition), "daily", dateKey);
     draftCategories = cfg.categories.map((c) => c.shortLabel || c.label);
   } catch {
     draftCategories = [];

@@ -1,1128 +1,1088 @@
 {
-  "generatedAt": "2026-08-02T00:06:26.996Z",
+  "generatedAt": "2026-08-29T07:33:51.130Z",
   "entries": {
     "category:arable-land-pct": {
-      "hash": "4438401a0629f670",
+      "hash": "bc83258b793cac4f",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:area-km2": {
-      "hash": "f8ed798bcfaefdfa",
+      "hash": "2b729f4326ed981d",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:beer-consumption-per-capita": {
-      "hash": "54e337484f0999a2",
+      "hash": "7c67e716acccbed1",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:coffee-consumption-per-capita": {
-      "hash": "32b385f74e38ff65",
+      "hash": "6f185ad33718bece",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:education-spending-pct": {
-      "hash": "8a2d949ad5961352",
+      "hash": "47518af8fd84ea91",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:fdi-inflow": {
-      "hash": "aa90beda62ff4fbb",
+      "hash": "0735c24364af7c73",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:fertility-rate": {
-      "hash": "36c2f5e70bba9b3e",
+      "hash": "23451f1931a8a002",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:forest-coverage-pct": {
-      "hash": "d4acdd61036ca839",
+      "hash": "0bf5c754691cbbae",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:gdp": {
-      "hash": "5669a61cb46b642f",
+      "hash": "8daadea76b4b6131",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:gdp-per-capita": {
-      "hash": "c043ce2b588c9532",
+      "hash": "f75e84bf83ed1092",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:health-spending-pct": {
-      "hash": "ff6e585c0d618b91",
+      "hash": "0b0695d493a10996",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:inflation-rate": {
-      "hash": "ac94a81f10caebd8",
+      "hash": "7bda037e53ff3858",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:internet-users-pct": {
-      "hash": "4cbc1df232024233",
+      "hash": "502110e8229a53a8",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:life-expectancy": {
-      "hash": "c7539443bc701f09",
+      "hash": "abd7119cead99e40",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:military-spending-pct": {
-      "hash": "ba7e12823b9ccf4e",
+      "hash": "c340cf207327c919",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:population": {
-      "hash": "7657c82fb4eb0794",
+      "hash": "fd6ba5e0c1fe4c3b",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:renewable-energy-pct": {
-      "hash": "ab0b68f06e23f6f3",
+      "hash": "8876844acd7500fe",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:tourism-arrivals": {
-      "hash": "421112c788da4441",
+      "hash": "8f04e01235366b0b",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:unemployment-rate": {
-      "hash": "e14ffcdb32eb9531",
+      "hash": "7c10a11908fc08e2",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:urban-population-pct": {
-      "hash": "c9cb0fe21bf0a13b",
+      "hash": "6f723ced7a4a702f",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:wine-consumption-per-capita": {
-      "hash": "ff41616644d523ba",
+      "hash": "cb3b0e1cacf8913e",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "country:afghanistan": {
-      "hash": "dea52a4422edb508",
+      "hash": "e7471f2090eb148d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:aland-islands": {
-      "hash": "afc2eb80cbbd70eb",
+      "hash": "cf3df39cba2452ed",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:albania": {
-      "hash": "79ba5fc4889d7606",
+      "hash": "296b5beba8cfb48e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:algeria": {
-      "hash": "6a29e29e0c21781e",
+      "hash": "75e377aa40e51ed2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:american-samoa": {
-      "hash": "7bde7818734df91f",
+      "hash": "6bbfdcf571c3c868",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:andorra": {
-      "hash": "8d5e9a83deaf8f8c",
+      "hash": "0255343a4275546f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:angola": {
-      "hash": "4dc32f0defd2f02d",
+      "hash": "915cf0930841eb75",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:anguilla": {
-      "hash": "5dde928f62300068",
+      "hash": "dd0d7514707901aa",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:antigua-and-barbuda": {
-      "hash": "6a42538149c14c65",
+      "hash": "177f0712b40a4e4f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:argentina": {
-      "hash": "01a8a78bf0616474",
+      "hash": "de2e39021673ad46",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:armenia": {
-      "hash": "026cfde82efc765e",
+      "hash": "3bd75353d4aad861",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:aruba": {
-      "hash": "54d796202df2356f",
+      "hash": "32fbd5b2ebf4e3dc",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:australia": {
-      "hash": "ca06f9a49fe2bbb4",
+      "hash": "58982b87d2b39105",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:austria": {
-      "hash": "0b10f7e8ee5cd74b",
+      "hash": "b2f15d5952ea164a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:azerbaijan": {
-      "hash": "4710873cbc22e019",
+      "hash": "328d76dfa897e2fb",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bahamas": {
-      "hash": "58bc54ab760543c7",
+      "hash": "b5b2bf190b22d5e5",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bahrain": {
-      "hash": "1459a7b9839df1fc",
+      "hash": "702ca55fc94198cc",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bangladesh": {
-      "hash": "54d41ead95d43fe9",
+      "hash": "6d86bdfb814bbc10",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:barbados": {
-      "hash": "ac028f0968785424",
+      "hash": "81672bb39a85d61f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:belarus": {
-      "hash": "23455a451abe7c55",
+      "hash": "51672562963d72aa",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:belgium": {
-      "hash": "8c0cf8da7389701d",
+      "hash": "1306e07d47041838",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:belize": {
-      "hash": "dc98fc4ac7c813cc",
+      "hash": "3768b226836a79bd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:benin": {
-      "hash": "0ce3e80dfde2a542",
+      "hash": "f317301c71eb7309",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bermuda": {
-      "hash": "15e950649e667698",
+      "hash": "c280ac8121ddf3d2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bhutan": {
-      "hash": "b44f64ebacc8971c",
+      "hash": "0280d3f3def9a3ac",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bolivia": {
-      "hash": "50a55a5eb9374ae6",
+      "hash": "195646be8ac8d716",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bosnia-and-herzegovina": {
-      "hash": "222054a9acace64b",
+      "hash": "8b9d30529cf4d67d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:botswana": {
-      "hash": "e087fd4b44def216",
+      "hash": "f2159a4553773a09",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:brazil": {
-      "hash": "9cc240ac7fb01672",
+      "hash": "1f51fc2528f1c682",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:british-virgin-islands": {
-      "hash": "8bc477c9f67d5a7b",
+      "hash": "38eb4fa71cd013d8",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:brunei": {
-      "hash": "d9929d322ec4b48e",
+      "hash": "edc281c3204f12b9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:bulgaria": {
-      "hash": "15d8f82be7976bd0",
+      "hash": "f12fce2256024ce6",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:burkina-faso": {
-      "hash": "be3ea8ca1e0b9418",
+      "hash": "ff9c10c92f3c7507",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:burundi": {
-      "hash": "c57bbffb3af0bcbc",
+      "hash": "67ccd9d2bc33dbae",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cambodia": {
-      "hash": "480d8f8de29c086c",
+      "hash": "728b620152d9c01b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cameroon": {
-      "hash": "669ba2d9fc815281",
+      "hash": "bd6154ab95d66f5e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:canada": {
-      "hash": "73126eb47b1892f8",
+      "hash": "3f95cd891ac08216",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cape-verde": {
-      "hash": "762f37d9f3d74682",
+      "hash": "a7a1b300011c5709",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:caribbean-netherlands": {
-      "hash": "fa8d43e8895b3a09",
+      "hash": "7242cbc02bd67316",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cayman-islands": {
-      "hash": "f05217399d9b2498",
+      "hash": "1750567ea1d57ef8",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:central-african-republic": {
-      "hash": "a5f470304874bc44",
+      "hash": "529c4599f14f40f0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:chad": {
-      "hash": "cc4a35953ceac8e6",
+      "hash": "7d45103d48708036",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:chile": {
-      "hash": "d1399b24666a6f96",
+      "hash": "3b08707c193ae16d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:china": {
-      "hash": "b8ed56dce00d1dc4",
+      "hash": "69d09a0555e565c9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:christmas-island": {
-      "hash": "69f99e4f1f233a47",
+      "hash": "d5b988e052115f6d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cocos-keeling-islands": {
-      "hash": "13bb3fcfe075a703",
+      "hash": "7298a7c81479ef8a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:colombia": {
-      "hash": "2415bbd1b415ca1e",
+      "hash": "91e15f738ecfa4f0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:comoros": {
-      "hash": "34ee4a05add9e4fb",
+      "hash": "7182e1d28355a015",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cook-islands": {
-      "hash": "5d821a419dfe5389",
+      "hash": "6d94b14ad2d79758",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:costa-rica": {
-      "hash": "2321aef62e81814e",
+      "hash": "ee81fcfeb8c16417",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:croatia": {
-      "hash": "d2456a7c4b85bc08",
+      "hash": "7e7472931f842215",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cuba": {
-      "hash": "c43dc565d84453ce",
+      "hash": "064f41b7e229c9ec",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:curacao": {
-      "hash": "63af5039e639f4a9",
+      "hash": "162f5c829ef2cf5b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:cyprus": {
-      "hash": "341b69a62003409c",
+      "hash": "49ead187991ef1f6",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:czechia": {
-      "hash": "00370a7dcdaef2fb",
+      "hash": "ff2844d7e7f43fb1",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:denmark": {
-      "hash": "c0b4cfd9087b3df8",
+      "hash": "599b7998194d7ce4",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:djibouti": {
-      "hash": "6a894b3239137ecd",
+      "hash": "799a9c41de1916f2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:dominica": {
-      "hash": "2c8bbe192bd111c4",
+      "hash": "723d18fdceb06b8f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:dominican-republic": {
-      "hash": "8bd12dbf8691324d",
+      "hash": "f6ce6225bd42d30d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:dr-congo": {
-      "hash": "6bb83ea26b67face",
+      "hash": "18157e0b45b3558e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ecuador": {
-      "hash": "b5e7c1b70f730a8a",
+      "hash": "816e5be214fdc1f7",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:egypt": {
-      "hash": "ce594668ea0b1015",
+      "hash": "83f8d6e51c008f1c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:el-salvador": {
-      "hash": "ffbf9c2d32aac19c",
+      "hash": "431870241dd2d2e5",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:equatorial-guinea": {
-      "hash": "0d2c976258db000a",
+      "hash": "ab28d7a9c3aca062",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:eritrea": {
-      "hash": "950002ecc302a6c2",
+      "hash": "d92fe6cb7e1791f2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:estonia": {
-      "hash": "24e14157e87101fb",
+      "hash": "ae0e1e20886d101a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:eswatini": {
-      "hash": "87a209afa38be6ab",
+      "hash": "588e27bd2ee52251",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ethiopia": {
-      "hash": "e727381fa8efce30",
+      "hash": "47ca3c68c4372c8e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:falkland-islands": {
-      "hash": "53001a981992dddd",
+      "hash": "25e25455b9c60b8b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:faroe-islands": {
-      "hash": "1320b48308989230",
+      "hash": "372c2ef97788a90e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:fiji": {
-      "hash": "121b20f0f09a9f58",
+      "hash": "53c6d8e5ea4f805f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:finland": {
-      "hash": "001285ab3d16a3ae",
+      "hash": "e1740cfd84d951b9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:france": {
-      "hash": "6b62b7de02af78d2",
+      "hash": "9295332db8cb8a75",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:french-guiana": {
-      "hash": "615fac4b94957d5d",
+      "hash": "efc15d8d777afed6",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:french-polynesia": {
-      "hash": "260c774cadbb587b",
+      "hash": "7ed84777c9316ca3",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:gabon": {
-      "hash": "b254e699082e4e97",
+      "hash": "1cb24fab869e76d9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:gambia": {
-      "hash": "2148454a78f88491",
+      "hash": "78754119fef7c3e8",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:georgia": {
-      "hash": "bd86e4a59ef7dc61",
+      "hash": "5dd9bce7a0b622b2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:germany": {
-      "hash": "eddc6b748b1d0703",
+      "hash": "a77b9e2842cf1e46",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ghana": {
-      "hash": "518e29d4d3b3866c",
+      "hash": "d11a3a25014f53e7",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:gibraltar": {
-      "hash": "cc7f556acbd8ac17",
+      "hash": "db4789eb2f4d4a7b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:greece": {
-      "hash": "4bc40cd650321994",
+      "hash": "6495c3d6d8f3a857",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:greenland": {
-      "hash": "fdc260cbad1c0f97",
+      "hash": "73ffb90445bccc4e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:grenada": {
-      "hash": "71800a550cd27731",
+      "hash": "86eed88e4eb73656",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guadeloupe": {
-      "hash": "be1f88459f998a0a",
+      "hash": "5b2f775ba5884472",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guam": {
-      "hash": "7213cd583e64dbf9",
+      "hash": "8053f3c53569a404",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guatemala": {
-      "hash": "79397d4d08c59377",
+      "hash": "aeb6258b1039a006",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guernsey": {
-      "hash": "18431c5bcded970c",
+      "hash": "69812551877e3ab5",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guinea": {
-      "hash": "238e057274efe69a",
+      "hash": "f31ca996606fbddd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guinea-bissau": {
-      "hash": "c662c4c19683aa0d",
+      "hash": "ad38e387339ce8c0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:guyana": {
-      "hash": "7b0c5c14773912b8",
+      "hash": "a29af6c03e76f402",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:haiti": {
-      "hash": "3e23a364e4d034e7",
+      "hash": "37872155d9286f01",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:honduras": {
-      "hash": "ad560a2d3b05e8a6",
+      "hash": "7bfdf255b5201d04",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:hong-kong": {
-      "hash": "7e43584dc0c0c991",
+      "hash": "de2c4a7649fce54a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:hungary": {
-      "hash": "f032cd1f0ce22570",
+      "hash": "19b077f3f6ffdb54",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:iceland": {
-      "hash": "7fead0453069dd02",
+      "hash": "04a408dd8fa97e44",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:india": {
-      "hash": "aba3404d35f05b12",
+      "hash": "86042c4cc07a72e2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:indonesia": {
-      "hash": "c4a56f55f9baeff3",
+      "hash": "54545540be31e22d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:iran": {
-      "hash": "2ed7820f2770cfa2",
+      "hash": "e5f6710e3d78f738",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:iraq": {
-      "hash": "c65fd74cc8736d7f",
+      "hash": "a60681b297604433",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ireland": {
-      "hash": "77f343059bee564f",
+      "hash": "4102aa9558072c98",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:isle-of-man": {
-      "hash": "14ee504524f505a1",
+      "hash": "d2eec3c6efa03608",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:israel": {
-      "hash": "c31f8827650df07e",
+      "hash": "de5ac61108e00897",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:italy": {
-      "hash": "fe190fffcbb960dd",
+      "hash": "154a867db93874b2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ivory-coast": {
-      "hash": "ddc8c5f1707600c0",
+      "hash": "51c4d9f4e3b4c33a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:jamaica": {
-      "hash": "be6c86bbc56155eb",
+      "hash": "c81eaa2b4d7f2799",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:japan": {
-      "hash": "60a25b96b5b89f03",
+      "hash": "f08500ab46dae2c0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:jersey": {
-      "hash": "8a8d68b04ee4ea50",
+      "hash": "4a0e5c8be91488cd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:jordan": {
-      "hash": "80096ad986475154",
+      "hash": "241cbc264e94b022",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kazakhstan": {
-      "hash": "1059f9b1bd2dbf40",
+      "hash": "2792e53bed33a5f0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kenya": {
-      "hash": "db24114165c3e404",
+      "hash": "d53d694cfe9fde58",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kiribati": {
-      "hash": "3cf04fc9abfcad6b",
+      "hash": "c3597cb9d7530541",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kosovo": {
-      "hash": "0f64c4b2da6e5288",
+      "hash": "ec3f5b3713aba131",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kuwait": {
-      "hash": "8cb8f86e38138924",
+      "hash": "bb22215db30b4d42",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:kyrgyzstan": {
-      "hash": "976bdbc3ceca5f5f",
+      "hash": "cfd4ee5d9ec3dd28",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:laos": {
-      "hash": "95b6d0186a888366",
+      "hash": "116091bbb49d3d3f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:latvia": {
-      "hash": "694d3a07d7240aa3",
+      "hash": "13a2593f769d4b6f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:lebanon": {
-      "hash": "f93c4b3946adb3fd",
+      "hash": "c737bf9d9c951092",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:lesotho": {
-      "hash": "069dc1a9e37e77c6",
+      "hash": "9d557020b3a0ba12",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:liberia": {
-      "hash": "0b3d22d1e8aac0b9",
+      "hash": "7c859b4b10429654",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:libya": {
-      "hash": "f137f0b8b3fbff94",
+      "hash": "48f388b511cd92e1",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:liechtenstein": {
-      "hash": "1d5f4e74e373fa6d",
+      "hash": "672542c6915e980c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:lithuania": {
-      "hash": "9194fde1a290d2b2",
+      "hash": "32966f423db91505",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:luxembourg": {
-      "hash": "2ac3e9adc6330881",
+      "hash": "1d0e080cba02ad61",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:macau": {
-      "hash": "9fd27f05466930fb",
+      "hash": "02c87355dbcde93d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:madagascar": {
-      "hash": "e73851a5b7dbb645",
+      "hash": "fb1ef8cb36f9d0a9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:malawi": {
-      "hash": "74a71c7596827b56",
+      "hash": "be0946c6e1f4bc6c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:malaysia": {
-      "hash": "5dd8f58ace4538f7",
+      "hash": "3dc40256288b06dd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:maldives": {
-      "hash": "61d94cec00ccafde",
+      "hash": "8fd289ae3f970e28",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mali": {
-      "hash": "dada779c6dcd2152",
+      "hash": "65c680a9eb7baafb",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:malta": {
-      "hash": "f6d0969e4c8d2323",
+      "hash": "0025295f84a6fe6b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:marshall-islands": {
-      "hash": "ab25d3bae7e28f8e",
+      "hash": "2892e1b25eb82af9",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:martinique": {
-      "hash": "fd9bf461d92cb464",
+      "hash": "8c6a111301d01523",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mauritania": {
-      "hash": "71a76d051d7fa569",
+      "hash": "f6bc63d82e4d3ffd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mauritius": {
-      "hash": "4daf66e2086fd4a2",
+      "hash": "3bc592ef014bdf06",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mayotte": {
-      "hash": "be7392cbdfb1ca1a",
+      "hash": "46dbd8f9acf5b7a6",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mexico": {
-      "hash": "622bc3877f54ffba",
+      "hash": "b884e99444fdcf55",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:micronesia": {
-      "hash": "21f3152832820b91",
+      "hash": "df2ada2bcce4577b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:moldova": {
-      "hash": "045f28c47a0e0b1a",
+      "hash": "0c1d41846f835452",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:monaco": {
-      "hash": "e1eb91e95ed396ba",
+      "hash": "c0776251df19a964",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mongolia": {
-      "hash": "6a853255924e9ac8",
+      "hash": "fad0462aee49cba3",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:montenegro": {
-      "hash": "b13afe2d2e7e5062",
+      "hash": "89e7fb685ef4533b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:montserrat": {
-      "hash": "eb794ae1004d7c2d",
+      "hash": "577e365e0b6925ef",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:morocco": {
-      "hash": "0f8394afcf86816d",
+      "hash": "22afb14c75628c19",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:mozambique": {
-      "hash": "ecd054796e116646",
+      "hash": "30ceacf4df3d13c0",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:myanmar": {
-      "hash": "81b818d0d28f3a5b",
+      "hash": "6d3c59c969956d6e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:namibia": {
-      "hash": "9b22d812960ae048",
+      "hash": "b8ae4c29e7e1b91b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:nauru": {
-      "hash": "9d3f2947edf4fc5f",
+      "hash": "276842ffa881f417",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:nepal": {
-      "hash": "609bd8de5242d3e0",
+      "hash": "14f47d83cd97357c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:netherlands": {
-      "hash": "975c4b58b5a96222",
+      "hash": "990b891c5f0f3d3a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:new-caledonia": {
-      "hash": "b4f5036ce3c53187",
+      "hash": "1569f4d3eb9b91b4",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:new-zealand": {
-      "hash": "abef294d1e1da886",
+      "hash": "36adda98d14038bf",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:nicaragua": {
-      "hash": "7213f6aa8e82aa59",
+      "hash": "e351e34f81f1c484",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:niger": {
-      "hash": "b6940f21f9d16978",
+      "hash": "bcbc75c88871e957",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:nigeria": {
-      "hash": "f6e5ae57ad7d0b11",
+      "hash": "a43c0d97ec256c64",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:niue": {
-      "hash": "5bd6dfa4c679cb3b",
+      "hash": "9b17aab0f1a101ed",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:norfolk-island": {
-      "hash": "29ff5a8624e8bd86",
+      "hash": "34fe9058e9e51ace",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:north-korea": {
-      "hash": "d514aaafd1e8307c",
+      "hash": "a7c86e4655a2940e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:north-macedonia": {
-      "hash": "27e03a02e4a0a63d",
+      "hash": "3a46588521a7e45d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:northern-mariana-islands": {
-      "hash": "a88a14cdb5515277",
+      "hash": "980403da06713e66",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:norway": {
-      "hash": "f1b445088bea027d",
+      "hash": "d35ebf4ec25f5511",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:oman": {
-      "hash": "0fefac446c8d1973",
+      "hash": "050aca36016d5dcc",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:pakistan": {
-      "hash": "3df050bad0934014",
+      "hash": "45652062c9510c66",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:palau": {
-      "hash": "985472639b6e4db3",
+      "hash": "aa8f95678b27c8f4",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:palestine": {
-      "hash": "c57910a8ffb1a8d5",
+      "hash": "33c77d1c52647e76",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:panama": {
-      "hash": "0748968ccd55032b",
+      "hash": "8e593ca5189feebb",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:papua-new-guinea": {
-      "hash": "f834c8df0d1e62e3",
+      "hash": "2debac79528f213b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:paraguay": {
-      "hash": "77cd846e558f86a3",
+      "hash": "b16adbc74f1c9627",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:peru": {
-      "hash": "c9d980403e2d3e58",
+      "hash": "42970b87d1228760",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:philippines": {
-      "hash": "f4cdeea84dcda887",
+      "hash": "74583b6d5f38ffe4",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:pitcairn-islands": {
-      "hash": "df234d24f9f17c6b",
+      "hash": "37c688d3fc6e129f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:poland": {
-      "hash": "5482f1380e2f76d1",
+      "hash": "0757e5c84e5b9d22",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:portugal": {
-      "hash": "daaee33a7d538168",
+      "hash": "2a836dd4b3280482",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:puerto-rico": {
-      "hash": "2f4e22515578654d",
+      "hash": "5de5238eefb196e1",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:qatar": {
-      "hash": "0863c4f1e9687f03",
+      "hash": "04501aaae379cf39",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:republic-of-the-congo": {
-      "hash": "68d6bdbdacf02b2b",
+      "hash": "2481c6285a5eaa5e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:reunion": {
-      "hash": "a2521b2e941f3eb1",
+      "hash": "47282afaa74068a2",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:romania": {
-      "hash": "6d2860c85b0aff32",
+      "hash": "46d8d9d644e3b320",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:russia": {
-      "hash": "5f1e396592796591",
+      "hash": "0e5b05796560a578",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:rwanda": {
-      "hash": "05c3d9e04e5db2dd",
+      "hash": "a1b1af1ed9851001",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-barthelemy": {
-      "hash": "feb50aaab4e065ac",
+      "hash": "b37403b6c0340c71",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-helena-ascension-and-tristan-da-cunha": {
-      "hash": "52fdd94c96aaf5fc",
+      "hash": "c59974779769860a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-kitts-and-nevis": {
-      "hash": "5710d220aadf1063",
+      "hash": "71f6d90ab8f777f7",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-lucia": {
-      "hash": "100afa113a94fee5",
+      "hash": "33a9608c5785281f",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-martin": {
-      "hash": "9783a81563a36c5b",
+      "hash": "3e5172a5d705d89c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-pierre-and-miquelon": {
-      "hash": "7d150c574ed86104",
+      "hash": "4918dd6d34a11991",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saint-vincent-and-the-grenadines": {
-      "hash": "806c3d5cb860ba54",
+      "hash": "2f831d23662e5d3d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:samoa": {
-      "hash": "fd92fe997b08911f",
+      "hash": "fbbf38cfe6bbe58d",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:san-marino": {
-      "hash": "28d125e1490e4982",
+      "hash": "ae049af9460d1064",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sao-tome-and-principe": {
-      "hash": "43d7b9b90548f4eb",
+      "hash": "1ebd56dde62cbe41",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:saudi-arabia": {
-      "hash": "cb798b8c4e81dfb3",
+      "hash": "b72d64d54f6bd20e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:senegal": {
-      "hash": "551315617d8ef7f7",
+      "hash": "7eae1a7f8ad73718",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:serbia": {
-      "hash": "ffb3468c259a6c69",
+      "hash": "aaf3c45466afef94",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:seychelles": {
-      "hash": "c52af19ad74d418c",
+      "hash": "0bf174c830eba293",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sierra-leone": {
-      "hash": "a5391883767b7c41",
+      "hash": "b6b194faa6b389ab",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:singapore": {
-      "hash": "19f29c0bea4390d2",
+      "hash": "d80ee707f03b96ec",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sint-maarten": {
-      "hash": "6bc373715c5ffe41",
+      "hash": "85d6628e5d3be57a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:slovakia": {
-      "hash": "d4b7d7bcc6a9c84a",
+      "hash": "8ad21c007487770e",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:slovenia": {
-      "hash": "156d3c026ae6de0b",
+      "hash": "7f856a400e9189e3",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:solomon-islands": {
-      "hash": "de348c310ff71bb8",
+      "hash": "f594a4618ac1354c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:somalia": {
-      "hash": "66406b6f435334b7",
+      "hash": "58c5fa15f4f0d8c6",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:south-africa": {
-      "hash": "2b85731f19213fda",
+      "hash": "24800eb2f4cd3cb7",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:south-korea": {
-      "hash": "a950fa79e977d44f",
+      "hash": "6f73c57958ecef17",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:south-sudan": {
-      "hash": "6fec4d2ee7cbbe5d",
+      "hash": "dc303a1db4b6a158",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:spain": {
-      "hash": "93e66396b0e1977d",
+      "hash": "85e5a1fcb083aa62",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sri-lanka": {
-      "hash": "40abee6347719383",
+      "hash": "857231b4971724f1",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sudan": {
-      "hash": "9786fd6d680d12ed",
+      "hash": "a4577f8ad6a1e83a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:suriname": {
-      "hash": "adf32f343356bc49",
+      "hash": "64eaaf775c67fe94",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:svalbard-and-jan-mayen": {
-      "hash": "d083b1a093d13a23",
+      "hash": "bba1ede31d8d28b8",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:sweden": {
-      "hash": "36ae68d7c8acf653",
+      "hash": "1deae52bab771bde",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:switzerland": {
-      "hash": "f129c5cee18d9cef",
+      "hash": "5938cf844a34f252",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:syria": {
-      "hash": "cef8c52e24370a8c",
+      "hash": "290445b3c8a844e7",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:taiwan": {
-      "hash": "7eca04e630054cdb",
+      "hash": "2f891c6b5fa1bd7c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tajikistan": {
-      "hash": "0a989470f97335fe",
+      "hash": "94f21e149f7c1e45",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tanzania": {
-      "hash": "ed2ef2779e90f2a8",
+      "hash": "c4b205f6b7a0da37",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:thailand": {
-      "hash": "c868596dfb1ce1df",
+      "hash": "53b705a4fd6bedc8",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:timor-leste": {
-      "hash": "4a123204978e4a72",
+      "hash": "7461745dced06961",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:togo": {
-      "hash": "0d0a1e388fcbeca2",
+      "hash": "f48ce9d23c2bd743",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tokelau": {
-      "hash": "be84645d53758384",
+      "hash": "f6afff4f5e8c0069",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tonga": {
-      "hash": "2a92aed230a1ccd7",
+      "hash": "89c7d1210dc6288b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:trinidad-and-tobago": {
-      "hash": "6065aab4fd88e804",
+      "hash": "e54400c189983329",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tunisia": {
-      "hash": "f6139220fed796f3",
+      "hash": "ca6c901eecf7a6e4",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:turkey": {
-      "hash": "27737948ee897eee",
+      "hash": "15487ae81cdd4fed",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:turkmenistan": {
-      "hash": "621ec17cbc5b3e22",
+      "hash": "ae0f494ee05a3602",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:turks-and-caicos-islands": {
-      "hash": "17fd406b080ae0ac",
+      "hash": "80244f1d0e0fbb80",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:tuvalu": {
-      "hash": "00e383cbfaee9189",
+      "hash": "2e5ca33a0ec4b422",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:uganda": {
-      "hash": "cd611bede0724f51",
+      "hash": "5b3ed49a7f610756",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:ukraine": {
-      "hash": "47f44a4a3f1e2de6",
+      "hash": "300c2797e97a15dc",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:united-arab-emirates": {
-      "hash": "7ec8a7a6f450bc12",
+      "hash": "a87e4a60f2a9c9b5",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:united-kingdom": {
-      "hash": "6d400330f4b9e115",
+      "hash": "5433e64816a23387",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:united-states": {
-      "hash": "00a985d8150dbde7",
+      "hash": "369e9905f0da04c1",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:united-states-virgin-islands": {
-      "hash": "cc32f0929f9c2e9a",
+      "hash": "687253ae7e46dfcd",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:uruguay": {
-      "hash": "c97eef65c840adc3",
+      "hash": "a588bb774b3f754a",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:uzbekistan": {
-      "hash": "f065a8f65755e037",
+      "hash": "ea27d80eab874e9c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:vanuatu": {
-      "hash": "0bfbc47823a44a71",
+      "hash": "423692019ac616fc",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:vatican-city": {
-      "hash": "f0b00096a1f0c668",
+      "hash": "1e436ff3df10904c",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:venezuela": {
-      "hash": "810c412fdc3b9cb6",
+      "hash": "9e6b47702bddaf71",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:vietnam": {
-      "hash": "9874c4e625d11a96",
+      "hash": "07694565f837a76b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:wallis-and-futuna": {
-      "hash": "5242c8bfb181df56",
+      "hash": "8633dc003e04921b",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:western-sahara": {
-      "hash": "461aff1f9c956ccd",
+      "hash": "56ed6cf6e0157761",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:yemen": {
-      "hash": "07c37cc1ef6e9814",
+      "hash": "261d2afa06fd5686",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:zambia": {
-      "hash": "0c8895a38b1ebd7f",
+      "hash": "c45e750649dd85fa",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "country:zimbabwe": {
-      "hash": "d014778fc7ae954e",
+      "hash": "6386081ae9dd5884",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
-    "game:blitz": {
-      "hash": "5930aa5b4713bfaa",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:border-buddies": {
-      "hash": "99650bd6a13d980b",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:borderline": {
-      "hash": "5ba7647091758f28",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:capital-match": {
-      "hash": "abad17d63cccdca4",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:cluster": {
-      "hash": "ceac7b8ce7b4d967",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:continent-sprint": {
-      "hash": "83356187d4f02234",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+    "game:blind-pick": {
+      "hash": "c65b2a5a6cf833b2",
+      "lastModified": "2026-08-28T22:57:44.000Z"
     },
     "game:country-draft": {
-      "hash": "c9e42ef8b5e9a3f3",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:country-streak": {
-      "hash": "beb26c7a01c56322",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "1a1ea015611142a8",
+      "lastModified": "2026-08-29T07:33:51.130Z"
     },
     "game:flag-quiz": {
-      "hash": "abdd1132e027797c",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "7e6303f7cbaf51c0",
+      "lastModified": "2026-08-29T05:27:22.344Z"
     },
     "game:geo-wordle": {
-      "hash": "5a5c81a1da178889",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "1c3999c7780142a7",
+      "lastModified": "2026-08-29T05:27:22.344Z"
     },
     "game:higher-or-lower": {
-      "hash": "8f7401ba3a5f23b9",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:odd-one-out": {
-      "hash": "58890d83f20db57b",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:population-sort": {
-      "hash": "bd59193b6040e14d",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:risk-zone": {
-      "hash": "3416b59f713a0f65",
+      "hash": "500d0689ef13d429",
       "lastModified": "2026-05-31T14:48:03.000Z"
     },
     "game:speed-flags": {
-      "hash": "9612f6bd0c5b741a",
+      "hash": "83999109aeb303ac",
       "lastModified": "2026-05-31T14:48:03.000Z"
     },
     "game:stat-guesser": {
-      "hash": "a1a1135668ee5b82",
-      "lastModified": "2026-05-31T14:48:03.000Z"
-    },
-    "game:supremacy": {
-      "hash": "8ee709203ef10779",
+      "hash": "24bd0221a23d7773",
       "lastModified": "2026-05-31T14:48:03.000Z"
     },
     "list:biggest-military-spenders": {

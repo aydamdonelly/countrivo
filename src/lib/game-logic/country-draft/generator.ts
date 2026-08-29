@@ -1,106 +1,111 @@
-import { countries, categories } from "@/lib/data/loader";
-import ranksData from "@/data/ranks.json";
-import { seededPick, seededShuffle } from "@/lib/seeded-random";
-import { solveAssignment } from "@/lib/assignment-solver";
-import type { DraftGameConfig } from "./types";
-import type { Country } from "@/types/country";
-import type { Category } from "@/types/category";
+/*
+ * The board generator. Pure and seeded: the same seed produces the same five rounds, the
+ * same fifteen people and the same ceiling on the server, in the browser and in the
+ * validator. It consumes the RNG in the order written below, and nothing here may be
+ * reordered without bumping POOL_VERSION.
+ */
+import { seededShuffle } from "@/lib/seeded-random";
+import { POOL, type PoolCountry } from "./roster";
+import { bestLine, greedyLine } from "./scoring";
+import { GEN_ATTEMPTS, MAX_CEILING, MIN_CEILING, MIN_GREEDY_GAP, ROUNDS } from "./tables";
+import type { DraftBoard, DraftFigure, DraftRound } from "./types";
 
-const ranks: Record<string, Record<string, number>> = ranksData;
+/** The five archetypes that are the natural fit of a seat. */
+const NATURAL_ARCHETYPES = [0, 1, 2, 3, 4];
+/** A board must be able to fill at least this many seats naturally, somewhere. */
+const MIN_NATURALS_OFFERED = 4;
 
-const GAME_SIZE = 8;
-
-// Categories that work well for the game (high coverage, interesting variance)
-const PREFERRED_CATEGORIES = [
-  "population", "area-km2", "gdp-per-capita", "gdp", "life-expectancy",
-  "urban-population-pct", "internet-users-pct",
-  "fertility-rate", "tourism-arrivals", "forest-coverage-pct",
-  "unemployment-rate", "renewable-energy-pct",
-  "beer-consumption-per-capita", "coffee-consumption-per-capita",
-  "wine-consumption-per-capita", "inflation-rate", "arable-land-pct",
-  "education-spending-pct", "health-spending-pct", "fdi-inflow",
-];
-
-function getEligibleCategories(): Category[] {
-  return categories.filter((c) => PREFERRED_CATEGORIES.includes(c.slug));
+/** The index triples of a country's archetype groups, in a fixed order. */
+function tripleIndexes(n: number): number[][] {
+  const out: number[][] = [];
+  for (let a = 0; a < n; a += 1)
+    for (let b = a + 1; b < n; b += 1)
+      for (let c = b + 1; c < n; c += 1) out.push([a, b, c]);
+  return out;
 }
 
-function getEligibleCountries(selectedCategories: Category[]): Country[] {
-  // Only include countries that have rank data for ALL selected categories
-  return countries.filter((country) => {
-    const countryRanks = ranks[country.iso3];
-    if (!countryRanks) return false;
-    return selectedCategories.every((cat) => countryRanks[cat.slug] !== undefined);
-  });
-}
-
-function hasEnoughContinentDiversity(selected: Country[]): boolean {
-  const continents = new Set(selected.map((c) => c.continent));
-  return continents.size >= 3;
-}
-
-export function generateDraftConfig(
-  rng: () => number,
-  mode: "daily" | "practice",
-  dateKey: string
-): DraftGameConfig {
-  // 1. Pick 8 categories
-  const eligibleCats = getEligibleCategories();
-  const selectedCategories = seededPick(eligibleCats, GAME_SIZE, rng);
-
-  // 2. Find countries with data for all selected categories
-  const eligible = getEligibleCountries(selectedCategories);
-
-  // 3. Pick 8 countries with continent diversity
-  let selectedCountries: Country[] = [];
-  const maxAttempts = 50;
-
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const candidates = seededPick(eligible, GAME_SIZE, rng);
-    if (hasEnoughContinentDiversity(candidates)) {
-      selectedCountries = candidates;
-      break;
+/**
+ * One round: three people from one country, three different archetypes, and never three
+ * identical standings (that would make the pick a coin toss). Returns null only if the
+ * country cannot manage it, which build-draft-pool.mjs already rules out.
+ */
+function drawRound(country: PoolCountry, rng: () => number): DraftRound | null {
+  for (const triple of seededShuffle(tripleIndexes(country.groups.length), rng)) {
+    const pool: DraftFigure[] = triple.map((g) => {
+      const people = country.groups[g].people;
+      return people[Math.floor(rng() * people.length)];
+    });
+    if (new Set(pool.map((p) => p.standing)).size > 1) {
+      return { iso3: country.iso3, iso2: country.iso2, name: country.name, region: country.region, pool };
     }
   }
+  return null;
+}
 
-  // Fallback: just take what we get if diversity isn't achievable
-  if (selectedCountries.length === 0) {
-    selectedCountries = seededPick(eligible, GAME_SIZE, rng);
-  }
+interface Attempt {
+  rounds: DraftRound[];
+  ceiling: number;
+  best: DraftBoard["best"];
+  quality: number;
+}
 
-  // 4. Build cost matrix
-  const costMatrix: number[][] = [];
-  for (const country of selectedCountries) {
-    const row: number[] = [];
-    for (const cat of selectedCategories) {
-      row.push(ranks[country.iso3][cat.slug] || 999);
-    }
-    costMatrix.push(row);
-  }
-
-  // 5. Compute optimal assignment (only needed to validate matrix; reordered below)
-  solveAssignment(costMatrix);
-
-  // 6. Shuffle reveal order
-  const revealOrder = seededShuffle(
-    selectedCountries.map((_, i) => i),
-    rng
+/**
+ * How good an attempt is, as one integer, so the generator's choice is total and
+ * deterministic. The flags are ordered by how much the board would suffer without them:
+ * a cabinet drawn from one continent is the worst outcome, a par that is out of the usual
+ * band is the mildest.
+ */
+function qualityOf(spread: boolean, naturals: boolean, underMax: boolean, overMin: boolean, gap: number, ceiling: number): number {
+  return (
+    (spread ? 1 : 0) * 1_000_000 +
+    (naturals ? 1 : 0) * 500_000 +
+    (underMax ? 1 : 0) * 200_000 +
+    (overMin ? 1 : 0) * 100_000 +
+    Math.min(gap, MIN_GREEDY_GAP) * 1_000 +
+    ceiling
   );
+}
 
-  const reorderedCountries = revealOrder.map((i) => selectedCountries[i]);
-  const reorderedCostMatrix = revealOrder.map((i) => costMatrix[i]);
+/**
+ * Five countries, five categories of decision, one par. The loop keeps the best attempt it
+ * has seen rather than the last, so an early good board is never thrown away, and stops as
+ * soon as an attempt clears every condition (94 % of boards inside a handful of tries).
+ */
+export function createBoard(rng: () => number): DraftBoard {
+  let best: Attempt | null = null;
 
-  // Recompute optimal for reordered matrix to keep assignment indices correct
-  const { optimalScore: reoptimalScore, assignment: reoptimalAssignment } =
-    solveAssignment(reorderedCostMatrix);
+  for (let attempt = 0; attempt < GEN_ATTEMPTS; attempt += 1) {
+    const rounds: DraftRound[] = [];
+    for (const country of seededShuffle([...POOL], rng)) {
+      if (rounds.length === ROUNDS) break;
+      const round = drawRound(country, rng);
+      if (round) rounds.push(round);
+    }
+    if (rounds.length < ROUNDS) continue;
 
-  return {
-    countries: reorderedCountries,
-    categories: selectedCategories,
-    costMatrix: reorderedCostMatrix,
-    optimalScore: reoptimalScore,
-    optimalAssignment: reoptimalAssignment,
-    mode,
-    dateKey,
-  };
+    const line = bestLine(rounds);
+    const ceiling = line.score;
+    const offered = new Set(rounds.flatMap((r) => r.pool.map((p) => p.archetype)));
+    const spread = new Set(rounds.map((r) => continentOf(r.iso3))).size >= 3;
+    const naturals = NATURAL_ARCHETYPES.filter((a) => offered.has(a)).length >= MIN_NATURALS_OFFERED;
+    const underMax = ceiling <= MAX_CEILING;
+    const overMin = ceiling >= MIN_CEILING;
+    const gap = ceiling - greedyLine(rounds).score;
+    const quality = qualityOf(spread, naturals, underMax, overMin, gap, ceiling);
+
+    if (!best || quality > best.quality) best = { rounds, ceiling, best: line.picks, quality };
+    if (spread && naturals && underMax && overMin && gap >= MIN_GREEDY_GAP) break;
+  }
+
+  // POOL holds 51 countries, every one of which can field a round, so the first attempt
+  // always produces five: `best` is never null. The throw is a contract, not a branch a
+  // player can reach.
+  if (!best) throw new Error("country-draft: the roster produced no board");
+  return { rounds: best.rounds, ceiling: best.ceiling, best: best.best };
+}
+
+const CONTINENT_OF = new Map(POOL.map((c) => [c.iso3, c.continent]));
+
+function continentOf(iso3: string): number {
+  return CONTINENT_OF.get(iso3) ?? -1;
 }

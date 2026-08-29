@@ -1,0 +1,96 @@
+import type { User } from "@supabase/supabase-js";
+import type { Profile } from "@/types/server";
+
+/** The two modes. There is no third. */
+export type Mode = "daily" | "practice";
+
+/** The seven registry slugs (six games plus Speed Flags, the practice-only drill). */
+export type GameSlug =
+  | "country-draft"
+  | "blind-pick"
+  | "higher-or-lower"
+  | "geo-wordle"
+  | "stat-guesser"
+  | "flag-quiz"
+  | "speed-flags";
+
+export const GAME_SLUGS: readonly GameSlug[] = [
+  "country-draft",
+  "blind-pick",
+  "higher-or-lower",
+  "geo-wordle",
+  "stat-guesser",
+  "flag-quiz",
+  "speed-flags",
+];
+
+export function isGameSlug(s: string): s is GameSlug {
+  return (GAME_SLUGS as readonly string[]).includes(s);
+}
+
+/**
+ * Who is looking (blueprint 9.1 step 2). Resolved once per request on the server
+ * from the Supabase session and one `profiles` select; guests get signedIn false,
+ * name null, crest null, streak null. `crest` is the silhouette path of the chosen
+ * country, or null for the seed crest. Client components receive the resolved
+ * fields; they never load silhouettes themselves.
+ */
+export interface Viewer {
+  signedIn: boolean;
+  user: User | null;
+  profile: Profile | null;
+  /** Display name, falling back to the username. */
+  name: string | null;
+  crest: string | null;
+  /** profiles.streak_current; null for guests. */
+  streak: number | null;
+}
+
+export const GUEST_VIEWER: Viewer = { signedIn: false, user: null, profile: null, name: null, crest: null, streak: null };
+
+/** The server clock (blueprint 9.1 step 4): one snapshot per request. */
+export interface Clock {
+  /** Date.now() on the server. */
+  now: number;
+  /** Today's YYYY-MM-DD in Europe/Berlin. */
+  dateKey: string;
+  /** Epoch ms of the next Europe/Berlin midnight. */
+  resetAt: number;
+}
+
+/** A token colour name (never a hex). Components map it to var(--color-*). */
+export type Tone =
+  | "ink"
+  | "ink-2"
+  | "paper"
+  | "card"
+  | "line"
+  | "bar"
+  | "wait"
+  | "faint"
+  | "mute"
+  | "down"
+  | "ember"
+  | "on-ink"
+  | "on-ink-body"
+  | "on-ink-kicker"
+  | "on-ink-chip";
+
+export function toneVar(tone: Tone): string {
+  return `var(--color-${tone})`;
+}
+
+/** The two tabs of the one board. */
+export type BoardTab = "global" | "friends";
+
+/**
+ * The DOM event a primitive fires when it needs the auth sheet (the "Sign in" link
+ * in the friends pane, the join row's "sign in" line). The auth provider (P1)
+ * listens for it and calls `openAuthModal()`; primitives never import the provider.
+ */
+export const AUTH_EVENT = "cv:auth";
+
+export function requestAuth(reason?: string): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(AUTH_EVENT, { detail: { reason } }));
+}

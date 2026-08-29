@@ -1,0 +1,6717 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "leaders",
+      "label": "Leaders",
+      "note": "heads of state, government and national movements"
+    },
+    {
+      "id": "commanders",
+      "label": "Commanders",
+      "note": "military commanders of the past"
+    },
+    {
+      "id": "autocrats",
+      "label": "Rulers by Force",
+      "note": "historical autocrats, all long dead"
+    },
+    {
+      "id": "founders",
+      "label": "Founders and Financiers",
+      "note": "company builders, bankers, philanthropists"
+    },
+    {
+      "id": "scientists",
+      "label": "Scientists and Explorers",
+      "note": "researchers, inventors, navigators"
+    },
+    {
+      "id": "writers",
+      "label": "Writers and Poets",
+      "note": "novelists, playwrights and poets"
+    },
+    {
+      "id": "musicians",
+      "label": "Musicians",
+      "note": "composers, singers and players"
+    },
+    {
+      "id": "screen",
+      "label": "Screen and Stage",
+      "note": "actors and directors"
+    },
+    {
+      "id": "comedians",
+      "label": "Comedians",
+      "note": "stand-ups, clowns and sketch performers"
+    },
+    {
+      "id": "athletes",
+      "label": "Athletes",
+      "note": "competitors in sport"
+    },
+    {
+      "id": "broadcasters",
+      "label": "Broadcasters",
+      "note": "hosts, anchors and reporters"
+    },
+    {
+      "id": "outlaws",
+      "label": "Outlaws",
+      "note": "historical bandits and pirates, all long dead"
+    }
+  ],
+  "figures": [
+    {
+      "name": "George Washington",
+      "iso3": "USA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of the United States"
+    },
+    {
+      "name": "Abraham Lincoln",
+      "iso3": "USA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "16th president, led the Union in the Civil War"
+    },
+    {
+      "name": "Franklin D. Roosevelt",
+      "iso3": "USA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "four-term president through depression and war"
+    },
+    {
+      "name": "Barack Obama",
+      "iso3": "USA",
+      "category": "leaders",
+      "era": "modern",
+      "note": "44th president of the United States"
+    },
+    {
+      "name": "Martin Luther King Jr.",
+      "iso3": "USA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led the American civil rights movement"
+    },
+    {
+      "name": "Winston Churchill",
+      "iso3": "GBR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "wartime prime minister of the United Kingdom"
+    },
+    {
+      "name": "Margaret Thatcher",
+      "iso3": "GBR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first woman prime minister of the UK"
+    },
+    {
+      "name": "Elizabeth I",
+      "iso3": "GBR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Tudor queen of England and Ireland"
+    },
+    {
+      "name": "Elizabeth II",
+      "iso3": "GBR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "queen for seventy years, died in 2022"
+    },
+    {
+      "name": "Emmeline Pankhurst",
+      "iso3": "GBR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led the British suffragette movement"
+    },
+    {
+      "name": "Charles de Gaulle",
+      "iso3": "FRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led Free France, founded the Fifth Republic"
+    },
+    {
+      "name": "Louis XIV",
+      "iso3": "FRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "the Sun King, reigned seventy-two years"
+    },
+    {
+      "name": "Georges Clemenceau",
+      "iso3": "FRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister at the end of the Great War"
+    },
+    {
+      "name": "François Mitterrand",
+      "iso3": "FRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of France from 1981 to 1995"
+    },
+    {
+      "name": "Jacques Chirac",
+      "iso3": "FRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of France from 1995 to 2007"
+    },
+    {
+      "name": "Otto von Bismarck",
+      "iso3": "DEU",
+      "category": "leaders",
+      "era": "historical",
+      "note": "chancellor who unified Germany"
+    },
+    {
+      "name": "Konrad Adenauer",
+      "iso3": "DEU",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first chancellor of West Germany"
+    },
+    {
+      "name": "Willy Brandt",
+      "iso3": "DEU",
+      "category": "leaders",
+      "era": "historical",
+      "note": "chancellor and Nobel Peace laureate"
+    },
+    {
+      "name": "Angela Merkel",
+      "iso3": "DEU",
+      "category": "leaders",
+      "era": "modern",
+      "note": "chancellor of Germany from 2005 to 2021"
+    },
+    {
+      "name": "Frederick the Great",
+      "iso3": "DEU",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king of Prussia and military reformer"
+    },
+    {
+      "name": "Augustus",
+      "iso3": "ITA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first Roman emperor"
+    },
+    {
+      "name": "Camillo Benso di Cavour",
+      "iso3": "ITA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "architect of Italian unification"
+    },
+    {
+      "name": "Alcide De Gasperi",
+      "iso3": "ITA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first premier of the Italian republic"
+    },
+    {
+      "name": "Sandro Pertini",
+      "iso3": "ITA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "partisan and president of Italy"
+    },
+    {
+      "name": "Victor Emmanuel II",
+      "iso3": "ITA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first king of a united Italy"
+    },
+    {
+      "name": "Peter the Great",
+      "iso3": "RUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "tsar who founded Saint Petersburg"
+    },
+    {
+      "name": "Catherine the Great",
+      "iso3": "RUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "empress who expanded the Russian empire"
+    },
+    {
+      "name": "Alexander II of Russia",
+      "iso3": "RUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "tsar who emancipated the serfs"
+    },
+    {
+      "name": "Vladimir Lenin",
+      "iso3": "RUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led the 1917 revolution and the early USSR"
+    },
+    {
+      "name": "Mikhail Gorbachev",
+      "iso3": "RUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "last leader of the Soviet Union"
+    },
+    {
+      "name": "Qin Shi Huang",
+      "iso3": "CHN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first emperor to unite China"
+    },
+    {
+      "name": "Wu Zetian",
+      "iso3": "CHN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "only woman to rule China as emperor"
+    },
+    {
+      "name": "Sun Yat-sen",
+      "iso3": "CHN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of the Chinese republic"
+    },
+    {
+      "name": "Zhou Enlai",
+      "iso3": "CHN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first premier of the People's Republic"
+    },
+    {
+      "name": "Deng Xiaoping",
+      "iso3": "CHN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "leader who opened China's economy"
+    },
+    {
+      "name": "Tokugawa Ieyasu",
+      "iso3": "JPN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first shogun of the Tokugawa period"
+    },
+    {
+      "name": "Emperor Meiji",
+      "iso3": "JPN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "emperor of Japan's modernisation era"
+    },
+    {
+      "name": "Shigeru Yoshida",
+      "iso3": "JPN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "postwar prime minister of Japan"
+    },
+    {
+      "name": "Shinzo Abe",
+      "iso3": "JPN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "longest serving prime minister of Japan"
+    },
+    {
+      "name": "Junichiro Koizumi",
+      "iso3": "JPN",
+      "category": "leaders",
+      "era": "modern",
+      "note": "prime minister of Japan from 2001 to 2006"
+    },
+    {
+      "name": "Ashoka",
+      "iso3": "IND",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Mauryan emperor who spread Buddhism"
+    },
+    {
+      "name": "Mahatma Gandhi",
+      "iso3": "IND",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led India's independence movement"
+    },
+    {
+      "name": "Jawaharlal Nehru",
+      "iso3": "IND",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of India"
+    },
+    {
+      "name": "Indira Gandhi",
+      "iso3": "IND",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first woman prime minister of India"
+    },
+    {
+      "name": "B. R. Ambedkar",
+      "iso3": "IND",
+      "category": "leaders",
+      "era": "historical",
+      "note": "chief architect of India's constitution"
+    },
+    {
+      "name": "Dom Pedro I",
+      "iso3": "BRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "declared Brazilian independence in 1822"
+    },
+    {
+      "name": "Dom Pedro II",
+      "iso3": "BRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "second and last emperor of Brazil"
+    },
+    {
+      "name": "Getúlio Vargas",
+      "iso3": "BRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of Brazil across two eras"
+    },
+    {
+      "name": "Juscelino Kubitschek",
+      "iso3": "BRA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president who built Brasilia"
+    },
+    {
+      "name": "Fernando Henrique Cardoso",
+      "iso3": "BRA",
+      "category": "leaders",
+      "era": "modern",
+      "note": "president who stabilised Brazil's currency"
+    },
+    {
+      "name": "Isabella I of Castile",
+      "iso3": "ESP",
+      "category": "leaders",
+      "era": "historical",
+      "note": "queen who unified the Spanish crowns"
+    },
+    {
+      "name": "Philip II of Spain",
+      "iso3": "ESP",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king of Spain at the height of its empire"
+    },
+    {
+      "name": "Adolfo Suárez",
+      "iso3": "ESP",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister of the Spanish transition"
+    },
+    {
+      "name": "Benito Juárez",
+      "iso3": "MEX",
+      "category": "leaders",
+      "era": "historical",
+      "note": "reforming president of nineteenth century Mexico"
+    },
+    {
+      "name": "Miguel Hidalgo",
+      "iso3": "MEX",
+      "category": "leaders",
+      "era": "historical",
+      "note": "priest who launched the war of independence"
+    },
+    {
+      "name": "Lázaro Cárdenas",
+      "iso3": "MEX",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president who nationalised Mexican oil"
+    },
+    {
+      "name": "Juan Perón",
+      "iso3": "ARG",
+      "category": "leaders",
+      "era": "historical",
+      "note": "three-time president of Argentina"
+    },
+    {
+      "name": "Eva Perón",
+      "iso3": "ARG",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first lady and labour campaigner"
+    },
+    {
+      "name": "Raúl Alfonsín",
+      "iso3": "ARG",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president after military rule"
+    },
+    {
+      "name": "Gamal Abdel Nasser",
+      "iso3": "EGY",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president who nationalised the Suez Canal"
+    },
+    {
+      "name": "Anwar Sadat",
+      "iso3": "EGY",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president and Nobel Peace laureate"
+    },
+    {
+      "name": "Cleopatra VII",
+      "iso3": "EGY",
+      "category": "leaders",
+      "era": "historical",
+      "note": "last pharaoh of Ptolemaic Egypt"
+    },
+    {
+      "name": "Mustafa Kemal Atatürk",
+      "iso3": "TUR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of the Turkish republic"
+    },
+    {
+      "name": "Suleiman the Magnificent",
+      "iso3": "TUR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "longest reigning Ottoman sultan"
+    },
+    {
+      "name": "Mehmed II",
+      "iso3": "TUR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "sultan who took Constantinople in 1453"
+    },
+    {
+      "name": "Nelson Mandela",
+      "iso3": "ZAF",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of democratic South Africa"
+    },
+    {
+      "name": "Desmond Tutu",
+      "iso3": "ZAF",
+      "category": "leaders",
+      "era": "historical",
+      "note": "archbishop and anti-apartheid campaigner"
+    },
+    {
+      "name": "Steve Biko",
+      "iso3": "ZAF",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of the Black Consciousness Movement"
+    },
+    {
+      "name": "Lester B. Pearson",
+      "iso3": "CAN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister and Nobel Peace laureate"
+    },
+    {
+      "name": "Pierre Trudeau",
+      "iso3": "CAN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister who patriated the constitution"
+    },
+    {
+      "name": "Tommy Douglas",
+      "iso3": "CAN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "premier who brought in public health insurance"
+    },
+    {
+      "name": "Robert Menzies",
+      "iso3": "AUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "longest serving prime minister of Australia"
+    },
+    {
+      "name": "Gough Whitlam",
+      "iso3": "AUS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister dismissed in 1975"
+    },
+    {
+      "name": "Julia Gillard",
+      "iso3": "AUS",
+      "category": "leaders",
+      "era": "modern",
+      "note": "first woman prime minister of Australia"
+    },
+    {
+      "name": "Józef Piłsudski",
+      "iso3": "POL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "marshal and head of state of Poland"
+    },
+    {
+      "name": "Lech Wałęsa",
+      "iso3": "POL",
+      "category": "leaders",
+      "era": "modern",
+      "note": "Solidarity founder and president of Poland"
+    },
+    {
+      "name": "Casimir III the Great",
+      "iso3": "POL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king who codified Polish law"
+    },
+    {
+      "name": "Sejong the Great",
+      "iso3": "KOR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king who commissioned the Korean alphabet"
+    },
+    {
+      "name": "Kim Dae-jung",
+      "iso3": "KOR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president and Nobel Peace laureate"
+    },
+    {
+      "name": "Ban Ki-moon",
+      "iso3": "KOR",
+      "category": "leaders",
+      "era": "modern",
+      "note": "secretary general of the United Nations"
+    },
+    {
+      "name": "Cyrus the Great",
+      "iso3": "IRN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of the Achaemenid empire"
+    },
+    {
+      "name": "Darius I",
+      "iso3": "IRN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Persian king who built the royal road"
+    },
+    {
+      "name": "Mohammad Mosaddegh",
+      "iso3": "IRN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "premier who nationalised Iranian oil"
+    },
+    {
+      "name": "David Ben-Gurion",
+      "iso3": "ISR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of Israel"
+    },
+    {
+      "name": "Golda Meir",
+      "iso3": "ISR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister of Israel in the 1970s"
+    },
+    {
+      "name": "Yitzhak Rabin",
+      "iso3": "ISR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister and Nobel Peace laureate"
+    },
+    {
+      "name": "Nnamdi Azikiwe",
+      "iso3": "NGA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Nigeria"
+    },
+    {
+      "name": "Obafemi Awolowo",
+      "iso3": "NGA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "premier of Nigeria's Western Region"
+    },
+    {
+      "name": "Olusegun Obasanjo",
+      "iso3": "NGA",
+      "category": "leaders",
+      "era": "modern",
+      "note": "president of Nigeria from 1999 to 2007"
+    },
+    {
+      "name": "Pericles",
+      "iso3": "GRC",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Athenian statesman of the golden age"
+    },
+    {
+      "name": "Cleisthenes",
+      "iso3": "GRC",
+      "category": "leaders",
+      "era": "historical",
+      "note": "credited with founding Athenian democracy"
+    },
+    {
+      "name": "Eleftherios Venizelos",
+      "iso3": "GRC",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister who shaped modern Greece"
+    },
+    {
+      "name": "Éamon de Valera",
+      "iso3": "IRL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "long-serving Irish taoiseach and president"
+    },
+    {
+      "name": "Daniel O'Connell",
+      "iso3": "IRL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "campaigner for Catholic emancipation"
+    },
+    {
+      "name": "Mary Robinson",
+      "iso3": "IRL",
+      "category": "leaders",
+      "era": "modern",
+      "note": "first woman president of Ireland"
+    },
+    {
+      "name": "Václav Havel",
+      "iso3": "CZE",
+      "category": "leaders",
+      "era": "historical",
+      "note": "playwright and first Czech president"
+    },
+    {
+      "name": "Tomáš Masaryk",
+      "iso3": "CZE",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founding president of Czechoslovakia"
+    },
+    {
+      "name": "Lajos Kossuth",
+      "iso3": "HUN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "leader of the 1848 Hungarian revolution"
+    },
+    {
+      "name": "Imre Nagy",
+      "iso3": "HUN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister during the 1956 uprising"
+    },
+    {
+      "name": "Michael Joseph Savage",
+      "iso3": "NZL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister who built the welfare state"
+    },
+    {
+      "name": "Jacinda Ardern",
+      "iso3": "NZL",
+      "category": "leaders",
+      "era": "modern",
+      "note": "prime minister of New Zealand until 2023"
+    },
+    {
+      "name": "Afonso Henriques",
+      "iso3": "PRT",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first king of Portugal"
+    },
+    {
+      "name": "Mário Soares",
+      "iso3": "PRT",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister and president of Portugal"
+    },
+    {
+      "name": "Jomo Kenyatta",
+      "iso3": "KEN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Kenya"
+    },
+    {
+      "name": "Mwai Kibaki",
+      "iso3": "KEN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of Kenya from 2002 to 2013"
+    },
+    {
+      "name": "Kwame Nkrumah",
+      "iso3": "GHA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Ghana"
+    },
+    {
+      "name": "Kofi Annan",
+      "iso3": "GHA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "secretary general of the United Nations"
+    },
+    {
+      "name": "Haile Selassie",
+      "iso3": "ETH",
+      "category": "leaders",
+      "era": "historical",
+      "note": "last emperor of Ethiopia"
+    },
+    {
+      "name": "Menelik II",
+      "iso3": "ETH",
+      "category": "leaders",
+      "era": "historical",
+      "note": "emperor who won the battle of Adwa"
+    },
+    {
+      "name": "Muhammad Ali Jinnah",
+      "iso3": "PAK",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of Pakistan"
+    },
+    {
+      "name": "Benazir Bhutto",
+      "iso3": "PAK",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first woman to lead a Muslim-majority state"
+    },
+    {
+      "name": "Sukarno",
+      "iso3": "IDN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Indonesia"
+    },
+    {
+      "name": "Mohammad Hatta",
+      "iso3": "IDN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first vice president of Indonesia"
+    },
+    {
+      "name": "Bhumibol Adulyadej",
+      "iso3": "THA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king of Thailand for seventy years"
+    },
+    {
+      "name": "Chulalongkorn",
+      "iso3": "THA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "king who modernised Siam"
+    },
+    {
+      "name": "William the Silent",
+      "iso3": "NLD",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led the Dutch revolt against Spain"
+    },
+    {
+      "name": "Dag Hammarskjöld",
+      "iso3": "SWE",
+      "category": "leaders",
+      "era": "historical",
+      "note": "secretary general of the United Nations"
+    },
+    {
+      "name": "Maria Theresa",
+      "iso3": "AUT",
+      "category": "leaders",
+      "era": "historical",
+      "note": "only woman to rule the Habsburg lands"
+    },
+    {
+      "name": "Yaroslav the Wise",
+      "iso3": "UKR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "grand prince of Kyiv and lawgiver"
+    },
+    {
+      "name": "Vigdís Finnbogadóttir",
+      "iso3": "ISL",
+      "category": "leaders",
+      "era": "modern",
+      "note": "first woman elected head of state"
+    },
+    {
+      "name": "Hammurabi",
+      "iso3": "IRQ",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Babylonian king who issued a famous law code"
+    },
+    {
+      "name": "Sirimavo Bandaranaike",
+      "iso3": "LKA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "world's first woman prime minister"
+    },
+    {
+      "name": "Sheikh Mujibur Rahman",
+      "iso3": "BGD",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founding leader of Bangladesh"
+    },
+    {
+      "name": "Tunku Abdul Rahman",
+      "iso3": "MYS",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of Malaysia"
+    },
+    {
+      "name": "Lee Kuan Yew",
+      "iso3": "SGP",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of Singapore"
+    },
+    {
+      "name": "Ho Chi Minh",
+      "iso3": "VNM",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founding president of North Vietnam"
+    },
+    {
+      "name": "Jayavarman VII",
+      "iso3": "KHM",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Khmer king who built Angkor Thom"
+    },
+    {
+      "name": "Corazon Aquino",
+      "iso3": "PHL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first woman president of the Philippines"
+    },
+    {
+      "name": "Mansa Musa",
+      "iso3": "MLI",
+      "category": "leaders",
+      "era": "historical",
+      "note": "emperor of Mali famed for his wealth"
+    },
+    {
+      "name": "Julius Nyerere",
+      "iso3": "TZA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Tanzania"
+    },
+    {
+      "name": "Kenneth Kaunda",
+      "iso3": "ZMB",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Zambia"
+    },
+    {
+      "name": "Patrice Lumumba",
+      "iso3": "COD",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of the Congo"
+    },
+    {
+      "name": "Félix Houphouët-Boigny",
+      "iso3": "CIV",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Ivory Coast"
+    },
+    {
+      "name": "Habib Bourguiba",
+      "iso3": "TUN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Tunisia"
+    },
+    {
+      "name": "Mohammed V of Morocco",
+      "iso3": "MAR",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first king of independent Morocco"
+    },
+    {
+      "name": "Ellen Johnson Sirleaf",
+      "iso3": "LBR",
+      "category": "leaders",
+      "era": "modern",
+      "note": "first elected woman head of state in Africa"
+    },
+    {
+      "name": "Léopold Sédar Senghor",
+      "iso3": "SEN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Senegal and a poet"
+    },
+    {
+      "name": "José Martí",
+      "iso3": "CUB",
+      "category": "leaders",
+      "era": "historical",
+      "note": "poet and leader of Cuban independence"
+    },
+    {
+      "name": "Salvador Allende",
+      "iso3": "CHL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of Chile from 1970 to 1973"
+    },
+    {
+      "name": "Francisco de Paula Santander",
+      "iso3": "COL",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founding vice president of Gran Colombia"
+    },
+    {
+      "name": "Pachacuti",
+      "iso3": "PER",
+      "category": "leaders",
+      "era": "historical",
+      "note": "Inca ruler who expanded the empire"
+    },
+    {
+      "name": "José Gervasio Artigas",
+      "iso3": "URY",
+      "category": "leaders",
+      "era": "historical",
+      "note": "national hero of Uruguay"
+    },
+    {
+      "name": "Simón Bolívar",
+      "iso3": "VEN",
+      "category": "leaders",
+      "era": "historical",
+      "note": "liberator of five South American republics"
+    },
+    {
+      "name": "Jean-Jacques Dessalines",
+      "iso3": "HTI",
+      "category": "leaders",
+      "era": "historical",
+      "note": "declared Haitian independence in 1804"
+    },
+    {
+      "name": "Marcus Garvey",
+      "iso3": "JAM",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of a global Pan-African movement"
+    },
+    {
+      "name": "Alexander the Great",
+      "iso3": "GRC",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Macedonian king who conquered to the Indus"
+    },
+    {
+      "name": "Leonidas I",
+      "iso3": "GRC",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Spartan king who held the pass at Thermopylae"
+    },
+    {
+      "name": "Themistocles",
+      "iso3": "GRC",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Athenian who won the sea battle of Salamis"
+    },
+    {
+      "name": "Julius Caesar",
+      "iso3": "ITA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Roman general who crossed the Rubicon"
+    },
+    {
+      "name": "Scipio Africanus",
+      "iso3": "ITA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Roman general who won the battle of Zama"
+    },
+    {
+      "name": "Hannibal Barca",
+      "iso3": "TUN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Carthaginian general who crossed the Alps"
+    },
+    {
+      "name": "Napoleon Bonaparte",
+      "iso3": "FRA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "French emperor and battlefield commander"
+    },
+    {
+      "name": "Joan of Arc",
+      "iso3": "FRA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led French forces at the siege of Orleans"
+    },
+    {
+      "name": "Charles Martel",
+      "iso3": "FRA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Frankish commander at the battle of Tours"
+    },
+    {
+      "name": "Duke of Wellington",
+      "iso3": "GBR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "commanded the allied army at Waterloo"
+    },
+    {
+      "name": "Horatio Nelson",
+      "iso3": "GBR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "admiral who won the battle of Trafalgar"
+    },
+    {
+      "name": "Bernard Montgomery",
+      "iso3": "GBR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "British field marshal at El Alamein"
+    },
+    {
+      "name": "Boudica",
+      "iso3": "GBR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Iceni queen who revolted against Rome"
+    },
+    {
+      "name": "Robert the Bruce",
+      "iso3": "GBR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "king of Scots, victor at Bannockburn"
+    },
+    {
+      "name": "Dwight D. Eisenhower",
+      "iso3": "USA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "supreme allied commander in Europe in 1944"
+    },
+    {
+      "name": "Ulysses S. Grant",
+      "iso3": "USA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Union commander, later president"
+    },
+    {
+      "name": "Douglas MacArthur",
+      "iso3": "USA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "American general in the Pacific and Korea"
+    },
+    {
+      "name": "Chester Nimitz",
+      "iso3": "USA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "admiral commanding the US Pacific fleet"
+    },
+    {
+      "name": "Genghis Khan",
+      "iso3": "MNG",
+      "category": "commanders",
+      "era": "historical",
+      "note": "founder of the Mongol empire"
+    },
+    {
+      "name": "Timur",
+      "iso3": "UZB",
+      "category": "commanders",
+      "era": "historical",
+      "note": "conqueror who founded the Timurid empire"
+    },
+    {
+      "name": "Saladin",
+      "iso3": "EGY",
+      "category": "commanders",
+      "era": "historical",
+      "note": "sultan of Egypt and Syria who retook Jerusalem"
+    },
+    {
+      "name": "Khalid ibn al-Walid",
+      "iso3": "SAU",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Arab commander of the early conquests"
+    },
+    {
+      "name": "Alexander Suvorov",
+      "iso3": "RUS",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Russian field marshal, undefeated in the field"
+    },
+    {
+      "name": "Mikhail Kutuzov",
+      "iso3": "RUS",
+      "category": "commanders",
+      "era": "historical",
+      "note": "field marshal against Napoleon in 1812"
+    },
+    {
+      "name": "Georgy Zhukov",
+      "iso3": "RUS",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Soviet marshal whose armies took Berlin"
+    },
+    {
+      "name": "Alexander Nevsky",
+      "iso3": "RUS",
+      "category": "commanders",
+      "era": "historical",
+      "note": "prince who beat the Teutonic knights on ice"
+    },
+    {
+      "name": "Gebhard von Blücher",
+      "iso3": "DEU",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Prussian marshal who arrived at Waterloo"
+    },
+    {
+      "name": "Helmuth von Moltke the Elder",
+      "iso3": "DEU",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Prussian chief of staff and strategist"
+    },
+    {
+      "name": "Arminius",
+      "iso3": "DEU",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Germanic chieftain who beat Rome in Teutoburg"
+    },
+    {
+      "name": "Gustavus Adolphus",
+      "iso3": "SWE",
+      "category": "commanders",
+      "era": "historical",
+      "note": "king and commander in the Thirty Years War"
+    },
+    {
+      "name": "Carl Gustaf Mannerheim",
+      "iso3": "FIN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Finnish marshal and later president"
+    },
+    {
+      "name": "Jan Žižka",
+      "iso3": "CZE",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Hussite commander who never lost a battle"
+    },
+    {
+      "name": "Jan III Sobieski",
+      "iso3": "POL",
+      "category": "commanders",
+      "era": "historical",
+      "note": "king who relieved the siege of Vienna"
+    },
+    {
+      "name": "Tadeusz Kościuszko",
+      "iso3": "POL",
+      "category": "commanders",
+      "era": "historical",
+      "note": "engineer and general in Poland and America"
+    },
+    {
+      "name": "Skanderbeg",
+      "iso3": "ALB",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led Albanian resistance to the Ottomans"
+    },
+    {
+      "name": "Michael the Brave",
+      "iso3": "ROU",
+      "category": "commanders",
+      "era": "historical",
+      "note": "prince who briefly united the principalities"
+    },
+    {
+      "name": "Bohdan Khmelnytsky",
+      "iso3": "UKR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Cossack hetman of the 1648 uprising"
+    },
+    {
+      "name": "Hayreddin Barbarossa",
+      "iso3": "TUR",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Ottoman admiral of the sixteenth century"
+    },
+    {
+      "name": "El Cid",
+      "iso3": "ESP",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Castilian knight who took Valencia"
+    },
+    {
+      "name": "José de San Martín",
+      "iso3": "ARG",
+      "category": "commanders",
+      "era": "historical",
+      "note": "general who freed Argentina, Chile and Peru"
+    },
+    {
+      "name": "Bernardo O'Higgins",
+      "iso3": "CHL",
+      "category": "commanders",
+      "era": "historical",
+      "note": "commander of Chilean independence forces"
+    },
+    {
+      "name": "Toussaint Louverture",
+      "iso3": "HTI",
+      "category": "commanders",
+      "era": "historical",
+      "note": "general who led the Haitian revolution"
+    },
+    {
+      "name": "Emiliano Zapata",
+      "iso3": "MEX",
+      "category": "commanders",
+      "era": "historical",
+      "note": "commander of the southern revolutionary army"
+    },
+    {
+      "name": "Pancho Villa",
+      "iso3": "MEX",
+      "category": "commanders",
+      "era": "historical",
+      "note": "revolutionary general of northern Mexico"
+    },
+    {
+      "name": "Sun Tzu",
+      "iso3": "CHN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "strategist who wrote The Art of War"
+    },
+    {
+      "name": "Guan Yu",
+      "iso3": "CHN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Han general of the Three Kingdoms period"
+    },
+    {
+      "name": "Yue Fei",
+      "iso3": "CHN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Song dynasty general and folk hero"
+    },
+    {
+      "name": "Oda Nobunaga",
+      "iso3": "JPN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "warlord who began Japan's unification"
+    },
+    {
+      "name": "Toyotomi Hideyoshi",
+      "iso3": "JPN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "warlord who completed Japan's unification"
+    },
+    {
+      "name": "Date Masamune",
+      "iso3": "JPN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "daimyo known as the one-eyed dragon"
+    },
+    {
+      "name": "Trần Hưng Đạo",
+      "iso3": "VNM",
+      "category": "commanders",
+      "era": "historical",
+      "note": "general who repelled the Mongol invasions"
+    },
+    {
+      "name": "Võ Nguyên Giáp",
+      "iso3": "VNM",
+      "category": "commanders",
+      "era": "historical",
+      "note": "general who commanded at Dien Bien Phu"
+    },
+    {
+      "name": "Shivaji",
+      "iso3": "IND",
+      "category": "commanders",
+      "era": "historical",
+      "note": "founder of the Maratha empire"
+    },
+    {
+      "name": "Rani Lakshmibai",
+      "iso3": "IND",
+      "category": "commanders",
+      "era": "historical",
+      "note": "queen who fought in the 1857 rebellion"
+    },
+    {
+      "name": "Lapulapu",
+      "iso3": "PHL",
+      "category": "commanders",
+      "era": "historical",
+      "note": "chieftain who defeated Magellan's party"
+    },
+    {
+      "name": "Yaa Asantewaa",
+      "iso3": "GHA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led the Ashanti against British forces"
+    },
+    {
+      "name": "Shaka",
+      "iso3": "ZAF",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Zulu king who reorganised the army"
+    },
+    {
+      "name": "Omar Mukhtar",
+      "iso3": "LBY",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led Libyan resistance to Italian occupation"
+    },
+    {
+      "name": "Emir Abdelkader",
+      "iso3": "DZA",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led Algerian resistance to French conquest"
+    },
+    {
+      "name": "Nzinga of Ndongo",
+      "iso3": "AGO",
+      "category": "commanders",
+      "era": "historical",
+      "note": "queen who resisted Portuguese expansion"
+    },
+    {
+      "name": "John Monash",
+      "iso3": "AUS",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Australian general on the Western Front"
+    },
+    {
+      "name": "Arthur Currie",
+      "iso3": "CAN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "Canadian corps commander at Vimy Ridge"
+    },
+    {
+      "name": "Michael Collins",
+      "iso3": "IRL",
+      "category": "commanders",
+      "era": "historical",
+      "note": "commander in the Irish war of independence"
+    },
+    {
+      "name": "Nero",
+      "iso3": "ITA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "Roman emperor remembered for his cruelty"
+    },
+    {
+      "name": "Caligula",
+      "iso3": "ITA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "Roman emperor assassinated after a brutal reign"
+    },
+    {
+      "name": "Commodus",
+      "iso3": "ITA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "Roman emperor killed by his own household"
+    },
+    {
+      "name": "Cesare Borgia",
+      "iso3": "ITA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "Renaissance warlord and cardinal"
+    },
+    {
+      "name": "Benito Mussolini",
+      "iso3": "ITA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "founder of Italian fascism, ruled to 1943"
+    },
+    {
+      "name": "Ivan the Terrible",
+      "iso3": "RUS",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "first tsar of Russia, feared for his purges"
+    },
+    {
+      "name": "Joseph Stalin",
+      "iso3": "RUS",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled the Soviet Union from 1924 to 1953"
+    },
+    {
+      "name": "Vlad the Impaler",
+      "iso3": "ROU",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "prince of Wallachia known for cruel executions"
+    },
+    {
+      "name": "Nicolae Ceaușescu",
+      "iso3": "ROU",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruler of Romania, overthrown in 1989"
+    },
+    {
+      "name": "Maximilien Robespierre",
+      "iso3": "FRA",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "drove the Terror of the French revolution"
+    },
+    {
+      "name": "Herod the Great",
+      "iso3": "ISR",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "Roman client king of Judea"
+    },
+    {
+      "name": "Leopold II of Belgium",
+      "iso3": "BEL",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "king whose Congo Free State rule was brutal"
+    },
+    {
+      "name": "Tomás de Torquemada",
+      "iso3": "ESP",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "first grand inquisitor of Spain"
+    },
+    {
+      "name": "Francisco Franco",
+      "iso3": "ESP",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled Spain from 1939 until 1975"
+    },
+    {
+      "name": "Mary I of England",
+      "iso3": "GBR",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "queen who burned Protestant dissenters"
+    },
+    {
+      "name": "Pol Pot",
+      "iso3": "KHM",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "led the Khmer Rouge regime of the 1970s"
+    },
+    {
+      "name": "Ferdinand Marcos",
+      "iso3": "PHL",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled the Philippines under martial law"
+    },
+    {
+      "name": "António de Oliveira Salazar",
+      "iso3": "PRT",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled Portugal's Estado Novo for decades"
+    },
+    {
+      "name": "Enver Hoxha",
+      "iso3": "ALB",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled Albania from 1944 to 1985"
+    },
+    {
+      "name": "Mobutu Sese Seko",
+      "iso3": "COD",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled Zaire from 1965 to 1997"
+    },
+    {
+      "name": "Jean-Bédel Bokassa",
+      "iso3": "CAF",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "army officer who crowned himself emperor"
+    },
+    {
+      "name": "François Duvalier",
+      "iso3": "HTI",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled Haiti by decree until 1971"
+    },
+    {
+      "name": "Rafael Trujillo",
+      "iso3": "DOM",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "ruled the Dominican Republic for three decades"
+    },
+    {
+      "name": "Anastasio Somoza García",
+      "iso3": "NIC",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "founded a family rule over Nicaragua"
+    },
+    {
+      "name": "Porfirio Díaz",
+      "iso3": "MEX",
+      "category": "autocrats",
+      "era": "historical",
+      "note": "held the Mexican presidency for three decades"
+    },
+    {
+      "name": "Blackbeard",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "pirate captain who blockaded Charleston"
+    },
+    {
+      "name": "Bartholomew Roberts",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "the most prolific pirate of his era"
+    },
+    {
+      "name": "Henry Morgan",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "privateer who raided Panama"
+    },
+    {
+      "name": "Mary Read",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "pirate who sailed with Anne Bonny"
+    },
+    {
+      "name": "Dick Turpin",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "highwayman hanged at York in 1739"
+    },
+    {
+      "name": "Rob Roy MacGregor",
+      "iso3": "GBR",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Scottish outlaw and cattle drover"
+    },
+    {
+      "name": "Anne Bonny",
+      "iso3": "IRL",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "pirate active in the Caribbean"
+    },
+    {
+      "name": "Ching Shih",
+      "iso3": "CHN",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "commanded a vast pirate fleet off south China"
+    },
+    {
+      "name": "Jesse James",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "outlaw who robbed banks and trains"
+    },
+    {
+      "name": "Billy the Kid",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "gunfighter of the American southwest"
+    },
+    {
+      "name": "Butch Cassidy",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "leader of the Wild Bunch"
+    },
+    {
+      "name": "Bonnie Parker",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "half of the Barrow robbery gang"
+    },
+    {
+      "name": "Clyde Barrow",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "robber of the Barrow gang"
+    },
+    {
+      "name": "Al Capone",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Chicago racketeer of the Prohibition years"
+    },
+    {
+      "name": "John Dillinger",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "bank robber of the 1930s"
+    },
+    {
+      "name": "Belle Starr",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "outlaw of the Indian Territory"
+    },
+    {
+      "name": "Jean Lafitte",
+      "iso3": "USA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "privateer of the Gulf of Mexico"
+    },
+    {
+      "name": "Ned Kelly",
+      "iso3": "AUS",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "bushranger who wore iron armour"
+    },
+    {
+      "name": "Louis Dominique Cartouche",
+      "iso3": "FRA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Paris robber executed in 1721"
+    },
+    {
+      "name": "Salvatore Giuliano",
+      "iso3": "ITA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Sicilian bandit of the 1940s"
+    },
+    {
+      "name": "Lampião",
+      "iso3": "BRA",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "leader of the cangaco bandits"
+    },
+    {
+      "name": "Sándor Rózsa",
+      "iso3": "HUN",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Hungarian highwayman of the great plain"
+    },
+    {
+      "name": "Juraj Jánošík",
+      "iso3": "SVK",
+      "category": "outlaws",
+      "era": "historical",
+      "note": "Slovak highwayman hanged in 1713"
+    },
+    {
+      "name": "Henry Ford",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "put the car on a moving assembly line"
+    },
+    {
+      "name": "John D. Rockefeller",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "oil magnate who built Standard Oil"
+    },
+    {
+      "name": "Andrew Carnegie",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "steel magnate who funded public libraries"
+    },
+    {
+      "name": "J. P. Morgan",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "banker who consolidated American industry"
+    },
+    {
+      "name": "Walt Disney",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the animation studio in his name"
+    },
+    {
+      "name": "Steve Jobs",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded Apple"
+    },
+    {
+      "name": "Madam C. J. Walker",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "haircare entrepreneur and philanthropist"
+    },
+    {
+      "name": "Estée Lauder",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the cosmetics house"
+    },
+    {
+      "name": "Warren Buffett",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "modern",
+      "note": "investor who runs Berkshire Hathaway"
+    },
+    {
+      "name": "Josiah Wedgwood",
+      "iso3": "GBR",
+      "category": "founders",
+      "era": "historical",
+      "note": "potter who industrialised ceramics"
+    },
+    {
+      "name": "Richard Arkwright",
+      "iso3": "GBR",
+      "category": "founders",
+      "era": "historical",
+      "note": "built the first water-powered cotton mill"
+    },
+    {
+      "name": "Thomas Lipton",
+      "iso3": "GBR",
+      "category": "founders",
+      "era": "historical",
+      "note": "tea merchant and yachtsman"
+    },
+    {
+      "name": "Anita Roddick",
+      "iso3": "GBR",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded The Body Shop"
+    },
+    {
+      "name": "Richard Branson",
+      "iso3": "GBR",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded the Virgin group"
+    },
+    {
+      "name": "Coco Chanel",
+      "iso3": "FRA",
+      "category": "founders",
+      "era": "historical",
+      "note": "couturier who founded the Chanel house"
+    },
+    {
+      "name": "Christian Dior",
+      "iso3": "FRA",
+      "category": "founders",
+      "era": "historical",
+      "note": "couturier who opened his house in 1946"
+    },
+    {
+      "name": "Louis Vuitton",
+      "iso3": "FRA",
+      "category": "founders",
+      "era": "historical",
+      "note": "trunk maker who founded the luggage house"
+    },
+    {
+      "name": "André Michelin",
+      "iso3": "FRA",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded the tyre company"
+    },
+    {
+      "name": "Bernard Arnault",
+      "iso3": "FRA",
+      "category": "founders",
+      "era": "modern",
+      "note": "chairman of the LVMH luxury group"
+    },
+    {
+      "name": "Werner von Siemens",
+      "iso3": "DEU",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the electrical firm Siemens"
+    },
+    {
+      "name": "Robert Bosch",
+      "iso3": "DEU",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the engineering firm Bosch"
+    },
+    {
+      "name": "Karl Benz",
+      "iso3": "DEU",
+      "category": "founders",
+      "era": "historical",
+      "note": "built the first practical motor car"
+    },
+    {
+      "name": "Adolf Dassler",
+      "iso3": "DEU",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded Adidas"
+    },
+    {
+      "name": "Jakob Fugger",
+      "iso3": "DEU",
+      "category": "founders",
+      "era": "historical",
+      "note": "Augsburg banker to emperors"
+    },
+    {
+      "name": "Enzo Ferrari",
+      "iso3": "ITA",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Ferrari marque"
+    },
+    {
+      "name": "Giovanni Agnelli",
+      "iso3": "ITA",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded Fiat"
+    },
+    {
+      "name": "Guccio Gucci",
+      "iso3": "ITA",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Gucci fashion house"
+    },
+    {
+      "name": "Cosimo de' Medici",
+      "iso3": "ITA",
+      "category": "founders",
+      "era": "historical",
+      "note": "Florentine banker and patron of artists"
+    },
+    {
+      "name": "Miuccia Prada",
+      "iso3": "ITA",
+      "category": "founders",
+      "era": "modern",
+      "note": "designer who leads the Prada group"
+    },
+    {
+      "name": "Amancio Ortega",
+      "iso3": "ESP",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded the Inditex clothing group"
+    },
+    {
+      "name": "Ingvar Kamprad",
+      "iso3": "SWE",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded IKEA"
+    },
+    {
+      "name": "Henri Nestlé",
+      "iso3": "CHE",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the food company Nestle"
+    },
+    {
+      "name": "Henry Dunant",
+      "iso3": "CHE",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Red Cross"
+    },
+    {
+      "name": "Anton Philips",
+      "iso3": "NLD",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded the Philips electronics firm"
+    },
+    {
+      "name": "Freddy Heineken",
+      "iso3": "NLD",
+      "category": "founders",
+      "era": "historical",
+      "note": "brewer who took Heineken worldwide"
+    },
+    {
+      "name": "Arthur Guinness",
+      "iso3": "IRL",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Dublin brewery in 1759"
+    },
+    {
+      "name": "Fredrik Idestam",
+      "iso3": "FIN",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the mill that became Nokia"
+    },
+    {
+      "name": "Aristotle Onassis",
+      "iso3": "GRC",
+      "category": "founders",
+      "era": "historical",
+      "note": "Greek shipping magnate"
+    },
+    {
+      "name": "Dietrich Mateschitz",
+      "iso3": "AUT",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded Red Bull"
+    },
+    {
+      "name": "Vehbi Koç",
+      "iso3": "TUR",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Koc industrial group"
+    },
+    {
+      "name": "Pavel Tretyakov",
+      "iso3": "RUS",
+      "category": "founders",
+      "era": "historical",
+      "note": "merchant who founded the Tretyakov gallery"
+    },
+    {
+      "name": "Soichiro Honda",
+      "iso3": "JPN",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded Honda"
+    },
+    {
+      "name": "Akio Morita",
+      "iso3": "JPN",
+      "category": "founders",
+      "era": "historical",
+      "note": "co-founded Sony"
+    },
+    {
+      "name": "Konosuke Matsushita",
+      "iso3": "JPN",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the firm now called Panasonic"
+    },
+    {
+      "name": "Sakichi Toyoda",
+      "iso3": "JPN",
+      "category": "founders",
+      "era": "historical",
+      "note": "loom inventor whose firm became Toyota"
+    },
+    {
+      "name": "Lee Byung-chul",
+      "iso3": "KOR",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded Samsung"
+    },
+    {
+      "name": "Chung Ju-yung",
+      "iso3": "KOR",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded Hyundai"
+    },
+    {
+      "name": "Jack Ma",
+      "iso3": "CHN",
+      "category": "founders",
+      "era": "modern",
+      "note": "co-founded Alibaba"
+    },
+    {
+      "name": "Jamsetji Tata",
+      "iso3": "IND",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the Tata industrial group"
+    },
+    {
+      "name": "Dhirubhai Ambani",
+      "iso3": "IND",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded Reliance Industries"
+    },
+    {
+      "name": "Verghese Kurien",
+      "iso3": "IND",
+      "category": "founders",
+      "era": "historical",
+      "note": "led India's dairy cooperative movement"
+    },
+    {
+      "name": "Narayana Murthy",
+      "iso3": "IND",
+      "category": "founders",
+      "era": "modern",
+      "note": "co-founded Infosys"
+    },
+    {
+      "name": "Muhammad Yunus",
+      "iso3": "BGD",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded Grameen Bank, pioneer of microcredit"
+    },
+    {
+      "name": "Carlos Slim",
+      "iso3": "MEX",
+      "category": "founders",
+      "era": "modern",
+      "note": "Mexican telecoms magnate"
+    },
+    {
+      "name": "Barão de Mauá",
+      "iso3": "BRA",
+      "category": "founders",
+      "era": "historical",
+      "note": "nineteenth century banker and industrialist"
+    },
+    {
+      "name": "Aliko Dangote",
+      "iso3": "NGA",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded the Dangote cement group"
+    },
+    {
+      "name": "Joseph-Armand Bombardier",
+      "iso3": "CAN",
+      "category": "founders",
+      "era": "historical",
+      "note": "invented the snowmobile"
+    },
+    {
+      "name": "Benjamin Franklin",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "printer and experimenter with electricity"
+    },
+    {
+      "name": "Thomas Edison",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "prolific inventor of the electric age"
+    },
+    {
+      "name": "Katherine Johnson",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "NASA mathematician of the Apollo era"
+    },
+    {
+      "name": "Neil Armstrong",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first person to walk on the Moon"
+    },
+    {
+      "name": "Grace Hopper",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "computing pioneer and naval officer"
+    },
+    {
+      "name": "Richard Feynman",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist and Nobel laureate"
+    },
+    {
+      "name": "Jonas Salk",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "developed the first polio vaccine"
+    },
+    {
+      "name": "Barbara McClintock",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "geneticist who found jumping genes"
+    },
+    {
+      "name": "Carl Sagan",
+      "iso3": "USA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer and science broadcaster"
+    },
+    {
+      "name": "Isaac Newton",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "set out the laws of motion and gravity"
+    },
+    {
+      "name": "Charles Darwin",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "proposed evolution by natural selection"
+    },
+    {
+      "name": "Michael Faraday",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "discovered electromagnetic induction"
+    },
+    {
+      "name": "Ada Lovelace",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "wrote the first published algorithm"
+    },
+    {
+      "name": "Alan Turing",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founded computer science, broke Enigma"
+    },
+    {
+      "name": "Rosalind Franklin",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "her images revealed the shape of DNA"
+    },
+    {
+      "name": "Ernest Shackleton",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Antarctic explorer of the Endurance"
+    },
+    {
+      "name": "Stephen Hawking",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "theorist of black holes"
+    },
+    {
+      "name": "Louis Pasteur",
+      "iso3": "FRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founded microbiology and pasteurisation"
+    },
+    {
+      "name": "Antoine Lavoisier",
+      "iso3": "FRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of modern chemistry"
+    },
+    {
+      "name": "Pierre Curie",
+      "iso3": "FRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist and Nobel laureate in radioactivity"
+    },
+    {
+      "name": "Jacques Cousteau",
+      "iso3": "FRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "undersea explorer and film-maker"
+    },
+    {
+      "name": "Albert Einstein",
+      "iso3": "DEU",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist who formulated relativity"
+    },
+    {
+      "name": "Max Planck",
+      "iso3": "DEU",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of quantum theory"
+    },
+    {
+      "name": "Alexander von Humboldt",
+      "iso3": "DEU",
+      "category": "scientists",
+      "era": "historical",
+      "note": "naturalist who mapped the Americas"
+    },
+    {
+      "name": "Robert Koch",
+      "iso3": "DEU",
+      "category": "scientists",
+      "era": "historical",
+      "note": "identified the bacteria of tuberculosis"
+    },
+    {
+      "name": "Emmy Noether",
+      "iso3": "DEU",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician of abstract algebra"
+    },
+    {
+      "name": "Galileo Galilei",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "turned the telescope on the planets"
+    },
+    {
+      "name": "Leonardo da Vinci",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "painter, engineer and anatomist"
+    },
+    {
+      "name": "Enrico Fermi",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "built the first nuclear reactor"
+    },
+    {
+      "name": "Marco Polo",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Venetian traveller to the court of the Khan"
+    },
+    {
+      "name": "Guglielmo Marconi",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "pioneer of long-distance radio"
+    },
+    {
+      "name": "Rita Levi-Montalcini",
+      "iso3": "ITA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "neurologist and Nobel laureate"
+    },
+    {
+      "name": "Nicolaus Copernicus",
+      "iso3": "POL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "placed the Sun at the centre"
+    },
+    {
+      "name": "Marie Curie",
+      "iso3": "POL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Polish-French physicist, two Nobel prizes"
+    },
+    {
+      "name": "Dmitri Mendeleev",
+      "iso3": "RUS",
+      "category": "scientists",
+      "era": "historical",
+      "note": "drew up the periodic table"
+    },
+    {
+      "name": "Ivan Pavlov",
+      "iso3": "RUS",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physiologist of conditioned reflexes"
+    },
+    {
+      "name": "Konstantin Tsiolkovsky",
+      "iso3": "RUS",
+      "category": "scientists",
+      "era": "historical",
+      "note": "theorist of spaceflight"
+    },
+    {
+      "name": "Yuri Gagarin",
+      "iso3": "RUS",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first person in space"
+    },
+    {
+      "name": "Valentina Tereshkova",
+      "iso3": "RUS",
+      "category": "scientists",
+      "era": "modern",
+      "note": "first woman in space"
+    },
+    {
+      "name": "Santiago Ramón y Cajal",
+      "iso3": "ESP",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of modern neuroscience"
+    },
+    {
+      "name": "Juan Sebastián Elcano",
+      "iso3": "ESP",
+      "category": "scientists",
+      "era": "historical",
+      "note": "completed the first circumnavigation"
+    },
+    {
+      "name": "Vasco da Gama",
+      "iso3": "PRT",
+      "category": "scientists",
+      "era": "historical",
+      "note": "sailed the sea route to India"
+    },
+    {
+      "name": "Ferdinand Magellan",
+      "iso3": "PRT",
+      "category": "scientists",
+      "era": "historical",
+      "note": "led the first circumnavigation voyage"
+    },
+    {
+      "name": "Antonie van Leeuwenhoek",
+      "iso3": "NLD",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first to see microbes through a lens"
+    },
+    {
+      "name": "Christiaan Huygens",
+      "iso3": "NLD",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer and inventor of the clock escapement"
+    },
+    {
+      "name": "Abel Tasman",
+      "iso3": "NLD",
+      "category": "scientists",
+      "era": "historical",
+      "note": "navigator who charted Tasmania"
+    },
+    {
+      "name": "Niels Bohr",
+      "iso3": "DNK",
+      "category": "scientists",
+      "era": "historical",
+      "note": "modelled the structure of the atom"
+    },
+    {
+      "name": "Tycho Brahe",
+      "iso3": "DNK",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer of precise naked-eye observation"
+    },
+    {
+      "name": "Carl Linnaeus",
+      "iso3": "SWE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "devised the naming system for species"
+    },
+    {
+      "name": "Alfred Nobel",
+      "iso3": "SWE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "chemist whose fortune funds the Nobel prizes"
+    },
+    {
+      "name": "Anders Celsius",
+      "iso3": "SWE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer who gave his name to the scale"
+    },
+    {
+      "name": "Roald Amundsen",
+      "iso3": "NOR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first to reach the South Pole"
+    },
+    {
+      "name": "Fridtjof Nansen",
+      "iso3": "NOR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "polar explorer and relief organiser"
+    },
+    {
+      "name": "Thor Heyerdahl",
+      "iso3": "NOR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "crossed the Pacific on the Kon-Tiki raft"
+    },
+    {
+      "name": "Sigmund Freud",
+      "iso3": "AUT",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of psychoanalysis"
+    },
+    {
+      "name": "Erwin Schrödinger",
+      "iso3": "AUT",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist of wave mechanics"
+    },
+    {
+      "name": "Lise Meitner",
+      "iso3": "AUT",
+      "category": "scientists",
+      "era": "historical",
+      "note": "co-discovered nuclear fission"
+    },
+    {
+      "name": "Gregor Mendel",
+      "iso3": "CZE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "monk whose pea plants founded genetics"
+    },
+    {
+      "name": "Leonhard Euler",
+      "iso3": "CHE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician of unmatched output"
+    },
+    {
+      "name": "Carl Jung",
+      "iso3": "CHE",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of analytical psychology"
+    },
+    {
+      "name": "Georges Lemaître",
+      "iso3": "BEL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "proposed the expanding universe"
+    },
+    {
+      "name": "Andreas Vesalius",
+      "iso3": "BEL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of modern anatomy"
+    },
+    {
+      "name": "John von Neumann",
+      "iso3": "HUN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician of computing and game theory"
+    },
+    {
+      "name": "Ignaz Semmelweis",
+      "iso3": "HUN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "showed that handwashing saves lives"
+    },
+    {
+      "name": "Ernő Rubik",
+      "iso3": "HUN",
+      "category": "scientists",
+      "era": "modern",
+      "note": "architect who invented the cube"
+    },
+    {
+      "name": "Archimedes",
+      "iso3": "GRC",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician and engineer of Syracuse"
+    },
+    {
+      "name": "Aristotle",
+      "iso3": "GRC",
+      "category": "scientists",
+      "era": "historical",
+      "note": "philosopher and first systematic biologist"
+    },
+    {
+      "name": "Hippocrates",
+      "iso3": "GRC",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physician who gave medicine its oath"
+    },
+    {
+      "name": "Euclid",
+      "iso3": "GRC",
+      "category": "scientists",
+      "era": "historical",
+      "note": "wrote the Elements of geometry"
+    },
+    {
+      "name": "Hypatia",
+      "iso3": "EGY",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician and teacher of Alexandria"
+    },
+    {
+      "name": "Imhotep",
+      "iso3": "EGY",
+      "category": "scientists",
+      "era": "historical",
+      "note": "architect of the step pyramid at Saqqara"
+    },
+    {
+      "name": "Ahmed Zewail",
+      "iso3": "EGY",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Nobel laureate in chemistry"
+    },
+    {
+      "name": "Ibn Battuta",
+      "iso3": "MAR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "traveller who crossed the medieval world"
+    },
+    {
+      "name": "Ibn al-Haytham",
+      "iso3": "IRQ",
+      "category": "scientists",
+      "era": "historical",
+      "note": "wrote the Book of Optics"
+    },
+    {
+      "name": "Avicenna",
+      "iso3": "IRN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physician who wrote the Canon of Medicine"
+    },
+    {
+      "name": "Al-Khwarizmi",
+      "iso3": "UZB",
+      "category": "scientists",
+      "era": "historical",
+      "note": "mathematician who gave us the word algorithm"
+    },
+    {
+      "name": "Ulugh Beg",
+      "iso3": "UZB",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer who built the Samarkand observatory"
+    },
+    {
+      "name": "Zhang Heng",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "invented an early seismoscope"
+    },
+    {
+      "name": "Cai Lun",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "credited with inventing paper"
+    },
+    {
+      "name": "Zheng He",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "admiral of seven treasure fleet voyages"
+    },
+    {
+      "name": "Tu Youyou",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "modern",
+      "note": "discovered the malaria drug artemisinin"
+    },
+    {
+      "name": "Hideyo Noguchi",
+      "iso3": "JPN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "bacteriologist who worked on yellow fever"
+    },
+    {
+      "name": "Hideki Yukawa",
+      "iso3": "JPN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first Japanese Nobel laureate in physics"
+    },
+    {
+      "name": "Shinya Yamanaka",
+      "iso3": "JPN",
+      "category": "scientists",
+      "era": "modern",
+      "note": "reprogrammed adult cells to stem cells"
+    },
+    {
+      "name": "Aryabhata",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "astronomer of classical India"
+    },
+    {
+      "name": "Srinivasa Ramanujan",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "self-taught mathematician of Madras"
+    },
+    {
+      "name": "C. V. Raman",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist and Nobel laureate in light scattering"
+    },
+    {
+      "name": "Homi Bhabha",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founded India's nuclear research programme"
+    },
+    {
+      "name": "A. P. J. Abdul Kalam",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "aerospace engineer and president of India"
+    },
+    {
+      "name": "Abdus Salam",
+      "iso3": "PAK",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Nobel laureate in physics"
+    },
+    {
+      "name": "Piri Reis",
+      "iso3": "TUR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Ottoman admiral and cartographer"
+    },
+    {
+      "name": "Aziz Sancar",
+      "iso3": "TUR",
+      "category": "scientists",
+      "era": "modern",
+      "note": "Nobel laureate in chemistry"
+    },
+    {
+      "name": "Chaim Weizmann",
+      "iso3": "ISR",
+      "category": "scientists",
+      "era": "historical",
+      "note": "chemist and first president of Israel"
+    },
+    {
+      "name": "Ada Yonath",
+      "iso3": "ISR",
+      "category": "scientists",
+      "era": "modern",
+      "note": "Nobel laureate for mapping the ribosome"
+    },
+    {
+      "name": "Ernest Rutherford",
+      "iso3": "NZL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "split the atom and named its nucleus"
+    },
+    {
+      "name": "Edmund Hillary",
+      "iso3": "NZL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first to summit Everest with Tenzing"
+    },
+    {
+      "name": "Tenzing Norgay",
+      "iso3": "NPL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "first to summit Everest with Hillary"
+    },
+    {
+      "name": "Howard Florey",
+      "iso3": "AUS",
+      "category": "scientists",
+      "era": "historical",
+      "note": "shared the Nobel prize for penicillin"
+    },
+    {
+      "name": "Elizabeth Blackburn",
+      "iso3": "AUS",
+      "category": "scientists",
+      "era": "modern",
+      "note": "Nobel laureate for work on telomeres"
+    },
+    {
+      "name": "Frederick Banting",
+      "iso3": "CAN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "co-discovered insulin"
+    },
+    {
+      "name": "Chris Hadfield",
+      "iso3": "CAN",
+      "category": "scientists",
+      "era": "modern",
+      "note": "astronaut who commanded the space station"
+    },
+    {
+      "name": "Christiaan Barnard",
+      "iso3": "ZAF",
+      "category": "scientists",
+      "era": "historical",
+      "note": "performed the first heart transplant"
+    },
+    {
+      "name": "Wangari Maathai",
+      "iso3": "KEN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "tree-planting campaigner and Nobel laureate"
+    },
+    {
+      "name": "Alberto Santos-Dumont",
+      "iso3": "BRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "aviation pioneer of early powered flight"
+    },
+    {
+      "name": "Carlos Chagas",
+      "iso3": "BRA",
+      "category": "scientists",
+      "era": "historical",
+      "note": "identified the disease that bears his name"
+    },
+    {
+      "name": "Luis Federico Leloir",
+      "iso3": "ARG",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Nobel laureate in chemistry"
+    },
+    {
+      "name": "César Milstein",
+      "iso3": "ARG",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Nobel laureate for monoclonal antibodies"
+    },
+    {
+      "name": "Mario Molina",
+      "iso3": "MEX",
+      "category": "scientists",
+      "era": "historical",
+      "note": "Nobel laureate who showed ozone damage"
+    },
+    {
+      "name": "Guillermo Gonzalez Camarena",
+      "iso3": "MEX",
+      "category": "scientists",
+      "era": "historical",
+      "note": "developed an early colour television system"
+    },
+    {
+      "name": "William Shakespeare",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "playwright of Hamlet and King Lear"
+    },
+    {
+      "name": "Jane Austen",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Pride and Prejudice"
+    },
+    {
+      "name": "Charles Dickens",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Victorian London"
+    },
+    {
+      "name": "Virginia Woolf",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "modernist novelist and essayist"
+    },
+    {
+      "name": "George Orwell",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Animal Farm and 1984"
+    },
+    {
+      "name": "Agatha Christie",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "best selling novelist of detective fiction"
+    },
+    {
+      "name": "Mary Shelley",
+      "iso3": "GBR",
+      "category": "writers",
+      "era": "historical",
+      "note": "wrote Frankenstein at eighteen"
+    },
+    {
+      "name": "Mark Twain",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of the Mississippi river"
+    },
+    {
+      "name": "Toni Morrison",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Ernest Hemingway",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of spare declarative prose"
+    },
+    {
+      "name": "Emily Dickinson",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet published almost entirely after death"
+    },
+    {
+      "name": "Maya Angelou",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and memoirist"
+    },
+    {
+      "name": "James Baldwin",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and essayist"
+    },
+    {
+      "name": "Edgar Allan Poe",
+      "iso3": "USA",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and inventor of the detective story"
+    },
+    {
+      "name": "Victor Hugo",
+      "iso3": "FRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Les Miserables"
+    },
+    {
+      "name": "Molière",
+      "iso3": "FRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "playwright of French comedy"
+    },
+    {
+      "name": "Simone de Beauvoir",
+      "iso3": "FRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "philosopher and novelist"
+    },
+    {
+      "name": "Albert Camus",
+      "iso3": "FRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Alexandre Dumas",
+      "iso3": "FRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of The Three Musketeers"
+    },
+    {
+      "name": "Leo Tolstoy",
+      "iso3": "RUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of War and Peace"
+    },
+    {
+      "name": "Fyodor Dostoevsky",
+      "iso3": "RUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Crime and Punishment"
+    },
+    {
+      "name": "Anton Chekhov",
+      "iso3": "RUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "short story writer and playwright"
+    },
+    {
+      "name": "Alexander Pushkin",
+      "iso3": "RUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "founder of modern Russian poetry"
+    },
+    {
+      "name": "Anna Akhmatova",
+      "iso3": "RUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of Requiem"
+    },
+    {
+      "name": "Johann Wolfgang von Goethe",
+      "iso3": "DEU",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and author of Faust"
+    },
+    {
+      "name": "Thomas Mann",
+      "iso3": "DEU",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Bertolt Brecht",
+      "iso3": "DEU",
+      "category": "writers",
+      "era": "historical",
+      "note": "playwright and theatre reformer"
+    },
+    {
+      "name": "Dante Alighieri",
+      "iso3": "ITA",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of the Divine Comedy"
+    },
+    {
+      "name": "Italo Calvino",
+      "iso3": "ITA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Invisible Cities"
+    },
+    {
+      "name": "Primo Levi",
+      "iso3": "ITA",
+      "category": "writers",
+      "era": "historical",
+      "note": "chemist and memoirist"
+    },
+    {
+      "name": "Miguel de Cervantes",
+      "iso3": "ESP",
+      "category": "writers",
+      "era": "historical",
+      "note": "wrote Don Quixote"
+    },
+    {
+      "name": "Federico García Lorca",
+      "iso3": "ESP",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and playwright of Andalusia"
+    },
+    {
+      "name": "James Joyce",
+      "iso3": "IRL",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Ulysses"
+    },
+    {
+      "name": "Oscar Wilde",
+      "iso3": "IRL",
+      "category": "writers",
+      "era": "historical",
+      "note": "playwright and wit"
+    },
+    {
+      "name": "W. B. Yeats",
+      "iso3": "IRL",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and Nobel laureate"
+    },
+    {
+      "name": "Murasaki Shikibu",
+      "iso3": "JPN",
+      "category": "writers",
+      "era": "historical",
+      "note": "wrote The Tale of Genji"
+    },
+    {
+      "name": "Matsuo Basho",
+      "iso3": "JPN",
+      "category": "writers",
+      "era": "historical",
+      "note": "master of the haiku"
+    },
+    {
+      "name": "Haruki Murakami",
+      "iso3": "JPN",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of Norwegian Wood"
+    },
+    {
+      "name": "Li Bai",
+      "iso3": "CHN",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of the Tang dynasty"
+    },
+    {
+      "name": "Cao Xueqin",
+      "iso3": "CHN",
+      "category": "writers",
+      "era": "historical",
+      "note": "wrote Dream of the Red Chamber"
+    },
+    {
+      "name": "Lu Xun",
+      "iso3": "CHN",
+      "category": "writers",
+      "era": "historical",
+      "note": "founder of modern Chinese literature"
+    },
+    {
+      "name": "Rabindranath Tagore",
+      "iso3": "IND",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and first Asian Nobel laureate"
+    },
+    {
+      "name": "Kalidasa",
+      "iso3": "IND",
+      "category": "writers",
+      "era": "historical",
+      "note": "classical Sanskrit poet and dramatist"
+    },
+    {
+      "name": "Premchand",
+      "iso3": "IND",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Hindi and Urdu"
+    },
+    {
+      "name": "Chinua Achebe",
+      "iso3": "NGA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Things Fall Apart"
+    },
+    {
+      "name": "Wole Soyinka",
+      "iso3": "NGA",
+      "category": "writers",
+      "era": "modern",
+      "note": "playwright and Nobel laureate"
+    },
+    {
+      "name": "Chimamanda Ngozi Adichie",
+      "iso3": "NGA",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of Half of a Yellow Sun"
+    },
+    {
+      "name": "Gabriel García Márquez",
+      "iso3": "COL",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Pablo Neruda",
+      "iso3": "CHL",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and Nobel laureate"
+    },
+    {
+      "name": "Gabriela Mistral",
+      "iso3": "CHL",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and first Latin American woman laureate"
+    },
+    {
+      "name": "Jorge Luis Borges",
+      "iso3": "ARG",
+      "category": "writers",
+      "era": "historical",
+      "note": "writer of labyrinthine short fiction"
+    },
+    {
+      "name": "Julio Cortázar",
+      "iso3": "ARG",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Hopscotch"
+    },
+    {
+      "name": "Machado de Assis",
+      "iso3": "BRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of nineteenth century Rio"
+    },
+    {
+      "name": "Clarice Lispector",
+      "iso3": "BRA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and short story writer"
+    },
+    {
+      "name": "Paulo Coelho",
+      "iso3": "BRA",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of The Alchemist"
+    },
+    {
+      "name": "Octavio Paz",
+      "iso3": "MEX",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and Nobel laureate"
+    },
+    {
+      "name": "Sor Juana Inés de la Cruz",
+      "iso3": "MEX",
+      "category": "writers",
+      "era": "historical",
+      "note": "colonial poet and scholar"
+    },
+    {
+      "name": "Naguib Mahfouz",
+      "iso3": "EGY",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Nawal El Saadawi",
+      "iso3": "EGY",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and physician"
+    },
+    {
+      "name": "Nadine Gordimer",
+      "iso3": "ZAF",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "J. M. Coetzee",
+      "iso3": "ZAF",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Orhan Pamuk",
+      "iso3": "TUR",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Nâzım Hikmet",
+      "iso3": "TUR",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of modern Turkish verse"
+    },
+    {
+      "name": "Hafez",
+      "iso3": "IRN",
+      "category": "writers",
+      "era": "historical",
+      "note": "Persian lyric poet of Shiraz"
+    },
+    {
+      "name": "Ferdowsi",
+      "iso3": "IRN",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of the Shahnameh"
+    },
+    {
+      "name": "Wisława Szymborska",
+      "iso3": "POL",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and Nobel laureate"
+    },
+    {
+      "name": "Stanisław Lem",
+      "iso3": "POL",
+      "category": "writers",
+      "era": "historical",
+      "note": "science fiction writer of Solaris"
+    },
+    {
+      "name": "Franz Kafka",
+      "iso3": "CZE",
+      "category": "writers",
+      "era": "historical",
+      "note": "German-language novelist from Prague"
+    },
+    {
+      "name": "Milan Kundera",
+      "iso3": "CZE",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of The Unbearable Lightness of Being"
+    },
+    {
+      "name": "Homer",
+      "iso3": "GRC",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of the Iliad and the Odyssey"
+    },
+    {
+      "name": "Sappho",
+      "iso3": "GRC",
+      "category": "writers",
+      "era": "historical",
+      "note": "lyric poet of Lesbos"
+    },
+    {
+      "name": "Hans Christian Andersen",
+      "iso3": "DNK",
+      "category": "writers",
+      "era": "historical",
+      "note": "writer of fairy tales"
+    },
+    {
+      "name": "Astrid Lindgren",
+      "iso3": "SWE",
+      "category": "writers",
+      "era": "historical",
+      "note": "created Pippi Longstocking"
+    },
+    {
+      "name": "Henrik Ibsen",
+      "iso3": "NOR",
+      "category": "writers",
+      "era": "historical",
+      "note": "playwright of A Doll's House"
+    },
+    {
+      "name": "Fernando Pessoa",
+      "iso3": "PRT",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet who wrote under many identities"
+    },
+    {
+      "name": "Margaret Atwood",
+      "iso3": "CAN",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of The Handmaid's Tale"
+    },
+    {
+      "name": "Patrick White",
+      "iso3": "AUS",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Han Kang",
+      "iso3": "KOR",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Pramoedya Ananta Toer",
+      "iso3": "IDN",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of the Buru quartet"
+    },
+    {
+      "name": "Nguyễn Du",
+      "iso3": "VNM",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of The Tale of Kieu"
+    },
+    {
+      "name": "José Rizal",
+      "iso3": "PHL",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and national hero"
+    },
+    {
+      "name": "Mariama Bâ",
+      "iso3": "SEN",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of So Long a Letter"
+    },
+    {
+      "name": "Khalil Gibran",
+      "iso3": "LBN",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet who wrote The Prophet"
+    },
+    {
+      "name": "Mahmoud Darwish",
+      "iso3": "PSE",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of Palestinian exile"
+    },
+    {
+      "name": "Taras Shevchenko",
+      "iso3": "UKR",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and painter, national bard"
+    },
+    {
+      "name": "Louis Armstrong",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "trumpeter who shaped jazz"
+    },
+    {
+      "name": "Ella Fitzgerald",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer known for her scat improvisation"
+    },
+    {
+      "name": "Duke Ellington",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "bandleader and composer"
+    },
+    {
+      "name": "Aretha Franklin",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "soul singer of Respect"
+    },
+    {
+      "name": "Johnny Cash",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "country singer in black"
+    },
+    {
+      "name": "Bob Dylan",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter and Nobel laureate"
+    },
+    {
+      "name": "Jimi Hendrix",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "guitarist who rewired the instrument"
+    },
+    {
+      "name": "Nina Simone",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "pianist and singer of protest songs"
+    },
+    {
+      "name": "Michael Jackson",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Thriller"
+    },
+    {
+      "name": "Prince",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "multi-instrumentalist of Purple Rain"
+    },
+    {
+      "name": "Dolly Parton",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "country songwriter and singer"
+    },
+    {
+      "name": "Beyonce",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and stadium performer"
+    },
+    {
+      "name": "John Lennon",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "songwriter of the Beatles"
+    },
+    {
+      "name": "Paul McCartney",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter of the Beatles"
+    },
+    {
+      "name": "David Bowie",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer who reinvented himself repeatedly"
+    },
+    {
+      "name": "Freddie Mercury",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Queen"
+    },
+    {
+      "name": "Elton John",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "pianist and songwriter"
+    },
+    {
+      "name": "Amy Winehouse",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Back to Black"
+    },
+    {
+      "name": "Adele",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of 21 and 25"
+    },
+    {
+      "name": "Johann Sebastian Bach",
+      "iso3": "DEU",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the Brandenburg concertos"
+    },
+    {
+      "name": "Ludwig van Beethoven",
+      "iso3": "DEU",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of nine symphonies"
+    },
+    {
+      "name": "Johannes Brahms",
+      "iso3": "DEU",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer and pianist"
+    },
+    {
+      "name": "Richard Wagner",
+      "iso3": "DEU",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the Ring cycle"
+    },
+    {
+      "name": "Clara Schumann",
+      "iso3": "DEU",
+      "category": "musicians",
+      "era": "historical",
+      "note": "pianist and composer"
+    },
+    {
+      "name": "Wolfgang Amadeus Mozart",
+      "iso3": "AUT",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of The Magic Flute"
+    },
+    {
+      "name": "Franz Schubert",
+      "iso3": "AUT",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of lieder"
+    },
+    {
+      "name": "Joseph Haydn",
+      "iso3": "AUT",
+      "category": "musicians",
+      "era": "historical",
+      "note": "shaped the symphony and the string quartet"
+    },
+    {
+      "name": "Johann Strauss II",
+      "iso3": "AUT",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the Blue Danube waltz"
+    },
+    {
+      "name": "Giuseppe Verdi",
+      "iso3": "ITA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Aida and La Traviata"
+    },
+    {
+      "name": "Giacomo Puccini",
+      "iso3": "ITA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Tosca and La Boheme"
+    },
+    {
+      "name": "Antonio Vivaldi",
+      "iso3": "ITA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the Four Seasons"
+    },
+    {
+      "name": "Luciano Pavarotti",
+      "iso3": "ITA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "operatic tenor"
+    },
+    {
+      "name": "Ennio Morricone",
+      "iso3": "ITA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of film scores"
+    },
+    {
+      "name": "Édith Piaf",
+      "iso3": "FRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of La Vie en Rose"
+    },
+    {
+      "name": "Claude Debussy",
+      "iso3": "FRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Clair de Lune"
+    },
+    {
+      "name": "Maurice Ravel",
+      "iso3": "FRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Bolero"
+    },
+    {
+      "name": "Serge Gainsbourg",
+      "iso3": "FRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "songwriter and provocateur"
+    },
+    {
+      "name": "Pyotr Ilyich Tchaikovsky",
+      "iso3": "RUS",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Swan Lake"
+    },
+    {
+      "name": "Sergei Rachmaninoff",
+      "iso3": "RUS",
+      "category": "musicians",
+      "era": "historical",
+      "note": "pianist and composer"
+    },
+    {
+      "name": "Igor Stravinsky",
+      "iso3": "RUS",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of The Rite of Spring"
+    },
+    {
+      "name": "Dmitri Shostakovich",
+      "iso3": "RUS",
+      "category": "musicians",
+      "era": "historical",
+      "note": "symphonist of the Soviet century"
+    },
+    {
+      "name": "Frédéric Chopin",
+      "iso3": "POL",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer for the piano"
+    },
+    {
+      "name": "Franz Liszt",
+      "iso3": "HUN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "virtuoso pianist and composer"
+    },
+    {
+      "name": "Béla Bartók",
+      "iso3": "HUN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer and collector of folk music"
+    },
+    {
+      "name": "Antonín Dvořák",
+      "iso3": "CZE",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the New World symphony"
+    },
+    {
+      "name": "Jean Sibelius",
+      "iso3": "FIN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Finlandia"
+    },
+    {
+      "name": "Edvard Grieg",
+      "iso3": "NOR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of the Peer Gynt suites"
+    },
+    {
+      "name": "Benny Andersson",
+      "iso3": "SWE",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter of ABBA"
+    },
+    {
+      "name": "Avicii",
+      "iso3": "SWE",
+      "category": "musicians",
+      "era": "historical",
+      "note": "producer and dance music DJ"
+    },
+    {
+      "name": "Paco de Lucía",
+      "iso3": "ESP",
+      "category": "musicians",
+      "era": "historical",
+      "note": "flamenco guitarist"
+    },
+    {
+      "name": "Manuel de Falla",
+      "iso3": "ESP",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Spanish concert music"
+    },
+    {
+      "name": "Rosalia",
+      "iso3": "ESP",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer who reworked flamenco"
+    },
+    {
+      "name": "Amália Rodrigues",
+      "iso3": "PRT",
+      "category": "musicians",
+      "era": "historical",
+      "note": "the voice of Portuguese fado"
+    },
+    {
+      "name": "Antonio Carlos Jobim",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of bossa nova"
+    },
+    {
+      "name": "João Gilberto",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "guitarist of bossa nova"
+    },
+    {
+      "name": "Gilberto Gil",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and songwriter of tropicalia"
+    },
+    {
+      "name": "Caetano Veloso",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and songwriter of tropicalia"
+    },
+    {
+      "name": "Carmen Miranda",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer and film star of the 1940s"
+    },
+    {
+      "name": "Astor Piazzolla",
+      "iso3": "ARG",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer who remade the tango"
+    },
+    {
+      "name": "Carlos Gardel",
+      "iso3": "ARG",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of the classic tango"
+    },
+    {
+      "name": "Mercedes Sosa",
+      "iso3": "ARG",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Latin American folk song"
+    },
+    {
+      "name": "Juan Gabriel",
+      "iso3": "MEX",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer and songwriter"
+    },
+    {
+      "name": "Vicente Fernández",
+      "iso3": "MEX",
+      "category": "musicians",
+      "era": "historical",
+      "note": "ranchera singer"
+    },
+    {
+      "name": "Celia Cruz",
+      "iso3": "CUB",
+      "category": "musicians",
+      "era": "historical",
+      "note": "queen of salsa"
+    },
+    {
+      "name": "Compay Segundo",
+      "iso3": "CUB",
+      "category": "musicians",
+      "era": "historical",
+      "note": "guitarist of the Buena Vista sound"
+    },
+    {
+      "name": "Bob Marley",
+      "iso3": "JAM",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer who carried reggae worldwide"
+    },
+    {
+      "name": "Shakira",
+      "iso3": "COL",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and songwriter"
+    },
+    {
+      "name": "Fela Kuti",
+      "iso3": "NGA",
+      "category": "musicians",
+      "era": "historical",
+      "note": "created Afrobeat"
+    },
+    {
+      "name": "King Sunny Ade",
+      "iso3": "NGA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "juju guitarist and bandleader"
+    },
+    {
+      "name": "Burna Boy",
+      "iso3": "NGA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "Afrobeats singer"
+    },
+    {
+      "name": "Youssou N'Dour",
+      "iso3": "SEN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of mbalax"
+    },
+    {
+      "name": "Salif Keita",
+      "iso3": "MLI",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer known as the golden voice"
+    },
+    {
+      "name": "Ali Farka Touré",
+      "iso3": "MLI",
+      "category": "musicians",
+      "era": "historical",
+      "note": "guitarist of the Niger bend"
+    },
+    {
+      "name": "Miriam Makeba",
+      "iso3": "ZAF",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer known as Mama Africa"
+    },
+    {
+      "name": "Hugh Masekela",
+      "iso3": "ZAF",
+      "category": "musicians",
+      "era": "historical",
+      "note": "trumpeter and songwriter"
+    },
+    {
+      "name": "Franco Luambo",
+      "iso3": "COD",
+      "category": "musicians",
+      "era": "historical",
+      "note": "guitarist and bandleader of Congolese rumba"
+    },
+    {
+      "name": "Umm Kulthum",
+      "iso3": "EGY",
+      "category": "musicians",
+      "era": "historical",
+      "note": "the most celebrated singer of the Arab world"
+    },
+    {
+      "name": "Ravi Shankar",
+      "iso3": "IND",
+      "category": "musicians",
+      "era": "historical",
+      "note": "sitar player who taught the West"
+    },
+    {
+      "name": "Lata Mangeshkar",
+      "iso3": "IND",
+      "category": "musicians",
+      "era": "historical",
+      "note": "playback singer of thousands of songs"
+    },
+    {
+      "name": "A. R. Rahman",
+      "iso3": "IND",
+      "category": "musicians",
+      "era": "modern",
+      "note": "film composer and Oscar winner"
+    },
+    {
+      "name": "Nusrat Fateh Ali Khan",
+      "iso3": "PAK",
+      "category": "musicians",
+      "era": "historical",
+      "note": "qawwali singer"
+    },
+    {
+      "name": "Ryuichi Sakamoto",
+      "iso3": "JPN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer and electronic pioneer"
+    },
+    {
+      "name": "Joe Hisaishi",
+      "iso3": "JPN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "composer of animated film scores"
+    },
+    {
+      "name": "Lang Lang",
+      "iso3": "CHN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "concert pianist"
+    },
+    {
+      "name": "Teresa Teng",
+      "iso3": "TWN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer beloved across east Asia"
+    },
+    {
+      "name": "Leonard Cohen",
+      "iso3": "CAN",
+      "category": "musicians",
+      "era": "historical",
+      "note": "songwriter of Hallelujah"
+    },
+    {
+      "name": "Joni Mitchell",
+      "iso3": "CAN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter of Blue"
+    },
+    {
+      "name": "Celine Dion",
+      "iso3": "CAN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of stadium ballads"
+    },
+    {
+      "name": "Nick Cave",
+      "iso3": "AUS",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter and novelist"
+    },
+    {
+      "name": "Kylie Minogue",
+      "iso3": "AUS",
+      "category": "musicians",
+      "era": "modern",
+      "note": "pop singer since the 1980s"
+    },
+    {
+      "name": "Lorde",
+      "iso3": "NZL",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter of Pure Heroine"
+    },
+    {
+      "name": "Bono",
+      "iso3": "IRL",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of U2"
+    },
+    {
+      "name": "Sinéad O'Connor",
+      "iso3": "IRL",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Nothing Compares 2 U"
+    },
+    {
+      "name": "Björk",
+      "iso3": "ISL",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and producer"
+    },
+    {
+      "name": "Maria Callas",
+      "iso3": "GRC",
+      "category": "musicians",
+      "era": "historical",
+      "note": "operatic soprano"
+    },
+    {
+      "name": "Mikis Theodorakis",
+      "iso3": "GRC",
+      "category": "musicians",
+      "era": "historical",
+      "note": "composer of Zorba's dance"
+    },
+    {
+      "name": "Sezen Aksu",
+      "iso3": "TUR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "songwriter of modern Turkish pop"
+    },
+    {
+      "name": "Marilyn Monroe",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "historical",
+      "note": "film star of the 1950s"
+    },
+    {
+      "name": "Orson Welles",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "historical",
+      "note": "director and star of Citizen Kane"
+    },
+    {
+      "name": "Katharine Hepburn",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor with four Academy Awards"
+    },
+    {
+      "name": "Sidney Poitier",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "historical",
+      "note": "first Black man to win the acting Oscar"
+    },
+    {
+      "name": "Meryl Streep",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor with a record run of nominations"
+    },
+    {
+      "name": "Denzel Washington",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and director"
+    },
+    {
+      "name": "Steven Spielberg",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Jaws and Schindler's List"
+    },
+    {
+      "name": "Martin Scorsese",
+      "iso3": "USA",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Taxi Driver and Goodfellas"
+    },
+    {
+      "name": "Alfred Hitchcock",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Psycho and Vertigo"
+    },
+    {
+      "name": "Laurence Olivier",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "historical",
+      "note": "stage and screen actor"
+    },
+    {
+      "name": "Judi Dench",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of stage and screen"
+    },
+    {
+      "name": "Anthony Hopkins",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Idris Elba",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and director"
+    },
+    {
+      "name": "Daniel Day-Lewis",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor with three lead acting Oscars"
+    },
+    {
+      "name": "Brigitte Bardot",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "historical",
+      "note": "film star of the French new wave era"
+    },
+    {
+      "name": "Jean-Luc Godard",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Breathless"
+    },
+    {
+      "name": "Catherine Deneuve",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of French cinema"
+    },
+    {
+      "name": "Sarah Bernhardt",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "historical",
+      "note": "stage actor of the Belle Epoque"
+    },
+    {
+      "name": "Federico Fellini",
+      "iso3": "ITA",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of La Dolce Vita"
+    },
+    {
+      "name": "Sophia Loren",
+      "iso3": "ITA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Marcello Mastroianni",
+      "iso3": "ITA",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Italian cinema"
+    },
+    {
+      "name": "Anna Magnani",
+      "iso3": "ITA",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Rome, Open City"
+    },
+    {
+      "name": "Pedro Almodóvar",
+      "iso3": "ESP",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Spanish melodrama"
+    },
+    {
+      "name": "Penélope Cruz",
+      "iso3": "ESP",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Luis Buñuel",
+      "iso3": "ESP",
+      "category": "screen",
+      "era": "historical",
+      "note": "surrealist film director"
+    },
+    {
+      "name": "Marlene Dietrich",
+      "iso3": "DEU",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor and cabaret singer"
+    },
+    {
+      "name": "Werner Herzog",
+      "iso3": "DEU",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Fitzcarraldo"
+    },
+    {
+      "name": "Ingmar Bergman",
+      "iso3": "SWE",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of The Seventh Seal"
+    },
+    {
+      "name": "Greta Garbo",
+      "iso3": "SWE",
+      "category": "screen",
+      "era": "historical",
+      "note": "film star of the silent and early sound era"
+    },
+    {
+      "name": "Ingrid Bergman",
+      "iso3": "SWE",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Casablanca"
+    },
+    {
+      "name": "Mads Mikkelsen",
+      "iso3": "DNK",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Danish and international film"
+    },
+    {
+      "name": "Sergei Eisenstein",
+      "iso3": "RUS",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Battleship Potemkin"
+    },
+    {
+      "name": "Andrei Tarkovsky",
+      "iso3": "RUS",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Solaris and Stalker"
+    },
+    {
+      "name": "Konstantin Stanislavski",
+      "iso3": "RUS",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor who founded a system of training"
+    },
+    {
+      "name": "Satyajit Ray",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of the Apu trilogy"
+    },
+    {
+      "name": "Amitabh Bachchan",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Hindi cinema"
+    },
+    {
+      "name": "Madhubala",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Mughal-e-Azam"
+    },
+    {
+      "name": "Shah Rukh Khan",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Hindi cinema"
+    },
+    {
+      "name": "Akira Kurosawa",
+      "iso3": "JPN",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Seven Samurai"
+    },
+    {
+      "name": "Toshiro Mifune",
+      "iso3": "JPN",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of samurai cinema"
+    },
+    {
+      "name": "Hayao Miyazaki",
+      "iso3": "JPN",
+      "category": "screen",
+      "era": "modern",
+      "note": "animator and director of Spirited Away"
+    },
+    {
+      "name": "Zhang Yimou",
+      "iso3": "CHN",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Raise the Red Lantern"
+    },
+    {
+      "name": "Gong Li",
+      "iso3": "CHN",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Chinese cinema"
+    },
+    {
+      "name": "Bong Joon-ho",
+      "iso3": "KOR",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Parasite"
+    },
+    {
+      "name": "Song Kang-ho",
+      "iso3": "KOR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Korean cinema"
+    },
+    {
+      "name": "Abbas Kiarostami",
+      "iso3": "IRN",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Taste of Cherry"
+    },
+    {
+      "name": "Asghar Farhadi",
+      "iso3": "IRN",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of A Separation"
+    },
+    {
+      "name": "Nuri Bilge Ceylan",
+      "iso3": "TUR",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Winter Sleep"
+    },
+    {
+      "name": "Omar Sharif",
+      "iso3": "EGY",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Doctor Zhivago"
+    },
+    {
+      "name": "Youssef Chahine",
+      "iso3": "EGY",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Egyptian cinema"
+    },
+    {
+      "name": "Faten Hamama",
+      "iso3": "EGY",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Egyptian cinema"
+    },
+    {
+      "name": "Guillermo del Toro",
+      "iso3": "MEX",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Pan's Labyrinth"
+    },
+    {
+      "name": "Alfonso Cuarón",
+      "iso3": "MEX",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Roma and Gravity"
+    },
+    {
+      "name": "María Félix",
+      "iso3": "MEX",
+      "category": "screen",
+      "era": "historical",
+      "note": "star of the golden age of Mexican cinema"
+    },
+    {
+      "name": "Fernanda Montenegro",
+      "iso3": "BRA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Central Station"
+    },
+    {
+      "name": "Walter Salles",
+      "iso3": "BRA",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Central Station"
+    },
+    {
+      "name": "Ricardo Darín",
+      "iso3": "ARG",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Argentine cinema"
+    },
+    {
+      "name": "Cate Blanchett",
+      "iso3": "AUS",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor with two Academy Awards"
+    },
+    {
+      "name": "Baz Luhrmann",
+      "iso3": "AUS",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Moulin Rouge"
+    },
+    {
+      "name": "Peter Jackson",
+      "iso3": "NZL",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of The Lord of the Rings"
+    },
+    {
+      "name": "Denis Villeneuve",
+      "iso3": "CAN",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Dune and Arrival"
+    },
+    {
+      "name": "Mary Pickford",
+      "iso3": "CAN",
+      "category": "screen",
+      "era": "historical",
+      "note": "silent film star and studio founder"
+    },
+    {
+      "name": "Saoirse Ronan",
+      "iso3": "IRL",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor nominated four times for an Oscar"
+    },
+    {
+      "name": "Cillian Murphy",
+      "iso3": "IRL",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Charlize Theron",
+      "iso3": "ZAF",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and producer"
+    },
+    {
+      "name": "John Kani",
+      "iso3": "ZAF",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and playwright"
+    },
+    {
+      "name": "Krzysztof Kieślowski",
+      "iso3": "POL",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of the Three Colours films"
+    },
+    {
+      "name": "Melina Mercouri",
+      "iso3": "GRC",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor and later culture minister"
+    },
+    {
+      "name": "Ousmane Sembène",
+      "iso3": "SEN",
+      "category": "screen",
+      "era": "historical",
+      "note": "novelist and father of African cinema"
+    },
+    {
+      "name": "Lino Brocka",
+      "iso3": "PHL",
+      "category": "screen",
+      "era": "historical",
+      "note": "director of Philippine cinema"
+    },
+    {
+      "name": "Apichatpong Weerasethakul",
+      "iso3": "THA",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Uncle Boonmee"
+    },
+    {
+      "name": "Jackie Chan",
+      "iso3": "HKG",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and stunt choreographer"
+    },
+    {
+      "name": "Lucille Ball",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor and studio head"
+    },
+    {
+      "name": "Groucho Marx",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian of the Marx Brothers"
+    },
+    {
+      "name": "Buster Keaton",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "silent comedian and stunt performer"
+    },
+    {
+      "name": "Richard Pryor",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "stand-up comedian"
+    },
+    {
+      "name": "Robin Williams",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian and actor"
+    },
+    {
+      "name": "Joan Rivers",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "stand-up comedian and host"
+    },
+    {
+      "name": "Jerry Seinfeld",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "modern",
+      "note": "stand-up comedian"
+    },
+    {
+      "name": "Tina Fey",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and sketch writer"
+    },
+    {
+      "name": "Eddie Murphy",
+      "iso3": "USA",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and actor"
+    },
+    {
+      "name": "Charlie Chaplin",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "historical",
+      "note": "silent comedian who created the Tramp"
+    },
+    {
+      "name": "Stan Laurel",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian of Laurel and Hardy"
+    },
+    {
+      "name": "Peter Sellers",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor of the Pink Panther films"
+    },
+    {
+      "name": "Eric Morecambe",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian of Morecambe and Wise"
+    },
+    {
+      "name": "Victoria Wood",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian and songwriter"
+    },
+    {
+      "name": "John Cleese",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian of Monty Python"
+    },
+    {
+      "name": "Rowan Atkinson",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian who created Mr Bean"
+    },
+    {
+      "name": "Ricky Gervais",
+      "iso3": "GBR",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and writer of The Office"
+    },
+    {
+      "name": "Spike Milligan",
+      "iso3": "IRL",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian and writer of The Goon Show"
+    },
+    {
+      "name": "Dara Ó Briain",
+      "iso3": "IRL",
+      "category": "comedians",
+      "era": "modern",
+      "note": "stand-up comedian and host"
+    },
+    {
+      "name": "Jim Carrey",
+      "iso3": "CAN",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comic actor"
+    },
+    {
+      "name": "John Candy",
+      "iso3": "CAN",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor"
+    },
+    {
+      "name": "Mike Myers",
+      "iso3": "CAN",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and actor"
+    },
+    {
+      "name": "Barry Humphries",
+      "iso3": "AUS",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian who created Dame Edna"
+    },
+    {
+      "name": "Hannah Gadsby",
+      "iso3": "AUS",
+      "category": "comedians",
+      "era": "modern",
+      "note": "stand-up comedian"
+    },
+    {
+      "name": "Louis de Funès",
+      "iso3": "FRA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor of French cinema"
+    },
+    {
+      "name": "Coluche",
+      "iso3": "FRA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian and founder of a food charity"
+    },
+    {
+      "name": "Jacques Tati",
+      "iso3": "FRA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic director who created Monsieur Hulot"
+    },
+    {
+      "name": "Totò",
+      "iso3": "ITA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor of Neapolitan theatre and film"
+    },
+    {
+      "name": "Roberto Benigni",
+      "iso3": "ITA",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comic actor and director"
+    },
+    {
+      "name": "Cantinflas",
+      "iso3": "MEX",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor of Mexican cinema"
+    },
+    {
+      "name": "Chico Anysio",
+      "iso3": "BRA",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comedian and creator of many characters"
+    },
+    {
+      "name": "Loriot",
+      "iso3": "DEU",
+      "category": "comedians",
+      "era": "historical",
+      "note": "cartoonist and television humorist"
+    },
+    {
+      "name": "Otto Waalkes",
+      "iso3": "DEU",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and cartoonist"
+    },
+    {
+      "name": "Arkady Raikin",
+      "iso3": "RUS",
+      "category": "comedians",
+      "era": "historical",
+      "note": "satirist of the Soviet stage"
+    },
+    {
+      "name": "Trevor Noah",
+      "iso3": "ZAF",
+      "category": "comedians",
+      "era": "modern",
+      "note": "stand-up comedian and host"
+    },
+    {
+      "name": "Ismail Yassine",
+      "iso3": "EGY",
+      "category": "comedians",
+      "era": "historical",
+      "note": "comic actor of Egyptian cinema"
+    },
+    {
+      "name": "Kapil Sharma",
+      "iso3": "IND",
+      "category": "comedians",
+      "era": "modern",
+      "note": "comedian and television host"
+    },
+    {
+      "name": "Muhammad Ali",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "heavyweight boxing champion"
+    },
+    {
+      "name": "Jesse Owens",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won four golds at the 1936 Olympics"
+    },
+    {
+      "name": "Babe Ruth",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "baseball slugger of the 1920s"
+    },
+    {
+      "name": "Jackie Robinson",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "broke baseball's colour line"
+    },
+    {
+      "name": "Michael Jordan",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball champion with six titles"
+    },
+    {
+      "name": "Serena Williams",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with 23 major singles titles"
+    },
+    {
+      "name": "Michael Phelps",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "swimmer with 23 Olympic golds"
+    },
+    {
+      "name": "Simone Biles",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "gymnast and multiple Olympic champion"
+    },
+    {
+      "name": "Billie Jean King",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis champion and campaigner"
+    },
+    {
+      "name": "Bobby Moore",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "historical",
+      "note": "captain of England's 1966 World Cup team"
+    },
+    {
+      "name": "Roger Bannister",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "historical",
+      "note": "first to run a mile under four minutes"
+    },
+    {
+      "name": "Steve Redgrave",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "rower with five Olympic golds"
+    },
+    {
+      "name": "Lewis Hamilton",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "seven-time Formula One world champion"
+    },
+    {
+      "name": "Jessica Ennis-Hill",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "Olympic heptathlon champion"
+    },
+    {
+      "name": "Mo Farah",
+      "iso3": "GBR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "distance runner with four Olympic golds"
+    },
+    {
+      "name": "Pelé",
+      "iso3": "BRA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "footballer who won three World Cups"
+    },
+    {
+      "name": "Ayrton Senna",
+      "iso3": "BRA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "three-time Formula One world champion"
+    },
+    {
+      "name": "Garrincha",
+      "iso3": "BRA",
+      "category": "athletes",
+      "era": "historical",
+      "note": "winger of Brazil's 1958 and 1962 sides"
+    },
+    {
+      "name": "Ronaldo",
+      "iso3": "BRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and two-time world player of the year"
+    },
+    {
+      "name": "Marta",
+      "iso3": "BRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer with six world player awards"
+    },
+    {
+      "name": "Diego Maradona",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "historical",
+      "note": "footballer who won the 1986 World Cup"
+    },
+    {
+      "name": "Juan Manuel Fangio",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "historical",
+      "note": "five-time Formula One world champion"
+    },
+    {
+      "name": "Lionel Messi",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer with eight Ballons d'Or"
+    },
+    {
+      "name": "Gabriela Sabatini",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis champion of the US Open"
+    },
+    {
+      "name": "Cristiano Ronaldo",
+      "iso3": "PRT",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer and record international scorer"
+    },
+    {
+      "name": "Eusébio",
+      "iso3": "PRT",
+      "category": "athletes",
+      "era": "historical",
+      "note": "striker of the 1966 World Cup"
+    },
+    {
+      "name": "Rafael Nadal",
+      "iso3": "ESP",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with fourteen French Opens"
+    },
+    {
+      "name": "Andrés Iniesta",
+      "iso3": "ESP",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder who scored the 2010 final winner"
+    },
+    {
+      "name": "Miguel Indurain",
+      "iso3": "ESP",
+      "category": "athletes",
+      "era": "modern",
+      "note": "cyclist with five Tour de France wins"
+    },
+    {
+      "name": "Zinedine Zidane",
+      "iso3": "FRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer and later coach"
+    },
+    {
+      "name": "Marie-José Pérec",
+      "iso3": "FRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sprinter with three Olympic golds"
+    },
+    {
+      "name": "Alain Prost",
+      "iso3": "FRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "four-time Formula One world champion"
+    },
+    {
+      "name": "Teddy Riner",
+      "iso3": "FRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "judoka with eleven world titles"
+    },
+    {
+      "name": "Franz Beckenbauer",
+      "iso3": "DEU",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won the World Cup as player and as manager"
+    },
+    {
+      "name": "Steffi Graf",
+      "iso3": "DEU",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player who won the golden slam"
+    },
+    {
+      "name": "Michael Schumacher",
+      "iso3": "DEU",
+      "category": "athletes",
+      "era": "modern",
+      "note": "seven-time Formula One world champion"
+    },
+    {
+      "name": "Dirk Nowitzki",
+      "iso3": "DEU",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball champion and league MVP"
+    },
+    {
+      "name": "Roberto Baggio",
+      "iso3": "ITA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer and Ballon d'Or winner"
+    },
+    {
+      "name": "Valentino Rossi",
+      "iso3": "ITA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "nine-time motorcycle world champion"
+    },
+    {
+      "name": "Paolo Maldini",
+      "iso3": "ITA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "defender of Milan and Italy"
+    },
+    {
+      "name": "Johan Cruyff",
+      "iso3": "NLD",
+      "category": "athletes",
+      "era": "historical",
+      "note": "footballer and coach of total football"
+    },
+    {
+      "name": "Fanny Blankers-Koen",
+      "iso3": "NLD",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won four golds at the 1948 Olympics"
+    },
+    {
+      "name": "Max Verstappen",
+      "iso3": "NLD",
+      "category": "athletes",
+      "era": "modern",
+      "note": "Formula One world champion"
+    },
+    {
+      "name": "Eddy Merckx",
+      "iso3": "BEL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "cyclist with five Tour de France wins"
+    },
+    {
+      "name": "Kim Clijsters",
+      "iso3": "BEL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player and four-time major winner"
+    },
+    {
+      "name": "Lev Yashin",
+      "iso3": "RUS",
+      "category": "athletes",
+      "era": "historical",
+      "note": "goalkeeper and only keeper to win the Ballon d'Or"
+    },
+    {
+      "name": "Larisa Latynina",
+      "iso3": "RUS",
+      "category": "athletes",
+      "era": "modern",
+      "note": "gymnast with nine Olympic golds"
+    },
+    {
+      "name": "Garry Kasparov",
+      "iso3": "RUS",
+      "category": "athletes",
+      "era": "modern",
+      "note": "world chess champion"
+    },
+    {
+      "name": "Andriy Shevchenko",
+      "iso3": "UKR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and Ballon d'Or winner"
+    },
+    {
+      "name": "Sergey Bubka",
+      "iso3": "UKR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "pole vaulter who broke 35 world records"
+    },
+    {
+      "name": "Oleksandr Usyk",
+      "iso3": "UKR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "undisputed heavyweight boxing champion"
+    },
+    {
+      "name": "Robert Lewandowski",
+      "iso3": "POL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and world player of the year"
+    },
+    {
+      "name": "Irena Szewińska",
+      "iso3": "POL",
+      "category": "athletes",
+      "era": "historical",
+      "note": "sprinter who medalled at four Olympics"
+    },
+    {
+      "name": "Ferenc Puskás",
+      "iso3": "HUN",
+      "category": "athletes",
+      "era": "historical",
+      "note": "striker of the Mighty Magyars"
+    },
+    {
+      "name": "Emil Zátopek",
+      "iso3": "CZE",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won three distance golds at one Olympics"
+    },
+    {
+      "name": "Martina Navratilova",
+      "iso3": "CZE",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with 18 major singles titles"
+    },
+    {
+      "name": "Věra Čáslavská",
+      "iso3": "CZE",
+      "category": "athletes",
+      "era": "historical",
+      "note": "gymnast with seven Olympic golds"
+    },
+    {
+      "name": "Luka Modrić",
+      "iso3": "HRV",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder and Ballon d'Or winner"
+    },
+    {
+      "name": "Janica Kostelić",
+      "iso3": "HRV",
+      "category": "athletes",
+      "era": "modern",
+      "note": "alpine skier with four Olympic golds"
+    },
+    {
+      "name": "Novak Djoković",
+      "iso3": "SRB",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with 24 major singles titles"
+    },
+    {
+      "name": "Nikola Jokić",
+      "iso3": "SRB",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball centre and league MVP"
+    },
+    {
+      "name": "Björn Borg",
+      "iso3": "SWE",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with five straight Wimbledons"
+    },
+    {
+      "name": "Zlatan Ibrahimović",
+      "iso3": "SWE",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker who scored in four decades"
+    },
+    {
+      "name": "Magnus Carlsen",
+      "iso3": "NOR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "world chess champion"
+    },
+    {
+      "name": "Ole Einar Bjørndalen",
+      "iso3": "NOR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "biathlete with eight Olympic golds"
+    },
+    {
+      "name": "Paavo Nurmi",
+      "iso3": "FIN",
+      "category": "athletes",
+      "era": "historical",
+      "note": "distance runner with nine Olympic golds"
+    },
+    {
+      "name": "Kimi Räikkönen",
+      "iso3": "FIN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "Formula One world champion"
+    },
+    {
+      "name": "Niki Lauda",
+      "iso3": "AUT",
+      "category": "athletes",
+      "era": "historical",
+      "note": "three-time Formula One world champion"
+    },
+    {
+      "name": "Roger Federer",
+      "iso3": "CHE",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with twenty major titles"
+    },
+    {
+      "name": "Giannis Antetokounmpo",
+      "iso3": "GRC",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball champion and league MVP"
+    },
+    {
+      "name": "Spyridon Louis",
+      "iso3": "GRC",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won the first modern Olympic marathon"
+    },
+    {
+      "name": "Usain Bolt",
+      "iso3": "JAM",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sprinter and world record holder"
+    },
+    {
+      "name": "Shelly-Ann Fraser-Pryce",
+      "iso3": "JAM",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sprinter with three Olympic golds"
+    },
+    {
+      "name": "Eliud Kipchoge",
+      "iso3": "KEN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "marathon runner and Olympic champion"
+    },
+    {
+      "name": "Kipchoge Keino",
+      "iso3": "KEN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "middle distance Olympic champion"
+    },
+    {
+      "name": "David Rudisha",
+      "iso3": "KEN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "800 metres world record holder"
+    },
+    {
+      "name": "Abebe Bikila",
+      "iso3": "ETH",
+      "category": "athletes",
+      "era": "historical",
+      "note": "won the 1960 marathon running barefoot"
+    },
+    {
+      "name": "Haile Gebrselassie",
+      "iso3": "ETH",
+      "category": "athletes",
+      "era": "modern",
+      "note": "distance runner and world record holder"
+    },
+    {
+      "name": "Tirunesh Dibaba",
+      "iso3": "ETH",
+      "category": "athletes",
+      "era": "modern",
+      "note": "distance runner with three Olympic golds"
+    },
+    {
+      "name": "Hicham El Guerrouj",
+      "iso3": "MAR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "middle distance world record holder"
+    },
+    {
+      "name": "Nawal El Moutawakel",
+      "iso3": "MAR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "first Muslim woman to win Olympic gold"
+    },
+    {
+      "name": "Noureddine Morceli",
+      "iso3": "DZA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "middle distance Olympic champion"
+    },
+    {
+      "name": "Jay-Jay Okocha",
+      "iso3": "NGA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder of Nigeria's golden generation"
+    },
+    {
+      "name": "Chioma Ajunwa",
+      "iso3": "NGA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "first Nigerian to win an Olympic gold"
+    },
+    {
+      "name": "Samuel Eto'o",
+      "iso3": "CMR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and four-time African player of the year"
+    },
+    {
+      "name": "Roger Milla",
+      "iso3": "CMR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker of Cameroon's 1990 World Cup run"
+    },
+    {
+      "name": "Didier Drogba",
+      "iso3": "CIV",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and captain of Ivory Coast"
+    },
+    {
+      "name": "Sadio Mané",
+      "iso3": "SEN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "forward and African player of the year"
+    },
+    {
+      "name": "Abedi Pele",
+      "iso3": "GHA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder and African player of the year"
+    },
+    {
+      "name": "George Weah",
+      "iso3": "LBR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "Ballon d'Or winner, later president of Liberia"
+    },
+    {
+      "name": "Siya Kolisi",
+      "iso3": "ZAF",
+      "category": "athletes",
+      "era": "modern",
+      "note": "captain of two Rugby World Cup winning sides"
+    },
+    {
+      "name": "Caster Semenya",
+      "iso3": "ZAF",
+      "category": "athletes",
+      "era": "modern",
+      "note": "middle distance Olympic champion"
+    },
+    {
+      "name": "Mohamed Salah",
+      "iso3": "EGY",
+      "category": "athletes",
+      "era": "modern",
+      "note": "forward and African player of the year"
+    },
+    {
+      "name": "Shohei Ohtani",
+      "iso3": "JPN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "baseball player who pitches and bats"
+    },
+    {
+      "name": "Naomi Osaka",
+      "iso3": "JPN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player with four major titles"
+    },
+    {
+      "name": "Yuzuru Hanyu",
+      "iso3": "JPN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "figure skater with two Olympic golds"
+    },
+    {
+      "name": "Yao Ming",
+      "iso3": "CHN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball centre and All-Star"
+    },
+    {
+      "name": "Li Na",
+      "iso3": "CHN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "first Asian player to win a tennis major"
+    },
+    {
+      "name": "Son Heung-min",
+      "iso3": "KOR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "forward and captain of South Korea"
+    },
+    {
+      "name": "Kim Yuna",
+      "iso3": "KOR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "figure skater and Olympic champion"
+    },
+    {
+      "name": "Sachin Tendulkar",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "modern",
+      "note": "batter with one hundred international centuries"
+    },
+    {
+      "name": "Kapil Dev",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "modern",
+      "note": "captain of India's 1983 World Cup side"
+    },
+    {
+      "name": "Milkha Singh",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "historical",
+      "note": "sprinter known as the Flying Sikh"
+    },
+    {
+      "name": "P. V. Sindhu",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "modern",
+      "note": "badminton player and Olympic medallist"
+    },
+    {
+      "name": "Viswanathan Anand",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "modern",
+      "note": "world chess champion"
+    },
+    {
+      "name": "Jahangir Khan",
+      "iso3": "PAK",
+      "category": "athletes",
+      "era": "modern",
+      "note": "squash player unbeaten for five years"
+    },
+    {
+      "name": "Wasim Akram",
+      "iso3": "PAK",
+      "category": "athletes",
+      "era": "modern",
+      "note": "fast bowler with over 900 wickets"
+    },
+    {
+      "name": "Don Bradman",
+      "iso3": "AUS",
+      "category": "athletes",
+      "era": "historical",
+      "note": "batter with a Test average of 99.94"
+    },
+    {
+      "name": "Cathy Freeman",
+      "iso3": "AUS",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sprinter who won gold in Sydney"
+    },
+    {
+      "name": "Rod Laver",
+      "iso3": "AUS",
+      "category": "athletes",
+      "era": "modern",
+      "note": "only player to win two calendar grand slams"
+    },
+    {
+      "name": "Richie McCaw",
+      "iso3": "NZL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "captain of two Rugby World Cup winning sides"
+    },
+    {
+      "name": "Lisa Carrington",
+      "iso3": "NZL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "canoeist with multiple Olympic golds"
+    },
+    {
+      "name": "Wayne Gretzky",
+      "iso3": "CAN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "ice hockey's all-time leading scorer"
+    },
+    {
+      "name": "Christine Sinclair",
+      "iso3": "CAN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "footballer and record international scorer"
+    },
+    {
+      "name": "Hugo Sánchez",
+      "iso3": "MEX",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and five-time Spanish league top scorer"
+    },
+    {
+      "name": "Julio César Chávez",
+      "iso3": "MEX",
+      "category": "athletes",
+      "era": "modern",
+      "note": "boxer with a long unbeaten run"
+    },
+    {
+      "name": "Teófilo Stevenson",
+      "iso3": "CUB",
+      "category": "athletes",
+      "era": "historical",
+      "note": "boxer with three Olympic golds"
+    },
+    {
+      "name": "Javier Sotomayor",
+      "iso3": "CUB",
+      "category": "athletes",
+      "era": "modern",
+      "note": "high jump world record holder"
+    },
+    {
+      "name": "Luis Suárez",
+      "iso3": "URY",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and record scorer for Uruguay"
+    },
+    {
+      "name": "Nairo Quintana",
+      "iso3": "COL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "climber and Giro d'Italia winner"
+    },
+    {
+      "name": "Naim Süleymanoğlu",
+      "iso3": "TUR",
+      "category": "athletes",
+      "era": "historical",
+      "note": "weightlifter with three Olympic golds"
+    },
+    {
+      "name": "Walter Cronkite",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "news anchor of the CBS Evening News"
+    },
+    {
+      "name": "Edward R. Murrow",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "radio and television reporter"
+    },
+    {
+      "name": "Barbara Walters",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "news anchor and interviewer"
+    },
+    {
+      "name": "Oprah Winfrey",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "talk show host and producer"
+    },
+    {
+      "name": "David Letterman",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "late night talk show host"
+    },
+    {
+      "name": "Anderson Cooper",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "news anchor and correspondent"
+    },
+    {
+      "name": "Ida B. Wells",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "investigative journalist and campaigner"
+    },
+    {
+      "name": "Nellie Bly",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "reporter who went undercover and around the world"
+    },
+    {
+      "name": "Martha Gellhorn",
+      "iso3": "USA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "war correspondent for six decades"
+    },
+    {
+      "name": "David Attenborough",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "natural history broadcaster"
+    },
+    {
+      "name": "Michael Parkinson",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "chat show host and interviewer"
+    },
+    {
+      "name": "Kate Adie",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "war correspondent for the BBC"
+    },
+    {
+      "name": "Graham Norton",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "chat show host"
+    },
+    {
+      "name": "John Peel",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "radio DJ who championed new music"
+    },
+    {
+      "name": "Christiane Amanpour",
+      "iso3": "GBR",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "international news correspondent"
+    },
+    {
+      "name": "Bernard Pivot",
+      "iso3": "FRA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "host of the literary show Apostrophes"
+    },
+    {
+      "name": "Thomas Gottschalk",
+      "iso3": "DEU",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "host of the show Wetten, dass..?"
+    },
+    {
+      "name": "Mike Bongiorno",
+      "iso3": "ITA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "pioneer of Italian television quiz shows"
+    },
+    {
+      "name": "Ryszard Kapuściński",
+      "iso3": "POL",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "foreign correspondent and author"
+    },
+    {
+      "name": "Robert Capa",
+      "iso3": "HUN",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "photojournalist of five wars"
+    },
+    {
+      "name": "Anna Politkovskaya",
+      "iso3": "RUS",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "reporter on the Chechen wars"
+    },
+    {
+      "name": "Vladimir Pozner",
+      "iso3": "RUS",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "television journalist and interviewer"
+    },
+    {
+      "name": "Roberto Marinho",
+      "iso3": "BRA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "built the Globo media group"
+    },
+    {
+      "name": "Silvio Santos",
+      "iso3": "BRA",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "television host and network owner"
+    },
+    {
+      "name": "Jacobo Zabludovsky",
+      "iso3": "MEX",
+      "category": "broadcasters",
+      "era": "historical",
+      "note": "long-running Mexican news anchor"
+    },
+    {
+      "name": "Peter Mansbridge",
+      "iso3": "CAN",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "anchor of the CBC national news"
+    },
+    {
+      "name": "Ita Buttrose",
+      "iso3": "AUS",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "magazine editor and broadcaster"
+    },
+    {
+      "name": "Prannoy Roy",
+      "iso3": "IND",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "television journalist and network founder"
+    },
+    {
+      "name": "Ravish Kumar",
+      "iso3": "IND",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "Hindi television journalist"
+    },
+    {
+      "name": "Yoo Jae-suk",
+      "iso3": "KOR",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "television host and comedian"
+    },
+    {
+      "name": "Jeff Koinange",
+      "iso3": "KEN",
+      "category": "broadcasters",
+      "era": "modern",
+      "note": "television host and correspondent"
+    },
+    {
+      "name": "Thomas Sankara",
+      "iso3": "BFA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "president of Burkina Faso from 1983 to 1987"
+    },
+    {
+      "name": "Seretse Khama",
+      "iso3": "BWA",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first president of Botswana"
+    },
+    {
+      "name": "Amílcar Cabral",
+      "iso3": "GNB",
+      "category": "leaders",
+      "era": "historical",
+      "note": "led the independence movement of Guinea-Bissau"
+    },
+    {
+      "name": "Óscar Arias",
+      "iso3": "CRI",
+      "category": "leaders",
+      "era": "modern",
+      "note": "president of Costa Rica and Nobel laureate"
+    },
+    {
+      "name": "Rigoberta Menchú",
+      "iso3": "GTM",
+      "category": "leaders",
+      "era": "modern",
+      "note": "indigenous rights campaigner and Nobel laureate"
+    },
+    {
+      "name": "Eric Williams",
+      "iso3": "TTO",
+      "category": "leaders",
+      "era": "historical",
+      "note": "first prime minister of Trinidad and Tobago"
+    },
+    {
+      "name": "Juan Pablo Duarte",
+      "iso3": "DOM",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founder of the Dominican Republic"
+    },
+    {
+      "name": "Michael Somare",
+      "iso3": "PNG",
+      "category": "leaders",
+      "era": "historical",
+      "note": "founding prime minister of Papua New Guinea"
+    },
+    {
+      "name": "Béhanzin",
+      "iso3": "BEN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "king who fought the French conquest of Dahomey"
+    },
+    {
+      "name": "Samori Ture",
+      "iso3": "GIN",
+      "category": "commanders",
+      "era": "historical",
+      "note": "led resistance to French expansion in west Africa"
+    },
+    {
+      "name": "Taytu Betul",
+      "iso3": "ETH",
+      "category": "commanders",
+      "era": "historical",
+      "note": "empress who campaigned at Adwa"
+    },
+    {
+      "name": "Mo Ibrahim",
+      "iso3": "SDN",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded a mobile network across Africa"
+    },
+    {
+      "name": "Strive Masiyiwa",
+      "iso3": "ZWE",
+      "category": "founders",
+      "era": "modern",
+      "note": "founded the Econet telecoms group"
+    },
+    {
+      "name": "Ibn Khaldun",
+      "iso3": "TUN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "founder of social history and its method"
+    },
+    {
+      "name": "Al-Biruni",
+      "iso3": "UZB",
+      "category": "scientists",
+      "era": "historical",
+      "note": "scholar who measured the size of the Earth"
+    },
+    {
+      "name": "Shen Kuo",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "polymath of the Song dynasty"
+    },
+    {
+      "name": "Chien-Shiung Wu",
+      "iso3": "CHN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist whose experiment upset parity"
+    },
+    {
+      "name": "Kitasato Shibasaburō",
+      "iso3": "JPN",
+      "category": "scientists",
+      "era": "historical",
+      "note": "bacteriologist of plague and tetanus"
+    },
+    {
+      "name": "Jagadish Chandra Bose",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist and plant scientist"
+    },
+    {
+      "name": "Satyendra Nath Bose",
+      "iso3": "IND",
+      "category": "scientists",
+      "era": "historical",
+      "note": "physicist of quantum statistics"
+    },
+    {
+      "name": "Tsitsi Dangarembga",
+      "iso3": "ZWE",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of Nervous Conditions"
+    },
+    {
+      "name": "Nuruddin Farah",
+      "iso3": "SOM",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of the Somali diaspora"
+    },
+    {
+      "name": "Camara Laye",
+      "iso3": "GIN",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of The African Child"
+    },
+    {
+      "name": "Bessie Head",
+      "iso3": "BWA",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of village life in Botswana"
+    },
+    {
+      "name": "Tayeb Salih",
+      "iso3": "SDN",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Season of Migration to the North"
+    },
+    {
+      "name": "Ahmadou Kourouma",
+      "iso3": "CIV",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of west African politics"
+    },
+    {
+      "name": "Yasunari Kawabata",
+      "iso3": "JPN",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Mo Yan",
+      "iso3": "CHN",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Du Fu",
+      "iso3": "CHN",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of the Tang dynasty"
+    },
+    {
+      "name": "Omar Khayyam",
+      "iso3": "IRN",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and mathematician of the Rubaiyat"
+    },
+    {
+      "name": "R. K. Narayan",
+      "iso3": "IND",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist who invented the town of Malgudi"
+    },
+    {
+      "name": "Arundhati Roy",
+      "iso3": "IND",
+      "category": "writers",
+      "era": "modern",
+      "note": "novelist of The God of Small Things"
+    },
+    {
+      "name": "Amos Oz",
+      "iso3": "ISR",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and essayist"
+    },
+    {
+      "name": "Ismail Kadare",
+      "iso3": "ALB",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Albania under the dictatorship"
+    },
+    {
+      "name": "Derek Walcott",
+      "iso3": "LCA",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet and Nobel laureate"
+    },
+    {
+      "name": "V. S. Naipaul",
+      "iso3": "TTO",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Miguel Ángel Asturias",
+      "iso3": "GTM",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist and Nobel laureate"
+    },
+    {
+      "name": "Rubén Darío",
+      "iso3": "NIC",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet who led Spanish American modernism"
+    },
+    {
+      "name": "Alejo Carpentier",
+      "iso3": "CUB",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of the marvellous real"
+    },
+    {
+      "name": "César Vallejo",
+      "iso3": "PER",
+      "category": "writers",
+      "era": "historical",
+      "note": "poet of Trilce"
+    },
+    {
+      "name": "Juan Rulfo",
+      "iso3": "MEX",
+      "category": "writers",
+      "era": "historical",
+      "note": "novelist of Pedro Paramo"
+    },
+    {
+      "name": "Angélique Kidjo",
+      "iso3": "BEN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer with five Grammy awards"
+    },
+    {
+      "name": "Cesária Évora",
+      "iso3": "CPV",
+      "category": "musicians",
+      "era": "historical",
+      "note": "morna singer known as the barefoot diva"
+    },
+    {
+      "name": "Oumou Sangaré",
+      "iso3": "MLI",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of Wassoulou music"
+    },
+    {
+      "name": "Thomas Mapfumo",
+      "iso3": "ZWE",
+      "category": "musicians",
+      "era": "modern",
+      "note": "created chimurenga music"
+    },
+    {
+      "name": "Manu Dibango",
+      "iso3": "CMR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "saxophonist of Soul Makossa"
+    },
+    {
+      "name": "Khaled",
+      "iso3": "DZA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer who took rai worldwide"
+    },
+    {
+      "name": "Cui Jian",
+      "iso3": "CHN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "father of Chinese rock"
+    },
+    {
+      "name": "Ofra Haza",
+      "iso3": "ISR",
+      "category": "musicians",
+      "era": "historical",
+      "note": "singer of Yemenite-Israeli song"
+    },
+    {
+      "name": "Rubén Blades",
+      "iso3": "PAN",
+      "category": "musicians",
+      "era": "modern",
+      "note": "salsa singer, songwriter and actor"
+    },
+    {
+      "name": "Juan Luis Guerra",
+      "iso3": "DOM",
+      "category": "musicians",
+      "era": "modern",
+      "note": "bandleader of merengue and bachata"
+    },
+    {
+      "name": "Violeta Parra",
+      "iso3": "CHL",
+      "category": "musicians",
+      "era": "historical",
+      "note": "songwriter of Gracias a la Vida"
+    },
+    {
+      "name": "Héctor Lavoe",
+      "iso3": "PRI",
+      "category": "musicians",
+      "era": "historical",
+      "note": "salsa singer of the New York sound"
+    },
+    {
+      "name": "Bad Bunny",
+      "iso3": "PRI",
+      "category": "musicians",
+      "era": "modern",
+      "note": "reggaeton singer and songwriter"
+    },
+    {
+      "name": "Lupita Nyong'o",
+      "iso3": "KEN",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Djimon Hounsou",
+      "iso3": "BEN",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor nominated twice for an Oscar"
+    },
+    {
+      "name": "Wong Kar-wai",
+      "iso3": "HKG",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of In the Mood for Love"
+    },
+    {
+      "name": "Tony Leung",
+      "iso3": "HKG",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Hong Kong cinema"
+    },
+    {
+      "name": "Michelle Yeoh",
+      "iso3": "MYS",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Hirokazu Kore-eda",
+      "iso3": "JPN",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Shoplifters"
+    },
+    {
+      "name": "Park Chan-wook",
+      "iso3": "KOR",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Oldboy"
+    },
+    {
+      "name": "Dilip Kumar",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "historical",
+      "note": "actor of Hindi cinema"
+    },
+    {
+      "name": "Rajinikanth",
+      "iso3": "IND",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Tamil cinema"
+    },
+    {
+      "name": "Yaya Touré",
+      "iso3": "CIV",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder and four-time African player"
+    },
+    {
+      "name": "Nwankwo Kanu",
+      "iso3": "NGA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and Olympic gold medallist"
+    },
+    {
+      "name": "Hakeem Olajuwon",
+      "iso3": "NGA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball champion and league MVP"
+    },
+    {
+      "name": "Kirsty Coventry",
+      "iso3": "ZWE",
+      "category": "athletes",
+      "era": "modern",
+      "note": "swimmer with seven Olympic medals"
+    },
+    {
+      "name": "Maria Mutola",
+      "iso3": "MOZ",
+      "category": "athletes",
+      "era": "modern",
+      "note": "800 metres Olympic champion"
+    },
+    {
+      "name": "Frankie Fredericks",
+      "iso3": "NAM",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sprinter with four Olympic silver medals"
+    },
+    {
+      "name": "Neeraj Chopra",
+      "iso3": "IND",
+      "category": "athletes",
+      "era": "modern",
+      "note": "javelin thrower and Olympic champion"
+    },
+    {
+      "name": "Manny Pacquiao",
+      "iso3": "PHL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "boxing world champion at eight weights"
+    },
+    {
+      "name": "Hidilyn Diaz",
+      "iso3": "PHL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "weightlifter and Olympic champion"
+    },
+    {
+      "name": "Lee Chong Wei",
+      "iso3": "MYS",
+      "category": "athletes",
+      "era": "modern",
+      "note": "badminton player, three Olympic silvers"
+    },
+    {
+      "name": "Susi Susanti",
+      "iso3": "IDN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "badminton player and Olympic champion"
+    },
+    {
+      "name": "Lin Dan",
+      "iso3": "CHN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "badminton player with two Olympic golds"
+    },
+    {
+      "name": "Alfredo Di Stéfano",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "historical",
+      "note": "forward of the great Real Madrid side"
+    },
+    {
+      "name": "Roberto Clemente",
+      "iso3": "PRI",
+      "category": "athletes",
+      "era": "historical",
+      "note": "baseball star and humanitarian"
+    },
+    {
+      "name": "Teófilo Cubillas",
+      "iso3": "PER",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker of Peru's 1970 World Cup side"
+    },
+    {
+      "name": "Luis Aparicio",
+      "iso3": "VEN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "shortstop in the baseball hall of fame"
+    },
+    {
+      "name": "Keylor Navas",
+      "iso3": "CRI",
+      "category": "athletes",
+      "era": "modern",
+      "note": "goalkeeper and Champions League winner"
+    },
+    {
+      "name": "Roberto Durán",
+      "iso3": "PAN",
+      "category": "athletes",
+      "era": "modern",
+      "note": "boxing champion at four weights"
+    },
+    {
+      "name": "Jefferson Pérez",
+      "iso3": "ECU",
+      "category": "athletes",
+      "era": "modern",
+      "note": "race walker and Olympic champion"
+    },
+    {
+      "name": "Ana Guevara",
+      "iso3": "MEX",
+      "category": "athletes",
+      "era": "modern",
+      "note": "400 metres world champion"
+    },
+    {
+      "name": "Vijay Singh",
+      "iso3": "FJI",
+      "category": "athletes",
+      "era": "modern",
+      "note": "golfer with three major titles"
+    },
+    {
+      "name": "Waisale Serevi",
+      "iso3": "FJI",
+      "category": "athletes",
+      "era": "modern",
+      "note": "sevens rugby player and coach"
+    }
+  ]
+}
