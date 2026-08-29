@@ -103,7 +103,7 @@
   /* Two words with the K3 underline. The button is the 44 px target and the span carries the
      rule, so the line stays exactly as wide as the word it belongs to. */
   .snd .sndopts { display: flex; align-items: center; margin: 0 -8px; }
-  .snd .sndopts button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; margin: -10px 0; color: var(--color-mute); }
+  .snd .sndopts button { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 8px; margin: -10px 0; color: var(--color-mute); }
   .snd .sndopts button > span { border-bottom: 2px solid transparent; padding-bottom: 3px; }
   .snd .sndopts button[aria-pressed="true"] { color: var(--color-ink); font-weight: 600; }
   .snd .sndopts button[aria-pressed="true"] > span { border-bottom-color: var(--color-ink); }
@@ -136,3 +136,6 @@
     .social-grid > .rail { grid-column: 2; grid-row: 1 / span 3; }
   }
 }
+
+  /* The invite row has one action; its hit area must reach 44 without moving the label off the gutter. */
+  .invite .btn-text { min-width: 44px; justify-content: flex-end; }

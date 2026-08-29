@@ -67,7 +67,7 @@ const GAME_SEO: Record<string, GameSeo> = {
   "flag-quiz": {
     title: "Flag Quiz: Guess the Country by Its Flag, Free Daily Flag Game | Countrivo",
     description:
-      "Name the country from its flag across 10 rounds. A free flag quiz with daily challenges and unlimited practice. 243 countries, no signup.",
+      "Name the country from its flag across 10 rounds. A free flag quiz with a daily board and unlimited practice. 243 countries, no signup.",
     genre: "Geography Quiz",
     playMode: "SinglePlayer",
     rules: [
@@ -104,7 +104,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "speed-flags": {
-    title: "Speed Flags: 20-Second Flag Quiz Challenge | Countrivo",
+    title: "Speed Flags: Name as Many Flags as You Can in 20 Seconds | Countrivo",
     description:
       "Twenty seconds on the clock: how many flags can you identify? A fast-paced flag quiz where speed and accuracy both count. Free, no signup.",
     genre: "Geography Speed",
