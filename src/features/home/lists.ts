@@ -1,14 +1,11 @@
 /*
  * The home's data helpers (blueprint 7.1, 10.4): which games go in which list and in which
- * order, the server-computed meta of every row, the head counters, today's draft chips and
+ * order, the server-computed meta of every row, the head counters, the anchor card's copy and
  * the friend usernames the desktop strip links to. Server only; nothing here is imported by
  * a client component.
  */
 import type { FriendRow, GameBoard } from "@/app/actions/home";
-import { chipLabel } from "@/content/chips";
 import { getAllGames } from "@/lib/data/games";
-import { getDailyRng } from "@/lib/daily-seed";
-import { generateDraftConfig } from "@/lib/game-logic/country-draft/generator";
 import { createClient } from "@/lib/supabase/server";
 import type { PracticeMeta } from "@/server/home-lists";
 import type { StripFriend } from "@/ui/friends-strip";
@@ -18,9 +15,16 @@ import type { GameSlug, Mode } from "@/ui/types";
 /** The anchor game. It is never playable on the home; the card links to the play route. */
 export const DRAFT: GameSlug = "country-draft";
 export const DRAFT_TITLE = "Country Draft";
+/** The cabinet draft in one line (Country Draft spec 20.2, replacing the stat-assignment sentence). */
 export const DRAFT_HOW =
-  "Countries appear one at a time. Put each one on the stat where it ranks highest in the world. Eight picks, one shot.";
-export const WORLD_DRAFT_META = "draft 5 people · conquer 195";
+  "Five rounds, five seats. Each round hands you a country and three people. Pick one, seat them, and take the map.";
+/**
+ * The card chips: the five seats, the game's fixed vocabulary (blueprint 3.13, spec 3 and 20.2).
+ * They are the same five on every board, so the home needs no generator and the card is the same
+ * before and after midnight. P9 owns the seats in the game module; when it exports them this
+ * constant becomes an import.
+ */
+export const DRAFT_CHIPS: readonly string[] = ["The Chair", "The Field", "The Purse", "The Voice", "The Desk"];
 
 /**
  * The mode cookie, read on the server and written by the switch (blueprint 3.5). The name is
@@ -33,8 +37,8 @@ export function readMode(raw: string | undefined): Mode {
   return raw === "practice" ? "practice" : "daily";
 }
 
-/** K3's list order for the main dailies (blueprint 7.1 item 5), Country Draft excluded: it is the card. */
-const MAIN_ORDER: readonly string[] = ["higher-or-lower", "geo-wordle", "cluster", "stat-guesser", "risk-zone"];
+/** K3's list order for the dailies (blueprint 7.1 item 5), Country Draft excluded: it is the card. */
+const MAIN_ORDER: readonly string[] = ["blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser", "flag-quiz"];
 
 function byOrder(order: readonly string[]) {
   return (a: { slug: string }, b: { slug: string }) => {
@@ -44,19 +48,14 @@ function byOrder(order: readonly string[]) {
   };
 }
 
-/** Higher or Lower, GeoWordle, Cluster, Stat Guesser, Risk Zone. */
+/** Blind Pick, Higher or Lower, GeoWordle, Stat Guesser, Flag Quiz. */
 export function mainDailies() {
   return getAllGames()
-    .filter((g) => g.tier === "main" && g.slug !== DRAFT && g.availableModes.includes("daily"))
+    .filter((g) => g.slug !== DRAFT && g.availableModes.includes("daily"))
     .sort(byOrder(MAIN_ORDER));
 }
 
-/** Flag Quiz, Capital Match, Population Sort, Country Streak, Border Buddies, Odd One Out. */
-export function drillDailies() {
-  return getAllGames().filter((g) => g.tier === "drill" && g.availableModes.includes("daily"));
-}
-
-/** Every playable game except Country Draft: the main tier first, then the drills. */
+/** Every playable game except Country Draft: the dailies first, then the practice-only drills. */
 export function practiceGames() {
   const all = getAllGames().filter((g) => g.slug !== DRAFT && g.availableModes.includes("practice"));
   return [...all.filter((g) => g.tier === "main").sort(byOrder(MAIN_ORDER)), ...all.filter((g) => g.tier !== "main")];
@@ -102,7 +101,7 @@ export function practiceRowMeta(meta: PracticeMeta | undefined, shortDescription
   return `${meta.runs} played · best ${meta.best}`;
 }
 
-/** `6 games · 0 shot` / `16 games`. */
+/** `5 games · 0 shot` / `6 games`. */
 export function listCounter(rows: number, shot?: number): string {
   const games = `${rows} ${rows === 1 ? "game" : "games"}`;
   return shot === undefined ? games : `${games} · ${shot} shot`;
@@ -123,32 +122,22 @@ function dailyRow(
 }
 
 export interface DailyLists {
-  /** World Draft first, then the five other main dailies. */
+  /** The five other dailies in registry order. Country Draft is the card, never a row. */
   more: GameRowProps[];
   moreCounter: string;
-  drills: GameRowProps[];
-  drillsCounter: string;
 }
 
-/** The two daily lists with their counters: rows in the list · rows the viewer has shot today. */
+/** The daily list with its counter: rows in the list · rows the viewer has shot today. */
 export function buildDailyLists(boards: Record<string, GameBoard>, done: Record<string, string>): DailyLists {
   const main = mainDailies();
-  const drills = drillDailies();
   const shotCount = (games: { slug: string }[]) => games.filter((g) => shotOf(g.slug, boards, done)).length;
 
-  const world: GameRowProps = {
-    slug: "world-draft",
-    title: "World Draft",
-    meta: WORLD_DRAFT_META,
-    href: "/games/world-draft",
-    tag: "NEW",
-  };
-
   return {
-    more: [world, ...main.map((g) => dailyRow(g, boards, done))],
-    moreCounter: listCounter(main.length + 1, shotCount(main)),
-    drills: drills.map((g) => dailyRow(g, boards, done)),
-    drillsCounter: listCounter(drills.length, shotCount(drills)),
+    more: main.map((g) => {
+      const row = dailyRow(g, boards, done);
+      return g.isNew ? { ...row, tag: "NEW" as const } : row;
+    }),
+    moreCounter: listCounter(main.length, shotCount(main)),
   };
 }
 
@@ -170,22 +159,6 @@ export function buildPracticeList(metas: Record<string, PracticeMeta>, signedIn:
     })),
     counter: listCounter(games.length),
   };
-}
-
-/**
- * The eight chip labels of today's draft (blueprint 3.6, 10.6). The board is regenerated from
- * the same seed the play route uses, so the chips are exactly the stats the player will get;
- * the labels are the K3 voice from src/content/chips.ts, not the ranking-page short labels.
- */
-export function draftChips(dateKey: string, edition: string, fallback: readonly string[]): string[] {
-  try {
-    const config = generateDraftConfig(getDailyRng(dateKey, edition), "daily", dateKey);
-    const chips = config.categories.map((c) => chipLabel(c.slug));
-    if (chips.length > 0) return chips;
-  } catch (err) {
-    console.error("[home] draft chips failed", err);
-  }
-  return [...fallback];
 }
 
 /** `41 shots · top 635`, or `no shots yet` when the board is empty (the card's kicker counter). */

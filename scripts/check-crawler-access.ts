@@ -37,7 +37,7 @@ const PAGES: PageCheck[] = [
     canaries: [/124\.5M/i, /84\.0 years/i],
   },
   { path: "/lists/largest-countries", minTextLength: 2320 },
-  { path: "/games/blitz", minTextLength: 870 },
+  { path: "/games/country-draft", minTextLength: 870 },
   { path: "/games/geo-wordle", minTextLength: 870 },
   { path: "/countries", minTextLength: 800 },
 ];

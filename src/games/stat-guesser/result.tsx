@@ -15,12 +15,15 @@ export function Result({ state }: ResultProps<StatGuesserState>) {
   const errors = state.scores.map((x) => x ?? 0);
   const best = Math.min(...errors);
   const worst = Math.max(...errors);
+  // The card's number is the compact `18 % off`; the average it stands for is spelled out here.
+  const avg = reportedError(state);
   return (
     <div>
       <div className="rhead">
-        <b className="t-h3">{gradeWord(reportedError(state))}</b>
+        <b className="t-h3">{gradeWord(avg)}</b>
         <span className="rfacts t-body">
-          best <b className="num">{errorText(best)} %</b> · worst <b className="num">{errorText(worst)} %</b>
+          avg <b className="num">{errorText(avg)} %</b> · best <b className="num">{errorText(best)} %</b> · worst{" "}
+          <b className="num">{errorText(worst)} %</b>
         </span>
       </div>
       <div className="rrows t-row">

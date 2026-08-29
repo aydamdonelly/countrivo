@@ -21,6 +21,10 @@ export interface FactRowProps {
  * One row of fact tiles (blueprint 3.35), at most ONE per page: card fill, radius 12,
  * padding 14 14 12, value in Erode 22, label mute. Linked tiles fill line on hover.
  * No icon in a tile.
+ *
+ * The row is a comparison, so the three roles (value, label, sub) are three rows of the
+ * .facts grid and every tile subgrids them: whatever wraps, the tiles stay on one baseline.
+ * Keep the three children in this order and do not wrap them in another element.
  */
 export function FactRow({ facts, className }: FactRowProps) {
   return (

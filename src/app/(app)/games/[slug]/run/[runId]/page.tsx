@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getRunDetail } from "@/app/actions/game-runs";
 import { getGameBySlug } from "@/lib/data/registry";
+import { compactScore } from "@/server/boards";
 import { RunPage } from "@/features/social/run-page";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +29,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const date = longDate(run.dailyDate);
   return {
     title: `${run.displayName}'s ${gameTitle} · ${date}`,
-    description: `${run.displayName} scored ${run.scoreDisplay} on the ${gameTitle} daily board for ${date}.`,
+    /* The compact score, not the stored display: "scored Score: 250 (Gap: 94)" is the
+       database talking, and this line is what a shared link shows. */
+    description: `${run.displayName} scored ${compactScore(run.scoreDisplay, run.scoreRaw)} on the ${gameTitle} daily board for ${date}.`,
     robots: { index: false },
   };
 }

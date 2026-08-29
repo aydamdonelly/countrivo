@@ -18,7 +18,7 @@ import { REJECTED, kmLabel, type GeoAction } from "./module";
 const INTRO = "A hidden country. Every guess tells you how far and which way.";
 
 /*
- * Everything this board needs on top of the shared play furniture, in one place. Three
+ * Everything this board needs on top of the shared play furniture, in one place. Six
  * decisions worth their comment:
  *
  * 1. The row grid (blueprint 8.8): flag, name, distance, the 3 px proximity bar, the needle.
@@ -38,6 +38,23 @@ const INTRO = "A hidden country. Every guess tells you how far and which way.";
  *    the dot's position already IS its distance, so the guesses take one tone, ink, and the
  *    answer takes ember when it is revealed. The band ramp lives in the bars, where it reads.
  *
+ * 4. The empty rows. The shared rule centres the LAST child of a row, which is right for the
+ *    needle in its 20 px column and wrong for the dash of an empty row, whose only siblings
+ *    are the numeral and itself: it floated the dash into the middle of the name column. The
+ *    dash starts where a country name starts, so the six rows read as one table.
+ *
+ * 5. The row at 1024. The name column stops at 260 (the longest name, "Saint Vincent and the
+ *    Grenadines", needs 235) and the bar takes everything left over, because a full-width row
+ *    on the 720 px desktop column otherwise strands the distance and the bar at the far right
+ *    with 300 px of dead air in the middle. A proximity bar is the one element in the row
+ *    that WANTS the length: it closes the gap, and six bars on a 300 px scale can finally be
+ *    compared against each other at a glance.
+ *
+ * 6. The error under the field is taken out of the flow (the field reserves its 22 px), so a
+ *    refused word does not shove six guess rows down and back up two seconds later. The
+ *    readout above reserves two lines on a phone, where the intro copy wraps, and none from
+ *    768 up, where every line of it fits on one.
+ *
  * The two keyframes animate out of the element's own final transform (blueprint 6.3.8), so a
  * board with animation off (reduced motion, a screenshot pass, no JS at all) still shows
  * every bar at its true length and every needle on its true bearing.
@@ -45,14 +62,23 @@ const INTRO = "A hidden country. Every guess tells you how far and which way.";
 const STYLE = `
 .geo .grow { grid-template-columns: 26px minmax(0, 1fr) 62px 48px 20px; }
 .geo .grow .bar { background: var(--color-card); }
-.geo .grow.empty .dash { border-radius: 1px; }
-.geo .grow > :last-child { justify-self: center; }
+.geo .grow.empty .dash { border-radius: 1px; justify-self: start; }
+.geo .grow:not(.empty) > :last-child { justify-self: center; }
 .geo .band-cold { background: var(--color-wait); }
 .geo .band-cool { background: var(--color-faint); }
 .geo-map .dot-cold, .geo-map .dot-cool, .geo-map .dot-warm, .geo-map .dot-hot, .geo-map .dot-burning { fill: var(--color-ink); }
 .geo-map .dot-hit { fill: var(--color-ember); }
 .geo .grow .bar i { animation: geo-bar 240ms var(--ease-out); }
 .geo .grow .needle { animation: geo-needle 300ms var(--ease-out); }
+.geo .read { min-height: 2.9em; }
+.geo .typed .field { position: relative; padding-bottom: 22px; }
+.geo .typed .field .hint { position: absolute; left: 0; top: 50px; margin: 0; }
+@media (min-width: 768px) {
+  .geo .read { min-height: 0; }
+}
+@media (min-width: 1024px) {
+  .geo .grow { grid-template-columns: 26px minmax(0, 260px) 72px minmax(0, 1fr) 20px; height: 36px; }
+}
 @keyframes geo-bar { from { transform: scaleX(0); } }
 @keyframes geo-needle { from { transform: rotate(0deg); } }
 @media (prefers-reduced-motion: reduce) {
@@ -64,7 +90,7 @@ const STYLE = `
 function fold(s: string): string {
   return s
     .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
 
@@ -84,8 +110,10 @@ const POOL = guessableCountries().map((c) => {
 /**
  * The needle: one ink dart, drawn with a notched tail so the direction reads at 20 px and at
  * any rotation (a two-tone lens turns into a bowtie the moment it is small, and a bare
- * triangle loses its tail). The bearing is rounded to a whole degree because the browser
- * re-serialises a long one and hydration would then read the server's string as a mismatch.
+ * triangle loses its tail). It carries the engine's bearing, which runs FROM the guess TO
+ * the answer, so the dart points the way you still have to travel. The bearing is rounded to
+ * a whole degree because the browser re-serialises a long one and hydration would then read
+ * the server's string as a mismatch.
  */
 function Needle({ deg, label }: { deg: number; label: string }) {
   return (
@@ -106,6 +134,15 @@ function Needle({ deg, label }: { deg: number; label: string }) {
 /**
  * GeoWordle (blueprint 8.8): the map, the readout line, the field with Guess, six guess
  * rows. Everything renders from `state`, so a resumed board is complete in the first HTML.
+ *
+ * The readout says `Norway is 4 021 km away. Answer to the north-east.` and not the
+ * blueprint's `Norway is 2 340 km north-east of the answer`, which states the relation
+ * backwards: the engine's bearing runs FROM the guess TO the answer (the Worldle
+ * convention, and what the needle and the share arrows both draw), so north-east is where
+ * the answer sits from Norway, not where Norway sits from the answer. Naming the guess as
+ * the subject also keeps the line clear of the definite article that half a dozen country
+ * names need in a prepositional phrase (`south of United States`, `west of Netherlands`),
+ * and it says the same thing the needle's label says, in the same words.
  */
 export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoAction>) {
   const [text, setText] = useState("");
@@ -207,7 +244,7 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
         {STYLE}
       </style>
       <WorldMap className="geo-map" guesses={mapGuesses} answerIso3={live ? null : state.answerIso3} />
-      <p className="t-body play-line" style={{ minHeight: "2.9em" }} aria-live="polite">
+      <p className="t-body play-line read" aria-live="polite">
         {!last ? (
           INTRO
         ) : state.phase === "won" ? (
@@ -216,7 +253,7 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
           </>
         ) : (
           <>
-            {last.name} is <b>{kmLabel(last.distanceKm)}</b> {last.direction} of the answer.
+            {last.name} is <b>{kmLabel(last.distanceKm)}</b> away. Answer to the {last.direction}.
           </>
         )}
       </p>
@@ -273,7 +310,7 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
               {g.correct ? (
                 <CheckIcon size={18} className="ic-ok" />
               ) : (
-                <Needle deg={g.bearingDeg} label={`${g.direction} of the answer`} />
+                <Needle deg={g.bearingDeg} label={`answer to the ${g.direction}`} />
               )}
             </div>
           );

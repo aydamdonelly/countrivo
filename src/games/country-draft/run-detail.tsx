@@ -1,90 +1,138 @@
-import { getCountryByIso3 } from "@/lib/data/countries";
+import { SectionHead } from "@/ui/section-head";
 import { Flag } from "@/ui/flag";
-import { CheckIcon } from "@/ui/icons/check";
-import { rankQuality } from "@/ui/slot";
+import { cn } from "@/lib/utils";
+import { getCountryByIso3 } from "@/lib/data/countries";
+import { BONUSES, MAX_SCORE, SEAT_NAMES, bandOf, fitQuality, fitWord } from "@/lib/game-logic/country-draft/tables";
 import type { RunDetailProps } from "@/games/types";
-import { GRADE_WORD, RANK_CELL } from "./module";
-import type { DraftResult } from "@/lib/game-logic/country-draft/types";
+import { DraftMap } from "./draft-map";
+import "./draft.css";
 
-interface Assignment {
-  countryIdx: number;
-  categoryIdx: number;
-  rank: number;
-}
-
-function isAssignment(x: unknown): x is Assignment {
-  if (typeof x !== "object" || x === null) return false;
-  const a = x as Record<string, unknown>;
-  return typeof a.countryIdx === "number" && typeof a.categoryIdx === "number" && typeof a.rank === "number";
-}
-
-function assignments(value: unknown): Assignment[] {
-  return Array.isArray(value) ? value.filter(isAssignment) : [];
-}
-
-function gradeWord(value: unknown): string | null {
-  return typeof value === "string" && value in GRADE_WORD ? GRADE_WORD[value as DraftResult["grade"]] : null;
-}
-
-/**
- * The rows behind a shared Draft run (blueprint 7.7): the grade and the three numbers, then
- * one row per country with the rank it was given and the rank the optimal draft would have
- * had. The saved resultJson keeps indices, not category slugs, so these rows carry the
- * numbers without the stat icons the live result shows.
+/*
+ * The rows behind a shared Country Draft run (blueprint 7.7, SPEC 17). A server component
+ * that reads resultJson and nothing else: the map is a pure function of the five round
+ * countries and the score, so no seed, no edition and no roster lookup is needed to
+ * redraw the exact picture the player shared.
  */
+
+interface Row {
+  round: number;
+  seat: number;
+  name: string;
+  iso3: string;
+  standing: number;
+  fit: number;
+  points: number;
+}
+
+function isRow(x: unknown): x is Row {
+  if (typeof x !== "object" || x === null) return false;
+  const r = x as Record<string, unknown>;
+  return (
+    typeof r.round === "number" &&
+    typeof r.seat === "number" &&
+    typeof r.name === "string" &&
+    typeof r.iso3 === "string" &&
+    typeof r.standing === "number" &&
+    typeof r.fit === "number" &&
+    typeof r.points === "number"
+  );
+}
+
+function rows(value: unknown): Row[] {
+  return Array.isArray(value) ? value.filter(isRow).sort((a, b) => a.round - b.round) : [];
+}
+
+function num(value: unknown): number | null {
+  return typeof value === "number" ? value : null;
+}
+
+function AppointmentRows({ list, mute }: { list: Row[]; mute?: boolean }) {
+  return (
+    <div className="dr-rows t-row">
+      {list.map((row) => {
+        const country = getCountryByIso3(row.iso3);
+        return (
+          <div key={row.round} className="dr-row">
+            <span className="fl">
+              <Flag iso2={country?.iso2 ?? null} size="xs" alt="" />
+            </span>
+            <span className="txt">
+              <b>{row.name}</b>
+              <small className="t-meta">
+                {SEAT_NAMES[row.seat] ?? "Seat"} · {fitWord(row.fit)} · standing {row.standing}
+              </small>
+            </span>
+            <b className={cn("t-score num val", mute ? "dr-q-fair" : `dr-q-${fitQuality(row.fit)}`)}>{row.points}</b>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function RunDetail({ run }: RunDetailProps) {
   const json = run.resultJson ?? {};
-  const iso3s = Array.isArray(json.countryIso3s) ? (json.countryIso3s as unknown[]).filter((x): x is string => typeof x === "string") : [];
-  const picks = assignments(json.assignments);
-  if (picks.length === 0) return null;
-
-  const optimalByCountry = new Map(assignments(json.optimalAssignments).map((o) => [o.countryIdx, o]));
-  const grade = gradeWord(json.grade);
-  const playerScore = typeof json.playerScore === "number" ? json.playerScore : null;
-  const optimalScore = typeof json.optimalScore === "number" ? json.optimalScore : null;
-  const gap = typeof json.gap === "number" ? json.gap : playerScore !== null && optimalScore !== null ? playerScore - optimalScore : null;
+  const appointments = rows(json.appointments);
+  if (appointments.length === 0) return null;
+  const best = rows(json.best);
+  const score = num(json.score) ?? run.scoreRaw;
+  const ceiling = num(json.ceiling);
+  const gap = num(json.gap) ?? (ceiling === null ? null : ceiling - score);
+  const countries = Array.isArray(json.roundCountries)
+    ? (json.roundCountries as unknown[]).filter((x): x is string => typeof x === "string")
+    : appointments.map((a) => a.iso3);
+  const bonuses = (json.bonuses ?? {}) as Record<string, unknown>;
 
   return (
     <div>
-      {grade || playerScore !== null ? (
-        <div className="rhead">
-          {grade ? <b className="t-h3">{grade}</b> : null}
-          {playerScore !== null && optimalScore !== null && gap !== null ? (
-            <span className="rfacts t-body">
-              you <b className="num">{playerScore}</b> · optimal <b className="num">{optimalScore}</b> · gap <b className="num">{gap}</b>
-            </span>
-          ) : null}
-        </div>
-      ) : null}
-      <div className="rrows t-row">
-        <div className="rrow cols4 border-t-0 min-h-0 pt-2 pb-1">
-          <span />
-          <span />
-          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
-            pick
-          </span>
-          <span className="v mute t-meta" style={{ width: RANK_CELL.width }}>
-            optimal
-          </span>
-        </div>
-        {picks.map((a) => {
-          const country = getCountryByIso3(iso3s[a.countryIdx] ?? "");
-          const optimal = optimalByCountry.get(a.countryIdx);
-          const same = optimal !== undefined && optimal.categoryIdx === a.categoryIdx;
-          return (
-            <div key={a.countryIdx} className="rrow cols4">
-              <Flag iso2={country?.iso2 ?? null} size="xs" alt="" />
-              <span className="nm">{country?.displayName ?? iso3s[a.countryIdx] ?? "Country"}</span>
-              <span className="v" style={{ ...RANK_CELL, justifyContent: "flex-end" }}>
-                <b className={`t-score num rank-${rankQuality(a.rank)}`}>#{a.rank}</b>
-              </span>
-              <span className="v mute t-meta" style={{ ...RANK_CELL, justifyContent: "flex-end" }}>
-                {same ? <CheckIcon size={16} className="ic-ok" /> : optimal ? <span className="num">#{optimal.rank}</span> : null}
-              </span>
-            </div>
-          );
-        })}
+      <div className="rhead">
+        <b className="t-h3">{bandOf(score).word}</b>
+        <span className="rfacts t-body">
+          you <b className="num">{score}</b>
+          {ceiling === null ? null : (
+            <>
+              {" "}
+              · best possible <b className="num">{ceiling}</b>
+              {gap === null ? null : (
+                <>
+                  {" "}
+                  · gap <b className="num">{gap}</b>
+                </>
+              )}
+            </>
+          )}
+        </span>
       </div>
+
+      <DraftMap from={countries} score={score} />
+      <p className="dr-lead t-meta">
+        taken <span className="num">{score}</span> of <span className="num">{MAX_SCORE}</span>
+      </p>
+
+      <AppointmentRows list={appointments} />
+
+      <div className="dr-rows t-row">
+        {BONUSES.map((bonus) => (
+          <div key={bonus.key} className="dr-row">
+            <span className="fl" />
+            <span className="txt">
+              <b>{bonus.name}</b>
+              <small className="t-meta">{bonus.needs}</small>
+            </span>
+            <b className={cn("t-score num val", bonuses[bonus.key] === true ? "dr-q-good" : "dr-q-fair")}>
+              {bonuses[bonus.key] === true ? `+${bonus.points}` : "0"}
+            </b>
+          </div>
+        ))}
+      </div>
+
+      {best.length > 0 ? (
+        <>
+          <SectionHead title="The best line" fact={ceiling === null ? undefined : `${ceiling}`} variant="strip" />
+          <p className="dr-lead t-body">The highest score that board allowed.</p>
+          <AppointmentRows list={best} mute />
+        </>
+      ) : null}
     </div>
   );
 }

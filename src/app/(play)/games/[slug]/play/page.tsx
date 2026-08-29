@@ -21,7 +21,7 @@ import { PlayFrame } from "@/features/play/play-frame";
 import { dailyMetas, dailyRefs, getFriendsToday, nextDailyMeta } from "@/features/play/server";
 
 /*
- * The one play route for the 17 playable games (blueprint 7.5, 8.1, 9.1 step 11). Mode,
+ * The one play route for every playable game (blueprint 7.5, 8.1, 9.1 step 11). Mode,
  * edition, the seed, the viewer, the lockout and the resume log are resolved here, on the
  * server, so the first HTML is the board (or the lockout panel) and nothing swaps after
  * hydration. Guest daily budget: no DB work beyond the cached edition read.

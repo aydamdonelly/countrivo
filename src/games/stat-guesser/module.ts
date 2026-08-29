@@ -80,6 +80,10 @@ export const gameModule: GameModule<StatGuesserState, GuesserAction> = {
       total,
       label: "round",
       value: `${Math.min(s.currentRound + 1, total)} of ${total}`,
+      // Reading the answer to round 1 is still round 1: with the default the ember pip would
+      // run ahead to round 2 while the line beside it still said `round 1 of 5`. In feedback
+      // the round is answered, so no pip is current until the next one opens.
+      current: s.phase === "playing" ? undefined : null,
     };
   },
   verdict(prev, next, a) {
@@ -111,9 +115,11 @@ export const gameModule: GameModule<StatGuesserState, GuesserAction> = {
       startedAt: ctx.startedAt,
     };
   },
-  // The blueprint's own example is `18 % avg error`: a whole number, so the 56 px Erode score
-  // counts up cleanly and the label stays short. The rows keep the exact tenths.
-  scoreLabel: (s) => `${Math.round(reportedError(s))} % avg error`,
+  // A whole number, so the 56 px Erode score counts up cleanly and the rows keep the exact
+  // tenths. `18 % avg error` wraps onto a second 56 px line at 350 px of content and reads
+  // as broken, so the card carries the compact `18 % off` and the result head under it
+  // spells the average out (blueprint 3.24 asks the card for a compact score).
+  scoreLabel: (s) => `${Math.round(reportedError(s))} % off`,
   share: (s, ctx) => buildStatGuesserShareText({ avgError: reportedError(s) }, ctx.dateKey),
   keys(s, dispatch): Record<string, () => void> {
     return s.phase === "feedback" ? { Enter: () => dispatch({ t: "next" }) } : {};

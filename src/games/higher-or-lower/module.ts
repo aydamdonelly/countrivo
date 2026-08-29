@@ -60,9 +60,78 @@ export function pairUnit(unit: string): string {
  * rounded further: a fertility pair is often decided in the second decimal (rounding the
  * category to one would print the same number on both sides of 4 rounds in 100), and a pair
  * that reads as a tie is a round the player cannot call.
+ *
+ * Above a trillion the house formatter keeps counting in billions (`$27292.2B` for the US
+ * economy), which is the one figure in this game's ten categories that reads as a glitch, so
+ * the value steps up to `$27.3T` here. When `formatNumber` grows a T tier this branch goes.
  */
+const TRILLION = 1e12;
+
+function trillions(value: number, unit: string): string | null {
+  if (Math.abs(value) < TRILLION) return null;
+  const t = `${(value / TRILLION).toFixed(1)}T`;
+  if (unit === "USD") return `$${t}`;
+  return unit ? `${t} ${unit}` : t;
+}
+
 export function pairValue(value: number, unit: string): string {
-  return formatStat(value, pairUnit(unit)).trimEnd();
+  const u = pairUnit(unit);
+  return trillions(value, u) ?? formatStat(value, u).trimEnd();
+}
+
+/**
+ * The two figures as the board prints them, and whether the hidden one may count up.
+ *
+ * Two guarantees the plain formatter cannot give on its own. First, a revealed pair never
+ * shows the same number twice: about one round in six hundred holds two countries the house
+ * rounding cannot tell apart (`5.1M` against `5.1M`), and a round that reads as a tie is one
+ * the player is told they called wrong for no visible reason, so both sides step down to the
+ * first decimal place that separates them (`5.10M` against `5.14M`) and stay in the compact
+ * house form rather than spelling out ten digits that would not fit the column. Second,
+ * `count` is false whenever the printed string is not what CountUp's own formatter would
+ * produce (that finer step, or the trillions one), because the reveal would otherwise count
+ * in one format and land in another.
+ */
+export interface PairFigures {
+  left: string;
+  right: string;
+  count: boolean;
+}
+
+const TIERS: readonly (readonly [number, string])[] = [
+  [TRILLION, "T"],
+  [1e9, "B"],
+  [1e6, "M"],
+  [1e3, "K"],
+];
+
+function withUnit(figure: string, unit: string): string {
+  if (unit === "USD") return `$${figure}`;
+  return unit ? `${figure} ${unit}` : figure;
+}
+
+/** The house compact form at a chosen precision: `5.14M`, `$2.1277B`, `74.85 years`. */
+function finer(value: number, decimals: number, unit: string): string {
+  const abs = Math.abs(value);
+  for (const [size, suffix] of TIERS) {
+    if (abs >= size) return withUnit(`${(value / size).toFixed(decimals)}${suffix}`, unit);
+  }
+  return withUnit(value.toFixed(decimals), unit);
+}
+
+export function pairFigures(round: HoLRound): PairFigures {
+  const unit = pairUnit(round.category.unit);
+  const left = pairValue(round.leftValue, round.category.unit);
+  const right = pairValue(round.rightValue, round.category.unit);
+  if (left !== right) return { left, right, count: Math.abs(round.rightValue) < TRILLION };
+  for (let d = 2; d <= 4; d += 1) {
+    const l = finer(round.leftValue, d, unit);
+    const r = finer(round.rightValue, d, unit);
+    if (l !== r) return { left: l, right: r, count: false };
+  }
+  // Two figures that still print alike at four decimals are equal for every purpose the
+  // player can see; the generator drops exactly equal pairs, so this line is unreachable.
+  return { left, right, count: false };
 }
 
 /** The pair on screen: during the reveal it is still the round that was just called. */

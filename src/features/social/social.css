@@ -19,7 +19,8 @@
   .run-by { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; min-width: 0; }
   .run-by .who { min-width: 0; }
   .run-by .nm { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .run-by .nm a { display: inline-block; padding: 3px 0; margin: -3px 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
+  /* 44 px of touch without moving the byline: the padding reaches into the gaps around it. */
+  .run-by .nm a { display: inline-block; padding: 13px 0; margin: -13px 0; max-width: 100%; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
   .run-by .when { display: block; color: var(--color-mute); }
 
   /* ── shared section rhythm ───────────────────────────────────────────── */
@@ -43,8 +44,11 @@
   @media (hover: hover) { .prow .icon-btn:hover { color: var(--color-ink); } }
   .prow .icon-btn:disabled { color: var(--color-wait); cursor: default; }
   /* the friend's shots today: mark + score pairs, one line under the name */
-  .shots { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 10px; margin-top: 2px; }
-  .shots a { display: inline-flex; align-items: center; gap: 4px; padding: 5px 0; margin: -5px 0; color: var(--color-mute); }
+  /* Each shot is its own link, so each gets its own 44 px: the padding reaches up into the
+     meta line above and the row gap is wide enough that a wrapped second line never lands
+     inside the line above it. */
+  .shots { display: flex; flex-wrap: wrap; align-items: center; gap: 26px 10px; margin-top: 9px; }
+  .shots a { display: inline-flex; align-items: center; gap: 4px; padding: 13px 0; margin: -13px 0; color: var(--color-mute); }
   .shots a b { color: var(--color-ink); font-weight: 600; margin-left: 2px; }
 
   /* ── the invite link row ─────────────────────────────────────────────── */
@@ -83,6 +87,10 @@
 
   /* ── forms (profile edit, sound, delete, password pages) ─────────────── */
   .form { display: flex; flex-direction: column; gap: 12px; margin-bottom: var(--stack); }
+  /* a section head sits 2 px above its list, which is right when a hairline row follows it
+     and wrong here: the form's own field label would read as a second head on the same line
+     of grey. The first form after a head takes the gap the rule would have given it. */
+  .sh + .form { margin-top: 12px; }
   /* a name, a country and a handle are short values: the field never runs the whole column */
   @media (min-width: 768px) { .form { max-width: 420px; } }
   .form .with-flag { display: flex; align-items: flex-end; gap: 12px; }
@@ -92,9 +100,13 @@
   .form .act { align-self: flex-start; }
   .snd { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--color-line); }
   .snd .ic { color: var(--color-ink); flex: none; }
-  .snd .sndopts { display: flex; align-items: baseline; gap: 16px; }
-  .snd .sndopts button { color: var(--color-mute); padding: 12px 0 3px; margin-top: -12px; border-bottom: 2px solid transparent; }
-  .snd .sndopts button[aria-pressed="true"] { color: var(--color-ink); font-weight: 600; border-bottom-color: var(--color-ink); }
+  /* Two words with the K3 underline. The button is the 44 px target and the span carries the
+     rule, so the line stays exactly as wide as the word it belongs to. */
+  .snd .sndopts { display: flex; align-items: center; margin: 0 -8px; }
+  .snd .sndopts button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; margin: -10px 0; color: var(--color-mute); }
+  .snd .sndopts button > span { border-bottom: 2px solid transparent; padding-bottom: 3px; }
+  .snd .sndopts button[aria-pressed="true"] { color: var(--color-ink); font-weight: 600; }
+  .snd .sndopts button[aria-pressed="true"] > span { border-bottom-color: var(--color-ink); }
   .danger { margin-top: 8px; }
   .danger .sub { color: var(--color-mute); margin-top: 2px; }
   .danger .acts, .admin .acts { display: flex; align-items: center; gap: 16px; margin-top: 8px; }

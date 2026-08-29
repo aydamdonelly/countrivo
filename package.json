@@ -7,7 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "check:theme": "node scripts/check-theme.mjs"
+    "check:theme": "node scripts/check-theme.mjs",
+    "check:contracts": "tsx scripts/check-contracts.ts",
+    "check:render": "node scripts/check-render.mjs",
+    "check:crawlers": "tsx scripts/check-crawler-access.ts",
+    "check:draft": "tsx scripts/check-country-draft.ts",
+    "check:ranks": "tsx scripts/check-daily-ranks.ts"
   },
   "dependencies": {
     "@capacitor-community/apple-sign-in": "^7.1.0",

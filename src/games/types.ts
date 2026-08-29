@@ -9,8 +9,8 @@ import type { RunDetail, ServerGameRun } from "@/types/server";
 import type { GameSlug, Mode, Viewer } from "@/ui/types";
 import type { submitGameRun } from "@/app/actions/game-runs";
 
-/** The 17 slugs with a play route (World Draft has none). */
-export type PlayableSlug = Exclude<GameSlug, "world-draft">;
+/** The slugs with a play route. Every game in the roster now has a board. */
+export type PlayableSlug = GameSlug;
 
 /**
  * Every action carries a tag `t`. `ui: true` marks an action that is never persisted and
@@ -128,9 +128,9 @@ export interface GameModule<S, A extends Action> {
   keys?(state: S, dispatch: (a: A) => void): Record<string, () => void>;
   /** `1 to 8 pick · Enter next`, shown on fine pointers only. */
   keyHint?: string;
-  /** Country Draft, Cluster, GeoWordle, Population Sort, Border Buddies, Borderline keep the finished board above the panel. */
+  /** Country Draft and GeoWordle keep the finished board above the result panel. */
   keepBoardOnResult: boolean;
-  /** false for blitz, borderline, supremacy: submitGameRun is never called. */
+  /** false when a run is never sent to the server: submitGameRun is not called. */
   submits: boolean;
 }
 

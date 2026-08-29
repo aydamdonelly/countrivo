@@ -47,6 +47,18 @@ function runHref(slug: GameSlug, runId: number | null | undefined): string | und
 }
 
 /**
+ * The identity cell of a global row: the shooter's flag. A shooter who has not chosen a
+ * country has no flag, and a flag is never faked or left as an empty box, so that row
+ * wears the seed crest, the same answer the me-row gives (blueprint 5.2). The viewer's
+ * own row always wears their crest.
+ */
+function globalIdentity(row: BoardRowWithRun, viewerCrest: string | null) {
+  if (row.isMe) return <Crest path={viewerCrest} size={26} label="you" />;
+  if (row.flag) return <Flag iso2={row.flag} size="xs" alt="" />;
+  return <Crest path={null} size={24} />;
+}
+
+/**
  * The K3 signature (blueprint 3.7): one list with Global and Friends as tabs, the top
  * rows, and the me-row always present and last. Both panes are in the HTML; the tab
  * links work without JS and the client swaps the panes in place.
@@ -73,7 +85,7 @@ export function Board({ slug, title, board, viewer, initialTab = "global", varia
         <BoardRowView
           key={r.userId}
           rank={r.rank}
-          identity={r.isMe ? <Crest path={viewer.crest} size={26} label="you" /> : <Flag iso2={r.flag} size="xs" alt="" />}
+          identity={globalIdentity(r, viewer.crest)}
           name={r.isMe ? "you" : r.name}
           score={<ScoreCell>{r.score}</ScoreCell>}
           me={r.isMe}

@@ -1,107 +1,217 @@
 "use client";
 
 import { useState } from "react";
-import { canUndo, getCurrentCountry, isComplete } from "@/lib/game-logic/country-draft/engine";
-import { chipLabel } from "@/content/chips";
 import { Button } from "@/ui/button";
-import { Slot } from "@/ui/slot";
+import { CountUp } from "@/ui/count-up";
+import { Flag } from "@/ui/flag";
+import { SeatIcon } from "@/ui/icons/seat";
+import { cn } from "@/lib/utils";
+import { canUndo, figureAt, filledSeats, scoreState } from "@/lib/game-logic/country-draft/engine";
+import {
+  ARCHETYPE_LABELS,
+  BONUSES,
+  MAX_SCORE,
+  ROUNDS,
+  SEAT_NAMES,
+  SEAT_WANTS,
+  bandOf,
+  fitQuality,
+  fitWord,
+} from "@/lib/game-logic/country-draft/tables";
+import { fitOf } from "@/lib/game-logic/country-draft/scoring";
+import type { DraftFigure, PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import type { BoardProps } from "@/games/types";
-import { CountryBlock } from "@/games/_shared/country-block";
-import type { DraftAction, DraftState } from "./module";
+import type { CountryDraftAction, CountryDraftState } from "./module";
+import "./draft.css";
 
 /*
- * The Country Draft board (blueprint 8.8): the subject at the top, the eight category slots
- * as a 2x4 grid (4x2 on desktop), the one undo under it, and the reveal window after the
- * eighth pick. Everything is drawn from `state`, so the server HTML is already the board and
- * a resumed run arrives with its picks in place.
+ * The Country Draft board. Five countries are on the plan line from the first second and
+ * only the people arrive round by round, so holding a seat open is an informed decision
+ * rather than a gamble. Everything is drawn from `state`: the server HTML is already the
+ * board, and a resumed run arrives with its cabinet in place and nothing animating.
+ *
+ * The reveal after the fifth appointment is a swap in place, not a new screen. Every
+ * region keeps its height (the round row becomes the band, the three people become the
+ * three bonus rows, the cabinet stays exactly where it is), so nothing on screen moves.
  */
 
-/*
- * One geometry for all eight slots, open or filled, phone or desktop.
- *   min-h-[76px]      every slot is the height of a two-line label, so a row never goes
- *                     ragged when `Foreign investment` wraps beside `Coffee`.
- *   justify-between   the label line sits at the top and the stat line at the bottom of
- *                     every slot, so both read across the grid on one baseline.
- *   items-start       the icon (or the flag) and the corner numeral hold the first line
- *                     while the label wraps under them.
- *   min-w-0           a 1fr grid track cannot shrink below its content, and a long country
- *                     name would otherwise widen both columns and push the page sideways.
- *   whitespace-normal names and category labels wrap to a second line instead of being cut;
- *                     the reserved height is already there to hold them.
- */
-const SLOT = "min-h-[76px] min-w-0 justify-between [&_.lbl]:items-start [&_.nm]:whitespace-normal";
+/** The plan line: five countries, the played ones down, the current one ink. */
+function Plan({ names, round }: { names: readonly string[]; round: number }) {
+  return (
+    <p className="dr-plan t-meta">
+      {names.map((name, i) => (
+        <span key={name}>
+          {i > 0 ? <span className="sep"> · </span> : null}
+          <span className={i < round ? "past" : i === round ? "now" : undefined}>{name}</span>
+        </span>
+      ))}
+    </p>
+  );
+}
 
-export function Board({ state, dispatch, busy }: BoardProps<DraftState, DraftAction>) {
-  const { g } = state;
-  const country = getCurrentCountry(g);
-  const complete = isComplete(g);
-  const revealing = complete && !state.seen;
-  const undoable = canUndo(g) && !state.seen;
+function Person({
+  figure,
+  held,
+  onHold,
+}: {
+  figure: DraftFigure;
+  held: boolean;
+  onHold: () => void;
+}) {
+  return (
+    <button type="button" className="dr-card" aria-pressed={held} onClick={onHold}>
+      <span className="who">
+        <b className="t-list">{figure.name}</b>
+        <small className="t-meta">{figure.note}</small>
+      </span>
+      <span className="what">
+        <b className="t-body">{ARCHETYPE_LABELS[figure.archetype]}</b>
+        <small className="t-meta">
+          standing <span className="num">{figure.standing}</span>
+        </small>
+      </span>
+    </button>
+  );
+}
 
-  // Snapshot the move count at mount: a board that arrives resumed (or finished) is settled,
-  // and only what moves after that plays the reveal and the counting rank (blueprint 6.3.1, 6.3.2).
+export function Board({ state, dispatch, busy }: BoardProps<CountryDraftState, CountryDraftAction>) {
+  const playing = state.phase === "playing";
+  const round = playing && state.round < ROUNDS ? state.board.rounds[state.round] : null;
+  const heldFigure = round && state.held !== null ? round.pool[state.held] : null;
+  const filled = filledSeats(state);
+  const scored = scoreState(state);
+  const undoable = canUndo(state);
+
+  // A board that arrives resumed or finished is settled: only what moves after mount
+  // plays the round slide and the counting numeral (blueprint 6.3.1, 6.3.2).
   const [movesAtMount] = useState(state.moves);
   const moved = state.moves > movesAtMount;
 
   return (
-    <div className="play-stack">
-      {country ? (
-        <CountryBlock key={g.currentStep} country={country} animate={moved} />
-      ) : revealing ? (
-        <div className="subj">
-          <b className="t-card">Final pick in.</b>
-        </div>
-      ) : null}
+    <div className="dr">
+      <div className={cn("dr-round", moved && playing && "subj-in")} key={playing ? state.round : "reveal"}>
+        {round ? (
+          <>
+            <Flag iso2={round.iso2} size="m" alt="" eager />
+            <span className="txt">
+              <b className="t-h3">{round.name}</b>
+              <small className="t-meta">{round.region}</small>
+            </span>
+          </>
+        ) : (
+          <span className="txt">
+            <b className="t-h3">{bandOf(scored.score).word}</b>
+            <small className="t-meta">
+              <span className="num">{scored.score}</span> of <span className="num">{MAX_SCORE}</span> · best possible{" "}
+              <span className="num">{state.board.ceiling}</span>
+            </small>
+          </span>
+        )}
+      </div>
 
-      <div className="slot-grid">
-        {g.config.categories.map((cat, i) => {
-          const countryIdx = g.assignments.indexOf(i);
-          if (countryIdx >= 0) {
-            const picked = g.config.countries[countryIdx];
-            return (
-              <Slot
-                key={cat.slug}
-                className={SLOT}
-                state="assigned"
-                iso2={picked.iso2}
-                country={picked.displayName}
-                rank={g.config.costMatrix[countryIdx][i]}
-                label={chipLabel(cat.slug)}
-                animate={moved && state.lastPick === countryIdx}
+      <Plan names={state.board.rounds.map((r) => r.name)} round={playing ? state.round : ROUNDS} />
+
+      <div className="dr-pool">
+        {round
+          ? round.pool.map((figure, i) => (
+              <Person
+                key={figure.name}
+                figure={figure}
+                held={state.held === i}
+                onHold={() => dispatch({ t: "hold", i: i as PoolIdx, ui: true })}
               />
+            ))
+          : BONUSES.map((bonus) => (
+              <div key={bonus.key} className="dr-card">
+                <span className="who">
+                  <b className="t-list">{bonus.name}</b>
+                  <small className="t-meta">{bonus.needs}</small>
+                </span>
+                <span className="what">
+                  <b className={cn("t-score num", scored.bonuses[bonus.key] ? "dr-q-good" : "dr-q-fair")}>
+                    {scored.bonuses[bonus.key] ? `+${bonus.points}` : "0"}
+                  </b>
+                </span>
+              </div>
+            ))}
+      </div>
+
+      <div className="dr-cabinet">
+        {SEAT_NAMES.map((seatName, i) => {
+          const seat = i as SeatIdx;
+          const pick = state.seats[seat];
+          if (pick) {
+            const figure = figureAt(state.board, pick);
+            const source = state.board.rounds[pick.round];
+            return (
+              <div key={seatName} className="dr-seat">
+                <Flag iso2={source.iso2} size="xs" alt="" />
+                <span className="txt">
+                  <b className="t-body">{figure.name}</b>
+                  <small className="t-meta">
+                    {seatName} · {fitWord(pick.fit)} · {source.name}
+                  </small>
+                </span>
+                <b className={cn("t-score num pts", `dr-q-${fitQuality(pick.fit)}`)}>
+                  <CountUp
+                    value={pick.points}
+                    duration={300}
+                    animate={moved && state.lastSeat === seat}
+                    pop={moved && state.lastSeat === seat}
+                  />
+                </b>
+              </div>
             );
           }
+          const fit = heldFigure ? fitOf(heldFigure.archetype, seat) : null;
           return (
-            <Slot
-              key={cat.slug}
-              className={SLOT}
-              state="open"
-              slug={cat.slug}
-              label={chipLabel(cat.slug)}
-              clarifier={cat.clarifier}
-              keyHint={String(i + 1)}
-              onClick={() => dispatch({ t: "pick", c: i })}
-              disabled={busy || country === null}
-              aria-label={`Put ${country ? country.displayName : "this country"} on ${chipLabel(cat.slug)}`}
-            />
+            <button
+              key={seatName}
+              type="button"
+              className="dr-seat"
+              disabled={busy || state.held === null || !playing}
+              onClick={() => state.held !== null && dispatch({ t: "appoint", i: state.held, s: seat })}
+              aria-label={heldFigure ? `Seat ${heldFigure.name} as ${seatName}` : seatName}
+            >
+              <span className="mark">
+                <SeatIcon seat={seat} size={22} />
+              </span>
+              <span className="txt">
+                <b className="t-body">{seatName}</b>
+                <small className="t-meta">{SEAT_WANTS[seat]}</small>
+              </span>
+              {fit === null ? (
+                <span className="key t-num num">{seat + 1}</span>
+              ) : (
+                <b className={cn("t-body read", `dr-q-${fitQuality(fit)}`)}>
+                  {fitWord(fit)} <span className="num">{fit}</span>
+                </b>
+              )}
+            </button>
           );
         })}
       </div>
 
-      {revealing || undoable ? (
-        <div className="play-actions">
-          {revealing ? (
-            <Button variant="ink" onClick={() => dispatch({ t: "seen" })}>
-              See result
-            </Button>
-          ) : null}
-          {undoable ? (
-            <Button variant="text" icon="undo" onClick={() => dispatch({ t: "undo" })}>
-              Undo last pick · 1 left
-            </Button>
-          ) : null}
-        </div>
-      ) : null}
+      {/*
+        One row under the cabinet, 44 px whether it is full or empty, so the reveal swap
+        and the take-back never move the board. Two actions side by side are one ink and
+        one text; there is no outlined variant, so a filled-plus-outlined pair cannot occur.
+      */}
+      <div className="play-actions dr-act">
+        {state.phase === "reveal" ? (
+          <Button variant="ink" onClick={() => dispatch({ t: "seen" })}>
+            See result
+          </Button>
+        ) : null}
+        {undoable ? (
+          <Button variant="text" icon="undo" onClick={() => dispatch({ t: "undo" })}>
+            Take back last · 1 left
+          </Button>
+        ) : null}
+        {filled === 0 ? (
+          <p className="t-body play-line">Every seat wants a different kind of person.</p>
+        ) : null}
+      </div>
     </div>
   );
 }

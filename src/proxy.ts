@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
 }
 
 /*
- * Matcher values must be constants (Next analyses them at build time), so the 18 registry
+ * Matcher values must be constants (Next analyses them at build time), so the seven registry
  * slugs are written out here. Excluded: Next internals, the flag and font files, every file
  * extension we serve, robots, the four sitemaps, the manifest, the icon and OG routes, and
  * the static families `/countries*`, `/categories*`, `/lists*`, `/privacy`, `/terms`,
@@ -43,6 +43,6 @@ export async function proxy(request: NextRequest) {
  */
 export const config = {
   matcher: [
-    "/((?!_next/|flags/|fonts/|robots\\.txt$|(?:.*/)?sitemap\\.xml$|manifest\\.webmanifest$|(?:.*/)?opengraph-image$|icon$|apple-icon$|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2|txt|xml)$|countries(?:/.*)?$|categories(?:/.*)?$|lists(?:/.*)?$|privacy$|terms$|support$|games$|games/(?:country-draft|flag-quiz|higher-or-lower|capital-match|population-sort|country-streak|border-buddies|continent-sprint|stat-guesser|speed-flags|odd-one-out|supremacy|borderline|blitz|geo-wordle|cluster|risk-zone|world-draft)$).*)",
+    "/((?!_next/|flags/|fonts/|robots\\.txt$|(?:.*/)?sitemap\\.xml$|manifest\\.webmanifest$|(?:.*/)?opengraph-image$|icon$|apple-icon$|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2|txt|xml)$|countries(?:/.*)?$|categories(?:/.*)?$|lists(?:/.*)?$|privacy$|terms$|support$|games$|games/(?:country-draft|blind-pick|higher-or-lower|geo-wordle|stat-guesser|flag-quiz|speed-flags)$).*)",
   ],
 };

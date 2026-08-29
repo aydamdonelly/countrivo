@@ -4,11 +4,9 @@ import { getGameCopy } from "@/lib/seo/game-copy";
 import { buildGameJsonLd } from "@/lib/seo/game-metadata";
 import { getPublicBoard } from "@/server/boards";
 import { gameMeta, getGameContent, relatedSlugs } from "@/content/games";
-import { LANDING_DRAFT_CHIPS } from "@/content/chips";
 import {
   AnchorCard,
   Board,
-  DRAFT_STEPS,
   EditorialHead,
   GameRow,
   GUEST_VIEWER,
@@ -18,6 +16,7 @@ import {
   SiteFoot,
   type GameSlug,
 } from "@/ui";
+import { DraftTables } from "./draft-tables";
 import { EntityBlock } from "./entity-block";
 import { GameJsonLd } from "./game-jsonld";
 import { faqPage, jsonLdProps, node } from "./breadcrumbs";
@@ -35,7 +34,9 @@ export async function GameLanding({ slug }: { slug: string }) {
 
   const copy = getGameCopy(slug);
   const hasDaily = game.availableModes.includes("daily");
-  const isDraft = slug === "country-draft";
+  // Country Draft publishes its whole scoring model on this page (SPEC 20.5); it is the
+  // only unique content this URL can carry, and it is what makes the page worth reading.
+  const isCabinetDraft = slug === "country-draft";
   const board = hasDaily ? await getPublicBoard(slug) : null;
   const leaderboard = `/games/${slug}/leaderboard`;
   const playDaily = `/games/${slug}/play?mode=daily`;
@@ -67,9 +68,9 @@ export async function GameLanding({ slug }: { slug: string }) {
               title={game.title}
               kicker={`${hasDaily ? "DAILY" : "PRACTICE"} · ${game.title.toUpperCase()}`}
               counter={hasDaily ? "resets at midnight Berlin" : "unlimited"}
-              how={isDraft ? undefined : content.how}
-              steps={isDraft ? DRAFT_STEPS : undefined}
-              chips={isDraft ? LANDING_DRAFT_CHIPS : content.facts}
+              how={content.steps ? undefined : content.how}
+              steps={content.steps}
+              chips={content.chips ?? content.facts}
               cta={{ label: hasDaily ? "Shoot" : "Play", href: hasDaily ? playDaily : playPractice }}
             />
           </div>
@@ -109,21 +110,27 @@ export async function GameLanding({ slug }: { slug: string }) {
             </ol>
           </section>
 
+          {isCabinetDraft ? (
+            <div data-o="5">
+              <DraftTables />
+            </div>
+          ) : null}
+
           {copy && copy.about.length > 0 ? (
-            <section data-o="5" aria-labelledby="what-it-is">
+            <section data-o="6" aria-labelledby="what-it-is">
               <EditorialHead id="what-it-is" title={`What ${game.title} is`} />
               <Prose paragraphs={copy.about} />
             </section>
           ) : null}
 
           {copy && copy.faq.length > 0 ? (
-            <section data-o="6" aria-labelledby="questions">
+            <section data-o="7" aria-labelledby="questions">
               <EditorialHead id="questions" title="Questions" />
               <QaList open="details" items={copy.faq.map((f) => ({ q: f.q, a: f.a }))} />
             </section>
           ) : null}
 
-          <div data-o="8">
+          <div data-o="9">
             <EntityBlock slug={slug} />
           </div>
         </div>
@@ -143,7 +150,7 @@ export async function GameLanding({ slug }: { slug: string }) {
             </div>
           ) : null}
 
-          <section data-o="7" className="ls">
+          <section data-o="8" className="ls">
             <SectionHead title="More games" fact={`${related.length} games`} />
             {related.map((g) => (
               <GameRow

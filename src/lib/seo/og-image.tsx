@@ -36,7 +36,7 @@ export const ON_INK_BODY = "#c9c8c1"; /* --color-on-ink-body */
 export const ON_INK_KICKER = "#a9aaa3"; /* --color-on-ink-kicker */
 export const ON_INK_CHIP = "#d9d8d1"; /* --color-on-ink-chip */
 
-/** The same precomputed Natural Earth paths the World Draft mark draws (blueprint 3.36). */
+/** The same precomputed Natural Earth paths the Country Draft mark draws (blueprint 3.36). */
 const MAP = conquest as { viewBox: string; land: string; countries: Record<string, string> };
 
 const DIFFICULTY_LABEL: Record<GameMeta["difficulty"], string> = {
@@ -47,6 +47,12 @@ const DIFFICULTY_LABEL: Record<GameMeta["difficulty"], string> = {
 
 export const ogSize = { width: 1200, height: 630 };
 export const ogContentType = "image/png";
+
+/** The anchor of the site and of this card family (blueprint 0.4 roster). */
+const FLAGSHIP_SLUG = "country-draft";
+
+/** The first two sentences of Country Draft's landing rule, verbatim. */
+const FLAGSHIP_HOW = "Draft five people. Give each a seat: leader, general, money, propaganda, diplomacy.";
 
 /**
  * Erode 600, embedded as base64 (src/lib/seo/erode-font.ts) because Satori reads
@@ -74,9 +80,18 @@ export interface GameOgProps {
   chips: string[];
   /** The paper button in the card's bottom-right corner; null for a card with no action. */
   cta: string | null;
-  /** Draws the conquest map in the card instead of a button (World Draft only). */
+  /**
+   * Country Draft only: the conquest map takes the right half of the card, so the
+   * flagship's card carries the thing the game is about (blueprint 3.36).
+   */
   map?: boolean;
 }
+
+/** Card geometry, so the map column and the type column are measured, not guessed. */
+const CARD_INNER = 976; /* 1200 - 2*64 page gutter - 2*48 card padding */
+const MAP_W = 400;
+const MAP_H = Math.round((MAP_W * 150) / 320); /* the conquest viewBox is 320x150 */
+const TYPE_COL = 540; /* 540 + 36 gap + 400 = 976 */
 
 /** Everything is explicit flex: Satori has no block layout. */
 export async function renderGameOgImage({
@@ -147,35 +162,59 @@ export async function renderGameOgImage({
           </div>
 
           {/* the title block floats between the kicker and the chip row, so the two
-              gaps read as one deliberate measure instead of a hole in the middle */}
-          <div style={{ display: "flex", flex: 1 }} />
-
+              gaps read as one deliberate measure instead of a hole in the middle.
+              With the map, the same block becomes the left column of one row and the
+              world sits beside it on the same optical centre. */}
           <div
             style={{
               display: "flex",
-              fontSize: 104,
-              lineHeight: 1.05,
-              color: ON_INK,
-              maxWidth: map ? 540 : 976,
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            {title}
-          </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: map ? TYPE_COL : CARD_INNER,
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  fontSize: map ? 76 : 104,
+                  lineHeight: 1.05,
+                  color: ON_INK,
+                }}
+              >
+                {title}
+              </div>
 
-          <div
-            style={{
-              display: "flex",
-              marginTop: 18,
-              fontSize: 32,
-              lineHeight: 1.4,
-              color: ON_INK_BODY,
-              maxWidth: map ? 540 : 920,
-            }}
-          >
-            {how}
-          </div>
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: map ? 16 : 18,
+                  fontSize: map ? 30 : 32,
+                  lineHeight: 1.4,
+                  color: ON_INK_BODY,
+                  maxWidth: map ? TYPE_COL : 920,
+                }}
+              >
+                {how}
+              </div>
+            </div>
 
-          <div style={{ display: "flex", flex: 1 }} />
+            {map ? (
+              <svg width={MAP_W} height={MAP_H} viewBox={MAP.viewBox}>
+                <path d={MAP.land} fill={INK_2} />
+                {Object.entries(MAP.countries).map(([iso3, d]) => (
+                  <path key={iso3} d={d} fill={ON_INK} />
+                ))}
+              </svg>
+            ) : null}
+          </div>
 
           <div style={{ display: "flex", gap: 14, paddingRight: 260 }}>
             {chips.map((chip) => (
@@ -196,17 +235,6 @@ export async function renderGameOgImage({
               </div>
             ))}
           </div>
-
-          {map ? (
-            <div style={{ position: "absolute", right: 44, bottom: 44, display: "flex" }}>
-              <svg width={430} height={202} viewBox={MAP.viewBox}>
-                <path d={MAP.land} fill={INK_2} />
-                {Object.entries(MAP.countries).map(([iso3, d]) => (
-                  <path key={iso3} d={d} fill={ON_INK} />
-                ))}
-              </svg>
-            </div>
-          ) : null}
 
           {cta ? (
             <div
@@ -270,29 +298,34 @@ export function renderGameOgImageForSlug(
     });
   }
 
-  // World Draft is announced, not playable: no button, and the conquest map takes
-  // the space the chips would use. Its landing rule is a full paragraph, so this
-  // one card keeps the registry's one-liner; every other card takes the landing's
-  // own words below.
-  if (game.comingSoon) {
-    return renderGameOgImage({
-      kicker: "NEW · IN DEVELOPMENT",
-      counter: options.counter ?? "draft 5 people · conquer 195",
-      title: game.title,
-      how: options.shortDescription ?? game.shortDescription,
-      chips: [],
-      cta: null,
-      map: true,
-    });
-  }
-
   const isDaily = game.availableModes.includes("daily");
   const badge = options.badge ?? (isDaily ? "Daily board" : "Practice");
   // The landing's own rule and facts (blueprint 10.5), so the card and the page it
   // opens say the same thing in the same words. The registry strings are the
-  // fallback only: several are off-voice and one of them still says five countries
-  // where Population Sort sorts six (blueprint 8.9).
+  // fallback only: several are off-voice.
   const content = getGameContent(slug);
+  // A game that is announced but not yet playable shows no button; nothing on the
+  // card may promise an action the landing cannot answer.
+  const cta = game.comingSoon ? null : isDaily ? "Shoot" : "Play";
+
+  // The flagship. Country Draft is the one game whose subject is the world itself:
+  // five people take five countries out of 195, and the conquest map draws exactly
+  // that (the same five outlines as its mark, blueprint 3.36). So its card gives the
+  // right half to the map and sets the type against it, instead of running the same
+  // full-width headline as the other six.
+  if (slug === FLAGSHIP_SLUG) {
+    return renderGameOgImage({
+      kicker: `${badge} · ${game.title}`.toUpperCase(),
+      counter: options.counter ?? "draft 5 people · conquer 195",
+      title: game.title,
+      // The first two sentences of the landing's own rule (src/content/games.ts):
+      // the full four run past the card, and a card must not invent a new sentence.
+      how: options.shortDescription ?? FLAGSHIP_HOW,
+      chips: content ? [...content.facts] : [],
+      cta,
+      map: true,
+    });
+  }
 
   return renderGameOgImage({
     kicker: `${badge} · ${game.title}`.toUpperCase(),
@@ -302,6 +335,6 @@ export function renderGameOgImageForSlug(
     chips: content
       ? [...content.facts]
       : [DIFFICULTY_LABEL[game.difficulty], spellTime(game.estimatedTime)],
-    cta: isDaily ? "Shoot" : "Play",
+    cta,
   });
 }

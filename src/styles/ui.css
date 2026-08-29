@@ -114,9 +114,14 @@
   .gb { margin-bottom: var(--stack); }
   /* K3: the tab row is a board row (padding 7 0, the hairline on top), 36 px tall, so the rows land at 476. */
   .gb .tabs { display: flex; gap: 16px; align-items: baseline; margin-bottom: 8px; padding: var(--row-y) 0; border-top: 1px solid var(--color-line); line-height: 1.2; color: var(--color-mute); }
-  /* 44 px hit areas that keep K3's geometry: the padding reaches up into the gap above the row. */
-  .gb .tabs a { display: inline-block; color: var(--color-mute); padding: 23px 0 3px; margin-top: -23px; border-bottom: 2px solid transparent; }
-  .gb .tabs a[aria-selected="true"] { color: var(--color-ink); font-weight: 600; border-bottom-color: var(--color-ink); }
+  /* 44 px hit areas that keep K3's geometry: the padding reaches up into the gap above the row,
+     and 4 px on each side (cancelled by the negative margin, so the words do not move) takes the
+     narrow `Global` tab from 40 to 48. The transparent border holds the 2 px band in the box;
+     the active underline is painted inset to the word only (blueprint 3.7) so the side padding
+     cannot stretch it. */
+  .gb .tabs a { position: relative; display: inline-block; color: var(--color-mute); padding: 24px 4px 3px; margin: -24px -4px 0; border-bottom: 2px solid transparent; }
+  .gb .tabs a[aria-selected="true"] { color: var(--color-ink); font-weight: 600; }
+  .gb .tabs a[aria-selected="true"]::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: -2px; height: 2px; background: var(--color-ink); }
   .gb .tabs em { margin-left: auto; font-size: 12px; line-height: 1.35; font-weight: 600; color: var(--color-ember); }
   .gb .row { display: grid; grid-template-columns: 18px 26px 1fr auto; gap: 10px; align-items: center; padding: var(--row-y) 0; font-size: 14px; line-height: 1.3; border-top: 1px solid var(--color-line); color: var(--color-ink); }
   .gb .row i { font-size: 12px; line-height: 1.35; color: var(--color-mute); }
@@ -158,7 +163,7 @@
   /* ── nudge ───────────────────────────────────────────────────────────── */
   .nd { display: flex; align-items: center; gap: 10px; background: var(--color-card); border-radius: var(--radius-note); padding: 12px 14px; color: var(--color-ink); }
   .nd span { flex: 1; line-height: 1.35; }
-  .nd a, .nd button { display: inline-flex; align-items: center; min-height: 44px; margin: -12px 0; padding: 0 0 0 4px; color: var(--color-ember); font-weight: 600; white-space: nowrap; }
+  .nd a, .nd button { display: inline-flex; align-items: center; min-height: 44px; margin: -12px -4px; padding: 0 4px; color: var(--color-ember); font-weight: 600; white-space: nowrap; }
 
   /* ── streak week ─────────────────────────────────────────────────────── */
   .streak .n { display: flex; align-items: center; gap: 10px; }
@@ -202,9 +207,18 @@
   .subj { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
   .subj .meta { color: var(--color-mute); }
   .subj.stat { gap: 6px; }
-  .subj-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .subj-pair .side { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
+  /* One shared row grid across both sides (flag / name / value), so a name that
+     wraps to two lines on one side cannot push its value off the other side's
+     line: the two figures being compared always sit on the same baseline. Each
+     side spans all three rows as a subgrid. */
+  .subj-pair { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; column-gap: 16px; row-gap: 6px; }
+  .subj-pair .side { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 6px; justify-items: center; text-align: center; }
   .subj-pair .side .nm { font-weight: 500; }
+  /* Without subgrid each side keeps its own rows, so reserve the second name line
+     on both sides to hold the values level. */
+  @supports not (grid-template-rows: subgrid) {
+    .subj-pair .side .nm { min-height: 2.5em; }
+  }
   .subj-pair .side .val.hidden-val { color: var(--color-wait); }
   .subj-in { animation: subj-in var(--dur-base) var(--ease-out); }
   @keyframes subj-in { from { transform: translateY(6px); } to { transform: none; } }
@@ -380,7 +394,9 @@
   .prose { max-width: 62ch; color: var(--color-ink); }
   .prose p + p { margin-top: 12px; }
   .prose b { font-weight: 600; }
-  .prose a { padding: 4px 0; color: var(--color-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--color-faint); }
+  /* Vertical padding on an inline box widens the target to 44 without moving a single line;
+     the negative margin keeps any inline-block override honest too. */
+  .prose a { padding: 13px 0; margin: -9px 0; color: var(--color-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--color-faint); }
   @media (hover: hover) { .prose a:hover { text-decoration-color: var(--color-ink); } }
   .qa .item { padding: 14px 0; border-top: 1px solid var(--color-line); }
   .qa .item:first-child { border-top: 0; padding-top: 0; }
@@ -393,20 +409,43 @@
   .qa summary .chev { color: var(--color-faint); transition: transform 160ms; flex: none; }
   .qa details[open] summary .chev { transform: rotate(90deg); }
   .qa details .a { padding-bottom: 14px; margin-top: 0; }
-  .facts { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 12px; background: var(--color-card); border-radius: var(--radius-card); padding: 14px 14px 12px; }
-  /* Four tiles do not fit four Erode values across 350 px: 2x2 on phones. */
-  @media (max-width: 479px) { .facts[data-n="4"] { grid-auto-flow: row; grid-template-columns: 1fr 1fr; row-gap: 16px; } }
-  .facts .v { white-space: nowrap; }
-  .facts .f { display: block; min-width: 0; border-radius: var(--radius-ctl); }
-  .facts a.f { margin: -6px; padding: 6px; transition: background-color var(--dur-fast); }
-  @media (hover: hover) { .facts a.f:hover { background: var(--color-line); } }
-  .facts .v { display: block; color: var(--color-ink); }
+  /* A fact row is a comparison row, so the value line, the label and the third line sit on ONE
+     shared set of rows across every tile, whatever the copy does (the law's misaligned-parallel-
+     columns rule). Each tile spans the same three rows and subgrids them: a label or a value that
+     wraps to two lines moves that role's baseline in EVERY tile at once, never in one of them.
+     Row gap is 0, because those rows are now the tiles' own lines, not the space between tiles. */
+  .facts { display: grid; grid-template-rows: auto auto auto; column-gap: 12px; row-gap: 0; position: relative; z-index: 0; background: var(--color-card); border-radius: var(--radius-card); padding: 14px 14px 12px; }
+  .facts[data-n="2"] { grid-template-columns: 1fr 1fr; }
+  .facts[data-n="3"] { grid-template-columns: 1fr 1fr 1fr; }
+  .facts[data-n="4"] { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .facts .f { display: grid; grid-template-rows: subgrid; grid-row: span 3; min-width: 0; border-radius: var(--radius-ctl); }
+  /* A linked tile is a control and carries a 44 px target. A subgrid's own min-height cannot
+     reach the rows it borrows, so the floor goes on the two rows every tile fills: 22 + 22
+     clears 44 even for a tile with no third line, and neither floor moves a tile that has one. */
+  .facts:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto; }
+  /* Four tiles do not fit four Erode values across 350 px: 2x2 on phones. The 16 px between the
+     two pairs is an explicit spacer row and the tiles are placed by hand, so the gap can never
+     open up between the three lines inside a tile. */
+  @media (max-width: 479px) {
+    .facts[data-n="4"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto 16px auto auto auto; }
+    .facts[data-n="4"] .f:nth-child(1) { grid-area: 1 / 1 / span 3 / auto; }
+    .facts[data-n="4"] .f:nth-child(2) { grid-area: 1 / 2 / span 3 / auto; }
+    .facts[data-n="4"] .f:nth-child(3) { grid-area: 5 / 1 / span 3 / auto; }
+    .facts[data-n="4"] .f:nth-child(4) { grid-area: 5 / 2 / span 3 / auto; }
+    .facts[data-n="4"]:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
+  }
+  .facts .v { display: block; white-space: nowrap; color: var(--color-ink); }
   .facts .l { display: block; color: var(--color-mute); margin-top: 4px; }
-  .facts .s { display: block; color: var(--color-mute); }
+  .facts .s { display: block; color: var(--color-mute); padding-top: 2px; }
+  /* A linked tile lights its own surface from a layer behind the text instead of from padding:
+     padding on a subgrid insets its first and last track off the row the other tiles sit on. */
+  .facts a.f { position: relative; }
+  .facts a.f::before { content: ""; position: absolute; inset: -6px; z-index: -1; border-radius: var(--radius-ctl); transition: background-color var(--dur-fast); }
+  @media (hover: hover) { .facts a.f:hover::before { background: var(--color-line); } }
   .foot { background: var(--color-card); border-radius: var(--radius-card); margin-top: 40px; padding: 20px; color: var(--color-ink); }
   .foot p + p { margin-top: 8px; }
-  /* Inline links: vertical padding on an inline box widens the target without moving the lines. */
-  .foot a { padding: 4px 0; color: var(--color-ink); }
+  /* Inline links: vertical padding on an inline box widens the target to 44 without moving the lines. */
+  .foot a { padding: 14px 0; margin: -10px 0; color: var(--color-ink); }
   .foot .lead { color: var(--color-mute); }
   .foot .data { color: var(--color-mute); margin-top: 12px; }
   .steps-ol { counter-reset: step; }

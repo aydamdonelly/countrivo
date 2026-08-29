@@ -814,6 +814,16 @@ Population · Land area · GDP per person · Total GDP · Life expectancy · Urb
 ### 10.8 Save-failure reasons in words
 `too_fast` → "played too fast" · `already_played` → "already played today" · `server_validation_failed: …` → "the server rejected the replay" · `invalid_start_time` → "the clock did not agree" · `not_authenticated` → "not signed in" · anything else → "something went wrong".
 
+### 10.9 Figures: one formatter, no second opinion (owner decision, supersedes the section 12 freeze on `utils.ts`)
+
+Every figure on every surface, editorial page and game board alike, is printed by `formatStat` / `formatNumber` in `src/lib/utils.ts`. No module may carry its own tier, rounding or currency branch, because the same country then prints two ways in one product. Three rules, decided here:
+
+1. **Trillions exist.** The tiers are `T` `B` `M` `K` above a thousand. The US economy is `$27.3T` on `/categories/gdp`, on the 15 list pages, on `/countries/united-states` and in Higher or Lower. It is never `$27292.2B`. A mantissa that rounds up to 1000.0 steps to the next tier (`999,999` is `1.0M`, never `1000.0K`).
+2. **Magnitude is absolute, the sign leads.** Foreign investment runs to -343,402,798,888, so it prints `-$343.4B`, not `$-343,402,798,888.19` and not `$-343.4B`.
+3. **Below a thousand, two decimals at most, trailing zeros dropped.** The source carries up to eighteen decimals. `4.22 births/woman`, `900 arrivals/year`, `0.49 km²`. Precision the reader cannot use is noise, and it is what wraps a fact tile. The percent family (`%`, `% of GDP`) keeps one decimal with the sign welded to the number, so the three spending categories read `15.0% of GDP`: a percentage first, a qualifier second. `years` keeps one decimal (`84.0 years`, a crawler canary). Population keeps its tier (`124.5M`, the other canary).
+
+Where a game needs a finer step than the house form (Higher or Lower separates a pair that ties at two decimals), it steps down from the house form and says so at the call site; it does not fork the formatter.
+
 ---
 
 ## 11. The new `src` tree and file ownership
@@ -934,7 +944,9 @@ Delete entirely:
 - Dead exports left in place (no callers, flagged for a later cleanup, never deleted in this build): `src/app/actions/challenges.ts` (whole file), `getUserGameStats`, `checkDailyStatus`, `getMyOutgoingChallenges`, `completeChallenge`, `getDuelById`, `startQuickDuel`, `getRecentChallengeResults`.
 - `CLAUDE.md` in the repo: the "Design System", "Project Structure" and "Supabase tables" blocks are rewritten to match this document (gold, per-game colour pairs, `game_rooms`, `use-multiplayer`, "14 games" removed).
 
-Keep untouched (contracts): `src/lib/game-logic/**` (the two data-shape edits only), `daily-seed.ts`, `daily-edition.ts`, `seeded-random.ts`, `silhouettes.ts`, `assignment-solver.ts`, `profanity.ts`, `utils.ts`, `supabase/client.ts`, `supabase/server.ts`, `native/*` (status-bar edit only), `src/app/actions/*` (home.ts import refactor only), `src/lib/seo/game-metadata.ts`, `game-copy.ts`, `erode-font.ts`, `src/data/*.json` (script-edited only), `supabase/**`, `capacitor.config.ts`, `next.config.ts` (plus the `www` redirect with `has: [{ type: "host", value: "www.countrivo.com" }]`), `/auth/callback`, `robots.ts`, the four sitemaps (moved, same output), `public/favicon.svg`, the IndexNow key file, `.github/workflows/*`, `scripts/check-crawler-access.ts`, `scripts/submit-indexnow.ts`.
+Signed off the freeze: `src/lib/utils.ts` `formatNumber` and `formatStat` are rewritten to 10.9 (T tier, absolute magnitude with a leading sign, two decimals below a thousand, the percent family). `cn`, `slugify` and `ordinal` are untouched, and the crawler canaries `124.5M` and `84.0 years` are unchanged. The local trillions branch in `src/games/higher-or-lower/module.ts` becomes redundant and is deleted with it.
+
+Keep untouched (contracts): `src/lib/game-logic/**` (the two data-shape edits only), `daily-seed.ts`, `daily-edition.ts`, `seeded-random.ts`, `silhouettes.ts`, `assignment-solver.ts`, `profanity.ts`, `supabase/client.ts`, `supabase/server.ts`, `native/*` (status-bar edit only), `src/app/actions/*` (home.ts import refactor only), `src/lib/seo/game-metadata.ts`, `game-copy.ts`, `erode-font.ts`, `src/data/*.json` (script-edited only), `supabase/**`, `capacitor.config.ts`, `next.config.ts` (plus the `www` redirect with `has: [{ type: "host", value: "www.countrivo.com" }]`), `/auth/callback`, `robots.ts`, the four sitemaps (moved, same output), `public/favicon.svg`, the IndexNow key file, `.github/workflows/*`, `scripts/check-crawler-access.ts`, `scripts/submit-indexnow.ts`.
 
 Verification of the deletion: `rg -n "components/|game-colors|confetti|use-daily-progress|loading\.tsx|cta-primary|label-caps|animate-pulse|skeleton|flagEmoji|\.emoji|prefers-color-scheme|dark:" src` returns nothing (share builders excepted for the emoji squares); `next build` passes; the CI guards pass.
 

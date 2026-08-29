@@ -7,6 +7,7 @@ import { getTodayDateKey } from "@/lib/daily-seed";
 import { getGameBySlug } from "@/lib/data/registry";
 import { createClient } from "@/lib/supabase/server";
 import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
+import { isPlayable } from "@/games/registry";
 import { compactScore } from "@/server/boards";
 import { getEdition } from "@/server/edition";
 import { resolveShot } from "@/server/shot";
@@ -120,9 +121,15 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
         runId: run?.runId ?? null,
       });
     }
-    /* Highest first; everyone still out keeps the order the friends list gave them
-       (subtracting two -Infinity sentinels would compare NaN and scramble them). */
-    friendRows.sort((x, y) => (x.sort === null ? 1 : y.sort === null ? -1 : y.sort - x.sort));
+    /* Highest first, everyone still out last and in the order the friends list gave them.
+       Two unplayed rows must compare equal: answering 1 both ways is an inconsistent
+       comparator and shuffles them. */
+    friendRows.sort((x, y) => {
+      if (x.sort === null && y.sort === null) return 0;
+      if (x.sort === null) return 1;
+      if (y.sort === null) return -1;
+      return y.sort - x.sort;
+    });
   }
 
   const shots = summary.playerCount || global.length;
@@ -136,7 +143,10 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
   };
 
   const shot = isToday ? await resolveShot(slug, dateKey, edition, viewer, jar) : null;
-  const showNudge = isToday && !shot && !mine;
+  /* A shot is only open where the game has a board to shoot it on: Country Draft holds the
+     ranking URL before its board lands (P9), and a nudge into a route that does not exist
+     yet is a dead control. */
+  const showNudge = isToday && !shot && !mine && isPlayable(slug);
 
   /* The day and its numbers. An empty day says nothing here: the row under the tabs already
      says it in a sentence, and printing it twice, 50 px apart, adds nothing. */

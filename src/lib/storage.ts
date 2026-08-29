@@ -51,9 +51,9 @@ export function removeStorageItem(key: string): void {
 }
 
 // ─── Daily lockout belt ───────────────────────────────────────────────
-// The rebuilt play frame resolves lockouts from the cv_done cookie and the server
-// run; it still writes this entry on completion so a rollback to the previous
-// build keeps its lockouts. Nothing in the new tree reads it.
+// The play frame resolves lockouts from the cv_done cookie and the server run; it
+// still writes this entry on completion so a rollback to the previous build keeps
+// its lockouts. Nothing in this tree reads it.
 
 export interface DailyLockoutEntry {
   score: string;
@@ -65,35 +65,5 @@ export function setDailyLockout(gameSlug: string, dateKey: string, entry: DailyL
   setStorageItem(`lockout_${gameSlug}_${dateKey}_e${edition}`, entry);
   // The edition-agnostic "played today" key the previous build's home and streak badge read.
   setStorageItem(`daily_${gameSlug}_${dateKey}_completed`, true);
-  removeStorageItem(dailyProgressKey(gameSlug, dateKey, edition));
-}
-
-// ─── Legacy (old tree only) ──────────────────────────────────────────
-// Kept so src/components keeps compiling until the section 12 deletion; the new
-// tree never calls these and they go with their callers.
-
-/** @deprecated old tree only; removed with src/components. */
-export function getDailyLockout(gameSlug: string, dateKey: string, edition: string): DailyLockoutEntry | null {
-  return getStorageItem<DailyLockoutEntry | null>(`lockout_${gameSlug}_${dateKey}_e${edition}`, null);
-}
-
-/** @deprecated old tree only; the new progress log lives in the cv_p_{slug} cookie. */
-export function dailyProgressKey(gameSlug: string, dateKey: string, edition: string): string {
-  return `progress_${gameSlug}_${dateKey}_e${edition}`;
-}
-
-/** @deprecated old tree only. */
-export function isDailyCompleted(gameSlug: string, dateKey: string): boolean {
-  return getStorageItem<boolean>(`daily_${gameSlug}_${dateKey}_completed`, false);
-}
-
-/** @deprecated old tree only. */
-export function saveDailyResult(gameSlug: string, dateKey: string, result: unknown): void {
-  setStorageItem(`daily_${gameSlug}_${dateKey}_completed`, true);
-  setStorageItem(`daily_${gameSlug}_${dateKey}_result`, result);
-}
-
-/** @deprecated old tree only. */
-export function getDailyResult<T>(gameSlug: string, dateKey: string): T | null {
-  return getStorageItem<T | null>(`daily_${gameSlug}_${dateKey}_result`, null);
+  removeStorageItem(`progress_${gameSlug}_${dateKey}_e${edition}`);
 }

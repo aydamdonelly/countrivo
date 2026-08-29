@@ -7,12 +7,18 @@
  * Prose (about, faq) stays in src/lib/seo/game-copy.ts and the titles and descriptions in
  * src/lib/seo/game-metadata.ts; neither is duplicated here.
  */
+import { LANDING_DRAFT_CHIPS } from "./chips";
+import { SEAT_CHIPS } from "./draft";
 
 export interface GameContent {
   /** The one-line rule (blueprint 10.5): the landing card's how-text. */
   how: string;
-  /** Three facts, rendered as the card's chips. */
+  /** Three steps that replace the how-text on the card (blueprint 3.6 `steps`). */
+  steps?: readonly [string, string, string];
+  /** Three facts, rendered as the card's chips unless `chips` overrides them. */
   facts: readonly [string, string, string];
+  /** The card's chips when the game's vocabulary is the better chip row (the five seats). */
+  chips?: readonly string[];
   /** "How it works": four steps, verbatim from the old landing pages. */
   rules: readonly string[];
   /** Four related slugs; omitted falls back to DEFAULT_RELATED minus the game itself. */
@@ -22,24 +28,39 @@ export interface GameContent {
 /** The default four, in order, minus whichever game is being read (blueprint 7.3 step 8). */
 export const DEFAULT_RELATED = [
   "country-draft",
+  "blind-pick",
   "higher-or-lower",
   "geo-wordle",
+  "stat-guesser",
   "flag-quiz",
-  "capital-match",
-  "cluster",
 ] as const;
 
 export const GAME_CONTENT: Record<string, GameContent> = {
   "country-draft": {
+    how: "Five rounds, five seats. Each round hands you a country and three people. Pick one, seat them, and take the map.",
+    steps: ["five seats sit empty", "each round offers three people", "seat them, take the map"],
+    facts: ["5 rounds", "5 seats", "out of 195"],
+    chips: SEAT_CHIPS,
+    rules: [
+      "Five countries are on the board from the first second",
+      "Every round is one of them, and it offers three of its people",
+      "Give them one of five seats, the seat decides most of the points",
+      "After five appointments the cabinet is scored out of 195",
+    ],
+    related: ["blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser"],
+  },
+  "blind-pick": {
     how: "Countries appear one at a time. Put each one on the stat where it ranks highest in the world. Eight picks, one shot.",
+    steps: ["8 stats are on the board", "countries appear one by one", "put each where it ranks best"],
     facts: ["8 stats", "8 countries", "3 to 5 min"],
+    chips: LANDING_DRAFT_CHIPS,
     rules: [
       "Eight stat categories are shown up front",
       "Countries are revealed one by one, so you never know what is still to come",
       "Assign each country to the open stat where it ranks best",
       "Your total is compared with the mathematically optimal assignment",
     ],
-    related: ["world-draft", "higher-or-lower", "stat-guesser", "cluster"],
+    related: ["country-draft", "higher-or-lower", "stat-guesser", "geo-wordle"],
   },
   "higher-or-lower": {
     how: "Two countries, one stat. Call which ranks higher. One wrong call ends the streak.",
@@ -61,16 +82,6 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Narrow it down and solve it in six guesses or fewer",
     ],
   },
-  cluster: {
-    how: "Sixteen countries, four hidden groups of four. Four mistakes and it's over.",
-    facts: ["16 countries", "4 groups", "4 mistakes"],
-    rules: [
-      "Sixteen countries are shown in a grid",
-      "Four hidden groups of four each share one connection",
-      "Tap four countries you think belong together and submit",
-      "A correct group locks in; four wrong guesses end the game",
-    ],
-  },
   "stat-guesser": {
     how: "A country and a stat. Guess the number. Five rounds, closest wins.",
     facts: ["5 rounds", "% error", "3 to 5 min"],
@@ -79,16 +90,6 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Enter your best guess for the value",
       "Score is based on percentage error",
       "5 rounds per game. Lowest average error wins",
-    ],
-  },
-  "risk-zone": {
-    how: "Call higher or lower, bank the pot or push for more. One wrong call wipes the chain.",
-    facts: ["5 chains", "x5 max", "1 to 2 min"],
-    rules: [
-      "A country's stat value is shown, guess if the next is higher or lower",
-      "Each correct guess grows your multiplier and your pot",
-      "Bank the pot to lock the points, or push your luck for one more reveal",
-      "One wrong guess wipes the chain, play 5 chains for the highest total",
     ],
   },
   "flag-quiz": {
@@ -101,66 +102,6 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Score: correct answers out of 10",
     ],
   },
-  "capital-match": {
-    how: "Ten countries, four capitals each.",
-    facts: ["10 countries", "4 options", "2 to 3 min"],
-    rules: [
-      "A country is shown with its flag",
-      "Pick the correct capital from 4 options",
-      "10 questions per round",
-      "Score: correct answers out of 10",
-    ],
-  },
-  "population-sort": {
-    how: "Six countries. Put them in order, highest first.",
-    facts: ["6 countries", "1 stat", "2 to 4 min"],
-    rules: [
-      "6 countries are shown in random order",
-      "A stat category is given (e.g., Population, GDP)",
-      "Rearrange countries from highest to lowest",
-      "Submit when you're confident in your order",
-    ],
-  },
-  "country-streak": {
-    how: "Name the flag. Keep going till you miss.",
-    facts: ["243 flags", "4 options", "till you miss"],
-    rules: [
-      "A flag is shown on screen",
-      "Pick the correct country from 4 options",
-      "Correct answers extend your streak",
-      "One wrong answer ends the run",
-    ],
-  },
-  "border-buddies": {
-    how: "One country. Name every neighbour.",
-    facts: ["1 country", "all borders", "2 to 4 min"],
-    rules: [
-      "A country is shown with its flag",
-      "Type the names of all bordering countries",
-      "Use the autocomplete dropdown to select matches",
-      "Find all borders or give up to see the answer",
-    ],
-  },
-  "continent-sprint": {
-    how: "Pick a continent. Name every country in it, on the clock.",
-    facts: ["5 continents", "on the clock", "3 to 10 min"],
-    rules: [
-      "Choose a continent to start",
-      "Type country names as fast as you can",
-      "Timer counts up. No time limit",
-      "Finish when you've found them all or give up",
-    ],
-  },
-  "odd-one-out": {
-    how: "Four countries, three share a trait. Find the one that doesn't.",
-    facts: ["5 rounds", "4 countries", "3 to 5 min"],
-    rules: [
-      "Four countries are displayed with their flags",
-      "Three share a common trait (continent, region, first letter, etc.)",
-      "Pick the one that doesn't belong",
-      "5 rounds per game",
-    ],
-  },
   "speed-flags": {
     how: "Twenty seconds. Two names per flag. Go.",
     facts: ["20 s", "2 options", "1 min"],
@@ -171,59 +112,14 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Score: total correct answers",
     ],
   },
-  supremacy: {
-    how: "Five cards, five stats, the AI on the other side.",
-    facts: ["5 rounds", "5 stats", "vs AI"],
-    rules: [
-      "You and your opponent each hold a hand of country cards",
-      "Each round a stat category is revealed",
-      "Pick the country you think ranks higher on it",
-      "Five rounds; most rounds won takes the match",
-    ],
-    related: ["country-draft", "higher-or-lower", "stat-guesser", "risk-zone"],
-  },
-  borderline: {
-    how: "Cross borders from start to target in as few steps as you can.",
-    facts: ["start to target", "fewest steps", "2 to 5 min"],
-    rules: [
-      "Two countries are shown: where you start and where you need to get to",
-      "Pick a neighbouring country to cross one border",
-      "Keep crossing until you reach the target",
-      "Fewer borders crossed means a better score",
-    ],
-    related: ["border-buddies", "odd-one-out", "geo-wordle", "country-draft"],
-  },
-  blitz: {
-    how: "Type the country before the next flag.",
-    facts: ["10 flags", "typed", "2 to 3 min"],
-    rules: [
-      "A flag or capital appears on screen",
-      "Type the country name and press Enter",
-      "Ten rounds per run",
-      "Speed and accuracy both count toward the score",
-    ],
-    related: ["speed-flags", "flag-quiz", "capital-match", "country-draft"],
-  },
-  "world-draft": {
-    how: "Draft five people. Give each a seat: leader, general, money, propaganda, diplomacy. Then send them out and count how many of the 195 countries they take. Same draft for everyone, one shot.",
-    facts: ["5 people", "195 countries", "in development"],
-    rules: [],
-    related: ["country-draft", "higher-or-lower", "stat-guesser", "cluster"],
-  },
 };
 
 /**
  * Row metas that correct a registry `shortDescription` the rebuild contradicts (blueprint
- * 8.9): Population Sort renders six countries, Supremacy is played against the AI and
- * never against a person, and the site spells the border word the British way everywhere
- * else. The JSON itself is only ever rewritten by the data scripts, so the correction
- * lives here until the next run.
+ * 8.9). The JSON itself is only ever rewritten by the data scripts, so a correction lives
+ * here until the next run. The six-game roster needs none right now.
  */
-const HUB_META: Record<string, string> = {
-  "population-sort": "Sort 6 countries. Every position matters.",
-  supremacy: "Five cards, five stats. Beat the AI.",
-  "border-buddies": "Name every neighbour. Miss one and it shows.",
-};
+const HUB_META: Record<string, string> = {};
 
 /** The row meta for a game: the correction if there is one, else the registry line. */
 export function gameMeta(slug: string, shortDescription: string): string {

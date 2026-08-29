@@ -76,7 +76,7 @@ export function CountriesHub() {
                 {COUNTRIES_INTRO[1]} Every country here can turn up in{" "}
                 <Link href="/games/flag-quiz">Flag Quiz</Link>,{" "}
                 <Link href="/games/higher-or-lower">Higher or Lower</Link> and{" "}
-                <Link href="/games/country-draft">Country Draft</Link>.
+                <Link href="/games/blind-pick">Blind Pick</Link>.
               </p>
             </Prose>
           </div>
@@ -99,11 +99,12 @@ export function CountriesHub() {
           <div data-o="5">
             <GameList
               title="Play with countries"
-              fact="3 games"
+              fact="4 games"
               rows={[
+                { slug: "country-draft", title: "Country Draft", meta: "five seats, one map", href: "/games/country-draft" },
                 { slug: "flag-quiz", title: "Flag Quiz", meta: "10 flags · 4 options", href: "/games/flag-quiz" },
-                { slug: "capital-match", title: "Capital Match", meta: "10 countries · 4 options", href: "/games/capital-match" },
-                { slug: "border-buddies", title: "Border Buddies", meta: "1 country · all borders", href: "/games/border-buddies" },
+                { slug: "geo-wordle", title: "GeoWordle", meta: "1 country · 6 tries", href: "/games/geo-wordle" },
+                { slug: "higher-or-lower", title: "Higher or Lower", meta: "2 countries · 1 stat", href: "/games/higher-or-lower" },
               ]}
             />
           </div>

@@ -13,6 +13,14 @@
     display: none;
   }
 
+  /* The shot number holds one line. K3 drew it at 56 px for a three-digit score; a longer
+     compact score steps down rather than wrapping under itself and squeezing the ranks. */
+  .anc .res b { white-space: nowrap; }
+  @media (max-width: 1023px) {
+    .anc.shot-m .res b { font-size: 40px; }
+    .anc.shot-s .res b { font-size: 32px; }
+  }
+
   /* The rail's head line and the friends strip belong to the desktop composition;
      K3's phone home carries the card and one board and nothing else. */
   .home-rail-head,
@@ -68,6 +76,12 @@
     .home-strip {
       display: block;
       margin-top: 24px;
+    }
+    /* The practice card's copy is width-limited so the button never sits under it. On the
+       phone that limit is 200px; at desktop the card is nearly three times as wide, so the
+       same limit would strand the sentence on the left with a gulf beside it. */
+    .home .anc.prac .how {
+      max-width: 340px;
     }
   }
 }

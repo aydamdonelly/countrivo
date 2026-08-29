@@ -1,56 +1,13 @@
 // Fails the build on any single-theme or no-loading-state violation (blueprint section 14 F0).
-// Run: node scripts/check-theme.mjs [--strict]
+// Run: node scripts/check-theme.mjs
 //
-// Default mode skips the legacy tree that section 12 deletes (src/components and the
-// old route files) and the files P1/P7 rewrite; --strict scans everything. Once P8 has
-// deleted the legacy tree the two modes are the same.
+// Every file under src/ is scanned. The legacy tree the old build carried (src/components
+// and the pre-group route files) was deleted by the section 12 gate, so there is nothing
+// to skip any more; --strict is accepted and ignored so older invocations keep working.
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
-const strict = process.argv.includes("--strict");
-
-/** Deleted by P8 (blueprint section 12). */
-const LEGACY_PREFIXES = [
-  "src/components/",
-  "src/app/games/",
-  "src/app/lists/",
-  "src/app/countries/",
-  "src/app/categories/",
-  "src/app/friends/",
-  "src/app/profile/",
-  "src/app/auth/forgot-password/",
-  "src/app/auth/reset-password/",
-  "src/app/privacy/",
-  "src/app/terms/",
-  "src/app/support/",
-];
-const LEGACY_FILES = new Set([
-  "src/app/page.tsx",
-  "src/app/loading.tsx",
-  "src/middleware.ts",
-  "src/lib/supabase/middleware.ts",
-  "src/hooks/use-countdown.ts",
-  "src/hooks/use-daily-challenge.ts",
-  "src/hooks/use-local-storage.ts",
-  "src/hooks/use-daily-progress.ts",
-  "src/hooks/use-reset-countdown.ts",
-  "src/lib/game-colors.ts",
-  "src/lib/confetti.ts",
-  "src/types/storage.ts",
-]);
-/** Rewritten by P1 (layout, errors) and P7 (Satori routes, manifest); remove as they land. */
-const REWRITTEN_LATER = new Set([
-  "src/app/layout.tsx",
-  "src/app/error.tsx",
-  "src/app/not-found.tsx",
-  "src/app/icon.tsx",
-  "src/app/apple-icon.tsx",
-  "src/app/opengraph-image.tsx",
-  "src/app/manifest.ts",
-  "src/lib/native/bootstrap.ts",
-]);
-
 /** Hex literals are allowed only here (section 1). */
 const HEX_ALLOWED = new Set(["src/styles/tokens.css", "src/lib/seo/og-image.tsx", "src/app/global-error.tsx"]);
 /** The clipboard share strings carry the coloured squares; the GeoWordle engine keeps `arrow` in the resultJson contract (section 5.1). */
@@ -99,28 +56,15 @@ function walk(dir, out = []) {
   return out;
 }
 
-function isLegacy(rel, source) {
-  if (LEGACY_PREFIXES.some((p) => rel.startsWith(p))) return true;
-  if (LEGACY_FILES.has(rel)) return true;
-  if (REWRITTEN_LATER.has(rel)) return true;
-  if (/\.tsx?$/.test(rel) && /from\s+["']@\/components\//.test(source)) return true;
-  return false;
-}
-
 const files = walk(path.join(root, "src"));
 const violations = [];
 let scanned = 0;
-let skipped = 0;
 
 for (const abs of files) {
   const rel = path.relative(root, abs).split(path.sep).join("/");
   const ext = path.extname(rel);
   if (!TEXT.has(ext)) continue;
   const source = readFileSync(abs, "utf8");
-  if (!strict && isLegacy(rel, source)) {
-    skipped++;
-    continue;
-  }
   scanned++;
   if (path.basename(rel) === "loading.tsx" && rel.startsWith("src/app/")) violations.push(`${rel}: loading.tsx is not allowed (no loading states)`);
   const lines = source.split("\n");
@@ -136,7 +80,7 @@ for (const abs of files) {
   }
 }
 
-console.log(`check-theme: ${scanned} files scanned${strict ? " (strict)" : `, ${skipped} legacy files skipped (deleted by P8; run with --strict to include them)`}`);
+console.log(`check-theme: ${scanned} files scanned`);
 if (violations.length) {
   console.error(violations.join("\n"));
   console.error(`\n${violations.length} violation(s)`);

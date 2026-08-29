@@ -12,6 +12,7 @@ export interface AnchorResult {
   score: string;
   /** null while the server rank is unknown: the line reads `– of 41 global`. */
   globalRank: number | null;
+  /** 0 omits the global line (nobody has shot yet). */
   globalShots: number;
   friendRank: number | null;
   /** 0 omits the friends line. */
@@ -44,6 +45,11 @@ export interface AnchorCardProps {
   /** World Draft: the taken countries on the conquest map. */
   taken?: readonly string[];
   className?: string;
+}
+
+/** `#9` once the server has ranked the run, a bare `–` while it has not (blueprint 3.6). */
+function rank(value: number | null) {
+  return value === null ? "–" : `#${value}`;
 }
 
 /**
@@ -83,15 +89,21 @@ export function AnchorCard({
       {variant === "post" && result ? (
         <div className="res">
           <b className="t-score-xl num">{result.score}</b>
-          <span className="t-body">
-            <em className="num">#{result.globalRank ?? "–"}</em> of {result.globalShots} global
-            {result.friendCount > 0 ? (
-              <>
-                <br />
-                <em className="num">#{result.friendRank ?? "–"}</em> of {result.friendCount} friends
-              </>
-            ) : null}
-          </span>
+          {result.globalShots > 0 || result.friendCount > 0 ? (
+            <span className="t-body">
+              {result.globalShots > 0 ? (
+                <>
+                  <em className="num">{rank(result.globalRank)}</em> of {result.globalShots} global
+                </>
+              ) : null}
+              {result.globalShots > 0 && result.friendCount > 0 ? <br /> : null}
+              {result.friendCount > 0 ? (
+                <>
+                  <em className="num">{rank(result.friendRank)}</em> of {result.friendCount} friends
+                </>
+              ) : null}
+            </span>
+          ) : null}
         </div>
       ) : stepList ? (
         <div className="steps">

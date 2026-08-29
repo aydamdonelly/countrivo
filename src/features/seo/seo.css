@@ -36,12 +36,34 @@
   /* ── landing ─────────────────────────────────────────────────────────── */
   .under { margin-bottom: 20px; color: var(--color-mute); }
   .under p + p { margin-top: 6px; }
-  .ilink { color: var(--color-ember); font-weight: 600; padding: 6px 0; }
+  /* Padding on an INLINE link grows the touch target to 44 px without moving a line:
+     an inline box's padding does not enter the line box (the law's 44 px rule). */
+  .ilink { color: var(--color-ember); font-weight: 600; padding: 14px 0; }
   .rail-board { margin-bottom: 24px; }
   /* The public board's me-row is one link to the leaderboard, so it takes the full 44 px
      target here (the home's 40 px K3 row is a row of text, not a control). */
   .rail-board .gb a.row.me { padding-top: 9px; padding-bottom: 9px; }
   .steps-ol li span { min-width: 0; }
+
+  /* ── Country Draft: the published scoring model (SPEC 20.5) ──────────── */
+  /* Six columns on a 350 px phone: the archetype takes a third, the five seats split the
+     rest, and every number stays on one line, so nothing scrolls sideways. */
+  .fit table { table-layout: fixed; }
+  .fit th:first-child, .fit td:first-child { width: 34%; }
+  .fit th, .fit td { padding-right: 0; }
+  .fit td.v { color: var(--color-mute); }
+  /* The natural fit is the one number that matters in its row: tone, never a colour. */
+  .fit td.v .nat { color: var(--color-ink); }
+  .fit-legend { color: var(--color-mute); margin-top: 10px; }
+  .after-table { color: var(--color-ink); margin-top: 20px; max-width: 62ch; }
+  .bonus { margin-top: 20px; }
+  /* The condition rides under the bonus name, so a three-column row cannot go ragged. */
+  .bonus .sub { display: block; color: var(--color-mute); margin-top: 2px; }
+  .bonus td { vertical-align: baseline; }
+  .seats td:nth-child(2) { color: var(--color-mute); }
+  @media (max-width: 639px) {
+    .fit th:first-child, .fit td:first-child { width: 30%; }
+  }
 
   /* ── entity block ────────────────────────────────────────────────────── */
   .dl { margin-top: 16px; }
@@ -66,23 +88,34 @@
   .cx-count { color: var(--color-mute); margin-top: 6px; min-height: 17px; }
   .cx-facts { margin: 16px 0; }
   .cx-anchors { margin: 16px 0 20px; color: var(--color-mute); }
-  .cx-anchors a { color: var(--color-ink); padding: 8px 0; }
+  .cx-anchors a { color: var(--color-ink); padding: 14px 0; }
   .cx a.row[data-hide], .cx section[data-hide] { display: none; }
 
+  /* The foot's inline links take the same inline-padding target as .ilink. */
+  .foot a { padding: 14px 0; }
+
+  /* ── 44 px targets in the editorial tables ───────────────────────────── */
+  /* The row height is the blueprint's (7 and 10 px), so the link takes its target from
+     padding that a matching negative margin gives straight back to the grid cell. */
+  .rank .nm a { padding: 13px 0; margin: -13px 0; }
+  .stat-rows .lbl a { padding: 13px 0; margin: -13px 0; }
+
   /* ── fact tiles ──────────────────────────────────────────────────────── */
-  /* Tiles are a comparison row: the value line, the label and the third line must sit on
-     the same baselines across every tile, whatever the label's length (the law's
-     misaligned-parallel-columns rule). Equal-height tiles plus a bottom-anchored third
-     line do it without reserving empty rows. */
-  .facts[data-n] .f { display: flex; flex-direction: column; height: 100%; }
-  .facts[data-n] .s { margin-top: auto; padding-top: 2px; }
+  /* The three roles share one set of rows: ui.css gives .facts three rows and every tile
+     subgrids them, so nothing here may re-introduce a per-tile column (a flex column plus a
+     bottom-anchored third line aligns a wrapped LABEL but goes ragged the moment the third
+     line itself wraps, which is the common case: "4.84 births/woman", "14.986 % of GDP"). */
   /* The unit rides the value line in the system face, never as a third line. */
   .facts .fact-unit { font-family: var(--font-sans); font-size: 12px; font-weight: 400; letter-spacing: 0; color: var(--color-mute); margin-left: 5px; }
-  /* A tile is a control, not an inline text link: it carries a full 44 px target. */
-  .facts[data-n] a.f { min-height: 44px; }
-  /* Four Erode values do not fit across a 328 px rail either. */
+  /* Four Erode values do not fit across a 328 px rail either: the same hand-placed 2x2 as
+     the phone, spacer row included. */
   @media (min-width: 1024px) {
-    .col.side .facts[data-n="4"] { grid-auto-flow: row; grid-template-columns: 1fr 1fr; row-gap: 16px; }
+    .col.side .facts[data-n="4"] { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto 16px auto auto auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(1) { grid-area: 1 / 1 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(2) { grid-area: 1 / 2 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(3) { grid-area: 5 / 1 / span 3 / auto; }
+    .col.side .facts[data-n="4"] .f:nth-child(4) { grid-area: 5 / 2 / span 3 / auto; }
+    .col.side .facts[data-n="4"]:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
   }
 
   /* ── category page ───────────────────────────────────────────────────── */

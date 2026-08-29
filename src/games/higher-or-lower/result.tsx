@@ -27,14 +27,15 @@ export function Result({ state }: ResultProps<HoLState>) {
       </div>
       <div className="rrows t-row">
         {rows.map(({ index, round, call, ok }) => (
-          // Two flags need more than the shared 26 px identity column, and the two country
-          // names need to wrap rather than lose the second one to the row's ellipsis.
-          <div key={index} className="rrow" style={{ gridTemplateColumns: "auto minmax(0, 1fr) auto" }}>
+          // `flags4` is the house row for a flag stack: it drops the fixed 26 px identity
+          // column, which two flags overflow, and lets the pair of country names wrap
+          // instead of losing the second one to the row's ellipsis.
+          <div key={index} className="rrow flags4">
             <span className="flags">
               <Flag iso2={round.left.iso2} size="xs" alt="" />
               <Flag iso2={round.right.iso2} size="xs" alt="" />
             </span>
-            <span className="nm" style={{ whiteSpace: "normal" }}>
+            <span className="nm">
               {round.left.displayName} vs {round.right.displayName}
               <small className="t-meta">{statLabel(round.category.slug, round.category.shortLabel)}</small>
             </span>

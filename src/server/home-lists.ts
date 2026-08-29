@@ -13,16 +13,7 @@ export interface PracticeMeta {
 }
 
 /** Games whose score reads as a count of a total (`7/10`, `4/6`, `3/4`). */
-const COUNT_OF_TOTAL = new Set([
-  "flag-quiz",
-  "capital-match",
-  "population-sort",
-  "odd-one-out",
-  "border-buddies",
-  "continent-sprint",
-  "geo-wordle",
-  "cluster",
-]);
+const COUNT_OF_TOTAL = new Set(["flag-quiz", "geo-wordle"]);
 
 function group(n: number): string {
   return Math.round(n).toLocaleString("en-US").replace(/,/g, " ");
@@ -43,7 +34,7 @@ type StatsRow = {
 
 /**
  * The practice metas of the signed-in viewer (blueprint 9.1 step 8): one `user_game_stats`
- * select by user (at most 18 rows). Guests get an empty map and the registry descriptions.
+ * select by user (at most seven rows). Guests get an empty map and the registry descriptions.
  */
 export const getPracticeMetas = cache(async (viewer: Viewer): Promise<Record<string, PracticeMeta>> => {
   if (!viewer.user) return {};

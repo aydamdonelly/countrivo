@@ -7,23 +7,12 @@ import type { GameSlug } from "@/ui/types";
  */
 const SHORT: Record<GameSlug, string> = {
   "country-draft": "draft",
-  "world-draft": "world",
-  "flag-quiz": "flags",
+  "blind-pick": "blind",
   "higher-or-lower": "hol",
-  "capital-match": "capitals",
-  "population-sort": "sort",
-  "country-streak": "streak",
-  "border-buddies": "borders",
-  "continent-sprint": "sprint",
-  "stat-guesser": "stats",
-  "speed-flags": "speed",
-  "odd-one-out": "odd",
-  supremacy: "cards",
-  borderline: "route",
-  blitz: "blitz",
   "geo-wordle": "wordle",
-  cluster: "cluster",
-  "risk-zone": "risk",
+  "stat-guesser": "stats",
+  "flag-quiz": "flags",
+  "speed-flags": "speed",
 };
 
 export function shortGameLabel(slug: GameSlug): string {
@@ -41,5 +30,8 @@ export function shotScore(display: string | null | undefined): string {
   if (m) return m[1];
   const avg = d.match(/^([\d.]+\s*%)\s*avg error$/i);
   if (avg) return avg[1].replace(/\s+/g, "");
-  return d;
+  /* A fraction is written `4/10` here and in every meta the blueprint spells out, so a
+     game that saved it as `4 / 10` still reads the same as its own best line two rows
+     below it. */
+  return d.replace(/\s*\/\s*/g, "/");
 }

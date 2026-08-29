@@ -4,46 +4,24 @@ import type { Profile } from "@/types/server";
 /** The two modes. There is no third. */
 export type Mode = "daily" | "practice";
 
-/** The 18 registry slugs (17 playable plus World Draft, which has no play route). */
+/** The seven registry slugs (six games plus Speed Flags, the practice-only drill). */
 export type GameSlug =
   | "country-draft"
-  | "flag-quiz"
+  | "blind-pick"
   | "higher-or-lower"
-  | "capital-match"
-  | "population-sort"
-  | "country-streak"
-  | "border-buddies"
-  | "continent-sprint"
-  | "stat-guesser"
-  | "speed-flags"
-  | "odd-one-out"
-  | "supremacy"
-  | "borderline"
-  | "blitz"
   | "geo-wordle"
-  | "cluster"
-  | "risk-zone"
-  | "world-draft";
+  | "stat-guesser"
+  | "flag-quiz"
+  | "speed-flags";
 
 export const GAME_SLUGS: readonly GameSlug[] = [
   "country-draft",
-  "flag-quiz",
+  "blind-pick",
   "higher-or-lower",
-  "capital-match",
-  "population-sort",
-  "country-streak",
-  "border-buddies",
-  "continent-sprint",
-  "stat-guesser",
-  "speed-flags",
-  "odd-one-out",
-  "supremacy",
-  "borderline",
-  "blitz",
   "geo-wordle",
-  "cluster",
-  "risk-zone",
-  "world-draft",
+  "stat-guesser",
+  "flag-quiz",
+  "speed-flags",
 ];
 
 export function isGameSlug(s: string): s is GameSlug {

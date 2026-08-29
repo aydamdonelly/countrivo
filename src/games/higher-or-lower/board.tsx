@@ -6,7 +6,7 @@ import type { BoardProps } from "@/games/types";
 import { statLabel } from "@/games/_shared/format";
 import { optionState } from "@/games/_shared/option-list";
 import { PairSubject } from "@/games/_shared/pair";
-import { CALLS, pairUnit, pairValue, roundInView, type Call, type HoLAction, type HoLState } from "./module";
+import { CALLS, pairFigures, pairUnit, roundInView, type Call, type HoLAction, type HoLState } from "./module";
 
 /**
  * The board (blueprint 8.8): the stat line over the pair, the left value shown and the right
@@ -25,7 +25,7 @@ export function Board({ state, dispatch, busy }: BoardProps<HoLState, HoLAction>
   const [firstRound] = useState(state.g.currentRound);
   const revealed = state.pending !== null;
   const locked = revealed || busy;
-  const unit = round.category.unit;
+  const figures = pairFigures(round);
   const chosen = state.pending === null ? null : CALLS.indexOf(state.pending);
   const correct = CALLS.indexOf(round.answer);
   const call = (c: Call) => {
@@ -38,12 +38,12 @@ export function Board({ state, dispatch, busy }: BoardProps<HoLState, HoLAction>
         // so the pair stays put while its hidden value counts up.
         key={state.g.currentRound}
         stat={{ slug: round.category.slug, label: statLabel(round.category.slug, round.category.label) }}
-        left={{ iso2: round.left.iso2, name: round.left.displayName, value: pairValue(round.leftValue, unit) }}
+        left={{ iso2: round.left.iso2, name: round.left.displayName, value: figures.left }}
         right={{
           iso2: round.right.iso2,
           name: round.right.displayName,
-          value: revealed ? pairValue(round.rightValue, unit) : null,
-          count: revealed ? { value: round.rightValue, unit: pairUnit(unit) } : undefined,
+          value: revealed ? figures.right : null,
+          count: revealed && figures.count ? { value: round.rightValue, unit: pairUnit(round.category.unit) } : undefined,
         }}
         onSwipe={call}
         animate={state.g.currentRound !== firstRound}

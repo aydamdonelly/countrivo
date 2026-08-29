@@ -1,65 +1,44 @@
 /**
- * Country Draft share-grid generator.
+ * Country Draft share text (SPEC 18). Never rendered on screen.
  *
- * Format:
- *   Countrivo · Country Draft · DD · MM · YY
- *   🟩🟨🟩🟨⬛🟩🟩🟨  Score: 1342/1944
- *                  Rank: 12th
- *   countrivo.com
+ *   Countrivo · Country Draft · #240
+ *   154 of 195 · Most of the map.
+ *   fits 25 · 25 · 25 · 25 · 6
+ *   rank 12th
+ *   https://countrivo.com/games/country-draft
  *
- * Symbol rules per pick:
- *   🟩  pickRank === optimalRank (perfect for that category)
- *   🟨  pickRank - optimalRank <= 50 (close to optimal)
- *   ⬛  otherwise
+ * No emoji: five fit values in the house's own middle-dot grammar say more than a row of
+ * coloured squares, read as ours rather than as a Wordle clone, and survive every client
+ * that mangles emoji.
+ *
+ * Spoiler safety: sorting the fits descending destroys the seat order, so the line reveals
+ * the multiset of fits you achieved and nothing else. No name, no country, no seat, no
+ * archetype, no standing. A reader learns that somebody found four naturals today, which
+ * is the same class of information a Wordle grid leaks.
  */
-
 import { dailyNumber, gameShareUrl, ordinal } from "./share-utils";
 
-interface DraftAssignmentLike {
-  countryIdx: number;
-  rank: number;
-}
-
 export interface CountryDraftShareInput {
-  playerScore: number;
-  assignments: DraftAssignmentLike[];
-  optimalAssignments: DraftAssignmentLike[];
+  score: number;
+  /** The band sentence, `Most of the map.` */
+  band: string;
+  /** The five fit values, in any order; the line sorts them. */
+  fits: readonly number[];
   rank?: number | null;
+  practice?: boolean;
 }
 
-const MAX_DRAFT_SCORE = 8 * 243; // 8 picks × 243 worst rank
+const MAX_SCORE = 195;
 
-function symbolFor(pickRank: number, optimalRank: number): string {
-  if (pickRank === optimalRank) return "🟩";
-  if (pickRank - optimalRank <= 50) return "🟨";
-  return "⬛";
-}
-
-export function buildCountryDraftShareText(
-  input: CountryDraftShareInput,
-  dateKey: string,
-): string {
-  const optimalByCountry = new Map<number, number>();
-  for (const opt of input.optimalAssignments) {
-    optimalByCountry.set(opt.countryIdx, opt.rank);
+export function buildCountryDraftShareText(input: CountryDraftShareInput, dateKey: string): string {
+  const header = input.practice
+    ? "Countrivo · Country Draft · practice"
+    : `Countrivo · Country Draft · #${dailyNumber(dateKey)}`;
+  const lines = [header, `${input.score} of ${MAX_SCORE} · ${input.band}`];
+  if (input.fits.length > 0) {
+    lines.push(`fits ${[...input.fits].sort((a, b) => b - a).join(" · ")}`);
   }
-
-  const ordered = [...input.assignments].sort((a, b) => a.countryIdx - b.countryIdx);
-  const symbols = ordered
-    .map((pa) => symbolFor(pa.rank, optimalByCountry.get(pa.countryIdx) ?? pa.rank))
-    .join("");
-
-  // Match every other game's share grid: a #<dayNumber> puzzle id (not a date)
-  // and a full https:// link on its own last line so it auto-links in iMessage /
-  // WhatsApp / X.
-  const header = `Countrivo · Country Draft · #${dailyNumber(dateKey)}`;
-  const scoreLine = `${symbols}  Score: ${input.playerScore}/${MAX_DRAFT_SCORE}`;
-  const padding = " ".repeat(symbols.length + 2); // align under symbols
-  const rankLine =
-    input.rank != null ? `${padding}Rank: ${ordinal(input.rank)}` : null;
-
-  const lines = [header, scoreLine];
-  if (rankLine) lines.push(rankLine);
+  if (!input.practice && input.rank != null) lines.push(`rank ${ordinal(input.rank)}`);
   lines.push(gameShareUrl("country-draft"));
   return lines.join("\n");
 }

@@ -9,9 +9,9 @@
 /* ── /games ──────────────────────────────────────────────────────────────── */
 
 export const GAMES_HUB = {
-  title: "All Geography Games: Daily Puzzles, Flag & Capital Quizzes, Country Draft",
+  title: "All Geography Games: Country Draft, GeoWordle, Flag Quiz and More",
   description:
-    "Every Countrivo game in one place: daily one-shot puzzles like Country Draft, GeoWordle and Cluster, plus flag, capital and border quizzes to practice. Free, no signup.",
+    "Every Countrivo game in one place: Country Draft, Blind Pick, GeoWordle, Higher or Lower, Stat Guesser and Flag Quiz. One shot a day, or practice as often as you like. Free, no signup.",
   h1: "All games",
 } as const;
 
@@ -20,7 +20,7 @@ export function gamesHubFaq(games: number, dailies: number): { q: string; a: str
   return [
     {
       q: "What are the best free geography games online?",
-      a: `Countrivo has ${games} free geography games: daily one-shot puzzles such as Country Draft, GeoWordle, Higher or Lower and Cluster, plus flag, capital and border quizzes for practice. No signup is needed to play.`,
+      a: `Countrivo has ${games} free geography games: daily one-shot puzzles such as Country Draft, GeoWordle, Higher or Lower and Blind Pick, the ten-round Flag Quiz, and Speed Flags for twenty seconds of practice. No signup is needed to play.`,
     },
     {
       q: "Do I need an account to play?",

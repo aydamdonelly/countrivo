@@ -11,10 +11,11 @@ import { bestLabel } from "@/server/home-lists";
 import { getClock } from "@/server/clock";
 import { getViewer } from "@/server/viewer";
 import type { Profile } from "@/types/server";
-import { Button, GameList, GameRow, SectionHead, StreakWeek, isGameSlug, type GameSlug, type WeekDay } from "@/ui";
+import { Button, GAME_SLUGS, GameList, GameRow, SectionHead, StreakWeek, isGameSlug, type GameSlug, type WeekDay } from "@/ui";
 import { RerollButton } from "@/features/admin/reroll-button";
 import { friendshipWith } from "./friendship";
 import { HeadToHead } from "./head-to-head";
+import { anchorPlayHref } from "./links";
 import { ProfileEdit, SignOutButton, type CountryOption } from "./profile-edit";
 import { ProfileHead } from "./profile-head";
 import { SoundRow } from "./sound-row";
@@ -32,6 +33,13 @@ interface GameStat {
   slug: GameSlug;
   title: string;
   meta: string;
+}
+
+/** The three Numbers and the per-game rows, all counted over the same roster-only rows. */
+interface History {
+  runs: number;
+  dailies: number;
+  games: GameStat[];
 }
 
 /** `Mo`, `Tu`: two letters, unique across a trailing week. */
@@ -56,6 +64,9 @@ async function streakWeek(userId: string, todayKey: string, total: number): Prom
       .select("daily_date")
       .eq("user_id", userId)
       .eq("mode", "daily")
+      /* Runs of the games that were cut are still in the table; counting them would put a
+         day over the `n/6` it is measured against. */
+      .in("game_slug", [...GAME_SLUGS])
       .gte("daily_date", keys[0])
       .lte("daily_date", todayKey);
     for (const row of data ?? []) {
@@ -92,21 +103,50 @@ async function todayShots(userId: string, dateKey: string): Promise<TodayShot[]>
     });
 }
 
-function gameStats(stats: readonly { gameSlug: string; totalRuns: number; bestScoreRaw: number; bestScoreMax: number }[]): GameStat[] {
-  return stats
-    .filter((s) => isGameSlug(s.gameSlug))
-    .map((s) => {
-      const slug = s.gameSlug as GameSlug;
-      return {
+interface StatsRow {
+  game_slug: string;
+  total_runs: number | null;
+  total_daily_runs: number | null;
+  best_score_raw: number | null;
+  best_score_max: number | null;
+}
+
+/**
+ * Lifetime history over the seven registry games. `user_game_stats` still holds rows for the
+ * games that were cut, and those rows are dropped here BEFORE anything is counted, so the
+ * Numbers line and the Games list below it can never disagree (a profile used to read
+ * `44 runs · 9 games` above a list of five).
+ */
+async function history(userId: string): Promise<History> {
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from("user_game_stats")
+      .select("game_slug, total_runs, total_daily_runs, best_score_raw, best_score_max")
+      .eq("user_id", userId)
+      .order("total_runs", { ascending: false });
+    const out: History = { runs: 0, dailies: 0, games: [] };
+    for (const row of (data ?? []) as StatsRow[]) {
+      if (!isGameSlug(row.game_slug)) continue;
+      const slug = row.game_slug;
+      const runs = row.total_runs ?? 0;
+      out.runs += runs;
+      out.dailies += row.total_daily_runs ?? 0;
+      out.games.push({
         slug,
         title: getGameBySlug(slug)?.title ?? slug,
-        meta: `${s.totalRuns} ${s.totalRuns === 1 ? "run" : "runs"} · best ${bestLabel(slug, s.bestScoreRaw, s.bestScoreMax)}`,
-      };
-    });
+        meta: `${runs} ${runs === 1 ? "run" : "runs"} · best ${bestLabel(slug, Number(row.best_score_raw ?? 0), Number(row.best_score_max ?? 0))}`,
+      });
+    }
+    return out;
+  } catch (err) {
+    console.error("[profile] history read failed", err);
+    return { runs: 0, dailies: 0, games: [] };
+  }
 }
 
 /** Today, Numbers and Games: the same three blocks on both profiles. */
-function Today({ shots, own }: { shots: readonly TodayShot[]; own: boolean }) {
+function Today({ shots, own, shootHref }: { shots: readonly TodayShot[]; own: boolean; shootHref: string | null }) {
   return (
     <GameList title="Today" fact={shots.length > 0 ? `${shots.length} ${shots.length === 1 ? "shot" : "shots"}` : undefined} live={shots.length > 0}>
       {shots.map((s) => (
@@ -114,10 +154,10 @@ function Today({ shots, own }: { shots: readonly TodayShot[]; own: boolean }) {
       ))}
       {shots.length === 0 ? (
         <p className="empty-row t-body">
-          {own ? (
+          {own && shootHref ? (
             <>
               No shot yet today.{" "}
-              <Link href="/games/country-draft/play?mode=daily" prefetch>
+              <Link href={shootHref} prefetch>
                 Shoot
               </Link>
             </>
@@ -170,14 +210,11 @@ export async function OwnProfilePage() {
 
   const clock = await getClock();
   const profile: Profile = viewer.profile;
-  const [data, shots, week] = await Promise.all([
-    getPublicProfile(profile.username),
+  const [past, shots, week] = await Promise.all([
+    history(viewer.user.id),
     todayShots(viewer.user.id, clock.dateKey),
     streakWeek(viewer.user.id, clock.dateKey, DAILY_TOTAL),
   ]);
-  if (!data) redirect("/");
-
-  const stats = gameStats(data.gameStats);
   return (
     <>
       <ProfileHead
@@ -196,12 +233,12 @@ export async function OwnProfilePage() {
             <SectionHead title="Streak" fact={profile.streakLongest > 0 ? `best ${profile.streakLongest}` : undefined} />
             <StreakWeek n={profile.streakCurrent} days={week} />
           </section>
-          <Today shots={shots} own />
-          <Numbers runs={data.totalRuns} dailies={data.totalDailyRuns} games={data.gameStats.length} />
+          <Today shots={shots} own shootHref={anchorPlayHref()} />
+          <Numbers runs={past.runs} dailies={past.dailies} games={past.games.length} />
         </div>
         {/* On a phone this follows the day; on desktop it is the rail beside it. */}
         <div className="rail">
-          <Games stats={stats} />
+          <Games stats={past.games} />
         </div>
         <div className="col">
           <SectionHead title="Your profile" />
@@ -234,7 +271,8 @@ export async function PublicProfilePage({ username }: { username: string }) {
   const { profile } = data;
 
   const clock = await getClock();
-  const [shots, h2h, friendship] = await Promise.all([
+  const [past, shots, h2h, friendship] = await Promise.all([
+    history(profile.id),
     todayShots(profile.id, clock.dateKey),
     viewer.user ? getHeadToHead(viewer.user.id, profile.id) : Promise.resolve(null),
     viewer.user ? friendshipWith(viewer.user.id, profile.id) : Promise.resolve<"none">("none"),
@@ -256,11 +294,11 @@ export async function PublicProfilePage({ username }: { username: string }) {
       ) : null}
       <div className="frame-app social-grid">
         <div className="col">
-          <Today shots={shots} own={false} />
-          <Numbers runs={data.totalRuns} dailies={data.totalDailyRuns} games={data.gameStats.length} />
+          <Today shots={shots} own={false} shootHref={null} />
+          <Numbers runs={past.runs} dailies={past.dailies} games={past.games.length} />
         </div>
         <div className="rail">
-          <Games stats={gameStats(data.gameStats)} />
+          <Games stats={past.games} />
           {h2h ? <HeadToHead wins={h2h.wins} losses={h2h.losses} draws={h2h.draws} recent={h2h.recent} /> : null}
         </div>
       </div>

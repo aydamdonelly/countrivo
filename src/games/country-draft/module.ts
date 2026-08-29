@@ -1,106 +1,122 @@
 /*
- * Country Draft, the anchor daily (blueprint 8.8). Eight countries arrive one at a time and
- * each one is put on the stat where it ranks best in the world; the score is the sum of the
- * eight ranks and lower is better. This adapter is pure and React-free: it wraps the kept
- * engine under src/lib/game-logic/country-draft, so the board, the resume replay and the
- * server validator all read the same deterministic config.
+ * Country Draft (SPEC; blueprint 8.2), the flagship. Five rounds, and every round is one
+ * country that puts three of its people on the table, each carrying a different archetype
+ * and a standing. You take one and give them one of five seats. The seat decides most of
+ * the points, the standing decides the rest, and after five appointments the cabinet is
+ * scored out of 195, which is how many of the world's countries it takes.
+ *
+ * This adapter is pure and React-free: it wraps the engine under
+ * src/lib/game-logic/country-draft, so the board, the resume replay and the server
+ * validator all read the same deterministic board.
  */
-import { mulberry32 } from "@/lib/seeded-random";
 import {
-  assignCategory,
+  appoint,
+  appointmentsOf,
   canUndo,
   createGame,
-  getCurrentCountry,
-  isComplete,
-  undoLastAssignment,
+  drop,
+  figureAt,
+  filledSeats,
+  hold,
+  scoreState,
+  seen,
+  undo,
 } from "@/lib/game-logic/country-draft/engine";
-import { computeResult } from "@/lib/game-logic/country-draft/scoring";
-import type { DraftGameState, DraftResult } from "@/lib/game-logic/country-draft/types";
+import {
+  ARCHETYPE_LABELS,
+  MAX_SCORE,
+  RESULT_REVEAL_MS,
+  ROUNDS,
+  SEAT_NAMES,
+  bandOf,
+  fitWord,
+} from "@/lib/game-logic/country-draft/tables";
+import { POOL_VERSION } from "@/lib/game-logic/country-draft/roster";
+import type { DraftState, PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import { buildCountryDraftShareText } from "@/lib/share";
 import type { GameModule } from "@/games/types";
 import { codec } from "./codec";
 
-export interface DraftState {
-  g: DraftGameState;
-  /** The reveal window was acknowledged (by the button, a key, or the 60 s timer). */
-  seen: boolean;
-  /** The country index of the pick that just landed, for the counting rank; null after an undo. */
-  lastPick: number | null;
-  /**
-   * Board-changing actions applied so far. Deterministic under replay, so the board can
-   * snapshot it at mount and animate only what moves after that: a resumed board arrives
-   * settled, with no rank counting up and no subject sliding in on first paint.
-   */
-  moves: number;
+export type CountryDraftAction =
+  | { t: "hold"; i: PoolIdx; ui: true }
+  | { t: "drop"; ui: true }
+  | { t: "appoint"; i: PoolIdx; s: SeatIdx }
+  | { t: "undo" }
+  | { t: "seen" };
+
+export type { DraftState as CountryDraftState };
+
+export { RESULT_REVEAL_MS };
+
+/** The score a player watches while they play: fits and standings, no bonus until the end. */
+export function runningScore(s: DraftState): number {
+  return scoreState(s).score;
 }
 
-/** The grade the engine gives the gap, as one word (blueprint 8.7: the grade is a word, never stars). */
-export const GRADE_WORD: Record<DraftResult["grade"], string> = {
-  perfect: "Perfect.",
-  excellent: "Excellent.",
-  great: "Great.",
-  good: "Good.",
-  okay: "Okay.",
-  poor: "Poor.",
-};
-
-/**
- * The width of a rank cell on the result and run rows. The two columns are pinned so the
- * eight rows read as columns instead of a ragged list: the stat icon opens every cell and
- * the rank closes it, on every row.
- */
-export const RANK_CELL = { width: 62, display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 6 } as const;
-
-export type DraftAction = { t: "pick"; c: number } | { t: "undo" } | { t: "seen" };
-
-/** The reveal window after the 8th pick (blueprint 8.8): the board stays up, undo still works. */
-export const RESULT_REVEAL_MS = 60_000;
-
-/** 8 picks at the worst possible rank (blueprint: scoreMax, and the validator's ceiling). */
-export const DRAFT_MAX_SCORE = 8 * 243;
-
-/** The number of picks in a run; the engine deals one country per category. */
-export const DRAFT_PICKS = 8;
-
-/** The running total: the ranks of the picks made so far. */
-export function runningScore(g: DraftGameState): number {
-  let total = 0;
-  g.assignments.forEach((c, i) => {
-    if (c !== null) total += g.config.costMatrix[i][c];
+/** The rows the result, the share and the payload all read, in round order. */
+export function appointmentRows(s: DraftState) {
+  return appointmentsOf(s).map((pick) => {
+    const round = s.board.rounds[pick.round];
+    const figure = figureAt(s.board, pick);
+    return {
+      round: pick.round,
+      seat: pick.seat,
+      iso3: round.iso3,
+      iso2: round.iso2,
+      country: round.name,
+      name: figure.name,
+      note: figure.note,
+      archetype: ARCHETYPE_LABELS[figure.archetype],
+      standing: figure.standing,
+      fit: pick.fit,
+      standingPoints: pick.standingPoints,
+      points: pick.points,
+    };
   });
-  return total;
 }
 
-export function assignedCount(g: DraftGameState): number {
-  return g.assignments.filter((c) => c !== null).length;
+/** The same rows for the board's own best line, so a bad run is readable in one screen. */
+export function bestRows(s: DraftState) {
+  return [...s.board.best]
+    .sort((a, b) => a.round - b.round)
+    .map((pick) => {
+      const round = s.board.rounds[pick.round];
+      const figure = round.pool[pick.poolIdx];
+      return {
+        round: pick.round,
+        seat: pick.seat,
+        iso3: round.iso3,
+        iso2: round.iso2,
+        country: round.name,
+        name: figure.name,
+        archetype: ARCHETYPE_LABELS[figure.archetype],
+        standing: figure.standing,
+        fit: pick.fit,
+        standingPoints: pick.standingPoints,
+        points: pick.points,
+      };
+    });
 }
 
-/** The rank a pick would score, used for the verdict of the action that just landed. */
-function rankOf(g: DraftGameState, countryIdx: number, categoryIdx: number): number {
-  return g.config.costMatrix[countryIdx][categoryIdx];
-}
-
-export const gameModule: GameModule<DraftState, DraftAction> = {
+export const gameModule: GameModule<DraftState, CountryDraftAction> = {
   slug: "country-draft",
 
-  create(seed, mode, dateKey) {
-    return { g: createGame(mulberry32(seed), mode, dateKey), seen: false, lastPick: null, moves: 0 };
+  create(seed) {
+    return createGame(seed);
   },
 
   reduce(s, a) {
     switch (a.t) {
-      case "pick": {
-        const countryIdx = s.g.currentStep;
-        const g = assignCategory(s.g, a.c);
-        if (g === s.g) return s;
-        return { g, seen: false, lastPick: countryIdx, moves: s.moves + 1 };
-      }
-      case "undo": {
-        if (!canUndo(s.g)) return s;
-        return { g: undoLastAssignment(s.g), seen: false, lastPick: null, moves: s.moves + 1 };
-      }
+      case "hold":
+        return hold(s, a.i);
+      case "drop":
+        return drop(s);
+      case "appoint":
+        return appoint(s, a.i, a.s);
+      case "undo":
+        return undo(s);
       case "seen":
-        return isComplete(s.g) && !s.seen ? { ...s, seen: true } : s;
+        return seen(s);
       default:
         return s;
     }
@@ -108,89 +124,133 @@ export const gameModule: GameModule<DraftState, DraftAction> = {
 
   codec,
 
-  done: (s) => isComplete(s.g) && s.seen,
+  done: (s) => s.phase === "done",
 
   progress(s) {
-    const n = assignedCount(s.g);
-    const left = DRAFT_PICKS - n;
+    const filled = filledSeats(s);
+    const open = ROUNDS - filled;
+    const r = scoreState(s);
     return {
-      done: n,
-      total: DRAFT_PICKS,
+      done: filled,
+      total: ROUNDS,
       label: "score",
-      value: String(runningScore(s.g)),
-      extra: left === 0 ? "all picks in" : `${left} pick${left === 1 ? "" : "s"} left`,
+      value: String(r.score),
+      extra:
+        s.phase === "playing"
+          ? `${open} seat${open === 1 ? "" : "s"} open`
+          : r.bonusTotal > 0
+            ? `bonus +${r.bonusTotal}`
+            : "no bonus",
     };
   },
 
+  /**
+   * The verdict line is the arithmetic lesson: after five rounds a player has been told
+   * the formula five times without reading a guide.
+   */
   verdict(prev, next, a) {
-    if (next === prev) return null;
-    if (a.t === "undo") return { tone: "neutral", text: "Pick taken back." };
-    if (a.t !== "pick") return null;
-    const rank = rankOf(next.g, prev.g.currentStep, a.c);
-    const delta = `+${rank}`;
-    if (rank <= 5) return { tone: "good", text: `Rank ${rank}. Great pick.`, delta };
-    if (rank <= 30) return { tone: "neutral", text: `Solid. Rank ${rank}.`, delta };
-    return { tone: "bad", text: `Costly. Rank ${rank}.`, delta };
+    if (a.t === "hold" || a.t === "drop") {
+      if (next === prev) return null;
+      if (next.held === null) return { tone: "neutral", text: "Back on the table." };
+      return { tone: "neutral", text: "Held. Pick a seat." };
+    }
+    if (a.t === "undo") {
+      if (next === prev) return null;
+      return { tone: "neutral", text: "Taken back. No take-back left." };
+    }
+    if (a.t !== "appoint" || next === prev) return null;
+    const pick = next.seats[a.s];
+    if (!pick) return null;
+    const delta = `+${pick.points}`;
+    if (next.phase === "reveal") return { tone: "neutral", text: "Final pick in.", delta };
+    const word = fitWord(pick.fit);
+    const head = pick.fit === 0 ? "Wrong seat." : `${word.charAt(0).toUpperCase()}${word.slice(1)} in ${SEAT_NAMES[a.s]}.`;
+    const line = `${head} ${pick.fit} fit, ${pick.standingPoints} standing.`;
+    if (pick.fit >= 18) return { tone: "good", text: line, delta };
+    if (pick.fit === 0) return { tone: "bad", text: line, delta };
+    return { tone: "neutral", text: line, delta };
   },
 
-  /**
-   * The 60 s reveal window (blueprint 8.8): the board stays live so the last pick can still
-   * be taken back, and the run settles by itself if nobody presses "See result".
-   */
+  /** The reveal window: the board stays live so the last appointment can still go back. */
   after(s) {
-    return isComplete(s.g) && !s.seen ? { ms: RESULT_REVEAL_MS, then: { t: "seen" }, busy: false } : null;
+    return s.phase === "reveal" ? { ms: RESULT_REVEAL_MS, then: { t: "seen" }, busy: false } : null;
   },
 
   payload(s, ctx) {
-    const r = computeResult(s.g);
+    const r = scoreState(s);
+    const gap = s.board.ceiling - r.score;
     return {
       gameSlug: "country-draft",
       mode: ctx.mode,
       dateKey: ctx.dateKey,
-      scoreRaw: r.playerScore,
-      scoreMax: DRAFT_MAX_SCORE,
-      // Lower is better; the server recomputes this the same way.
-      scoreSortValue: DRAFT_MAX_SCORE - r.playerScore,
-      scoreDisplay: `Score: ${r.playerScore} (Gap: ${r.gap})`,
+      scoreRaw: r.score,
+      scoreMax: MAX_SCORE,
+      // Higher is better; the server recomputes this the same way.
+      scoreSortValue: r.score,
+      scoreDisplay: String(r.score),
       resultJson: {
-        playerScore: r.playerScore,
-        optimalScore: r.optimalScore,
-        gap: r.gap,
-        grade: r.grade,
-        stars: r.stars,
-        assignments: r.assignments,
-        optimalAssignments: r.optimalAssignments,
-        countryIso3s: s.g.config.countries.map((c) => c.iso3),
+        poolVersion: POOL_VERSION,
+        score: r.score,
+        band: bandOf(r.score).key,
+        ceiling: s.board.ceiling,
+        gap,
+        fitTotal: r.fitTotal,
+        standingTotal: r.standingTotal,
+        bonusTotal: r.bonusTotal,
+        bonuses: r.bonuses,
+        roundCountries: s.board.rounds.map((x) => x.iso3),
+        poolNames: s.board.rounds.flatMap((x) => x.pool.map((p) => p.name)),
+        appointments: appointmentRows(s),
+        best: bestRows(s),
       },
       startedAt: ctx.startedAt,
     };
   },
 
-  scoreLabel: (s) => String(runningScore(s.g)),
+  scoreLabel: (s) => `${scoreState(s).score} of ${MAX_SCORE}`,
 
   share(s, ctx) {
-    const r = computeResult(s.g);
+    const r = scoreState(s);
     return buildCountryDraftShareText(
-      { playerScore: r.playerScore, assignments: r.assignments, optimalAssignments: r.optimalAssignments, rank: ctx.rank },
+      {
+        score: r.score,
+        band: bandOf(r.score).word,
+        fits: appointmentsOf(s).map((p) => p.fit),
+        rank: ctx.rank,
+        practice: ctx.mode === "practice",
+      },
       ctx.dateKey,
     );
   },
 
-  /** Digits 1 to 8 pick the slot at that position; Enter closes the reveal window. */
-  keys(s, dispatch): Record<string, () => void> {
+  /**
+   * The digits never collide: the seat numerals are rendered only while someone is held,
+   * and the pool numerals only while nobody is.
+   */
+  keys(s, dispatch) {
     const map: Record<string, () => void> = {};
-    if (isComplete(s.g)) {
-      if (!s.seen) map.Enter = () => dispatch({ t: "seen" });
-      return map;
+    if (s.phase === "reveal") map.Enter = () => dispatch({ t: "seen" });
+    if (s.phase === "playing" && s.round < ROUNDS) {
+      if (s.held === null) {
+        s.board.rounds[s.round].pool.forEach((_, i) => {
+          map[String(i + 1)] = () => dispatch({ t: "hold", i: i as PoolIdx, ui: true });
+        });
+      } else {
+        const held = s.held;
+        s.seats.forEach((seat, i) => {
+          if (seat === null) map[String(i + 1)] = () => dispatch({ t: "appoint", i: held, s: i as SeatIdx });
+        });
+        map.Escape = () => dispatch({ t: "drop", ui: true });
+      }
     }
-    if (!getCurrentCountry(s.g)) return map;
-    s.g.config.categories.forEach((_, i) => {
-      if (!s.g.usedCategories.has(i)) map[String(i + 1)] = () => dispatch({ t: "pick", c: i });
-    });
+    if (canUndo(s)) {
+      map.u = () => dispatch({ t: "undo" });
+      map.U = () => dispatch({ t: "undo" });
+    }
     return map;
   },
 
-  keyHint: "1 to 8 pick",
+  keyHint: "1 to 3 take · 1 to 5 seat · Esc drop · U take back",
   keepBoardOnResult: true,
   submits: true,
 };

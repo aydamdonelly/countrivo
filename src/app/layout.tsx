@@ -28,13 +28,6 @@ export const metadata: Metadata = {
     template: "%s | Countrivo",
   },
   description: `Play ${GAME_COUNT} free geography games online. One shot a day, flag quizzes, country rankings, capitals and stat puzzles. 243 countries. No signup needed.`,
-  keywords: [
-    "geography games", "country quiz", "flag quiz", "world quiz",
-    "geography trivia", "country ranking game", "daily geography challenge",
-    "capitals quiz", "population quiz", "free geography games online",
-    "flag quiz online", "world capitals quiz", "geography quiz game",
-    "guess the flag", "country flag quiz game",
-  ],
   openGraph: {
     type: "website",
     siteName: "Countrivo",

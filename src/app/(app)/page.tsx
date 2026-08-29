@@ -14,8 +14,8 @@ import {
   buildDailyLists,
   buildPracticeList,
   buildStrip,
-  draftChips,
   DRAFT,
+  DRAFT_CHIPS,
   friendRankOf,
   MODE_COOKIE,
   readMode,
@@ -34,7 +34,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Countrivo: Daily Geography Games, Country Draft, Flag Quiz & GeoWordle",
   description:
-    "One shot a day, the same board for everyone. Country Draft, GeoWordle, Higher or Lower, flag and capital quizzes. Free, no signup, 243 countries.",
+    "One shot a day, the same board for everyone. Country Draft, GeoWordle, Higher or Lower, Blind Pick and Flag Quiz. Free, no signup, 243 countries.",
   alternates: { canonical: "https://countrivo.com" },
 };
 
@@ -105,7 +105,7 @@ export default async function Home({ searchParams }: Props) {
           tab,
           board: board ?? { slug: DRAFT, shots: 0, top: null, global: [], me: null, friends: [] },
           counter: boardCounter(board),
-          chips: draftChips(clock.dateKey, edition, data.draftCategories),
+          chips: DRAFT_CHIPS,
           result,
           lists: buildDailyLists(data.boards, done),
           strip,

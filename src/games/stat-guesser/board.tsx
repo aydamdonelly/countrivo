@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
-import { formatStat } from "@/lib/utils";
+import { formatNumber, formatStat } from "@/lib/utils";
 import type { StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { Button } from "@/ui/button";
 import { Field } from "@/ui/field";
@@ -19,6 +19,19 @@ const TONE: Record<ErrorTone, CSSProperties> = {
 };
 
 const REFERENCE: CSSProperties = { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, flexWrap: "wrap" };
+
+/**
+ * A guess carries whatever magnitude the player typed, and `formatStat` prints a percentage
+ * or an age raw: type 1.5M for a life expectancy and the feedback line reads `1500000.0
+ * years`, which overruns the row and reads as broken. Compact those two units past four
+ * digits, exactly as every other unit is already compacted.
+ */
+function guessText(value: number, unit: string): string {
+  if ((unit === "%" || unit === "years") && Math.abs(value) >= 10000) {
+    return unit === "%" ? `${formatNumber(value)}%` : `${formatNumber(value)} ${unit}`;
+  }
+  return formatStat(value, unit);
+}
 
 /**
  * Stat Guesser (blueprint 8.8): the stat, one country you know as a reference, then the
@@ -49,7 +62,10 @@ export function Board({ state, dispatch, busy }: BoardProps<StatGuesserState, Gu
     event.preventDefault();
     const value = parseHumanNumber(text);
     if (value === null) {
-      setInvalid("Enter a number like 1.5M, 200K or 3B.");
+      // An empty submit and an unreadable one are different mistakes: the second needs the
+      // format, the first only needs telling. Repeating the placeholder back at an empty
+      // field says nothing.
+      setInvalid(text.trim() === "" ? "Type a number first." : "Enter a number like 1.5M, 200K or 3B.");
       return;
     }
     setInvalid(null);
@@ -79,14 +95,16 @@ export function Board({ state, dispatch, busy }: BoardProps<StatGuesserState, Gu
           <div className="guess-lines">
             <span>
               <span className="lbl t-meta">your guess</span>
-              <b className="t-score-l num">{formatStat(state.guesses[state.currentRound] ?? 0, unit)}</b>
+              <b className="t-score-l num">{guessText(state.guesses[state.currentRound] ?? 0, unit)}</b>
             </span>
             <span>
               <span className="lbl t-meta">actual</span>
               <b className="t-score-l num">{formatStat(round.actualValue, unit)}</b>
             </span>
           </div>
-          <p className="t-body play-center" style={TONE[errorTone(error)]}>
+          {/* the host's verdict line says how it went; this says by how much, so a reader
+              that never sees the two numbers still gets the size of the miss */}
+          <p className="t-body play-center" role="status" style={TONE[errorTone(error)]}>
             <span className="num">{errorText(error)}</span> % off
           </p>
           {/* the advance sits where Submit sat, on the same right edge, so nothing jumps */}
@@ -119,7 +137,9 @@ export function Board({ state, dispatch, busy }: BoardProps<StatGuesserState, Gu
             disabled={busy}
             tall
           />
-          <Button type="submit" variant="ink" disabled={busy || text.trim() === ""}>
+          {/* never disabled on arrival: an empty submit answers with the hint under the field,
+              which teaches the format better than a dead grey button in the fold */}
+          <Button type="submit" variant="ink" disabled={busy}>
             Submit
           </Button>
         </form>

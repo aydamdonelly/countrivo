@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getTodayDateKey, getDailyRng } from "@/lib/daily-seed";
 import { getAllGames } from "@/lib/data/games";
 import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
-import { generateDraftConfig } from "@/lib/game-logic/country-draft/generator";
+import { generateBlindPickConfig } from "@/lib/game-logic/blind-pick/generator";
 import { compactScore, getPublicBoards, type ProfileRow, type RunRow } from "@/server/boards";
 
 export interface BoardRow {
@@ -165,7 +165,7 @@ export async function getHomeData(): Promise<HomeData> {
   // Today's Country Draft categories are public (rules: stats are shown up front).
   let draftCategories: string[] = [];
   try {
-    const cfg = generateDraftConfig(getDailyRng(dateKey, edition), "daily", dateKey);
+    const cfg = generateBlindPickConfig(getDailyRng(dateKey, edition), "daily", dateKey);
     draftCategories = cfg.categories.map((c) => c.shortLabel || c.label);
   } catch {
     draftCategories = [];

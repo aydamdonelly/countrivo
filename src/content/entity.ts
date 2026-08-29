@@ -18,6 +18,12 @@ export const TOTAL_COUNTRIES = 243;
 export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   "country-draft": {
     mechanic:
+      "play five rounds, each one a country that puts three of its people on the table, take one of the three and give that person one of five seats in a cabinet that is scored out of 195",
+    skill:
+      "reading which kind of person fits which job, and holding a seat open for a round or two when the board has not offered the right person for it yet",
+  },
+  "blind-pick": {
+    mechanic:
       "are shown eight countries one at a time and must assign each country to the one category, out of eight, where that country ranks highest globally",
     skill:
       "comparative ranking, knowing not just a country's statistics but where those statistics place the country against every other country",
@@ -33,33 +39,6 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
     skill:
       "an intuition for relative scale, how countries actually compare on population, area, GDP and other measures",
   },
-  "capital-match": {
-    mechanic:
-      "are given a country and pick its correct capital city from four options, over ten rounds",
-    skill: "capital-city recall",
-  },
-  "population-sort": {
-    mechanic:
-      "drag five countries into order from highest to lowest on a given statistic, scored on how close the ordering is",
-    skill:
-      "ordering countries by statistics, which is harder than recognising them one at a time",
-  },
-  "country-streak": {
-    mechanic:
-      "identify countries from their flags and keep answering until one wrong answer ends the run",
-    skill: "flag recall sustained over a long run, where a single lapse ends it",
-  },
-  "border-buddies": {
-    mechanic:
-      "are shown one country and must name every country that shares a border with it, with every miss counted",
-    skill:
-      "knowledge of which countries neighbour which, the part of a mental map that quizzes rarely test",
-  },
-  "continent-sprint": {
-    mechanic:
-      "pick a continent and name every country in that continent as fast as possible against a running clock",
-    skill: "complete recall of the country list for a whole continent",
-  },
   "stat-guesser": {
     mechanic:
       "are asked for a real figure, the population of Brazil, the GDP of Norway, and type a numeric guess, scoring on how close that guess lands",
@@ -71,46 +50,11 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
       "have twenty seconds on the clock to identify as many flags as possible, with speed and accuracy both counting",
     skill: "instant flag recognition, fast enough to answer without deliberating",
   },
-  "odd-one-out": {
-    mechanic:
-      "are shown four countries, three of which share a trait, and must find the one country that does not belong",
-    skill:
-      "spotting what a set of countries has in common, then finding the exception",
-  },
-  supremacy: {
-    mechanic:
-      "play a card battle on real country data, choosing which stat category to compare and trying to outsmart the AI opponent across five rounds",
-    skill:
-      "judging which statistic a country wins on before committing to the comparison",
-  },
-  borderline: {
-    mechanic:
-      "start at a random country and move from neighbour to neighbour across shared borders until reaching a target country, trying to match the optimal path",
-    skill:
-      "route-finding across a mental map of land borders, not just knowing where countries are",
-  },
-  blitz: {
-    mechanic:
-      "see a flag and type the country's name as fast as possible, over ten rounds",
-    skill: "fast recall and correct spelling of country names under time pressure",
-  },
   "geo-wordle": {
     mechanic:
       "get six guesses to find a hidden mystery country, with each guess revealing how far away that country is and which direction to head next",
     skill:
       "deduction from distance and bearing, narrowing a whole world down to one country",
-  },
-  cluster: {
-    mechanic:
-      "sort sixteen countries into four hidden groups of four, locking in each quartet they believe shares a connection such as a region, a starting letter or a statistical extreme, with four mistakes ending the game",
-    skill:
-      "finding the hidden connection between countries when several plausible groupings compete",
-  },
-  "risk-zone": {
-    mechanic:
-      "make higher-or-lower calls one country at a time, growing a multiplier with every correct call and choosing whether to bank the pot or gamble on one more reveal, across five chains",
-    skill:
-      "ranking judgement combined with risk management, knowing when a streak is worth more than another guess",
   },
 };
 

@@ -7,11 +7,12 @@ import { FriendsStrip, PageTitle, isGameSlug, type GameSlug, type StripFriend } 
 import { FriendRequests, FriendRows, type FriendItem, type FriendShot, type RequestItem } from "./friend-rows";
 import { FriendSearch } from "./friend-search";
 import { InviteRow } from "./invite-row";
+import { anchorDailySlug } from "./links";
 import { shortGameLabel, shotScore } from "./labels";
 import "./social.css";
 
-/** The day's anchor game decides the order of the strip. */
-const ANCHOR = "country-draft";
+/** The day's anchor game decides the order of the strip, and the number under each crest. */
+const ANCHOR: string | null = anchorDailySlug();
 
 interface DayRun {
   gameSlug: string;
@@ -30,7 +31,7 @@ function shotsOf(runs: readonly DayRun[]): FriendShot[] {
 
 /** The anchor score if there is one, otherwise how much of the day they have played. */
 function stripScore(runs: readonly DayRun[]): string | null {
-  const anchor = runs.find((r) => r.gameSlug === ANCHOR);
+  const anchor = ANCHOR ? runs.find((r) => r.gameSlug === ANCHOR) : undefined;
   if (anchor) return shotScore(anchor.scoreDisplay);
   if (runs.length === 0) return null;
   return `${runs.length} ${runs.length === 1 ? "shot" : "shots"}`;
@@ -63,7 +64,8 @@ export async function FriendsPage() {
     crest: getSilhouettePath(iso2ToIso3(r.profile.countryCode)),
   }));
 
-  const anchorSort = (runs: readonly DayRun[]) => runs.find((r) => r.gameSlug === ANCHOR)?.scoreSortValue ?? -1;
+  const anchorSort = (runs: readonly DayRun[]) =>
+    (ANCHOR ? runs.find((r) => r.gameSlug === ANCHOR)?.scoreSortValue : undefined) ?? -1;
   const strip: StripFriend[] = [
     {
       username: viewer.profile?.username ?? "",

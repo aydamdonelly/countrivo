@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/ui/button";
 import { Field } from "@/ui/field";
+import { AUTH_ERROR_COPY, classifyAuthError } from "@/ui/auth-sheet";
 
 type Status = "ready" | "invalid" | "saving" | "done";
 
@@ -69,7 +70,9 @@ export function ResetPasswordForm() {
     const { error: err } = await supabase.auth.updateUser({ password });
     if (err) {
       setStatus("ready");
-      setError(err.message);
+      /* The auth contract's taxonomy, never Supabase's raw sentence: a leaked
+         "AuthApiError: New password should be different..." is not our voice. */
+      setError(AUTH_ERROR_COPY[classifyAuthError(err.message)]);
       return;
     }
     setStatus("done");

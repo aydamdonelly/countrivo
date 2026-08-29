@@ -11,7 +11,11 @@ export const FLAG_SIZES: Record<FlagSize, { w: number; h: number }> = {
 };
 
 export interface FlagProps {
-  /** ISO 3166-1 alpha-2, any case; null draws a wait-filled box (a row without a country). */
+  /**
+   * ISO 3166-1 alpha-2, any case. A flag is a real country or it is not drawn:
+   * `null` renders nothing at all, so no surface can print an empty box. A person
+   * without a country wears the seed `Crest` instead (blueprint 5.2).
+   */
   iso2: string | null;
   size?: FlagSize;
   /**
@@ -26,17 +30,17 @@ export interface FlagProps {
 
 /**
  * A real flag from /public/flags (the flag-icons 4x3 set), 3 px radius, with the
- * 1 px inset ring that keeps white-heavy flags legible on paper. Never an emoji.
+ * 1 px inset ring that keeps white-heavy flags legible on paper. Never an emoji,
+ * never an empty placeholder.
  */
 export function Flag({ iso2, size = "xs", alt, className, eager }: FlagProps) {
+  if (!iso2) return null;
   const { w, h } = FLAG_SIZES[size];
-  const code = iso2 ? iso2.toLowerCase() : null;
+  const code = iso2.toLowerCase();
   return (
-    <span className={className ? `flag ${className}` : "flag"} style={{ width: w, height: h }} role={code ? undefined : "img"} aria-label={code ? undefined : alt || "no flag"}>
-      {code ? (
-        // eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted
-        <img src={`/flags/${code}.svg`} width={w} height={h} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" />
-      ) : null}
+    <span className={className ? `flag ${className}` : "flag"} style={{ width: w, height: h }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted */}
+      <img src={`/flags/${code}.svg`} width={w} height={h} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" />
     </span>
   );
 }

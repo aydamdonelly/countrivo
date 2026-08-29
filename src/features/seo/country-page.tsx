@@ -28,11 +28,12 @@ import "./seo.css";
 const borders: Record<string, string[]> = bordersData;
 
 const PLAY_ROWS: readonly { slug: GameSlug; title: string; meta: (name: string) => string }[] = [
+  { slug: "country-draft", title: "Country Draft", meta: () => "five seats, five people, one map" },
   { slug: "flag-quiz", title: "Flag Quiz", meta: (n) => `name ${n} from its flag` },
   { slug: "higher-or-lower", title: "Higher or Lower", meta: (n) => `is ${n} higher or lower` },
-  { slug: "capital-match", title: "Capital Match", meta: (n) => `the capital of ${n}` },
-  { slug: "country-draft", title: "Country Draft", meta: () => "put countries on their best stat" },
-  { slug: "border-buddies", title: "Border Buddies", meta: (n) => `every neighbour of ${n}` },
+  { slug: "geo-wordle", title: "GeoWordle", meta: (n) => `find a country like ${n} in six` },
+  { slug: "stat-guesser", title: "Stat Guesser", meta: (n) => `guess a number about ${n}` },
+  { slug: "blind-pick", title: "Blind Pick", meta: () => "put countries on their best stat" },
 ];
 
 const RANKING_ROWS: readonly { stat: string | null; title: string; href: string; meta: string }[] = [

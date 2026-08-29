@@ -9,7 +9,7 @@ export interface DailyPaneProps {
   board: BoardData;
   /** The kicker's right side before the shot: `41 shots · top 635` or `no shots yet`. */
   counter: string;
-  /** The eight chip labels of today's draft. */
+  /** The five seat chips of the cabinet (blueprint 3.6, Country Draft spec 20.2). */
   chips: readonly string[];
   /** Present once the viewer has shot: the card becomes the post variant. */
   result: AnchorResult | null;
@@ -19,6 +19,18 @@ export interface DailyPaneProps {
   stripFact: string;
   /** "Beat 610 and you're ahead of endy for the day." */
   target: { name: string; score: string } | null;
+}
+
+/**
+ * How wide the shot number is allowed to be. K3's 56 px number was drawn for a three-digit
+ * score; a game whose compact score is a phrase ("154 of 195", "1 280 pts") would wrap it
+ * over two lines and crush the ranks beside it. The card steps the number down instead, so
+ * the score and the ranks stay on one line whatever the game calls its result.
+ */
+function scoreFit(score: string): string | undefined {
+  if (score.length > 8) return "shot-s";
+  if (score.length > 5) return "shot-m";
+  return undefined;
 }
 
 /** The ink card: today's draft before the shot, the score and the ranks after it (blueprint 3.6). */
@@ -32,6 +44,7 @@ export function DailyAnchor({ counter, chips, result }: DailyPaneProps) {
         kicker="TODAY · YOUR SHOT"
         counter="holds till 00:00"
         result={result}
+        className={scoreFit(result.score)}
         cta={null}
       />
     );
@@ -81,12 +94,7 @@ export function DailyRail({ viewer, tab, board, strip, stripFact, target }: Dail
   );
 }
 
-/** More dailies (World Draft first) and the drills, with the metas of 10.4. */
+/** More dailies: the five other daily games, with the metas of 10.4. */
 export function DailyLists({ lists }: DailyPaneProps) {
-  return (
-    <>
-      <GameList title="More dailies" fact={lists.moreCounter} factHref="/games" rows={lists.more} />
-      <GameList title="Drills" fact={lists.drillsCounter} factHref="/games" rows={lists.drills} fade />
-    </>
-  );
+  return <GameList title="More dailies" fact={lists.moreCounter} factHref="/games" rows={lists.more} fade />;
 }

@@ -20,6 +20,7 @@ export function GamesHub() {
     (g) => !g.availableModes.includes("daily") && g.availableModes.includes("practice"),
   );
   const soon = games.filter((g) => g.comingSoon);
+  const gameCount = (n: number) => `${n} ${n === 1 ? "game" : "games"}`;
   const faq = gamesHubFaq(games.length, dailies.length);
 
   const itemList = node({
@@ -41,26 +42,28 @@ export function GamesHub() {
 
       <PageTitle
         title={GAMES_HUB.h1}
-        meta={`${games.length} games · ${TOTAL_COUNTRIES} countries · one shot a day`}
+        meta={`${gameCount(games.length)} · ${TOTAL_COUNTRIES} countries · one shot a day`}
       />
 
       <div className="two">
         <div>
           <GameList
             title="Dailies"
-            fact={`${dailies.length} games`}
+            fact={gameCount(dailies.length)}
             rows={mainFirst.map((g) => ({
               slug: g.slug as GameSlug,
               title: g.title,
               meta: gameMeta(g.slug, g.shortDescription),
               href: g.route,
+              // The registry's own flag, so a game stops being NEW without a code change.
+              ...(g.isNew ? { tag: "NEW" as const } : {}),
             }))}
           />
         </div>
         <div>
           <GameList
             title="Practice only"
-            fact={`${practiceOnly.length} games`}
+            fact={gameCount(practiceOnly.length)}
             rows={practiceOnly.map((g) => ({
               slug: g.slug as GameSlug,
               title: g.title,
@@ -71,7 +74,7 @@ export function GamesHub() {
           {soon.length > 0 ? (
             <GameList
               title="In development"
-              fact={soon.length === 1 ? "1 game" : `${soon.length} games`}
+              fact={gameCount(soon.length)}
               rows={soon.map((g) => ({
                 slug: g.slug as GameSlug,
                 title: g.title,

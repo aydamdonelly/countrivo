@@ -1,0 +1,90 @@
+/* Country Draft: the board, the cabinet and the result rows. Tokens only, no hex, no
+   shadow, no gradient. Every region holds its height through the reveal swap, so the
+   board never moves when the last seat fills. */
+@layer components {
+    /* One rhythm for the whole board: 12 px between every region, and every region holds
+     its height through the reveal swap, so nothing moves when the last seat fills. */
+  .dr { display: flex; flex-direction: column; gap: 12px; }
+
+  /* the round: the country on the table, or the band once the cabinet is full */
+  .dr-round { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+  .dr-round .txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .dr-round .txt small { color: var(--color-mute); }
+  .dr-round .txt .num { font-weight: 600; color: var(--color-ink); }
+
+  /* the five countries of the board, from the first second */
+  .dr-plan { display: block; min-height: 16px; margin: 0; color: var(--color-mute); }
+  .dr-plan .now { color: var(--color-ink); font-weight: 600; }
+  .dr-plan .past { color: var(--color-down); }
+  .dr-plan .sep { color: var(--color-faint); }
+
+  /* the three people on offer, and the three bonus rows that replace them at the reveal */
+  .dr-pool { display: flex; flex-direction: column; gap: 8px; }
+  .dr-card {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    min-height: 72px; padding: 8px 12px; text-align: left;
+    background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
+  }
+  .dr-card .who { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .dr-card .who small { color: var(--color-mute); }
+  .dr-card .what { display: flex; flex-direction: column; gap: 2px; text-align: right; white-space: nowrap; }
+  .dr-card .what b { font-weight: 500; }
+  .dr-card .what small { color: var(--color-mute); }
+  button.dr-card { transition: background-color var(--dur-fast); }
+  @media (hover: hover) and (pointer: fine) { button.dr-card:hover { background: var(--color-line); } }
+  .dr-card[aria-pressed="true"], .dr-card[aria-pressed="true"]:hover { background: var(--color-ink); color: var(--color-on-ink); }
+  .dr-card[aria-pressed="true"] .who small, .dr-card[aria-pressed="true"] .what small { color: var(--color-on-ink-kicker); }
+
+  /* the cabinet: five seats, in seat order, open or filled */
+  .dr-cabinet { display: flex; flex-direction: column; gap: 4px; }
+  .dr-seat {
+    display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    min-height: 44px; padding: 4px 12px; text-align: left;
+    background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
+  }
+  .dr-seat .mark { display: inline-flex; justify-content: center; color: var(--color-mute); }
+  .dr-seat .txt { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .dr-seat .txt b { font-weight: 500; }
+  .dr-seat .txt small { color: var(--color-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dr-seat .read { font-weight: 500; white-space: nowrap; }
+  .dr-seat .key { color: var(--color-mute); }
+  @media (hover: none) { .dr-seat .key { display: none; } }
+  button.dr-seat { transition: background-color var(--dur-fast); }
+  button.dr-seat:disabled { cursor: default; }
+  @media (hover: hover) and (pointer: fine) { button.dr-seat:enabled:hover { background: var(--color-line); } }
+  .dr-seat .pts { font-weight: 600; }
+
+  /* the fit a seat would take, and the points it took: ink earned it, mute will do,
+     ember missed. Ember is text here, never a fill behind text. */
+  .dr-q-good { color: var(--color-ink); }
+  .dr-q-fair { color: var(--color-mute); }
+  .dr-q-bad { color: var(--color-ember); }
+
+  .dr-act { min-height: 44px; }
+
+  /* desktop: the three people become three columns of equal height, every internal row
+     on one baseline, so a long note in one card cannot push its neighbours out of step */
+  @media (min-width: 1024px) {
+    .dr-pool { flex-direction: row; gap: 12px; }
+    .dr-pool > * { flex: 1 1 0; min-width: 0; }
+    .dr-card { grid-template-columns: minmax(0, 1fr); align-content: space-between; min-height: 108px; padding: 14px; }
+    .dr-card .what { flex-direction: row; align-items: baseline; gap: 8px; text-align: left; white-space: normal; }
+    .dr-seat { min-height: 56px; }
+  }
+
+  /* the result: the map, the appointment rows, the bonus rows, the best line */
+  .dr-map { display: block; width: 100%; height: auto; margin: 12px 0 4px; }
+  .dr-rows { display: flex; flex-direction: column; }
+  .dr-row {
+    display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    min-height: 44px; padding: 8px 0; border-top: 1px solid var(--color-line);
+  }
+  .dr-row .fl { display: inline-flex; }
+  .dr-row .txt { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .dr-row .txt small { color: var(--color-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dr-row .val { text-align: right; white-space: nowrap; font-weight: 600; }
+  .dr-row .val.mute { color: var(--color-mute); }
+  .dr-lead { color: var(--color-mute); margin: 4px 0 0; }
+  .dr-rows + .dr-lead, .dr-lead + .sh, .dr-rows + .sh { margin-top: 20px; }
+  .sh + .dr-lead { margin: 0 0 4px; }
+}
