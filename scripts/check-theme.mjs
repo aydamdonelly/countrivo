@@ -11,7 +11,14 @@ const root = process.cwd();
 /** Hex literals are allowed only here (section 1). */
 const HEX_ALLOWED = new Set(["src/styles/tokens.css", "src/lib/seo/og-image.tsx", "src/app/global-error.tsx"]);
 /** The clipboard share strings carry the coloured squares; the GeoWordle engine keeps `arrow` in the resultJson contract (section 5.1). */
-const EMOJI_ALLOWED = (f) => f.startsWith("src/lib/share/") || f === "src/lib/game-logic/geo-wordle/engine.ts";
+// The share builders draw their spoiler-safe squares, GeoWordle keeps its arrow fallback,
+// and figure-credits.json holds third-party attribution strings verbatim: some carry a ©,
+// which this rule reads as a pictograph. Attribution text is never edited to satisfy a
+// linter, so the data file is exempt. Nothing in it is ever rendered as an icon.
+const EMOJI_ALLOWED = (f) =>
+  f.startsWith("src/lib/share/") ||
+  f === "src/lib/game-logic/geo-wordle/engine.ts" ||
+  f === "src/data/figure-credits.json";
 
 const TEXT = new Set([".ts", ".tsx", ".css", ".json", ".mjs"]);
 const CODE = new Set([".ts", ".tsx", ".mjs"]);
