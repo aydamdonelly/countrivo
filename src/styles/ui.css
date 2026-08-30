@@ -461,4 +461,19 @@
   /* ── misc rows ───────────────────────────────────────────────────────── */
   .row-actions { display: flex; align-items: center; gap: 16px; }
   .inline-facts { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--color-mute); }
+
+  /* A person on the draft board. Same 3px radius as a flag: both are the real thing, not a
+     decorated avatar. Where no freely licensed portrait exists we say so in our own
+     language rather than inventing a likeness: the ink ground the crest uses, initial in
+     paper. Credits are on /credits. */
+  .fig { display: block; flex: none; border-radius: var(--radius-flag); object-fit: cover; background: var(--color-card); }
+  .fig-none { display: inline-flex; align-items: center; justify-content: center; background: var(--color-ink); color: var(--color-paper); }
+  .fig-none .num { font-family: var(--font-display); font-size: 0.42em; font-weight: 600; line-height: 1; }
+
+  /* Picture credits: one person per row, the licence under the name. */
+  .credits { margin-top: var(--stack); }
+  .credits li { display: grid; gap: 2px; padding: var(--list-y) 0; border-top: 1px solid var(--color-line); }
+  .credits li:first-child { border-top: 0; }
+  .credits small { color: var(--color-mute); }
+  .credits a { color: var(--color-ink); text-decoration: underline; text-underline-offset: 3px; }
 }

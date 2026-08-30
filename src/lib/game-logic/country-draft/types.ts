@@ -6,6 +6,10 @@ export type PoolIdx = 0 | 1 | 2;
 /** One person on offer. `archetype` indexes ARCHETYPE_LABELS, `standing` runs 1 to 5. */
 export interface DraftFigure {
   name: string;
+  /** figures.json slug; the portrait file is public/figures/{slug}.jpg when we have one. */
+  slug: string;
+  /** True when a freely licensed portrait exists (see scripts/fetch-portraits.ts). */
+  portrait: boolean;
   /** One factual clause, straight from figures.json. */
   note: string;
   archetype: number;

@@ -1,0 +1,4602 @@
+{
+ "george-washington": {
+  "slug": "george-washington",
+  "title": "George Washington",
+  "file": "Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg",
+  "licence": "Public domain",
+  "author": "Gilbert Stuart",
+  "url": "https://commons.wikimedia.org/wiki/File:Gilbert_Stuart_Williamstown_Portrait_of_George_Washington.jpg"
+ },
+ "abraham-lincoln": {
+  "slug": "abraham-lincoln",
+  "title": "Abraham Lincoln",
+  "file": "Abraham_Lincoln_1863_Portrait_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "Alexander Gardner",
+  "url": "https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_1863_Portrait_(3x4_cropped).jpg"
+ },
+ "barack-obama": {
+  "slug": "barack-obama",
+  "title": "Barack Obama",
+  "file": "President_Barack_Obama.jpg",
+  "licence": "Public domain",
+  "author": "Official White House Photo by Pete Souza",
+  "url": "https://commons.wikimedia.org/wiki/File:President_Barack_Obama.jpg"
+ },
+ "martin-luther-king-jr": {
+  "slug": "martin-luther-king-jr",
+  "title": "Martin Luther King Jr.",
+  "file": "Martin_Luther_King,_Jr..jpg",
+  "licence": "Public domain",
+  "author": "Bernie Faingold",
+  "url": "https://commons.wikimedia.org/wiki/File:Martin_Luther_King%2C_Jr..jpg"
+ },
+ "winston-churchill": {
+  "slug": "winston-churchill",
+  "title": "Winston Churchill",
+  "file": "Sir_Winston_Churchill_-_19086236948_(restored).jpg",
+  "licence": "Public domain",
+  "author": "Yousuf Karsh",
+  "url": "https://commons.wikimedia.org/wiki/File:Sir_Winston_Churchill_-_19086236948_(restored).jpg"
+ },
+ "elizabeth-i": {
+  "slug": "elizabeth-i",
+  "title": "Elizabeth I",
+  "file": "Darnley_stage_3.jpg",
+  "licence": "Public domain",
+  "author": "Unidentified painter",
+  "url": "https://commons.wikimedia.org/wiki/File:Darnley_stage_3.jpg"
+ },
+ "elizabeth-ii": {
+  "slug": "elizabeth-ii",
+  "title": "Elizabeth II",
+  "file": "Queen_Elizabeth_II_official_portrait_for_1959_tour_(retouched)_(cropped)_(3-to-4_aspect_ratio).jpg",
+  "licence": "Public domain",
+  "author": "Donald McKague",
+  "url": "https://commons.wikimedia.org/wiki/File:Queen_Elizabeth_II_official_portrait_for_1959_tour_(retouched)_(cropped)_(3-to-4_aspect_ratio).jpg"
+ },
+ "emmeline-pankhurst": {
+  "slug": "emmeline-pankhurst",
+  "title": "Emmeline Pankhurst",
+  "file": "Emmeline_Pankhurst,_seated_(1913).jpg",
+  "licence": "Public domain",
+  "author": "Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Emmeline_Pankhurst%2C_seated_(1913).jpg"
+ },
+ "charles-de-gaulle": {
+  "slug": "charles-de-gaulle",
+  "title": "Charles de Gaulle",
+  "file": "De_Gaulle-OWI_(cropped)_(c)(2).jpg",
+  "licence": "Public domain",
+  "author": "Office of War Information, Overseas Picture Division. [1] The image prefix (LC-U",
+  "url": "https://commons.wikimedia.org/wiki/File:De_Gaulle-OWI_(cropped)_(c)(2).jpg"
+ },
+ "louis-xiv": {
+  "slug": "louis-xiv",
+  "title": "Louis XIV",
+  "file": "Louis_XIV_of_France.jpg",
+  "licence": "Public domain",
+  "author": "Hyacinthe Rigaud",
+  "url": "https://commons.wikimedia.org/wiki/File:Louis_XIV_of_France.jpg"
+ },
+ "georges-clemenceau": {
+  "slug": "georges-clemenceau",
+  "title": "Georges Clemenceau",
+  "file": "Georges_Clemenceau_par_Nadar.jpg",
+  "licence": "Public domain",
+  "author": "Paul Nadar",
+  "url": "https://commons.wikimedia.org/wiki/File:Georges_Clemenceau_par_Nadar.jpg"
+ },
+ "otto-von-bismarck": {
+  "slug": "otto-von-bismarck",
+  "title": "Otto von Bismarck",
+  "file": "Otto_von_Bismarck_1885_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Otto_von_Bismarck_1885_(cropped).jpg"
+ },
+ "frederick-the-great": {
+  "slug": "frederick-the-great",
+  "title": "Frederick the Great",
+  "file": "Friedrich_der_Große_-_Johann_Georg_Ziesenis_-_Google_Cultural_Institute_(cropped_2).jpg",
+  "licence": "Public domain",
+  "author": "Johann Georg Ziesenis",
+  "url": "https://commons.wikimedia.org/wiki/File:Friedrich_der_Gro%C3%9Fe_-_Johann_Georg_Ziesenis_-_Google_Cultural_Institute_(cropped_2).jpg"
+ },
+ "alcide-de-gasperi": {
+  "slug": "alcide-de-gasperi",
+  "title": "Alcide De Gasperi",
+  "file": "Alcide_de_Gasperi_2.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Alcide_de_Gasperi_2.jpg"
+ },
+ "victor-emmanuel-ii": {
+  "slug": "victor-emmanuel-ii",
+  "title": "Victor Emmanuel II",
+  "file": "VictorEmmanuel2.jpg",
+  "licence": "Public domain",
+  "author": "Eugène Disdéri",
+  "url": "https://commons.wikimedia.org/wiki/File:VictorEmmanuel2.jpg"
+ },
+ "peter-the-great": {
+  "slug": "peter-the-great",
+  "title": "Peter the Great",
+  "file": "Inconnu_d'après_J.-M._Nattier,_Portrait_de_Pierre_Ier_(musée_de_l’Ermitage).jpg",
+  "licence": "Public domain",
+  "author": "Attributed to Jean-Marc Nattier",
+  "url": "https://commons.wikimedia.org/wiki/File:Inconnu_d'apr%C3%A8s_J.-M._Nattier%2C_Portrait_de_Pierre_Ier_(mus%C3%A9e_de_l%E2%80%99Ermitage).jpg"
+ },
+ "catherine-the-great": {
+  "slug": "catherine-the-great",
+  "title": "Catherine the Great",
+  "file": "Catherine_II_after_Roslin,_Rokotov_(1780s,_Kunsthistorisches_Museum).jpg",
+  "licence": "Public domain",
+  "author": "After Alexander Roslin",
+  "url": "https://commons.wikimedia.org/wiki/File:Catherine_II_after_Roslin%2C_Rokotov_(1780s%2C_Kunsthistorisches_Museum).jpg"
+ },
+ "alexander-ii-of-russia": {
+  "slug": "alexander-ii-of-russia",
+  "title": "Alexander II of Russia",
+  "file": "Zar_Alexander_II_(cropped)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Attributed to W. &amp; D. Downey",
+  "url": "https://commons.wikimedia.org/wiki/File:Zar_Alexander_II_(cropped)_(cropped).jpg"
+ },
+ "vladimir-lenin": {
+  "slug": "vladimir-lenin",
+  "title": "Vladimir Lenin",
+  "file": "Lenin_in_1920_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown, presumably official",
+  "url": "https://commons.wikimedia.org/wiki/File:Lenin_in_1920_(cropped).jpg"
+ },
+ "qin-shi-huang": {
+  "slug": "qin-shi-huang",
+  "title": "Qin Shi Huang",
+  "file": "QinShiHuang19century.jpg",
+  "licence": "Public domain",
+  "author": "Unknown (18??–18??)",
+  "url": "https://commons.wikimedia.org/wiki/File:QinShiHuang19century.jpg"
+ },
+ "wu-zetian": {
+  "slug": "wu-zetian",
+  "title": "Wu Zetian",
+  "file": "唐后行從圖_(局部)_-_武則天.png",
+  "licence": "Public domain",
+  "author": "Likely to be Zhang Xuan (张萱)",
+  "url": "https://commons.wikimedia.org/wiki/File:%E5%94%90%E5%90%8E%E8%A1%8C%E5%BE%9E%E5%9C%96_(%E5%B1%80%E9%83%A8)_-_%E6%AD%A6%E5%89%87%E5%A4%A9.png"
+ },
+ "sun-yat-sen": {
+  "slug": "sun-yat-sen",
+  "title": "Sun Yat-sen",
+  "file": "孙中山肖像.jpg",
+  "licence": "Public domain",
+  "author": "上海波尔照相馆",
+  "url": "https://commons.wikimedia.org/wiki/File:%E5%AD%99%E4%B8%AD%E5%B1%B1%E8%82%96%E5%83%8F.jpg"
+ },
+ "zhou-enlai": {
+  "slug": "zhou-enlai",
+  "title": "Zhou Enlai",
+  "file": "Premier_Chou_En-Lai_in_the_Great_Hall_of_the_People's_Banquet_Hall_-_DPLA_-_a40021a8100507bc7a244420481bf488.jpg",
+  "licence": "Public domain",
+  "author": "President (1969-1974 : Nixon). White House Photo Office. 1969-1974; General Serv",
+  "url": "https://commons.wikimedia.org/wiki/File:Premier_Chou_En-Lai_in_the_Great_Hall_of_the_People's_Banquet_Hall_-_DPLA_-_a40021a8100507bc7a244420481bf488.jpg"
+ },
+ "deng-xiaoping": {
+  "slug": "deng-xiaoping",
+  "title": "Deng Xiaoping",
+  "file": "Deng_Xiaoping_at_the_arrival_ceremony_for_the_Vice_Premier_of_China_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Deng_Xiaoping_at_the_arrival_ceremony_for_the_Vice_Premier_of_China_(cropped).jpg"
+ },
+ "tokugawa-ieyasu": {
+  "slug": "tokugawa-ieyasu",
+  "title": "Tokugawa Ieyasu",
+  "file": "Tokugawa_Ieyasu2.JPG",
+  "licence": "Public domain",
+  "author": "Kanō Tan'yū",
+  "url": "https://commons.wikimedia.org/wiki/File:Tokugawa_Ieyasu2.JPG"
+ },
+ "emperor-meiji": {
+  "slug": "emperor-meiji",
+  "title": "Emperor Meiji",
+  "file": "Meiji_Emperor_(cropped)(b).jpg",
+  "licence": "Public domain",
+  "author": "Uchida Kuichi",
+  "url": "https://commons.wikimedia.org/wiki/File:Meiji_Emperor_(cropped)(b).jpg"
+ },
+ "shigeru-yoshida": {
+  "slug": "shigeru-yoshida",
+  "title": "Shigeru Yoshida",
+  "file": "Shigeru_Yoshida_suit.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Shigeru_Yoshida_suit.jpg"
+ },
+ "mahatma-gandhi": {
+  "slug": "mahatma-gandhi",
+  "title": "Mahatma Gandhi",
+  "file": "Mahatma-Gandhi,_studio,_1931.jpg",
+  "licence": "Public domain",
+  "author": "Elliott &amp; Fry",
+  "url": "https://commons.wikimedia.org/wiki/File:Mahatma-Gandhi%2C_studio%2C_1931.jpg"
+ },
+ "jawaharlal-nehru": {
+  "slug": "jawaharlal-nehru",
+  "title": "Jawaharlal Nehru",
+  "file": "Nehru_in_the_Netherlands,_1957.jpg",
+  "licence": "CC0",
+  "author": "Harry Pot",
+  "url": "https://commons.wikimedia.org/wiki/File:Nehru_in_the_Netherlands%2C_1957.jpg"
+ },
+ "b-r-ambedkar": {
+  "slug": "b-r-ambedkar",
+  "title": "B. R. Ambedkar",
+  "file": "Dr._Bhimrao_Ambedkar.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Dr._Bhimrao_Ambedkar.jpg"
+ },
+ "getulio-vargas": {
+  "slug": "getulio-vargas",
+  "title": "Getúlio Vargas",
+  "file": "Getulio_Vargas_(1930).jpg",
+  "licence": "Public domain",
+  "author": "Governo do Brasil",
+  "url": "https://commons.wikimedia.org/wiki/File:Getulio_Vargas_(1930).jpg"
+ },
+ "juscelino-kubitschek": {
+  "slug": "juscelino-kubitschek",
+  "title": "Juscelino Kubitschek",
+  "file": "Juscelino_Kubitschek_in_1956.jpg",
+  "licence": "Public domain",
+  "author": "Governo do Brasil",
+  "url": "https://commons.wikimedia.org/wiki/File:Juscelino_Kubitschek_in_1956.jpg"
+ },
+ "isabella-i-of-castile": {
+  "slug": "isabella-i-of-castile",
+  "title": "Isabella I of Castile",
+  "file": "IsabellaofCastile03.jpg",
+  "licence": "Public domain",
+  "author": "anonymous",
+  "url": "https://commons.wikimedia.org/wiki/File:IsabellaofCastile03.jpg"
+ },
+ "philip-ii-of-spain": {
+  "slug": "philip-ii-of-spain",
+  "title": "Philip II of Spain",
+  "file": "Portrait_of_Philip_II_of_Spain_by_Sofonisba_Anguissola_-_002b.jpg",
+  "licence": "Public domain",
+  "author": "Sofonisba Anguissola",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_Philip_II_of_Spain_by_Sofonisba_Anguissola_-_002b.jpg"
+ },
+ "adolfo-suarez": {
+  "slug": "adolfo-suarez",
+  "title": "Adolfo Suárez",
+  "file": "Adolfo_Suárez_1979c_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Ministerio de la Presidencia. Gobierno de España.",
+  "url": "https://commons.wikimedia.org/wiki/File:Adolfo_Su%C3%A1rez_1979c_(cropped).jpg"
+ },
+ "benito-juarez": {
+  "slug": "benito-juarez",
+  "title": "Benito Juárez",
+  "file": "Presidente_Benito_Pablo_Juárez_García.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Presidente_Benito_Pablo_Ju%C3%A1rez_Garc%C3%ADa.jpg"
+ },
+ "juan-peron": {
+  "slug": "juan-peron",
+  "title": "Juan Perón",
+  "file": "Juan_Domingo_Perón_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Juan_Domingo_Per%C3%B3n_(cropped).jpg"
+ },
+ "eva-peron": {
+  "slug": "eva-peron",
+  "title": "Eva Perón",
+  "file": "Eva_Duarte_by_Annemarie_Heinrich,_1944_(later_Eva_Péron).jpg",
+  "licence": "Public domain",
+  "author": "Annemarie Heinrich",
+  "url": "https://commons.wikimedia.org/wiki/File:Eva_Duarte_by_Annemarie_Heinrich%2C_1944_(later_Eva_P%C3%A9ron).jpg"
+ },
+ "anwar-sadat": {
+  "slug": "anwar-sadat",
+  "title": "Anwar Sadat",
+  "file": "Anwar_Sadat_cropped.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Anwar_Sadat_cropped.jpg"
+ },
+ "mustafa-kemal-ataturk": {
+  "slug": "mustafa-kemal-ataturk",
+  "title": "Mustafa Kemal Atatürk",
+  "file": "Ataturk1930s.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Ataturk1930s.jpg"
+ },
+ "suleiman-the-magnificent": {
+  "slug": "suleiman-the-magnificent",
+  "title": "Suleiman the Magnificent",
+  "file": "EmperorSuleiman.jpg",
+  "licence": "Public domain",
+  "author": "Circle of Titian",
+  "url": "https://commons.wikimedia.org/wiki/File:EmperorSuleiman.jpg"
+ },
+ "mehmed-ii": {
+  "slug": "mehmed-ii",
+  "title": "Mehmed II",
+  "file": "Bellini,_Gentile_-_Sultan_Mehmet_II.jpg",
+  "licence": "Public domain",
+  "author": "Gentile Bellini",
+  "url": "https://commons.wikimedia.org/wiki/File:Bellini%2C_Gentile_-_Sultan_Mehmet_II.jpg"
+ },
+ "desmond-tutu": {
+  "slug": "desmond-tutu",
+  "title": "Desmond Tutu",
+  "file": "Archbishop-Tutu-medium.jpg",
+  "licence": "Public domain",
+  "author": "Benny Gool",
+  "url": "https://commons.wikimedia.org/wiki/File:Archbishop-Tutu-medium.jpg"
+ },
+ "steve-biko": {
+  "slug": "steve-biko",
+  "title": "Steve Biko",
+  "file": "Steve_Biko_on_Flyer_for_Steve_Biko_Memorial_at_the_Carver_Cultural_Center.jpg",
+  "licence": "Public domain",
+  "author": "Cape Argus",
+  "url": "https://commons.wikimedia.org/wiki/File:Steve_Biko_on_Flyer_for_Steve_Biko_Memorial_at_the_Carver_Cultural_Center.jpg"
+ },
+ "lester-b-pearson": {
+  "slug": "lester-b-pearson",
+  "title": "Lester B. Pearson",
+  "file": "Lester_B._Pearson_(1963_ABC_press_photo).jpg",
+  "licence": "Public domain",
+  "author": "ABC Television",
+  "url": "https://commons.wikimedia.org/wiki/File:Lester_B._Pearson_(1963_ABC_press_photo).jpg"
+ },
+ "pierre-trudeau": {
+  "slug": "pierre-trudeau",
+  "title": "Pierre Trudeau",
+  "file": "Pierre_Trudeau_(1975).jpg",
+  "licence": "CC0",
+  "author": "Rob Mieremet / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Pierre_Trudeau_(1975).jpg"
+ },
+ "robert-menzies": {
+  "slug": "robert-menzies",
+  "title": "Robert Menzies",
+  "file": "Portrait_Menzies_1950s.jpg",
+  "licence": "Public domain",
+  "author": "National Library of Australia",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_Menzies_1950s.jpg"
+ },
+ "gough-whitlam": {
+  "slug": "gough-whitlam",
+  "title": "Gough Whitlam",
+  "file": "Gough_Whitlam_at_the_Lodge_1974.jpg",
+  "licence": "Public domain",
+  "author": "Work of the Australian Government",
+  "url": "https://commons.wikimedia.org/wiki/File:Gough_Whitlam_at_the_Lodge_1974.jpg"
+ },
+ "jozef-pi-sudski": {
+  "slug": "jozef-pi-sudski",
+  "title": "Józef Piłsudski",
+  "file": "Józef_Piłsudski_(-1930).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:J%C3%B3zef_Pi%C5%82sudski_(-1930).jpg"
+ },
+ "mohammad-mosaddegh": {
+  "slug": "mohammad-mosaddegh",
+  "title": "Mohammad Mosaddegh",
+  "file": "Dr_Mohammad_Mosaddeq.jpg",
+  "licence": "Public domain",
+  "author": "International News Photos",
+  "url": "https://commons.wikimedia.org/wiki/File:Dr_Mohammad_Mosaddeq.jpg"
+ },
+ "david-ben-gurion": {
+  "slug": "david-ben-gurion",
+  "title": "David Ben-Gurion",
+  "file": "David_Ben-Gurion_(D597-087).jpg",
+  "licence": "Public domain",
+  "author": "Fritz Cohen",
+  "url": "https://commons.wikimedia.org/wiki/File:David_Ben-Gurion_(D597-087).jpg"
+ },
+ "nnamdi-azikiwe": {
+  "slug": "nnamdi-azikiwe",
+  "title": "Nnamdi Azikiwe",
+  "file": "Nnamdi_Azikiwe_PC_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Official portrait",
+  "url": "https://commons.wikimedia.org/wiki/File:Nnamdi_Azikiwe_PC_(cropped).jpg"
+ },
+ "obafemi-awolowo": {
+  "slug": "obafemi-awolowo",
+  "title": "Obafemi Awolowo",
+  "file": "Obafemi_Awolowo.jpg",
+  "licence": "Public domain",
+  "author": "Eliot Elisofon",
+  "url": "https://commons.wikimedia.org/wiki/File:Obafemi_Awolowo.jpg"
+ },
+ "olusegun-obasanjo": {
+  "slug": "olusegun-obasanjo",
+  "title": "Olusegun Obasanjo",
+  "file": "Olusegun_Obasanjo_DD-SC-07-14396-cropped.jpg",
+  "licence": "Public domain",
+  "author": "Helene C. Stikkel",
+  "url": "https://commons.wikimedia.org/wiki/File:Olusegun_Obasanjo_DD-SC-07-14396-cropped.jpg"
+ },
+ "pericles": {
+  "slug": "pericles",
+  "title": "Pericles",
+  "file": "Pericles_Pio-Clementino_Inv269_n2.jpg",
+  "licence": "Public domain",
+  "author": "Copy of Kresilas",
+  "url": "https://commons.wikimedia.org/wiki/File:Pericles_Pio-Clementino_Inv269_n2.jpg"
+ },
+ "eleftherios-venizelos": {
+  "slug": "eleftherios-venizelos",
+  "title": "Eleftherios Venizelos",
+  "file": "Eleftherios_Venizelos_1919_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "Photoprint copyrighted by Harris &amp; Ewing (No known restrictions on publicati",
+  "url": "https://commons.wikimedia.org/wiki/File:Eleftherios_Venizelos_1919_(3x4_cropped).jpg"
+ },
+ "eamon-de-valera": {
+  "slug": "eamon-de-valera",
+  "title": "Éamon de Valera",
+  "file": "De_Valera_LCCN2016822004_(headshot).jpg",
+  "licence": "Public domain",
+  "author": "National Photo Company Collection",
+  "url": "https://commons.wikimedia.org/wiki/File:De_Valera_LCCN2016822004_(headshot).jpg"
+ },
+ "daniel-o-connell": {
+  "slug": "daniel-o-connell",
+  "title": "Daniel O'Connell",
+  "file": "Daniel_O'Connell.png",
+  "licence": "Public domain",
+  "author": "Bernard Mulrenin",
+  "url": "https://commons.wikimedia.org/wiki/File:Daniel_O'Connell.png"
+ },
+ "mary-robinson": {
+  "slug": "mary-robinson",
+  "title": "Mary Robinson",
+  "file": "Mary_Robinson_in_2024_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Embaixada dos EUA - Brasil",
+  "url": "https://commons.wikimedia.org/wiki/File:Mary_Robinson_in_2024_(cropped).jpg"
+ },
+ "tomas-masaryk": {
+  "slug": "tomas-masaryk",
+  "title": "Tomáš Masaryk",
+  "file": "Tomáš_Garrigue_Masaryk_1925.PNG",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Tom%C3%A1%C5%A1_Garrigue_Masaryk_1925.PNG"
+ },
+ "lajos-kossuth": {
+  "slug": "lajos-kossuth",
+  "title": "Lajos Kossuth",
+  "file": "Portrait_of_Lajos_Kossuth,_1852.jpg",
+  "licence": "Public domain",
+  "author": "Southworth &amp; Hawes",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_Lajos_Kossuth%2C_1852.jpg"
+ },
+ "imre-nagy": {
+  "slug": "imre-nagy",
+  "title": "Imre Nagy",
+  "file": "Imre_Nagy_portrait.jpg",
+  "licence": "Public domain",
+  "author": "ismeretlen szerző(Nagy Imre Emlékház tulajdona)",
+  "url": "https://commons.wikimedia.org/wiki/File:Imre_Nagy_portrait.jpg"
+ },
+ "jomo-kenyatta": {
+  "slug": "jomo-kenyatta",
+  "title": "Jomo Kenyatta",
+  "file": "Jomo_Kenyatta_(cropped)_in_June_15th,_1966.jpg",
+  "licence": "Public domain",
+  "author": "Pridan Moshe",
+  "url": "https://commons.wikimedia.org/wiki/File:Jomo_Kenyatta_(cropped)_in_June_15th%2C_1966.jpg"
+ },
+ "kofi-annan": {
+  "slug": "kofi-annan",
+  "title": "Kofi Annan",
+  "file": "Kofi_Annan_2012_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "US Mission in Geneva",
+  "url": "https://commons.wikimedia.org/wiki/File:Kofi_Annan_2012_(cropped).jpg"
+ },
+ "haile-selassie": {
+  "slug": "haile-selassie",
+  "title": "Haile Selassie",
+  "file": "Haile_Selassie_in_full_dress_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "unknown; according to [1] and [2] an official portrait of which b/w copies were ",
+  "url": "https://commons.wikimedia.org/wiki/File:Haile_Selassie_in_full_dress_(3x4_cropped).jpg"
+ },
+ "menelik-ii": {
+  "slug": "menelik-ii",
+  "title": "Menelik II",
+  "file": "Menelik_II_in_coronation_garb,_Emperor_of_Ethiopia.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Menelik_II_in_coronation_garb%2C_Emperor_of_Ethiopia.jpg"
+ },
+ "muhammad-ali-jinnah": {
+  "slug": "muhammad-ali-jinnah",
+  "title": "Muhammad Ali Jinnah",
+  "file": "Jinnah1945c.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Jinnah1945c.jpg"
+ },
+ "sukarno": {
+  "slug": "sukarno",
+  "title": "Sukarno",
+  "file": "Presiden_Sukarno.jpg",
+  "licence": "Public domain",
+  "author": "Onbekend/Anonymous",
+  "url": "https://commons.wikimedia.org/wiki/File:Presiden_Sukarno.jpg"
+ },
+ "mohammad-hatta": {
+  "slug": "mohammad-hatta",
+  "title": "Mohammad Hatta",
+  "file": "Drs._Mohammad_Hatta,_10_Orang_Indonesia_Terbesar_Sekarang_(1952),_p30.jpg",
+  "licence": "Public domain",
+  "author": "Written by St. Rais Alamsjah, published by Mutiara",
+  "url": "https://commons.wikimedia.org/wiki/File:Drs._Mohammad_Hatta%2C_10_Orang_Indonesia_Terbesar_Sekarang_(1952)%2C_p30.jpg"
+ },
+ "bhumibol-adulyadej": {
+  "slug": "bhumibol-adulyadej",
+  "title": "Bhumibol Adulyadej",
+  "file": "Aankomst_Koning_Bhumibol_en_Koningin_Sirikit_te_Den_Haag,_Koning_Bhumibol,_Bestanddeelnr_911-6993_(cropped)(2).jpg",
+  "licence": "CC0",
+  "author": "Harry Pot / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Aankomst_Koning_Bhumibol_en_Koningin_Sirikit_te_Den_Haag%2C_Koning_Bhumibol%2C_Bestanddeelnr_911-6993_(cropped)(2).jpg"
+ },
+ "chulalongkorn": {
+  "slug": "chulalongkorn",
+  "title": "Chulalongkorn",
+  "file": "Chulalongkorn_LoC.jpg",
+  "licence": "Public domain",
+  "author": "Bain News Service, publisher.",
+  "url": "https://commons.wikimedia.org/wiki/File:Chulalongkorn_LoC.jpg"
+ },
+ "william-the-silent": {
+  "slug": "william-the-silent",
+  "title": "William the Silent",
+  "file": "William_I,_Prince_of_Orange_by_Adriaen_Thomasz._Key_Rijksmuseum_Amsterdam_SK-A-3148.jpg",
+  "licence": "Public domain",
+  "author": "Adriaen Thomasz. Key",
+  "url": "https://commons.wikimedia.org/wiki/File:William_I%2C_Prince_of_Orange_by_Adriaen_Thomasz._Key_Rijksmuseum_Amsterdam_SK-A-3148.jpg"
+ },
+ "dag-hammarskjold": {
+  "slug": "dag-hammarskjold",
+  "title": "Dag Hammarskjöld",
+  "file": "Dag_Hammarskjöld.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Dag_Hammarskj%C3%B6ld.jpg"
+ },
+ "maria-theresa": {
+  "slug": "maria-theresa",
+  "title": "Maria Theresa",
+  "file": "Kaiserin_Maria_Theresia_(HRR).jpg",
+  "licence": "Public domain",
+  "author": "Martin van Meytens",
+  "url": "https://commons.wikimedia.org/wiki/File:Kaiserin_Maria_Theresia_(HRR).jpg"
+ },
+ "yaroslav-the-wise": {
+  "slug": "yaroslav-the-wise",
+  "title": "Yaroslav the Wise",
+  "file": "YaroslavWiseSeal.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:YaroslavWiseSeal.jpg"
+ },
+ "sirimavo-bandaranaike": {
+  "slug": "sirimavo-bandaranaike",
+  "title": "Sirimavo Bandaranaike",
+  "file": "Bandaranaike_1974.jpg",
+  "licence": "CC0",
+  "author": "Indiragandhifan",
+  "url": "https://commons.wikimedia.org/wiki/File:Bandaranaike_1974.jpg"
+ },
+ "tunku-abdul-rahman": {
+  "slug": "tunku-abdul-rahman",
+  "title": "Tunku Abdul Rahman",
+  "file": "Tunku_abd_rahman_(cropped,_4to3_port,_bypass).jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Tunku_abd_rahman_(cropped%2C_4to3_port%2C_bypass).jpg"
+ },
+ "kenneth-kaunda": {
+  "slug": "kenneth-kaunda",
+  "title": "Kenneth Kaunda",
+  "file": "Kenneth_David_Kaunda.jpg",
+  "licence": "Public domain",
+  "author": "Unknown photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Kenneth_David_Kaunda.jpg"
+ },
+ "patrice-lumumba": {
+  "slug": "patrice-lumumba",
+  "title": "Patrice Lumumba",
+  "file": "Patrice_Lumumba,_1960_(cropped).jpg",
+  "licence": "CC0",
+  "author": "unknown photographer / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Patrice_Lumumba%2C_1960_(cropped).jpg"
+ },
+ "felix-houphouet-boigny": {
+  "slug": "felix-houphouet-boigny",
+  "title": "Félix Houphouët-Boigny",
+  "file": "Félix_Houphouët-Boigny_1962-07-16.jpg",
+  "licence": "Public domain",
+  "author": "GPO",
+  "url": "https://commons.wikimedia.org/wiki/File:F%C3%A9lix_Houphou%C3%ABt-Boigny_1962-07-16.jpg"
+ },
+ "habib-bourguiba": {
+  "slug": "habib-bourguiba",
+  "title": "Habib Bourguiba",
+  "file": "Habib_Bourguiba_portrait4.jpg",
+  "licence": "Public domain",
+  "author": "Habib Osman",
+  "url": "https://commons.wikimedia.org/wiki/File:Habib_Bourguiba_portrait4.jpg"
+ },
+ "mohammed-v-of-morocco": {
+  "slug": "mohammed-v-of-morocco",
+  "title": "Mohammed V of Morocco",
+  "file": "Mohammed_V_(1953).jpg",
+  "licence": "CC0",
+  "author": "Fotograaf Onbekend / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Mohammed_V_(1953).jpg"
+ },
+ "ellen-johnson-sirleaf": {
+  "slug": "ellen-johnson-sirleaf",
+  "title": "Ellen Johnson Sirleaf",
+  "file": "Ellen_Johnson-Sirleaf_(2022)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "PMO Barbados",
+  "url": "https://commons.wikimedia.org/wiki/File:Ellen_Johnson-Sirleaf_(2022)_(cropped).jpg"
+ },
+ "jose-marti": {
+  "slug": "jose-marti",
+  "title": "José Martí",
+  "file": "José_Martí_retrato_más_conocido_Jamaica_1892.jpg",
+  "licence": "CC0",
+  "author": "Cuba. Secretaría de Instrucción Pública y Bellas Artes.",
+  "url": "https://commons.wikimedia.org/wiki/File:Jos%C3%A9_Mart%C3%AD_retrato_m%C3%A1s_conocido_Jamaica_1892.jpg"
+ },
+ "francisco-de-paula-santander": {
+  "slug": "francisco-de-paula-santander",
+  "title": "Francisco de Paula Santander",
+  "file": "Santander_by_Acevedo_Bernal.jpg",
+  "licence": "Public domain",
+  "author": "Ricardo Acevedo Bernal",
+  "url": "https://commons.wikimedia.org/wiki/File:Santander_by_Acevedo_Bernal.jpg"
+ },
+ "pachacuti": {
+  "slug": "pachacuti",
+  "title": "Pachacuti",
+  "file": "Brooklyn_Museum_-_Pachacuti,_Tenth_Inca,_1_of_14_Portraits_of_Inca_Kings_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_Pachacuti%2C_Tenth_Inca%2C_1_of_14_Portraits_of_Inca_Kings_(cropped).jpg"
+ },
+ "jose-gervasio-artigas": {
+  "slug": "jose-gervasio-artigas",
+  "title": "José Gervasio Artigas",
+  "file": "Juan_Manuel_Blanes_-_Artigas_en_la_Ciudadela.jpg",
+  "licence": "Public domain",
+  "author": "Juan Manuel Blanes",
+  "url": "https://commons.wikimedia.org/wiki/File:Juan_Manuel_Blanes_-_Artigas_en_la_Ciudadela.jpg"
+ },
+ "simon-bolivar": {
+  "slug": "simon-bolivar",
+  "title": "Simón Bolívar",
+  "file": "Simón_Bolívar._Toro_Moreno,_Luis._1922,_Legislative_Palace,_La_Paz.png",
+  "licence": "Public domain",
+  "author": "Luis Enrique Toro Moreno (1897-1933)",
+  "url": "https://commons.wikimedia.org/wiki/File:Sim%C3%B3n_Bol%C3%ADvar._Toro_Moreno%2C_Luis._1922%2C_Legislative_Palace%2C_La_Paz.png"
+ },
+ "jean-jacques-dessalines": {
+  "slug": "jean-jacques-dessalines",
+  "title": "Jean-Jacques Dessalines",
+  "file": "Jean_Jacques_Dessalines.jpg",
+  "licence": "Public domain",
+  "author": "Louis Rigaud",
+  "url": "https://commons.wikimedia.org/wiki/File:Jean_Jacques_Dessalines.jpg"
+ },
+ "marcus-garvey": {
+  "slug": "marcus-garvey",
+  "title": "Marcus Garvey",
+  "file": "Marcus_Garvey,_\"Provisional_President_of_Africa\",_by_the_Keystone_View_Company.jpg",
+  "licence": "Public domain",
+  "author": "Keystone View Company, restored by Creator:Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Marcus_Garvey%2C_%22Provisional_President_of_Africa%22%2C_by_the_Keystone_View_Company.jpg"
+ },
+ "alexander-the-great": {
+  "slug": "alexander-the-great",
+  "title": "Alexander the Great",
+  "file": "Alexander_Mosaic_detail_of_Alexander_the_Great_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Alexander_Mosaic_detail_of_Alexander_the_Great_(3x4_cropped).jpg"
+ },
+ "themistocles": {
+  "slug": "themistocles",
+  "title": "Themistocles",
+  "file": "Illustrerad_Verldshistoria_band_I_Ill_116.png",
+  "licence": "Public domain",
+  "author": "Evald Hansen",
+  "url": "https://commons.wikimedia.org/wiki/File:Illustrerad_Verldshistoria_band_I_Ill_116.png"
+ },
+ "julius-caesar": {
+  "slug": "julius-caesar",
+  "title": "Julius Caesar",
+  "file": "Retrato_de_Julio_César_(26724093101)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Ángel M. Felicísimo from Mérida, España",
+  "url": "https://commons.wikimedia.org/wiki/File:Retrato_de_Julio_C%C3%A9sar_(26724093101)_(cropped).jpg"
+ },
+ "scipio-africanus": {
+  "slug": "scipio-africanus",
+  "title": "Scipio Africanus",
+  "file": "Bust_of_Sulla_(loan_from_Ny_Carlsberg_Glyptotek)_-_Glyptothek_-_Munich_-_Germany_2017.jpg",
+  "licence": "Public domain",
+  "author": "José Luiz",
+  "url": "https://commons.wikimedia.org/wiki/File:Bust_of_Sulla_(loan_from_Ny_Carlsberg_Glyptotek)_-_Glyptothek_-_Munich_-_Germany_2017.jpg"
+ },
+ "joan-of-arc": {
+  "slug": "joan-of-arc",
+  "title": "Joan of Arc",
+  "file": "Joan_of_Arc_miniature_graded.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Joan_of_Arc_miniature_graded.jpg"
+ },
+ "charles-martel": {
+  "slug": "charles-martel",
+  "title": "Charles Martel",
+  "file": "Charles_Martel_divise_le_royaume_entre_Pépin_et_Carloman.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Charles_Martel_divise_le_royaume_entre_P%C3%A9pin_et_Carloman.jpg"
+ },
+ "bernard-montgomery": {
+  "slug": "bernard-montgomery",
+  "title": "Bernard Montgomery",
+  "file": "General_Sir_Bernard_Montgomery_in_England,_1943_TR1036_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Possibly Edward George William Malindine",
+  "url": "https://commons.wikimedia.org/wiki/File:General_Sir_Bernard_Montgomery_in_England%2C_1943_TR1036_(cropped).jpg"
+ },
+ "boudica": {
+  "slug": "boudica",
+  "title": "Boudica",
+  "file": "Queen_Boudica_by_John_Opie.jpg",
+  "licence": "Public domain",
+  "author": "John Opie",
+  "url": "https://commons.wikimedia.org/wiki/File:Queen_Boudica_by_John_Opie.jpg"
+ },
+ "dwight-d-eisenhower": {
+  "slug": "dwight-d-eisenhower",
+  "title": "Dwight D. Eisenhower",
+  "file": "Dwight_D._Eisenhower,_official_photo_portrait,_May_29,_1959_(cropped)(3).jpg",
+  "licence": "Public domain",
+  "author": "White House",
+  "url": "https://commons.wikimedia.org/wiki/File:Dwight_D._Eisenhower%2C_official_photo_portrait%2C_May_29%2C_1959_(cropped)(3).jpg"
+ },
+ "ulysses-s-grant": {
+  "slug": "ulysses-s-grant",
+  "title": "Ulysses S. Grant",
+  "file": "Ulysses_S._Grant_1870-1880_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Brady-Handy Photograph Collection, Library of Congress",
+  "url": "https://commons.wikimedia.org/wiki/File:Ulysses_S._Grant_1870-1880_(cropped).jpg"
+ },
+ "douglas-macarthur": {
+  "slug": "douglas-macarthur",
+  "title": "Douglas MacArthur",
+  "file": "MacArthur_Manila_(cropped2)(b).jpg",
+  "licence": "Public domain",
+  "author": "Photographer not credited.",
+  "url": "https://commons.wikimedia.org/wiki/File:MacArthur_Manila_(cropped2)(b).jpg"
+ },
+ "genghis-khan": {
+  "slug": "genghis-khan",
+  "title": "Genghis Khan",
+  "file": "YuanEmperorAlbumGenghisPortrait.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:YuanEmperorAlbumGenghisPortrait.jpg"
+ },
+ "alexander-suvorov": {
+  "slug": "alexander-suvorov",
+  "title": "Alexander Suvorov",
+  "file": "Joseph_Kreutzinger_-_Portrait_of_Count_Alexander_Suvorov_-_WGA12281.jpg",
+  "licence": "Public domain",
+  "author": "Joseph Kreutzinger",
+  "url": "https://commons.wikimedia.org/wiki/File:Joseph_Kreutzinger_-_Portrait_of_Count_Alexander_Suvorov_-_WGA12281.jpg"
+ },
+ "mikhail-kutuzov": {
+  "slug": "mikhail-kutuzov",
+  "title": "Mikhail Kutuzov",
+  "file": "Kutuzov_by_Volkov.jpg",
+  "licence": "Public domain",
+  "author": "R.M. Volkov (1776-1831)",
+  "url": "https://commons.wikimedia.org/wiki/File:Kutuzov_by_Volkov.jpg"
+ },
+ "alexander-nevsky": {
+  "slug": "alexander-nevsky",
+  "title": "Alexander Nevsky",
+  "file": "AlexanderNevskyTitul.jpg",
+  "licence": "Public domain",
+  "author": "Collective of Kremlin Armory artists",
+  "url": "https://commons.wikimedia.org/wiki/File:AlexanderNevskyTitul.jpg"
+ },
+ "helmuth-von-moltke-the-elder": {
+  "slug": "helmuth-von-moltke-the-elder",
+  "title": "Helmuth von Moltke the Elder",
+  "file": "Portrait_of_Helmuth_von_Moltke_the_Elder_(by_Carl_Günther)_-_BNF_Gallica_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Carl Günther",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_Helmuth_von_Moltke_the_Elder_(by_Carl_G%C3%BCnther)_-_BNF_Gallica_(cropped).jpg"
+ },
+ "arminius": {
+  "slug": "arminius",
+  "title": "Arminius",
+  "file": "Hermannsdenkmal_statue.jpg",
+  "licence": "Public domain",
+  "author": "Daniel Schwen",
+  "url": "https://commons.wikimedia.org/wiki/File:Hermannsdenkmal_statue.jpg"
+ },
+ "gustavus-adolphus": {
+  "slug": "gustavus-adolphus",
+  "title": "Gustavus Adolphus",
+  "file": "Attributed_to_Jacob_Hoefnagel_-_Gustavus_Adolphus,_King_of_Sweden_1611-1632_-_Google_Art_Project.jpg",
+  "licence": "Public domain",
+  "author": "Presumably Jacob Hoefnagel",
+  "url": "https://commons.wikimedia.org/wiki/File:Attributed_to_Jacob_Hoefnagel_-_Gustavus_Adolphus%2C_King_of_Sweden_1611-1632_-_Google_Art_Project.jpg"
+ },
+ "jan-zizka": {
+  "slug": "jan-zizka",
+  "title": "Jan Žižka",
+  "file": "Jan_Zizka_Vitkov_Prague_CZ_007.jpg",
+  "licence": "Public domain",
+  "author": "User:Miaow Miaow",
+  "url": "https://commons.wikimedia.org/wiki/File:Jan_Zizka_Vitkov_Prague_CZ_007.jpg"
+ },
+ "tadeusz-kosciuszko": {
+  "slug": "tadeusz-kosciuszko",
+  "title": "Tadeusz Kościuszko",
+  "file": "Karl_G_Schweikart_-_Tadeusz_Kościuszko_(ÖaL).jpg",
+  "licence": "Public domain",
+  "author": "Karl Gottlieb Schweikart",
+  "url": "https://commons.wikimedia.org/wiki/File:Karl_G_Schweikart_-_Tadeusz_Ko%C5%9Bciuszko_(%C3%96aL).jpg"
+ },
+ "skanderbeg": {
+  "slug": "skanderbeg",
+  "title": "Skanderbeg",
+  "file": "Portrait_of_Skanderbeg_(1466).png",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_Skanderbeg_(1466).png"
+ },
+ "bohdan-khmelnytsky": {
+  "slug": "bohdan-khmelnytsky",
+  "title": "Bohdan Khmelnytsky",
+  "file": "Bohdan_Khmelnytsky_(Portrait,_sec._half_17th_century,_Chernihiv_Historical_Museum)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "After Willem Hondius",
+  "url": "https://commons.wikimedia.org/wiki/File:Bohdan_Khmelnytsky_(Portrait%2C_sec._half_17th_century%2C_Chernihiv_Historical_Museum)_(cropped).jpg"
+ },
+ "hayreddin-barbarossa": {
+  "slug": "hayreddin-barbarossa",
+  "title": "Hayreddin Barbarossa",
+  "file": "Hayreddin_-_Algeria_Fine_Art_Museum.jpg",
+  "licence": "CC0",
+  "author": "AsiaticLion7",
+  "url": "https://commons.wikimedia.org/wiki/File:Hayreddin_-_Algeria_Fine_Art_Museum.jpg"
+ },
+ "jose-de-san-martin": {
+  "slug": "jose-de-san-martin",
+  "title": "José de San Martín",
+  "file": "José_de_San_Martín_(retrato,_c.1828).jpg",
+  "licence": "Public domain",
+  "author": "The exact author is disputed. Some sources attribute it to Jean Baptiste Madou, ",
+  "url": "https://commons.wikimedia.org/wiki/File:Jos%C3%A9_de_San_Mart%C3%ADn_(retrato%2C_c.1828).jpg"
+ },
+ "bernardo-o-higgins": {
+  "slug": "bernardo-o-higgins",
+  "title": "Bernardo O'Higgins",
+  "file": "Ohiggins.jpg",
+  "licence": "Public domain",
+  "author": "José Gil de Castro",
+  "url": "https://commons.wikimedia.org/wiki/File:Ohiggins.jpg"
+ },
+ "toussaint-louverture": {
+  "slug": "toussaint-louverture",
+  "title": "Toussaint Louverture",
+  "file": "Toussaint_Louverture_-_Girardin.jpg",
+  "licence": "Public domain",
+  "author": "Alexandre-François-Louis, comte de Girardin",
+  "url": "https://commons.wikimedia.org/wiki/File:Toussaint_Louverture_-_Girardin.jpg"
+ },
+ "emiliano-zapata": {
+  "slug": "emiliano-zapata",
+  "title": "Emiliano Zapata",
+  "file": "Emiliano_Zapata4.jpg",
+  "licence": "Public domain",
+  "author": "Agustín Casasola",
+  "url": "https://commons.wikimedia.org/wiki/File:Emiliano_Zapata4.jpg"
+ },
+ "pancho-villa": {
+  "slug": "pancho-villa",
+  "title": "Pancho Villa",
+  "file": "General_Francisco_Villa_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "D.W. Hoffman, an El Paso photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:General_Francisco_Villa_(cropped).jpg"
+ },
+ "sun-tzu": {
+  "slug": "sun-tzu",
+  "title": "Sun Tzu",
+  "file": "吴司马孙武.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:%E5%90%B4%E5%8F%B8%E9%A9%AC%E5%AD%99%E6%AD%A6.jpg"
+ },
+ "oda-nobunaga": {
+  "slug": "oda-nobunaga",
+  "title": "Oda Nobunaga",
+  "file": "Odanobunaga.jpg",
+  "licence": "Public domain",
+  "author": "狩野宗秀 (Kanō Sōshū, 1551 - 1601)",
+  "url": "https://commons.wikimedia.org/wiki/File:Odanobunaga.jpg"
+ },
+ "shaka": {
+  "slug": "shaka",
+  "title": "Shaka",
+  "file": "KingShaka.jpg",
+  "licence": "Public domain",
+  "author": "James King",
+  "url": "https://commons.wikimedia.org/wiki/File:KingShaka.jpg"
+ },
+ "john-monash": {
+  "slug": "john-monash",
+  "title": "John Monash",
+  "file": "John_Monash_1.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:John_Monash_1.jpg"
+ },
+ "benito-mussolini": {
+  "slug": "benito-mussolini",
+  "title": "Benito Mussolini",
+  "file": "Mussolini_mezzobusto.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Mussolini_mezzobusto.jpg"
+ },
+ "joseph-stalin": {
+  "slug": "joseph-stalin",
+  "title": "Joseph Stalin",
+  "file": "StalinCropped1943.jpg",
+  "licence": "Public domain",
+  "author": "Franklin D. Roosevelt Library Public Domain Photographs",
+  "url": "https://commons.wikimedia.org/wiki/File:StalinCropped1943.jpg"
+ },
+ "maximilien-robespierre": {
+  "slug": "maximilien-robespierre",
+  "title": "Maximilien Robespierre",
+  "file": "Robespierre.jpg",
+  "licence": "CC0",
+  "author": "Unidentified painter",
+  "url": "https://commons.wikimedia.org/wiki/File:Robespierre.jpg"
+ },
+ "leopold-ii-of-belgium": {
+  "slug": "leopold-ii-of-belgium",
+  "title": "Leopold II of Belgium",
+  "file": "Leopold_II,_King_of_the_Belgians_by_Alexander_Bassano_(1889).jpg",
+  "licence": "Public domain",
+  "author": "Alexander Bassano",
+  "url": "https://commons.wikimedia.org/wiki/File:Leopold_II%2C_King_of_the_Belgians_by_Alexander_Bassano_(1889).jpg"
+ },
+ "tomas-de-torquemada": {
+  "slug": "tomas-de-torquemada",
+  "title": "Tomás de Torquemada",
+  "file": "Tomás_de_Torquemada.jpg",
+  "licence": "Public domain",
+  "author": "Maestro de la Virgen de los Reyes Católicos.",
+  "url": "https://commons.wikimedia.org/wiki/File:Tom%C3%A1s_de_Torquemada.jpg"
+ },
+ "francisco-franco": {
+  "slug": "francisco-franco",
+  "title": "Francisco Franco",
+  "file": "Francisco_Franco_posed_portrait_photograph.jpg",
+  "licence": "CC0",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Francisco_Franco_posed_portrait_photograph.jpg"
+ },
+ "antonio-de-oliveira-salazar": {
+  "slug": "antonio-de-oliveira-salazar",
+  "title": "António de Oliveira Salazar",
+  "file": "António_de_Oliveira_Salazar_portrait_(by_Manuel_Alves_San_Payo)_–_Lisboa.jpg",
+  "licence": "Public domain",
+  "author": "Manuel Alves de San Payo",
+  "url": "https://commons.wikimedia.org/wiki/File:Ant%C3%B3nio_de_Oliveira_Salazar_portrait_(by_Manuel_Alves_San_Payo)_%E2%80%93_Lisboa.jpg"
+ },
+ "enver-hoxha": {
+  "slug": "enver-hoxha",
+  "title": "Enver Hoxha",
+  "file": "Enver_Hoxha_portrait_(colour_correction).jpg",
+  "licence": "Public domain",
+  "author": "Petrit Kumi",
+  "url": "https://commons.wikimedia.org/wiki/File:Enver_Hoxha_portrait_(colour_correction).jpg"
+ },
+ "mobutu-sese-seko": {
+  "slug": "mobutu-sese-seko",
+  "title": "Mobutu Sese Seko",
+  "file": "Mobutu_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Frank Hall",
+  "url": "https://commons.wikimedia.org/wiki/File:Mobutu_(cropped).jpg"
+ },
+ "francois-duvalier": {
+  "slug": "francois-duvalier",
+  "title": "François Duvalier",
+  "file": "François_Duvalier_Presidential_Portrait_(1957).png",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Fran%C3%A7ois_Duvalier_Presidential_Portrait_(1957).png"
+ },
+ "rafael-trujillo": {
+  "slug": "rafael-trujillo",
+  "title": "Rafael Trujillo",
+  "file": "Rafael_L._Trujillo_en_la_silla_presidencial_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown author.",
+  "url": "https://commons.wikimedia.org/wiki/File:Rafael_L._Trujillo_en_la_silla_presidencial_(cropped).jpg"
+ },
+ "anastasio-somoza-garcia": {
+  "slug": "anastasio-somoza-garcia",
+  "title": "Anastasio Somoza García",
+  "file": "Anastasio_Somoza_García.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Anastasio_Somoza_Garc%C3%ADa.jpg"
+ },
+ "porfirio-diaz": {
+  "slug": "porfirio-diaz",
+  "title": "Porfirio Díaz",
+  "file": "Porfirio_diaz.jpg",
+  "licence": "Public domain",
+  "author": "Aurelio Escobar Castellanos, Archive",
+  "url": "https://commons.wikimedia.org/wiki/File:Porfirio_diaz.jpg"
+ },
+ "blackbeard": {
+  "slug": "blackbeard",
+  "title": "Blackbeard",
+  "file": "Edward_Teach_Commonly_Call'd_Black_Beard_(bw)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Joseph Nicholls (fl. 1726–55).[1] Although James Basire (1730–1802) is attribute",
+  "url": "https://commons.wikimedia.org/wiki/File:Edward_Teach_Commonly_Call'd_Black_Beard_(bw)_(cropped).jpg"
+ },
+ "bartholomew-roberts": {
+  "slug": "bartholomew-roberts",
+  "title": "Bartholomew Roberts",
+  "file": "BartholomewRoberts.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:BartholomewRoberts.jpg"
+ },
+ "dick-turpin": {
+  "slug": "dick-turpin",
+  "title": "Dick Turpin",
+  "file": "Dick_turpin_jumping_hornsey_tollgate.jpg",
+  "licence": "Public domain",
+  "author": "George Cruikshank; the book was written by William Harrison Ainsworth",
+  "url": "https://commons.wikimedia.org/wiki/File:Dick_turpin_jumping_hornsey_tollgate.jpg"
+ },
+ "rob-roy-macgregor": {
+  "slug": "rob-roy-macgregor",
+  "title": "Rob Roy MacGregor",
+  "file": "Rob_Roy_1820s_engraving.jpg",
+  "licence": "Public domain",
+  "author": "W.H. Worthington",
+  "url": "https://commons.wikimedia.org/wiki/File:Rob_Roy_1820s_engraving.jpg"
+ },
+ "butch-cassidy": {
+  "slug": "butch-cassidy",
+  "title": "Butch Cassidy",
+  "file": "Butch_Cassidy_with_bowler_hat.jpg",
+  "licence": "Public domain",
+  "author": "Users CDA, Greenmountainboy on en.wikipedia",
+  "url": "https://commons.wikimedia.org/wiki/File:Butch_Cassidy_with_bowler_hat.jpg"
+ },
+ "al-capone": {
+  "slug": "al-capone",
+  "title": "Al Capone",
+  "file": "Al_Capone_in_1930_(manually_dusted).jpg",
+  "licence": "Public domain",
+  "author": "Chicago Bureau (Federal Bureau of Investigation) - Wide World Photos.",
+  "url": "https://commons.wikimedia.org/wiki/File:Al_Capone_in_1930_(manually_dusted).jpg"
+ },
+ "jean-lafitte": {
+  "slug": "jean-lafitte",
+  "title": "Jean Lafitte",
+  "file": "Anonymous_portrait_of_Jean_Lafitte,_early_19th_century,_Rosenberg_Library,_Galveston,_Texas.JPG",
+  "licence": "Public domain",
+  "author": "anonymous",
+  "url": "https://commons.wikimedia.org/wiki/File:Anonymous_portrait_of_Jean_Lafitte%2C_early_19th_century%2C_Rosenberg_Library%2C_Galveston%2C_Texas.JPG"
+ },
+ "ned-kelly": {
+  "slug": "ned-kelly",
+  "title": "Ned Kelly",
+  "file": "Ned_Kelly_in_1880.png",
+  "licence": "Public domain",
+  "author": "Australian News and Information Bureau, Canberra",
+  "url": "https://commons.wikimedia.org/wiki/File:Ned_Kelly_in_1880.png"
+ },
+ "salvatore-giuliano": {
+  "slug": "salvatore-giuliano",
+  "title": "Salvatore Giuliano",
+  "file": "GiulianoGenovese1.jpg",
+  "licence": "Public domain",
+  "author": "Unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:GiulianoGenovese1.jpg"
+ },
+ "john-d-rockefeller": {
+  "slug": "john-d-rockefeller",
+  "title": "John D. Rockefeller",
+  "file": "Portrait_of_J._D._Rockefeller.jpg",
+  "licence": "Public domain",
+  "author": "Published by Scientific American Compiling Dep't, New York. 1907.",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_J._D._Rockefeller.jpg"
+ },
+ "andrew-carnegie": {
+  "slug": "andrew-carnegie",
+  "title": "Andrew Carnegie",
+  "file": "Andrew_Carnegie,_by_Theodore_Marceau_(cropped)_(2).jpg",
+  "licence": "Public domain",
+  "author": "Theodore C. Marceau",
+  "url": "https://commons.wikimedia.org/wiki/File:Andrew_Carnegie%2C_by_Theodore_Marceau_(cropped)_(2).jpg"
+ },
+ "walt-disney": {
+  "slug": "walt-disney",
+  "title": "Walt Disney",
+  "file": "Walt_Disney_1946_(cropped2).JPG",
+  "licence": "Public domain",
+  "author": "Boy Scouts of America",
+  "url": "https://commons.wikimedia.org/wiki/File:Walt_Disney_1946_(cropped2).JPG"
+ },
+ "warren-buffett": {
+  "slug": "warren-buffett",
+  "title": "Warren Buffett",
+  "file": "Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "USA International Trade Administration",
+  "url": "https://commons.wikimedia.org/wiki/File:Warren_Buffett_at_the_2015_SelectUSA_Investment_Summit_(cropped).jpg"
+ },
+ "richard-branson": {
+  "slug": "richard-branson",
+  "title": "Richard Branson",
+  "file": "Richard_Branson_Addresses_the_Our_Ocean_Conference_2015_in_Valparaíso_(21783214958)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "U.S. Department of State from United States",
+  "url": "https://commons.wikimedia.org/wiki/File:Richard_Branson_Addresses_the_Our_Ocean_Conference_2015_in_Valpara%C3%ADso_(21783214958)_(cropped).jpg"
+ },
+ "werner-von-siemens": {
+  "slug": "werner-von-siemens",
+  "title": "Werner von Siemens",
+  "file": "Wvs_1885.jpg",
+  "licence": "Public domain",
+  "author": "Photograph",
+  "url": "https://commons.wikimedia.org/wiki/File:Wvs_1885.jpg"
+ },
+ "adolf-dassler": {
+  "slug": "adolf-dassler",
+  "title": "Adolf Dassler",
+  "file": "Adi_dassler_young.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Adi_dassler_young.jpg"
+ },
+ "enzo-ferrari": {
+  "slug": "enzo-ferrari",
+  "title": "Enzo Ferrari",
+  "file": "Enzo_Ferrari_Monza_1967.jpg",
+  "licence": "Public domain",
+  "author": "Rainer W. Schlegelmilch",
+  "url": "https://commons.wikimedia.org/wiki/File:Enzo_Ferrari_Monza_1967.jpg"
+ },
+ "guccio-gucci": {
+  "slug": "guccio-gucci",
+  "title": "Guccio Gucci",
+  "file": "Guccio_Gucci_c.1940.JPG",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Guccio_Gucci_c.1940.JPG"
+ },
+ "cosimo-de-medici": {
+  "slug": "cosimo-de-medici",
+  "title": "Cosimo de' Medici",
+  "file": "Cosimo_di_Medici_(Bronzino).jpg",
+  "licence": "Public domain",
+  "author": "Workshop of Bronzino",
+  "url": "https://commons.wikimedia.org/wiki/File:Cosimo_di_Medici_(Bronzino).jpg"
+ },
+ "henri-nestle": {
+  "slug": "henri-nestle",
+  "title": "Henri Nestlé",
+  "file": "Henry_Nestle.jpg",
+  "licence": "Public domain",
+  "author": "The original uploader was Alx 91 at English Wikipedia.",
+  "url": "https://commons.wikimedia.org/wiki/File:Henry_Nestle.jpg"
+ },
+ "fredrik-idestam": {
+  "slug": "fredrik-idestam",
+  "title": "Fredrik Idestam",
+  "file": "Fredrik_Idestam.png",
+  "licence": "Public domain",
+  "author": "Gösta Florman",
+  "url": "https://commons.wikimedia.org/wiki/File:Fredrik_Idestam.png"
+ },
+ "soichiro-honda": {
+  "slug": "soichiro-honda",
+  "title": "Soichiro Honda",
+  "file": "Honda_Souichiro_zaikai_1964.jpg",
+  "licence": "Public domain",
+  "author": "財界研究社、撮影者不明",
+  "url": "https://commons.wikimedia.org/wiki/File:Honda_Souichiro_zaikai_1964.jpg"
+ },
+ "akio-morita": {
+  "slug": "akio-morita",
+  "title": "Akio Morita",
+  "file": "Morita_Akio.jpg",
+  "licence": "Public domain",
+  "author": "プレジデント社 撮影者不明",
+  "url": "https://commons.wikimedia.org/wiki/File:Morita_Akio.jpg"
+ },
+ "konosuke-matsushita": {
+  "slug": "konosuke-matsushita",
+  "title": "Konosuke Matsushita",
+  "file": "Formal_Portrait_of_Kōnosuke_Matsushita_in_1929.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Formal_Portrait_of_K%C5%8Dnosuke_Matsushita_in_1929.jpg"
+ },
+ "sakichi-toyoda": {
+  "slug": "sakichi-toyoda",
+  "title": "Sakichi Toyoda",
+  "file": "Sakichi_Toyoda.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Sakichi_Toyoda.jpg"
+ },
+ "lee-byung-chul": {
+  "slug": "lee-byung-chul",
+  "title": "Lee Byung-chul",
+  "file": "Lee_Byung-chul_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Lee_Byung-chul_(cropped).jpg"
+ },
+ "grace-hopper": {
+  "slug": "grace-hopper",
+  "title": "Grace Hopper",
+  "file": "Commodore_Grace_M._Hopper,_USN_(covered)_head_and_shoulders_crop.jpg",
+  "licence": "Public domain",
+  "author": "James S. Davis",
+  "url": "https://commons.wikimedia.org/wiki/File:Commodore_Grace_M._Hopper%2C_USN_(covered)_head_and_shoulders_crop.jpg"
+ },
+ "richard-feynman": {
+  "slug": "richard-feynman",
+  "title": "Richard Feynman",
+  "file": "Richard_Feynman_Nobel.jpg",
+  "licence": "PD-Sweden",
+  "author": "The Nobel Foundation",
+  "url": "https://commons.wikimedia.org/wiki/File:Richard_Feynman_Nobel.jpg"
+ },
+ "carl-sagan": {
+  "slug": "carl-sagan",
+  "title": "Carl Sagan",
+  "file": "Carl_Sagan_Planetary_Society.JPG",
+  "licence": "Public domain",
+  "author": "NASA/JPL",
+  "url": "https://commons.wikimedia.org/wiki/File:Carl_Sagan_Planetary_Society.JPG"
+ },
+ "isaac-newton": {
+  "slug": "isaac-newton",
+  "title": "Isaac Newton",
+  "file": "Portrait_of_Sir_Isaac_Newton,_1689_(brightened).jpg",
+  "licence": "Public domain",
+  "author": "Godfrey Kneller",
+  "url": "https://commons.wikimedia.org/wiki/File:Portrait_of_Sir_Isaac_Newton%2C_1689_(brightened).jpg"
+ },
+ "charles-darwin": {
+  "slug": "charles-darwin",
+  "title": "Charles Darwin",
+  "file": "Charles_Darwin_seated_crop.jpg",
+  "licence": "Public domain",
+  "author": "Charles_Darwin_seated.jpg: Henry Maull (1829–1914) and John Fox (1832–1907) (Mau",
+  "url": "https://commons.wikimedia.org/wiki/File:Charles_Darwin_seated_crop.jpg"
+ },
+ "michael-faraday": {
+  "slug": "michael-faraday",
+  "title": "Michael Faraday",
+  "file": "Michael_Faraday_sitting_crop.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Faraday_sitting_crop.jpg"
+ },
+ "alan-turing": {
+  "slug": "alan-turing",
+  "title": "Alan Turing",
+  "file": "Alan_turing_header.jpg",
+  "licence": "Public domain",
+  "author": "Elliott &amp; Fry",
+  "url": "https://commons.wikimedia.org/wiki/File:Alan_turing_header.jpg"
+ },
+ "stephen-hawking": {
+  "slug": "stephen-hawking",
+  "title": "Stephen Hawking",
+  "file": "Stephen_Hawking.StarChild.jpg",
+  "licence": "Public domain",
+  "author": "NASA",
+  "url": "https://commons.wikimedia.org/wiki/File:Stephen_Hawking.StarChild.jpg"
+ },
+ "antoine-lavoisier": {
+  "slug": "antoine-lavoisier",
+  "title": "Antoine Lavoisier",
+  "file": "David_-_Portrait_of_Monsieur_Lavoisier_(cropped)2.jpg",
+  "licence": "Public domain",
+  "author": "Jacques-Louis David",
+  "url": "https://commons.wikimedia.org/wiki/File:David_-_Portrait_of_Monsieur_Lavoisier_(cropped)2.jpg"
+ },
+ "pierre-curie": {
+  "slug": "pierre-curie",
+  "title": "Pierre Curie",
+  "file": "Pierre_Curie_by_Dujardin_c1906.jpg",
+  "licence": "Public domain",
+  "author": "Dujardin",
+  "url": "https://commons.wikimedia.org/wiki/File:Pierre_Curie_by_Dujardin_c1906.jpg"
+ },
+ "jacques-cousteau": {
+  "slug": "jacques-cousteau",
+  "title": "Jacques Cousteau",
+  "file": "Cousteau1972_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Hans Peters for Anefo .",
+  "url": "https://commons.wikimedia.org/wiki/File:Cousteau1972_(cropped).jpg"
+ },
+ "alexander-von-humboldt": {
+  "slug": "alexander-von-humboldt",
+  "title": "Alexander von Humboldt",
+  "file": "Stieler,_Joseph_Karl_-_Alexander_von_Humboldt_-_1843.jpg",
+  "licence": "Public domain",
+  "author": "Joseph Karl Stieler",
+  "url": "https://commons.wikimedia.org/wiki/File:Stieler%2C_Joseph_Karl_-_Alexander_von_Humboldt_-_1843.jpg"
+ },
+ "enrico-fermi": {
+  "slug": "enrico-fermi",
+  "title": "Enrico Fermi",
+  "file": "Enrico_Fermi_1943-49.jpg",
+  "licence": "Public domain",
+  "author": "Department of Energy-Office of Public Affairs, restored by Yann",
+  "url": "https://commons.wikimedia.org/wiki/File:Enrico_Fermi_1943-49.jpg"
+ },
+ "marco-polo": {
+  "slug": "marco-polo",
+  "title": "Marco Polo",
+  "file": "Frontispice_édition_de_Nuremberg_1477_(cropped).png",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Frontispice_%C3%A9dition_de_Nuremberg_1477_(cropped).png"
+ },
+ "marie-curie": {
+  "slug": "marie-curie",
+  "title": "Marie Curie",
+  "file": "Marie_Curie_c._1920s.jpg",
+  "licence": "Public domain",
+  "author": "Henri Manuel",
+  "url": "https://commons.wikimedia.org/wiki/File:Marie_Curie_c._1920s.jpg"
+ },
+ "konstantin-tsiolkovsky": {
+  "slug": "konstantin-tsiolkovsky",
+  "title": "Konstantin Tsiolkovsky",
+  "file": "Константин_Циолковский.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BD%D1%81%D1%82%D0%B0%D0%BD%D1%82%D0%B8%D0%BD_%D0%A6%D0%B8%D0%BE%D0%BB%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9.jpg"
+ },
+ "ferdinand-magellan": {
+  "slug": "ferdinand-magellan",
+  "title": "Ferdinand Magellan",
+  "file": "Ferdinand_Magellan.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Ferdinand_Magellan.jpg"
+ },
+ "niels-bohr": {
+  "slug": "niels-bohr",
+  "title": "Niels Bohr",
+  "file": "Niels_Bohr.jpg",
+  "licence": "Public domain",
+  "author": "The American Institute of Physics credits the photo [1] to AB Lagrelius &amp; We",
+  "url": "https://commons.wikimedia.org/wiki/File:Niels_Bohr.jpg"
+ },
+ "thor-heyerdahl": {
+  "slug": "thor-heyerdahl",
+  "title": "Thor Heyerdahl",
+  "file": "ThorHeyerdahl.jpg",
+  "licence": "Public domain",
+  "author": "uncredited",
+  "url": "https://commons.wikimedia.org/wiki/File:ThorHeyerdahl.jpg"
+ },
+ "sigmund-freud": {
+  "slug": "sigmund-freud",
+  "title": "Sigmund Freud",
+  "file": "Sigmund_Freud,_by_Max_Halberstadt_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Max Halberstadt",
+  "url": "https://commons.wikimedia.org/wiki/File:Sigmund_Freud%2C_by_Max_Halberstadt_(cropped).jpg"
+ },
+ "gregor-mendel": {
+  "slug": "gregor-mendel",
+  "title": "Gregor Mendel",
+  "file": "Gregor_Mendel_2.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Gregor_Mendel_2.jpg"
+ },
+ "hippocrates": {
+  "slug": "hippocrates",
+  "title": "Hippocrates",
+  "file": "Hippocrates.jpg",
+  "licence": "Public domain",
+  "author": "Unidentified engraver",
+  "url": "https://commons.wikimedia.org/wiki/File:Hippocrates.jpg"
+ },
+ "ibn-battuta": {
+  "slug": "ibn-battuta",
+  "title": "Ibn Battuta",
+  "file": "Handmade_oil_painting_reproduction_of_Ibn_Battuta_in_Egypt,_a_painting_by_Hippolyte_Leon_Benett..jpg",
+  "licence": "Public domain",
+  "author": "Léon Benett",
+  "url": "https://commons.wikimedia.org/wiki/File:Handmade_oil_painting_reproduction_of_Ibn_Battuta_in_Egypt%2C_a_painting_by_Hippolyte_Leon_Benett..jpg"
+ },
+ "ibn-al-haytham": {
+  "slug": "ibn-al-haytham",
+  "title": "Ibn al-Haytham",
+  "file": "Ibn_al-Haytham_crop.jpg",
+  "licence": "Public domain",
+  "author": "Adolph Boÿ, engraved by Jeremias Falck. Used as the frontispiece to Johannes Hev",
+  "url": "https://commons.wikimedia.org/wiki/File:Ibn_al-Haytham_crop.jpg"
+ },
+ "al-khwarizmi": {
+  "slug": "al-khwarizmi",
+  "title": "Al-Khwarizmi",
+  "file": "Madrid_-_Ciudad_Universitaria,_Monumento_a_Muhammad_al-Juarismi_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Zarateman",
+  "url": "https://commons.wikimedia.org/wiki/File:Madrid_-_Ciudad_Universitaria%2C_Monumento_a_Muhammad_al-Juarismi_(cropped).jpg"
+ },
+ "cai-lun": {
+  "slug": "cai-lun",
+  "title": "Cai Lun",
+  "file": "Cai-lun.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Cai-lun.jpg"
+ },
+ "c-v-raman": {
+  "slug": "c-v-raman",
+  "title": "C. V. Raman",
+  "file": "Sir_CV_Raman.JPG",
+  "licence": "Public domain",
+  "author": "Nobel Foundation",
+  "url": "https://commons.wikimedia.org/wiki/File:Sir_CV_Raman.JPG"
+ },
+ "chris-hadfield": {
+  "slug": "chris-hadfield",
+  "title": "Chris Hadfield",
+  "file": "Chris_Hadfield_2011.jpg",
+  "licence": "Public domain",
+  "author": "Robert Markowitz",
+  "url": "https://commons.wikimedia.org/wiki/File:Chris_Hadfield_2011.jpg"
+ },
+ "charles-dickens": {
+  "slug": "charles-dickens",
+  "title": "Charles Dickens",
+  "file": "Dickens_Gurney_head.jpg",
+  "licence": "Public domain",
+  "author": "Jeremiah Gurney",
+  "url": "https://commons.wikimedia.org/wiki/File:Dickens_Gurney_head.jpg"
+ },
+ "george-orwell": {
+  "slug": "george-orwell",
+  "title": "George Orwell",
+  "file": "George_Orwell_press_photo.jpg",
+  "licence": "Public domain",
+  "author": "Branch of the National Union of Journalists (BNUJ).",
+  "url": "https://commons.wikimedia.org/wiki/File:George_Orwell_press_photo.jpg"
+ },
+ "mark-twain": {
+  "slug": "mark-twain",
+  "title": "Mark Twain",
+  "file": "Mark_Twain_by_AF_Bradley_(cropped_2).jpg",
+  "licence": "Public domain",
+  "author": "A.F. Bradley, New York",
+  "url": "https://commons.wikimedia.org/wiki/File:Mark_Twain_by_AF_Bradley_(cropped_2).jpg"
+ },
+ "ernest-hemingway": {
+  "slug": "ernest-hemingway",
+  "title": "Ernest Hemingway",
+  "file": "ErnestHemingway.jpg",
+  "licence": "Public domain",
+  "author": "Lloyd Arnold",
+  "url": "https://commons.wikimedia.org/wiki/File:ErnestHemingway.jpg"
+ },
+ "edgar-allan-poe": {
+  "slug": "edgar-allan-poe",
+  "title": "Edgar Allan Poe",
+  "file": "Edgar_Allan_Poe,_circa_1849,_restored,_squared_off.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author; Restored by Yann Forget and Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Edgar_Allan_Poe%2C_circa_1849%2C_restored%2C_squared_off.jpg"
+ },
+ "victor-hugo": {
+  "slug": "victor-hugo",
+  "title": "Victor Hugo",
+  "file": "Victor_Hugo_by_Étienne_Carjat_1876_-_full.jpg",
+  "licence": "Public domain",
+  "author": "Étienne Carjat",
+  "url": "https://commons.wikimedia.org/wiki/File:Victor_Hugo_by_%C3%89tienne_Carjat_1876_-_full.jpg"
+ },
+ "albert-camus": {
+  "slug": "albert-camus",
+  "title": "Albert Camus",
+  "file": "Albert_Camus,_gagnant_de_prix_Nobel,_portrait_en_buste,_posé_au_bureau,_faisant_face_à_gauche,_cigarette_de_tabagisme.jpg",
+  "licence": "Public domain",
+  "author": "Photograph by United Press International",
+  "url": "https://commons.wikimedia.org/wiki/File:Albert_Camus%2C_gagnant_de_prix_Nobel%2C_portrait_en_buste%2C_pos%C3%A9_au_bureau%2C_faisant_face_%C3%A0_gauche%2C_cigarette_de_tabagisme.jpg"
+ },
+ "leo-tolstoy": {
+  "slug": "leo-tolstoy",
+  "title": "Leo Tolstoy",
+  "file": "Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "Sergei Prokudin-Gorskii",
+  "url": "https://commons.wikimedia.org/wiki/File:Leo_Tolstoy_1908_Portrait_(3x4_cropped).jpg"
+ },
+ "fyodor-dostoevsky": {
+  "slug": "fyodor-dostoevsky",
+  "title": "Fyodor Dostoevsky",
+  "file": "Vasily_Perov_-_Портрет_Ф.М.Достоевского_-_Google_Art_Project.jpg",
+  "licence": "Public domain",
+  "author": "Vasily Perov",
+  "url": "https://commons.wikimedia.org/wiki/File:Vasily_Perov_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%A4.%D0%9C.%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%BE%D0%B3%D0%BE_-_Google_Art_Project.jpg"
+ },
+ "anton-chekhov": {
+  "slug": "anton-chekhov",
+  "title": "Anton Chekhov",
+  "file": "Anton_Chekhov_1889.jpg",
+  "licence": "Public domain",
+  "author": "V. Chekhovskii, Moscow",
+  "url": "https://commons.wikimedia.org/wiki/File:Anton_Chekhov_1889.jpg"
+ },
+ "alexander-pushkin": {
+  "slug": "alexander-pushkin",
+  "title": "Alexander Pushkin",
+  "file": "Orest_Kiprensky_-_Портрет_поэта_А.С.Пушкина_-_Google_Art_Project.jpg",
+  "licence": "Public domain",
+  "author": "Orest Kiprensky",
+  "url": "https://commons.wikimedia.org/wiki/File:Orest_Kiprensky_-_%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%BF%D0%BE%D1%8D%D1%82%D0%B0_%D0%90.%D0%A1.%D0%9F%D1%83%D1%88%D0%BA%D0%B8%D0%BD%D0%B0_-_Google_Art_Project.jpg"
+ },
+ "anna-akhmatova": {
+  "slug": "anna-akhmatova",
+  "title": "Anna Akhmatova",
+  "file": "Анна_Ахматова.png",
+  "licence": "Public domain",
+  "author": "Pavel Nikolaevič Luknickij",
+  "url": "https://commons.wikimedia.org/wiki/File:%D0%90%D0%BD%D0%BD%D0%B0_%D0%90%D1%85%D0%BC%D0%B0%D1%82%D0%BE%D0%B2%D0%B0.png"
+ },
+ "johann-wolfgang-von-goethe": {
+  "slug": "johann-wolfgang-von-goethe",
+  "title": "Johann Wolfgang von Goethe",
+  "file": "Goethe_(Stieler_1828).jpg",
+  "licence": "Public domain",
+  "author": "Joseph Karl Stieler",
+  "url": "https://commons.wikimedia.org/wiki/File:Goethe_(Stieler_1828).jpg"
+ },
+ "thomas-mann": {
+  "slug": "thomas-mann",
+  "title": "Thomas Mann",
+  "file": "Thomas_Mann_1929.jpg",
+  "licence": "Public domain",
+  "author": "Nobel Foundation",
+  "url": "https://commons.wikimedia.org/wiki/File:Thomas_Mann_1929.jpg"
+ },
+ "italo-calvino": {
+  "slug": "italo-calvino",
+  "title": "Italo Calvino",
+  "file": "Italo-Calvino.jpg",
+  "licence": "Public domain",
+  "author": "The original uploader was Varie11 at Italian Wikipedia.",
+  "url": "https://commons.wikimedia.org/wiki/File:Italo-Calvino.jpg"
+ },
+ "miguel-de-cervantes": {
+  "slug": "miguel-de-cervantes",
+  "title": "Miguel de Cervantes",
+  "file": "Cervantes_Jáuregui.jpg",
+  "licence": "Public domain",
+  "author": "Attributed to Juan de Jáuregui",
+  "url": "https://commons.wikimedia.org/wiki/File:Cervantes_J%C3%A1uregui.jpg"
+ },
+ "federico-garcia-lorca": {
+  "slug": "federico-garcia-lorca",
+  "title": "Federico García Lorca",
+  "file": "Federico_García_Lorca._Huerta_de_San_Vicente,_Granada.jpg",
+  "licence": "Public domain",
+  "author": "AnonymousUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Federico_Garc%C3%ADa_Lorca._Huerta_de_San_Vicente%2C_Granada.jpg"
+ },
+ "james-joyce": {
+  "slug": "james-joyce",
+  "title": "James Joyce",
+  "file": "Revolutionary_Joyce_Better_Contrast.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Revolutionary_Joyce_Better_Contrast.jpg"
+ },
+ "oscar-wilde": {
+  "slug": "oscar-wilde",
+  "title": "Oscar Wilde",
+  "file": "Oscar_Wilde_by_Napoleon_Sarony._Three-quarter-length_photograph,_seated_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Napoleon Sarony / Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Oscar_Wilde_by_Napoleon_Sarony._Three-quarter-length_photograph%2C_seated_(cropped).jpg"
+ },
+ "w-b-yeats": {
+  "slug": "w-b-yeats",
+  "title": "W. B. Yeats",
+  "file": "William_Butler_Yeats_by_George_Charles_Beresford.jpg",
+  "licence": "Public domain",
+  "author": "George Charles Beresford",
+  "url": "https://commons.wikimedia.org/wiki/File:William_Butler_Yeats_by_George_Charles_Beresford.jpg"
+ },
+ "murasaki-shikibu": {
+  "slug": "murasaki-shikibu",
+  "title": "Murasaki Shikibu",
+  "file": "Murasaki-Shikibu-composing-Genji-Monogatari.png",
+  "licence": "Public domain",
+  "author": "Tosa Mitsuoki (1617 - 1691)",
+  "url": "https://commons.wikimedia.org/wiki/File:Murasaki-Shikibu-composing-Genji-Monogatari.png"
+ },
+ "matsuo-basho": {
+  "slug": "matsuo-basho",
+  "title": "Matsuo Basho",
+  "file": "Basho_by_Morikawa_Kyoriku_(1656-1715).jpg",
+  "licence": "Public domain",
+  "author": "Morikawa Kyoriku (1656-1715)",
+  "url": "https://commons.wikimedia.org/wiki/File:Basho_by_Morikawa_Kyoriku_(1656-1715).jpg"
+ },
+ "haruki-murakami": {
+  "slug": "haruki-murakami",
+  "title": "Haruki Murakami",
+  "file": "Conversatorio_Haruki_Murakami_(12_de_12)_(45747009452)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Ministerio Cultura y Patrimonio from Quito, Ecuador",
+  "url": "https://commons.wikimedia.org/wiki/File:Conversatorio_Haruki_Murakami_(12_de_12)_(45747009452)_(cropped).jpg"
+ },
+ "pablo-neruda": {
+  "slug": "pablo-neruda",
+  "title": "Pablo Neruda",
+  "file": "Pablo_Neruda_1963.jpg",
+  "licence": "Public domain",
+  "author": "Unknown (Mondadori Publishers)",
+  "url": "https://commons.wikimedia.org/wiki/File:Pablo_Neruda_1963.jpg"
+ },
+ "gabriela-mistral": {
+  "slug": "gabriela-mistral",
+  "title": "Gabriela Mistral",
+  "file": "Gabriela_Mistral_1945.jpg",
+  "licence": "Public domain",
+  "author": "Anna Riwkin-Brick",
+  "url": "https://commons.wikimedia.org/wiki/File:Gabriela_Mistral_1945.jpg"
+ },
+ "naguib-mahfouz": {
+  "slug": "naguib-mahfouz",
+  "title": "Naguib Mahfouz",
+  "file": "Naguib_Mahfouz_HR.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Naguib_Mahfouz_HR.jpg"
+ },
+ "hafez": {
+  "slug": "hafez",
+  "title": "Hafez",
+  "file": "Anselm_Feuerbach_Hafis_vor_der_Schenke_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Anselm Feuerbach",
+  "url": "https://commons.wikimedia.org/wiki/File:Anselm_Feuerbach_Hafis_vor_der_Schenke_(cropped).jpg"
+ },
+ "franz-kafka": {
+  "slug": "franz-kafka",
+  "title": "Franz Kafka",
+  "file": "Franz_Kafka,_1923.jpg",
+  "licence": "Public domain",
+  "author": "Unknown photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Franz_Kafka%2C_1923.jpg"
+ },
+ "sappho": {
+  "slug": "sappho",
+  "title": "Sappho",
+  "file": "Malarz_Safony_-_Kalpis_wykonana_techniką_Six.jpg",
+  "licence": "Public domain",
+  "author": "Sappho Painter",
+  "url": "https://commons.wikimedia.org/wiki/File:Malarz_Safony_-_Kalpis_wykonana_technik%C4%85_Six.jpg"
+ },
+ "hans-christian-andersen": {
+  "slug": "hans-christian-andersen",
+  "title": "Hans Christian Andersen",
+  "file": "HCA_by_Thora_Hallager_1869_crop.jpg",
+  "licence": "Public domain",
+  "author": "Thora Hallager",
+  "url": "https://commons.wikimedia.org/wiki/File:HCA_by_Thora_Hallager_1869_crop.jpg"
+ },
+ "astrid-lindgren": {
+  "slug": "astrid-lindgren",
+  "title": "Astrid Lindgren",
+  "file": "Astrid_Lindgren_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Astrid_Lindgren_(cropped).jpg"
+ },
+ "henrik-ibsen": {
+  "slug": "henrik-ibsen",
+  "title": "Henrik Ibsen",
+  "file": "Henrik_Ibsen_av_Eilif_Peterssen_1895.jpg",
+  "licence": "Public domain",
+  "author": "Eilif Peterssen",
+  "url": "https://commons.wikimedia.org/wiki/File:Henrik_Ibsen_av_Eilif_Peterssen_1895.jpg"
+ },
+ "jose-rizal": {
+  "slug": "jose-rizal",
+  "title": "José Rizal",
+  "file": "Jose_Rizal_full.jpg",
+  "licence": "Public domain",
+  "author": "unknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Jose_Rizal_full.jpg"
+ },
+ "mariama-ba": {
+  "slug": "mariama-ba",
+  "title": "Mariama Bâ",
+  "file": "Mariama_Bâ_vers_1958_Unesco_Domaine_public.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Mariama_B%C3%A2_vers_1958_Unesco_Domaine_public.jpg"
+ },
+ "taras-shevchenko": {
+  "slug": "taras-shevchenko",
+  "title": "Taras Shevchenko",
+  "file": "Т._Г._Шевченко._Квітень_1859.jpg",
+  "licence": "Public domain",
+  "author": "Andrey Denyer",
+  "url": "https://commons.wikimedia.org/wiki/File:%D0%A2._%D0%93._%D0%A8%D0%B5%D0%B2%D1%87%D0%B5%D0%BD%D0%BA%D0%BE._%D0%9A%D0%B2%D1%96%D1%82%D0%B5%D0%BD%D1%8C_1859.jpg"
+ },
+ "duke-ellington": {
+  "slug": "duke-ellington",
+  "title": "Duke Ellington",
+  "file": "Duke_Ellington_-_publicity.JPG",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Duke_Ellington_-_publicity.JPG"
+ },
+ "aretha-franklin": {
+  "slug": "aretha-franklin",
+  "title": "Aretha Franklin",
+  "file": "Aretha_Franklin_1968.jpg",
+  "licence": "Public domain",
+  "author": "Atlantic Records (Life time: Published before 1978 without a copyright notice)",
+  "url": "https://commons.wikimedia.org/wiki/File:Aretha_Franklin_1968.jpg"
+ },
+ "johnny-cash": {
+  "slug": "johnny-cash",
+  "title": "Johnny Cash",
+  "file": "Johnny_Cash_1977.jpg",
+  "licence": "Public domain",
+  "author": "CBS Television",
+  "url": "https://commons.wikimedia.org/wiki/File:Johnny_Cash_1977.jpg"
+ },
+ "jimi-hendrix": {
+  "slug": "jimi-hendrix",
+  "title": "Jimi Hendrix",
+  "file": "Jimi_Hendrix_(1967)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Original photographer unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Jimi_Hendrix_(1967)_(cropped).jpg"
+ },
+ "michael-jackson": {
+  "slug": "michael-jackson",
+  "title": "Michael Jackson",
+  "file": "Michael_Jackson_1983_(3x4_cropped)_(contrast).jpg",
+  "licence": "Public domain",
+  "author": "Matthew Rolston; Distributed by Epic Records",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Jackson_1983_(3x4_cropped)_(contrast).jpg"
+ },
+ "dolly-parton": {
+  "slug": "dolly-parton",
+  "title": "Dolly Parton",
+  "file": "Young-Dolly-Parton_(higher_quality_scan)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "RCA Records",
+  "url": "https://commons.wikimedia.org/wiki/File:Young-Dolly-Parton_(higher_quality_scan)_(cropped).jpg"
+ },
+ "john-lennon": {
+  "slug": "john-lennon",
+  "title": "John Lennon",
+  "file": "John_Lennon_\"Walls_and_Bridges\"_1974_press_photo_2_(color)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Bob Gruen; Distributed by Capitol Records",
+  "url": "https://commons.wikimedia.org/wiki/File:John_Lennon_%22Walls_and_Bridges%22_1974_press_photo_2_(color)_(cropped).jpg"
+ },
+ "johann-sebastian-bach": {
+  "slug": "johann-sebastian-bach",
+  "title": "Johann Sebastian Bach",
+  "file": "Johann_Sebastian_Bach.jpg",
+  "licence": "Public domain",
+  "author": "Elias Gottlob Haussmann",
+  "url": "https://commons.wikimedia.org/wiki/File:Johann_Sebastian_Bach.jpg"
+ },
+ "richard-wagner": {
+  "slug": "richard-wagner",
+  "title": "Richard Wagner",
+  "file": "RichardWagner.jpg",
+  "licence": "Public domain",
+  "author": "Franz Hanfstaengl",
+  "url": "https://commons.wikimedia.org/wiki/File:RichardWagner.jpg"
+ },
+ "joseph-haydn": {
+  "slug": "joseph-haydn",
+  "title": "Joseph Haydn",
+  "file": "Joseph_Haydn.jpg",
+  "licence": "Public domain",
+  "author": "Thomas Hardy",
+  "url": "https://commons.wikimedia.org/wiki/File:Joseph_Haydn.jpg"
+ },
+ "edith-piaf": {
+  "slug": "edith-piaf",
+  "title": "Édith Piaf",
+  "file": "Piaf_Harcourt_1946_2.jpg",
+  "licence": "Public domain",
+  "author": "Studio Harcourt",
+  "url": "https://commons.wikimedia.org/wiki/File:Piaf_Harcourt_1946_2.jpg"
+ },
+ "claude-debussy": {
+  "slug": "claude-debussy",
+  "title": "Claude Debussy",
+  "file": "Claude_Debussy_by_Atelier_Nadar.jpg",
+  "licence": "Public domain",
+  "author": "Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Claude_Debussy_by_Atelier_Nadar.jpg"
+ },
+ "maurice-ravel": {
+  "slug": "maurice-ravel",
+  "title": "Maurice Ravel",
+  "file": "Maurice_Ravel_1925.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author The image holder, the Bibliothèque nationale de Fra",
+  "url": "https://commons.wikimedia.org/wiki/File:Maurice_Ravel_1925.jpg"
+ },
+ "sergei-rachmaninoff": {
+  "slug": "sergei-rachmaninoff",
+  "title": "Sergei Rachmaninoff",
+  "file": "Sergei_Rachmaninoff_cph.3a40575.jpg",
+  "licence": "Public domain",
+  "author": "Kubey-Rembrandt Studios (Philadephia, Pennsylvania)",
+  "url": "https://commons.wikimedia.org/wiki/File:Sergei_Rachmaninoff_cph.3a40575.jpg"
+ },
+ "dmitri-shostakovich": {
+  "slug": "dmitri-shostakovich",
+  "title": "Dmitri Shostakovich",
+  "file": "Композитор_Дмитрий_Дмитриевич_Шостакович.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:%D0%9A%D0%BE%D0%BC%D0%BF%D0%BE%D0%B7%D0%B8%D1%82%D0%BE%D1%80_%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B9_%D0%94%D0%BC%D0%B8%D1%82%D1%80%D0%B8%D0%B5%D0%B2%D0%B8%D1%87_%D0%A8%D0%BE%D1%81%D1%82%D0%B0%D0%BA%D0%BE%D0%B2%D0%B8%D1%87.jpg"
+ },
+ "frederic-chopin": {
+  "slug": "frederic-chopin",
+  "title": "Frédéric Chopin",
+  "file": "Frederic_Chopin_photo.jpeg",
+  "licence": "Public domain",
+  "author": "Louis-Auguste Bisson",
+  "url": "https://commons.wikimedia.org/wiki/File:Frederic_Chopin_photo.jpeg"
+ },
+ "franz-liszt": {
+  "slug": "franz-liszt",
+  "title": "Franz Liszt",
+  "file": "Franz_Liszt_by_Herman_Biow-_1843.png",
+  "licence": "Public domain",
+  "author": "Herman Biow",
+  "url": "https://commons.wikimedia.org/wiki/File:Franz_Liszt_by_Herman_Biow-_1843.png"
+ },
+ "bela-bartok": {
+  "slug": "bela-bartok",
+  "title": "Béla Bartók",
+  "file": "Bartók_Béla_1927.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Bart%C3%B3k_B%C3%A9la_1927.jpg"
+ },
+ "manuel-de-falla": {
+  "slug": "manuel-de-falla",
+  "title": "Manuel de Falla",
+  "file": "ManuelDeFalla.JPG",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:ManuelDeFalla.JPG"
+ },
+ "amalia-rodrigues": {
+  "slug": "amalia-rodrigues",
+  "title": "Amália Rodrigues",
+  "file": "Amália_Rodrigues_('Fado_et_Flamenco',_Columbia,_1956),_cropped.png",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Am%C3%A1lia_Rodrigues_('Fado_et_Flamenco'%2C_Columbia%2C_1956)%2C_cropped.png"
+ },
+ "astor-piazzolla": {
+  "slug": "astor-piazzolla",
+  "title": "Astor Piazzolla",
+  "file": "Astor_Piazzolla.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Astor_Piazzolla.jpg"
+ },
+ "mercedes-sosa": {
+  "slug": "mercedes-sosa",
+  "title": "Mercedes Sosa",
+  "file": "Mercedes_Sosa,_by_Annemarie_Heinrich.jpg",
+  "licence": "Public domain",
+  "author": "Annemarie Heinrich",
+  "url": "https://commons.wikimedia.org/wiki/File:Mercedes_Sosa%2C_by_Annemarie_Heinrich.jpg"
+ },
+ "juan-gabriel": {
+  "slug": "juan-gabriel",
+  "title": "Juan Gabriel",
+  "file": "Juan_Gabriel_in_1985_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Press photo, BMG International",
+  "url": "https://commons.wikimedia.org/wiki/File:Juan_Gabriel_in_1985_(cropped).jpg"
+ },
+ "celia-cruz": {
+  "slug": "celia-cruz",
+  "title": "Celia Cruz",
+  "file": "Celia_Cruz_1957_color.jpg",
+  "licence": "Public domain",
+  "author": "Ibrahim Arce (Narcy Studios photographer), most likely",
+  "url": "https://commons.wikimedia.org/wiki/File:Celia_Cruz_1957_color.jpg"
+ },
+ "fela-kuti": {
+  "slug": "fela-kuti",
+  "title": "Fela Kuti",
+  "file": "Fela_Kuti_circa_1986.jpg",
+  "licence": "Public domain",
+  "author": "Distributed by Celluloid Records",
+  "url": "https://commons.wikimedia.org/wiki/File:Fela_Kuti_circa_1986.jpg"
+ },
+ "ali-farka-toure": {
+  "slug": "ali-farka-toure",
+  "title": "Ali Farka Touré",
+  "file": "Ali_Farka_Toure.jpg",
+  "licence": "Public domain",
+  "author": "Tagles",
+  "url": "https://commons.wikimedia.org/wiki/File:Ali_Farka_Toure.jpg"
+ },
+ "franco-luambo": {
+  "slug": "franco-luambo",
+  "title": "Franco Luambo",
+  "file": "Franco_Luambo_Makiadi.jpg",
+  "licence": "Public domain",
+  "author": "unknown, Ngoma",
+  "url": "https://commons.wikimedia.org/wiki/File:Franco_Luambo_Makiadi.jpg"
+ },
+ "umm-kulthum": {
+  "slug": "umm-kulthum",
+  "title": "Umm Kulthum",
+  "file": "Umm_Kulthum_as_Fatimah.jpg",
+  "licence": "Public domain",
+  "author": "Production company",
+  "url": "https://commons.wikimedia.org/wiki/File:Umm_Kulthum_as_Fatimah.jpg"
+ },
+ "joni-mitchell": {
+  "slug": "joni-mitchell",
+  "title": "Joni Mitchell",
+  "file": "Joni_Mitchell_2021_Kennedy_Center_Honors_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Library of Congress Life",
+  "url": "https://commons.wikimedia.org/wiki/File:Joni_Mitchell_2021_Kennedy_Center_Honors_(cropped).jpg"
+ },
+ "maria-callas": {
+  "slug": "maria-callas",
+  "title": "Maria Callas",
+  "file": "Maria_Callas_1958.jpg",
+  "licence": "Public domain",
+  "author": "CBS Television",
+  "url": "https://commons.wikimedia.org/wiki/File:Maria_Callas_1958.jpg"
+ },
+ "marilyn-monroe": {
+  "slug": "marilyn-monroe",
+  "title": "Marilyn Monroe",
+  "file": "Monroecirca1953.jpg",
+  "licence": "Public domain",
+  "author": "Bert Parry",
+  "url": "https://commons.wikimedia.org/wiki/File:Monroecirca1953.jpg"
+ },
+ "orson-welles": {
+  "slug": "orson-welles",
+  "title": "Orson Welles",
+  "file": "Orson_Welles_1937_cr3-4.jpg",
+  "licence": "Public domain",
+  "author": "Carl Van Vechten",
+  "url": "https://commons.wikimedia.org/wiki/File:Orson_Welles_1937_cr3-4.jpg"
+ },
+ "katharine-hepburn": {
+  "slug": "katharine-hepburn",
+  "title": "Katharine Hepburn",
+  "file": "Katharine_Hepburn_publicity_photograph.jpg",
+  "licence": "Public domain",
+  "author": "Metro-Goldwyn-Mayer Studios; Restored by Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Katharine_Hepburn_publicity_photograph.jpg"
+ },
+ "sidney-poitier": {
+  "slug": "sidney-poitier",
+  "title": "Sidney Poitier",
+  "file": "Sidney_Poitier_1968.jpg",
+  "licence": "Public domain",
+  "author": "Unknown photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Sidney_Poitier_1968.jpg"
+ },
+ "alfred-hitchcock": {
+  "slug": "alfred-hitchcock",
+  "title": "Alfred Hitchcock",
+  "file": "Hitchcock,_Alfred_02.jpg",
+  "licence": "Public domain",
+  "author": "Ante Brkan",
+  "url": "https://commons.wikimedia.org/wiki/File:Hitchcock%2C_Alfred_02.jpg"
+ },
+ "sarah-bernhardt": {
+  "slug": "sarah-bernhardt",
+  "title": "Sarah Bernhardt",
+  "file": "Sarah_Bernhardt_by_Sarony_cph.3a38656.jpg",
+  "licence": "Public domain",
+  "author": "Napoleon Sarony",
+  "url": "https://commons.wikimedia.org/wiki/File:Sarah_Bernhardt_by_Sarony_cph.3a38656.jpg"
+ },
+ "federico-fellini": {
+  "slug": "federico-fellini",
+  "title": "Federico Fellini",
+  "file": "Federico_Fellini_010.jpg",
+  "licence": "Public domain",
+  "author": "Italiamia",
+  "url": "https://commons.wikimedia.org/wiki/File:Federico_Fellini_010.jpg"
+ },
+ "luis-bunuel": {
+  "slug": "luis-bunuel",
+  "title": "Luis Buñuel",
+  "file": "LuisBuñuel1929.jpg",
+  "licence": "PD-US",
+  "author": "Man Ray (Life time: 1890 – 1976)",
+  "url": "https://commons.wikimedia.org/wiki/File:LuisBu%C3%B1uel1929.jpg"
+ },
+ "marlene-dietrich": {
+  "slug": "marlene-dietrich",
+  "title": "Marlene Dietrich",
+  "file": "Marlene_Dietrich_in_No_Highway_(1951)_(Cropped).png",
+  "licence": "Public domain",
+  "author": "Marlene_Dietrich_in_No_Highway_(1951).jpg: Twentieth Century Fox derivative work",
+  "url": "https://commons.wikimedia.org/wiki/File:Marlene_Dietrich_in_No_Highway_(1951)_(Cropped).png"
+ },
+ "greta-garbo": {
+  "slug": "greta-garbo",
+  "title": "Greta Garbo",
+  "file": "Garbo_in_Inspiration.jpg",
+  "licence": "Public domain",
+  "author": "Metro-Goldwyn-Mayer (work for hire)",
+  "url": "https://commons.wikimedia.org/wiki/File:Garbo_in_Inspiration.jpg"
+ },
+ "ingrid-bergman": {
+  "slug": "ingrid-bergman",
+  "title": "Ingrid Bergman",
+  "file": "Ingrid_Bergman_by_Whitey_Schafer_1940.jpg",
+  "licence": "Public domain",
+  "author": "Whitey Schafer",
+  "url": "https://commons.wikimedia.org/wiki/File:Ingrid_Bergman_by_Whitey_Schafer_1940.jpg"
+ },
+ "sergei-eisenstein": {
+  "slug": "sergei-eisenstein",
+  "title": "Sergei Eisenstein",
+  "file": "Sergei_Eisenstein_03.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Sergei_Eisenstein_03.jpg"
+ },
+ "andrei-tarkovsky": {
+  "slug": "andrei-tarkovsky",
+  "title": "Andrei Tarkovsky",
+  "file": "Andrei_tarkovsky_stamp_russia_2007.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Andrei_tarkovsky_stamp_russia_2007.jpg"
+ },
+ "konstantin-stanislavski": {
+  "slug": "konstantin-stanislavski",
+  "title": "Konstantin Stanislavski",
+  "file": "Constantin_Stanislavski.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Constantin_Stanislavski.jpg"
+ },
+ "akira-kurosawa": {
+  "slug": "akira-kurosawa",
+  "title": "Akira Kurosawa",
+  "file": "Akirakurosawa-onthesetof7samurai-1953-page88.jpg",
+  "licence": "Public domain",
+  "author": "映画の友 (Eiga no tomo)",
+  "url": "https://commons.wikimedia.org/wiki/File:Akirakurosawa-onthesetof7samurai-1953-page88.jpg"
+ },
+ "toshiro-mifune": {
+  "slug": "toshiro-mifune",
+  "title": "Toshiro Mifune",
+  "file": "Toshiro_Mifune_1954_Scan10003_160913.jpg",
+  "licence": "Public domain",
+  "author": "映画世界社 (Eiga Sekai Publications, Inc.)",
+  "url": "https://commons.wikimedia.org/wiki/File:Toshiro_Mifune_1954_Scan10003_160913.jpg"
+ },
+ "omar-sharif": {
+  "slug": "omar-sharif",
+  "title": "Omar Sharif",
+  "file": "Omar_Sharif_1963.JPG",
+  "licence": "Public domain",
+  "author": "Photographer-Gene Weber, Seattle",
+  "url": "https://commons.wikimedia.org/wiki/File:Omar_Sharif_1963.JPG"
+ },
+ "youssef-chahine": {
+  "slug": "youssef-chahine",
+  "title": "Youssef Chahine",
+  "file": "Youssef_Chahine_1978.jpg",
+  "licence": "CC0",
+  "author": "Mblegacy",
+  "url": "https://commons.wikimedia.org/wiki/File:Youssef_Chahine_1978.jpg"
+ },
+ "faten-hamama": {
+  "slug": "faten-hamama",
+  "title": "Faten Hamama",
+  "file": "Faten_Hamama_actress.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Faten_Hamama_actress.jpg"
+ },
+ "maria-felix": {
+  "slug": "maria-felix",
+  "title": "María Félix",
+  "file": "María_Félix_1947.jpg",
+  "licence": "Public domain",
+  "author": "Unknown (Mondadori Publishers)",
+  "url": "https://commons.wikimedia.org/wiki/File:Mar%C3%ADa_F%C3%A9lix_1947.jpg"
+ },
+ "mary-pickford": {
+  "slug": "mary-pickford",
+  "title": "Mary Pickford",
+  "file": "Mary_Pickford_cph.3c17995u.jpg",
+  "licence": "Public domain",
+  "author": "Rufus Porter Moody",
+  "url": "https://commons.wikimedia.org/wiki/File:Mary_Pickford_cph.3c17995u.jpg"
+ },
+ "john-kani": {
+  "slug": "john-kani",
+  "title": "John Kani",
+  "file": "Dr_John_Kani.jpg",
+  "licence": "CC0",
+  "author": "Bobbyshabangu",
+  "url": "https://commons.wikimedia.org/wiki/File:Dr_John_Kani.jpg"
+ },
+ "lino-brocka": {
+  "slug": "lino-brocka",
+  "title": "Lino Brocka",
+  "file": "NAAW-Lino-Brocka_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "National Commission for Culture for Culture and the Arts",
+  "url": "https://commons.wikimedia.org/wiki/File:NAAW-Lino-Brocka_(cropped).jpg"
+ },
+ "lucille-ball": {
+  "slug": "lucille-ball",
+  "title": "Lucille Ball",
+  "file": "LDBALL1950s.jpg",
+  "licence": "Public domain",
+  "author": "CBS Television",
+  "url": "https://commons.wikimedia.org/wiki/File:LDBALL1950s.jpg"
+ },
+ "groucho-marx": {
+  "slug": "groucho-marx",
+  "title": "Groucho Marx",
+  "file": "Groucho_Marx_-_portrait.jpg",
+  "licence": "Public domain",
+  "author": "ABC Photo",
+  "url": "https://commons.wikimedia.org/wiki/File:Groucho_Marx_-_portrait.jpg"
+ },
+ "buster-keaton": {
+  "slug": "buster-keaton",
+  "title": "Buster Keaton",
+  "file": "Buster_Keaton,_American_star_of_vaudeville_and_film,_c.1920s.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Buster_Keaton%2C_American_star_of_vaudeville_and_film%2C_c.1920s.jpg"
+ },
+ "richard-pryor": {
+  "slug": "richard-pryor",
+  "title": "Richard Pryor",
+  "file": "Richard_Pryor_The_Midnight_Show_in_April_1974.png",
+  "licence": "Public domain",
+  "author": "NBC Television",
+  "url": "https://commons.wikimedia.org/wiki/File:Richard_Pryor_The_Midnight_Show_in_April_1974.png"
+ },
+ "joan-rivers": {
+  "slug": "joan-rivers",
+  "title": "Joan Rivers",
+  "file": "Joan_Rivers_1966_Press_photo.jpg",
+  "licence": "Public domain",
+  "author": "Roy Silver",
+  "url": "https://commons.wikimedia.org/wiki/File:Joan_Rivers_1966_Press_photo.jpg"
+ },
+ "eddie-murphy": {
+  "slug": "eddie-murphy",
+  "title": "Eddie Murphy",
+  "file": "Eddie_Murphy_by_David_Shankbone.jpg",
+  "licence": "Public domain",
+  "author": "David Shankbone",
+  "url": "https://commons.wikimedia.org/wiki/File:Eddie_Murphy_by_David_Shankbone.jpg"
+ },
+ "charlie-chaplin": {
+  "slug": "charlie-chaplin",
+  "title": "Charlie Chaplin",
+  "file": "Charlie_Chaplin_portrait_Getty_1739411952.jpg",
+  "licence": "Public domain",
+  "author": "Strauss-Peyton Studio",
+  "url": "https://commons.wikimedia.org/wiki/File:Charlie_Chaplin_portrait_Getty_1739411952.jpg"
+ },
+ "stan-laurel": {
+  "slug": "stan-laurel",
+  "title": "Stan Laurel",
+  "file": "Stan_Laurel_c1920.jpg",
+  "licence": "Public domain",
+  "author": "Photo by Stax",
+  "url": "https://commons.wikimedia.org/wiki/File:Stan_Laurel_c1920.jpg"
+ },
+ "john-candy": {
+  "slug": "john-candy",
+  "title": "John Candy",
+  "file": "John_Candy_\"SCTV_Network\"_(1982_NBC_press_photo).jpg",
+  "licence": "Public domain",
+  "author": "NBC",
+  "url": "https://commons.wikimedia.org/wiki/File:John_Candy_%22SCTV_Network%22_(1982_NBC_press_photo).jpg"
+ },
+ "franklin-d-roosevelt": {
+  "slug": "franklin-d-roosevelt",
+  "title": "Franklin D. Roosevelt",
+  "file": "FDR-1944-Campaign-Portrait_(3x4_retouched,_cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Leon Perskie",
+  "url": "https://commons.wikimedia.org/wiki/File:FDR-1944-Campaign-Portrait_(3x4_retouched%2C_cropped).jpg"
+ },
+ "francois-mitterrand": {
+  "slug": "francois-mitterrand",
+  "title": "François Mitterrand",
+  "file": "President_François_Mitterrand_in_1983_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Comet Photo AG (Zürich)",
+  "url": "https://commons.wikimedia.org/wiki/File:President_Fran%C3%A7ois_Mitterrand_in_1983_(cropped).jpg"
+ },
+ "jacques-chirac": {
+  "slug": "jacques-chirac",
+  "title": "Jacques Chirac",
+  "file": "Jacques_Chirac_(1997)_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Christian Lambiotte",
+  "url": "https://commons.wikimedia.org/wiki/File:Jacques_Chirac_(1997)_(cropped).jpg"
+ },
+ "konrad-adenauer": {
+  "slug": "konrad-adenauer",
+  "title": "Konrad Adenauer",
+  "file": "Bundesarchiv_B_145_Bild-F078072-0004,_Konrad_Adenauer.jpg",
+  "licence": "CC BY-SA 3.0 de",
+  "author": "Katherine Young (1906–1993)",
+  "url": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_B_145_Bild-F078072-0004%2C_Konrad_Adenauer.jpg"
+ },
+ "willy-brandt": {
+  "slug": "willy-brandt",
+  "title": "Willy Brandt",
+  "file": "Bundesarchiv_B_145_Bild-F057884-0009,_Willy_Brandt.jpg",
+  "licence": "CC BY-SA 3.0 de",
+  "author": "Engelbert Reineke",
+  "url": "https://commons.wikimedia.org/wiki/File:Bundesarchiv_B_145_Bild-F057884-0009%2C_Willy_Brandt.jpg"
+ },
+ "angela-merkel": {
+  "slug": "angela-merkel",
+  "title": "Angela Merkel",
+  "file": "Angela_Merkel_2019_cropped.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Raimond Spekking",
+  "url": "https://commons.wikimedia.org/wiki/File:Angela_Merkel_2019_cropped.jpg"
+ },
+ "augustus": {
+  "slug": "augustus",
+  "title": "Augustus",
+  "file": "Augustus_of_Prima_Porta.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Justin Benttinen",
+  "url": "https://commons.wikimedia.org/wiki/File:Augustus_of_Prima_Porta.jpg"
+ },
+ "sandro-pertini": {
+  "slug": "sandro-pertini",
+  "title": "Sandro Pertini",
+  "file": "Pertini_ritratto.jpg",
+  "licence": "Attribution",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Pertini_ritratto.jpg"
+ },
+ "mikhail-gorbachev": {
+  "slug": "mikhail-gorbachev",
+  "title": "Mikhail Gorbachev",
+  "file": "RIAN_archive_850809_General_Secretary_of_the_CPSU_CC_M._Gorbachev_(crop).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "RIAN_archive_850809_General_Secretary_of_the_CPSU_CC_M._Gorbachev.jpg: Vladimir ",
+  "url": "https://commons.wikimedia.org/wiki/File:RIAN_archive_850809_General_Secretary_of_the_CPSU_CC_M._Gorbachev_(crop).jpg"
+ },
+ "shinzo-abe": {
+  "slug": "shinzo-abe",
+  "title": "Shinzo Abe",
+  "file": "Shinzō_Abe_20120501.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Prime Minister of Japan Official",
+  "url": "https://commons.wikimedia.org/wiki/File:Shinz%C5%8D_Abe_20120501.jpg"
+ },
+ "junichiro-koizumi": {
+  "slug": "junichiro-koizumi",
+  "title": "Junichiro Koizumi",
+  "file": "Junichiro_Koizumi_20010426_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "内閣官房内閣広報室",
+  "url": "https://commons.wikimedia.org/wiki/File:Junichiro_Koizumi_20010426_(cropped).jpg"
+ },
+ "ashoka": {
+  "slug": "ashoka",
+  "title": "Ashoka",
+  "file": "Ashoka's_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Photo Dharma from Sadao, Thailand",
+  "url": "https://commons.wikimedia.org/wiki/File:Ashoka's_visit_to_the_Ramagrama_stupa_Sanchi_Stupa_1_Southern_gateway.jpg"
+ },
+ "fernando-henrique-cardoso": {
+  "slug": "fernando-henrique-cardoso",
+  "title": "Fernando Henrique Cardoso",
+  "file": "Fernando_Henrique_Cardoso_(1999).jpg",
+  "licence": "CC BY 3.0 br",
+  "author": "Agência Brasil",
+  "url": "https://commons.wikimedia.org/wiki/File:Fernando_Henrique_Cardoso_(1999).jpg"
+ },
+ "lazaro-cardenas": {
+  "slug": "lazaro-cardenas",
+  "title": "Lázaro Cárdenas",
+  "file": "Lázaro_Cárdenas,_Retrato.png",
+  "licence": "CC BY 4.0",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:L%C3%A1zaro_C%C3%A1rdenas%2C_Retrato.png"
+ },
+ "raul-alfonsin": {
+  "slug": "raul-alfonsin",
+  "title": "Raúl Alfonsín",
+  "file": "Raúl_Alfonsín_con_banda_presidencial_(cropped).jpg",
+  "licence": "CC BY 2.5 ar",
+  "author": "Presidencia de la Nación Argentina",
+  "url": "https://commons.wikimedia.org/wiki/File:Ra%C3%BAl_Alfons%C3%ADn_con_banda_presidencial_(cropped).jpg"
+ },
+ "gamal-abdel-nasser": {
+  "slug": "gamal-abdel-nasser",
+  "title": "Gamal Abdel Nasser",
+  "file": "Stevan_Kragujevic,_Gamal_Abdel_Naser_u_Beogradu,_1962.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Stevan Kragujević",
+  "url": "https://commons.wikimedia.org/wiki/File:Stevan_Kragujevic%2C_Gamal_Abdel_Naser_u_Beogradu%2C_1962.jpg"
+ },
+ "nelson-mandela": {
+  "slug": "nelson-mandela",
+  "title": "Nelson Mandela",
+  "file": "Nelson_Mandela_1994.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Kingkongphoto &amp; www.celebrity-photos.com from Laurel",
+  "url": "https://commons.wikimedia.org/wiki/File:Nelson_Mandela_1994.jpg"
+ },
+ "tommy-douglas": {
+  "slug": "tommy-douglas",
+  "title": "Tommy Douglas",
+  "file": "Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg",
+  "licence": "Attribution",
+  "author": "Alexandra Studio",
+  "url": "https://commons.wikimedia.org/wiki/File:Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg"
+ },
+ "julia-gillard": {
+  "slug": "julia-gillard",
+  "title": "Julia Gillard",
+  "file": "Julia-gillard-official-portrait-pmc.jpg",
+  "licence": "CC BY 3.0 au",
+  "author": "© Commonwealth of Australia (National Archives of Australia) 2019.",
+  "url": "https://commons.wikimedia.org/wiki/File:Julia-gillard-official-portrait-pmc.jpg"
+ },
+ "lech-wa-esa": {
+  "slug": "lech-wa-esa",
+  "title": "Lech Wałęsa",
+  "file": "03.17_總統接見「波蘭前總統華勒沙乙行」_-_55151702432_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Taiwan Presidential Office",
+  "url": "https://commons.wikimedia.org/wiki/File:03.17_%E7%B8%BD%E7%B5%B1%E6%8E%A5%E8%A6%8B%E3%80%8C%E6%B3%A2%E8%98%AD%E5%89%8D%E7%B8%BD%E7%B5%B1%E8%8F%AF%E5%8B%92%E6%B2%99%E4%B9%99%E8%A1%8C%E3%80%8D_-_55151702432_(cropped).jpg"
+ },
+ "casimir-iii-the-great": {
+  "slug": "casimir-iii-the-great",
+  "title": "Casimir III the Great",
+  "file": "King_Casmir_the_Great_tombstone2.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bornholm",
+  "url": "https://commons.wikimedia.org/wiki/File:King_Casmir_the_Great_tombstone2.jpg"
+ },
+ "ban-ki-moon": {
+  "slug": "ban-ki-moon",
+  "title": "Ban Ki-moon",
+  "file": "Ban_Ki-moon_February_2016.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Chatham House",
+  "url": "https://commons.wikimedia.org/wiki/File:Ban_Ki-moon_February_2016.jpg"
+ },
+ "cyrus-the-great": {
+  "slug": "cyrus-the-great",
+  "title": "Cyrus the Great",
+  "file": "Cyrus_II_(The_Great)_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Surenae",
+  "url": "https://commons.wikimedia.org/wiki/File:Cyrus_II_(The_Great)_(cropped).jpg"
+ },
+ "golda-meir": {
+  "slug": "golda-meir",
+  "title": "Golda Meir",
+  "file": "Dan_Hadani_collection_(990044371930205171).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Israel Press and Photo Agency (I.P.P.A.) photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Dan_Hadani_collection_(990044371930205171).jpg"
+ },
+ "yitzhak-rabin": {
+  "slug": "yitzhak-rabin",
+  "title": "Yitzhak Rabin",
+  "file": "Yitzhak_Rabin_1994_Portrait_(3x4_cropped).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Yaakov Saar",
+  "url": "https://commons.wikimedia.org/wiki/File:Yitzhak_Rabin_1994_Portrait_(3x4_cropped).jpg"
+ },
+ "cleisthenes": {
+  "slug": "cleisthenes",
+  "title": "Cleisthenes",
+  "file": "Cleisthenes.jpg",
+  "licence": "Attribution",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Cleisthenes.jpg"
+ },
+ "vaclav-havel": {
+  "slug": "vaclav-havel",
+  "title": "Václav Havel",
+  "file": "Vaclav_Havel.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Kingkongphoto &amp; www.celebrity-photos.com from Laurel Maryland, USA",
+  "url": "https://commons.wikimedia.org/wiki/File:Vaclav_Havel.jpg"
+ },
+ "michael-joseph-savage": {
+  "slug": "michael-joseph-savage",
+  "title": "Michael Joseph Savage",
+  "file": "Michael_Joseph_Savage_Portrait_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Spencer Digby",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Joseph_Savage_Portrait_(cropped).jpg"
+ },
+ "jacinda-ardern": {
+  "slug": "jacinda-ardern",
+  "title": "Jacinda Ardern",
+  "file": "New_Zealand_Prime_Minister_Jacinda_Ardern_in_2018.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Newzild",
+  "url": "https://commons.wikimedia.org/wiki/File:New_Zealand_Prime_Minister_Jacinda_Ardern_in_2018.jpg"
+ },
+ "mario-soares": {
+  "slug": "mario-soares",
+  "title": "Mário Soares",
+  "file": "Medalha_de_Galiza_1993_-_5.jpg",
+  "licence": "Attribution",
+  "author": "Xunta de Galicia",
+  "url": "https://commons.wikimedia.org/wiki/File:Medalha_de_Galiza_1993_-_5.jpg"
+ },
+ "benazir-bhutto": {
+  "slug": "benazir-bhutto",
+  "title": "Benazir Bhutto",
+  "file": "Oliver_Mark_-_Benazir_Bhutto,_Dubai_2006_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Oliver_Mark_-_Benazir_Bhutto%2C_Dubai_2006_(cropped).jpg"
+ },
+ "vigdis-finnbogadottir": {
+  "slug": "vigdis-finnbogadottir",
+  "title": "Vigdís Finnbogadóttir",
+  "file": "Vigdis_Finnbogadottir_(1985).jpg",
+  "licence": "CC BY-SA 3.0 nl",
+  "author": "Rob Croes for Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Vigdis_Finnbogadottir_(1985).jpg"
+ },
+ "hammurabi": {
+  "slug": "hammurabi",
+  "title": "Hammurabi",
+  "file": "F0182_Louvre_Code_Hammourabi_Bas-relief_Sb8_rwk.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Mbzt",
+  "url": "https://commons.wikimedia.org/wiki/File:F0182_Louvre_Code_Hammourabi_Bas-relief_Sb8_rwk.jpg"
+ },
+ "sheikh-mujibur-rahman": {
+  "slug": "sheikh-mujibur-rahman",
+  "title": "Sheikh Mujibur Rahman",
+  "file": "Official_Portrait_of_Bangabandhu_Sheikh_Mujibur_Rahman.jpg",
+  "licence": "Public domain",
+  "author": "Press Information Department",
+  "url": "https://commons.wikimedia.org/wiki/File:Official_Portrait_of_Bangabandhu_Sheikh_Mujibur_Rahman.jpg"
+ },
+ "lee-kuan-yew": {
+  "slug": "lee-kuan-yew",
+  "title": "Lee Kuan Yew",
+  "file": "Prime_Minister_Lee_Kuan_Yew_of_Singapore_Making_a_Toast_at_a_State_Dinner_Held_in_His_Honor,_1975.jpg",
+  "licence": "Public domain",
+  "author": "White House Photographic Office. 1974-1977",
+  "url": "https://commons.wikimedia.org/wiki/File:Prime_Minister_Lee_Kuan_Yew_of_Singapore_Making_a_Toast_at_a_State_Dinner_Held_in_His_Honor%2C_1975.jpg"
+ },
+ "salvador-allende": {
+  "slug": "salvador-allende",
+  "title": "Salvador Allende",
+  "file": "Salvador_Allende_Gossens-.jpg",
+  "licence": "CC BY 3.0 cl",
+  "author": "Biblioteca del Congreso Nacional de Chile",
+  "url": "https://commons.wikimedia.org/wiki/File:Salvador_Allende_Gossens-.jpg"
+ },
+ "leonidas-i": {
+  "slug": "leonidas-i",
+  "title": "Leonidas I",
+  "file": "Helmed_Hoplite_Sparta.JPG",
+  "licence": "CC BY-SA 3.0",
+  "author": "de:Benutzer:Ticinese",
+  "url": "https://commons.wikimedia.org/wiki/File:Helmed_Hoplite_Sparta.JPG"
+ },
+ "robert-the-bruce": {
+  "slug": "robert-the-bruce",
+  "title": "Robert the Bruce",
+  "file": "Medieval_coin,_Penny_of_Robert_the_Bruce_(FindID_961323-1097387)_Cropped.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "National Museums Liverpool , Heather Beeton, 2020-03-24 09:13:46",
+  "url": "https://commons.wikimedia.org/wiki/File:Medieval_coin%2C_Penny_of_Robert_the_Bruce_(FindID_961323-1097387)_Cropped.jpg"
+ },
+ "timur": {
+  "slug": "timur",
+  "title": "Timur",
+  "file": "Timur_reconstruction03.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "user:shakko",
+  "url": "https://commons.wikimedia.org/wiki/File:Timur_reconstruction03.jpg"
+ },
+ "el-cid": {
+  "slug": "el-cid",
+  "title": "El Cid",
+  "file": "Estatua_del_Cid_(Burgos).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "photographer: ElCaminodeSantiago09 2006",
+  "url": "https://commons.wikimedia.org/wiki/File:Estatua_del_Cid_(Burgos).jpg"
+ },
+ "ivan-the-terrible": {
+  "slug": "ivan-the-terrible",
+  "title": "Ivan the Terrible",
+  "file": "IoannIV_reconstruction_by_Gerasimov02.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Shakko",
+  "url": "https://commons.wikimedia.org/wiki/File:IoannIV_reconstruction_by_Gerasimov02.jpg"
+ },
+ "vlad-the-impaler": {
+  "slug": "vlad-the-impaler",
+  "title": "Vlad the Impaler",
+  "file": "Vlad_Ţepeş,_the_Impaler,_Prince_of_Wallachia_(1456-1462)_(died_1477).jpg",
+  "licence": "Public domain",
+  "author": "AnonymousUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Vlad_%C5%A2epe%C5%9F%2C_the_Impaler%2C_Prince_of_Wallachia_(1456-1462)_(died_1477).jpg"
+ },
+ "nicolae-ceausescu": {
+  "slug": "nicolae-ceausescu",
+  "title": "Nicolae Ceaușescu",
+  "file": "Nicolae_Ceaușescu_(3x4_cropped).jpg",
+  "licence": "Attribution",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Nicolae_Ceau%C8%99escu_(3x4_cropped).jpg"
+ },
+ "pol-pot": {
+  "slug": "pol-pot",
+  "title": "Pol Pot",
+  "file": "Pol_Pot_(cropped).jpg",
+  "licence": "Attribution",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Pol_Pot_(cropped).jpg"
+ },
+ "ferdinand-marcos": {
+  "slug": "ferdinand-marcos",
+  "title": "Ferdinand Marcos",
+  "file": "Ferdinand_Marcos_(cropped).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "derivative work: Bluemask (talk) Ferdinand_Marcos_and_George_Shultz_DA-SC-84-058",
+  "url": "https://commons.wikimedia.org/wiki/File:Ferdinand_Marcos_(cropped).jpg"
+ },
+ "jean-bedel-bokassa": {
+  "slug": "jean-bedel-bokassa",
+  "title": "Jean-Bédel Bokassa",
+  "file": "Bokassa_with_Ceausescu_(cropped).jpg",
+  "licence": "Attribution",
+  "author": "unknown, image comes from the National Archives",
+  "url": "https://commons.wikimedia.org/wiki/File:Bokassa_with_Ceausescu_(cropped).jpg"
+ },
+ "henry-morgan": {
+  "slug": "henry-morgan",
+  "title": "Henry Morgan",
+  "file": "Morgan,Henry.jpg",
+  "licence": "Public domain",
+  "author": "Alexandre Exquemelin, Piratas de la America (1681)",
+  "url": "https://commons.wikimedia.org/wiki/File:Morgan%2CHenry.jpg"
+ },
+ "mary-read": {
+  "slug": "mary-read",
+  "title": "Mary Read",
+  "file": "Mary_Read,_Cole_1724.jpg",
+  "licence": "Public domain",
+  "author": "Engraved by Benjamin Cole[2] (1695–1766)",
+  "url": "https://commons.wikimedia.org/wiki/File:Mary_Read%2C_Cole_1724.jpg"
+ },
+ "anne-bonny": {
+  "slug": "anne-bonny",
+  "title": "Anne Bonny",
+  "file": "Ann_Bonny,_Cole_1724.jpg",
+  "licence": "Public domain",
+  "author": "Engraved by Benjamin Cole[2] (1695–1766)",
+  "url": "https://commons.wikimedia.org/wiki/File:Ann_Bonny%2C_Cole_1724.jpg"
+ },
+ "jesse-james": {
+  "slug": "jesse-james",
+  "title": "Jesse James",
+  "file": "Jesse_James_NYPost.jpg",
+  "licence": "Public domain",
+  "author": "Photographer unknown. Scan by LoC.",
+  "url": "https://commons.wikimedia.org/wiki/File:Jesse_James_NYPost.jpg"
+ },
+ "billy-the-kid": {
+  "slug": "billy-the-kid",
+  "title": "Billy the Kid",
+  "file": "Billy_the_Kid_tintype,_Fort_Sumner,_1879-80-Edit2.jpg",
+  "licence": "Public domain",
+  "author": "Ben Wittick",
+  "url": "https://commons.wikimedia.org/wiki/File:Billy_the_Kid_tintype%2C_Fort_Sumner%2C_1879-80-Edit2.jpg"
+ },
+ "john-dillinger": {
+  "slug": "john-dillinger",
+  "title": "John Dillinger",
+  "file": "John_Dillinger_mug_shot.jpg",
+  "licence": "Public domain",
+  "author": "FBI",
+  "url": "https://commons.wikimedia.org/wiki/File:John_Dillinger_mug_shot.jpg"
+ },
+ "belle-starr": {
+  "slug": "belle-starr",
+  "title": "Belle Starr",
+  "file": "Belle_Starr_full.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Belle_Starr_full.jpg"
+ },
+ "lampiao": {
+  "slug": "lampiao",
+  "title": "Lampião",
+  "file": "Virgulino_Ferreira_da_Silva_(Lampião)_01.jpg",
+  "licence": "Public domain",
+  "author": "Attributed to Benjamin Abrahão Botto",
+  "url": "https://commons.wikimedia.org/wiki/File:Virgulino_Ferreira_da_Silva_(Lampi%C3%A3o)_01.jpg"
+ },
+ "steve-jobs": {
+  "slug": "steve-jobs",
+  "title": "Steve Jobs",
+  "file": "Steve_Jobs_Headshot_2010_(cropped_4).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Matthew Yohe",
+  "url": "https://commons.wikimedia.org/wiki/File:Steve_Jobs_Headshot_2010_(cropped_4).jpg"
+ },
+ "coco-chanel": {
+  "slug": "coco-chanel",
+  "title": "Coco Chanel",
+  "file": "Coco_Chanel_in_Los_Angeles,_1931_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Los Angeles Times",
+  "url": "https://commons.wikimedia.org/wiki/File:Coco_Chanel_in_Los_Angeles%2C_1931_(cropped).jpg"
+ },
+ "miuccia-prada": {
+  "slug": "miuccia-prada",
+  "title": "Miuccia Prada",
+  "file": "Miuccia_Prada_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Cory M. Grenier",
+  "url": "https://commons.wikimedia.org/wiki/File:Miuccia_Prada_(cropped).jpg"
+ },
+ "ingvar-kamprad": {
+  "slug": "ingvar-kamprad",
+  "title": "Ingvar Kamprad",
+  "file": "Ingvar_Kamprad_Haparanda_June_2010.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Ministry of Enterprise, Energy and Communications of Sweden/Sandra Baqirjazid",
+  "url": "https://commons.wikimedia.org/wiki/File:Ingvar_Kamprad_Haparanda_June_2010.jpg"
+ },
+ "aristotle-onassis": {
+  "slug": "aristotle-onassis",
+  "title": "Aristotle Onassis",
+  "file": "Aristotle_Onassis_1967cr.jpg",
+  "licence": "CC BY-SA 3.0 nl",
+  "author": "Pieter Jongerhuis",
+  "url": "https://commons.wikimedia.org/wiki/File:Aristotle_Onassis_1967cr.jpg"
+ },
+ "jamsetji-tata": {
+  "slug": "jamsetji-tata",
+  "title": "Jamsetji Tata",
+  "file": "Sir_J._N._Tata_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Unknown Publisher",
+  "url": "https://commons.wikimedia.org/wiki/File:Sir_J._N._Tata_(cropped).jpg"
+ },
+ "muhammad-yunus": {
+  "slug": "muhammad-yunus",
+  "title": "Muhammad Yunus",
+  "file": "Muhammad_Yunus_speaking_at_Jamuna_State_Guesthouse,_Dhaka_2026-02-16_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Press Information Department",
+  "url": "https://commons.wikimedia.org/wiki/File:Muhammad_Yunus_speaking_at_Jamuna_State_Guesthouse%2C_Dhaka_2026-02-16_(cropped).jpg"
+ },
+ "carlos-slim": {
+  "slug": "carlos-slim",
+  "title": "Carlos Slim",
+  "file": "Carlos_Slim_(45680472234)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Secretaría de Cultura Ciudad de México from México",
+  "url": "https://commons.wikimedia.org/wiki/File:Carlos_Slim_(45680472234)_(cropped).jpg"
+ },
+ "aliko-dangote": {
+  "slug": "aliko-dangote",
+  "title": "Aliko Dangote",
+  "file": "Al_Shabani_at_the_acquisition_of_Dangote_Cement_by_ICD_in_2014_(cropped).jpg",
+  "licence": "CC BY 3.0",
+  "author": "Saba Dubai",
+  "url": "https://commons.wikimedia.org/wiki/File:Al_Shabani_at_the_acquisition_of_Dangote_Cement_by_ICD_in_2014_(cropped).jpg"
+ },
+ "joseph-armand-bombardier": {
+  "slug": "joseph-armand-bombardier",
+  "title": "Joseph-Armand Bombardier",
+  "file": "Armand_Bombardier.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Armand_Bombardier.jpg"
+ },
+ "benjamin-franklin": {
+  "slug": "benjamin-franklin",
+  "title": "Benjamin Franklin",
+  "file": "Joseph_Siffrein_Duplessis_-_Benjamin_Franklin_-_Google_Art_Project.jpg",
+  "licence": "Public domain",
+  "author": "Joseph-Siffred Duplessis",
+  "url": "https://commons.wikimedia.org/wiki/File:Joseph_Siffrein_Duplessis_-_Benjamin_Franklin_-_Google_Art_Project.jpg"
+ },
+ "thomas-edison": {
+  "slug": "thomas-edison",
+  "title": "Thomas Edison",
+  "file": "Thomas_Edison2.jpg",
+  "licence": "Public domain",
+  "author": "Louis Bachrach, Bachrach Studios, restored by Michel Vuijlsteke",
+  "url": "https://commons.wikimedia.org/wiki/File:Thomas_Edison2.jpg"
+ },
+ "katherine-johnson": {
+  "slug": "katherine-johnson",
+  "title": "Katherine Johnson",
+  "file": "Katherine_Johnson_1983.jpg",
+  "licence": "Public domain",
+  "author": "NASA",
+  "url": "https://commons.wikimedia.org/wiki/File:Katherine_Johnson_1983.jpg"
+ },
+ "neil-armstrong": {
+  "slug": "neil-armstrong",
+  "title": "Neil Armstrong",
+  "file": "Neil_Armstrong_pose.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Neil_Armstrong_pose.jpg"
+ },
+ "jonas-salk": {
+  "slug": "jonas-salk",
+  "title": "Jonas Salk",
+  "file": "Jonas_Salk_candid.jpg",
+  "licence": "Public domain",
+  "author": "SAS Scandinavian Airlines",
+  "url": "https://commons.wikimedia.org/wiki/File:Jonas_Salk_candid.jpg"
+ },
+ "barbara-mcclintock": {
+  "slug": "barbara-mcclintock",
+  "title": "Barbara McClintock",
+  "file": "Barbara_McClintock_(1902-1992)_shown_in_her_laboratory_in_1947.jpg",
+  "licence": "Public domain",
+  "author": "Smithsonian Institution/Science Service; Restored by Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Barbara_McClintock_(1902-1992)_shown_in_her_laboratory_in_1947.jpg"
+ },
+ "ada-lovelace": {
+  "slug": "ada-lovelace",
+  "title": "Ada Lovelace",
+  "file": "Ada_Lovelace_daguerreotype_by_Antoine_Claudet_1843_-_cropped.png",
+  "licence": "Public domain",
+  "author": "Antoine Claudet",
+  "url": "https://commons.wikimedia.org/wiki/File:Ada_Lovelace_daguerreotype_by_Antoine_Claudet_1843_-_cropped.png"
+ },
+ "rosalind-franklin": {
+  "slug": "rosalind-franklin",
+  "title": "Rosalind Franklin",
+  "file": "Rosalind_Franklin_(retouched).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "MRC Laboratory of Molecular Biology",
+  "url": "https://commons.wikimedia.org/wiki/File:Rosalind_Franklin_(retouched).jpg"
+ },
+ "ernest-shackleton": {
+  "slug": "ernest-shackleton",
+  "title": "Ernest Shackleton",
+  "file": "Ernest_Shackleton_before_1909.jpg",
+  "licence": "Public domain",
+  "author": "George Charles Beresford / Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Ernest_Shackleton_before_1909.jpg"
+ },
+ "louis-pasteur": {
+  "slug": "louis-pasteur",
+  "title": "Louis Pasteur",
+  "file": "Louis_Pasteur,_foto_av_Paul_Nadar,_Crisco_edit.jpg",
+  "licence": "Public domain",
+  "author": "Paul Nadar",
+  "url": "https://commons.wikimedia.org/wiki/File:Louis_Pasteur%2C_foto_av_Paul_Nadar%2C_Crisco_edit.jpg"
+ },
+ "albert-einstein": {
+  "slug": "albert-einstein",
+  "title": "Albert Einstein",
+  "file": "Albert_Einstein_Head_cleaned.jpg",
+  "licence": "Public domain",
+  "author": "Oren Jack Turner",
+  "url": "https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head_cleaned.jpg"
+ },
+ "max-planck": {
+  "slug": "max-planck",
+  "title": "Max Planck",
+  "file": "Max_Planck_by_Hugo_Erfurth_1938cr_-_restoration1.jpg",
+  "licence": "Public domain",
+  "author": "Hugo Erfurth",
+  "url": "https://commons.wikimedia.org/wiki/File:Max_Planck_by_Hugo_Erfurth_1938cr_-_restoration1.jpg"
+ },
+ "robert-koch": {
+  "slug": "robert-koch",
+  "title": "Robert Koch",
+  "file": "RobertKoch_cropped.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:RobertKoch_cropped.jpg"
+ },
+ "emmy-noether": {
+  "slug": "emmy-noether",
+  "title": "Emmy Noether",
+  "file": "Emmy_Noether_(3x4_cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author Publisher: Mathematical Association of America [3],",
+  "url": "https://commons.wikimedia.org/wiki/File:Emmy_Noether_(3x4_cropped).jpg"
+ },
+ "galileo-galilei": {
+  "slug": "galileo-galilei",
+  "title": "Galileo Galilei",
+  "file": "Galileo_Galilei_(1564-1642)_RMG_BHC2700.tiff",
+  "licence": "Public domain",
+  "author": "Justus Sustermans",
+  "url": "https://commons.wikimedia.org/wiki/File:Galileo_Galilei_(1564-1642)_RMG_BHC2700.tiff"
+ },
+ "leonardo-da-vinci": {
+  "slug": "leonardo-da-vinci",
+  "title": "Leonardo da Vinci",
+  "file": "Francesco_Melzi_-_Portrait_of_Leonardo.png",
+  "licence": "Public domain",
+  "author": "Attributed to Francesco Melzi",
+  "url": "https://commons.wikimedia.org/wiki/File:Francesco_Melzi_-_Portrait_of_Leonardo.png"
+ },
+ "guglielmo-marconi": {
+  "slug": "guglielmo-marconi",
+  "title": "Guglielmo Marconi",
+  "file": "Guglielmo_Marconi.jpg",
+  "licence": "Public domain",
+  "author": "Pach Brothers",
+  "url": "https://commons.wikimedia.org/wiki/File:Guglielmo_Marconi.jpg"
+ },
+ "rita-levi-montalcini": {
+  "slug": "rita-levi-montalcini",
+  "title": "Rita Levi-Montalcini",
+  "file": "Rita_Levi-Montalcini_(1986).png",
+  "licence": "Public domain",
+  "author": "Kurt Hagblom, Firma Hagblom-Foto, restored by Adam Cuerden",
+  "url": "https://commons.wikimedia.org/wiki/File:Rita_Levi-Montalcini_(1986).png"
+ },
+ "nicolaus-copernicus": {
+  "slug": "nicolaus-copernicus",
+  "title": "Nicolaus Copernicus",
+  "file": "Nikolaus_Kopernikus_MOT.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Nikolaus_Kopernikus_MOT.jpg"
+ },
+ "dmitri-mendeleev": {
+  "slug": "dmitri-mendeleev",
+  "title": "Dmitri Mendeleev",
+  "file": "Dmitri_Mendeleev.jpg",
+  "licence": "Public domain",
+  "author": "Original: Unknown authorUnknown author Upload: Germansociety2014",
+  "url": "https://commons.wikimedia.org/wiki/File:Dmitri_Mendeleev.jpg"
+ },
+ "ivan-pavlov": {
+  "slug": "ivan-pavlov",
+  "title": "Ivan Pavlov",
+  "file": "Ivan_Pavlov_NLM3.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Ivan_Pavlov_NLM3.jpg"
+ },
+ "yuri-gagarin": {
+  "slug": "yuri-gagarin",
+  "title": "Yuri Gagarin",
+  "file": "Yuri_Gagarin_with_awards_(cropped)_2.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Александр Моклецов / СовИнформБюро",
+  "url": "https://commons.wikimedia.org/wiki/File:Yuri_Gagarin_with_awards_(cropped)_2.jpg"
+ },
+ "valentina-tereshkova": {
+  "slug": "valentina-tereshkova",
+  "title": "Valentina Tereshkova",
+  "file": "Valentina_Tereshkova_(2024-02-29)_crop.jpg",
+  "licence": "CC BY 4.0",
+  "author": "This file comes from the website of the President of the Russian Federation and ",
+  "url": "https://commons.wikimedia.org/wiki/File:Valentina_Tereshkova_(2024-02-29)_crop.jpg"
+ },
+ "santiago-ramon-y-cajal": {
+  "slug": "santiago-ramon-y-cajal",
+  "title": "Santiago Ramón y Cajal",
+  "file": "Santiago_Ramón_y_Cajal_(1852-1934)_portrait_(restored).jpg",
+  "licence": "Public domain",
+  "author": "Original photo is anonymous although published by Clark University in 1899. Rest",
+  "url": "https://commons.wikimedia.org/wiki/File:Santiago_Ram%C3%B3n_y_Cajal_(1852-1934)_portrait_(restored).jpg"
+ },
+ "juan-sebastian-elcano": {
+  "slug": "juan-sebastian-elcano",
+  "title": "Juan Sebastián Elcano",
+  "file": "Juan_Sebastián_Elcano,_anonymous_19th_century_painting.jpg",
+  "licence": "Public domain",
+  "author": "AnonymousUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Juan_Sebasti%C3%A1n_Elcano%2C_anonymous_19th_century_painting.jpg"
+ },
+ "vasco-da-gama": {
+  "slug": "vasco-da-gama",
+  "title": "Vasco da Gama",
+  "file": "Ignoto_portoghese,_ritratto_di_un_cavaliere_dell'ordine_di_cristo,_1525-50_ca._02.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Sailko",
+  "url": "https://commons.wikimedia.org/wiki/File:Ignoto_portoghese%2C_ritratto_di_un_cavaliere_dell'ordine_di_cristo%2C_1525-50_ca._02.jpg"
+ },
+ "antonie-van-leeuwenhoek": {
+  "slug": "antonie-van-leeuwenhoek",
+  "title": "Antonie van Leeuwenhoek",
+  "file": "Anthonie_van_Leeuwenhoek_(1632-1723)._Natuurkundige_te_Delft_Rijksmuseum_SK-A-957.jpeg",
+  "licence": "Public domain",
+  "author": "Jan Verkolje",
+  "url": "https://commons.wikimedia.org/wiki/File:Anthonie_van_Leeuwenhoek_(1632-1723)._Natuurkundige_te_Delft_Rijksmuseum_SK-A-957.jpeg"
+ },
+ "john-von-neumann": {
+  "slug": "john-von-neumann",
+  "title": "John von Neumann",
+  "file": "JohnvonNeumann-LosAlamos.gif",
+  "licence": "Attribution",
+  "author": "LANL",
+  "url": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif"
+ },
+ "wangari-maathai": {
+  "slug": "wangari-maathai",
+  "title": "Wangari Maathai",
+  "file": "Wangari_Maathai_in_2001.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Kingkongphoto &amp; www.celebrity-photos.com from Laurel Maryland, USA",
+  "url": "https://commons.wikimedia.org/wiki/File:Wangari_Maathai_in_2001.jpg"
+ },
+ "bertolt-brecht": {
+  "slug": "bertolt-brecht",
+  "title": "Bertolt Brecht",
+  "file": "Bertolt-Brecht.jpg",
+  "licence": "CC BY-SA 3.0 de",
+  "author": "Kolbe, Jörg",
+  "url": "https://commons.wikimedia.org/wiki/File:Bertolt-Brecht.jpg"
+ },
+ "dante-alighieri": {
+  "slug": "dante-alighieri",
+  "title": "Dante Alighieri",
+  "file": "Bargello_-_Kapelle_Fresko_2a.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Wolfgang Sauber",
+  "url": "https://commons.wikimedia.org/wiki/File:Bargello_-_Kapelle_Fresko_2a.jpg"
+ },
+ "chimamanda-ngozi-adichie": {
+  "slug": "chimamanda-ngozi-adichie",
+  "title": "Chimamanda Ngozi Adichie",
+  "file": "Chimamanda_Ngozi_Adichie_(2015).png",
+  "licence": "CC BY 3.0",
+  "author": "librairie mollat",
+  "url": "https://commons.wikimedia.org/wiki/File:Chimamanda_Ngozi_Adichie_(2015).png"
+ },
+ "gabriel-garcia-marquez": {
+  "slug": "gabriel-garcia-marquez",
+  "title": "Gabriel García Márquez",
+  "file": "Gabriel_Garcia_Marquez.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Jose Lara",
+  "url": "https://commons.wikimedia.org/wiki/File:Gabriel_Garcia_Marquez.jpg"
+ },
+ "clarice-lispector": {
+  "slug": "clarice-lispector",
+  "title": "Clarice Lispector",
+  "file": "Clarice_Lispector_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bisilliat, Maureen",
+  "url": "https://commons.wikimedia.org/wiki/File:Clarice_Lispector_(cropped).jpg"
+ },
+ "octavio-paz": {
+  "slug": "octavio-paz",
+  "title": "Octavio Paz",
+  "file": "Octavio_Paz_-_1988_Malmö.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Foto: Jonn Leffmann",
+  "url": "https://commons.wikimedia.org/wiki/File:Octavio_Paz_-_1988_Malm%C3%B6.jpg"
+ },
+ "nawal-el-saadawi": {
+  "slug": "nawal-el-saadawi",
+  "title": "Nawal El Saadawi",
+  "file": "Nawal_El_Saadawi,_April_2012_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Gigi Ibrahim",
+  "url": "https://commons.wikimedia.org/wiki/File:Nawal_El_Saadawi%2C_April_2012_(cropped).jpg"
+ },
+ "j-m-coetzee": {
+  "slug": "j-m-coetzee",
+  "title": "J. M. Coetzee",
+  "file": "J._M._Coetzee_Nov_2023_headshot.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Laterthanyouthink",
+  "url": "https://commons.wikimedia.org/wiki/File:J._M._Coetzee_Nov_2023_headshot.jpg"
+ },
+ "wis-awa-szymborska": {
+  "slug": "wis-awa-szymborska",
+  "title": "Wisława Szymborska",
+  "file": "Wisława_Szymborska_2009.10.23_(1).jpg",
+  "licence": "CC BY 3.0",
+  "author": "Mariusz Kubik",
+  "url": "https://commons.wikimedia.org/wiki/File:Wis%C5%82awa_Szymborska_2009.10.23_(1).jpg"
+ },
+ "milan-kundera": {
+  "slug": "milan-kundera",
+  "title": "Milan Kundera",
+  "file": "Milan_Kundera_redux.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Elisa Cabot",
+  "url": "https://commons.wikimedia.org/wiki/File:Milan_Kundera_redux.jpg"
+ },
+ "mahmoud-darwish": {
+  "slug": "mahmoud-darwish",
+  "title": "Mahmoud Darwish",
+  "file": "MahmoudDarwish.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Amer Shomali",
+  "url": "https://commons.wikimedia.org/wiki/File:MahmoudDarwish.jpg"
+ },
+ "bob-dylan": {
+  "slug": "bob-dylan",
+  "title": "Bob Dylan",
+  "file": "DylanYoungKilkenny140719v2_(50_of_52)_(52246124397)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:DylanYoungKilkenny140719v2_(50_of_52)_(52246124397)_(cropped).jpg"
+ },
+ "beyonce": {
+  "slug": "beyonce",
+  "title": "Beyonce",
+  "file": "Beyoncé_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_(10_of_118)_(52946364598)_(best_crop).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:Beyonc%C3%A9_-_Tottenham_Hotspur_Stadium_-_1st_June_2023_(10_of_118)_(52946364598)_(best_crop).jpg"
+ },
+ "paul-mccartney": {
+  "slug": "paul-mccartney",
+  "title": "Paul McCartney",
+  "file": "MaccaLyricsRFH051121_(15_of_18)_(updated)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:MaccaLyricsRFH051121_(15_of_18)_(updated)_(cropped).jpg"
+ },
+ "david-bowie": {
+  "slug": "david-bowie",
+  "title": "David Bowie",
+  "file": "David-Bowie_Chicago_2002-08-08_photoby_Adam-Bielawski-cropped.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Adam Bielawski",
+  "url": "https://commons.wikimedia.org/wiki/File:David-Bowie_Chicago_2002-08-08_photoby_Adam-Bielawski-cropped.jpg"
+ },
+ "elton-john": {
+  "slug": "elton-john",
+  "title": "Elton John",
+  "file": "EltonDocBFILFF101024_(4_of_17)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:EltonDocBFILFF101024_(4_of_17)_(cropped).jpg"
+ },
+ "adele": {
+  "slug": "adele",
+  "title": "Adele",
+  "file": "Adele_2016.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Marc E.",
+  "url": "https://commons.wikimedia.org/wiki/File:Adele_2016.jpg"
+ },
+ "antonio-vivaldi": {
+  "slug": "antonio-vivaldi",
+  "title": "Antonio Vivaldi",
+  "file": "Vivaldi.jpg",
+  "licence": "Public domain",
+  "author": "Unidentified painter",
+  "url": "https://commons.wikimedia.org/wiki/File:Vivaldi.jpg"
+ },
+ "luciano-pavarotti": {
+  "slug": "luciano-pavarotti",
+  "title": "Luciano Pavarotti",
+  "file": "Luciano_Pavarotti_2004.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Kingkongphoto &amp; www.celebrity-photos.com from Laurel Maryland, USA",
+  "url": "https://commons.wikimedia.org/wiki/File:Luciano_Pavarotti_2004.jpg"
+ },
+ "avicii": {
+  "slug": "avicii",
+  "title": "Avicii",
+  "file": "Avicii_2014_003cr.jpg",
+  "licence": "CC BY 3.0",
+  "author": "The Perfect World Foundation",
+  "url": "https://commons.wikimedia.org/wiki/File:Avicii_2014_003cr.jpg"
+ },
+ "joao-gilberto": {
+  "slug": "joao-gilberto",
+  "title": "João Gilberto",
+  "file": "João_Gilberto.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Tuca Vieira from São Paulo, Brazil",
+  "url": "https://commons.wikimedia.org/wiki/File:Jo%C3%A3o_Gilberto.jpg"
+ },
+ "shakira": {
+  "slug": "shakira",
+  "title": "Shakira",
+  "file": "2023-11-16_Gala_de_los_Latin_Grammy,_03_(cropped)02.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Junta de Andalucía",
+  "url": "https://commons.wikimedia.org/wiki/File:2023-11-16_Gala_de_los_Latin_Grammy%2C_03_(cropped)02.jpg"
+ },
+ "youssou-n-dour": {
+  "slug": "youssou-n-dour",
+  "title": "Youssou N'Dour",
+  "file": "YoussouNdour20090913.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Kotoviski photograph by Henryk Kotowski",
+  "url": "https://commons.wikimedia.org/wiki/File:YoussouNdour20090913.jpg"
+ },
+ "miriam-makeba": {
+  "slug": "miriam-makeba",
+  "title": "Miriam Makeba",
+  "file": "Miriam_makeba_01.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Paul Weinberg",
+  "url": "https://commons.wikimedia.org/wiki/File:Miriam_makeba_01.jpg"
+ },
+ "hugh-masekela": {
+  "slug": "hugh-masekela",
+  "title": "Hugh Masekela",
+  "file": "Womex2011_-_Crawfurd6468_(6299756789).jpg",
+  "licence": "CC BY 2.0",
+  "author": "WOMEX",
+  "url": "https://commons.wikimedia.org/wiki/File:Womex2011_-_Crawfurd6468_(6299756789).jpg"
+ },
+ "lata-mangeshkar": {
+  "slug": "lata-mangeshkar",
+  "title": "Lata Mangeshkar",
+  "file": "LataMangeshkar10.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Bollywood Hungama",
+  "url": "https://commons.wikimedia.org/wiki/File:LataMangeshkar10.jpg"
+ },
+ "nusrat-fateh-ali-khan": {
+  "slug": "nusrat-fateh-ali-khan",
+  "title": "Nusrat Fateh Ali Khan",
+  "file": "Nusrat_Fateh_Ali_Khan_(1948-1997).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Thomas Rome",
+  "url": "https://commons.wikimedia.org/wiki/File:Nusrat_Fateh_Ali_Khan_(1948-1997).jpg"
+ },
+ "joe-hisaishi": {
+  "slug": "joe-hisaishi",
+  "title": "Joe Hisaishi",
+  "file": "Joe_Hisaishi_2011.jpg",
+  "licence": "CC BY 2.0",
+  "author": "citykane",
+  "url": "https://commons.wikimedia.org/wiki/File:Joe_Hisaishi_2011.jpg"
+ },
+ "celine-dion": {
+  "slug": "celine-dion",
+  "title": "Celine Dion",
+  "file": "Céline_Dion_2012.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Georges Biard",
+  "url": "https://commons.wikimedia.org/wiki/File:C%C3%A9line_Dion_2012.jpg"
+ },
+ "sinead-o-connor": {
+  "slug": "sinead-o-connor",
+  "title": "Sinéad O'Connor",
+  "file": "Sinead_O'Connor_(14828633401)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Bryan Ledgard",
+  "url": "https://commons.wikimedia.org/wiki/File:Sinead_O'Connor_(14828633401)_(cropped).jpg"
+ },
+ "bjork": {
+  "slug": "bjork",
+  "title": "Björk",
+  "file": "Bjork_Orkestral_Paris_(cropped).png",
+  "licence": "CC BY-SA 4.0",
+  "author": "Frédéric Vicomte",
+  "url": "https://commons.wikimedia.org/wiki/File:Bjork_Orkestral_Paris_(cropped).png"
+ },
+ "sezen-aksu": {
+  "slug": "sezen-aksu",
+  "title": "Sezen Aksu",
+  "file": "Sezen_Aksu_(Minik_Serçe)_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "E4024",
+  "url": "https://commons.wikimedia.org/wiki/File:Sezen_Aksu_(Minik_Ser%C3%A7e)_(cropped).jpg"
+ },
+ "judi-dench": {
+  "slug": "judi-dench",
+  "title": "Judi Dench",
+  "file": "Judi_Dench_2023.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:Judi_Dench_2023.jpg"
+ },
+ "idris-elba": {
+  "slug": "idris-elba",
+  "title": "Idris Elba",
+  "file": "Idris_Elba_A_House_of_Dynamite-21_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Idris_Elba_A_House_of_Dynamite-21_(cropped).jpg"
+ },
+ "brigitte-bardot": {
+  "slug": "brigitte-bardot",
+  "title": "Brigitte Bardot",
+  "file": "Reproduktion-_Filmschauspielerin_(Bardot)_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._036134b.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Willy Pragher",
+  "url": "https://commons.wikimedia.org/wiki/File:Reproduktion-_Filmschauspielerin_(Bardot)_-_LABW_-_Staatsarchiv_Freiburg_W_134_Nr._036134b.jpg"
+ },
+ "jean-luc-godard": {
+  "slug": "jean-luc-godard",
+  "title": "Jean-Luc Godard",
+  "file": "Jean-Luc_Godard_at_Berkeley,_1968.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Gary Stevens",
+  "url": "https://commons.wikimedia.org/wiki/File:Jean-Luc_Godard_at_Berkeley%2C_1968.jpg"
+ },
+ "catherine-deneuve": {
+  "slug": "catherine-deneuve",
+  "title": "Catherine Deneuve",
+  "file": "Catherine_Deneuve_Berlinale_2017.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Martin Kraft",
+  "url": "https://commons.wikimedia.org/wiki/File:Catherine_Deneuve_Berlinale_2017.jpg"
+ },
+ "sophia-loren": {
+  "slug": "sophia-loren",
+  "title": "Sophia Loren",
+  "file": "Gala_de_Închidere_TIFF_2016_(27490660976)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Nuță Lucian from Cluj-Napoca, Romania",
+  "url": "https://commons.wikimedia.org/wiki/File:Gala_de_%C3%8Enchidere_TIFF_2016_(27490660976)_(cropped).jpg"
+ },
+ "penelope-cruz": {
+  "slug": "penelope-cruz",
+  "title": "Penélope Cruz",
+  "file": "Goyas_2024_-_Penélope_Cruz-2_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Pedro J Pacheco",
+  "url": "https://commons.wikimedia.org/wiki/File:Goyas_2024_-_Pen%C3%A9lope_Cruz-2_(cropped).jpg"
+ },
+ "ingmar-bergman": {
+  "slug": "ingmar-bergman",
+  "title": "Ingmar Bergman",
+  "file": "Ingmar_Bergman_(1966).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Joost Evers / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Ingmar_Bergman_(1966).jpg"
+ },
+ "satyajit-ray": {
+  "slug": "satyajit-ray",
+  "title": "Satyajit Ray",
+  "file": "Satyajit_Ray_in_New_York_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Dinu Alam Newyork",
+  "url": "https://commons.wikimedia.org/wiki/File:Satyajit_Ray_in_New_York_(cropped).jpg"
+ },
+ "amitabh-bachchan": {
+  "slug": "amitabh-bachchan",
+  "title": "Amitabh Bachchan",
+  "file": "Indian_actor_Amitabh_Bachchan.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "File:Amitabh Bacchan and Shrinivas Kulkarni.jpg: Shrinivaskulkarni1388 derivativ",
+  "url": "https://commons.wikimedia.org/wiki/File:Indian_actor_Amitabh_Bachchan.jpg"
+ },
+ "madhubala": {
+  "slug": "madhubala",
+  "title": "Madhubala",
+  "file": "Madhubala_on_2008_stamp.jpg",
+  "licence": "CC BY 3.0",
+  "author": "India Post, Government of India",
+  "url": "https://commons.wikimedia.org/wiki/File:Madhubala_on_2008_stamp.jpg"
+ },
+ "shah-rukh-khan": {
+  "slug": "shah-rukh-khan",
+  "title": "Shah Rukh Khan",
+  "file": "Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Bollywood Hungama",
+  "url": "https://commons.wikimedia.org/wiki/File:Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg"
+ },
+ "hayao-miyazaki": {
+  "slug": "hayao-miyazaki",
+  "title": "Hayao Miyazaki",
+  "file": "HayaoMiyazakiCCJuly09.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Natasha Baucas at https://www.flickr.com/photos/sdnatasha/",
+  "url": "https://commons.wikimedia.org/wiki/File:HayaoMiyazakiCCJuly09.jpg"
+ },
+ "zhang-yimou": {
+  "slug": "zhang-yimou",
+  "title": "Zhang Yimou",
+  "file": "Zhang_Yimou_from_\"Full_River_Red\"_at_Red_Carpet_of_the_Tokyo_International_Film_Festival_2023_(53347207442)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Dick Thomas Johnson from Tokyo, Japan",
+  "url": "https://commons.wikimedia.org/wiki/File:Zhang_Yimou_from_%22Full_River_Red%22_at_Red_Carpet_of_the_Tokyo_International_Film_Festival_2023_(53347207442)_(cropped).jpg"
+ },
+ "gong-li": {
+  "slug": "gong-li",
+  "title": "Gong Li",
+  "file": "Gong_Li_Cannes_2016.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Georges Biard",
+  "url": "https://commons.wikimedia.org/wiki/File:Gong_Li_Cannes_2016.jpg"
+ },
+ "bong-joon-ho": {
+  "slug": "bong-joon-ho",
+  "title": "Bong Joon-ho",
+  "file": "Bong_Joon_Ho_at_Busan_Film_Festival,_smaller.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Jay Dixit",
+  "url": "https://commons.wikimedia.org/wiki/File:Bong_Joon_Ho_at_Busan_Film_Festival%2C_smaller.jpg"
+ },
+ "abbas-kiarostami": {
+  "slug": "abbas-kiarostami",
+  "title": "Abbas Kiarostami",
+  "file": "Kiarostami_Boroujerdi_(3)(Cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "مهرزاد بروجردی",
+  "url": "https://commons.wikimedia.org/wiki/File:Kiarostami_Boroujerdi_(3)(Cropped).jpg"
+ },
+ "asghar-farhadi": {
+  "slug": "asghar-farhadi",
+  "title": "Asghar Farhadi",
+  "file": "Asghar_Farhadi_in_2018-2_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Frankie Fouganthin",
+  "url": "https://commons.wikimedia.org/wiki/File:Asghar_Farhadi_in_2018-2_(cropped).jpg"
+ },
+ "nuri-bilge-ceylan": {
+  "slug": "nuri-bilge-ceylan",
+  "title": "Nuri Bilge Ceylan",
+  "file": "Nuri_Bilge_Ceylan,_Cines_del_Sur.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Cines del Sur Granada Film Festival from Spain",
+  "url": "https://commons.wikimedia.org/wiki/File:Nuri_Bilge_Ceylan%2C_Cines_del_Sur.jpg"
+ },
+ "guillermo-del-toro": {
+  "slug": "guillermo-del-toro",
+  "title": "Guillermo del Toro",
+  "file": "Guillermo_del_Toro_at_the_2026_Sundance_Film_Festival_01_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Gabriel Brooks",
+  "url": "https://commons.wikimedia.org/wiki/File:Guillermo_del_Toro_at_the_2026_Sundance_Film_Festival_01_(cropped).jpg"
+ },
+ "alfonso-cuaron": {
+  "slug": "alfonso-cuaron",
+  "title": "Alfonso Cuarón",
+  "file": "DisclaimerBFILFF101024_(88_of_113)_(54062275143)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:DisclaimerBFILFF101024_(88_of_113)_(54062275143)_(cropped).jpg"
+ },
+ "fernanda-montenegro": {
+  "slug": "fernanda-montenegro",
+  "title": "Fernanda Montenegro",
+  "file": "Fernanda_Montenegro2019.jpg",
+  "licence": "CC BY 3.0",
+  "author": "VIVA",
+  "url": "https://commons.wikimedia.org/wiki/File:Fernanda_Montenegro2019.jpg"
+ },
+ "cate-blanchett": {
+  "slug": "cate-blanchett",
+  "title": "Cate Blanchett",
+  "file": "Cate_Blanchett-63298_(cropped_2).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Harald Krichel",
+  "url": "https://commons.wikimedia.org/wiki/File:Cate_Blanchett-63298_(cropped_2).jpg"
+ },
+ "denis-villeneuve": {
+  "slug": "denis-villeneuve",
+  "title": "Denis Villeneuve",
+  "file": "DVilleneuveRFH121024_(12_of_23)_(54061976489)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:DVilleneuveRFH121024_(12_of_23)_(54061976489)_(cropped).jpg"
+ },
+ "cillian-murphy": {
+  "slug": "cillian-murphy",
+  "title": "Cillian Murphy",
+  "file": "Cillian_Murphy_at_the_London_premier_of_Steve_in_September_2025_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Netflix",
+  "url": "https://commons.wikimedia.org/wiki/File:Cillian_Murphy_at_the_London_premier_of_Steve_in_September_2025_(cropped).jpg"
+ },
+ "krzysztof-kieslowski": {
+  "slug": "krzysztof-kieslowski",
+  "title": "Krzysztof Kieślowski",
+  "file": "Krzysztof_Kieślowski_Portrait_1994.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Alberto Terrile",
+  "url": "https://commons.wikimedia.org/wiki/File:Krzysztof_Kie%C5%9Blowski_Portrait_1994.jpg"
+ },
+ "ousmane-sembene": {
+  "slug": "ousmane-sembene",
+  "title": "Ousmane Sembène",
+  "file": "Ousmane_Sembène_(1987)_by_Guenter_Prust.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Günter Prust",
+  "url": "https://commons.wikimedia.org/wiki/File:Ousmane_Semb%C3%A8ne_(1987)_by_Guenter_Prust.jpg"
+ },
+ "apichatpong-weerasethakul": {
+  "slug": "apichatpong-weerasethakul",
+  "title": "Apichatpong Weerasethakul",
+  "file": "Apichatpong_Portrait_02.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Parichart",
+  "url": "https://commons.wikimedia.org/wiki/File:Apichatpong_Portrait_02.jpg"
+ },
+ "jackie-chan": {
+  "slug": "jackie-chan",
+  "title": "Jackie Chan",
+  "file": "Jackie_Chan.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Segolene Liger",
+  "url": "https://commons.wikimedia.org/wiki/File:Jackie_Chan.jpg"
+ },
+ "robin-williams": {
+  "slug": "robin-williams",
+  "title": "Robin Williams",
+  "file": "Robin_Williams_1996_(cropped)_2.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Kingkongphoto &amp; www.celebrity-photos.com from Laurel, Maryland, USA",
+  "url": "https://commons.wikimedia.org/wiki/File:Robin_Williams_1996_(cropped)_2.jpg"
+ },
+ "jerry-seinfeld": {
+  "slug": "jerry-seinfeld",
+  "title": "Jerry Seinfeld",
+  "file": "Jerry_Seinfeld_2023.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Zafrir Keren - צפריר קרן",
+  "url": "https://commons.wikimedia.org/wiki/File:Jerry_Seinfeld_2023.jpg"
+ },
+ "eric-morecambe": {
+  "slug": "eric-morecambe",
+  "title": "Eric Morecambe",
+  "file": "EricMorecambe1963.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Victor Heyfron M.A.",
+  "url": "https://commons.wikimedia.org/wiki/File:EricMorecambe1963.jpg"
+ },
+ "rowan-atkinson": {
+  "slug": "rowan-atkinson",
+  "title": "Rowan Atkinson",
+  "file": "Rowan_Atkinson,_2011.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Eva Rinaldi",
+  "url": "https://commons.wikimedia.org/wiki/File:Rowan_Atkinson%2C_2011.jpg"
+ },
+ "ricky-gervais": {
+  "slug": "ricky-gervais",
+  "title": "Ricky Gervais",
+  "file": "GervaisPall230921_(15_of_17)_(51527411486)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:GervaisPall230921_(15_of_17)_(51527411486)_(cropped).jpg"
+ },
+ "jim-carrey": {
+  "slug": "jim-carrey",
+  "title": "Jim Carrey",
+  "file": "Jim_Carrey_2020_(cropped2).jpg",
+  "licence": "CC BY 3.0",
+  "author": "SHOWTIME",
+  "url": "https://commons.wikimedia.org/wiki/File:Jim_Carrey_2020_(cropped2).jpg"
+ },
+ "hannah-gadsby": {
+  "slug": "hannah-gadsby",
+  "title": "Hannah Gadsby",
+  "file": "Hannah-Gadsby-at-the-2024-Edinburgh-Festival-Fringe-2_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Hannah-Gadsby-at-the-2024-Edinburgh-Festival-Fringe-2_(cropped).jpg"
+ },
+ "toto": {
+  "slug": "toto",
+  "title": "Totò",
+  "file": "AntonioDeCurtisFoto.png",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:AntonioDeCurtisFoto.png"
+ },
+ "cantinflas": {
+  "slug": "cantinflas",
+  "title": "Cantinflas",
+  "file": "Cantinflas_en_1967_(cropped).webp",
+  "licence": "Public domain",
+  "author": "Press photo",
+  "url": "https://commons.wikimedia.org/wiki/File:Cantinflas_en_1967_(cropped).webp"
+ },
+ "chico-anysio": {
+  "slug": "chico-anysio",
+  "title": "Chico Anysio",
+  "file": "Chico_Anysio.jpg",
+  "licence": "CC BY 3.0 br",
+  "author": "José Cruz/ABr",
+  "url": "https://commons.wikimedia.org/wiki/File:Chico_Anysio.jpg"
+ },
+ "ismail-yassine": {
+  "slug": "ismail-yassine",
+  "title": "Ismail Yassine",
+  "file": "Ismail_Yassin.jpg",
+  "licence": "Public domain",
+  "author": "Some Photographer working for the production company",
+  "url": "https://commons.wikimedia.org/wiki/File:Ismail_Yassin.jpg"
+ },
+ "jesse-owens": {
+  "slug": "jesse-owens",
+  "title": "Jesse Owens",
+  "file": "Jesse_Owens_1936.jpg",
+  "licence": "Public domain",
+  "author": "Acme News Photos",
+  "url": "https://commons.wikimedia.org/wiki/File:Jesse_Owens_1936.jpg"
+ },
+ "michael-jordan": {
+  "slug": "michael-jordan",
+  "title": "Michael Jordan",
+  "file": "Michael_Jordan_in_2014.jpg",
+  "licence": "Public domain",
+  "author": "DOD photo by D. Myles Cullen",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Jordan_in_2014.jpg"
+ },
+ "serena-williams": {
+  "slug": "serena-williams",
+  "title": "Serena Williams",
+  "file": "Guests_at_the_2026_Met_Gala_209_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "SWinxy",
+  "url": "https://commons.wikimedia.org/wiki/File:Guests_at_the_2026_Met_Gala_209_(cropped).jpg"
+ },
+ "michael-phelps": {
+  "slug": "michael-phelps",
+  "title": "Michael Phelps",
+  "file": "Michael_Phelps_Rio_Olympics_2016.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Agência Brasil Fotografias",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Phelps_Rio_Olympics_2016.jpg"
+ },
+ "simone-biles": {
+  "slug": "simone-biles",
+  "title": "Simone Biles",
+  "file": "Simone_Biles_National_Team_2024.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Ocoudis",
+  "url": "https://commons.wikimedia.org/wiki/File:Simone_Biles_National_Team_2024.jpg"
+ },
+ "mo-farah": {
+  "slug": "mo-farah",
+  "title": "Mo Farah",
+  "file": "2023_London_Marathon_-_Sir_Mo_Farah_(2)_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Katie Chan",
+  "url": "https://commons.wikimedia.org/wiki/File:2023_London_Marathon_-_Sir_Mo_Farah_(2)_(cropped).jpg"
+ },
+ "pele": {
+  "slug": "pele",
+  "title": "Pelé",
+  "file": "Pele_con_brasil_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Pele_con_brasil_(cropped).jpg"
+ },
+ "ayrton-senna": {
+  "slug": "ayrton-senna",
+  "title": "Ayrton Senna",
+  "file": "Ayrton_Senna_Pesawat_RC_Cropped.jpg",
+  "licence": "CC BY 2.0",
+  "author": "File:Ayrton Senna 2.jpg: Instituto Ayrton Senna derivative work: F1fans",
+  "url": "https://commons.wikimedia.org/wiki/File:Ayrton_Senna_Pesawat_RC_Cropped.jpg"
+ },
+ "diego-maradona": {
+  "slug": "diego-maradona",
+  "title": "Diego Maradona",
+  "file": "Argentina_celebrando_copa_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Argentina_celebrando_copa_(cropped).jpg"
+ },
+ "gabriela-sabatini": {
+  "slug": "gabriela-sabatini",
+  "title": "Gabriela Sabatini",
+  "file": "Gabriela_Sabatini_US_Embassy_in_Argentina_cropped.jpg",
+  "licence": "CC BY 2.0",
+  "author": "United States Embassy to Argentina, Buenos Aires",
+  "url": "https://commons.wikimedia.org/wiki/File:Gabriela_Sabatini_US_Embassy_in_Argentina_cropped.jpg"
+ },
+ "cristiano-ronaldo": {
+  "slug": "cristiano-ronaldo",
+  "title": "Cristiano Ronaldo",
+  "file": "Cristiano_Ronaldo_Croatia_v_Portugal_2_July_2026-075_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Cristiano_Ronaldo_Croatia_v_Portugal_2_July_2026-075_(cropped).jpg"
+ },
+ "eusebio": {
+  "slug": "eusebio",
+  "title": "Eusébio",
+  "file": "Eusebio_en_1973.jpg",
+  "licence": "Public domain",
+  "author": "Panini",
+  "url": "https://commons.wikimedia.org/wiki/File:Eusebio_en_1973.jpg"
+ },
+ "miguel-indurain": {
+  "slug": "miguel-indurain",
+  "title": "Miguel Indurain",
+  "file": "Miguel_Indurain_en_la_Vuelta_a_Castilla_y_León_2009_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Rafael G. Riancho",
+  "url": "https://commons.wikimedia.org/wiki/File:Miguel_Indurain_en_la_Vuelta_a_Castilla_y_Le%C3%B3n_2009_(cropped).jpg"
+ },
+ "zinedine-zidane": {
+  "slug": "zinedine-zidane",
+  "title": "Zinedine Zidane",
+  "file": "Zinedine_Zidane_by_Tasnim_03.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Hadi Abyar",
+  "url": "https://commons.wikimedia.org/wiki/File:Zinedine_Zidane_by_Tasnim_03.jpg"
+ },
+ "marie-jose-perec": {
+  "slug": "marie-jose-perec",
+  "title": "Marie-José Pérec",
+  "file": "Marie-José_Pérec_Cannes_2016.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Georges Biard",
+  "url": "https://commons.wikimedia.org/wiki/File:Marie-Jos%C3%A9_P%C3%A9rec_Cannes_2016.jpg"
+ },
+ "franz-beckenbauer": {
+  "slug": "franz-beckenbauer",
+  "title": "Franz Beckenbauer",
+  "file": "Franz_Beckenbauer_(1975).jpg",
+  "licence": "Public domain",
+  "author": "Panini Group",
+  "url": "https://commons.wikimedia.org/wiki/File:Franz_Beckenbauer_(1975).jpg"
+ },
+ "steffi-graf": {
+  "slug": "steffi-graf",
+  "title": "Steffi Graf",
+  "file": "Steffi_Graf_in_Hamburg_2010_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Steffi_Graf_in_Hamburg.jpg: Mark Henckel from Hamburg-Altona, Deutschland (http:",
+  "url": "https://commons.wikimedia.org/wiki/File:Steffi_Graf_in_Hamburg_2010_(cropped).jpg"
+ },
+ "michael-schumacher": {
+  "slug": "michael-schumacher",
+  "title": "Michael Schumacher",
+  "file": "Michael_Schumacher,_September_2005.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Original: Aécio Neves – Wellington Pedro/Imprensa MG / Derivative work: F1fans, ",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Schumacher%2C_September_2005.jpg"
+ },
+ "roberto-baggio": {
+  "slug": "roberto-baggio",
+  "title": "Roberto Baggio",
+  "file": "روبرتو_باجو_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "AbolfaZl0990",
+  "url": "https://commons.wikimedia.org/wiki/File:%D8%B1%D9%88%D8%A8%D8%B1%D8%AA%D9%88_%D8%A8%D8%A7%D8%AC%D9%88_(cropped).jpg"
+ },
+ "valentino-rossi": {
+  "slug": "valentino-rossi",
+  "title": "Valentino Rossi",
+  "file": "Valentino_Rossi_2024_WEC_Fuji_6.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Morio",
+  "url": "https://commons.wikimedia.org/wiki/File:Valentino_Rossi_2024_WEC_Fuji_6.jpg"
+ },
+ "paolo-maldini": {
+  "slug": "paolo-maldini",
+  "title": "Paolo Maldini",
+  "file": "Paolo_Maldini_AC_Milan_Technical_director_2018.jpg",
+  "licence": "CC BY 3.0",
+  "author": "GOAL TV",
+  "url": "https://commons.wikimedia.org/wiki/File:Paolo_Maldini_AC_Milan_Technical_director_2018.jpg"
+ },
+ "johan-cruyff": {
+  "slug": "johan-cruyff",
+  "title": "Johan Cruyff",
+  "file": "Johan_Cruijff_(1974).jpg",
+  "licence": "CC0",
+  "author": "Rob Mieremet / Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Johan_Cruijff_(1974).jpg"
+ },
+ "kim-clijsters": {
+  "slug": "kim-clijsters",
+  "title": "Kim Clijsters",
+  "file": "Kim_Clijsters.jpg",
+  "licence": "CC0",
+  "author": "Vegafi",
+  "url": "https://commons.wikimedia.org/wiki/File:Kim_Clijsters.jpg"
+ },
+ "lev-yashin": {
+  "slug": "lev-yashin",
+  "title": "Lev Yashin",
+  "file": "LevYashin.JPG",
+  "licence": "CC BY-SA 3.0 nl",
+  "author": "Kroon, Ron for Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:LevYashin.JPG"
+ },
+ "andriy-shevchenko": {
+  "slug": "andriy-shevchenko",
+  "title": "Andriy Shevchenko",
+  "file": "Андрій_Шевченко_2024_(cropped).png",
+  "licence": "CC BY 4.0",
+  "author": "Міністерство молоді та спорту України",
+  "url": "https://commons.wikimedia.org/wiki/File:%D0%90%D0%BD%D0%B4%D1%80%D1%96%D0%B9_%D0%A8%D0%B5%D0%B2%D1%87%D0%B5%D0%BD%D0%BA%D0%BE_2024_(cropped).png"
+ },
+ "oleksandr-usyk": {
+  "slug": "oleksandr-usyk",
+  "title": "Oleksandr Usyk",
+  "file": "2022_-_Centre_Stage_EN1_4500_(52471602047)_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Web Summit",
+  "url": "https://commons.wikimedia.org/wiki/File:2022_-_Centre_Stage_EN1_4500_(52471602047)_(cropped).jpg"
+ },
+ "ferenc-puskas": {
+  "slug": "ferenc-puskas",
+  "title": "Ferenc Puskás",
+  "file": "Ferenc_Puskas_en_1965.jpg",
+  "licence": "Public domain",
+  "author": "Panini",
+  "url": "https://commons.wikimedia.org/wiki/File:Ferenc_Puskas_en_1965.jpg"
+ },
+ "martina-navratilova": {
+  "slug": "martina-navratilova",
+  "title": "Martina Navratilova",
+  "file": "Martina_Navratilova_Eastbourne_2011.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Andrew Campbell",
+  "url": "https://commons.wikimedia.org/wiki/File:Martina_Navratilova_Eastbourne_2011.jpg"
+ },
+ "janica-kostelic": {
+  "slug": "janica-kostelic",
+  "title": "Janica Kostelić",
+  "file": "JanicaKostelic.jpg",
+  "licence": "CC BY-SA 2.5",
+  "author": "Blazv at Slovenian Wikipedia",
+  "url": "https://commons.wikimedia.org/wiki/File:JanicaKostelic.jpg"
+ },
+ "bjorn-borg": {
+  "slug": "bjorn-borg",
+  "title": "Björn Borg",
+  "file": "Bjorn_Borg_en_2014.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Michaël Bemelmans",
+  "url": "https://commons.wikimedia.org/wiki/File:Bjorn_Borg_en_2014.jpg"
+ },
+ "paavo-nurmi": {
+  "slug": "paavo-nurmi",
+  "title": "Paavo Nurmi",
+  "file": "Paavo_Nurmi_(Antwerp_1920).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author (Suomen Urheilumuseo)",
+  "url": "https://commons.wikimedia.org/wiki/File:Paavo_Nurmi_(Antwerp_1920).jpg"
+ },
+ "kimi-raikkonen": {
+  "slug": "kimi-raikkonen",
+  "title": "Kimi Räikkönen",
+  "file": "F12019_Schloss_Gabelhofen_(22)_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "XaviYuahanda",
+  "url": "https://commons.wikimedia.org/wiki/File:F12019_Schloss_Gabelhofen_(22)_(cropped).jpg"
+ },
+ "niki-lauda": {
+  "slug": "niki-lauda",
+  "title": "Niki Lauda",
+  "file": "Lauda_at_1982_Dutch_Grand_Prix.jpg",
+  "licence": "CC0",
+  "author": "Hans van Dijk for Anefo / neg. stroken, 1945-1989, 2.24.01.05, item number 932-2",
+  "url": "https://commons.wikimedia.org/wiki/File:Lauda_at_1982_Dutch_Grand_Prix.jpg"
+ },
+ "shelly-ann-fraser-pryce": {
+  "slug": "shelly-ann-fraser-pryce",
+  "title": "Shelly-Ann Fraser-Pryce",
+  "file": "Women's_100_m-_Beijing_2015.jpg",
+  "licence": "CC BY 2.5",
+  "author": "Erik van Leeuwen",
+  "url": "https://commons.wikimedia.org/wiki/File:Women's_100_m-_Beijing_2015.jpg"
+ },
+ "eliud-kipchoge": {
+  "slug": "eliud-kipchoge",
+  "title": "Eliud Kipchoge",
+  "file": "Eliud_Kipchoge_in_Berlin_-_2015_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Denis Barthel",
+  "url": "https://commons.wikimedia.org/wiki/File:Eliud_Kipchoge_in_Berlin_-_2015_(cropped).jpg"
+ },
+ "hicham-el-guerrouj": {
+  "slug": "hicham-el-guerrouj",
+  "title": "Hicham El Guerrouj",
+  "file": "Hicham_El_Guerrouj_cropped.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Sebastien from Montreal, Canada",
+  "url": "https://commons.wikimedia.org/wiki/File:Hicham_El_Guerrouj_cropped.jpg"
+ },
+ "nawal-el-moutawakel": {
+  "slug": "nawal-el-moutawakel",
+  "title": "Nawal El Moutawakel",
+  "file": "Nawal_El_Moutawakel_(cropped).JPG",
+  "licence": "CC BY-SA 3.0",
+  "author": "Atr1992",
+  "url": "https://commons.wikimedia.org/wiki/File:Nawal_El_Moutawakel_(cropped).JPG"
+ },
+ "didier-drogba": {
+  "slug": "didier-drogba",
+  "title": "Didier Drogba",
+  "file": "Didier_Drogba_(2019)_(cropped2).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Y.Leclercq©",
+  "url": "https://commons.wikimedia.org/wiki/File:Didier_Drogba_(2019)_(cropped2).jpg"
+ },
+ "abedi-pele": {
+  "slug": "abedi-pele",
+  "title": "Abedi Pele",
+  "file": "Abedi_Pele_2007.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Christophe95",
+  "url": "https://commons.wikimedia.org/wiki/File:Abedi_Pele_2007.jpg"
+ },
+ "george-weah": {
+  "slug": "george-weah",
+  "title": "George Weah",
+  "file": "Clar_Weah,_George_Weah,_Joe_Biden,_Jill_Biden_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "United States Department of State Africa U.S.-Africa Leaders Summit: Photos and ",
+  "url": "https://commons.wikimedia.org/wiki/File:Clar_Weah%2C_George_Weah%2C_Joe_Biden%2C_Jill_Biden_(cropped).jpg"
+ },
+ "siya-kolisi": {
+  "slug": "siya-kolisi",
+  "title": "Siya Kolisi",
+  "file": "Siya_Kolisi_2022.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Stefano Delfrate",
+  "url": "https://commons.wikimedia.org/wiki/File:Siya_Kolisi_2022.jpg"
+ },
+ "caster-semenya": {
+  "slug": "caster-semenya",
+  "title": "Caster Semenya",
+  "file": "Caster_Semenya_of_South_Africa_at_the_2018_African_Athletics_Championships.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bob Ramsak",
+  "url": "https://commons.wikimedia.org/wiki/File:Caster_Semenya_of_South_Africa_at_the_2018_African_Athletics_Championships.jpg"
+ },
+ "mohamed-salah": {
+  "slug": "mohamed-salah",
+  "title": "Mohamed Salah",
+  "file": "Mohamed_Salah_Argentina_v_Egypt_7_July_2026-163_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Mohamed_Salah_Argentina_v_Egypt_7_July_2026-163_(cropped).jpg"
+ },
+ "shohei-ohtani": {
+  "slug": "shohei-ohtani",
+  "title": "Shohei Ohtani",
+  "file": "Dodgers_at_Nationals_(53677192000)_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "All-Pro Reels from District of Columbia, USA",
+  "url": "https://commons.wikimedia.org/wiki/File:Dodgers_at_Nationals_(53677192000)_(cropped).jpg"
+ },
+ "naomi-osaka": {
+  "slug": "naomi-osaka",
+  "title": "Naomi Osaka",
+  "file": "NaomiOsaka-smile-2020_(cropped_tight).png",
+  "licence": "CC BY-SA 4.0",
+  "author": "AndrewHenkelman",
+  "url": "https://commons.wikimedia.org/wiki/File:NaomiOsaka-smile-2020_(cropped_tight).png"
+ },
+ "yuzuru-hanyu": {
+  "slug": "yuzuru-hanyu",
+  "title": "Yuzuru Hanyu",
+  "file": "2018_Winter_Olympics_-_Yuzuru_Hanyu_(cropped).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "David W. Carmichael",
+  "url": "https://commons.wikimedia.org/wiki/File:2018_Winter_Olympics_-_Yuzuru_Hanyu_(cropped).jpg"
+ },
+ "yao-ming": {
+  "slug": "yao-ming",
+  "title": "Yao Ming",
+  "file": "Yao_Ming_in_2014_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "World Travel &amp; Tourism Council",
+  "url": "https://commons.wikimedia.org/wiki/File:Yao_Ming_in_2014_(cropped).jpg"
+ },
+ "li-na": {
+  "slug": "li-na",
+  "title": "Li Na",
+  "file": "Li_Na_January_2015.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Tourism Victoria from Australia",
+  "url": "https://commons.wikimedia.org/wiki/File:Li_Na_January_2015.jpg"
+ },
+ "son-heung-min": {
+  "slug": "son-heung-min",
+  "title": "Son Heung-min",
+  "file": "BFA_2023_-2_Heung-Min_Son_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Ujishadow",
+  "url": "https://commons.wikimedia.org/wiki/File:BFA_2023_-2_Heung-Min_Son_(cropped).jpg"
+ },
+ "sachin-tendulkar": {
+  "slug": "sachin-tendulkar",
+  "title": "Sachin Tendulkar",
+  "file": "The_cricket_legend_Sachin_Tendulkar_at_the_Oval_Maidan_in_Mumbai_During_the_Duke_and_Duchess_of_Cambridge_Visit(26271019082).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "British High Commission, New Delhi",
+  "url": "https://commons.wikimedia.org/wiki/File:The_cricket_legend_Sachin_Tendulkar_at_the_Oval_Maidan_in_Mumbai_During_the_Duke_and_Duchess_of_Cambridge_Visit(26271019082).jpg"
+ },
+ "kapil-dev": {
+  "slug": "kapil-dev",
+  "title": "Kapil Dev",
+  "file": "Kapil_Dev_at_Equation_sports_auction_(3x4_cropped).jpg",
+  "licence": "CC BY 3.0",
+  "author": "Bollywood Hungama",
+  "url": "https://commons.wikimedia.org/wiki/File:Kapil_Dev_at_Equation_sports_auction_(3x4_cropped).jpg"
+ },
+ "milkha-singh": {
+  "slug": "milkha-singh",
+  "title": "Milkha Singh",
+  "file": "Milkha_Singh.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Sanyam Bahga",
+  "url": "https://commons.wikimedia.org/wiki/File:Milkha_Singh.jpg"
+ },
+ "p-v-sindhu": {
+  "slug": "p-v-sindhu",
+  "title": "P. V. Sindhu",
+  "file": "NAC_Jewellers_Honors_Olympic_Silver_Medalist_PV_Sindhu.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "https://silverscreen.in",
+  "url": "https://commons.wikimedia.org/wiki/File:NAC_Jewellers_Honors_Olympic_Silver_Medalist_PV_Sindhu.jpg"
+ },
+ "viswanathan-anand": {
+  "slug": "viswanathan-anand",
+  "title": "Viswanathan Anand",
+  "file": "Viswanathan_Anand_(2016)_(cropped).jpeg",
+  "licence": "CC BY 2.0",
+  "author": "Wolfgang Jekel",
+  "url": "https://commons.wikimedia.org/wiki/File:Viswanathan_Anand_(2016)_(cropped).jpeg"
+ },
+ "jahangir-khan": {
+  "slug": "jahangir-khan",
+  "title": "Jahangir Khan",
+  "file": "Jahangir_Khan_2018.jpg",
+  "licence": "CC BY 3.0",
+  "author": "TheAsianAwards",
+  "url": "https://commons.wikimedia.org/wiki/File:Jahangir_Khan_2018.jpg"
+ },
+ "wasim-akram": {
+  "slug": "wasim-akram",
+  "title": "Wasim Akram",
+  "file": "Wasim-akram-gesf-2018-7878.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Fuzheado",
+  "url": "https://commons.wikimedia.org/wiki/File:Wasim-akram-gesf-2018-7878.jpg"
+ },
+ "don-bradman": {
+  "slug": "don-bradman",
+  "title": "Don Bradman",
+  "file": "Don_Bradman_1930.jpg",
+  "licence": "CC BY 2.0",
+  "author": "State Library of South Australia from Australia",
+  "url": "https://commons.wikimedia.org/wiki/File:Don_Bradman_1930.jpg"
+ },
+ "cathy-freeman": {
+  "slug": "cathy-freeman",
+  "title": "Cathy Freeman",
+  "file": "Cathy_Freeman_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Jason Pini/AusAID",
+  "url": "https://commons.wikimedia.org/wiki/File:Cathy_Freeman_(cropped).jpg"
+ },
+ "rod-laver": {
+  "slug": "rod-laver",
+  "title": "Rod Laver",
+  "file": "Tennis_'great',_Rod_Laver_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Brisbane City Council",
+  "url": "https://commons.wikimedia.org/wiki/File:Tennis_'great'%2C_Rod_Laver_(cropped).jpg"
+ },
+ "richie-mccaw": {
+  "slug": "richie-mccaw",
+  "title": "Richie McCaw",
+  "file": "Richie_McCaw_ONZ_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "New Zealand Government, Office of the Governor-General",
+  "url": "https://commons.wikimedia.org/wiki/File:Richie_McCaw_ONZ_(cropped).jpg"
+ },
+ "wayne-gretzky": {
+  "slug": "wayne-gretzky",
+  "title": "Wayne Gretzky",
+  "file": "Andrew_Scheer_with_Wayne_Gretzky_(48055697168)_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Andre Forget - Andrew Scheer",
+  "url": "https://commons.wikimedia.org/wiki/File:Andrew_Scheer_with_Wayne_Gretzky_(48055697168)_(cropped).jpg"
+ },
+ "hugo-sanchez": {
+  "slug": "hugo-sanchez",
+  "title": "Hugo Sánchez",
+  "file": "Huguito.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Wikilast",
+  "url": "https://commons.wikimedia.org/wiki/File:Huguito.jpg"
+ },
+ "julio-cesar-chavez": {
+  "slug": "julio-cesar-chavez",
+  "title": "Julio César Chávez",
+  "file": "Julio_César_Chávez_2017.png",
+  "licence": "CC BY 3.0",
+  "author": "Box Azteca",
+  "url": "https://commons.wikimedia.org/wiki/File:Julio_C%C3%A9sar_Ch%C3%A1vez_2017.png"
+ },
+ "javier-sotomayor": {
+  "slug": "javier-sotomayor",
+  "title": "Javier Sotomayor",
+  "file": "Javier_Sotomayor_2009.jpg",
+  "licence": "CC BY 2.0",
+  "author": "ZBOBZ",
+  "url": "https://commons.wikimedia.org/wiki/File:Javier_Sotomayor_2009.jpg"
+ },
+ "luis-suarez": {
+  "slug": "luis-suarez",
+  "title": "Luis Suárez",
+  "file": "Luis_Suárez_2026_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "The White House",
+  "url": "https://commons.wikimedia.org/wiki/File:Luis_Su%C3%A1rez_2026_(cropped).jpg"
+ },
+ "nairo-quintana": {
+  "slug": "nairo-quintana",
+  "title": "Nairo Quintana",
+  "file": "Nairo_Quintana_with_fans,_2019_Paris-Nice_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Martin Mystère",
+  "url": "https://commons.wikimedia.org/wiki/File:Nairo_Quintana_with_fans%2C_2019_Paris-Nice_(cropped).jpg"
+ },
+ "edward-r-murrow": {
+  "slug": "edward-r-murrow",
+  "title": "Edward R. Murrow",
+  "file": "Edward_R._Murrow.jpg",
+  "licence": "Public domain",
+  "author": "US Information Agency",
+  "url": "https://commons.wikimedia.org/wiki/File:Edward_R._Murrow.jpg"
+ },
+ "barbara-walters": {
+  "slug": "barbara-walters",
+  "title": "Barbara Walters",
+  "file": "Barbara_Walters_Lynn_Gilbert.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Lynn Gilbert",
+  "url": "https://commons.wikimedia.org/wiki/File:Barbara_Walters_Lynn_Gilbert.jpg"
+ },
+ "oprah-winfrey": {
+  "slug": "oprah-winfrey",
+  "title": "Oprah Winfrey",
+  "file": "Oprah_Winfrey_2016.jpg",
+  "licence": "Public domain",
+  "author": "US Embassy South Africa",
+  "url": "https://commons.wikimedia.org/wiki/File:Oprah_Winfrey_2016.jpg"
+ },
+ "david-letterman": {
+  "slug": "david-letterman",
+  "title": "David Letterman",
+  "file": "Celebration_of_Service_160505-F-HS721-010_(cropped)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Staff Sgt. Kat Justen",
+  "url": "https://commons.wikimedia.org/wiki/File:Celebration_of_Service_160505-F-HS721-010_(cropped)_(cropped).jpg"
+ },
+ "nellie-bly": {
+  "slug": "nellie-bly",
+  "title": "Nellie Bly",
+  "file": "Nellie_Bly_2.jpg",
+  "licence": "Public domain",
+  "author": "H. J. Myers, photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Nellie_Bly_2.jpg"
+ },
+ "martha-gellhorn": {
+  "slug": "martha-gellhorn",
+  "title": "Martha Gellhorn",
+  "file": "Martha_Gellhorn_(1941).jpg",
+  "licence": "Public domain",
+  "author": "Unknown photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Martha_Gellhorn_(1941).jpg"
+ },
+ "graham-norton": {
+  "slug": "graham-norton",
+  "title": "Graham Norton",
+  "file": "GrahamNorton-byPhilipRomano.jpg",
+  "licence": "CC BY 4.0",
+  "author": "PhilipRomanoPhoto",
+  "url": "https://commons.wikimedia.org/wiki/File:GrahamNorton-byPhilipRomano.jpg"
+ },
+ "christiane-amanpour": {
+  "slug": "christiane-amanpour",
+  "title": "Christiane Amanpour",
+  "file": "Christiane_Amanpour_June_2008_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Peabody Awards",
+  "url": "https://commons.wikimedia.org/wiki/File:Christiane_Amanpour_June_2008_(cropped).jpg"
+ },
+ "bernard-pivot": {
+  "slug": "bernard-pivot",
+  "title": "Bernard Pivot",
+  "file": "Bernard_Pivot_1986.png",
+  "licence": "CC BY-SA 4.0",
+  "author": "Archives municipales de Toulouse. Cote : 16Fi72/23",
+  "url": "https://commons.wikimedia.org/wiki/File:Bernard_Pivot_1986.png"
+ },
+ "anna-politkovskaya": {
+  "slug": "anna-politkovskaya",
+  "title": "Anna Politkovskaya",
+  "file": "Anna_Politkovskaja_im_Gespräch_mit_Christhard_Läpple.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Blaues Sofa",
+  "url": "https://commons.wikimedia.org/wiki/File:Anna_Politkovskaja_im_Gespr%C3%A4ch_mit_Christhard_L%C3%A4pple.jpg"
+ },
+ "jacobo-zabludovsky": {
+  "slug": "jacobo-zabludovsky",
+  "title": "Jacobo Zabludovsky",
+  "file": "Jacobo_Zabludovsky.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Presidencia de la República Mexicana",
+  "url": "https://commons.wikimedia.org/wiki/File:Jacobo_Zabludovsky.jpg"
+ },
+ "prannoy-roy": {
+  "slug": "prannoy-roy",
+  "title": "Prannoy Roy",
+  "file": "Secretaries_Kerry_and_Pritzker_sit_for_interview_with_NDTV_host_Prannoy_Roy_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "U.S. Department of State from United States",
+  "url": "https://commons.wikimedia.org/wiki/File:Secretaries_Kerry_and_Pritzker_sit_for_interview_with_NDTV_host_Prannoy_Roy_(cropped).jpg"
+ },
+ "thomas-sankara": {
+  "slug": "thomas-sankara",
+  "title": "Thomas Sankara",
+  "file": "Thomas_Sankara_in_Harlem_(1984).png",
+  "licence": "Public domain",
+  "author": "The Militant/ Ernest Harsch",
+  "url": "https://commons.wikimedia.org/wiki/File:Thomas_Sankara_in_Harlem_(1984).png"
+ },
+ "eric-williams": {
+  "slug": "eric-williams",
+  "title": "Eric Williams",
+  "file": "Eric_Williams_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Joop van Bilsen for Anefo",
+  "url": "https://commons.wikimedia.org/wiki/File:Eric_Williams_(cropped).jpg"
+ },
+ "juan-pablo-duarte": {
+  "slug": "juan-pablo-duarte",
+  "title": "Juan Pablo Duarte",
+  "file": "Juan_pablo_duarte_diez.jpg",
+  "licence": "Public domain",
+  "author": "Abelardo Rodríguez Urdaneta (1870-1933).",
+  "url": "https://commons.wikimedia.org/wiki/File:Juan_pablo_duarte_diez.jpg"
+ },
+ "michael-somare": {
+  "slug": "michael-somare",
+  "title": "Michael Somare",
+  "file": "Michael_Somare,_1973_(cropped).jpg",
+  "licence": "CC0",
+  "author": "Unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Somare%2C_1973_(cropped).jpg"
+ },
+ "samori-ture": {
+  "slug": "samori-ture",
+  "title": "Samori Ture",
+  "file": "Almamy_Samory_Touré.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Almamy_Samory_Tour%C3%A9.jpg"
+ },
+ "taytu-betul": {
+  "slug": "taytu-betul",
+  "title": "Taytu Betul",
+  "file": "Taicron.gif",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Taicron.gif"
+ },
+ "strive-masiyiwa": {
+  "slug": "strive-masiyiwa",
+  "title": "Strive Masiyiwa",
+  "file": "Strive_Masiyawa,_Africa_Leadership_Academy,_Nairobi,_Kenya,_2019_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Kathi Walther Bouma",
+  "url": "https://commons.wikimedia.org/wiki/File:Strive_Masiyawa%2C_Africa_Leadership_Academy%2C_Nairobi%2C_Kenya%2C_2019_(cropped).jpg"
+ },
+ "jagadish-chandra-bose": {
+  "slug": "jagadish-chandra-bose",
+  "title": "Jagadish Chandra Bose",
+  "file": "J.C.Bose.JPG",
+  "licence": "Public domain",
+  "author": "The Birth Centenary Committee, printed by P.C. Ray",
+  "url": "https://commons.wikimedia.org/wiki/File:J.C.Bose.JPG"
+ },
+ "satyendra-nath-bose": {
+  "slug": "satyendra-nath-bose",
+  "title": "Satyendra Nath Bose",
+  "file": "SatyenBose1925.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:SatyenBose1925.jpg"
+ },
+ "tsitsi-dangarembga": {
+  "slug": "tsitsi-dangarembga",
+  "title": "Tsitsi Dangarembga",
+  "file": "Tsitsi_Dangarembga_2006-11.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "David Clarke, Ayebia Clarke Publishing Ltd",
+  "url": "https://commons.wikimedia.org/wiki/File:Tsitsi_Dangarembga_2006-11.jpg"
+ },
+ "nuruddin-farah": {
+  "slug": "nuruddin-farah",
+  "title": "Nuruddin Farah",
+  "file": "3Nuruddin_Farah.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Simon Fraser University Public Affairs and Media Relations",
+  "url": "https://commons.wikimedia.org/wiki/File:3Nuruddin_Farah.jpg"
+ },
+ "tayeb-salih": {
+  "slug": "tayeb-salih",
+  "title": "Tayeb Salih",
+  "file": "Tayeb_saleh.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Engfrompalestine",
+  "url": "https://commons.wikimedia.org/wiki/File:Tayeb_saleh.jpg"
+ },
+ "yasunari-kawabata": {
+  "slug": "yasunari-kawabata",
+  "title": "Yasunari Kawabata",
+  "file": "Yasunari_Kawabata_1938.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Yasunari_Kawabata_1938.jpg"
+ },
+ "mo-yan": {
+  "slug": "mo-yan",
+  "title": "Mo Yan",
+  "file": "MoYan_Hamburg_2008.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Johannes Kolfhaus, Gymn. Marienthal",
+  "url": "https://commons.wikimedia.org/wiki/File:MoYan_Hamburg_2008.jpg"
+ },
+ "du-fu": {
+  "slug": "du-fu",
+  "title": "Du Fu",
+  "file": "Dufu.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Dufu.jpg"
+ },
+ "omar-khayyam": {
+  "slug": "omar-khayyam",
+  "title": "Omar Khayyam",
+  "file": "Hakim_Omar_Khayam_-_panoramio.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Alireza Javaheri",
+  "url": "https://commons.wikimedia.org/wiki/File:Hakim_Omar_Khayam_-_panoramio.jpg"
+ },
+ "arundhati-roy": {
+  "slug": "arundhati-roy",
+  "title": "Arundhati Roy",
+  "file": "Arundhati_Roy_W.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Augustus Binu/ facebook",
+  "url": "https://commons.wikimedia.org/wiki/File:Arundhati_Roy_W.jpg"
+ },
+ "amos-oz": {
+  "slug": "amos-oz",
+  "title": "Amos Oz",
+  "file": "Amos_Oz,_Israeli_author_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Gotfryd, Bernard, photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Amos_Oz%2C_Israeli_author_(cropped).jpg"
+ },
+ "ismail-kadare": {
+  "slug": "ismail-kadare",
+  "title": "Ismail Kadare",
+  "file": "Ismail_Kadare_(portret).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Ismail_Kadare_(portret).jpg"
+ },
+ "derek-walcott": {
+  "slug": "derek-walcott",
+  "title": "Derek Walcott",
+  "file": "Derek_Walcott.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Bert Nienhuis",
+  "url": "https://commons.wikimedia.org/wiki/File:Derek_Walcott.jpg"
+ },
+ "v-s-naipaul": {
+  "slug": "v-s-naipaul",
+  "title": "V. S. Naipaul",
+  "file": "VS_Naipaul_2016_Dhaka.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Faizul Latif Chowdhury",
+  "url": "https://commons.wikimedia.org/wiki/File:VS_Naipaul_2016_Dhaka.jpg"
+ },
+ "miguel-angel-asturias": {
+  "slug": "miguel-angel-asturias",
+  "title": "Miguel Ángel Asturias",
+  "file": "Miguel_Angel_Asturias.jpg",
+  "licence": "CC BY-SA 3.0 igo",
+  "author": "Dominique Roger",
+  "url": "https://commons.wikimedia.org/wiki/File:Miguel_Angel_Asturias.jpg"
+ },
+ "ruben-dario": {
+  "slug": "ruben-dario",
+  "title": "Rubén Darío",
+  "file": "Rubén_Darío.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Rub%C3%A9n_Dar%C3%ADo.jpg"
+ },
+ "alejo-carpentier": {
+  "slug": "alejo-carpentier",
+  "title": "Alejo Carpentier",
+  "file": "Alejo_Carpentier_c._1955.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Alejo_Carpentier_c._1955.jpg"
+ },
+ "cesar-vallejo": {
+  "slug": "cesar-vallejo",
+  "title": "César Vallejo",
+  "file": "Cesar_vallejo_1929.jpg",
+  "licence": "Public domain",
+  "author": "Juan Domingo Córdoba",
+  "url": "https://commons.wikimedia.org/wiki/File:Cesar_vallejo_1929.jpg"
+ },
+ "juan-rulfo": {
+  "slug": "juan-rulfo",
+  "title": "Juan Rulfo",
+  "file": "Rulfo_por_Lyon.jpg",
+  "licence": "Public domain",
+  "author": "unknown",
+  "url": "https://commons.wikimedia.org/wiki/File:Rulfo_por_Lyon.jpg"
+ },
+ "angelique-kidjo": {
+  "slug": "angelique-kidjo",
+  "title": "Angélique Kidjo",
+  "file": "Angélique_Kidjo_Gershwin_2023.jpg",
+  "licence": "CC0",
+  "author": "Library of Congress Life",
+  "url": "https://commons.wikimedia.org/wiki/File:Ang%C3%A9lique_Kidjo_Gershwin_2023.jpg"
+ },
+ "cesaria-evora": {
+  "slug": "cesaria-evora",
+  "title": "Cesária Évora",
+  "file": "Cesária_Évora_2008.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Foto: Silvio Tanaka",
+  "url": "https://commons.wikimedia.org/wiki/File:Ces%C3%A1ria_%C3%89vora_2008.jpg"
+ },
+ "oumou-sangare": {
+  "slug": "oumou-sangare",
+  "title": "Oumou Sangaré",
+  "file": "Oumou_Sangaré_(3785248191).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Bryan Ledgard",
+  "url": "https://commons.wikimedia.org/wiki/File:Oumou_Sangar%C3%A9_(3785248191).jpg"
+ },
+ "thomas-mapfumo": {
+  "slug": "thomas-mapfumo",
+  "title": "Thomas Mapfumo",
+  "file": "ThomasMapfumo2011.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Anya Wassenberg",
+  "url": "https://commons.wikimedia.org/wiki/File:ThomasMapfumo2011.jpg"
+ },
+ "manu-dibango": {
+  "slug": "manu-dibango",
+  "title": "Manu Dibango",
+  "file": "LesEscales2019ManuDibango_03_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Selbymay",
+  "url": "https://commons.wikimedia.org/wiki/File:LesEscales2019ManuDibango_03_(cropped).jpg"
+ },
+ "cui-jian": {
+  "slug": "cui-jian",
+  "title": "Cui Jian",
+  "file": "Cui_Jian_02.02.1993_I_10_crop_2.jpg",
+  "licence": "CC0",
+  "author": "Petra Gall, Schwule Museum",
+  "url": "https://commons.wikimedia.org/wiki/File:Cui_Jian_02.02.1993_I_10_crop_2.jpg"
+ },
+ "ofra-haza": {
+  "slug": "ofra-haza",
+  "title": "Ofra Haza",
+  "file": "Ofra_Haza_1981_(עפרה_חזה_1981).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Yaakov Saar",
+  "url": "https://commons.wikimedia.org/wiki/File:Ofra_Haza_1981_(%D7%A2%D7%A4%D7%A8%D7%94_%D7%97%D7%96%D7%94_1981).jpg"
+ },
+ "violeta-parra": {
+  "slug": "violeta-parra",
+  "title": "Violeta Parra",
+  "file": "Parra01f.PNG",
+  "licence": "Public domain",
+  "author": "Revista Argentina \"Panorama\"",
+  "url": "https://commons.wikimedia.org/wiki/File:Parra01f.PNG"
+ },
+ "bad-bunny": {
+  "slug": "bad-bunny",
+  "title": "Bad Bunny",
+  "file": "Bad_Bunny_2019_by_Glenn_Francis_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Toglenn",
+  "url": "https://commons.wikimedia.org/wiki/File:Bad_Bunny_2019_by_Glenn_Francis_(cropped).jpg"
+ },
+ "djimon-hounsou": {
+  "slug": "djimon-hounsou",
+  "title": "Djimon Hounsou",
+  "file": "Djimon_Hounsou_by_Gage_Skidmore_2.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Gage Skidmore",
+  "url": "https://commons.wikimedia.org/wiki/File:Djimon_Hounsou_by_Gage_Skidmore_2.jpg"
+ },
+ "wong-kar-wai": {
+  "slug": "wong-kar-wai",
+  "title": "Wong Kar-wai",
+  "file": "Wong_Kar-wai_Berlin_cropped.jpg",
+  "licence": "CC BY 3.0",
+  "author": "Siebbi",
+  "url": "https://commons.wikimedia.org/wiki/File:Wong_Kar-wai_Berlin_cropped.jpg"
+ },
+ "kirsty-coventry": {
+  "slug": "kirsty-coventry",
+  "title": "Kirsty Coventry",
+  "file": "Kirsty_Coventry_2025.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Nm5011",
+  "url": "https://commons.wikimedia.org/wiki/File:Kirsty_Coventry_2025.jpg"
+ },
+ "neeraj-chopra": {
+  "slug": "neeraj-chopra",
+  "title": "Neeraj Chopra",
+  "file": "Neeraj_Chopra_Olympic_gold_medalist.jpg",
+  "licence": "CC BY 4.0",
+  "author": "DD News (Ministry of Information &amp; Broadcasting, Government of India)",
+  "url": "https://commons.wikimedia.org/wiki/File:Neeraj_Chopra_Olympic_gold_medalist.jpg"
+ },
+ "manny-pacquiao": {
+  "slug": "manny-pacquiao",
+  "title": "Manny Pacquiao",
+  "file": "Former_senator_Manny_Pacquiao_speaks_in_event_(10-01-2025)_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Robert Oswald P. Alfiler for the Philippine News Agency (state-owned publication",
+  "url": "https://commons.wikimedia.org/wiki/File:Former_senator_Manny_Pacquiao_speaks_in_event_(10-01-2025)_(cropped).jpg"
+ },
+ "alfredo-di-stefano": {
+  "slug": "alfredo-di-stefano",
+  "title": "Alfredo Di Stéfano",
+  "file": "Di_stefano_argentina_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Di_stefano_argentina_(cropped).jpg"
+ },
+ "luis-aparicio": {
+  "slug": "luis-aparicio",
+  "title": "Luis Aparicio",
+  "file": "Luis_Aparicio,_70CWS.png",
+  "licence": "Public domain",
+  "author": "Chicago White Sox",
+  "url": "https://commons.wikimedia.org/wiki/File:Luis_Aparicio%2C_70CWS.png"
+ },
+ "keylor-navas": {
+  "slug": "keylor-navas",
+  "title": "Keylor Navas",
+  "file": "Keylor_Navas_2018_(cropped).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Антон Зайцев",
+  "url": "https://commons.wikimedia.org/wiki/File:Keylor_Navas_2018_(cropped).jpg"
+ },
+ "roberto-duran": {
+  "slug": "roberto-duran",
+  "title": "Roberto Durán",
+  "file": "Roberto-Duran-1994_(cropped).png",
+  "licence": "CC BY 2.0",
+  "author": "Jim Accordino",
+  "url": "https://commons.wikimedia.org/wiki/File:Roberto-Duran-1994_(cropped).png"
+ },
+ "jefferson-perez": {
+  "slug": "jefferson-perez",
+  "title": "Jefferson Pérez",
+  "file": "Jefferson-Perez.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Marco Togni",
+  "url": "https://commons.wikimedia.org/wiki/File:Jefferson-Perez.jpg"
+ },
+ "ana-guevara": {
+  "slug": "ana-guevara",
+  "title": "Ana Guevara",
+  "file": "Ana_Guevara.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Office of the Clerk of the House of Representatives of New Zealand",
+  "url": "https://commons.wikimedia.org/wiki/File:Ana_Guevara.jpg"
+ }
+}

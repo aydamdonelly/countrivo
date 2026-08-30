@@ -68,3 +68,4 @@ export { StatIcon, STAT_ICONS, STAT_SLUGS, type StatIconProps, type StatSlug } f
 
 // Added by P3 (additive): the counting number behind the result score, the reveal and the Draft rank.
 export { CountUp, groupThousands, type CountUpProps, type CountUpKind } from "./count-up";
+export { Portrait, type PortraitProps } from "./portrait";

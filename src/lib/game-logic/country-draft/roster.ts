@@ -8,6 +8,7 @@
  * the whole reason there is no loading state on the play route.
  */
 import pool from "@/data/draft-pool.json";
+import PORTRAIT_SLUGS from "@/data/portrait-slugs.json";
 import type { DraftFigure } from "./types";
 
 interface RawCountry {
@@ -37,6 +38,21 @@ export interface PoolCountry {
   groups: readonly PoolGroup[];
 }
 
+/**
+ * The slug rule, shared with scripts/fetch-portraits.ts: strip accents, lowercase, and
+ * join on hyphens. It is the file name of the portrait, so the two must never disagree.
+ */
+export function figureSlug(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+const PORTRAITS = new Set<string>(PORTRAIT_SLUGS as string[]);
+
 export const CONTINENTS: readonly string[] = RAW.t;
 
 export const POOL: readonly PoolCountry[] = RAW.p.map((c) => ({
@@ -47,7 +63,10 @@ export const POOL: readonly PoolCountry[] = RAW.p.map((c) => ({
   continent: c.t,
   groups: c.g.map(([archetype, people]) => ({
     archetype,
-    people: people.map(([name, standing, note]) => ({ name, note, archetype, standing })),
+    people: people.map(([name, standing, note]) => {
+      const slug = figureSlug(name);
+      return { name, slug, portrait: PORTRAITS.has(slug), note, archetype, standing };
+    }),
   })),
 }));
 

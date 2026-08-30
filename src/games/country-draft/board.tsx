@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/ui/button";
 import { CountUp } from "@/ui/count-up";
 import { Flag } from "@/ui/flag";
+import { Portrait } from "@/ui/portrait";
 import { SeatIcon } from "@/ui/icons/seat";
 import { cn } from "@/lib/utils";
 import { canUndo, figureAt, filledSeats, scoreState } from "@/lib/game-logic/country-draft/engine";
@@ -60,6 +61,7 @@ function Person({
 }) {
   return (
     <button type="button" className="dr-card" aria-pressed={held} onClick={onHold}>
+      <Portrait slug={figure.slug} name={figure.name} has={figure.portrait} size={44} />
       <span className="who">
         <b className="t-list">{figure.name}</b>
         <small className="t-meta">{figure.note}</small>
@@ -145,7 +147,7 @@ export function Board({ state, dispatch, busy }: BoardProps<CountryDraftState, C
             const source = state.board.rounds[pick.round];
             return (
               <div key={seatName} className="dr-seat">
-                <Flag iso2={source.iso2} size="xs" alt="" />
+                <Portrait slug={figure.slug} name={figure.name} has={figure.portrait} size={34} />
                 <span className="txt">
                   <b className="t-body">{figure.name}</b>
                   <small className="t-meta">

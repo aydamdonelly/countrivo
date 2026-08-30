@@ -21,7 +21,8 @@
   /* the three people on offer, and the three bonus rows that replace them at the reveal */
   .dr-pool { display: flex; flex-direction: column; gap: 8px; }
   .dr-card {
-    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    /* face, who they are, what they bring */
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center;
     min-height: 72px; padding: 8px 12px; text-align: left;
     background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
   }
@@ -38,7 +39,8 @@
   /* the cabinet: five seats, in seat order, open or filled */
   .dr-cabinet { display: flex; flex-direction: column; gap: 4px; }
   .dr-seat {
-    display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 10px; align-items: center;
+    /* the 34px slot holds the seated person's face, or the seat's own mark while empty */
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center;
     min-height: 44px; padding: 4px 12px; text-align: left;
     background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
   }
