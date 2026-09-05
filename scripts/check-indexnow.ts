@@ -68,13 +68,13 @@ try {
     resolve(repo, "scripts/submit-indexnow.ts"), ...args,
   ], { cwd: fixture, encoding: "utf8", timeout: 30_000 });
 
-  writeFileSync(snapshotPath, JSON.stringify(submitted));
+  writeFileSync(snapshotPath, JSON.stringify(previous));
   const original = readFileSync(snapshotPath, "utf8");
   const modified = statSync(snapshotPath).mtimeMs;
   const dryRun = run(["--dry-run"]);
   assert.equal(dryRun.status, 0, dryRun.stderr);
   assert.ok(dryRun.stdout.includes("dry run"));
-  if (current[geoUrl] !== submitted[geoUrl]) assert.ok(dryRun.stdout.includes(`${geoUrl}\t${current[geoUrl]}`));
+  assert.ok(dryRun.stdout.includes(`${geoUrl}\t${current[geoUrl]}`));
   assert.equal(readFileSync(snapshotPath, "utf8"), original);
   assert.equal(statSync(snapshotPath).mtimeMs, modified, "Dry run does not write the snapshot");
 
