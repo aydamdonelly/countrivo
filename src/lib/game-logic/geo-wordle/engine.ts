@@ -2,6 +2,8 @@ import { countries, centroids } from "@/lib/data/loader";
 import { seededPick } from "@/lib/seeded-random";
 import type { Country } from "@/types/country";
 
+export { resolveGuess } from "./input";
+
 export const MAX_GUESSES = 6;
 
 /**
@@ -154,17 +156,6 @@ export function createGeoWordle(rng: () => number): GeoWordleState {
   const pool = guessableCountries();
   const [answer] = seededPick(pool, 1, rng);
   return { answerIso3: answer.iso3, guesses: [], phase: "playing" };
-}
-
-/** Case-insensitive exact match on name OR displayName, restricted to guessables. */
-export function resolveGuess(input: string): Country | null {
-  const needle = input.trim().toLowerCase();
-  if (!needle) return null;
-  return (
-    guessableCountries().find(
-      (c) => c.name.toLowerCase() === needle || c.displayName.toLowerCase() === needle,
-    ) ?? null
-  );
 }
 
 export function submitGuess(state: GeoWordleState, country: Country): GeoWordleState {

@@ -6,6 +6,7 @@ const LINES: readonly { lead: string; links: readonly [string, string][] }[] = [
     lead: "Play",
     links: [
       ["Country Draft", "/games/country-draft"],
+      ["GeoWordle", "/games/geo-wordle"],
       ["Flag Quiz", "/games/flag-quiz"],
       ["Higher or Lower", "/games/higher-or-lower"],
       ["All games", "/games"],

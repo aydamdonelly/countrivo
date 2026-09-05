@@ -1,5 +1,11 @@
 # Decisions
 
+- 2026-09-04 · SEO: keep GeoWordle daily and unlimited on the existing canonical landing, clarify its free play offer, publish a fixed engine-backed clue example, and strengthen internal links. Country Draft keeps its successful cabinet-game positioning. Raw Search Console exports stay outside git; `scripts/search-console-report.py` reproduces the comparison.
+- 2026-09-04 · GeoWordle input: accept normalized country names and unambiguous aliases; partial text requires explicit selection before spending a guess. Daily seeds, answer pool and scoring stay unchanged.
+- 2026-09-04 · Freshness: game sitemap dates track editorial copy and metadata as well as registry data; country pages display their own data timestamp so game updates cannot make old country statistics look freshly updated.
+- 2026-09-04 · Acceptance fixes: linked leaderboard rows have a real 44 px target; the crawler check verifies the full homepage roster with a text floor that also allows an empty daily leaderboard after reset.
+- 2026-09-04 · SEO automation: use Node 22 and a lockfile that installs with normal peer resolution; local `legacy-peer-deps=true` had hidden the CI install failure. IndexNow must map content timestamp keys to canonical page URLs before comparing snapshots.
+
 - 2026-05-26 · Step 0 (Aorta): `daily_puzzles` Insert-Policy auf `TO authenticated WITH CHECK (true)` umgestellt (vorher PUBLIC). Verifiziert: anon-Insert wirft `42501 row-level security policy`. Supabase-Advisor flagged das `WITH CHECK (true)` als zu permissiv — bewusst angenommen, weil `TO authenticated` das Gate ist und `submitGameRun`-UPSERT mit `ON CONFLICT(game_slug,daily_date)` Seed-Manipulation post-first-write verhindert.
 - 2026-05-26 · `validateGameResult` default-Branch von `break` (silent accept) auf `return "unvalidated_game"` (reject). Misleading-Kommentar zu blitz/borderline/supremacy entfernt — grep bestätigt: diese drei Spiele rufen `submitGameRun` gar nicht auf, der Kommentar war ein Relikt.
 - 2026-05-26 · `searchUsers` Sanitization: PostgREST-Delimiter (`",()[]{}`) werden gestrippt, SQL-LIKE-Wildcards (`%_\\`) bleiben escaped. Apostrophe nicht angefasst, damit Namen wie "O'Brien" weiter suchbar bleiben.

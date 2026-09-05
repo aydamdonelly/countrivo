@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  guessableCountries,
   resolveGuess,
   MAX_GUESSES,
   type GeoWordleState,
 } from "@/lib/game-logic/geo-wordle/engine";
+import { suggestCountries } from "@/lib/game-logic/geo-wordle/input";
 import { Button } from "@/ui/button";
 import { Flag } from "@/ui/flag";
 import { CheckIcon } from "@/ui/icons/check";
@@ -15,7 +15,7 @@ import type { BoardProps } from "@/games/types";
 import { WorldMap, type MapGuess } from "@/games/_shared/world-map";
 import { REJECTED, kmLabel, type GeoAction } from "./module";
 
-const INTRO = "A hidden country. Every guess tells you how far and which way.";
+const INTRO = "Six guesses. Distance and arrows guide you to the hidden country.";
 
 /*
  * Everything this board needs on top of the shared play furniture, in one place. Six
@@ -85,27 +85,6 @@ const STYLE = `
   .geo .grow .bar i, .geo .grow .needle { animation: none; }
 }
 `;
-
-/** Accents folded, so `curacao` finds Curaçao and `sao tome` finds São Tomé and Príncipe. */
-function fold(s: string): string {
-  return s
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-}
-
-/** The 237 countries with a centroid, folded once at module load. */
-const POOL = guessableCountries().map((c) => {
-  const keys = [fold(c.displayName), fold(c.name)];
-  return {
-    iso3: c.iso3,
-    iso2: c.iso2,
-    name: c.displayName,
-    keys,
-    /** Every word start, so `guinea` finds Papua New Guinea and `verde` finds Cape Verde. */
-    words: [...new Set(keys.flatMap((k) => k.split(/[^a-z0-9]+/).filter(Boolean)))],
-  };
-});
 
 /**
  * The needle: one ink dart, drawn with a notched tail so the direction reads at 20 px and at
@@ -191,24 +170,10 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
       })),
     [state.guesses],
   );
-  const needle = fold(text.trim());
-  const items: SuggestItem[] = useMemo(() => {
-    if (!needle) return [];
-    const lead: SuggestItem[] = [];
-    const word: SuggestItem[] = [];
-    const inside: SuggestItem[] = [];
-    for (const c of POOL) {
-      if (guessed.has(c.iso3)) continue;
-      const item = { key: c.iso3, iso2: c.iso2, name: c.name };
-      if (c.keys.some((k) => k.startsWith(needle))) lead.push(item);
-      else if (c.words.some((w) => w.startsWith(needle))) word.push(item);
-      else if (c.keys.some((k) => k.includes(needle))) inside.push(item);
-      if (lead.length >= 5) break;
-    }
-    // A match inside a word (`stan`) only fills the list when nothing starts with the input.
-    const ranked = lead.length + word.length > 0 ? [...lead, ...word] : inside;
-    return ranked.slice(0, 5);
-  }, [needle, guessed]);
+  const items: SuggestItem[] = useMemo(
+    () => suggestCountries(text, guessed).map((c) => ({ key: c.iso3, iso2: c.iso2, name: c.displayName })),
+    [text, guessed],
+  );
 
   function guess(iso3: string): void {
     if (guessed.has(iso3)) {
@@ -227,10 +192,9 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
       focusField();
       return;
     }
-    // The button does what Enter does: an exact name, else the top suggestion.
-    const iso3 = resolveGuess(typed)?.iso3 ?? items[0]?.key;
+    const iso3 = resolveGuess(typed)?.iso3;
     if (!iso3) {
-      reject("Not a country.");
+      reject(items.length ? "Choose a country from the list." : "Not a country.");
       return;
     }
     guess(iso3);
@@ -272,6 +236,7 @@ export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoA
             items={items}
             onSelect={(item) => guess(item.key)}
             onSubmit={guessTyped}
+            autoSelectFirst={false}
             max={5}
             error={error?.text ?? null}
             disabled={busy}

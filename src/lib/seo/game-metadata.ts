@@ -25,9 +25,9 @@ interface GameSeo {
 
 const GAME_SEO: Record<string, GameSeo> = {
   "geo-wordle": {
-    title: "GeoWordle: Daily Country Wordle, Guess the Mystery Country | Countrivo",
+    title: "GeoWordle: Daily & Unlimited Country Wordle | Countrivo",
     description:
-      "A daily geography Wordle. Guess the hidden country: each try reveals the distance and direction to the answer. Solve it in six. Free, no signup.",
+      "Play GeoWordle free: guess the country in 6 tries with distance and direction clues. Solve today's puzzle or play unlimited practice. No signup.",
     genre: "Geography Puzzle",
     playMode: "SinglePlayer",
     rules: [
@@ -134,7 +134,7 @@ export interface GameJsonLdData {
   rules: string[];
 }
 
-function getSeo(slug: string): GameSeo {
+export function getGameSeo(slug: string): GameSeo {
   const seo = GAME_SEO[slug];
   if (seo) return seo;
   // Defensive fallback for an unseeded slug: uses the registry copy directly.
@@ -156,7 +156,7 @@ function getSeo(slug: string): GameSeo {
  */
 export function buildGameMetadata(slug: string): Metadata {
   const game = getGameBySlug(slug);
-  const seo = getSeo(slug);
+  const seo = getGameSeo(slug);
   const path = `/games/${slug}`;
   const ogTitle = game?.title ? `${game.title} | Countrivo` : seo.title;
 
@@ -187,12 +187,12 @@ export function buildGameMetadata(slug: string): Metadata {
  */
 export function buildGameJsonLd(slug: string): GameJsonLdData {
   const game = getGameBySlug(slug);
-  const seo = getSeo(slug);
+  const seo = getGameSeo(slug);
   const title = game?.title ?? slug;
   return {
-    name: `${title} | Countrivo`,
+    name: title,
     title,
-    description: game?.description ?? seo.description,
+    description: seo.description,
     url: `/games/${slug}`,
     genre: seo.genre,
     playMode: seo.playMode,

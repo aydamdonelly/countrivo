@@ -45,29 +45,30 @@ const RANKING_ROWS: readonly { stat: string | null; title: string; href: string;
 
 /**
  * "Data updated" comes from the generated src/data/data-timestamps.json at build, so a
- * missing file degrades to no line instead of a build error. The date is never
- * hand-written; it only reflects when the data pipeline last rewrote the stats.
+ * missing file or entry degrades to no line. Only this country's content timestamp
+ * counts: regenerating the file for a game must not make unchanged country data look new.
  */
-function readDataUpdatedDate(): string | null {
+function readDataUpdatedDate(slug: string): string | null {
   let parsed: unknown;
   try {
     parsed = JSON.parse(readFileSync(join(process.cwd(), "src/data/data-timestamps.json"), "utf8"));
   } catch {
     return null;
   }
-  if (typeof parsed === "string") return formatDataDate(parsed);
-  if (typeof parsed !== "object" || parsed === null) return null;
-  const record = parsed as Record<string, unknown>;
-  for (const key of ["generatedAt", "updatedAt", "lastUpdated", "dataUpdated", "date"]) {
-    const value = record[key];
-    if (typeof value === "string" && value.length > 0) return formatDataDate(value);
-  }
-  return null;
+  if (!isRecord(parsed) || !isRecord(parsed.entries)) return null;
+  const entry = parsed.entries[`country:${slug}`];
+  return isRecord(entry) && typeof entry.lastModified === "string"
+    ? formatDataDate(entry.lastModified)
+    : null;
 }
 
-function formatDataDate(value: string): string {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function formatDataDate(value: string): string | null {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
+  if (Number.isNaN(date.getTime())) return null;
   return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
 }
 
@@ -87,7 +88,7 @@ function splitStat(raw: number, unit: string): { value: string; unit?: string } 
 export function CountryPage({ country }: { country: Country }) {
   const categories = getAllCategories();
   const ranks = getRanksForCountry(country.iso3);
-  const dataUpdated = readDataUpdatedDate();
+  const dataUpdated = readDataUpdatedDate(country.slug);
 
   const neighbours = (borders[country.iso3] ?? [])
     .map((iso3) => getCountryByIso3(iso3))

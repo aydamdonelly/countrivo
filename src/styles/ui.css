@@ -124,10 +124,8 @@
   .gb .tabs a[aria-selected="true"]::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: -2px; height: 2px; background: var(--color-ink); }
   .gb .tabs em { margin-left: auto; font-size: 12px; line-height: 1.35; font-weight: 600; color: var(--color-ember); }
   .gb .row { display: grid; grid-template-columns: 18px 26px 1fr auto; gap: 10px; align-items: center; padding: var(--row-y) 0; font-size: 14px; line-height: 1.3; border-top: 1px solid var(--color-line); color: var(--color-ink); }
-  /* The 39px row height is a K3 look number; a linked row still needs 44px of touch,
-     so the hit area grows outward and nothing in the layout moves. */
-  .gb a.row { position: relative; }
-  .gb a.row::after { content: ""; position: absolute; inset: -3px 0; }
+  /* Keep linked rows' touch targets inside their own bounds, without overlapping neighbours. */
+  .gb a.row { min-height: 44px; }
   .gb .row i { font-size: 12px; line-height: 1.35; color: var(--color-mute); }
   .gb .row .name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .gb .row.wait .name { color: var(--color-mute); font-weight: 500; }

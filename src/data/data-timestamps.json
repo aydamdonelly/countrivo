@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-29T07:33:51.130Z",
+  "generatedAt": "2026-09-05T02:05:42.139Z",
   "entries": {
     "category:arable-land-pct": {
       "hash": "bc83258b793cac4f",
@@ -1058,32 +1058,32 @@
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "game:blind-pick": {
-      "hash": "c65b2a5a6cf833b2",
-      "lastModified": "2026-08-28T22:57:44.000Z"
+      "hash": "5b30ea7070bb22bf",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:country-draft": {
-      "hash": "1a1ea015611142a8",
-      "lastModified": "2026-08-29T07:33:51.130Z"
+      "hash": "a650de574fc77394",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:flag-quiz": {
-      "hash": "7e6303f7cbaf51c0",
-      "lastModified": "2026-08-29T05:27:22.344Z"
+      "hash": "7995cc2e519be963",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:geo-wordle": {
-      "hash": "1c3999c7780142a7",
-      "lastModified": "2026-08-29T05:27:22.344Z"
+      "hash": "bb4681a637918632",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:higher-or-lower": {
-      "hash": "500d0689ef13d429",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "9e0c7aa049c159ef",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:speed-flags": {
-      "hash": "83999109aeb303ac",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "d4895b10cf5b73d4",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "game:stat-guesser": {
-      "hash": "24bd0221a23d7773",
-      "lastModified": "2026-05-31T14:48:03.000Z"
+      "hash": "edf8a7f125f1f75b",
+      "lastModified": "2026-09-05T02:05:42.139Z"
     },
     "list:biggest-military-spenders": {
       "hash": "c913a05db1b0f870",

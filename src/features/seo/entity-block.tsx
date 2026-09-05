@@ -7,6 +7,7 @@ import {
   TOTAL_COUNTRIES,
 } from "@/content/entity";
 import { EditorialHead, Prose } from "@/ui";
+import { guessableCountries } from "@/lib/game-logic/geo-wordle/engine";
 
 /**
  * The extractable entity block of a landing (blueprint 7.3 step 9): declarative prose
@@ -25,6 +26,8 @@ export function EntityBlock({ slug }: { slug: string }) {
   const { title, difficulty, category, estimatedTime } = game;
   const hasDaily = game.availableModes.includes("daily");
   const hasPractice = game.availableModes.includes("practice");
+  const isGeoWordle = slug === "geo-wordle";
+  const countryCount = isGeoWordle ? guessableCountries().length : TOTAL_COUNTRIES;
 
   const rows: [string, string][] = [
     ["Game", title],
@@ -33,7 +36,7 @@ export function EntityBlock({ slug }: { slug: string }) {
     ...(hasDaily ? ([["Daily reset", "Midnight, Europe/Berlin"]] as [string, string][]) : []),
     ["Session length", estimatedTime],
     ["Difficulty", `${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`],
-    ["Countries covered", String(TOTAL_COUNTRIES)],
+    [isGeoWordle ? "Countries & territories" : "Country dataset", String(countryCount)],
     ["Price", "Free, no account required"],
   ];
 
@@ -50,8 +53,9 @@ export function EntityBlock({ slug }: { slug: string }) {
         </p>
         <p>{hasDaily ? dailyParagraph(title, hasPractice) : practiceParagraph(title)}</p>
         <p>
-          {title} draws on Countrivo&apos;s data set of all {TOTAL_COUNTRIES} countries and territories,
-          so no country is out of scope.
+          {isGeoWordle
+            ? `${title} includes ${countryCount} countries and territories with reference coordinates for distance clues. Territories can be answers as well as sovereign countries.`
+            : `${title} uses Countrivo's dataset of ${TOTAL_COUNTRIES} countries and territories. The countries available in a round depend on the game's rules and the data needed for that round.`}
         </p>
       </Prose>
 

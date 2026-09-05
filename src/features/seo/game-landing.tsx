@@ -17,6 +17,7 @@ import {
   type GameSlug,
 } from "@/ui";
 import { DraftTables } from "./draft-tables";
+import { GeoWordleGuide } from "./geo-wordle-guide";
 import { EntityBlock } from "./entity-block";
 import { GameJsonLd } from "./game-jsonld";
 import { faqPage, jsonLdProps, node } from "./breadcrumbs";
@@ -37,6 +38,7 @@ export async function GameLanding({ slug }: { slug: string }) {
   // Country Draft publishes its whole scoring model on this page (SPEC 20.5); it is the
   // only unique content this URL can carry, and it is what makes the page worth reading.
   const isCabinetDraft = slug === "country-draft";
+  const isGeoWordle = slug === "geo-wordle";
   const board = hasDaily ? await getPublicBoard(slug) : null;
   const leaderboard = `/games/${slug}/leaderboard`;
   const playDaily = `/games/${slug}/play?mode=daily`;
@@ -71,7 +73,7 @@ export async function GameLanding({ slug }: { slug: string }) {
               how={content.steps ? undefined : content.how}
               steps={content.steps}
               chips={content.chips ?? content.facts}
-              cta={{ label: hasDaily ? "Shoot" : "Play", href: hasDaily ? playDaily : playPractice }}
+              cta={{ label: isGeoWordle ? "Play daily" : hasDaily ? "Shoot" : "Play", href: hasDaily ? playDaily : playPractice }}
             />
           </div>
 
@@ -81,9 +83,9 @@ export async function GameLanding({ slug }: { slug: string }) {
                 <p className="t-body">
                   or{" "}
                   <Link href={playPractice} className="ilink">
-                    practice a board
+                    {isGeoWordle ? "play unlimited practice" : "practice a board"}
                   </Link>
-                  , it won&apos;t count
+                  {isGeoWordle ? ". Free, no account needed." : ", it won't count"}
                 </p>
                 <p className="t-body">
                   One shot per day, same board for everyone, on the global board till midnight Berlin
@@ -113,6 +115,12 @@ export async function GameLanding({ slug }: { slug: string }) {
           {isCabinetDraft ? (
             <div data-o="5">
               <DraftTables />
+            </div>
+          ) : null}
+
+          {isGeoWordle ? (
+            <div data-o="5">
+              <GeoWordleGuide />
             </div>
           ) : null}
 

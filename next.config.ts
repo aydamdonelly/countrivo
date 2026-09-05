@@ -30,11 +30,14 @@ const HTML_LIMITED_BOTS = new RegExp(
   "i",
 );
 
-// The eleven games cut from the roster (Aug 2026). Their landings were indexed, so every
-// old URL under /games/{slug} keeps a permanent home on the closest surviving page: a
-// nearby game where one exists, the hub where none does. Kept as data so the pairs stay
-// readable and the play, leaderboard, run and opengraph-image children follow the parent.
+// Retired published games keep a permanent home on the closest surviving game.
+// Trace, Caravan and Budget were removed in May 2026; the others in August.
+// Play, leaderboard, run and opengraph-image children follow the landing.
 const RETIRED_GAMES: Record<string, string> = {
+  countryle: "/games/geo-wordle",
+  trace: "/games/geo-wordle",
+  caravan: "/games/blind-pick",
+  budget: "/games/stat-guesser",
   "capital-match": "/games/flag-quiz",
   blitz: "/games/flag-quiz",
   "population-sort": "/games/higher-or-lower",
@@ -103,8 +106,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       { source: "/vs/:code", destination: "/games", permanent: true },
-      { source: "/games/countryle", destination: "/games", permanent: true },
-      { source: "/games/countryle/play", destination: "/games", permanent: true },
       ...worldDraftRedirects,
       ...retiredGameRedirects,
     ];

@@ -1,8 +1,9 @@
 import { getAllGames } from "@/lib/data/games";
+import Link from "next/link";
 import { GAMES_HUB, gamesHubFaq } from "@/content/hubs";
 import { gameMeta } from "@/content/games";
 import { TOTAL_COUNTRIES } from "@/content/entity";
-import { EditorialHead, GameList, PageTitle, QaList, SiteFoot } from "@/ui";
+import { EditorialHead, GameList, PageTitle, Prose, QaList, SiteFoot } from "@/ui";
 import type { GameSlug } from "@/ui";
 import { faqPage, jsonLdProps, node, SITE_URL } from "./breadcrumbs";
 import "./seo.css";
@@ -44,6 +45,17 @@ export function GamesHub() {
         title={GAMES_HUB.h1}
         meta={`${gameCount(games.length)} · ${TOTAL_COUNTRIES} countries · one shot a day`}
       />
+
+      <Prose>
+        <p>
+          Pick a free geography game and play in your browser. Follow distance clues in{" "}
+          <Link href="/games/geo-wordle">GeoWordle, the country Wordle</Link>, name the flags
+          of the world in <Link href="/games/flag-quiz">Flag Quiz</Link>, or compare country
+          statistics in <Link href="/games/higher-or-lower">Higher or Lower</Link>.
+          Each daily has the same board for everyone. Practice is unlimited, and no account
+          or download is needed.
+        </p>
+      </Prose>
 
       <div className="two">
         <div>

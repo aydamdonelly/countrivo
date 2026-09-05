@@ -1,6 +1,8 @@
 # Countrivo
 
-Geography gaming platform. 17 games, 243 countries, daily challenges and practice mode.
+Free geography games: six daily puzzles and Speed Flags for unlimited practice.
+Play GeoWordle, Country Draft, Blind Pick, Higher or Lower, Stat Guesser and Flag Quiz.
+Country profiles cover 243 countries and territories.
 
 Live at [countrivo.com](https://countrivo.com).
 
@@ -20,6 +22,9 @@ npm run dev       # Dev server
 npm run build     # Production build (type-checks included)
 npm run lint      # ESLint
 npx tsc --noEmit  # Type check only
+npm run check:theme  # UI conventions
+npm run check:contracts  # Game submission contracts
+npx tsx scripts/check-geo-wordle.ts  # Country input and puzzle regressions
 ```
 
 ## Stack
@@ -32,8 +37,7 @@ See [CLAUDE.md](./CLAUDE.md) for the full architecture overview — directory ma
 
 ## Deploy
 
-Vercel auto-deploys on push to `main`. Manual deploys:
+Vercel auto-deploys on push to `main`. Build and verify locally before pushing.
 
-```bash
-vercel --prod --yes
-```
+For Search Console reporting, SEO priorities and publishing checks, see
+[Search acquisition](docs/seo-growth.md).

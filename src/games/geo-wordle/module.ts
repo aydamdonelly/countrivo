@@ -93,12 +93,13 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
     if (next.phase === "lost") return { tone: "bad", text: "Out of guesses." };
     const before = prev.guesses[prev.guesses.length - 1];
     const left = MAX_GUESSES - next.guesses.length;
-    if (!before) return { tone: "neutral", text: `${left} ${left === 1 ? "guess" : "guesses"} left.` };
+    const remaining = `${left} ${left === 1 ? "guess" : "guesses"} left.`;
+    if (!before) return { tone: "neutral", text: remaining };
     const diff = guess.distanceKm - before.distanceKm;
-    if (diff === 0) return { tone: "neutral", text: "Same distance." };
+    if (diff === 0) return { tone: "neutral", text: `Same distance. ${remaining}` };
     return {
       tone: "neutral",
-      text: diff < 0 ? "Closer." : "Further.",
+      text: `${diff < 0 ? "Closer." : "Further."} ${remaining}`,
       delta: `${diff < 0 ? "-" : "+"}${kmLabel(Math.abs(diff))}`,
     };
   },

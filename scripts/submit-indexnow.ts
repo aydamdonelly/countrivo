@@ -1,276 +1,113 @@
 /**
- * Submit changed Countrivo URLs to IndexNow.
+ * Submit new or changed sitemap URLs to IndexNow's shared participant endpoint.
+ * Google does not participate. Acceptance confirms receipt, not indexing.
+ * Only accepted batches advance scripts/.indexnow-snapshot.json.
  *
- * Endpoint is the shared fan-out host api.indexnow.org, which forwards to every
- * IndexNow participant (Bing, Yandex, Naver, Seznam.cz, Yep, Amazon) in one POST.
- * Google is NOT an IndexNow participant and has never been one — there is
- * deliberately no Google ping here (the old google.com/ping endpoint was
- * deprecated in June 2023 and now returns 404).
- *
- * Only URLs that are new or whose lastModified changed since the previous run
- * are submitted. Resubmitting unchanged URLs earns HTTP 429 and reduced trust.
- * The previous run is remembered in scripts/.indexnow-snapshot.json (committed).
- *
- * Usage:  npx tsx scripts/submit-indexnow.ts
+ * Usage: npx tsx scripts/submit-indexnow.ts [--dry-run]
+ * Dry runs print changed URLs without making requests or writing the snapshot.
  */
-
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-
-import countriesData from "../src/data/countries.json";
-import categoriesData from "../src/data/categories.json";
-import gamesData from "../src/data/game-registry.json";
+import countries from "../src/data/countries.json";
+import categories from "../src/data/categories.json";
+import games from "../src/data/game-registry.json";
+import timestamps from "../src/data/data-timestamps.json";
+import { LIST_SLUGS } from "../src/content/lists";
+import {
+  acceptedIndexNowSnapshot,
+  buildIndexNowStamps,
+  changedIndexNowUrls,
+  type UrlStamps,
+} from "../src/lib/seo/indexnow";
 
 const API_KEY = "f9505761df0dc045e453ea76165d13b0";
 const HOST = "countrivo.com";
 const BASE = `https://${HOST}`;
 const KEY_LOCATION = `${BASE}/${API_KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
-const BATCH_SIZE = 10_000; // IndexNow hard cap per request
-
-// --------------- repo paths (no import.meta / __dirname — tsx runs this as CJS) ---------------
+const BATCH_SIZE = 10_000;
 
 function findRepoRoot(): string {
   let dir = process.cwd();
-  for (let i = 0; i < 10; i += 1) {
-    if (existsSync(resolve(dir, "package.json"))) return dir;
+  while (!existsSync(resolve(dir, "package.json"))) {
     const parent = dirname(dir);
-    if (parent === dir) break;
+    if (parent === dir) throw new Error("Run IndexNow from the repository.");
     dir = parent;
   }
-  return process.cwd();
+  return dir;
 }
 
-const ROOT = findRepoRoot();
-const SNAPSHOT_PATH = resolve(ROOT, "scripts/.indexnow-snapshot.json");
-const TIMESTAMPS_PATH = resolve(ROOT, "src/data/data-timestamps.json");
-
-// --------------- collect URLs ---------------
-
-type CountryEntry = { slug: string };
-type CategoryEntry = { slug: string };
-type GameEntry = { route: string };
-
-const countries = countriesData as CountryEntry[];
-const categories = categoriesData as CategoryEntry[];
-const games = gamesData as GameEntry[];
-
-const listSlugs = [
-  "largest-countries",
-  "most-populated-countries",
-  "richest-countries",
-  "countries-in-europe",
-  "countries-in-asia",
-  "countries-in-africa",
-  "countries-in-americas",
-  "most-visited-countries",
-  "highest-life-expectancy",
-  "highest-gdp-countries",
-  "most-forested-countries",
-  "most-connected-countries",
-  "highest-fertility-rate",
-  "biggest-military-spenders",
-  "greenest-countries",
-];
-
-const urls: string[] = [
-  BASE,
-  `${BASE}/games`,
-  `${BASE}/countries`,
-  `${BASE}/categories`,
-  `${BASE}/lists`,
-  ...listSlugs.map((s) => `${BASE}/lists/${s}`),
-  ...games.map((g) => `${BASE}${g.route}`),
-  ...countries.map((c) => `${BASE}/countries/${c.slug}`),
-  ...categories.map((c) => `${BASE}/categories/${c.slug}`),
-];
-
-// --------------- lastModified sources ---------------
-
-type StampMap = Record<string, string>;
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-/** Normalise a key (absolute URL or bare path) to an absolute Countrivo URL. */
-function toAbsolute(key: string): string {
-  if (key.startsWith("http://") || key.startsWith("https://")) return key;
-  if (key === "/" || key === "") return BASE;
-  return `${BASE}${key.startsWith("/") ? key : `/${key}`}`;
-}
-
-function readStamp(value: unknown): string | null {
-  if (typeof value === "string") return value;
-  if (typeof value === "number") return String(value);
-  if (isRecord(value)) {
-    for (const field of ["lastModified", "lastmod", "updatedAt", "updated", "date"]) {
-      const inner = value[field];
-      if (typeof inner === "string") return inner;
-      if (typeof inner === "number") return String(inner);
-    }
+function readSnapshot(path: string): UrlStamps {
+  if (!existsSync(path)) return {};
+  const parsed: unknown = JSON.parse(readFileSync(path, "utf8"));
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new Error("Invalid IndexNow snapshot: expected an object.");
   }
-  return null;
+  const snapshot: UrlStamps = {};
+  for (const [url, stamp] of Object.entries(parsed)) {
+    if (typeof stamp !== "string") throw new Error(`Invalid IndexNow stamp for ${url}.`);
+    snapshot[url] = stamp;
+  }
+  return snapshot;
 }
 
-/** Normalise an array or object node into { absoluteUrl: stamp }. */
-function stampsFromNode(node: unknown): StampMap {
-  const out: StampMap = {};
-  if (Array.isArray(node)) {
-    for (const entry of node) {
-      if (!isRecord(entry)) continue;
-      const key = entry.url ?? entry.path ?? entry.loc;
-      const stamp = readStamp(entry);
-      if (typeof key === "string" && stamp) out[toAbsolute(key)] = stamp;
-    }
-    return out;
-  }
-  if (isRecord(node)) {
-    for (const [key, value] of Object.entries(node)) {
-      const stamp = readStamp(value);
-      if (stamp) out[toAbsolute(key)] = stamp;
-    }
-  }
-  return out;
-}
-
-/**
- * Read src/data/data-timestamps.json defensively. It is generated by a separate
- * script and may not exist on a fresh checkout — never crash, just return {}.
- * Accepts the shapes { url: stamp }, { url: { lastModified } }, and
- * [{ url|path, lastModified }] so a change on the generator side degrades to a
- * no-op rather than a failure.
- */
-function readTimestamps(): StampMap {
-  if (!existsSync(TIMESTAMPS_PATH)) return {};
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(readFileSync(TIMESTAMPS_PATH, "utf8"));
-  } catch {
-    console.warn("  ⚠ data-timestamps.json is unreadable — falling back to the full URL list");
-    return {};
-  }
-
-  if (isRecord(parsed)) {
-    const nested = parsed.urls ?? parsed.pages ?? parsed.entries;
-    if (nested !== undefined) return stampsFromNode(nested);
-  }
-
-  return stampsFromNode(parsed);
-}
-
-function readSnapshot(): StampMap {
-  if (!existsSync(SNAPSHOT_PATH)) return {};
-  try {
-    const parsed: unknown = JSON.parse(readFileSync(SNAPSHOT_PATH, "utf8"));
-    if (!isRecord(parsed)) return {};
-    const out: StampMap = {};
-    for (const [key, value] of Object.entries(parsed)) {
-      if (typeof value === "string") out[key] = value;
-    }
-    return out;
-  } catch {
-    return {};
-  }
-}
-
-// --------------- submit ---------------
-
-function describeStatus(status: number): { ok: boolean; message: string } {
+function describeStatus(status: number): string {
   switch (status) {
-    case 200:
-      return { ok: true, message: "200 OK — URLs accepted" };
-    case 202:
-      return { ok: true, message: "202 Accepted — key validation pending" };
-    case 400:
-      return { ok: false, message: "400 Bad Request — malformed payload (check host / urlList)" };
-    case 403:
-      return {
-        ok: false,
-        message: `403 Forbidden — key not valid. Verify ${KEY_LOCATION} serves exactly "${API_KEY}"`,
-      };
-    case 422:
-      return {
-        ok: false,
-        message: `422 Unprocessable — a URL does not belong to ${HOST}, or the key does not match the host`,
-      };
-    case 429:
-      return {
-        ok: false,
-        message: "429 Too Many Requests — throttled. Unchanged URLs were resubmitted; check the snapshot",
-      };
-    default:
-      return { ok: false, message: `${status} — unexpected response from ${ENDPOINT}` };
+    case 200: return "200 OK: URLs received";
+    case 202: return "202 Accepted: key validation pending";
+    case 400: return "400 Bad Request: malformed payload";
+    case 403: return `403 Forbidden: verify ${KEY_LOCATION}`;
+    case 422: return `422 Unprocessable: URL or key does not match ${HOST}`;
+    case 429: return "429 Too Many Requests: throttled, retry on a later run";
+    default: return `${status}: unexpected IndexNow response`;
   }
-}
-
-async function submit(batch: string[]): Promise<number> {
-  const res = await fetch(ENDPOINT, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      host: HOST,
-      key: API_KEY,
-      keyLocation: KEY_LOCATION,
-      urlList: batch,
-    }),
-  });
-  return res.status;
 }
 
 async function main() {
-  const timestamps = readTimestamps();
-  const snapshot = readSnapshot();
-  const today = new Date().toISOString().slice(0, 10);
-  const hasTimestamps = Object.keys(timestamps).length > 0;
-
-  if (!hasTimestamps) {
-    console.log("IndexNow: no data-timestamps.json — treating every unseen URL as new\n");
-  }
-
-  // Resolution order per URL: generated timestamp → previously recorded value
-  // (i.e. unchanged) → today (i.e. brand new, submit it once).
-  const resolved: StampMap = {};
-  for (const url of urls) {
-    resolved[url] = timestamps[url] ?? snapshot[url] ?? today;
-  }
-
-  const changed = urls.filter((url) => resolved[url] !== snapshot[url]);
+  const args = process.argv.slice(2);
+  if (args.some((arg) => arg !== "--dry-run")) throw new Error("Usage: submit-indexnow.ts [--dry-run]");
+  const dryRun = args.includes("--dry-run");
+  const snapshotPath = resolve(findRepoRoot(), "scripts/.indexnow-snapshot.json");
+  const snapshot = readSnapshot(snapshotPath);
+  const resolved = buildIndexNowStamps(timestamps, { countries, categories, games, listSlugs: LIST_SLUGS }, BASE);
+  const changed = changedIndexNowUrls(resolved, snapshot);
 
   if (changed.length === 0) {
-    console.log(`IndexNow: nothing changed across ${urls.length} URLs — skipping submission.`);
+    console.log(`IndexNow: nothing changed across ${Object.keys(resolved).length} URLs; skipping submission.`);
+    return;
+  }
+  console.log(`IndexNow${dryRun ? " dry run" : ""}: ${changed.length} of ${Object.keys(resolved).length} URLs changed.`);
+  if (dryRun) {
+    for (const url of changed) console.log(`${url}\t${resolved[url]}`);
+    console.log("No requests made; snapshot unchanged.");
     return;
   }
 
-  console.log(
-    `IndexNow: ${changed.length} of ${urls.length} URLs changed → ${ENDPOINT}\n` +
-      "  (fans out to Bing, Yandex, Naver, Seznam.cz, Yep, Amazon)\n"
-  );
-
   const accepted: string[] = [];
   let failed = false;
-
-  for (let i = 0; i < changed.length; i += BATCH_SIZE) {
-    const batch = changed.slice(i, i + BATCH_SIZE);
-    const status = await submit(batch);
-    const { ok, message } = describeStatus(status);
-    console.log(`  Batch ${Math.floor(i / BATCH_SIZE) + 1}: ${batch.length} URLs → ${message}`);
-    if (ok) {
-      accepted.push(...batch);
-    } else {
+  for (let offset = 0; offset < changed.length; offset += BATCH_SIZE) {
+    const batch = changed.slice(offset, offset + BATCH_SIZE);
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({ host: HOST, key: API_KEY, keyLocation: KEY_LOCATION, urlList: batch }),
+        signal: AbortSignal.timeout(30_000),
+      });
+      console.log(`Batch ${Math.floor(offset / BATCH_SIZE) + 1}: ${batch.length} URLs; ${describeStatus(response.status)}`);
+      if (response.status === 200 || response.status === 202) accepted.push(...batch);
+      else failed = true;
+    } catch (error: unknown) {
+      console.error(`Batch ${Math.floor(offset / BATCH_SIZE) + 1} failed:`, error);
       failed = true;
-      console.error(`  ⚠ ${message}`);
     }
   }
 
-  // Only record what was actually accepted, so a failed batch retries next run.
-  const next: StampMap = { ...snapshot };
-  for (const url of accepted) next[url] = resolved[url];
-  const ordered: StampMap = {};
-  for (const url of Object.keys(next).sort()) ordered[url] = next[url];
-  writeFileSync(SNAPSHOT_PATH, `${JSON.stringify(ordered, null, 2)}\n`, "utf8");
-  console.log(`\nSnapshot updated: ${SNAPSHOT_PATH} (${Object.keys(ordered).length} URLs tracked)`);
-
+  if (accepted.length > 0) {
+    const next = acceptedIndexNowSnapshot(snapshot, resolved, accepted);
+    writeFileSync(snapshotPath, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+    console.log(`Snapshot updated for ${accepted.length} accepted URLs.`);
+  }
   if (failed) process.exitCode = 1;
 }
 

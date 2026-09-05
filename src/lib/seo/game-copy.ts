@@ -2,7 +2,7 @@
  * Landing-page prose per game: a short "about" (what it is, who it is for, what
  * it trains) and three FAQs. Written for people first and for the queries they
  * actually type (flag quiz, guess the country, geography quiz, country wordle,
- * world capitals quiz, country draft). No invented numbers: counts come from
+ * country draft). No invented numbers: counts come from
  * the game definitions.
  */
 export interface GameCopy {
@@ -51,13 +51,17 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "geo-wordle": {
     about: [
-      "GeoWordle is a daily country Wordle. One country is hidden. You type a guess, and the game tells you how far it is from the answer and in which direction. Six guesses to find it. Because every clue is a real distance and bearing, each wrong guess narrows the map: 4,000 km north-east of Brazil is a very different place than 400 km.",
-      "The mystery country is the same for everyone each day, so it works as a shared puzzle between friends. Practice mode hides a new country every run.",
+      "GeoWordle is a free geography Wordle where you guess a hidden country in six tries. Instead of matching letters, you follow distance and direction clues. A world map plots the countries you have guessed, and the proximity bars grow longer as you get closer. You can play in your browser on a phone, tablet or computer without an account or download.",
+      "Choose the daily puzzle to solve the same country as everyone else, or unlimited practice for a fresh puzzle after every round. The daily resets at midnight Europe/Berlin time. Share your result without revealing the answer, then compare guesses with friends.",
     ],
     faq: [
-      { q: "How do the clues in GeoWordle work?", a: "After each guess you see the great-circle distance to the hidden country and an arrow pointing toward it. Closer guesses turn warmer." },
-      { q: "How many guesses do I get?", a: "Six. Solving it in fewer guesses gives a better score on the daily board." },
-      { q: "Is GeoWordle free?", a: "Yes, and no signup is needed. Sign in only if you want your daily result on the global and friends boards." },
+      { q: "Can I play GeoWordle unlimited?", a: "Yes. Choose unlimited practice below the Play daily button. Each new round hides another country and gives you six guesses. Practice is free and does not affect the daily leaderboard." },
+      { q: "How do the distance and direction clues work?", a: "The distance is the great-circle distance between the countries' reference coordinates, rounded to kilometres. It is not the distance between their nearest borders or capitals. The arrow points from your guessed country toward the answer. A longer proximity bar means a closer guess, not a probability of being correct." },
+      { q: "When does today's GeoWordle reset?", a: "A new daily country arrives at midnight Europe/Berlin time. Everyone gets the same answer for that day. Finish today's puzzle once, then choose practice to keep playing while you wait." },
+      { q: "Is GeoWordle the same as Worldle or Globle?", a: "GeoWordle on Countrivo is a separate country guessing game. This version starts with a hidden country and a world map, then gives you distance and direction clues after each guess. You have six attempts, with a daily puzzle and unlimited practice. No country silhouette is given as the starting clue." },
+      { q: "What is a good first guess?", a: "Start with a country you can place confidently on the map. Use both the distance and the arrow to choose your next region, then compare all your clues. If a guess is thousands of kilometres away, move to the indicated region before trying neighbouring countries." },
+      { q: "How many guesses do I get?", a: "Six in both daily and practice. Solving in fewer guesses ranks higher on the daily board. After a win or loss, the game reveals the answer on the map." },
+      { q: "Is GeoWordle free without signing up?", a: "Yes. Daily and unlimited practice are free, with no signup or download required. An account is optional for saving results and joining the global and friends boards." },
     ],
   },
   "higher-or-lower": {

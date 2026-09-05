@@ -9,6 +9,7 @@
  */
 import { LANDING_DRAFT_CHIPS } from "./chips";
 import { SEAT_CHIPS } from "./draft";
+import { guessableCountries } from "@/lib/game-logic/geo-wordle/engine";
 
 export interface GameContent {
   /** The one-line rule (blueprint 10.5): the landing card's how-text. */
@@ -73,14 +74,15 @@ export const GAME_CONTENT: Record<string, GameContent> = {
     ],
   },
   "geo-wordle": {
-    how: "A hidden country. Every guess tells you how far and which way. Six tries.",
-    facts: ["6 tries", "237 countries", "1 to 2 min"],
+    how: "Guess the country in six tries. Each guess gives you a distance and direction. Play free, no signup.",
+    facts: ["6 guesses", `${guessableCountries().length} countries`, "unlimited practice"],
     rules: [
-      "A mystery country is hidden each day",
-      "Type a country to make a guess",
-      "Each guess shows the distance and a direction arrow to the answer",
-      "Narrow it down and solve it in six guesses or fewer",
+      "Start with any country. Type its name and choose it from the suggestions",
+      "Read the distance in kilometres and follow the arrow from your guess toward the answer",
+      "Compare the clues from each guess to narrow down the map",
+      "Find the hidden country in six guesses. A new daily puzzle arrives at midnight Berlin time",
     ],
+    related: ["flag-quiz", "higher-or-lower", "blind-pick", "country-draft"],
   },
   "stat-guesser": {
     how: "A country and a stat. Guess the number. Five rounds, closest wins.",

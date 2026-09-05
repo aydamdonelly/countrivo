@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     default: "Countrivo | Free Geography Games, One Shot a Day",
     template: "%s | Countrivo",
   },
-  description: `Play ${GAME_COUNT} free geography games online. One shot a day, flag quizzes, country rankings, capitals and stat puzzles. 243 countries. No signup needed.`,
+  description: `Play ${GAME_COUNT} free geography games online: GeoWordle, Country Draft, flag quizzes and country stats puzzles. Daily boards and unlimited practice. No signup.`,
   openGraph: {
     type: "website",
     siteName: "Countrivo",
@@ -80,7 +80,7 @@ const SITE_JSON_LD = JSON.stringify({
       name: "Countrivo",
       url: SITE,
       logo: `${SITE}/favicon.svg`,
-      description: "Free online geography games and quizzes to learn world capitals, flags, countries and statistics.",
+      description: "Free online geography games and quizzes to learn flags, countries and statistics.",
     },
   ],
 });

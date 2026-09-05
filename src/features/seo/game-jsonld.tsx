@@ -1,7 +1,8 @@
 import { breadcrumbList, graph, jsonLdProps, SITE_URL } from "./breadcrumbs";
+import { getGameBySlug } from "@/lib/data/registry";
 
 export interface GameJsonLdProps {
-  /** Full name, e.g. "Flag Quiz | Countrivo". */
+  /** Game name, e.g. "Flag Quiz". */
   name: string;
   description: string;
   /** Relative path, e.g. "/games/flag-quiz". */
@@ -18,6 +19,9 @@ export interface GameJsonLdProps {
  * dropped (blueprint 7.3): the landing emits one FAQPage, built from GAME_COPY.
  */
 export function GameJsonLd({ name, description, url, genre, playMode, title }: GameJsonLdProps) {
+  const pageUrl = `${SITE_URL}${url}`;
+  const game = getGameBySlug(url.split("/").at(-1) ?? "");
+  const mode = game?.availableModes.includes("daily") ? "daily" : "practice";
   const data = graph([
     breadcrumbList([
       { name: "Home", path: "" },
@@ -26,17 +30,23 @@ export function GameJsonLd({ name, description, url, genre, playMode, title }: G
     ]),
     {
       "@type": "VideoGame",
-      name,
+      "@id": `${pageUrl}#game`,
+      name: title ?? name,
       description,
-      url: `${SITE_URL}${url}`,
+      url: pageUrl,
       genre,
-      playMode,
+      playMode: `https://schema.org/${playMode}`,
       applicationCategory: "Game",
       operatingSystem: "Web Browser",
+      gamePlatform: "Web browser",
       isAccessibleForFree: true,
-      inLanguage: "en-US",
+      inLanguage: "en",
       offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       author: { "@type": "Organization", name: "Countrivo", url: SITE_URL },
+      potentialAction: {
+        "@type": "PlayAction",
+        target: `${pageUrl}/play?mode=${mode}`,
+      },
     },
   ]);
   return <script {...jsonLdProps(data)} />;

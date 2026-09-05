@@ -22,6 +22,8 @@ export interface SuggestProps extends Pick<InputHTMLAttributes<HTMLInputElement>
   onSelect: (item: SuggestItem) => void;
   /** Enter with no active suggestion submits the raw text. */
   onSubmit?: (raw: string) => void;
+  /** False requires an explicit arrow or pointer selection before Enter chooses an item. */
+  autoSelectFirst?: boolean;
   max?: number;
   error?: string | null;
   tall?: boolean;
@@ -34,10 +36,11 @@ export interface SuggestProps extends Pick<InputHTMLAttributes<HTMLInputElement>
  * fill. ArrowUp/Down cycle, Enter submits the active suggestion (or the raw text),
  * Tab fills, Escape closes; mousedown on the list keeps the focus.
  */
-export function Suggest({ id, label, hideLabel, placeholder, value, onChange, items, onSelect, onSubmit, max = 5, error, tall, className, ...input }: SuggestProps) {
+export function Suggest({ id, label, hideLabel, placeholder, value, onChange, items, onSelect, onSubmit, autoSelectFirst = true, max = 5, error, tall, className, ...input }: SuggestProps) {
   const listId = useId();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(0);
+  const initialActive = autoSelectFirst ? 0 : -1;
+  const [active, setActive] = useState(initialActive);
   const inputRef = useRef<HTMLInputElement>(null);
   const shown = items.slice(0, max);
   const expanded = open && value.length > 0 && shown.length > 0;
@@ -46,11 +49,12 @@ export function Suggest({ id, label, hideLabel, placeholder, value, onChange, it
   function choose(item: SuggestItem) {
     onSelect(item);
     setOpen(false);
-    setActive(0);
+    setActive(initialActive);
     inputRef.current?.focus();
   }
 
   function onKey(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.nativeEvent.isComposing) return;
     if (e.key === "ArrowDown" && shown.length) {
       e.preventDefault();
       setOpen(true);
@@ -58,17 +62,19 @@ export function Suggest({ id, label, hideLabel, placeholder, value, onChange, it
     } else if (e.key === "ArrowUp" && shown.length) {
       e.preventDefault();
       setOpen(true);
-      setActive((i) => (i - 1 + shown.length) % shown.length);
+      setActive((i) => (i <= 0 ? shown.length - 1 : i - 1));
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (expanded && shown[activeIdx]) choose(shown[activeIdx]);
       else onSubmit?.(value);
-    } else if (e.key === "Tab" && expanded && shown[activeIdx]) {
+    } else if (e.key === "Tab" && expanded) {
       e.preventDefault();
-      onChange(shown[activeIdx].name);
+      onChange(shown[Math.max(0, activeIdx)].name);
       setOpen(false);
+      setActive(initialActive);
     } else if (e.key === "Escape") {
       setOpen(false);
+      setActive(initialActive);
     }
   }
 
@@ -88,21 +94,26 @@ export function Suggest({ id, label, hideLabel, placeholder, value, onChange, it
           aria-expanded={expanded}
           aria-controls={listId}
           aria-autocomplete="list"
-          aria-activedescendant={expanded ? `${listId}-${activeIdx}` : undefined}
+          aria-activedescendant={expanded && activeIdx >= 0 ? `${listId}-${activeIdx}` : undefined}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
           placeholder={placeholder}
           value={value}
           onChange={(e) => {
             onChange(e.target.value);
             setOpen(true);
-            setActive(0);
+            setActive(initialActive);
           }}
           onFocus={() => setOpen(true)}
-          onBlur={() => setOpen(false)}
+          onBlur={() => {
+            setOpen(false);
+            setActive(initialActive);
+          }}
           onKeyDown={onKey}
           {...input}
         />
         {error ? (
-          <p className="hint err t-meta" role="alert">
+          <p id={`${id}-error`} className="hint err t-meta" role="alert">
             {error}
           </p>
         ) : null}

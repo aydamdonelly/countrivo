@@ -306,7 +306,7 @@ export function renderGameOgImageForSlug(
   const content = getGameContent(slug);
   // A game that is announced but not yet playable shows no button; nothing on the
   // card may promise an action the landing cannot answer.
-  const cta = game.comingSoon ? null : isDaily ? "Shoot" : "Play";
+  const cta = game.comingSoon ? null : slug === "geo-wordle" ? "Play daily" : isDaily ? "Shoot" : "Play";
 
   // The flagship. Country Draft is the one game whose subject is the world itself:
   // five people take five countries out of 195, and the conquest map draws exactly

@@ -7,7 +7,8 @@
  * pattern that makes Google discard it, so instead we hash the data behind
  * each page and only move the date when the hash moves.
  *
- * Re-run after any data refresh:  npx tsx scripts/build-data-timestamps.ts
+ * Re-run after data, game copy or metadata changes:
+ *   npx tsx scripts/build-data-timestamps.ts
  *
  * `--rebaseline` re-fingerprints the data WITHOUT moving a single date. Use it
  * after a change that alters the JSON but not what any page renders, so the dates
@@ -22,6 +23,10 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 import { LISTS } from "../src/content/lists";
+import { ENTITY_COPY } from "../src/content/entity";
+import { getGameContent } from "../src/content/games";
+import { getGameCopy } from "../src/lib/seo/game-copy";
+import { getGameSeo } from "../src/lib/seo/game-metadata";
 
 const REBASELINE = process.argv.includes("--rebaseline");
 
@@ -186,7 +191,16 @@ for (const [slug, source] of Object.entries(LIST_SOURCES)) {
 }
 
 for (const game of games) {
-  hashes[`game:${game.slug}`] = hash(game);
+  hashes[`game:${game.slug}`] = hash({
+    game,
+    content: getGameContent(game.slug),
+    copy: getGameCopy(game.slug),
+    metadata: getGameSeo(game.slug),
+    entity: ENTITY_COPY[game.slug] ?? null,
+    ...(game.slug === "geo-wordle"
+      ? { guide: readFileSync(join(REPO_ROOT, "src/features/seo/geo-wordle-guide.tsx"), "utf8") }
+      : {}),
+  });
 }
 
 // --------------- merge with previous run ---------------

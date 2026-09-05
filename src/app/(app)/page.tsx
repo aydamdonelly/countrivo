@@ -32,9 +32,9 @@ import {
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Countrivo: Daily Geography Games, Country Draft, Flag Quiz & GeoWordle",
+  title: { absolute: "Countrivo: Free Geography Games & Daily Country Puzzles" },
   description:
-    "One shot a day, the same board for everyone. Country Draft, GeoWordle, Higher or Lower, Blind Pick and Flag Quiz. Free, no signup, 243 countries.",
+    "Play Country Draft, GeoWordle, Flag Quiz and more free geography games. A new puzzle every day, unlimited practice, no signup or download.",
   alternates: { canonical: "https://countrivo.com" },
 };
 

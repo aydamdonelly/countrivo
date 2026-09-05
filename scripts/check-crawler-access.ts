@@ -30,7 +30,13 @@ interface PageCheck {
 }
 
 const PAGES: PageCheck[] = [
-  { path: "/", minTextLength: 1280 },
+  {
+    path: "/",
+    // Leaderboard names and scores disappear at the daily reset. Verify the full
+    // playable roster even on an empty board, rather than requiring yesterday's text length.
+    minTextLength: 960,
+    canaries: [/Country Draft/, /Blind Pick/, /Higher or Lower/, /GeoWordle/, /Stat Guesser/, /Flag Quiz/, /Speed Flags/],
+  },
   {
     path: "/countries/japan",
     minTextLength: 1710,

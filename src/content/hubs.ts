@@ -9,10 +9,10 @@
 /* ── /games ──────────────────────────────────────────────────────────────── */
 
 export const GAMES_HUB = {
-  title: "All Geography Games: Country Draft, GeoWordle, Flag Quiz and More",
+  title: "Free Geography Games: Daily Puzzles & Unlimited Practice",
   description:
-    "Every Countrivo game in one place: Country Draft, Blind Pick, GeoWordle, Higher or Lower, Stat Guesser and Flag Quiz. One shot a day, or practice as often as you like. Free, no signup.",
-  h1: "All games",
+    "Play free geography games: GeoWordle, Country Draft, Flag Quiz and country stats puzzles. New daily boards and unlimited practice, no signup or download.",
+  h1: "Free geography games",
 } as const;
 
 /** The three hub FAQs; counts are filled in by the page (blueprint 7.2). */
