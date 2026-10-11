@@ -44,7 +44,9 @@ export function compactScore(display: string | null | undefined, raw: unknown): 
 
 /**
  * Today's daily runs plus the profiles behind them. Public data (RLS lets anyone read
- * daily runs), fetched with the anon key, cached for 30 s and shared by every visitor.
+ * daily runs), fetched with the anon key, cached for 2 min and shared by every visitor.
+ * Nothing invalidates it on submit: a revalidation inside the submit action would refresh
+ * the play route under the result panel.
  * Every query carries a timeout, so one slow round trip degrades to "no shots yet"
  * instead of stalling the page. Moved here from src/app/actions/home.ts unchanged
  * (blueprint 9.1 step 5); getHomeData keeps its exact return shape.
@@ -80,7 +82,7 @@ export const getPublicBoards = unstable_cache(
     return { runs, profiles, edition };
   },
   ["home-public-boards"],
-  { revalidate: 30 },
+  { revalidate: 120 },
 );
 
 /** A landing's public board: the top 3 plus the distinct countries among the day's runs. */
@@ -145,12 +147,12 @@ const readPublicBoard = unstable_cache(
     };
   },
   ["public-board"],
-  { revalidate: 60, tags: [BOARDS_TAG] },
+  { revalidate: 600, tags: [BOARDS_TAG] },
 );
 
 /**
  * The public top 3 of one game for a static landing (blueprint 7.3 step 4, 9.1 step 5):
- * anon client, cached 60 s per (dateKey, slug) under the `boards` tag. Nothing here is
+ * anon client, cached 10 min per (dateKey, slug) under the `boards` tag. Nothing here is
  * viewer-specific, so the page stays static (ISR).
  */
 export async function getPublicBoard(slug: string, dateKey: string = getTodayDateKey()): Promise<PublicBoard> {

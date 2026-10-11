@@ -5,6 +5,7 @@ import { submitGameRun, getDailySummary } from "@/app/actions/game-runs";
 import { juice } from "@/hooks/use-juice";
 import { requestPushPermission } from "@/lib/native/bootstrap";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
+import { trackPlay } from "@/lib/play-events";
 import { buildShareGrid } from "@/lib/share";
 import type { ServerGameRun } from "@/types/server";
 import { Button } from "@/ui/button";
@@ -80,6 +81,8 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
   const [metas, setMetas] = useState<Record<string, DailyMeta> | null>(null);
   const [payload, setPayload] = useState<SubmitGameRunInput | null>(null);
   const persistOff = useRef(false);
+  /** A move was made on this board in this session; gates the play_start / play_finish events. */
+  const moved = useRef(false);
   const seq = useRef(0);
   const clientNowAtMount = useRef(0);
   const startedAtMs = useMemo(() => new Date(p.startedAt).getTime(), [p.startedAt]);
@@ -103,6 +106,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
         if (res.success && res.run) {
           setRun(res.run);
           setFail(null);
+          trackPlay("run_saved", slug, mode);
           if (mode === "daily") {
             getDailySummary(slug, dateKey)
               .then((s) => setShots(s.playerCount))
@@ -124,6 +128,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
     (next: S) => {
       setPhaseNow("finished");
       juice.celebrate();
+      if (moved.current) trackPlay("play_finish", slug, mode);
       const pl = module.payload(next, { mode, dateKey, startedAt: p.startedAt });
       setPayload(pl);
       if (mode === "daily") {
@@ -168,6 +173,10 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
         juiceFor(v);
       }
       if (next === prev) return;
+      if (!moved.current && !force && action.t !== "tick") {
+        moved.current = true;
+        trackPlay("play_start", slug, mode);
+      }
       stateRef.current = next;
       setState(next);
       const persist = module.persist ? module.persist(action) : persistsByDefault(action);
@@ -281,7 +290,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
                     New board
                   </Button>
                 )}
-                <ShareButton text={shareText} />
+                <ShareButton text={shareText} onShare={() => trackPlay("share", slug, mode)} />
               </>
             }
           >

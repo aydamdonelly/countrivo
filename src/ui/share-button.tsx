@@ -7,6 +7,8 @@ export interface ShareButtonProps {
   /** The clipboard text from src/lib/share; never rendered on screen. */
   text: string;
   label?: string;
+  /** Called on every press, before the share sheet or the clipboard. */
+  onShare?: () => void;
   className?: string;
 }
 
@@ -15,10 +17,11 @@ export interface ShareButtonProps {
  * browser has it (silent on abort), else clipboard plus the "Copied" toast. No sheet,
  * no preview, no mono.
  */
-export function ShareButton({ text, label = "Share", className }: ShareButtonProps) {
+export function ShareButton({ text, label = "Share", onShare, className }: ShareButtonProps) {
   const toast = useToast();
   async function share() {
     if (typeof navigator === "undefined") return;
+    onShare?.();
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({ text });

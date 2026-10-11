@@ -9,8 +9,9 @@ const QUERY_TIMEOUT_MS = 6000;
 /**
  * The global daily edition, a seed salt in `app_config.daily_edition` the admin bumps to
  * re-roll every daily for everyone. Read with the anon key (no cookie dependency, so guest
- * play pages do no DB work of their own) and cached for 60 s under the `edition` tag
- * (blueprint 9.1 step 3). A failed read throws out of the cache scope so a transient error
+ * play pages do no DB work of their own) and cached for 10 min under the `edition` tag
+ * (blueprint 9.1 step 3). `rerollDailyAction` invalidates the tag; the TTL only bounds an edit
+ * made straight in the database. A failed read throws out of the cache scope so a transient error
  * is never cached; the caller falls back to "" for that one request.
  */
 const readEdition = unstable_cache(
@@ -29,7 +30,7 @@ const readEdition = unstable_cache(
     return typeof value === "string" ? value : "";
   },
   ["daily-edition"],
-  { revalidate: 60, tags: [EDITION_TAG] },
+  { revalidate: 600, tags: [EDITION_TAG] },
 );
 
 export async function getEdition(): Promise<string> {
