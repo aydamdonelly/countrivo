@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""Export Google Search Console comparisons using existing gcloud credentials.
+"""Export Google Search Console comparisons.
 
-Read-only API access; Python standard library only. Never writes credentials.
+Auth: a service-account JSON (--credentials, $GOOGLE_APPLICATION_CREDENTIALS or
+~/.config/countrivo-seo/gsc-sa.json), signed with openssl; otherwise existing gcloud
+application-default credentials. Read-only API access; Python standard library only.
+Never writes credentials (the signing key lives in a private temp dir for one call).
 https://developers.google.com/webmaster-tools/v1/searchanalytics/query
 """
 
 import argparse
+import base64
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date, timedelta
 import json
@@ -13,8 +17,10 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
+import time
 from urllib.error import HTTPError
-from urllib.parse import quote
+from urllib.parse import quote, urlencode
 from urllib.request import Request, urlopen
 
 
@@ -41,19 +47,69 @@ def parse_args():
     return args
 
 
+SCOPE = "https://www.googleapis.com/auth/webmasters.readonly"
+TOKEN_URI = "https://oauth2.googleapis.com/token"
+
+
+def b64url(raw):
+    return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
+
+
+def service_account_token(path):
+    """Mints a token from a service-account JSON with openssl (gcloud refuses this scope)."""
+    info = json.loads(path.read_text())
+    if info.get("type") != "service_account":
+        return None
+    now = int(time.time())
+    header = b64url(json.dumps({"alg": "RS256", "typ": "JWT"}).encode())
+    claims = b64url(json.dumps({
+        "iss": info["client_email"], "scope": SCOPE, "aud": TOKEN_URI,
+        "iat": now, "exp": now + 3600,
+    }).encode())
+    unsigned = f"{header}.{claims}"
+    with tempfile.TemporaryDirectory() as tmp:
+        key = Path(tmp) / "key.pem"
+        key.touch(mode=0o600)
+        key.write_text(info["private_key"])
+        signed = subprocess.run(
+            ["openssl", "dgst", "-sha256", "-sign", str(key)],
+            input=unsigned.encode(), capture_output=True, timeout=30, check=False,
+        )
+    if signed.returncode:
+        raise RuntimeError("openssl could not sign the service-account token request.")
+    assertion = f"{unsigned}.{b64url(signed.stdout)}"
+    body = urlencode({
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer", "assertion": assertion,
+    }).encode()
+    try:
+        with urlopen(Request(TOKEN_URI, data=body), timeout=60) as response:
+            return json.load(response)["access_token"]
+    except HTTPError as error:
+        raise RuntimeError(f"Google rejected the service-account key ({error.code}).") from error
+
+
 def access_token(credentials):
     env = os.environ.copy()
     fallback = Path.home() / ".config/countrivo-seo/gsc-sa.json"
     if credentials:
         if not credentials.is_file():
             raise RuntimeError("The --credentials file does not exist.")
-        env["GOOGLE_APPLICATION_CREDENTIALS"] = str(credentials.resolve())
-    elif not env.get("GOOGLE_APPLICATION_CREDENTIALS") and fallback.is_file():
-        env["GOOGLE_APPLICATION_CREDENTIALS"] = str(fallback)
+        key_file = credentials.resolve()
+    elif env.get("GOOGLE_APPLICATION_CREDENTIALS"):
+        key_file = Path(env["GOOGLE_APPLICATION_CREDENTIALS"])
+    elif fallback.is_file():
+        key_file = fallback
+    else:
+        key_file = None
+    if key_file and key_file.is_file():
+        token = service_account_token(key_file)
+        if token:
+            return token
+        env["GOOGLE_APPLICATION_CREDENTIALS"] = str(key_file)
     try:
         result = subprocess.run(
             ["gcloud", "auth", "application-default", "print-access-token",
-             "--scopes=https://www.googleapis.com/auth/webmasters.readonly", "--quiet"],
+             f"--scopes={SCOPE}", "--quiet"],
             env=env, capture_output=True, text=True, timeout=60, check=False,
         )
     except FileNotFoundError as error:

@@ -45,3 +45,6 @@ next-env.d.ts
 # supabase CLI cache
 supabase/.temp/
 .claude/settings.local.json
+
+# monthly stats (scripts/monthly-report.py), local only
+/reports/
