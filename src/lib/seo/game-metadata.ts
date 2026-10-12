@@ -41,7 +41,7 @@ const GAME_SEO: Record<string, GameSeo> = {
   "country-draft": {
     title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
     description:
-      "Five countries, five rounds. Each country offers three of its people: take one and give them a seat in your cabinet. Score out of 195. Free daily game, no signup.",
+      "The world draft game: five countries, three people each. Draft one per round, give them a cabinet seat and conquer up to 195 nations. Free daily, no signup.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
