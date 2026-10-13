@@ -11,15 +11,17 @@ const TOKEN = /^[A-Z]{3}$/;
  */
 export const codec: Codec<GeoAction> = {
   enc(log) {
-    return log.map((a) => (a.t === "guess" ? `g${a.iso3}` : "")).join("");
+    return log.map((a) => (a.t === "guess" ? `g${a.iso3}` : a.t === "clue" ? "c" : "")).join("");
   },
   dec(s) {
-    if (s.length % 4 !== 0) throw new Error(`geo-wordle: log length ${s.length}`);
+
     const out: GeoAction[] = [];
-    for (let i = 0; i < s.length; i += 4) {
+    for (let i = 0; i < s.length;) {
+      if (s[i] === "c") { out.push({ t: "clue" }); i += 1; continue; }
       const iso3 = s.slice(i + 1, i + 4);
       if (s[i] !== "g" || !TOKEN.test(iso3)) throw new Error(`geo-wordle: bad token at ${i}`);
       out.push({ t: "guess", iso3 });
+      i += 4;
     }
     return out;
   },

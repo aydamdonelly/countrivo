@@ -24,8 +24,8 @@ export const MAX_SCORE = 195;
  * MIN_GREEDY_GAP short of it. The first keeps par steady from one day to the next; the
  * second is the game: a board that rewards greed has no decision in it.
  */
-export const MIN_CEILING = 166;
-export const MAX_CEILING = 186;
+export const MIN_CEILING = 165;
+export const MAX_CEILING = 195;
 export const MIN_GREEDY_GAP = 12;
 export const GEN_ATTEMPTS = 40;
 
@@ -34,7 +34,7 @@ export const RESULT_REVEAL_MS = 60_000;
 
 export const SEAT_NAMES = ["The Chair", "The Field", "The Purse", "The Voice", "The Desk"] as const;
 /** Rendered under the seat name, on the board and in the seats table. */
-export const SEAT_WANTS = ["runs the room", "takes ground", "pays for it", "sells it", "makes it hold"] as const;
+export const SEAT_WANTS = ["Leads the country", "Runs the army", "Runs the money", "Speaks for the country", "Builds and invents"] as const;
 
 /**
  * The eight archetypes, in fit-table order. scripts/build-draft-pool.mjs folds the twelve
@@ -88,19 +88,19 @@ export const FIT_WORDS: readonly { points: number; word: string }[] = [
   { points: 18, word: "strong" },
   { points: 12, word: "plausible" },
   { points: 6, word: "thin" },
-  { points: 0, word: "wrong" },
+  { points: 0, word: "no fit" },
 ];
 
 /** Standing 1 to 5 in points; index 0 is unreachable and pays nothing. */
 export const STANDING_POINTS: readonly number[] = [0, 0, 2, 5, 7, 10];
 
 /** The three bonuses. None of them depends on the board; all three are decisions. */
-export const BONUS_POINTS = { fullCabinet: 8, rightHand: 7, threeNaturals: 5 } as const;
+export const BONUS_POINTS = { fullCabinet: 8, threeRegions: 6, acrossAges: 6 } as const;
 
 export const BONUSES: readonly { key: keyof typeof BONUS_POINTS; name: string; needs: string; points: number }[] = [
   { key: "fullCabinet", name: "Full cabinet", needs: "every seat took a fit of 12 or better", points: BONUS_POINTS.fullCabinet },
-  { key: "rightHand", name: "Right hand", needs: "your highest standing sits at a natural fit", points: BONUS_POINTS.rightHand },
-  { key: "threeNaturals", name: "Three naturals", needs: "three seats or more took a natural fit", points: BONUS_POINTS.threeNaturals },
+  { key: "threeRegions", name: "Three regions", needs: "people from at least three world regions", points: BONUS_POINTS.threeRegions },
+  { key: "acrossAges", name: "Across the ages", needs: "a person from before 1900 and one active after 1950", points: BONUS_POINTS.acrossAges },
 ];
 
 export type BandKey = "footnote" | "region" | "continent" | "most" | "whole";

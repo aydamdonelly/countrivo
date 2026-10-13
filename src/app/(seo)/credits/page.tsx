@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import credits from "@/data/figure-credits.json";
+import { portraitCredits } from "@/lib/data/loader";
+import { SiteFoot } from "@/ui/site-foot";
 import { PageTitle } from "@/ui";
 
-interface Credit { slug: string; title: string; file: string; licence: string; author: string; url: string }
 
 export const metadata: Metadata = {
   title: { absolute: "Picture credits | Countrivo" },
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
  * is both the honest thing and what the licences ask for.
  */
 export default function CreditsPage() {
-  const rows = (Object.values(credits) as Credit[]).sort((a, b) => a.title.localeCompare(b.title));
+  const rows = Object.values(portraitCredits).sort((a, b) => a.title.localeCompare(b.title));
   return (
     <>
       <PageTitle title="Picture credits" meta={`${rows.length} portraits`} />
@@ -40,7 +40,7 @@ export default function CreditsPage() {
             </small>
           </li>
         ))}
-      </ul>
+      </ul><section className="mt-8"><h2 className="t-h2 mb-4">Clay illustrations</h2><p className="t-body">The handmade-looking game objects are generated clay illustrations. They do not depict real artefacts or photographs. Country flags and portraits keep their original source identities.</p></section><SiteFoot />
     </>
   );
 }

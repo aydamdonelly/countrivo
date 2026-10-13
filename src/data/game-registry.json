@@ -2,10 +2,10 @@
   {
     "slug": "country-draft",
     "title": "Country Draft",
-    "shortDescription": "5 rounds. 5 seats. 195 countries.",
-    "description": "Five countries, five rounds. Each country puts three of its people on the table. Take one, give them a seat in your cabinet, and see how much of the map they take.",
+    "shortDescription": "Choose countries. Draft people. Build your cabinet.",
+    "description": "Five rounds. Choose one of three countries, then one of its people and a free job. Points appear only after seating. Build a cabinet worth up to 195.",
     "difficulty": "medium",
-    "estimatedTime": "1-2 min",
+    "estimatedTime": "3 min",
     "category": "strategy",
     "tier": "main",
     "isNew": true,
@@ -15,40 +15,6 @@
       "practice"
     ],
     "route": "/games/country-draft"
-  },
-  {
-    "slug": "blind-pick",
-    "title": "Blind Pick",
-    "shortDescription": "8 stats. 8 countries. No idea what comes next.",
-    "description": "Eight stat categories are on the board. Countries arrive one at a time and you never know what is coming, so you put each one on the stat where it ranks highest in the world. Eight picks, scored against the optimal assignment.",
-    "difficulty": "hard",
-    "estimatedTime": "3-5 min",
-    "category": "strategy",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/blind-pick"
-  },
-  {
-    "slug": "higher-or-lower",
-    "title": "Higher or Lower",
-    "shortDescription": "Ten calls on one number.",
-    "description": "Is the next country higher or lower? Ten calls on one stat, and a wrong call doesn't end it.",
-    "difficulty": "easy",
-    "estimatedTime": "1-2 min",
-    "category": "ranking",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/higher-or-lower"
   },
   {
     "slug": "geo-wordle",
@@ -68,21 +34,21 @@
     "route": "/games/geo-wordle"
   },
   {
-    "slug": "stat-guesser",
-    "title": "Stat Guesser",
-    "shortDescription": "Guess five numbers about the world.",
-    "description": "Slide the pin to your guess on a ruler with two well-known countries marked for scale. Five rounds, the last counts double.",
-    "difficulty": "hard",
+    "slug": "pinpoint",
+    "title": "Pinpoint",
+    "shortDescription": "Five countries. Tap where they are.",
+    "description": "Place a pin on a blank coastline map. Closer taps score more. Five countries, with the last round counting double.",
+    "difficulty": "medium",
     "estimatedTime": "2 min",
     "category": "knowledge",
     "tier": "main",
-    "isNew": false,
+    "isNew": true,
     "isFlagship": false,
     "availableModes": [
       "daily",
       "practice"
     ],
-    "route": "/games/stat-guesser"
+    "route": "/games/pinpoint"
   },
   {
     "slug": "flag-quiz",
@@ -100,6 +66,56 @@
       "practice"
     ],
     "route": "/games/flag-quiz"
+  },
+  {
+    "slug": "higher-or-lower",
+    "title": "Higher or Lower",
+    "shortDescription": "Ten calls on one number.",
+    "description": "Is the next country higher or lower? Ten calls on one stat, and a wrong call doesn't end it.",
+    "difficulty": "easy",
+    "estimatedTime": "1-2 min",
+    "category": "ranking",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/higher-or-lower"
+  },
+  {
+    "slug": "stat-guesser",
+    "title": "Stat Guesser",
+    "shortDescription": "Guess five numbers about the world.",
+    "description": "Slide the pin to your guess on a ruler with two well-known countries marked for scale. Five rounds, the last counts double.",
+    "difficulty": "hard",
+    "estimatedTime": "2 min",
+    "category": "knowledge",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/stat-guesser"
+  },
+  {
+    "slug": "blind-pick",
+    "title": "Blind Pick",
+    "shortDescription": "Six countries. Six stats. Beat the perfect board.",
+    "description": "Six countries arrive one at a time. Put each on the stat where it ranks highest. Your score is the gap from the perfect assignment.",
+    "difficulty": "hard",
+    "estimatedTime": "2 min",
+    "category": "strategy",
+    "tier": "drill",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "practice"
+    ],
+    "route": "/games/blind-pick"
   },
   {
     "slug": "speed-flags",

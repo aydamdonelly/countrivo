@@ -14,9 +14,9 @@ export function NextDailies({ rows, shot, total, className }: NextDailiesProps) 
   return (
     <GameList
       className={className}
-      title="More dailies today"
-      fact={`${shot} of ${total} shot`}
-      rows={rows.map((r) => ({ slug: r.slug, title: r.title, meta: r.meta, href: `/games/${r.slug}/play?mode=daily`, action: "Shoot", prefetch: true }))}
+      title="More games today"
+      fact={`${shot} of ${total} finished`}
+      rows={rows.map((r) => ({ slug: r.slug, title: r.title, meta: r.meta, href: `/games/${r.slug}/play?mode=daily`, action: "Play", prefetch: true }))}
     />
   );
 }

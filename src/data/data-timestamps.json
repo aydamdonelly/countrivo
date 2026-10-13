@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-09-05T02:05:42.139Z",
+  "generatedAt": "2026-10-13T10:24:43.967Z",
   "entries": {
     "category:arable-land-pct": {
       "hash": "bc83258b793cac4f",
       "lastModified": "2026-05-29T16:34:50.000Z"
     },
     "category:area-km2": {
-      "hash": "2b729f4326ed981d",
-      "lastModified": "2026-05-29T16:34:50.000Z"
+      "hash": "420e5459604ad69d",
+      "lastModified": "2026-10-13T10:23:12.942Z"
     },
     "category:beer-consumption-per-capita": {
       "hash": "7c67e716acccbed1",
@@ -1058,32 +1058,36 @@
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "game:blind-pick": {
-      "hash": "5b30ea7070bb22bf",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "dfcac4a90735871e",
+      "lastModified": "2026-10-13T10:24:43.967Z"
     },
     "game:country-draft": {
-      "hash": "a650de574fc77394",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "bd9773f8c4f46581",
+      "lastModified": "2026-10-13T10:23:12.942Z"
     },
     "game:flag-quiz": {
-      "hash": "7995cc2e519be963",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "013837662e912d22",
+      "lastModified": "2026-10-13T10:24:43.967Z"
     },
     "game:geo-wordle": {
-      "hash": "bb4681a637918632",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "6d9f6ea571532326",
+      "lastModified": "2026-10-13T10:23:12.942Z"
     },
     "game:higher-or-lower": {
-      "hash": "9e0c7aa049c159ef",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "806ab2a7ea669d52",
+      "lastModified": "2026-10-13T10:23:12.942Z"
+    },
+    "game:pinpoint": {
+      "hash": "e3a2bac24ce71975",
+      "lastModified": "2026-10-13T10:24:43.967Z"
     },
     "game:speed-flags": {
-      "hash": "d4895b10cf5b73d4",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "b154e9ba97365020",
+      "lastModified": "2026-10-13T09:56:04.740Z"
     },
     "game:stat-guesser": {
-      "hash": "edf8a7f125f1f75b",
-      "lastModified": "2026-09-05T02:05:42.139Z"
+      "hash": "3825f33d3c8e51d0",
+      "lastModified": "2026-10-13T09:56:04.740Z"
     },
     "list:biggest-military-spenders": {
       "hash": "c913a05db1b0f870",
@@ -1105,6 +1109,14 @@
       "hash": "882854b475c8e978",
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
+    "list:countries-in-oceania": {
+      "hash": "911a190dedb848bc",
+      "lastModified": "2026-08-28T22:57:44.000Z"
+    },
+    "list:doubly-landlocked": {
+      "hash": "4237e2bd20ca7802",
+      "lastModified": "2026-08-28T22:57:44.000Z"
+    },
     "list:greenest-countries": {
       "hash": "17b23b19ca2b0d6a",
       "lastModified": "2026-04-01T10:13:06.000Z"
@@ -1124,6 +1136,14 @@
     "list:largest-countries": {
       "hash": "cf9a777ebaea6a1c",
       "lastModified": "2026-04-01T10:13:06.000Z"
+    },
+    "list:longest-land-routes": {
+      "hash": "13c80526e986fc7c",
+      "lastModified": "2026-10-13T09:59:01.663Z"
+    },
+    "list:more-than-one-capital": {
+      "hash": "84168524050bb16b",
+      "lastModified": "2026-08-28T22:57:44.000Z"
     },
     "list:most-connected-countries": {
       "hash": "8af1c065174485da",

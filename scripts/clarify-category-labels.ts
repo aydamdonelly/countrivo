@@ -21,9 +21,9 @@ const cats: Category[] = JSON.parse(fs.readFileSync(file, "utf8"));
 
 // slug -> { label?, shortLabel, clarifier }. label = full name (aria + headers),
 // shortLabel = button text, clarifier = tiny unit/basis line.
-const updates: Record<string, { label?: string; shortLabel: string; clarifier: string }> = {
+const updates: Record<string, { label?: string; description?: string; shortLabel: string; clarifier: string }> = {
   "population": { shortLabel: "Population", clarifier: "total people" },
-  "area-km2": { label: "Land Area", shortLabel: "Land Area", clarifier: "total km²" },
+  "area-km2": { label: "Total Area", shortLabel: "Total Area", description: "Reported total area in square kilometers", clarifier: "total km²" },
   "gdp-per-capita": { label: "GDP per Person", shortLabel: "GDP / Person", clarifier: "USD per person" },
   "gdp": { label: "Total GDP", shortLabel: "Total GDP", clarifier: "USD · whole economy" },
   "life-expectancy": { shortLabel: "Life Expectancy", clarifier: "years, at birth" },
@@ -54,6 +54,7 @@ for (const cat of cats) {
     continue;
   }
   if (u.label) cat.label = u.label;
+  if (u.description) cat.description = u.description;
   cat.shortLabel = u.shortLabel;
   cat.clarifier = u.clarifier;
   changed++;

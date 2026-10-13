@@ -13,18 +13,18 @@ export interface GameCopy {
 export const GAME_COPY: Record<string, GameCopy> = {
   "country-draft": {
     about: [
-      "Country Draft is a free daily strategy game about filling a cabinet. Five rounds, and every round is one country: Argentina, then Japan, then Mali. That country puts three of its people on the table, each of a different kind, you take one, and you give that person one of five seats: the Chair, the Field, the Purse, the Voice, the Desk.",
-      "Every person carries an archetype and a standing, and both are printed on the card. The seat decides most of the points, the standing decides the rest, and the whole table is published on this page. After five appointments the cabinet is scored out of 195, which is how many of the world's countries it takes.",
-      "Everyone gets the same five rounds and the same fifteen people each day, the board resets at midnight Europe/Berlin time, and there is no random bonus anywhere in the score. Outside the daily board, Country Draft can be played an unlimited number of times in practice mode, where nothing counts and the best possible line is shown at the end so the next daily goes better.",
+      "Country Draft is a free daily strategy game about filling a cabinet. Each of five rounds offers three countries. Open one to meet three of its famous people, choose one person and give them a job: the Chair, the Field, the Purse, the Voice or the Desk.",
+      "The person earns points for their fit with the job and a fame bonus. Their points and the reason appear after you confirm the appointment. Each job can be used once. Bonuses reward a cabinet of plausible fits, people from three world regions and a mix of earlier and recent eras.",
+      "Everyone gets the same country choices each day. The board resets at midnight Berlin time, and the maximum is 195 points. No account is needed. After finishing, you can add a name to the leaderboard or keep your result private.",
     ],
     faq: [
-      { q: "Is this the game where you draft five people and conquer 195 countries?", a: "Yes. Five rounds, five seats, a score out of 195. This one publishes the whole scoring table, shows all five countries from the start so holding a seat is a decision rather than a guess, and has no random bonus, so two identical cabinets always score the same." },
-      { q: "How is the score out of 195 worked out?", a: "Each appointment scores the fit between the person's archetype and the seat, 0 to 25, plus their standing, 0 to 10. Five appointments make 0 to 175, and three bonuses add up to 20 more. The full table is on this page." },
-      { q: "Is there a random bonus?", a: "No. Nothing in the score is rolled. The only random part of Country Draft is the board, and everybody gets the same board on the same day." },
-      { q: "What is the best possible score today?", a: "It depends on the board, and it is shown on your result as the best possible line, appointment by appointment. Boards are generated until that number falls between 166 and 186 out of 195, and until a player who simply takes the biggest number in front of them lands well short of it." },
-      { q: "Who is in the roster?", a: "Public figures with a public record, drawn from twelve fields: leaders, commanders, rulers by force, founders and financiers, scientists and explorers, writers and poets, musicians, screen and stage, comedians, athletes, broadcasters and outlaws. Rulers by force and outlaws hold nobody living, and no sitting head of state or government is in the roster at all." },
-      { q: "Can I play more than once a day?", a: "The daily board is one shot and it resets at midnight Europe/Berlin time. Practice is unlimited and nothing there touches the leaderboard." },
-      { q: "What happened to the old Country Draft?", a: "The game about putting countries on the statistic where they rank best is now Blind Pick, at countrivo.com/games/blind-pick. Nothing about it changed except the name and the address." },
+      { q: "Is this the game where you draft five people and conquer 195 countries?", a: "Yes. Choose a country, pick a person, give them a job. After five rounds, your cabinet earns a score out of 195 and paints that many countries on the map." },
+      { q: "How is the score out of 195 worked out?", a: "Each appointment earns up to 25 for the job and up to 10 for fame. Five appointments can reach 175. Three cabinet bonuses add up to 20 more: eight for every job being a plausible fit, six for three regions and six for mixing eras." },
+      { q: "When do I see the points?", a: "After you confirm Seat. Choosing a person or selecting a job is safe to change. A confirmed appointment is final, so the reveal cannot be used to try every person before deciding." },
+      { q: "Can I choose the country?", a: "Yes. Every round offers three countries from at least two world regions. Select one, then tap Open. You cannot switch countries after opening it." },
+      { q: "Is there a random bonus?", a: "No. Identical appointments earn the same score. The daily board is shared, and the cabinet bonuses follow from the people you choose." },
+      { q: "Can I play more than once a day?", a: "You get one daily run per device. Practice offers fresh boards without affecting the daily leaderboard." },
+      { q: "What happened to the game about placing countries on statistics?", a: "That game is now Blind Pick. Six countries arrive one at a time and you place them on six world rankings, trying to match the perfect board." },
     ],
   },
   "blind-pick": {
@@ -51,17 +51,17 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "geo-wordle": {
     about: [
-      "GeoWordle is a free geography Wordle where you guess a hidden country in six tries. Instead of matching letters, you follow distance and direction clues. A world map plots the countries you have guessed, and the proximity bars grow longer as you get closer. You can play in your browser on a phone, tablet or computer without an account or download.",
+      "GeoWordle is a free geography Wordle where you guess a hidden country in six tries. Instead of matching letters, you follow distance and direction clues. A world map plots your guesses, and words such as warm or hot show how close they are. You can play in your browser on a phone, tablet or computer without an account or download.",
       "Choose the daily puzzle to solve the same country as everyone else, or unlimited practice for a fresh puzzle after every round. The daily resets at midnight Europe/Berlin time. Share your result without revealing the answer, then compare guesses with friends.",
     ],
     faq: [
       { q: "Can I play GeoWordle unlimited?", a: "Yes. Choose unlimited practice below the Play daily button. Each new round hides another country and gives you six guesses. Practice is free and does not affect the daily leaderboard." },
-      { q: "How do the distance and direction clues work?", a: "The distance is the great-circle distance between the countries' reference coordinates, rounded to kilometres. It is not the distance between their nearest borders or capitals. The arrow points from your guessed country toward the answer. A longer proximity bar means a closer guess, not a probability of being correct." },
+      { q: "How do the distance and direction clues work?", a: "Distances approximate the nearest mapped borders using Natural Earth 1:50m geometry, rounded to kilometres. Neighbours show 0 km. A territory without a mapped border uses centre distance and says so on its row. The arrow is the bearing from the guessed country's reference centre toward the answer's reference centre. Warm and hot describe distance, not the probability of being correct." },
       { q: "When does today's GeoWordle reset?", a: "A new daily country arrives at midnight Europe/Berlin time. Everyone gets the same answer for that day. Finish today's puzzle once, then choose practice to keep playing while you wait." },
       { q: "Is GeoWordle the same as Worldle or Globle?", a: "GeoWordle on Countrivo is a separate country guessing game. This version starts with a hidden country and a world map, then gives you distance and direction clues after each guess. You have six attempts, with a daily puzzle and unlimited practice. No country silhouette is given as the starting clue." },
       { q: "What is a good first guess?", a: "Start with a country you can place confidently on the map. Use both the distance and the arrow to choose your next region, then compare all your clues. If a guess is thousands of kilometres away, move to the indicated region before trying neighbouring countries." },
-      { q: "How many guesses do I get?", a: "Six in both daily and practice. Solving in fewer guesses ranks higher on the daily board. After a win or loss, the game reveals the answer on the map." },
-      { q: "Is GeoWordle free without signing up?", a: "Yes. Daily and unlimited practice are free, with no signup or download required. An account is optional for saving results and joining the global and friends boards." },
+      { q: "How many guesses do I get?", a: "Six in both daily and practice. After two misses, you may spend one guess to see an outline clue. Solving in fewer used guesses ranks higher on the daily board. After a win or loss, the game reveals the answer on the map." },
+      { q: "Is GeoWordle free without signing up?", a: "Yes. Daily and unlimited practice are free. Countrivo has no accounts. After finishing the daily, you can optionally add a name to the leaderboard." },
     ],
   },
   "higher-or-lower": {
@@ -71,7 +71,7 @@ export const GAME_COPY: Record<string, GameCopy> = {
     ],
     faq: [
       { q: "How is Higher or Lower scored?", a: "Calls 1 to 7 are worth 1 point and calls 8 to 10 are worth 2, so a perfect day is 13. A wrong call scores nothing but the run carries on to call 10." },
-      { q: "Which stats appear?", a: "One a day, rotating through population, land area, total GDP, GDP per person, life expectancy, urban share, internet use, forest cover and fertility, ranked over sovereign states from public sources such as the World Bank. The same stat never comes back within a week." },
+      { q: "Which stats appear?", a: "One a day, rotating through population, total area, total GDP, GDP per person, life expectancy, urban share, internet use, forest cover and fertility, ranked over sovereign states from public sources such as the World Bank. Each statistic appears at least seven days apart. The game shows its dataset year." },
       { q: "Can I practice Higher or Lower?", a: "Yes. Practice is an endless chain on any stat other than today's, and one wrong call ends the streak. It never affects the daily board." },
     ],
   },

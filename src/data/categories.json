@@ -13,10 +13,10 @@
   },
   {
     "slug": "area-km2",
-    "label": "Land Area",
-    "shortLabel": "Land Area",
+    "label": "Total Area",
+    "shortLabel": "Total Area",
     "unit": "km²",
-    "description": "Total land area in square kilometers",
+    "description": "Reported total area in square kilometers",
     "direction": "higher_is_better",
     "source": "REST Countries",
     "sourceYear": 2023,

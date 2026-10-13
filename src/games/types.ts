@@ -8,6 +8,11 @@ import type { ComponentType } from "react";
 import type { RunDetail, ServerGameRun } from "@/types/server";
 import type { GameSlug, Mode, Viewer } from "@/ui/types";
 import type { submitGameRun } from "@/app/actions/game-runs";
+import type { DraftView } from "@/lib/game-logic/country-draft/public-view";
+import type { GeoWordleView } from "@/lib/game-logic/geo-wordle/engine";
+import type { PinpointView } from "@/lib/game-logic/pinpoint/engine";
+import type { QuickView } from "./quick-views";
+import type { BlindPickState } from "./blind-pick/module";
 
 /** The slugs with a play route. Every game in the roster now has a board. */
 export type PlayableSlug = GameSlug;
@@ -178,6 +183,18 @@ export interface HostProps {
   log: string;
   /** ISO, from the cookie or the request time. */
   startedAt: string;
+  /** Server-signed seed and run identity. Completion is replayed on the server. */
+  runTicket?: string;
+  sessionToken?: string;
+  sessionRevision?: number;
+  draftView?: DraftView;
+  geoWordleView?: GeoWordleView;
+  pinpointView?: PinpointView;
+  quickView?: QuickView;
+  blindPickView?: BlindPickState;
+  showDraftRules?: boolean;
+  savedRun?: ServerGameRun;
+  publishedName?: string | null;
   viewer: PlayViewer;
   resetAt: number;
   serverNow: number;

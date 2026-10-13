@@ -1,0 +1,231 @@
+@layer components {
+  .table-frame { max-width: 1248px; padding: 0 20px 24px; }
+  .table-header { height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .table-header nav { display: flex; gap: 24px; align-items: center; }
+  .table-header nav a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 16px; }
+  .table-header .header-world, .table-header .header-practice { display: none; }
+  .clay-object { position: relative; display: inline-block; width: 48px; height: 48px; flex: none; }
+  .clay-object img { width: 100%; height: 100%; object-fit: contain; }
+  .clay-motion-frame { position: absolute; inset: 0; visibility: hidden; }
+  .clay-animated .clay-motion-frame { animation: clay-idle 8s steps(1, end) infinite; }
+  @keyframes clay-idle { 0%, 84%, 98%, 100% { visibility: hidden; } 86%, 96% { visibility: visible; } }
+  .today-strip { display: flex; height: 76px; justify-content: center; gap: 0; margin-inline: auto; max-width: 560px; }
+  .today-strip button { position: relative; display: flex; flex: 1; max-width: 72px; min-width: 0; align-items: center; flex-direction: column; padding-top: 4px; }
+  .today-strip .clay-object { width: 44px; height: 44px; }
+  .strip-state { height: 20px; font-size: 12px; line-height: 16px; display: flex; align-items: center; color: var(--color-mute); }
+  .today-strip button[aria-current="true"]::after { content: ''; position: absolute; bottom: 2px; width: 28px; height: 2px; background: var(--color-ink); }
+  .deck-stage { position: relative; }
+  .game-deck { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 10px; padding: 40px 20px 30px 0; margin-right: -20px; }
+  .game-deck::-webkit-scrollbar { display: none; }
+  .deck-slide { flex: 0 0 calc(100% - 28px); min-width: 0; scroll-snap-align: start; }
+  .game-tray { position: relative; isolation: isolate; min-height: 360px; height: clamp(360px, calc(100svh - 398px), 446px); }
+  .tray-surface { position: absolute; inset: 0; z-index: -1; background: var(--color-card); mask: url('/design/tray-phone.svg') 0 0 / 100% 100% no-repeat; }
+  .tray-clay { position: absolute; top: -40px; right: 8px; width: 104px; height: 104px; pointer-events: none; }
+  .tray-content { padding: 20px 20px 28px; height: 100%; display: flex; align-items: flex-start; flex-direction: column; gap: 14px; }
+  .tray-title { max-width: calc(100% - 110px); }
+  .tray-link::after { content: ''; position: absolute; inset: 0; border-radius: var(--radius-card); }
+  .tray-link:focus-visible::after { outline: 2px solid var(--color-ink); outline-offset: 4px; }
+  .tray-body { flex: 1; width: 100%; display: flex; flex-direction: column; gap: 12px; }
+  .tray-promise { font-size: 17px; line-height: 24px; }
+  .tray-steps { font-size: 15px; line-height: 22px; color: var(--color-mute); display: flex; flex-direction: column; gap: 8px; }
+  .tray-meta { display: flex; gap: 16px; color: var(--color-mute); }
+  .tray-play { position: absolute; bottom: -22px; right: 20px; min-width: 112px; z-index: 2; }
+  .tray-preview { display: none; }
+  .tray-stamp { position: absolute; right: 24px; bottom: 72px; width: 80px; height: 80px; pointer-events: none; }
+  .deck-arrow { display: none; }
+  .deck-hint { color: var(--color-mute); margin: 4px 0 20px; }
+  .below-deck { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+  .below-deck section { display: flex; flex-direction: column; gap: 8px; }
+  .table-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 16px; font-weight: 600; }
+  .table-subnav { display: flex; gap: 24px; flex-wrap: wrap; }
+  .table-subnav a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; }
+  .table-foot { position: relative; isolation:isolate; border-radius: var(--radius-card); margin-top: 88px; padding: 64px 24px 24px; }
+  .table-foot::before { content:""; position:absolute; inset:0; z-index:-1; background:var(--color-card); mask:url("/design/footer-shelf.svg") 0 0 / 100% 100% no-repeat; }
+  .foot-objects { position: absolute; top: -40px; left: 16px; display: flex; gap: 8px; }
+  .foot-objects .clay-object { width: 64px; height: 64px; }
+  .foot-copy { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; font-size: 15px; line-height: 24px; }
+  .foot-copy a { text-decoration: underline; text-underline-offset: 3px; padding: 12px 0; }
+  .landing-stage { margin: 40px auto 54px; max-width: 680px; }
+  .landing-stage .game-tray { height: clamp(360px, calc(100svh - 166px), 540px); }
+  .table-editorial { max-width: 680px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  .table-editorial section { display: flex; flex-direction: column; gap: 16px; }
+  .table-editorial .t-body { line-height: 1.6; }
+  .job-guide { display: flex; flex-direction: column; gap: 8px; }
+  .job-guide > div { display: flex; align-items: center; gap: 16px; }
+  .job-guide .clay-object { width: 40px; height: 40px; }
+  .job-guide small { display: block; color: var(--color-mute); font-size: 13px; }
+  .game-index { display: grid; gap: 68px; padding-top: 48px; }
+  .game-index .game-tray { height: 410px; }
+  .full-set .game-tray { height: auto; min-height: 590px; }
+  .full-set-scores { width: 100%; margin-block: 12px; }
+  .full-set-scores p { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: 14px; }
+  .full-set-scores .clay-object { width: 28px; height: 28px; }
+  .full-set-scores b { margin-left: auto; }
+  .rollover { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--color-card); padding: 12px; border-radius: var(--radius-card); }
+  .par-row { display: flex; align-items: center; justify-content: space-between; min-height: 48px; color: var(--color-mute); border-block: 1px solid var(--color-line); }
+  .table-board-row { display: grid; grid-template-columns: 24px 24px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 48px; border-bottom: 1px solid var(--color-line); }
+  .table-board-row > .clay-object { width: 24px; height: 24px; }
+  .table-board-row .t-num:last-child { text-align: right; }
+  .table-board-note { margin-top: 12px; color: var(--color-mute); }
+  .world-hero { display: grid; gap: 24px; position: relative; margin-block: 24px 32px; }
+  .world-hero .clay-object { width: 120px; height: 120px; position: absolute; right: 0; top: 0; }
+  .world-map { display: block; width: 100%; height: auto; max-height: 500px; }
+  .world-map path, .world-map circle { fill: var(--color-wait); stroke: var(--color-paper); stroke-width: 0.5; }
+  .world-map a:hover path, .world-map a:focus path, .world-map a:hover circle, .world-map a:focus circle { fill: var(--color-ink); }
+  .world-intro { max-width: 680px; margin: 24px 0; }
+  .system-page { max-width: 720px; margin: 40px auto; }
+  .system-page > .clay-object { width: 120px; height: 120px; margin-bottom: 16px; }
+  .system-page section { margin-top: 32px; }
+  .system-page h2 { margin-bottom: 12px; }
+  .system-page p { line-height: 1.6; }
+  .system-page p + p { margin-top: 12px; }
+  .system-page a { text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 359px) {
+    .table-frame { padding-inline: 16px; }
+    .game-deck { margin-right: -16px; }
+    .tray-content { padding-inline: 16px; }
+    .tray-title { font-size: 28px; max-width: calc(100% - 98px); }
+    .tray-clay { width: 96px; height: 96px; }
+    .table-header nav a { font-size: 14px; }
+  }
+  @media (max-height: 600px) and (max-width: 767px) {
+    .game-tray { height: 360px; }
+    .tray-content { gap:10px; }
+    .tray-steps { gap:6px; }
+  }
+  @media (min-width: 768px) {
+    .table-frame { padding-inline: 32px; }
+    .table-header .header-world, .table-header .header-practice { display: inline-flex; }
+    .table-home { max-width: 560px; margin-inline: auto; }
+    .deck-slide { flex-basis: 480px; }
+    .game-deck { margin-right: -32px; }
+  }
+  @media (min-width: 1024px) {
+    .table-frame { padding-inline: 24px; max-width: 1248px; }
+    .table-header { height: 64px; }
+    .table-home { max-width: none; }
+    .today-strip { height: 88px; gap: 16px; }
+    .today-strip .clay-object { width: 56px; height: 56px; }
+    .today-strip button { max-width: 100px; }
+    .game-deck { padding: 64px calc((100% - 680px) / 2) 44px; scroll-padding-inline: calc((100% - 680px) / 2); margin: 0; gap: 140px; }
+    .deck-slide { flex-basis: 680px; }
+    .game-tray { height: clamp(440px, calc(100svh - 280px), 620px); }
+    .tray-surface { mask-image: url('/design/tray-desktop.svg'); }
+    .tray-content { padding: 32px 32px 38px; width: 408px; gap: 18px; }
+    .tray-title { max-width: 408px; }
+    .tray-body { width: 340px; }
+    .tray-promise { font-size: 17px; line-height: 26px; }
+    .tray-clay { width: 200px; height: 200px; top: -80px; }
+    .tray-preview { display: flex; position: absolute; left: 408px; right: 32px; top: 144px; }
+    .cabinet-preview { flex-direction: column; gap: 16px; }
+    .cabinet-preview > div { display: flex; gap: 12px; align-items: center; }
+    .cabinet-preview .clay-object { width: 40px; height: 40px; }
+    .cabinet-preview b { font-size: 16px; line-height: 24px; }
+    .cabinet-preview small { display: block; font-size: 14px; line-height: 20px; color: var(--color-mute); }
+    .tray-play { right: 32px; }
+    .deck-arrow { display: flex; justify-content: center; align-items: center; width: 44px; height: 44px; position: absolute; top: 50%; z-index: 3; border-radius: var(--radius-ctl); background: var(--color-paper); }
+    .deck-prev { left: 12px; }
+    .deck-next { right: 12px; }
+    .deck-arrow:disabled { visibility: hidden; }
+    .deck-hint { display: none; }
+    .below-deck { gap: 32px; margin-top: 12px; }
+    .landing-stage { margin-top: 88px; }
+    .landing-stage .game-tray { height: 560px; }
+    .foot-objects { top: -64px; left: calc((100% - 680px) / 2); }
+    .foot-objects .clay-object { width: 120px; height: 120px; }
+    .table-foot { padding-top: 88px; }
+    .foot-copy { font-size: 17px; line-height: 26px; }
+    .game-index { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 80px 48px; }
+    .game-index .game-tray { height: 480px; }
+    .game-index .tray-content { width: 100%; }
+    .game-index .tray-preview { display: none; }
+    .game-index .tray-title { max-width: calc(100% - 168px); font-size: 36px; }
+    .game-index .tray-clay { width: 160px; height: 160px; top: -56px; }
+    .game-index .tray-surface { mask-image: url('/design/tray-phone.svg'); }
+    .pair-preview { gap: 12px; justify-content: space-around; }
+    .pair-preview > span { background: var(--color-paper); padding: 32px; border-radius: var(--radius-card); }
+    .map-preview { flex-direction: column; align-items: center; gap: 24px; }
+    .map-preview .clay-object { width: 168px; height: 168px; }
+    .preview-pips { display: flex; gap: 8px; }
+    .preview-pips i { width: 12px; height: 12px; border: 1px dashed var(--color-wait); border-radius: 50%; }
+    .ruler-preview { flex-direction: column; gap: 16px; align-items: center; padding-top: 80px; }
+    .ruler-preview > div i { width: 1px; height: 12px; background: var(--color-wait); }
+    .ruler-preview > div { width: 100%; height: 36px; border-block: 2px solid var(--color-ink); display: flex; justify-content: space-between; }
+    .flag-preview { flex-direction: column; align-items: center; gap: 24px; }
+    .flag-box-empty { width: 120px; height: 90px; border: 1px dashed var(--color-wait); border-radius: var(--radius-flag); }
+    .job-guide { flex-direction: row; gap: 24px; }
+    .job-guide > div { flex: 1; flex-direction: column; gap: 8px; align-items: flex-start; }
+    .job-guide .clay-object { width: 72px; height: 72px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .game-deck { scroll-behavior: auto; }
+    .clay-motion-frame { display: none; }
+  }
+}
+@layer components {
+  .world-index-hero { display: flex; gap: 12px; align-items: flex-end; margin: 32px 0 24px; }
+  .world-index-hero > div { flex: 1; }
+  .world-index-hero .clay-object { width: 88px; height: 88px; }
+  .world-index-hero p { margin-top: 8px; }
+  .world-map { margin-block: 16px 32px; }
+  .dossier { margin-top: 32px; }
+  .dossier-hero { display: flex; align-items: flex-end; gap: 24px; margin-bottom: 32px; }
+  .dossier-hero .identity { flex: 1; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; min-width: 0; }
+  .dossier-hero .clay-object { width: 88px; height: 88px; }
+  .dossier-intro { max-width: 680px; margin-bottom: 32px; }
+  .dossier-comparisons { display: grid; gap: 24px; margin-bottom: 32px; }
+  .dossier-grid { display: grid; gap: 32px; }
+  .dossier-grid h2 { margin-bottom: 16px; }
+  .dossier-section + .dossier-section { margin-top: 32px; }
+  .dossier-standings a { display: grid; grid-template-columns: 24px minmax(0,1fr) auto; align-items: center; gap: 12px; min-height: 64px; border-bottom: 1px solid var(--color-line); }
+  .dossier-standings small { display: block; font-size: 13px; line-height: 18px; color: var(--color-mute); }
+  .dossier-people { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 24px 16px; }
+  .dossier-people .fig { margin-bottom: 8px; }
+  .dossier-people a { display: block; min-height: 44px; }
+  .dossier-people small { display: block; font-size: 12px; line-height: 16px; color: var(--color-mute); }
+  .dossier-play { margin-top: 32px; max-width: 680px; }
+  .dossier-capsules { max-width: 680px; margin-top: 32px; }
+  .dossier-fact { font-size: 19px; line-height: 28px; }
+  .flag-family { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 16px; }
+  .flag-family a { display: flex; flex-direction: column; gap: 8px; font-size: 12px; min-height: 44px; }
+  @media (min-width: 1024px) {
+    .world-index-hero .clay-object { width: 160px; height: 160px; }
+    .dossier { margin-top: 56px; }
+    .dossier-hero .clay-object { width: 200px; height: 200px; }
+    .dossier-hero .identity { gap: 28px; }
+    .dossier-grid, .dossier-comparisons { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 48px; }
+    .dossier-fact { font-size: 22px; line-height: 32px; }
+    .cx .cols2 { columns: 3; }
+  }
+}
+@layer components {
+ .archive-row { display: grid; grid-template-columns: 48px minmax(0,1fr) auto; gap: 16px; align-items: center; min-height: 72px; border-bottom: 1px solid var(--color-line); }
+ .archive-row .clay-object { width: 48px; height: 48px; }
+}
+
+@layer components { .full-set .tray-content { width:100%; } .day-atlas {width:100%;} .day-atlas .world-map {margin:0 0 12px;max-height:190px;} .day-atlas .met-country { fill:var(--color-ink); } .full-set .game-tray {min-height:760px;} }
+
+@layer components {
+ .table-next-row { display:grid; grid-template-columns:48px minmax(0,1fr) 24px; gap:16px; align-items:center; min-height:80px; padding:12px 0; border-bottom:1px solid var(--color-line); }
+ .table-next-row .t-meta {display:block; margin-top:4px; color:var(--color-mute);}
+ .table-next-row .clay-object {width:48px;height:48px;}
+ .table-next-row > span {overflow-wrap:anywhere;}
+ .cx .row .text, .cx .row .title {min-width:0;overflow-wrap:anywhere;white-space:normal;}
+ @media (max-width:359px) {.table-next-row {gap:10px;grid-template-columns:40px minmax(0,1fr) 24px;} .table-next-row .clay-object{width:40px;height:40px;}}
+}
+@layer components {
+ .admin-form {display:flex;flex-direction:column;gap:16px;margin-top:24px;max-width:400px;}
+ .admin-form input {display:block;width:100%;min-height:48px;padding:12px;background:var(--color-card);border-radius:var(--radius-ctl);margin-top:8px;}
+ .admin-row {display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--color-line);padding-block:16px;}
+}
+@layer components {
+  .share-fallback { display: block; width: 100%; padding: 12px; margin-block: 16px; border: 1px solid var(--color-line); border-radius: var(--radius-ctl); background: var(--color-paper); color: var(--color-ink); font: inherit; resize: vertical; }
+}
+@layer components {
+  .daily-result-next { display:flex; flex-direction:column; gap:20px; margin-block:32px; }
+  .daily-tomorrow { display:flex; align-items:center; gap:12px; color:var(--color-mute); }
+  .daily-tomorrow .clay-object { width:48px; height:48px; }
+  .daily-result-next .table-next-row > span { overflow-wrap:anywhere; }
+  .daily-result-next .table-next-row { grid-template-columns:48px minmax(0,1fr) auto; }
+  @media (max-width:359px) { .daily-result-next .table-next-row { grid-template-columns:40px minmax(0,1fr) auto; } }
+}

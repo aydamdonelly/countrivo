@@ -5,8 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import { erode } from "./fonts";
 import { getAllGames } from "@/lib/data/games";
-import { AuthProvider } from "@/features/auth/auth-provider";
-import { AuthSheetHost } from "@/features/auth/auth-sheet-host";
 import { NativeBootstrap } from "@/features/auth/native-bootstrap";
 import { ToastProvider } from "@/ui/toast";
 
@@ -24,15 +22,15 @@ const PAPER = "rgb(251, 250, 246)";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Countrivo | Free Geography Games, One Shot a Day",
+    default: "Countrivo | Free Geography Games, Six Short Games a Day",
     template: "%s | Countrivo",
   },
   description: `Play ${GAME_COUNT} free geography games online: GeoWordle, Country Draft, flag quizzes and country stats puzzles. Daily boards and unlimited practice. No signup.`,
   openGraph: {
     type: "website",
     siteName: "Countrivo",
-    title: "Countrivo | Free Geography Games, One Shot a Day",
-    description: `${GAME_COUNT} free geography games. One shot a day, flag quizzes, country stats and strategy puzzles. 243 countries. No signup.`,
+    title: "Countrivo | Free Geography Games, Six Short Games a Day",
+    description: `${GAME_COUNT} free geography games. A new board every day, flag quizzes, country stats and strategy puzzles. 243 countries. No signup.`,
   },
   twitter: {
     card: "summary_large_image",
@@ -73,7 +71,7 @@ const SITE_JSON_LD = JSON.stringify({
       "@type": "WebSite",
       name: "Countrivo",
       url: SITE,
-      description: "Free geography games online. One shot a day, flag quizzes, country rankings, and strategy puzzles.",
+      description: "Free geography games online. A new board every day, flag quizzes, country rankings, and strategy puzzles.",
     },
     {
       "@type": "Organization",
@@ -90,15 +88,12 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="en" className={erode.variable}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
-        <AuthProvider>
           <NativeBootstrap />
           <ToastProvider>
-            <AuthSheetHost />
             <main>{children}</main>
             <Analytics />
             <SpeedInsights />
           </ToastProvider>
-        </AuthProvider>
       </body>
     </html>
   );

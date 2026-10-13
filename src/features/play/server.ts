@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
 import { getAllGames } from "@/lib/data/games";
-import { compactScore, getPublicBoards } from "@/server/boards";
+import { anonymousLeaderboard } from "@/server/anonymous-runs";
 import type { DailyRef } from "@/games/types";
 import type { GameSlug } from "@/ui/types";
 
@@ -16,12 +16,11 @@ export async function dailyMetas(dateKey: string): Promise<Record<string, DailyM
   const dailySlugs = getAllGames()
     .filter((g) => g.availableModes.includes("daily"))
     .map((g) => g.slug);
-  const pub = await getPublicBoards(dateKey, dailySlugs);
   const out: Record<string, DailyMeta> = {};
-  for (const slug of dailySlugs) {
-    const rows = pub.runs.filter((r) => r.game_slug === slug).sort((a, b) => Number(b.score_sort_value) - Number(a.score_sort_value));
-    out[slug] = { shots: rows.length, top: rows[0] ? compactScore(rows[0].score_display, rows[0].score_raw) : null };
-  }
+  await Promise.all(dailySlugs.map(async (slug) => {
+    const rows = await anonymousLeaderboard(slug, dateKey);
+    out[slug] = { shots: rows.length, top: rows[0]?.scoreDisplay ?? null };
+  }));
   return out;
 }
 
@@ -70,6 +69,6 @@ export function dailyRefs(): DailyRef[] {
 
 /** The `41 shots · top 635` / `no shots yet` meta of a NextDailies row (blueprint 10.4). */
 export function nextDailyMeta(meta: DailyMeta | undefined): string {
-  if (!meta || meta.shots === 0) return "no shots yet";
-  return `${meta.shots} ${meta.shots === 1 ? "shot" : "shots"}${meta.top ? ` · top ${meta.top}` : ""}`;
+  if (!meta || meta.shots === 0) return "Be the first today";
+  return `${meta.shots} ${meta.shots === 1 ? "player" : "players"}${meta.top ? ` · top ${meta.top}` : ""}`;
 }

@@ -27,6 +27,7 @@ export async function createChallenge(
   challengedId: string,
   gameSlug: string,
   dailyDate: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- retained historical call signature
   _clientRunId?: number, // IGNORED — never trust a client-supplied run id
 ): Promise<{ success: boolean; challenge?: FriendChallenge; error?: string }> {
   const supabase = await createClient();
@@ -158,6 +159,7 @@ export async function getMyOutgoingChallenges(): Promise<FriendChallenge[]> {
 
 export async function completeChallenge(
   challengeId: number,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- retained historical call signature
   _clientRunId?: number, // IGNORED — never trust a client-supplied run id (see createChallenge)
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();

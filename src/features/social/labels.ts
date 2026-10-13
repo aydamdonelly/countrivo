@@ -9,6 +9,7 @@ const SHORT: Record<GameSlug, string> = {
   "country-draft": "draft",
   "blind-pick": "blind",
   "higher-or-lower": "hol",
+  "pinpoint": "Pinpoint",
   "geo-wordle": "wordle",
   "stat-guesser": "stats",
   "flag-quiz": "flags",

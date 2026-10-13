@@ -1,3 +1,10 @@
+import Link from "next/link";
+import { surprisingPositions } from "@/lib/data/surprising";
+import { isGuessStat } from "@/lib/game-logic/stat-guesser/engine";
+import { isHoLStat } from "@/lib/game-logic/higher-or-lower/stats";
+import { Button } from "@/ui/button";
+import { Clay } from "@/ui/clay";
+import { sovereignIso3 } from "@/lib/data/loader";
 import { getAllCategories } from "@/lib/data/categories";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { getStatValue, getTopCountries } from "@/lib/data/ranks";
@@ -17,19 +24,14 @@ import {
   type RankRow,
 } from "@/ui";
 import "./seo.css";
+import "./category-discovery.css";
 
 const TEST_YOURSELF: readonly { slug: GameSlug; title: string; meta: string }[] = [
-  { slug: "blind-pick", title: "Blind Pick", meta: "put eight countries on their best stat" },
+  { slug: "blind-pick", title: "Blind Pick", meta: "put six countries on their best stat" },
   { slug: "country-draft", title: "Country Draft", meta: "five seats, five people, one map" },
   { slug: "higher-or-lower", title: "Higher or Lower", meta: "call which country ranks higher" },
   { slug: "stat-guesser", title: "Stat Guesser", meta: "guess the number, closest wins" },
 ];
-
-const DIRECTION: Record<string, string> = {
-  higher_is_better: "Higher is better.",
-  lower_is_better: "Lower is better.",
-  neutral: "Neither direction is better; this is a descriptive ranking.",
-};
 
 /** "124.5M people" split into the Erode value and the mute unit after it. */
 function splitStat(raw: number, unit: string): { value: string; unit?: string } {
@@ -45,7 +47,9 @@ function splitStat(raw: number, unit: string): { value: string; unit?: string } 
  * a curious reader both want the whole thing.
  */
 export function CategoryPage({ category }: { category: Category }) {
-  const ranked = getTopCountries(category.slug, 300);
+  const ranked = getTopCountries(category.slug, 300).filter((row) => sovereignIso3.includes(row.iso3)).map((row, i) => ({...row, rank: i + 1}));
+  const surprising = surprisingPositions(category.slug);
+  const guessable = isGuessStat(category.slug), comparable = isHoLStat(category.slug);
   const others = getAllCategories()
     .filter((c) => c.slug !== category.slug)
     .slice(0, 12);
@@ -110,10 +114,16 @@ export function CategoryPage({ category }: { category: Category }) {
           <section data-o="5" className="src-block">
             <SectionHead title="Source" variant="strip" />
             <p className="t-body src-line">
-              {category.source}, {category.sourceYear}. Coverage {category.coveragePercent} % of countries.{" "}
-              {DIRECTION[category.direction]}
+              {category.source}, {category.sourceYear}. {rows.length} of {sovereignIso3.length} sovereign countries with data. Values are ordered from highest to lowest.
             </p>
           </section>
+
+          <section data-o="5" className="category-surprises" aria-labelledby="surprising-positions">
+            <h2 id="surprising-positions" className="t-h3">Surprising positions</h2>
+            {surprising.map((position)=>{const country=getCountryByIso3(position.iso3),comparison=getAllCategories().find(c=>c.slug===position.comparisonStat);return country ? <p className="t-body" key={position.iso3}><Link href={`/countries/${country.slug}`}>{country.displayName}</Link> ranks <b>{position.rank} of {position.count}</b> for {category.label.toLowerCase()}, and <b>{position.comparisonRank} of {position.comparisonCount}</b> for {comparison?.label.toLowerCase()}.</p> : null;})}
+            <p className="t-meta text-mute">Method: the three largest gaps in relative ranking position, compared with {category.slug==='population'?'total area':'population'}. Only sovereign countries with both values count. This describes position, not whether a country is better.</p>
+          </section>
+          {guessable || comparable ? <section data-o="5" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"}/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3><p className="t-body">Practice with this statistic. The answers come after your choice.</p>{guessable?<Button variant="ink" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="text" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}<p className="t-meta text-mute">Today’s daily content stays out of practice.</p></section> : null}
 
           <section data-o="6" className="ls">
             <SectionHead title="More rankings" fact={`${others.length} of ${getAllCategories().length}`} />

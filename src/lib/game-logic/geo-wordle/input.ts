@@ -19,6 +19,7 @@ const ALIASES: Readonly<Record<string, readonly string[]>> = {
   MAC: ["Macao"],
   MDA: ["Republic of Moldova"],
   MMR: ["Burma"],
+  NLD: ["Holland"],
   PRK: ["DPRK", "Democratic People's Republic of Korea"],
   RUS: ["Russian Federation"],
   SWZ: ["Swaziland"],

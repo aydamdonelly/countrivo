@@ -11,7 +11,7 @@
   --color-bar:    #ffffff;   /* bottom tab bar; sheets */
   --color-wait:   #cfcec6;   /* waiting crest fill; conquest-map land; empty pips; disabled fills; GeoWordle "cool" */
   --color-faint:  #b9b8b1;   /* chevrons; inactive tab-bar icons and labels */
-  --color-mute:   #74756f;   /* every secondary text; GeoWordle "hot" */
+  --color-mute:   #6a6b65;   /* every secondary text; GeoWordle "hot" */
   --color-down:   #8a8b85;   /* disabled text; tertiary meta */
   --color-ink:    #17181a;   /* text; anchor card; switch knob; crest circle; active tab underline; correct fills; GeoWordle "burning" */
   --color-ink-2:  #2b2c2e;   /* pressed/hover state of ink fills; chip fill on the ink card */

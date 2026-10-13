@@ -11,7 +11,7 @@ export async function getDailyEdition(): Promise<string> {
   try {
     const supabase = await createClient();
     const { data } = await supabase
-      .from("app_config")
+      .from("countrivo_config")
       .select("value")
       .eq("key", "daily_edition")
       .single();

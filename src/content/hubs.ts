@@ -20,11 +20,11 @@ export function gamesHubFaq(games: number, dailies: number): { q: string; a: str
   return [
     {
       q: "What are the best free geography games online?",
-      a: `Countrivo has ${games} free geography games: daily one-shot puzzles such as Country Draft, GeoWordle, Higher or Lower and Blind Pick, the ten-round Flag Quiz, and Speed Flags for thirty seconds of practice. No signup is needed to play.`,
+      a: `Countrivo has ${games} free geography games: Country Draft, GeoWordle, Pinpoint, Flag Quiz, Higher or Lower and Stat Guesser have daily boards. Blind Pick and the thirty-second Speed Flags are unlimited practice.`,
     },
     {
       q: "Do I need an account to play?",
-      a: "No. Every game is free and playable without an account. Sign in only if you want your daily shot on the global and friends boards.",
+      a: "No. There are no player accounts. Results save on this browser. Finish a daily game, then add a name to the leaderboard if you like.",
     },
     {
       q: "How does the daily work?",
@@ -77,7 +77,7 @@ export const LISTS_HUB = {
 
 /** Verbatim from the deleted /lists page. */
 export const LISTS_INTRO: readonly string[] = [
-  "Browse curated lists of countries organized by size, population, wealth, and geography. Each list includes up-to-date statistics sourced from the World Bank, the United Nations, and other authoritative datasets covering all 243 recognized countries and territories.",
+  "Explore countries by size, population, geography and other statistics. Each ranking shows its source and reference year. Missing values are left out, so coverage varies by statistic.",
   "Whether you are researching for school, settling a debate, or just curious about the world, these rankings give you a clear, sortable view of how countries compare on the metrics that matter most.",
 ];
 
@@ -97,121 +97,40 @@ export interface LegalPageCopy {
 }
 
 export const PRIVACY: LegalPageCopy = {
-  title: "Privacy Policy",
-  description: "Privacy policy for Countrivo, covering analytics and optional account data.",
-  h1: "Privacy Policy",
-  lead: "Countrivo is a free geography games and country data website. This page explains what limited data may be collected when you use the site, how analytics services may process it, and what optional account data is stored.",
+  title: "Privacy", description: "What Countrivo stores, and how to forget this device.", h1: "Privacy", lead: "Play without an account. Publish a name only if you want to.",
   sections: [
-    {
-      h2: "Information we collect",
-      paragraphs: [
-        "Countrivo does not require an account to play games or browse country pages. We may collect basic usage information such as page views, device and browser details, rough location derived from IP address, referring pages, and interaction data needed to understand how the site is used and improve performance.",
-      ],
-    },
-    {
-      h2: "Analytics",
-      paragraphs: [
-        "Countrivo uses Vercel Web Analytics, and Vercel Speed Insights for performance, to understand traffic, popular pages, and general product usage. These privacy-friendly tools process technical information such as IP address, browser metadata, and pages visited. They do not track you across other apps or websites, and Countrivo runs no advertising trackers.",
-        "Account data (email, username, scores, streaks, friends, and any iOS notification token) is stored and processed by Supabase, our backend and database provider, acting as our data processor.",
-      ],
-    },
-    {
-      h2: "Accounts",
-      paragraphs: [
-        "Playing is free and needs no account. If you choose to create one, we store your email address and a username so we can save your scores, streaks, and friends. You can delete your account and all associated data at any time from your profile, deletion is immediate and permanent. Countrivo shows no ads and does not sell your data.",
-        "You can sign in with your Apple ID. In the iOS app, if you allow notifications we store a device token so we can send daily reminders; the token is removed when you turn notifications off or delete your account.",
-      ],
-    },
-    {
-      h2: "Cookies",
-      paragraphs: [
-        "Cookies and local browser storage may be used to keep the site functional, remember gameplay preferences, and measure traffic. Most browsers let you block or delete cookies in settings, although some site features may work less reliably if you do so.",
-      ],
-    },
-    {
-      h2: "Third-party links",
-      paragraphs: [
-        "Countrivo may link to third-party websites. Their privacy practices are governed by their own policies, not this one.",
-      ],
-    },
-    {
-      h2: "Policy updates",
-      paragraphs: [
-        "This policy may be updated as the site evolves, including when new features or analytics tools are introduced.",
-      ],
-    },
+    {h2: "Who operates Countrivo", paragraphs: ["Adam Kahirov, Lily-Braun-Straße 27, 12619 Berlin, Germany. Contact: countrivo@gmail.com."]},
+    {h2: "Your device and games", paragraphs: ["A necessary browser cookie identifies this device so we can resume games and keep one daily result per game. It is protected against modification. We store game actions, results, dates and the name you choose to publish. Progress and streaks also use necessary browser storage. Clearing storage may lose access to this device's results."]},
+    {h2: "Your public name", paragraphs: ["Putting your name on the leaderboard is optional. Your chosen name, optional country, score, game and date become public. Today's name can be changed or removed from your result screen on the same device. For an older result, use Forget this device or contact us. Other players see full run details only after that board's day has ended. Do not put private contact details in your name."]},
+    {h2: "Protecting the leaderboard", paragraphs: ["To limit repeated naming and reports, we store a daily salted hash of the request's network address. The hash changes each day; the raw address is not stored in our game tables. Reports and moderation records help us review abusive names."]},
+    {h2: "Analytics and hosting", paragraphs: ["Vercel hosts the site and provides aggregate, cookieless web analytics and performance measurements. Supabase stores game records. These services process technical request information to deliver and protect the site. Countrivo has no advertising trackers."]},
+    {h2: "Historical accounts", paragraphs: ["Earlier versions offered accounts. New games no longer require or offer login. Historical account records remain in a separate database; email countrivo@gmail.com to ask about access or deletion of those records."]},
+    {h2: "Your choices", paragraphs: ["Use Forget this device below to remove this device's saved runs and public names, and clear its Countrivo cookies. Contact us to request information, correction or deletion of personal data. You may also complain to a data protection authority."]},
+    {h2: "Cookies", paragraphs: ["Countrivo uses necessary cookies for this device, daily progress and the streak. We do not use advertising cookies. Your browser can block or clear cookies, but daily progress and saved results may then be unavailable."]},
   ],
 };
 
 export const TERMS: LegalPageCopy = {
-  title: "Terms of Service",
-  description: "Terms of Service for Countrivo, the rules for using the free geography game.",
-  h1: "Terms of Service",
-  lead: "Countrivo is a free daily geography game. By playing or creating an account you agree to these terms. Play fair and be kind.",
+  title: "Terms", description: "Rules for playing Countrivo and publishing a leaderboard name.", h1: "Terms", lead: "Free games. Play fair and be kind.",
   sections: [
-    {
-      h2: "Eligibility",
-      paragraphs: ["You must be at least 13 years old to create an account. Anyone may play without one."],
-    },
-    {
-      h2: "Your account and username",
-      paragraphs: [
-        "You are responsible for activity on your account. Usernames and display names must not impersonate others or contain hateful, harassing, or obscene content. We may rename, suspend, or remove accounts that break these rules. You can delete your account and all its data at any time from your profile.",
-      ],
-    },
-    {
-      h2: "Acceptable use",
-      paragraphs: [
-        "Do not cheat (for example by submitting fabricated scores), abuse other players, scrape or attack the service, or attempt to disrupt the daily board for others.",
-      ],
-    },
-    {
-      h2: "Friends and reporting",
-      paragraphs: [
-        "The social features let you add friends and compare scores. You can block and report other players; we may act on reports at our discretion.",
-      ],
-    },
-    {
-      h2: "Service provided as is",
-      paragraphs: [
-        "Countrivo is provided free, without warranties, and may change or be unavailable at any time. We are not liable for any loss arising from use of the game to the extent permitted by law.",
-      ],
-    },
-    {
-      h2: "Changes and termination",
-      paragraphs: [
-        "We may update these terms or the game as it evolves. You may stop using Countrivo and delete your account at any time; we may suspend accounts that violate these terms.",
-      ],
-    },
+    {h2: "Playing", paragraphs: ["Countrivo provides geography games for general information and entertainment. Daily boards share one set of rules and one result per device, game and day. Practice does not count on the daily leaderboard."]},
+    {h2: "Names on the leaderboard", paragraphs: ["Publishing a name is optional. Do not impersonate others or use hateful, harassing or obscene names. We may hide names reported for abuse. Names need not be unique and do not establish a verified identity."]},
+    {h2: "Fair use", paragraphs: ["Do not send fabricated scores, automate competitive submissions, attack the service or disrupt games for others. Simulated practice rivals are labelled as bots and do not affect human rankings."]},
+    {h2: "Data and availability", paragraphs: ["Statistics describe particular source years and coverage. Borders and map positions are simplified. The game may change or be unavailable; it is not a source of professional advice. Mandatory consumer rights remain unaffected."]},
+    {h2: "Questions", paragraphs: ["For a correction, report or question, email countrivo@gmail.com. You can remove your public name or forget this device at any time."]},
   ],
 };
 
 export const SUPPORT = {
-  title: "Support",
-  description: "Get help with Countrivo, contact, FAQ, and how to manage your account.",
-  h1: "Support",
+  title: "Support", description: "Get help with Countrivo games, scores and device progress.", h1: "Support",
   faq: [
-    {
-      q: "When does the daily reset?",
-      a: "Every day at midnight Europe/Berlin time. One shot per game, the same board for every player in the world. Practice mode is unlimited and never counts.",
-    },
-    {
-      q: "How do I delete my account?",
-      a: "Open your profile and use Delete my account. Deletion is immediate and permanent and removes all your data.",
-    },
-    {
-      q: "How do I turn off notifications?",
-      a: "Turn them off in your device settings, under Countrivo, then Notifications. We only send a daily reminder.",
-    },
-    {
-      q: "How do I report a player?",
-      a: "Email us the username and what happened. We review every report, rename or remove abusive accounts, and you can remove anyone from your friends list at any time.",
-    },
-    {
-      q: "I lost my streak, or a score did not save",
-      a: "Scores save when you finish a run. If something looks wrong, email us with the date and the game and we will look it up.",
-    },
+    {q: "When does the daily reset?", a: "At midnight Europe/Berlin time. One daily result per game and device, the same board for everyone. Practice is unlimited."},
+    {q: "Do I need an account?", a: "No. There is no login. After a daily game, you can add a name to the leaderboard if you like."},
+    {q: "How do I remove my name?", a: "For today's result, open the finished game on the same device and choose Remove my name. To remove all this device's results and names, use Forget this device on the Privacy page. You can also contact support."},
+    {q: "How do I report a name?", a: "Use Report name on its leaderboard row, or email countrivo@gmail.com with the game and date."},
+    {q: "Why did my streak disappear?", a: "The streak belongs to this browser. Clearing its cookies, switching browsers or forgetting the device starts a new streak."},
+    {q: "A score did not save", a: "Keep the game tab open and use Try again if shown. Send us the game and date if it still fails. Never send passwords or private identifiers."},
+    {q: "What happened to my old account?", a: "The relaunch no longer offers login. Historical records remain separate. Email us if you need help with them."},
   ],
 } as const;
-
 export const SUPPORT_EMAIL = "countrivo@gmail.com";

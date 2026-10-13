@@ -2,6 +2,7 @@ import Link from "next/link";
 import { EditorialHead, PageTitle, Prose, QaList, SiteFoot } from "@/ui";
 import { SUPPORT_EMAIL, type LegalPageCopy } from "@/content/hubs";
 import "./seo.css";
+import { ForgetDevice } from "./forget-device";
 
 /**
  * /privacy and /terms (blueprint 7.18): a title, one lead line, then plain sections. No
@@ -17,6 +18,7 @@ export function LegalPage({ copy }: { copy: LegalPageCopy }) {
           <Prose paragraphs={section.paragraphs} />
         </section>
       ))}
+      {copy.h1 === "Privacy" ? <ForgetDevice /> : null}
       <p className="t-body mail-line">
         Questions go to{" "}
         <a href={`mailto:${SUPPORT_EMAIL}`} className="ilink">

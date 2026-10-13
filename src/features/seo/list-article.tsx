@@ -1,6 +1,9 @@
 import { getCategoryBySlug } from "@/lib/data/categories";
-import { getCountriesByContinent, getCountryByIso3 } from "@/lib/data/countries";
-import { getStatValue, getTopCountries } from "@/lib/data/ranks";
+import { getAllCountries, getCountriesByContinent, getCountryByIso3 } from "@/lib/data/countries";
+import { getStatValue } from "@/lib/data/ranks";
+import { sovereignIso3 } from "@/lib/data/loader";
+import { DiscoveryList } from "./discovery-list";
+import { NameThemAll } from "./name-them-all";
 import { formatStat } from "@/lib/utils";
 import { getList, LISTS, type ListContent, type ListFact } from "@/content/lists";
 import {
@@ -23,7 +26,7 @@ import { ListItemJsonLd } from "./list-jsonld";
 import "./seo.css";
 
 const PLAY_ROWS: readonly { slug: GameSlug; title: string; meta: string }[] = [
-  { slug: "blind-pick", title: "Blind Pick", meta: "put eight countries on their best stat" },
+  { slug: "blind-pick", title: "Blind Pick", meta: "put six countries on their best stat" },
   { slug: "higher-or-lower", title: "Higher or Lower", meta: "call which country ranks higher" },
   { slug: "stat-guesser", title: "Stat Guesser", meta: "guess the number, closest wins" },
   { slug: "country-draft", title: "Country Draft", meta: "five seats, five people, one map" },
@@ -52,7 +55,9 @@ function buildStatList(list: ListContent, categorySlug: string): Built | null {
   const category = getCategoryBySlug(categorySlug);
   if (!category) return null;
 
-  const ranked = getTopCountries(categorySlug, STAT_ROWS);
+  const sovereign = new Set(sovereignIso3);
+  const covered = getAllCountries().filter(c=>sovereign.has(c.iso3)).flatMap(c=>{const value=getStatValue(c.iso3,categorySlug);return value!==null&&Number.isFinite(value)?[{iso3:c.iso3,value}]:[];}).sort((a,b)=>b.value-a.value);
+  const ranked = covered.slice(0,STAT_ROWS).map((c,i)=>({iso3:c.iso3,rank:i+1}));
   const rows: RankRow[] = ranked
     .map(({ iso3, rank }): RankRow | null => {
       const country = getCountryByIso3(iso3);
@@ -73,9 +78,9 @@ function buildStatList(list: ListContent, categorySlug: string): Built | null {
       unit: leader?.unit,
       caption: leader ? `${leader.name}, ${list.numberCaption}` : list.numberCaption,
     },
-    meta: `${rows.length} countries · ${category.source} ${category.sourceYear}`,
+    meta: `${covered.length} sovereign countries with data · ${category.source} ${category.sourceYear}`,
     facts,
-    faq: [...list.faq],
+    faq: [{q: `Which country leads this ${category.label.toLowerCase()} ranking?`,a: leader ? `${leader.name} leads the available sovereign-country records, with ${leader.value}${leader.unit ? ` ${leader.unit}` : ""}. The source year is ${category.sourceYear}. This is a comparison of countries with data, rather than a claim about missing countries.` : "There are no recorded values in this list."}, {q: "How is the ranking calculated?",a: `Recorded values from ${category.source}, ${category.sourceYear}, are sorted from highest to lowest. Territories are excluded, and missing values are not treated as zero. ${rows.length} of ${covered.length} countries with data are shown.`}],
     columns: 3,
   };
 }
@@ -107,10 +112,11 @@ function statTile(raw: number, unit: string, label: string, href?: string): Fact
   return { value: valueWithUnit(value, suffix), label, ...(href ? { href } : {}) };
 }
 
-function buildContinentList(list: ListContent, continent: string, sovereign: number): Built {
+function buildContinentList(list: ListContent, continent: string): Built {
   const population = getCategoryBySlug("population");
   const area = getCategoryBySlug("area-km2");
-  const countries = getCountriesByContinent(continent)
+  const sovereign = new Set(sovereignIso3);
+  const countries = getCountriesByContinent(continent).filter(c=>sovereign.has(c.iso3))
     .map((c) => ({ country: c, pop: getStatValue(c.iso3, "population") ?? 0, area: getStatValue(c.iso3, "area-km2") }))
     .sort((a, b) => b.pop - a.pop);
 
@@ -163,14 +169,14 @@ function buildContinentList(list: ListContent, continent: string, sovereign: num
     i === 0
       ? {
           q: item.q,
-          a: `There are ${sovereign} sovereign countries in ${continent === "Americas" ? "the Americas" : continent}; this list also shows the ${rows.length - sovereign} territories Countrivo tracks, ${rows.length} entries in all.`,
+          a: `There are ${countries.length} sovereign countries in ${continent === "Americas" ? "the Americas" : continent}; territories and other places are listed separately.`,
         }
       : item,
   );
 
   return {
     rows,
-    number: { value: String(rows.length), caption: list.numberCaption },
+    number: { value: String(rows.length), caption: `sovereign countries in ${continent === "Americas" ? "the Americas" : continent}` },
     meta: `${rows.length} countries · ${population?.source ?? "World Bank"} ${population?.sourceYear ?? ""}`.trim(),
     facts,
     faq,
@@ -184,13 +190,16 @@ function buildContinentList(list: ListContent, continent: string, sovereign: num
  * apart. One template renders all 15.
  */
 export function ListArticle({ list }: { list: ListContent }) {
+  if (list.source.kind === "editorial") return <DiscoveryList list={list}/>;
   const built =
     list.source.kind === "stat"
       ? buildStatList(list, list.source.category)
-      : buildContinentList(list, list.source.continent, list.source.sovereign);
+      : buildContinentList(list, list.source.continent);
   if (!built) return null;
 
-  const intro = list.intro.map((p) => p.replace("{n}", String(built.rows.length)));
+  const sourceCategory = list.source.kind === "stat" ? getCategoryBySlug(list.source.category) : null;
+  const territoryRows: RankRow[] = list.source.kind === "continent" ? getCountriesByContinent(list.source.continent).filter(c=>!sovereignIso3.includes(c.iso3)).map((c,i)=>({rank:i+1,iso2:c.iso2,name:c.displayName,href:`/countries/${c.slug}`,capital:c.capital,value:"Other place"})) : [];
+  const intro = list.source.kind === "continent" ? [`The list includes ${built.rows.length} sovereign countries in ${list.source.continent === "Americas" ? "the Americas" : list.source.continent}, sorted by population. Territories and other places appear separately and do not count in the practice quiz. Population and area values use the source years shown with their datasets.`] : list.intro.map((p) => p.replace("{n}", String(built.rows.length)));
   const seeAlso = list.seeAlso
     .map((slug) => LISTS.find((l) => l.slug === slug))
     .filter((l): l is ListContent => Boolean(l));
@@ -228,6 +237,8 @@ export function ListArticle({ list }: { list: ListContent }) {
             <span className="t-body">{built.number.caption}</span>
           </div>
 
+          {list.source.kind === "continent" ? <NameThemAll continent={list.source.continent} /> : null}
+
           <div data-o="3" className="intro">
             <div className="prose t-prose">
               {intro.map((p) => (
@@ -239,7 +250,7 @@ export function ListArticle({ list }: { list: ListContent }) {
           <section data-o="5" aria-labelledby="the-ranking">
             <EditorialHead
               id="the-ranking"
-              title="The ranking"
+              title={list.source.kind === "continent" ? "Sovereign countries" : "The ranking"}
               fact={list.source.kind === "stat" ? `top ${built.rows.length}` : `${built.rows.length} countries`}
             />
             <RankTable
@@ -249,6 +260,9 @@ export function ListArticle({ list }: { list: ListContent }) {
               caption={list.listName}
             />
           </section>
+
+          {territoryRows.length ? <section data-o="5" className="mt-8" aria-labelledby="other-places"><EditorialHead id="other-places" title="Territories and other places"/><RankTable rows={territoryRows} columns={3} caption="Territories and other places, excluded from the practice quiz"/></section> : null}
+          {sourceCategory ? <p data-o="5" className="t-meta text-mute mt-4">Source: {sourceCategory.source}, {sourceCategory.sourceYear}. Only sovereign countries with recorded values are ranked. Missing values do not mean zero. <a href={`/sources#${sourceCategory.slug}`}>Source and caveats</a></p> : null}
 
           <section data-o="6" aria-labelledby="list-questions">
             <EditorialHead id="list-questions" title="Questions" />

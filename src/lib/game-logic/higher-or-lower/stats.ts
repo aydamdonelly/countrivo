@@ -38,7 +38,7 @@ interface StatMeta {
 
 const META: Record<HoLStat, StatMeta> = {
   population: { label: "Population", unit: "People", noun: "population", shape: "count" },
-  "area-km2": { label: "Land area", unit: "Square kilometres", noun: "land area", shape: "count" },
+  "area-km2": { label: "Total area", unit: "Square kilometres", noun: "total area", shape: "count" },
   gdp: { label: "Total GDP", unit: "US dollars", noun: "total GDP", shape: "money" },
   "gdp-per-capita": { label: "GDP per person", unit: "US dollars per person", noun: "GDP per person", shape: "money-each" },
   "life-expectancy": { label: "Life expectancy", unit: "Years at birth", noun: "life expectancy", shape: "years" },

@@ -400,3 +400,36 @@ export function nextRound(state: StatGuesserState): StatGuesserState {
   if (next >= state.rounds.length) return { ...state, phase: "results" };
   return { ...state, currentRound: next, phase: "playing" };
 }
+
+/** A dossier practice round never asks a reference country or a protected daily tuple. */
+export function retargetStatPractice(state: StatGuesserState, iso3: string, excludedStats: readonly string[] = []): StatGuesserState {
+  if (state.phase !== "playing" || state.currentRound !== 0 || state.guesses.some((guess) => guess !== null) || !SOVEREIGN.includes(iso3)) return state;
+  const allowed = (stat: GuessStat): boolean => {
+    const value = valueOf(iso3, stat);
+    return value !== null && Number.isFinite(value) && (isMagnitude(stat) ? value > 0 : value >= 0) && !REFERENCES[stat].includes(iso3) && !excludedStats.includes(stat);
+  };
+  for (let index = 0; index < state.rounds.length; index += 1) {
+    const current = state.rounds[index];
+    const otherStats = new Set(state.rounds.filter((_round, i) => i !== index).map((round) => round.stat));
+    const stat = allowed(current.stat) ? current.stat : GUESS_STATS.find((candidate) => allowed(candidate) && !otherStats.has(candidate));
+    if (!stat) continue;
+    const rounds = state.rounds.map((round, i) => i === index ? roundFor(stat, iso3) : round);
+    return { ...state, rounds };
+  }
+  return state;
+}
+
+/** A category practice board asks five distinct countries about the selected statistic. */
+export function retargetStatForPractice(state: StatGuesserState, stat: GuessStat, excludedIso3: readonly string[] = []): StatGuesserState {
+  if (state.phase !== "playing" || state.currentRound !== 0 || state.guesses.some((guess) => guess !== null)) return state;
+  const excluded = new Set([...excludedIso3, ...REFERENCES[stat]]);
+  const preferred = [...state.rounds.map((round) => round.country.iso3), ...sovereignWith(stat)];
+  const selected: string[] = [];
+  for (const iso3 of preferred) {
+    if (excluded.has(iso3) || selected.includes(iso3) || valueOf(iso3, stat) === null) continue;
+    selected.push(iso3);
+    if (selected.length === ROUNDS) break;
+  }
+  if (selected.length !== ROUNDS) return state;
+  return { ...state, rounds: selected.map((iso3) => roundFor(stat, iso3)) };
+}

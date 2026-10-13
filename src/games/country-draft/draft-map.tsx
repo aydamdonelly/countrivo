@@ -1,8 +1,8 @@
-import map from "@/assets/marks/draft-map.json";
+import { draftConquestMap } from "@/lib/data/loader";
 import { takenAt } from "@/lib/game-logic/country-draft/fill-order";
 import { MAX_SCORE } from "@/lib/game-logic/country-draft/tables";
 
-const MAP = map as { viewBox: string; land: string; countries: Record<string, string> };
+const MAP = draftConquestMap;
 
 export interface DraftMapProps {
   /** The five round countries, in round order: the map fills outward from them. */

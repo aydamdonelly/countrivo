@@ -1,52 +1,25 @@
-"use client";
-
-import { answerCountry, type GeoWordleState } from "@/lib/game-logic/geo-wordle/engine";
-import { Flag } from "@/ui/flag";
-import type { ResultProps } from "@/games/types";
-import { closestKm, kmLabel } from "./module";
-
-/** The word for a win, by how many tries it took. */
-function grade(used: number): string {
-  if (used === 1) return "First try.";
-  if (used <= 3) return "Sharp.";
-  return "Got there.";
+import {useState} from 'react';
+import Link from 'next/link';
+import {countries} from '@/lib/data/loader';
+import {mulberry32,seededShuffle} from '@/lib/seeded-random';
+import {capitalBonusChoices,capitalIsAccepted} from '@/lib/game-logic/geo-wordle/bonus';
+import type {GeoWordleState,GeoWordleView,GeoAnswer} from '@/lib/game-logic/geo-wordle/engine';
+import type {ResultProps} from '@/games/types';
+import {Button} from '@/ui/button';
+import {Flag} from '@/ui/flag';
+interface Choice {iso3:string;name:string;iso2:string;correct:boolean}
+function bonusChoices(answer:GeoAnswer):Choice[]{
+ const seed=answer.iso3.split('').reduce((n,c)=>n*31+c.charCodeAt(0),7);
+ const pool=seededShuffle(countries.filter(c=>c.iso3!==answer.iso3),mulberry32(seed));
+ const correct=answer.borders.length?pool.filter(c=>answer.borders.includes(c.iso3)).slice(0,6):pool.filter(c=>c.iso3===answer.nearestCountry);
+ const distractors=pool.filter(c=>!answer.borders.includes(c.iso3)&&c.iso3!==answer.nearestCountry).slice(0,Math.max(0,(answer.borders.length?6:4)-correct.length));
+ return seededShuffle([...correct.map(c=>({iso3:c.iso3,name:c.displayName,iso2:c.iso2,correct:true})),...distractors.map(c=>({iso3:c.iso3,name:c.displayName,iso2:c.iso2,correct:false}))],mulberry32(seed+1));
 }
-
-/**
- * The result head, in the house grammar (blueprint 8.7): a word in `.t-h3` on the left, the
- * facts on the right. The board stays above the panel with its six rows and the map's ember
- * answer ring (`keepBoardOnResult`), so the only row this adds is the reveal after a loss
- * (blueprint 8.8).
- */
-export function Result({ state }: ResultProps<GeoWordleState>) {
-  if (state.phase === "playing") return null;
-  const won = state.phase === "won";
-  const answer = answerCountry(state);
-  // On a win the winning guess is 0 km away, so the fact worth printing is the nearest miss.
-  const misses = state.guesses.filter((g) => !g.correct);
-  const closest = won ? (misses.length ? Math.min(...misses.map((g) => g.distanceKm)) : null) : closestKm(state);
-  return (
-    <div>
-      <div className="rhead">
-        <b className="t-h3">{won ? grade(state.guesses.length) : `It was ${answer?.displayName ?? "another country"}.`}</b>
-        {closest !== null ? (
-          <span className="rfacts t-body">
-            {won ? "closest miss" : "closest"} <b className="num">{kmLabel(closest)}</b>
-          </span>
-        ) : null}
-      </div>
-      {won ? null : (
-        <div className="rrows t-row">
-          <div className="rrow">
-            <Flag iso2={answer?.iso2 ?? null} size="xs" alt="" />
-            <span className="nm">
-              {answer?.displayName ?? "the answer"}
-              {answer?.subregion ? <small>{answer.subregion}</small> : null}
-            </span>
-            <span className="v mute t-meta">answer</span>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+export function GeoBonus({state}:{state:GeoWordleView}){
+ const [stage,setStage]=useState<'offer'|'neighbours'|'capital'|'fact'>('offer'),[picks,setPicks]=useState<string[]>([]),[checked,setChecked]=useState(false),[capital,setCapital]=useState<string|null>(null);
+ const answer=state.answer;if(!answer)return null;
+ const choices=bonusChoices(answer),many=answer.borders.length>6;
+ const capitalChoices=capitalBonusChoices(answer.capitalsAccepted,mulberry32(answer.iso3.charCodeAt(0)*17)),hasCapital=capitalChoices.length>0;
+ return <div className="gw-bonus">{stage==='offer'?<><h3 className="t-h3">Bonus: {hasCapital?'two quick questions':'one quick question'}</h3><p className="t-body">They’re just for you. They don’t change your score.</p><div className="flex gap-3"><Button variant="ink" onClick={()=>setStage('neighbours')}>Start bonus</Button><Button variant="text" onClick={()=>setStage('fact')}>Skip to the fact</Button></div></>:stage==='neighbours'?<><p className="t-meta text-mute">Bonus 1 of {hasCapital?2:1}</p><h3 className="t-h3">{answer.borders.length?`Tap ${many?'any three countries':'every country'} that borders ${answer.name}.`:`Which country’s centre is nearest to ${answer.name}?`}</h3><div className="gw-bonus-tiles">{choices.map(c=><button key={c.iso3} type="button" className={`gw-bonus-tile${picks.includes(c.iso3)?' selected':''}${checked&&picks.includes(c.iso3)&&!c.correct?' wrong':''}${checked&&c.correct&&!picks.includes(c.iso3)?' missed':''}`} aria-pressed={picks.includes(c.iso3)} disabled={checked} onClick={()=>setPicks(p=>p.includes(c.iso3)?p.filter(x=>x!==c.iso3):answer.borders.length?[...p,c.iso3]:[c.iso3])}><Flag iso2={c.iso2} size="xs" alt=""/><span>{c.name}</span></button>)}</div>{checked?<><p className="t-body">{answer.borders.length?`${answer.name} borders ${answer.borders.length} ${answer.borders.length===1?'country':'countries'}.`:`${countries.find(c=>c.iso3===answer.nearestCountry)?.displayName??'This country'} is nearest by centre distance.`}</p><Button variant="ink" onClick={()=>setStage(hasCapital?'capital':'fact')}>{hasCapital?'Next question':'One fact to keep'}</Button></>:<Button variant="ink" onClick={()=>setChecked(true)} disabled={!picks.length}>Check my choices</Button>}</>:stage==='capital'?<><p className="t-meta text-mute">Bonus 2 of 2</p><div className="gw-bonus-country"><Flag iso2={answer.iso2} size="s" alt=""/><span className="t-body">{answer.name}</span></div><h3 className="t-h3">{answer.capitalQuestion}</h3><div className="gw-bonus-tiles">{capitalChoices.map(c=><button type="button" key={c} disabled={capital!==null} className={`gw-bonus-tile${capital===c?' selected':''}${capital===c&&!capitalIsAccepted(answer.capitalsAccepted,c)?' wrong':''}${capital!==null&&capitalIsAccepted(answer.capitalsAccepted,c)?' missed':''}`} onClick={()=>setCapital(c)}>{c}</button>)}</div>{capital!==null?<><p className="t-body">{answer.capitalExplanation}</p><Button variant="ink" onClick={()=>setStage('fact')}>One fact to keep</Button></>:null}</>:<><h3 className="t-h3">One fact to keep</h3><p className="t-body">{answer.name} is in {answer.region==='Americas'?'the Americas':answer.region}.{hasCapital?` ${answer.capitalExplanation}`:''}</p><a className="t-meta text-mute" href={answer.capitalSourceUrl} target="_blank" rel="noreferrer">Source: {answer.capitalSourceLabel}</a><Link className="t-body" href={`/countries/${answer.slug}`}>More about {answer.name}</Link></>}</div>;
 }
+export function Result({state}:ResultProps<GeoWordleState>){return <div className="rhead"><b className="t-h3">{state.phase==='won'?'Found it':'Not found'}</b><span className="t-meta">Par 4</span></div>;}

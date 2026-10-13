@@ -67,7 +67,8 @@ type RankTable = Record<string, Record<string, number>>;
 // is the slice of data it actually renders, not the whole dataset.
 type ListSource =
   | { kind: "stat"; stat: string; limit: number }
-  | { kind: "continent"; continent: string; stats: string[] };
+  | { kind: "continent"; continent: string; stats: string[] }
+  | { kind: "editorial" };
 
 /** A stat list renders the top 50 of one category (blueprint 7.13, "The ranking"). */
 const statList = (stat: string): ListSource => ({ kind: "stat", stat, limit: 50 });
@@ -94,7 +95,7 @@ const LIST_SOURCES: Record<string, ListSource> = Object.fromEntries(
     list.slug,
     list.source.kind === "stat"
       ? statList(list.source.category)
-      : continentList(list.source.continent),
+      : list.source.kind === "continent" ? continentList(list.source.continent) : {kind:"editorial"},
   ])
 );
 
@@ -176,6 +177,8 @@ for (const category of categories) {
 for (const [slug, source] of Object.entries(LIST_SOURCES)) {
   if (source.kind === "stat") {
     hashes[`list:${slug}`] = hash(topForStat(source.stat, source.limit));
+  } else if(source.kind === "editorial") {
+    hashes[`list:${slug}`] = hash({content:LISTS.find(list=>list.slug===slug),borders:JSON.parse(readFileSync(join(DATA_DIR,"borders.json"),"utf8")),primaryCopy:readFileSync(join(REPO_ROOT,"src/content/discovery.ts"),"utf8")});
   } else {
     const rows = countries
       .filter((country) => country.continent === source.continent)

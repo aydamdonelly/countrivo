@@ -11,6 +11,7 @@ import type { HostProps, PlayableSlug, RunDetailProps } from "./types";
 import { CountryDraftHost } from "./country-draft/host";
 import { BlindPickHost } from "./blind-pick/host";
 import { HigherOrLowerHost } from "./higher-or-lower/host";
+import { PinpointHost } from "./pinpoint/host";
 import { GeoWordleHost } from "./geo-wordle/host";
 import { StatGuesserHost } from "./stat-guesser/host";
 import { FlagQuizHost } from "./flag-quiz/host";
@@ -19,6 +20,7 @@ import { SpeedFlagsHost } from "./speed-flags/host";
 import { codec as countryDraftCodec } from "./country-draft/codec";
 import { codec as blindPickCodec } from "./blind-pick/codec";
 import { codec as higherOrLowerCodec } from "./higher-or-lower/codec";
+import { codec as pinpointCodec } from "./pinpoint/codec";
 import { codec as geoWordleCodec } from "./geo-wordle/codec";
 import { codec as statGuesserCodec } from "./stat-guesser/codec";
 import { codec as flagQuizCodec } from "./flag-quiz/codec";
@@ -27,6 +29,7 @@ import { codec as speedFlagsCodec } from "./speed-flags/codec";
 import { RunDetail as CountryDraftDetail } from "./country-draft/run-detail";
 import { RunDetail as BlindPickDetail } from "./blind-pick/run-detail";
 import { RunDetail as HigherOrLowerDetail } from "./higher-or-lower/run-detail";
+import { RunDetail as PinpointDetail } from "./pinpoint/run-detail";
 import { RunDetail as GeoWordleDetail } from "./geo-wordle/run-detail";
 import { RunDetail as StatGuesserDetail } from "./stat-guesser/run-detail";
 import { RunDetail as FlagQuizDetail } from "./flag-quiz/run-detail";
@@ -38,6 +41,7 @@ export const HOSTS: Record<PlayableSlug, ComponentType<HostProps>> = {
   "blind-pick": BlindPickHost,
   "higher-or-lower": HigherOrLowerHost,
   "geo-wordle": GeoWordleHost,
+  "pinpoint": PinpointHost,
   "stat-guesser": StatGuesserHost,
   "flag-quiz": FlagQuizHost,
   "speed-flags": SpeedFlagsHost,
@@ -49,6 +53,7 @@ export const CODECS: Record<PlayableSlug, { dec(s: string): unknown }> = {
   "blind-pick": blindPickCodec,
   "higher-or-lower": higherOrLowerCodec,
   "geo-wordle": geoWordleCodec,
+  "pinpoint": pinpointCodec,
   "stat-guesser": statGuesserCodec,
   "flag-quiz": flagQuizCodec,
   "speed-flags": speedFlagsCodec,
@@ -60,6 +65,7 @@ export const RUN_DETAILS: Record<PlayableSlug, ComponentType<RunDetailProps>> = 
   "blind-pick": BlindPickDetail,
   "higher-or-lower": HigherOrLowerDetail,
   "geo-wordle": GeoWordleDetail,
+  "pinpoint": PinpointDetail,
   "stat-guesser": StatGuesserDetail,
   "flag-quiz": FlagQuizDetail,
   "speed-flags": SpeedFlagsDetail,

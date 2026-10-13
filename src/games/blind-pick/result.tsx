@@ -1,5 +1,3 @@
-"use client";
-
 import { computeResult } from "@/lib/game-logic/blind-pick/scoring";
 import type { ResultProps } from "@/games/types";
 import type { BlindPickState } from "./module";

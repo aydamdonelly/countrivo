@@ -1,92 +1,192 @@
-/* Country Draft: the board, the cabinet and the result rows. Tokens only, no hex, no
-   shadow, no gradient. Every region holds its height through the reveal swap, so the
-   board never moves when the last seat fills. */
 @layer components {
-    /* One rhythm for the whole board: 12 px between every region, and every region holds
-     its height through the reveal swap, so nothing moves when the last seat fills. */
-  .dr { display: flex; flex-direction: column; gap: 12px; }
-
-  /* the round: the country on the table, or the band once the cabinet is full */
-  .dr-round { display: flex; align-items: center; gap: 12px; min-height: 40px; }
-  .dr-round .txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .dr-round .txt small { color: var(--color-mute); }
-  .dr-round .txt .num { font-weight: 600; color: var(--color-ink); }
-
-  /* the five countries of the board, from the first second */
-  .dr-plan { display: block; min-height: 16px; margin: 0; color: var(--color-mute); }
-  .dr-plan .now { color: var(--color-ink); font-weight: 600; }
-  .dr-plan .past { color: var(--color-down); }
-  .dr-plan .sep { color: var(--color-faint); }
-
-  /* the three people on offer, and the three bonus rows that replace them at the reveal */
-  .dr-pool { display: flex; flex-direction: column; gap: 8px; }
-  .dr-card {
-    /* face, who they are, what they bring */
-    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center;
-    min-height: 72px; padding: 8px 12px; text-align: left;
-    background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
-  }
-  .dr-card .who { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .dr-card .who small { color: var(--color-mute); }
-  .dr-card .what { display: flex; flex-direction: column; gap: 2px; text-align: right; white-space: nowrap; }
-  .dr-card .what b { font-weight: 500; }
-  .dr-card .what small { color: var(--color-mute); }
-  button.dr-card { transition: background-color var(--dur-fast); }
-  @media (hover: hover) and (pointer: fine) { button.dr-card:hover { background: var(--color-line); } }
-  .dr-card[aria-pressed="true"], .dr-card[aria-pressed="true"]:hover { background: var(--color-ink); color: var(--color-on-ink); }
-  .dr-card[aria-pressed="true"] .who small, .dr-card[aria-pressed="true"] .what small { color: var(--color-on-ink-kicker); }
-
-  /* the cabinet: five seats, in seat order, open or filled */
-  .dr-cabinet { display: flex; flex-direction: column; gap: 4px; }
-  .dr-seat {
-    /* the 34px slot holds the seated person's face, or the seat's own mark while empty */
-    display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 10px; align-items: center;
-    min-height: 44px; padding: 4px 12px; text-align: left;
-    background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink);
-  }
-  .dr-seat .mark { display: inline-flex; justify-content: center; color: var(--color-mute); }
-  .dr-seat .txt { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .dr-seat .txt b { font-weight: 500; }
-  .dr-seat .txt small { color: var(--color-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .dr-seat .read { font-weight: 500; white-space: nowrap; }
-  .dr-seat .key { color: var(--color-mute); }
-  @media (hover: none) { .dr-seat .key { display: none; } }
-  button.dr-seat { transition: background-color var(--dur-fast); }
-  button.dr-seat:disabled { cursor: default; }
-  @media (hover: hover) and (pointer: fine) { button.dr-seat:enabled:hover { background: var(--color-line); } }
-  .dr-seat .pts { font-weight: 600; }
-
-  /* the fit a seat would take, and the points it took: ink earned it, mute will do,
-     ember missed. Ember is text here, never a fill behind text. */
+  .play-root:has(.dr-game) { max-width: 1000px; }
+  .play-root:has(.dr-game) > .pb { display: none; }
+  .dr-game { width: 100%; padding-bottom: 24px; }
+  .dr-play-header { display: flex; align-items: center; gap: 12px; height: 52px; margin-bottom: 8px; }
+  .dr-back, .dr-help { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 32px; min-height: 44px; color: var(--color-ink); }
+  .dr-back { margin-left: -8px; }
+  .dr-help { border: 1px solid transparent; font-weight: 600; font-size: 17px; }
+  .dr-help > span { display: inline-flex; justify-content: center; align-items: center; border: 2px solid currentColor; width: 18px; height: 18px; border-radius: 50%; font-size: 13px; line-height: 1; }
+  .dr-header-clay { display: inline-flex; width: 32px; height: 32px; flex: none; }
+  .dr-header-clay img { width: 100%; height: 100%; object-fit: contain; }
+  .dr-header-clay.finished { animation: dr-plop 600ms steps(4, end); }
+  .dr-play-header h1 { display: none; white-space: nowrap; }
+  .dr-pips { display: inline-flex; gap: 6px; align-items: center; }
+  .dr-pips i { width: 8px; height: 8px; background: var(--color-wait); border-radius: 50%; }
+  .dr-pips i.filled { background: var(--color-ink); }
+  .dr-header-score { white-space: nowrap; margin-left: auto; font-size: 24px; line-height: 28px; }
+  .dr-header-score small { font: inherit; }
+  .dr-mode-label { color: var(--color-mute); margin: 0 0 16px; }
+  .dr { display: flex; flex-direction: column; gap: 12px; padding-bottom: 84px; }
+  .dr-cabinet-strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); min-height: 124px; margin: 0; }
+  .dr-cabinet-place { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; text-align: center; color: var(--color-ink); }
+  button.dr-cabinet-place { cursor: pointer; }
+  .dr-job-art { position: relative; width: 56px; height: 62px; }
+  .dr-clay-job { display: inline-flex; position: relative; width: 56px; height: 56px; }
+  .dr-clay-job img { object-fit: contain; width: 100%; height: 100%; }
+  .dr-clay-job.plop { animation: dr-plop 660ms steps(4, end); }
+  .dr-clay-job .dr-clay-squash { position: absolute; inset: 0; opacity: 0; animation: dr-squash-frame 660ms steps(1, end); }
+  .dr-job-art .dr-seated-face { position: absolute; right: -2px; bottom: 0; border-radius: 50%; filter: grayscale(1); border: 2px solid var(--color-paper); }
+  .dr-seat-short { font-size: 12px; line-height: 14px; color: var(--color-mute); }
+  .dr-seat-full { display: none; color: var(--color-mute); }
+  .dr-cabinet-place > .t-meta { font-size: 12px; line-height: 14px; text-transform: capitalize; color: var(--color-mute); }
+  .dr-seat-empty { min-height: 28px; }
+  .dr-meters { display: flex; flex-direction: column; gap: 4px; color: var(--color-mute); }
+  .dr-meters p { margin: 0; }
+  .dr-regions { display: flex; align-items: center; gap: 14px; min-height: 18px; }
+  .dr-region { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .dr-region i { width: 10px; height: 10px; border-radius: 50%; background: var(--color-wait); }
+  .dr-region.earned { color: var(--color-ink); }
+  .dr-region.earned i { background: var(--color-ink); animation: dr-stamp 320ms steps(2, end); }
+  .dr-region-full { display: none; }
+  .dr-instruction { margin: 0; }
+  .dr-country-options { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; animation: dr-stamp 300ms steps(2, end); }
+  .dr-country-card { display: flex; align-items: center; gap: 16px; min-height: 88px; width: 100%; padding: 14px 16px; border: 2px solid transparent; border-radius: var(--radius-card); background: var(--color-card); text-align: left; color: var(--color-ink); transition: background var(--dur-fast), border-color var(--dur-fast); }
+  .dr-country-card > span { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
+  .dr-country-card .t-meta { color: var(--color-mute); }
+  .dr-country-card[aria-pressed="true"] { border-color: var(--color-ink); }
+  .dr-country-card:disabled { color: var(--color-ink); }
+  .dr-country-card .flag { flex: none; width: 64px; height: 43px; max-width: 64px; max-height: 43px; }
+  .dr-country-card:focus-visible, .dr-person-select:focus-visible, .dr-info:focus-visible, .dr-job-option:focus-visible, .dr-cabinet-place:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; }
+  .dr-pinned-action { position: fixed; z-index: 5; bottom: 0; left: 0; right: 0; display: flex; justify-content: center; padding: 12px var(--gutter) max(20px, env(safe-area-inset-bottom)); background: var(--color-paper); }
+  .dr-pinned-action .btn { width: 100%; max-width: 640px; min-height: 56px; font-size: 16px; }
+  .dr-pinned-action .btn:disabled, .dr-seat-confirm:disabled { background: var(--color-card); color: var(--color-mute); }
+  .dr-round { display: flex; align-items: center; gap: 12px; min-height: 36px; }
+  .dr-round .t-meta { margin-left: auto; color: var(--color-mute); }
+  .dr-person-prompt { color: var(--color-mute); margin: -4px 0 0; }
+  .dr-pool { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; animation: dr-stamp 300ms steps(2, end); }
+  .dr-person-card { position: relative; background: var(--color-card); border: 2px solid transparent; border-radius: var(--radius-card); min-height: 112px; }
+  .dr-person-card:has([aria-pressed="true"]) { border-color: var(--color-ink); }
+  .dr-person-select { display: flex; align-items: center; width: 100%; gap: 14px; text-align: left; padding: 16px 40px 16px 14px; color: var(--color-ink); min-height: 108px; }
+  .dr-person-select:disabled { color: var(--color-ink); cursor: default; }
+  .dr-person-select .fig { flex: none; filter: grayscale(1); border-radius: 50%; }
+  .dr-person-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .dr-person-copy .t-meta { color: var(--color-mute); }
+  .dr-person-copy .t-body { margin-top: 2px; font-size: 15px; line-height: 20px; }
+  .dr-person-copy .t-h3 { overflow-wrap: anywhere; }
+  .dr-info { display: inline-flex; align-items: center; justify-content: center; position: absolute; top: 12px; right: 0; width: 40px; height: 44px; font-size: 14px; font-weight: 700; font-family: var(--font-display); color: var(--color-ink); }
+  .dr-info::before { position: absolute; content: ""; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--color-ink); }
+  .dr-reveal { padding: 2px 0 4px; animation: dr-stamp 300ms steps(2, end); }
+  .dr-reveal p { margin: 0; }
+  .dr-reveal p + p { margin-top: 6px; }
+  .dr-reveal .t-score { font-size: 24px; line-height: 28px; }
+  .dr-reveal.previous { color: var(--color-mute); }
+  .dr-reveal.previous .t-score { font-size: inherit; }
+  .dr-source { font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+  .dr-keyhint { display: none; color: var(--color-mute); }
+  .dr-job-sheet, .dr-detail-sheet, .dr-rules-sheet { padding: 24px 20px max(20px, env(safe-area-inset-bottom)); gap: 12px; max-height: 88svh; overflow-y: auto; }
+  .dr-sheet-handle { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 36px; height: 4px; border-radius: 2px; background: var(--color-faint); }
+  .dr-sheet-top { display: flex; align-items: center; gap: 12px; }
+  .dr-sheet-top .fig { filter: grayscale(1); border-radius: 50%; }
+  .dr-close { margin-left: auto; flex: none; min-width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; color: var(--color-ink); }
+  .dr-job-sheet > .t-meta, .dr-detail-sheet > .t-meta { color: var(--color-mute); margin: -6px 0 0; }
+  .dr-job-sheet h2, .dr-detail-sheet h2 { margin: 4px 0 0; }
+  .dr-job-options { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 4px; }
+  .dr-job-option { display: flex; align-items: center; gap: 12px; padding: 4px 12px; min-height: 64px; border: 2px solid transparent; background: var(--color-card); border-radius: var(--radius-ctl); text-align: left; color: var(--color-ink); }
+  .dr-job-option:disabled { background: var(--color-bar); color: var(--color-ink); cursor: default; }
+  .dr-job-option[aria-pressed="true"] { border-color: var(--color-ink); }
+  .dr-job-option .dr-clay-job { width: 42px; height: 48px; flex: none; }
+  .dr-job-copy { min-width: 0; display: flex; flex-direction: column; }
+  .dr-job-copy .t-meta { color: var(--color-mute); }
+  .dr-job-filled { display: flex; align-items: center; gap: 8px; margin-left: auto; flex: none; }
+  .dr-job-filled .fig { filter: grayscale(1); border-radius: 50%; }
+  .dr-job-filled > span { display: flex; flex-direction: column; align-items: flex-end; }
+  .dr-job-filled .t-meta { font-size: 11px; line-height: 14px; color: var(--color-mute); }
+  .dr-job-filled b { font-size: 16px; }
+  .dr-seat-confirm { min-height: 56px; margin-top: 0; font-size: 16px; }
+  .dr-rules-sheet ol { padding-left: 24px; }
+  .dr-rules-sheet li + li { margin-top: 8px; }
+  .dr-rules-jobs { display: flex; flex-direction: column; gap: 10px; }
+  .dr-rules-jobs > div { display: flex; flex-direction: column; }
+  .dr-rules-jobs .t-meta { color: var(--color-mute); }
+  .dr-error { color: var(--color-ember); margin: 12px 0; }
+  .dr-final { display: flex; flex-direction: column; gap: 20px; padding: 40px 0 0; max-width: 680px; margin: 0 auto; }
+  .dr-result-card { position: relative; background: var(--color-card); border-radius: var(--radius-card); padding: 32px 20px 20px; }
+  .dr-result-art { position: absolute; right: 0; top: -40px; width: 116px; height: 104px; background: var(--color-paper); border-bottom-left-radius: var(--radius-card); display: flex; justify-content: center; align-items: center; }
+  .dr-result-art img { width: 96px; height: 112px; object-fit: contain; }
+  .dr-result-number { font-family: var(--font-display); font-weight: 600; font-size: 64px; line-height: 1; margin: 0 0 12px; padding-right: 96px; }
+  .dr-result-number > span:not(.cu) { font-size: 21px; white-space: nowrap; }
+  .dr-result-card h2 { margin: 0 0 6px; }
+  .dr-result-card > .t-body { margin: 0; }
+  .dr-result-card > .dr-cabinet-strip { margin-top: 24px; }
+  .dr-result-card .dr-cabinet-place > .t-meta { font-size: 11px; }
+  .dr-result-card .dr-seat-full { font-size: 12px; }
+  .dr-result-card .dr-seat-short { font-size: 11px; }
+  .dr-tally { display: flex; flex-direction: column; gap: 0; }
+  .dr-tally p { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 12px 0; margin: 0; border-bottom: 1px solid var(--color-line); }
+  .dr-tally small { display: block; margin-top: 4px; color: var(--color-mute); }
+  .dr-tally b { flex: none; }
+  .dr-map { display: block; width: 100%; height: auto; margin: 24px 0 8px; background: var(--color-paper); border-radius: var(--radius-ctl); }
+  .dr-real-world { margin-top: 10px !important; }
+  .dr-result-card > .t-meta { color: var(--color-mute); margin-top: 6px; }
+  .dr-result-card > .btn { margin-top: 8px; }
+  .dr-result-detail { border-top: 1px solid var(--color-line); padding-top: 16px; }
+  .dr-result-detail summary { cursor: pointer; min-height: 32px; font-weight: 500; }
+  .dr-result-detail[open] summary { margin-bottom: 12px; }
+  .dr-rows { display: flex; flex-direction: column; }
+  .dr-appointment { display: flex; align-items: flex-start; gap: 12px; padding: 16px 0; border-top: 1px solid var(--color-line); }
+  .dr-appointment > .fig { border-radius: 50%; filter: grayscale(1); flex: none; }
+  .dr-appointment p { margin: 4px 0 0; }
+  .dr-appointment .t-meta { display: flex; align-items: center; gap: 4px; color: var(--color-mute); }
+  .dr-appointment a { text-decoration: underline; text-underline-offset: 3px; }
+  .dr-homeland-links { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; }
+  .dr-homeland-links a { text-decoration: underline; text-underline-offset: 3px; }
+  .dr-review-rounds { display: flex; flex-direction: column; gap: 20px; }
+  .dr-review-round { border-top: 1px solid var(--color-line); padding-top: 16px; }
+  .dr-review-round h3 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .dr-review-round h3 > .t-meta { width: 100%; color: var(--color-mute); }
+  .dr-passed-person { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; }
+  .dr-passed-person > .fig { flex: none; border-radius: 50%; filter: grayscale(1); }
+  .dr-passed-person > div { min-width: 0; }
+  .dr-passed-person p { margin-top: 4px; }
+  .dr-review-round a { text-decoration: underline; text-underline-offset: 3px; }
+  .dr-next-game { display: flex; align-items: center; gap: 16px; background: var(--color-card); border-radius: var(--radius-card); padding: 16px; color: var(--color-ink); }
+  .dr-next-game > img { flex: none; object-fit: contain; }
+  .dr-next-game > span { display: flex; flex-direction: column; min-width: 0; gap: 4px; }
+  .dr-next-play { margin-left: auto; background: var(--color-ink); color: var(--color-on-ink); padding: 10px 16px; border-radius: var(--radius-ctl); }
+  .dr-row { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: center; min-height: 44px; padding: 8px 0; border-top: 1px solid var(--color-line); }
+  .dr-row .txt { display: flex; flex-direction: column; min-width: 0; }
+  .dr-row small, .dr-lead { color: var(--color-mute); }
   .dr-q-good { color: var(--color-ink); }
   .dr-q-fair { color: var(--color-mute); }
   .dr-q-bad { color: var(--color-ember); }
-
-  .dr-act { min-height: 44px; }
-
-  /* desktop: the three people become three columns of equal height, every internal row
-     on one baseline, so a long note in one card cannot push its neighbours out of step */
+  @media (hover: hover) { .dr-country-card:hover, .dr-person-card:has(.dr-person-select:enabled):hover, .dr-job-option:enabled:hover { background: var(--color-line); } }
+  @media (min-width: 768px) { .dr-play-header h1 { display: block; } .dr-seat-short { display: none; } .dr-seat-full { display: block; font-size: 13px; line-height: 18px; } .dr-region-short { display: none; } .dr-region-full { display: block; } }
   @media (min-width: 1024px) {
-    .dr-pool { flex-direction: row; gap: 12px; }
-    .dr-pool > * { flex: 1 1 0; min-width: 0; }
-    .dr-card { grid-template-columns: minmax(0, 1fr); align-content: space-between; min-height: 108px; padding: 14px; }
-    .dr-card .what { flex-direction: row; align-items: baseline; gap: 8px; text-align: left; white-space: normal; }
-    .dr-seat { min-height: 56px; }
+    .dr-play-header { height: 64px; margin-bottom: 24px; }
+    .dr-play-header h1 { font-size: 22px; }
+    .dr-header-score { font-size: 28px; }
+    .dr { gap: 20px; padding-bottom: 20px; }
+    .dr-cabinet-strip { column-gap: 40px; }
+    .dr-meters { display: grid; grid-template-columns: auto 1fr; gap: 4px 36px; }
+    .dr-ages { grid-column: 1 / -1; }
+    .dr-regions { gap: 16px; }
+    .dr-country-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+    .dr-country-card { min-height: 120px; padding: 20px; }
+    .dr-country-card .t-h3 { font-size: 22px; }
+    .dr-pinned-action { position: static; padding: 0; justify-content: flex-end; }
+    .dr-pinned-action .btn { width: auto; min-width: 240px; }
+    .dr-keyhint { display: block; }
+    .dr-pool { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+    .dr-person-card { min-height: 220px; }
+    .dr-person-select { align-items: flex-start; padding: 20px 34px 20px 20px; flex-direction: column; min-height: 216px; }
+    .dr-person-copy .t-h3 { font-size: 22px; }
+    .dr-person-copy .t-body { margin-top: 12px; }
+    .dr-holding .dr-pool { grid-template-columns: minmax(0, 1fr); width: 520px; gap: 10px; }
+    .dr-holding .dr-person-card { min-height: 96px; }
+    .dr-holding .dr-person-select { flex-direction: row; align-items: center; min-height: 92px; padding: 12px 40px 12px 16px; }
+    .dr-holding .dr-person-copy .t-body { margin-top: 0; }
+    .sheet-scrim:has(> .dr-job-sheet) { background: transparent; justify-content: flex-end; align-items: flex-start; padding-top: 260px; pointer-events: none; }
+    .dr-job-sheet { width: 400px; max-height: calc(100svh - 280px); margin-right: max(var(--gutter), calc((100vw - 960px) / 2)); pointer-events: auto; border-radius: var(--radius-card); border: 1px solid var(--color-line); padding: 20px; }
+    .dr-sheet-handle { display: none; }
+    .dr-result-card { padding: 40px 32px 24px; }
+    .dr-result-card .dr-cabinet-strip { column-gap: 14px; }
+    .dr-result-number { font-size: 84px; }
+    .dr-result-number > span:not(.cu) { font-size: 28px; }
   }
-
-  /* the result: the map, the appointment rows, the bonus rows, the best line */
-  .dr-map { display: block; width: 100%; height: auto; margin: 12px 0 4px; }
-  .dr-rows { display: flex; flex-direction: column; }
-  .dr-row {
-    display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 10px; align-items: center;
-    min-height: 44px; padding: 8px 0; border-top: 1px solid var(--color-line);
-  }
-  .dr-row .fl { display: inline-flex; }
-  .dr-row .txt { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-  .dr-row .txt small { color: var(--color-mute); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .dr-row .val { text-align: right; white-space: nowrap; font-weight: 600; }
-  .dr-row .val.mute { color: var(--color-mute); }
-  .dr-lead { color: var(--color-mute); margin: 4px 0 0; }
-  .dr-rows + .dr-lead, .dr-lead + .sh, .dr-rows + .sh { margin-top: 20px; }
-  .sh + .dr-lead { margin: 0 0 4px; }
+  @media (max-width: 359px) { .dr-play-header { gap: 8px; } .dr-pips { gap: 4px; } .dr-header-score { font-size: 20px; } .dr-country-card { gap: 12px; } .dr-person-select .fig { width: 56px !important; height: 56px !important; } .dr-person-select { gap: 10px; padding-right: 34px; } .dr-result-number { font-size: 54px; } .dr-result-number > span:not(.cu) { font-size: 18px; } .dr-job-option { padding-left: 6px; gap: 8px; } }
+  @keyframes dr-plop { 0% { transform: scale(1.02, 0.84); } 32% { transform: scale(0.94, 1.08); } 68% { transform: scale(1.03, 0.97); } 100% { transform: none; } }
+  @keyframes dr-squash-frame { 0%, 34% { opacity: 1; } 35%, 100% { opacity: 0; } }
+  @keyframes dr-stamp { from { transform: translateY(6px); } to { transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .dr-country-options, .dr-pool, .dr-region.earned i, .dr-reveal, .dr-clay-job.plop, .dr-header-clay.finished { animation: none; } .dr-clay-job .dr-clay-squash { display: none; } .dr-country-card { transition: none; } }
 }

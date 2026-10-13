@@ -19,11 +19,11 @@ import { dailyNumber, gameShareUrl } from "./share-utils";
 /** Mirrors GeoBand in game-logic/geo-wordle/engine.ts. */
 const BAND_SQUARE: Record<string, string> = {
   hit: "🟩",
-  burning: "🟥",
+  burning: "🟧",
   hot: "🟧",
   warm: "🟨",
-  cool: "🟦",
-  cold: "⬛",
+  cool: "⬜",
+  cold: "⬜",
 };
 
 const MAX_GUESSES = 6;
@@ -36,17 +36,20 @@ interface GeoWordleGuessLike {
 export interface GeoWordleShareInput {
   won: boolean;
   guesses: GeoWordleGuessLike[];
+  clueAt?: number | null;
 }
 
 export function buildGeoWordleShareText(input: GeoWordleShareInput, dateKey: string): string {
-  const used = input.won ? input.guesses.length : MAX_GUESSES;
+  const used = input.won ? input.guesses.length + (input.clueAt == null ? 0 : 1) : MAX_GUESSES;
   const scoreDisplay = input.won ? `${used}/${MAX_GUESSES}` : `X/${MAX_GUESSES}`;
 
   // Guesses persisted before the band field existed fall back to the coldest
   // square rather than dropping out of the grid.
-  const squares = input.guesses
+  const squareRows = input.guesses
     .map((g) => BAND_SQUARE[g.correct ? "hit" : (g.band ?? "cold")] ?? BAND_SQUARE.cold)
-    .join("");
+    ;
+  if (input.clueAt != null) squareRows.splice(input.clueAt, 0, "⬛");
+  const squares = squareRows.join("");
 
   return [
     `Countrivo · GeoWordle · #${dailyNumber(dateKey)} · ${scoreDisplay}`,

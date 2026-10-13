@@ -4,7 +4,7 @@ import { submitGuess, type GeoWordleState } from "@/lib/game-logic/geo-wordle/en
 import { EditorialHead, Prose, Table } from "@/ui";
 
 // A fixed teaching example, independent of the daily seed and today's answer.
-const EXAMPLE: GeoWordleState = { answerIso3: "POL", guesses: [], phase: "playing" };
+const EXAMPLE: GeoWordleState = { answerIso3: "POL", guesses: [], clueAt: null, phase: "playing" };
 const rows = ["FRA", "DEU", "POL"].map((iso3) => {
   const country = getCountryByIso3(iso3);
   if (!country) throw new Error(`Missing GeoWordle example country: ${iso3}`);
@@ -49,9 +49,9 @@ export function GeoWordleGuide() {
           your guesses; it reveals the answer when the round ends.
         </p>
         <p>
-          Distances use one reference point per country. Large countries, islands and
-          territories can make the clues surprising, and neighbouring countries do not
-          necessarily show a tiny distance. A compass bearing follows the initial direction
+          Sovereign-country distances use approximate nearest borders from Natural Earth
+          1:50m. Land neighbours read 0 km. Territories without mapped borders use their
+          reference centres, clearly labelled in the game. A compass bearing follows the initial direction
           of the shortest route around the globe, which can look curved on a flat map.
         </p>
         <p>

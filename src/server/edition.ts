@@ -1,3 +1,4 @@
+import { getTodayDateKey } from "@/lib/daily-seed";
 import { revalidateTag, unstable_cache } from "next/cache";
 import { createClient as createAnonClient } from "@supabase/supabase-js";
 
@@ -6,28 +7,18 @@ export const EDITION_TAG = "edition";
 
 const QUERY_TIMEOUT_MS = 6000;
 
-/**
- * The global daily edition, a seed salt in `app_config.daily_edition` the admin bumps to
- * re-roll every daily for everyone. Read with the anon key (no cookie dependency, so guest
- * play pages do no DB work of their own) and cached for 10 min under the `edition` tag
- * (blueprint 9.1 step 3). `rerollDailyAction` invalidates the tag; the TTL only bounds an edit
- * made straight in the database. A failed read throws out of the cache scope so a transient error
- * is never cached; the caller falls back to "" for that one request.
- */
+/** Cache each Berlin day's configured edition. A failed read must not invent a second board. */
 const readEdition = unstable_cache(
-  async (): Promise<string> => {
+  async (dateKey: string): Promise<string> => {
     const anon = createAnonClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
       auth: { persistSession: false },
     });
-    const { data, error } = await anon
-      .from("app_config")
-      .select("value")
-      .eq("key", "daily_edition")
-      .abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS))
-      .maybeSingle();
-    if (error) throw error;
-    const value: unknown = data?.value;
-    return typeof value === "string" ? value : "";
+    const { data, error } = await anon.from("countrivo_config").select("key,value")
+      .in("key", ["daily_edition", `edition:${dateKey}`]).abortSignal(AbortSignal.timeout(QUERY_TIMEOUT_MS));
+    if(error)throw error;
+    const value: unknown = data?.find((row)=>row.key === `edition:${dateKey}`)?.value ?? data?.find((row)=>row.key === "daily_edition")?.value;
+    if (typeof value !== "string" || !value) throw new Error("Daily edition is unavailable");
+    return value;
   },
   ["daily-edition"],
   { revalidate: 600, tags: [EDITION_TAG] },
@@ -35,10 +26,10 @@ const readEdition = unstable_cache(
 
 export async function getEdition(): Promise<string> {
   try {
-    return await readEdition();
+    return await readEdition(getTodayDateKey());
   } catch (err) {
     console.error("[edition] read failed", err);
-    return "";
+    throw new Error("Today's boards could not be opened. Try again.");
   }
 }
 

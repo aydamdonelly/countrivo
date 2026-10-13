@@ -18,7 +18,7 @@ export const TOTAL_COUNTRIES = 243;
 export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   "country-draft": {
     mechanic:
-      "play five rounds, each one a country that puts three of its people on the table, take one of the three and give that person one of five seats in a cabinet that is scored out of 195",
+      "choose one of three countries each round, draft one of its three people and confirm a job to reveal their points, building a five-person cabinet scored out of 195",
     skill:
       "reading which kind of person fits which job, and holding a seat open for a round or two when the board has not offered the right person for it yet",
   },
@@ -49,6 +49,10 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
     mechanic:
       "have thirty seconds on the clock to name as many flags as possible from two names each, and every wrong answer costs three seconds",
     skill: "instant flag recognition, fast enough to answer without deliberating",
+  },
+  "pinpoint": {
+    mechanic: "place five pins on an unlabelled coastline map to locate five named countries, scoring by approximate border distance and the countries nearer to the pin, with the last round counting double",
+    skill: "spatial memory, recognising coastlines and locating countries on the globe",
   },
   "geo-wordle": {
     mechanic:

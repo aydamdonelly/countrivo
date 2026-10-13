@@ -8,13 +8,12 @@
  *
  * No RNG, so the run page redraws the map from resultJson.roundCountries alone.
  */
-import centroids from "@/data/centroids.json";
-import sovereign from "@/data/sovereign.json";
+import { centroids, sovereignIso3 } from "@/lib/data/loader";
 
 const CENTROIDS: Record<string, number[]> = centroids;
 
 /** The 195 UN member states plus the Holy See and Palestine. */
-export const SOVEREIGN: readonly string[] = sovereign as string[];
+export const SOVEREIGN: readonly string[] = sovereignIso3;
 
 const RAD = Math.PI / 180;
 

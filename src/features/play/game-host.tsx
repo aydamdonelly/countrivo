@@ -1,15 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { submitGameRun, getDailySummary } from "@/app/actions/game-runs";
+import { getDailySummary } from "@/app/actions/game-runs";
+import { beginPracticeRun, submitAnonymousRun } from "@/app/actions/anonymous-games";
 import { juice } from "@/hooks/use-juice";
-import { requestPushPermission } from "@/lib/native/bootstrap";
 import { getStorageItem, setStorageItem } from "@/lib/storage";
 import { trackPlay } from "@/lib/play-events";
 import { buildShareGrid } from "@/lib/share";
 import type { ServerGameRun } from "@/types/server";
 import { Button } from "@/ui/button";
-import { JoinRow } from "@/ui/join-row";
 import { KeyHint } from "@/ui/key-hint";
 import { NextDailies } from "@/ui/next-dailies";
 import { Progress } from "@/ui/progress";
@@ -18,12 +17,12 @@ import { ShareButton } from "@/ui/share-button";
 import { Verdict } from "@/ui/verdict";
 import type { Action, BoardComponent, GameModule, HostProps, ResultComponent, SubmitGameRunInput, VerdictInfo } from "@/games/types";
 import { persistsByDefault } from "@/games/types";
-import { playAuth } from "./auth-bridge";
 import { fetchDailyMetas } from "./actions";
 import { juiceFor, planFor } from "./feedback";
 import { usePlayKeys } from "./keys";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt, writeProgress } from "./persist";
-import { randomSeed, replay } from "./replay";
+import { replay } from "./replay";
+import { LeaderboardEntryForm } from "./leaderboard-entry";
 import type { DailyMeta } from "./server";
 
 export interface GameHostProps<S, A extends Action> extends HostProps {
@@ -32,13 +31,14 @@ export interface GameHostProps<S, A extends Action> extends HostProps {
   Result: ResultComponent<S>;
 }
 
-type Phase = "live" | "finished" | "submitting" | "join" | "settled";
+type Phase = "live" | "finished" | "submitting" | "settled";
 
 interface BoardKey {
   seed: number;
   log: string;
   startedAt: string;
   gen: number;
+  ticket: string;
 }
 
 /**
@@ -48,22 +48,28 @@ interface BoardKey {
  * fresh session with a client seed; only the first practice board needs server parity.
  */
 export function GameHost<S, A extends Action>(props: GameHostProps<S, A>) {
-  const [board, setBoard] = useState<BoardKey>({ seed: props.seed, log: props.log, startedAt: props.startedAt, gen: 0 });
+  const [board, setBoard] = useState<BoardKey>({ seed: props.seed, log: props.log, startedAt: props.startedAt, gen: 0, ticket: props.runTicket ?? "" });
   const reseed = useCallback(() => {
-    setBoard((b) => ({ seed: randomSeed(), log: "", startedAt: new Date().toISOString(), gen: b.gen + 1 }));
-  }, []);
-  return <Session key={`${board.seed}:${board.gen}`} {...props} seed={board.seed} log={board.log} startedAt={board.startedAt} onNewBoard={reseed} />;
+    void beginPracticeRun(props.slug).then((fresh) => {
+      setBoard((b) => ({ seed: fresh.seed, log: "", startedAt: fresh.startedAt, gen: b.gen + 1, ticket: fresh.ticket }));
+    });
+  }, [props.slug]);
+  return <Session key={`${board.seed}:${board.gen}`} {...props} seed={board.seed} log={board.log} startedAt={board.startedAt} runTicket={board.ticket} onNewBoard={reseed} />;
 }
 
 function nextDailyMeta(meta: DailyMeta | undefined): string {
-  if (!meta || meta.shots === 0) return "no shots yet";
-  return `${meta.shots} ${meta.shots === 1 ? "shot" : "shots"}${meta.top ? ` · top ${meta.top}` : ""}`;
+  if (!meta || meta.shots === 0) return "Be the first today";
+  return `${meta.shots} ${meta.shots === 1 ? "player" : "players"}${meta.top ? ` · top ${meta.top}` : ""}`;
 }
 
-function promptPushOnce(): void {
-  if (getStorageItem<boolean>("push_prompt_seen", false)) return;
-  setStorageItem("push_prompt_seen", true);
-  void requestPushPermission().catch(() => false);
+function rememberStreak(dateKey: string): void {
+  const old = getStorageItem<{ lastDate: string; current: number }>("cv_streak_v2", { lastDate: "", current: 0 });
+  if (old.lastDate === dateKey) return;
+  const previous = new Date(`${dateKey}T12:00:00Z`);
+  previous.setUTCDate(previous.getUTCDate() - 1);
+  const current = old.lastDate === previous.toISOString().slice(0, 10) ? old.current + 1 : 1;
+  setStorageItem("cv_streak_v2", { lastDate: dateKey, current });
+  document.cookie = `cv_streak=${encodeURIComponent(JSON.stringify({day: dateKey, count: current}))}; Path=/; Max-Age=31536000; SameSite=Lax`;
 }
 
 function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () => void }) {
@@ -76,6 +82,8 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
   const phaseRef = useRef<Phase>(phase);
   const [verdict, setVerdict] = useState<(VerdictInfo & { id: number }) | null>(null);
   const [run, setRun] = useState<ServerGameRun | null>(null);
+  const [publishedName, setPublishedName] = useState<string | null>(null);
+  const timedActions = useRef<A[]>([]);
   const [fail, setFail] = useState<string | null>(null);
   const [shots, setShots] = useState<number | null>(p.shots);
   const [metas, setMetas] = useState<Record<string, DailyMeta> | null>(null);
@@ -102,16 +110,19 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
     async (pl: SubmitGameRunInput) => {
       setPhaseNow("submitting");
       try {
-        const res = await submitGameRun(pl);
+        const res = await submitAnonymousRun({ ticket: p.runTicket ?? "", log: module.codec.enc(actionsRef.current), timedActions: slug === "speed-flags" ? timedActions.current : undefined });
         if (res.success && res.run) {
           setRun(res.run);
+          setPublishedName(res.publishedName ?? null);
           setFail(null);
           trackPlay("run_saved", slug, mode);
           if (mode === "daily") {
             getDailySummary(slug, dateKey)
               .then((s) => setShots(s.playerCount))
               .catch(() => undefined);
-            promptPushOnce();
+            writeDone(dateKey, edition, slug, module.scoreLabel(stateRef.current), maxAge());
+            writeLockoutBelt(slug, dateKey, edition, pl.scoreRaw, module.scoreLabel(stateRef.current));
+            clearProgress(slug);
           }
         } else {
           setFail(failReasonText(res.error ?? "unknown"));
@@ -121,7 +132,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
       }
       setPhaseNow("settled");
     },
-    [mode, slug, dateKey, setPhaseNow],
+    [mode, slug, dateKey, edition, p.runTicket, module, maxAge, setPhaseNow],
   );
 
   const finish = useCallback(
@@ -132,10 +143,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
       const pl = module.payload(next, { mode, dateKey, startedAt: p.startedAt });
       setPayload(pl);
       if (mode === "daily") {
-        const label = module.scoreLabel(next);
-        writeDone(dateKey, edition, slug, label, maxAge());
-        writeLockoutBelt(slug, dateKey, edition, pl.scoreRaw, label);
-        clearProgress(slug);
+        rememberStreak(dateKey);
         fetchDailyMetas(dateKey)
           .then(setMetas)
           .catch(() => setMetas({}));
@@ -144,17 +152,9 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
         setPhaseNow("settled");
         return;
       }
-      if (p.viewer.signedIn) {
-        void submit(pl);
-        return;
-      }
-      if (mode === "daily") {
-        setPhaseNow("join");
-        return;
-      }
-      setPhaseNow("settled");
+      void submit(pl);
     },
-    [module, mode, dateKey, edition, slug, p.startedAt, p.viewer.signedIn, maxAge, submit, setPhaseNow],
+    [module, mode, dateKey, slug, p.startedAt, submit, setPhaseNow],
   );
 
   const dispatchInternal = useCallback(
@@ -180,8 +180,9 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
       stateRef.current = next;
       setState(next);
       const persist = module.persist ? module.persist(action) : persistsByDefault(action);
+      if (slug === "speed-flags") timedActions.current = [...timedActions.current, action];
+      if (persist) actionsRef.current = [...actionsRef.current, action];
       if (persist && mode === "daily" && !persistOff.current) {
-        actionsRef.current = [...actionsRef.current, action];
         const ok = writeProgress({ slug, dateKey, edition, startedAtMs, log: module.codec.enc(actionsRef.current), maxAge: maxAge() });
         if (!ok) {
           persistOff.current = true;
@@ -215,10 +216,6 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
   const keymap = useMemo(() => (phase === "live" && !busy && module.keys ? module.keys(state, dispatch) : {}), [module, state, dispatch, phase, busy]);
   usePlayKeys(keymap, phase === "live" && !busy);
 
-  const auth = playAuth();
-  const submitPending = useCallback(() => {
-    if (payload) void submit(payload);
-  }, [payload, submit]);
 
   const shareText = useMemo(() => {
     if (phase === "live") return "";
@@ -242,9 +239,8 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
     }
     if (!run && shots === null) return undefined;
     const globalShots = Math.max(shots ?? 0, run?.rankDaily ?? 0, run ? 1 : 0);
-    const friendRank = run && p.friendCount > 0 ? 1 + p.friendScores.filter((s) => s > run.scoreSortValue).length : null;
-    return { globalRank: run?.rankDaily ?? null, globalShots, friendRank, friendCount: p.friendCount };
-  }, [phase, mode, run, shots, p.practiceBest, p.friendCount, p.friendScores]);
+    return { globalRank: run?.rankDaily ?? null, globalShots, friendRank: null, friendCount: 0 };
+  }, [phase, mode, run, shots, p.practiceBest]);
 
   const showBoard = phase === "live" || module.keepBoardOnResult;
   const prog = module.progress(state);
@@ -294,9 +290,8 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
               </>
             }
           >
-            {phase === "join" ? (
-              <JoinRow daily onJoin={(name) => auth.joinAsGuest(name)} onJoined={() => auth.openAuthModal(submitPending)} onSignIn={() => auth.openAuthModal(submitPending)} />
-            ) : null}
+            {run && mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
+            {fail && payload ? <Button variant="quiet" onClick={() => void submit(payload)}>Try saving again</Button> : null}
             <Result state={state} mode={mode} run={run} />
           </ResultPanel>
           {nextRows ? <NextDailies rows={nextRows.rows} shot={nextRows.shot} total={nextRows.total} /> : null}

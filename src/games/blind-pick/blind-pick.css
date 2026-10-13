@@ -85,3 +85,15 @@
   .bp-saved { color: var(--color-mute); white-space: nowrap; }
   .bp-saved .t-num { color: var(--color-ink); }
 }
+
+@layer components {
+  .play-root:has(.blind-remote) { max-width: 1000px; }
+}
+
+@layer components {
+  .bp-ovrow .nm { white-space: normal; overflow: visible; text-overflow: clip; line-height: 20px; }
+  @media (max-width: 359px) {
+    .rrow.bp-ovrow { grid-template-columns: 18px minmax(0, 1fr) 58px 58px; gap: 8px; }
+    .bp-cell { gap: 4px; font-size: 13px; }
+  }
+}

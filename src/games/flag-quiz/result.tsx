@@ -1,5 +1,3 @@
-"use client";
-
 import { FoundList } from "@/games/_shared/found-list";
 import type { ResultProps } from "@/games/types";
 import type { QuizState } from "./module";

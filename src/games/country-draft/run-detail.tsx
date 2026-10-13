@@ -1,10 +1,13 @@
 import { SectionHead } from "@/ui/section-head";
 import { Flag } from "@/ui/flag";
 import { cn } from "@/lib/utils";
+import { getTodayDateKey } from "@/lib/daily-seed";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { BONUSES, MAX_SCORE, SEAT_NAMES, bandOf, fitQuality, fitWord } from "@/lib/game-logic/country-draft/tables";
 import type { RunDetailProps } from "@/games/types";
 import { DraftMap } from "./draft-map";
+import { DraftReviewDetails } from "./review";
+import { draftRunReview } from "@/server/draft-review";
 import "./draft.css";
 
 /*
@@ -26,15 +29,14 @@ interface Row {
 
 function isRow(x: unknown): x is Row {
   if (typeof x !== "object" || x === null) return false;
-  const r = x as Record<string, unknown>;
   return (
-    typeof r.round === "number" &&
-    typeof r.seat === "number" &&
-    typeof r.name === "string" &&
-    typeof r.iso3 === "string" &&
-    typeof r.standing === "number" &&
-    typeof r.fit === "number" &&
-    typeof r.points === "number"
+    "round" in x && typeof x.round === "number" &&
+    "seat" in x && typeof x.seat === "number" &&
+    "name" in x && typeof x.name === "string" &&
+    "iso3" in x && typeof x.iso3 === "string" &&
+    "standing" in x && typeof x.standing === "number" &&
+    "fit" in x && typeof x.fit === "number" &&
+    "points" in x && typeof x.points === "number"
   );
 }
 
@@ -59,7 +61,7 @@ function AppointmentRows({ list, mute }: { list: Row[]; mute?: boolean }) {
             <span className="txt">
               <b>{row.name}</b>
               <small className="t-meta">
-                {SEAT_NAMES[row.seat] ?? "Seat"} · {fitWord(row.fit)} · standing {row.standing}
+                {SEAT_NAMES[row.seat] ?? "Seat"} · {fitWord(row.fit)}
               </small>
             </span>
             <b className={cn("t-score num val", mute ? "dr-q-fair" : `dr-q-${fitQuality(row.fit)}`)}>{row.points}</b>
@@ -70,18 +72,21 @@ function AppointmentRows({ list, mute }: { list: Row[]; mute?: boolean }) {
   );
 }
 
-export function RunDetail({ run }: RunDetailProps) {
+export async function RunDetail({ run }: RunDetailProps) {
   const json = run.resultJson ?? {};
   const appointments = rows(json.appointments);
   if (appointments.length === 0) return null;
-  const best = rows(json.best);
+  const review = await draftRunReview(run.runId);
+  const expired = run.dailyDate < getTodayDateKey();
+  const best = expired ? rows(json.best) : [];
   const score = num(json.score) ?? run.scoreRaw;
-  const ceiling = num(json.ceiling);
+  const ceiling = expired ? num(json.ceiling) : null;
   const gap = num(json.gap) ?? (ceiling === null ? null : ceiling - score);
   const countries = Array.isArray(json.roundCountries)
-    ? (json.roundCountries as unknown[]).filter((x): x is string => typeof x === "string")
+    ? json.roundCountries.filter((x: unknown): x is string => typeof x === "string")
     : appointments.map((a) => a.iso3);
-  const bonuses = (json.bonuses ?? {}) as Record<string, unknown>;
+  const rawBonuses = json.bonuses;
+  const bonuses: Record<string, unknown> = typeof rawBonuses === "object" && rawBonuses !== null && !Array.isArray(rawBonuses) ? Object.fromEntries(Object.entries(rawBonuses)) : {};
 
   return (
     <div>
@@ -133,6 +138,7 @@ export function RunDetail({ run }: RunDetailProps) {
           <AppointmentRows list={best} mute />
         </>
       ) : null}
+      <DraftReviewDetails review={review?.review ?? null} />
     </div>
   );
 }

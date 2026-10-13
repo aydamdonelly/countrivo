@@ -1,222 +1,61 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
-import { getAllCategories } from "@/lib/data/categories";
-import { getCountriesByContinent, getCountryByIso3 } from "@/lib/data/countries";
-import { getRanksForCountry, getStatValue } from "@/lib/data/ranks";
-import { formatStat } from "@/lib/utils";
-import bordersData from "@/data/borders.json";
-import type { Country } from "@/types/country";
-import {
-  EditorialHead,
-  Flag,
-  GameRow,
-  PageTitle,
-  SectionHead,
-  SiteFoot,
-  StatIcon,
-  StatRows,
-  Icon,
-  type GameSlug,
-  type StatRow,
-} from "@/ui";
-import { buildCapsules } from "./capsules";
-import { CapsuleList } from "./capsules-list";
-import { Peers } from "./peers";
-import { Standing } from "./standing";
-import "./seo.css";
+import Link from 'next/link';
+import { getAllCountries, getCountryByIso3 } from '@/lib/data/countries';
+import { countryBorders, sovereignIso3, draftPortraitCredit } from '@/lib/data/loader';
+import { worldStandings, type WorldStanding } from '@/lib/data/world';
+import { getStatValue, getRanksForCountry } from '@/lib/data/ranks';
+import { formatStat } from '@/lib/utils';
+import { POOL } from '@/lib/game-logic/country-draft/roster';
+import { LOOKALIKES } from '@/lib/game-logic/flag-quiz/pools';
+import type { Country } from '@/types/country';
+import { Flag, StatIcon, SiteFoot, GameRow, Portrait } from '@/ui';
+import { Clay } from '@/ui/clay';
+import { buildCapsules } from './capsules';
+import { CapsuleList } from './capsules-list';
+import './seo.css';
 
-const borders: Record<string, string[]> = bordersData;
-
-const PLAY_ROWS: readonly { slug: GameSlug; title: string; meta: (name: string) => string }[] = [
-  { slug: "country-draft", title: "Country Draft", meta: () => "five seats, five people, one map" },
-  { slug: "flag-quiz", title: "Flag Quiz", meta: (n) => `name ${n} from its flag` },
-  { slug: "higher-or-lower", title: "Higher or Lower", meta: (n) => `is ${n} higher or lower` },
-  { slug: "geo-wordle", title: "GeoWordle", meta: (n) => `find a country like ${n} in six` },
-  { slug: "stat-guesser", title: "Stat Guesser", meta: (n) => `guess a number about ${n}` },
-  { slug: "blind-pick", title: "Blind Pick", meta: () => "put countries on their best stat" },
-];
-
-const RANKING_ROWS: readonly { stat: string | null; title: string; href: string; meta: string }[] = [
-  { stat: "population", title: "Most populated countries", href: "/lists/most-populated-countries", meta: "the 50 biggest by people" },
-  { stat: "area-km2", title: "Largest countries", href: "/lists/largest-countries", meta: "the 50 biggest by area" },
-  { stat: "gdp-per-capita", title: "Richest countries", href: "/lists/richest-countries", meta: "the 50 highest GDP per person" },
-  { stat: null, title: "All 21 rankings", href: "/categories", meta: "every country ranked on every stat" },
-];
-
-/**
- * "Data updated" comes from the generated src/data/data-timestamps.json at build, so a
- * missing file or entry degrades to no line. Only this country's content timestamp
- * counts: regenerating the file for a game must not make unchanged country data look new.
- */
-function readDataUpdatedDate(slug: string): string | null {
-  let parsed: unknown;
-  try {
-    parsed = JSON.parse(readFileSync(join(process.cwd(), "src/data/data-timestamps.json"), "utf8"));
-  } catch {
-    return null;
-  }
-  if (!isRecord(parsed) || !isRecord(parsed.entries)) return null;
-  const entry = parsed.entries[`country:${slug}`];
-  return isRecord(entry) && typeof entry.lastModified === "string"
-    ? formatDataDate(entry.lastModified)
-    : null;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function formatDataDate(value: string): string | null {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return date.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
-}
-
-/** "124.5M people" split into the Erode value and the mute unit after it. */
-function splitStat(raw: number, unit: string): { value: string; unit?: string } {
-  const text = formatStat(raw, unit);
-  const space = text.indexOf(" ");
-  if (space === -1) return { value: text };
-  return { value: text.slice(0, space), unit: text.slice(space + 1) };
-}
-
-/**
- * One country profile (blueprint 7.9): one column of meaning, not a stack of cards. The
- * flag, the standing, the six answers, the 21 rankings, then the links out. Static, 243
- * of them, no viewer state anywhere.
- */
-export function CountryPage({ country }: { country: Country }) {
-  const categories = getAllCategories();
-  const ranks = getRanksForCountry(country.iso3);
-  const dataUpdated = readDataUpdatedDate(country.slug);
-
-  const neighbours = (borders[country.iso3] ?? [])
-    .map((iso3) => getCountryByIso3(iso3))
-    .filter((c): c is Country => Boolean(c))
-    .sort((a, b) => a.displayName.localeCompare(b.displayName));
-
-  const continentAll = getCountriesByContinent(country.continent).filter((c) => c.iso3 !== country.iso3);
-  const continentRows = continentAll.slice(0, 12);
-
-  const statRows: StatRow[] = categories.map((cat) => {
-    const raw = getStatValue(country.iso3, cat.slug);
-    const rank = ranks[cat.slug];
-    if (raw === null) return { slug: cat.slug, label: cat.label, clarifier: cat.clarifier, value: null, rank: null };
-    const { value, unit } = splitStat(raw, cat.unit);
-    return { slug: cat.slug, label: cat.label, clarifier: cat.clarifier, value, unit, rank: rank ?? null };
-  });
-
-  const capsules = buildCapsules(country, ranks, neighbours);
-  const name = country.displayName;
-
-  return (
-    <>
-      <div className="split">
-        <div className="col">
-          <div data-o="1">
-            <PageTitle
-              eyebrow={<Flag iso2={country.iso2} size="xl" alt="" />}
-              title={name}
-              meta={`${country.continent} · ${country.subregion} · ${country.capital ? `capital ${country.capital}` : "no capital"}`}
-            />
-          </div>
-
-          <section data-o="3" aria-labelledby="about">
-            <EditorialHead id="about" title={`About ${name}`} />
-            <CapsuleList capsules={capsules} />
-          </section>
-
-          <section data-o="4" aria-labelledby="all-stats">
-            <EditorialHead
-              id="all-stats"
-              title="All statistics and world rankings"
-              fact={dataUpdated ? `Data updated ${dataUpdated}` : undefined}
-            />
-            <StatRows rows={statRows} caption={`Statistics and world rankings for ${name}`} />
-          </section>
-
-          <section data-o="5" className="ls">
-            <SectionHead
-              title={`Borders ${name}`}
-              fact={neighbours.length === 1 ? "1 country" : `${neighbours.length} countries`}
-            />
-            {neighbours.length === 0 ? (
-              <p className="t-body empty-row">
-                No land borders. {name} is an island or an exclave state.
-              </p>
-            ) : (
-              neighbours.map((n) => (
-                <GameRow
-                  key={n.slug}
-                  href={`/countries/${n.slug}`}
-                  title={n.displayName}
-                  // The heading already says these share a border; the row carries a fact instead.
-                  meta={n.capital ? `capital ${n.capital}` : n.region}
-                  lead={<Flag iso2={n.iso2} size="xs" alt="" />}
-                />
-              ))
-            )}
-          </section>
-
-          <div data-o="6">
-            <Peers country={country} />
-          </div>
-
-          <p data-o="10" className="t-meta entity-line">
-            ISO 3166-1 alpha-2 {country.iso2} · alpha-3 {country.iso3} · {country.subregion}
-          </p>
+export function CountryPage({country}: {country: Country}) {
+  const name=country.displayName;
+  const neighbours=(countryBorders[country.iso3] ?? []).map(getCountryByIso3).filter((c): c is Country=>Boolean(c));
+  const standings=worldStandings(country.iso3);
+  const verified=standings.filter(row=>!['coffee-consumption-per-capita','beer-consumption-per-capita','wine-consumption-per-capita'].includes(row.category.slug));
+  const nearTop=[...verified].sort((a,b)=>a.rank/a.count-b.rank/b.count).slice(0,3);
+  const nearBottom=[...verified].sort((a,b)=>b.rank/b.count-a.rank/a.count).filter((row)=>!nearTop.includes(row)).slice(0,3);
+  const notable=nearTop.find((row)=>row.count>=50 && !['military-spending-pct','unemployment-rate','inflation-rate','fdi-inflow'].includes(row.category.slug));
+  const people=POOL.find((c)=>c.iso3===country.iso3)?.groups.flatMap((group)=>group.people).filter((person)=>person.portrait).slice(0,6) ?? [];
+  const family=LOOKALIKES.find((set)=>[...set.core,...set.kin].includes(country.iso3));
+  const area=getStatValue(country.iso3,'area-km2');
+  const comparisons=getAllCountries().filter((c)=>c.iso3!==country.iso3 && sovereignIso3.includes(c.iso3));
+  const sizePeer=area===null ? undefined : comparisons.map((c)=>({country:c,area:getStatValue(c.iso3,'area-km2')})).filter((entry):entry is {country:Country;area:number}=>entry.area!==null).sort((a,b)=>Math.abs(a.area-area)-Math.abs(b.area-area))[0];
+  const income=getStatValue(country.iso3,'gdp-per-capita');
+  const incomes=comparisons.map((c)=>getStatValue(c.iso3,'gdp-per-capita')).filter((value):value is number=>value!==null).sort((a,b)=>a-b);
+  const median=incomes[Math.floor(incomes.length/2)];
+  const state=country.continent==='Americas'?'americas':country.continent==='Asia'?'asia':country.continent==='Oceania'?'pacific':'afreu';
+  const capsules=buildCapsules(country,getRanksForCountry(country.iso3),neighbours);
+  return <>
+    <div className="dossier">
+      <div className="dossier-hero"><div className="identity"><Flag iso2={country.iso2} size="hero" alt={`Flag of ${name}`} eager /><div><h1 className="t-h1">{name}</h1><p className="t-meta text-mute">{country.subregion}, {country.continent}</p>{!sovereignIso3.includes(country.iso3)?<p className="t-meta text-mute">Territory or other place</p>:null}</div></div><Clay object="cl-24" state={state} /></div>
+      {notable ? <div className="dossier-intro"><p className="dossier-fact">{name} ranks {notable.rank} of {notable.count} countries with data for {notable.category.shortLabel.toLowerCase()}: {formatStat(notable.value,notable.category.unit)}.</p><p className="t-meta text-mute">{notable.category.source} {notable.category.sourceYear}. <Link href={`/sources#${notable.category.slug}`}>Source and method</Link></p></div> : null}
+      <div className="dossier-comparisons">
+        {sizePeer && area!==null ? <div><p className="t-h3">About the size of {sizePeer.country.displayName}</p><p className="t-meta text-mute">{formatStat(area,'km²')} against {formatStat(sizePeer.area,'km²')}. Total area, REST Countries.</p></div> : null}
+        {income!==null && median ? <div><p className="t-h3">{Math.round(income/median*100)}% of the median GDP per person</p><p className="t-meta text-mute">Median among {incomes.length} other countries with data. GDP per person is not household income.</p></div> : null}
+      </div>
+      <div className="dossier-grid">
+        <div>
+          <section className="dossier-section"><h2 className="t-h2">Where it ranks</h2><p className="t-meta text-mute mb-4">Positions among sovereign states with data. High and low describe the number.</p><p className="t-body">Near the top</p><StandingRows rows={nearTop} />{nearBottom.length ? <><p className="t-body mt-6">Near the bottom</p><StandingRows rows={nearBottom} /></> : null}</section>
+          {neighbours.length ? <section className="dossier-section"><h2 className="t-h2">Neighbours</h2>{neighbours.map((neighbour)=><GameRow key={neighbour.iso3} href={`/countries/${neighbour.slug}`} title={neighbour.displayName} meta={neighbour.capital ? `Capital: ${neighbour.capital}` : neighbour.subregion} lead={<Flag iso2={neighbour.iso2} size="xs" alt="" />} />)}</section> : <section className="dossier-section"><h2 className="t-h2">Neighbours</h2><p className="t-body text-mute">No international land borders in this dataset.</p></section>}
         </div>
-
-        <div className="col side pin">
-          <div data-o="2" className="standing">
-            <Standing iso3={country.iso3} name={name} ranks={ranks} />
-          </div>
-
-          <section data-o="8" className="ls">
-            <SectionHead title={`Play with ${name}`} fact={`${PLAY_ROWS.length} games`} />
-            {PLAY_ROWS.map((g) => (
-              <GameRow
-                key={g.slug}
-                slug={g.slug}
-                title={g.title}
-                meta={g.meta(name)}
-                href={`/games/${g.slug}`}
-              />
-            ))}
-          </section>
-
-          <section data-o="7" className="ls">
-            <SectionHead title={`More in ${country.continent}`} fact={`${continentAll.length} countries`} />
-            {/* Twelve rows on the phone, the first six in the desktop rail (blueprint 7.9);
-                all twelve stay in the HTML, so the link graph is the same either way. */}
-            {continentRows.map((c, i) => (
-              <GameRow
-                key={c.slug}
-                href={`/countries/${c.slug}`}
-                title={c.displayName}
-                meta={c.capital || "no capital"}
-                lead={<Flag iso2={c.iso2} size="xs" alt="" />}
-                className={i >= 6 ? "rail-hidden" : undefined}
-              />
-            ))}
-          </section>
-
-          <section data-o="9" className="ls">
-            <SectionHead title="Rankings" />
-            {RANKING_ROWS.map((r) => (
-              <GameRow
-                key={r.href}
-                href={r.href}
-                title={r.title}
-                meta={r.meta}
-                lead={r.stat ? <StatIcon slug={r.stat} size={24} /> : <Icon name="trophy" size={24} />}
-              />
-            ))}
-          </section>
+        <div>
+          {people.length ? <section className="dossier-section"><h2 className="t-h2">People from here</h2><div className="dossier-people">{people.map((person)=>{const credit=draftPortraitCredit(person.slug);return <div key={person.slug}><Portrait slug={person.slug} name={person.name} has={person.portrait} size={56} /><a className="t-body" href={person.biography} target="_blank" rel="noreferrer">{person.name}</a><p className="t-meta text-mute">{person.note}</p>{credit ? <small>Photo: {credit.author || 'Wikimedia Commons'}, {credit.licence}</small> : null}</div>;})}</div></section>:null}
+          {family ? <section className="dossier-section"><h2 className="t-h2">Its flag family</h2><div className="flag-family">{[...family.core,...family.kin].map(getCountryByIso3).filter((c):c is Country=>Boolean(c)).map((c)=><Link href={`/countries/${c.slug}`} key={c.iso3}><Flag iso2={c.iso2} size="m" alt="" /><span>{c.displayName}</span></Link>)}</div><p className="t-body">{family.line}</p><p className="t-meta text-mute">CIA World Factbook.</p></section>:null}
         </div>
       </div>
+      <section className="dossier-play"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice. Nothing counts." href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice with country statistics." href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Find five countries on a blank map." href="/games/pinpoint" /></section>
+      <section className="dossier-capsules"><h2 className="t-h2 mb-4">{name}, in short</h2><CapsuleList capsules={capsules} /></section>
+    </div>
+    <SiteFoot />
+  </>;
+}
 
-      <SiteFoot />
-    </>
-  );
+function StandingRows({rows}: {rows:WorldStanding[]}) {
+  return <div className="dossier-standings">{rows.map((row)=><Link key={row.category.slug} href={`/categories/${row.category.slug}`}><StatIcon slug={row.category.slug} size={20} /><span>{row.category.shortLabel}<small>{formatStat(row.value,row.category.unit)}. {row.category.source} {row.category.sourceYear}.</small></span><span className="t-meta">{row.rank} of {row.count}</span></Link>)}</div>;
 }

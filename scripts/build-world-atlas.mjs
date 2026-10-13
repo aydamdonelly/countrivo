@@ -1,0 +1,11 @@
+import { geoEqualEarth, geoPath } from 'd3-geo';
+import { readFileSync, writeFileSync } from 'node:fs';
+const geography=JSON.parse(readFileSync('src/data/geography.json','utf8'));
+const centroids=JSON.parse(readFileSync('src/data/centroids.json','utf8'));
+const geometry={type:'FeatureCollection',features:Object.values(geography.countries).map(c=>({type:'Feature',properties:{},geometry:{type:'MultiPolygon',coordinates:c.polygons}}))};
+const projection=geoEqualEarth().fitExtent([[2,2],[718,322]],geometry);
+const path=geoPath(projection).digits(2);
+const shapes=Object.fromEntries(Object.entries(geography.countries).map(([iso3,c])=>[iso3,path({type:'MultiPolygon',coordinates:c.polygons})]));
+const points=Object.fromEntries(Object.entries(centroids).filter(([iso3])=>!shapes[iso3]).map(([iso3,[lat,lng]])=>[iso3,projection([lng,lat]).map(value=>Number(value.toFixed(2)))]));
+writeFileSync('src/data/world-atlas.json',JSON.stringify({viewBox:'0 0 720 324',shapes,points})+'\n');
+console.log(`Prepared ${Object.keys(shapes).length} Equal Earth country paths`);

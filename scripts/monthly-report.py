@@ -8,10 +8,11 @@ month at 09:00 and has an agent append a short German reading (launchd cannot: m
 blocks it from ~/Desktop). Run it by hand any time with `python3 scripts/monthly-report.py`.
 The Search Console key is ~/.config/countrivo-seo/gsc-sa.json, never in the repo.
 
-Play numbers come from `game_runs` over PostgREST with the public anon key in
-.env.local, so they cover signed-in and guest runs only. Anonymous play lives in
-Vercel Analytics > Events (play_start, play_finish, run_saved, share), which has no
-API on this plan. Python 3.9 standard library only; read-only everywhere.
+Play numbers come from completed `countrivo_runs` with the dedicated server key
+in .env.local. They cover the account-free relaunch only: browser/device identities
+are not people, old account records are separate, and labelled bot rows are excluded.
+Vercel Analytics > Events has no API on this plan. Python 3.9 standard library only;
+read-only everywhere.
 """
 
 from collections import Counter
@@ -37,26 +38,25 @@ def env_value(name):
 
 def fetch_runs():
     base = env_value("NEXT_PUBLIC_SUPABASE_URL").rstrip("/")
-    anon = env_value("NEXT_PUBLIC_SUPABASE_ANON_KEY")
-    headers = {"apikey": anon, "Authorization": f"Bearer {anon}"}
+    service = env_value("COUNTRIVO_SUPABASE_SERVICE_KEY")
+    headers = {"apikey": service, "Authorization": f"Bearer {service}"}
     runs, offset = [], 0
     while True:
         query = urlencode({
-            "select": "user_id,game_slug,mode,daily_date,completed_at",
+            "select": "device_id,game_slug,mode,date_key,completed_at,display_name",
+            "status": "eq.complete",
             "order": "completed_at.asc", "limit": 1000, "offset": offset,
         })
-        with urlopen(Request(f"{base}/rest/v1/game_runs?{query}", headers=headers), timeout=60) as r:
+        with urlopen(Request(f"{base}/rest/v1/countrivo_runs?{query}", headers=headers), timeout=60) as r:
             page = json.load(r)
         runs.extend(page)
         if len(page) < 1000:
             break
         offset += 1000
-    ids = sorted({r["user_id"] for r in runs})
     names = {}
-    for i in range(0, len(ids), 100):
-        query = urlencode({"select": "id,username", "id": f"in.({','.join(ids[i:i + 100])})"})
-        with urlopen(Request(f"{base}/rest/v1/profiles?{query}", headers=headers), timeout=60) as r:
-            names.update({p["id"]: p["username"] for p in json.load(r)})
+    for run in runs:
+        if run.get("display_name"):
+            names[run["device_id"]] = run["display_name"]
     return runs, names
 
 
@@ -74,23 +74,26 @@ def play_section(runs, names, since):
     recent = [r for r in runs if stamp(r) >= since]
     first_seen = {}
     for r in runs:
-        first_seen.setdefault(r["user_id"], stamp(r))
-    new_players = sum(1 for t in first_seen.values() if t >= since)
-    players = Counter(r["user_id"] for r in recent)
+        first_seen.setdefault(r["device_id"], stamp(r))
+    new_devices = sum(1 for t in first_seen.values() if t >= since)
+    devices = Counter(r["device_id"] for r in recent)
     games = Counter(r["game_slug"] for r in recent)
     lines = [
         f"## Stored play, last {DAYS} days",
         "",
-        f"- **{len(recent)} runs** by **{len(players)} players** ({new_players} new). "
-        f"All time: {len(runs)} runs by {len(first_seen)} players.",
+        f"- **{len(recent)} completed runs** on **{len(devices)} devices** ({new_devices} first seen). "
+        f"Since the account-free relaunch: {len(runs)} runs on {len(first_seen)} devices.",
         f"- Daily {sum(1 for r in recent if r['mode'] == 'daily')}, "
         f"practice {sum(1 for r in recent if r['mode'] != 'daily')}.",
+        f"- {sum(1 for r in recent if r.get('display_name'))} runs have an optional public name.",
+        "- Device counts are browser identities, not a count of people. Old account data and simulated bots are excluded.",
     ]
     if games:
         lines.append("- Games: " + ", ".join(f"{g} {n}" for g, n in games.most_common()) + ".")
-    if players:
-        lines.append("- Players: " + ", ".join(
-            f"{names.get(u, 'unknown')} {n}" for u, n in players.most_common(10)) + ".")
+    named_devices = [(device, count) for device, count in devices.most_common() if device in names]
+    if named_devices:
+        lines.append("- Optional names on active devices: " + ", ".join(
+            f"{names[device]} {count}" for device, count in named_devices[:10]) + ".")
     return lines
 
 
@@ -130,8 +133,8 @@ def main():
         lines += play_section(runs, names, since)
     except Exception as error:  # noqa: BLE001 - the report still ships its search half
         lines += ["## Stored play", "", f"Supabase read failed: {error}"]
-    lines += ["", "Anonymous play: Vercel > countrivo > Analytics > Events "
-              "(play_start, play_finish, run_saved, share)."]
+    lines += ["", "Visitor, started-game and share counts are unavailable through an API on this Vercel plan. "
+              "Check Vercel > countrivo > Analytics > Events (play_start, play_finish, run_saved, share)."]
     (out / "summary.md").write_text("\n".join(lines) + "\n")
     notify(f"Report ready in reports/{today.isoformat()}")
     print(out / "summary.md")

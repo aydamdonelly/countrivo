@@ -1,0 +1,2434 @@
+{
+  "juan-peron": {
+    "born": 1895,
+    "died": 1974,
+    "activeFrom": 1910,
+    "activeUntil": 1974,
+    "source": "https://www.wikidata.org/wiki/Q93330",
+    "biography": "https://en.wikipedia.org/wiki/Juan_Per%C3%B3n"
+  },
+  "eva-peron": {
+    "born": 1919,
+    "died": 1952,
+    "activeFrom": 1948,
+    "activeUntil": 1952,
+    "source": "https://www.wikidata.org/wiki/Q40933",
+    "biography": "https://en.wikipedia.org/wiki/Eva_Per%C3%B3n"
+  },
+  "jose-de-san-martin": {
+    "born": 1778,
+    "died": 1850,
+    "activeFrom": 1814,
+    "activeUntil": 1822,
+    "source": "https://www.wikidata.org/wiki/Q134160",
+    "biography": "https://en.wikipedia.org/wiki/Jos%C3%A9_de_San_Mart%C3%ADn"
+  },
+  "astor-piazzolla": {
+    "born": 1921,
+    "died": 1992,
+    "activeFrom": 1933,
+    "activeUntil": 1992,
+    "source": "https://www.wikidata.org/wiki/Q172505",
+    "biography": "https://en.wikipedia.org/wiki/Astor_Piazzolla"
+  },
+  "diego-maradona": {
+    "born": 1960,
+    "died": 2020,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q17515",
+    "biography": "https://en.wikipedia.org/wiki/Diego_Maradona"
+  },
+  "robert-menzies": {
+    "born": 1894,
+    "died": 1978,
+    "activeFrom": 1928,
+    "activeUntil": 1978,
+    "source": "https://www.wikidata.org/wiki/Q214438",
+    "biography": "https://en.wikipedia.org/wiki/Robert_Menzies"
+  },
+  "gough-whitlam": {
+    "born": 1916,
+    "died": 2014,
+    "activeFrom": 1941,
+    "activeUntil": 1978,
+    "source": "https://www.wikidata.org/wiki/Q23333",
+    "biography": "https://en.wikipedia.org/wiki/Gough_Whitlam"
+  },
+  "john-monash": {
+    "born": 1865,
+    "died": 1931,
+    "activeFrom": 1884,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q2731333",
+    "biography": "https://en.wikipedia.org/wiki/John_Monash"
+  },
+  "cate-blanchett": {
+    "born": 1969,
+    "died": null,
+    "activeFrom": 1992,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q80966",
+    "biography": "https://en.wikipedia.org/wiki/Cate_Blanchett"
+  },
+  "don-bradman": {
+    "born": 1908,
+    "died": 2001,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q313591",
+    "biography": "https://en.wikipedia.org/wiki/Don_Bradman"
+  },
+  "cathy-freeman": {
+    "born": 1973,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q234762",
+    "biography": "https://en.wikipedia.org/wiki/Cathy_Freeman"
+  },
+  "ned-kelly": {
+    "born": 1854,
+    "died": 1880,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q301816",
+    "biography": "https://en.wikipedia.org/wiki/Ned_Kelly"
+  },
+  "maria-theresa": {
+    "born": 1717,
+    "died": 1780,
+    "activeFrom": 1740,
+    "activeUntil": 1780,
+    "source": "https://www.wikidata.org/wiki/Q131706",
+    "biography": "https://en.wikipedia.org/wiki/Maria_Theresa"
+  },
+  "sigmund-freud": {
+    "born": 1856,
+    "died": 1939,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q9215",
+    "biography": "https://en.wikipedia.org/wiki/Sigmund_Freud"
+  },
+  "niki-lauda": {
+    "born": 1949,
+    "died": 2019,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q78489",
+    "biography": "https://en.wikipedia.org/wiki/Niki_Lauda"
+  },
+  "leopold-ii-of-belgium": {
+    "born": 1835,
+    "died": 1909,
+    "activeFrom": 1853,
+    "activeUntil": 1909,
+    "source": "https://www.wikidata.org/wiki/Q12967",
+    "biography": "https://en.wikipedia.org/wiki/Leopold_II_of_Belgium"
+  },
+  "kim-clijsters": {
+    "born": 1983,
+    "died": null,
+    "activeFrom": 1997,
+    "activeUntil": 2012,
+    "source": "https://www.wikidata.org/wiki/Q11685",
+    "biography": "https://en.wikipedia.org/wiki/Kim_Clijsters"
+  },
+  "joao-gilberto": {
+    "born": 1931,
+    "died": 2019,
+    "activeFrom": 1950,
+    "activeUntil": 2019,
+    "source": "https://www.wikidata.org/wiki/Q192359",
+    "biography": "https://en.wikipedia.org/wiki/Jo%C3%A3o_Gilberto"
+  },
+  "fernanda-montenegro": {
+    "born": 1929,
+    "died": null,
+    "activeFrom": 1950,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q335455",
+    "biography": "https://en.wikipedia.org/wiki/Fernanda_Montenegro"
+  },
+  "chico-anysio": {
+    "born": 1931,
+    "died": 2012,
+    "activeFrom": 1960,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1789876",
+    "biography": "https://en.wikipedia.org/wiki/Chico_Anysio"
+  },
+  "clarice-lispector": {
+    "born": 1920,
+    "died": 1977,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q235955",
+    "biography": "https://en.wikipedia.org/wiki/Clarice_Lispector"
+  },
+  "pele": {
+    "born": 1940,
+    "died": 2022,
+    "activeFrom": 1995,
+    "activeUntil": 1998,
+    "source": "https://www.wikidata.org/wiki/Q12897",
+    "biography": "https://en.wikipedia.org/wiki/Pel%C3%A9"
+  },
+  "ayrton-senna": {
+    "born": 1960,
+    "died": 1994,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q10490",
+    "biography": "https://en.wikipedia.org/wiki/Ayrton_Senna"
+  },
+  "lampiao": {
+    "born": 1890,
+    "died": 1938,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1391970",
+    "biography": "https://en.wikipedia.org/wiki/Lampi%C3%A3o"
+  },
+  "lester-b-pearson": {
+    "born": 1897,
+    "died": 1972,
+    "activeFrom": 1944,
+    "activeUntil": 1972,
+    "source": "https://www.wikidata.org/wiki/Q128604",
+    "biography": "https://en.wikipedia.org/wiki/Lester_B._Pearson"
+  },
+  "pierre-trudeau": {
+    "born": 1919,
+    "died": 2000,
+    "activeFrom": 1965,
+    "activeUntil": 1984,
+    "source": "https://www.wikidata.org/wiki/Q8619",
+    "biography": "https://en.wikipedia.org/wiki/Pierre_Trudeau"
+  },
+  "joni-mitchell": {
+    "born": 1943,
+    "died": null,
+    "activeFrom": 1967,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q205721",
+    "biography": "https://en.wikipedia.org/wiki/Joni_Mitchell"
+  },
+  "denis-villeneuve": {
+    "born": 1967,
+    "died": null,
+    "activeFrom": 1994,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q548823",
+    "biography": "https://en.wikipedia.org/wiki/Denis_Villeneuve"
+  },
+  "mary-pickford": {
+    "born": 1892,
+    "died": 1979,
+    "activeFrom": 1900,
+    "activeUntil": 1955,
+    "source": "https://www.wikidata.org/wiki/Q104109",
+    "biography": "https://en.wikipedia.org/wiki/Mary_Pickford"
+  },
+  "jim-carrey": {
+    "born": 1962,
+    "died": null,
+    "activeFrom": 1981,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q40504",
+    "biography": "https://en.wikipedia.org/wiki/Jim_Carrey"
+  },
+  "chris-hadfield": {
+    "born": 1959,
+    "died": null,
+    "activeFrom": 2013,
+    "activeUntil": 2013,
+    "source": "https://www.wikidata.org/wiki/Q1076962",
+    "biography": "https://en.wikipedia.org/wiki/Chris_Hadfield"
+  },
+  "wayne-gretzky": {
+    "born": 1961,
+    "died": null,
+    "activeFrom": 1975,
+    "activeUntil": 1999,
+    "source": "https://www.wikidata.org/wiki/Q209518",
+    "biography": "https://en.wikipedia.org/wiki/Wayne_Gretzky"
+  },
+  "henri-nestle": {
+    "born": 1814,
+    "died": 1890,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q57290",
+    "biography": "https://en.wikipedia.org/wiki/Henri_Nestl%C3%A9"
+  },
+  "salvador-allende": {
+    "born": 1908,
+    "died": 1973,
+    "activeFrom": 1937,
+    "activeUntil": 1973,
+    "source": "https://www.wikidata.org/wiki/Q440",
+    "biography": "https://en.wikipedia.org/wiki/Salvador_Allende"
+  },
+  "bernardo-o-higgins": {
+    "born": 1778,
+    "died": 1842,
+    "activeFrom": 1817,
+    "activeUntil": 1823,
+    "source": "https://www.wikidata.org/wiki/Q28930",
+    "biography": "https://en.wikipedia.org/wiki/Bernardo_O'Higgins"
+  },
+  "violeta-parra": {
+    "born": 1917,
+    "died": 1967,
+    "activeFrom": 1939,
+    "activeUntil": 1967,
+    "source": "https://www.wikidata.org/wiki/Q230499",
+    "biography": "https://en.wikipedia.org/wiki/Violeta_Parra"
+  },
+  "pablo-neruda": {
+    "born": 1904,
+    "died": 1973,
+    "activeFrom": 1922,
+    "activeUntil": 1973,
+    "source": "https://www.wikidata.org/wiki/Q34189",
+    "biography": "https://en.wikipedia.org/wiki/Pablo_Neruda"
+  },
+  "gabriela-mistral": {
+    "born": 1889,
+    "died": 1957,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q80871",
+    "biography": "https://en.wikipedia.org/wiki/Gabriela_Mistral"
+  },
+  "qin-shi-huang": {
+    "born": -259,
+    "died": -210,
+    "activeFrom": -247,
+    "activeUntil": -210,
+    "source": "https://www.wikidata.org/wiki/Q7192",
+    "biography": "https://en.wikipedia.org/wiki/Qin_Shi_Huang"
+  },
+  "wu-zetian": {
+    "born": 624,
+    "died": 705,
+    "activeFrom": 690,
+    "activeUntil": 705,
+    "source": "https://www.wikidata.org/wiki/Q9738",
+    "biography": "https://en.wikipedia.org/wiki/Wu_Zetian"
+  },
+  "sun-tzu": {
+    "born": -544,
+    "died": -470,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q37151",
+    "biography": "https://en.wikipedia.org/wiki/Sun_Tzu"
+  },
+  "zhang-yimou": {
+    "born": 1950,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q55430",
+    "biography": "https://en.wikipedia.org/wiki/Zhang_Yimou"
+  },
+  "gong-li": {
+    "born": 1965,
+    "died": null,
+    "activeFrom": 1987,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q150903",
+    "biography": "https://en.wikipedia.org/wiki/Gong_Li"
+  },
+  "cui-jian": {
+    "born": 1961,
+    "died": null,
+    "activeFrom": 1984,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q540516",
+    "biography": "https://en.wikipedia.org/wiki/Cui_Jian"
+  },
+  "cai-lun": {
+    "born": 48,
+    "died": 121,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q229235",
+    "biography": "https://en.wikipedia.org/wiki/Cai_Lun"
+  },
+  "yao-ming": {
+    "born": 1980,
+    "died": null,
+    "activeFrom": 1997,
+    "activeUntil": 2011,
+    "source": "https://www.wikidata.org/wiki/Q58590",
+    "biography": "https://en.wikipedia.org/wiki/Yao_Ming"
+  },
+  "li-na": {
+    "born": 1982,
+    "died": null,
+    "activeFrom": 1999,
+    "activeUntil": 2014,
+    "source": "https://www.wikidata.org/wiki/Q180446",
+    "biography": "https://en.wikipedia.org/wiki/Li_Na"
+  },
+  "felix-houphouet-boigny": {
+    "born": 1905,
+    "died": 1993,
+    "activeFrom": 1958,
+    "activeUntil": 1993,
+    "source": "https://www.wikidata.org/wiki/Q214407",
+    "biography": "https://en.wikipedia.org/wiki/F%C3%A9lix_Houphou%C3%ABt-Boigny"
+  },
+  "didier-drogba": {
+    "born": 1978,
+    "died": null,
+    "activeFrom": 1998,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q48892",
+    "biography": "https://en.wikipedia.org/wiki/Didier_Drogba"
+  },
+  "jose-marti": {
+    "born": 1853,
+    "died": 1895,
+    "activeFrom": 1887,
+    "activeUntil": 1892,
+    "source": "https://www.wikidata.org/wiki/Q103285",
+    "biography": "https://en.wikipedia.org/wiki/Jos%C3%A9_Mart%C3%AD"
+  },
+  "celia-cruz": {
+    "born": 1925,
+    "died": 2003,
+    "activeFrom": 1948,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q474045",
+    "biography": "https://en.wikipedia.org/wiki/Celia_Cruz"
+  },
+  "alejo-carpentier": {
+    "born": 1904,
+    "died": 1980,
+    "activeFrom": 1924,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q216466",
+    "biography": "https://en.wikipedia.org/wiki/Alejo_Carpentier"
+  },
+  "javier-sotomayor": {
+    "born": 1967,
+    "died": null,
+    "activeFrom": 1987,
+    "activeUntil": 2001,
+    "source": "https://www.wikidata.org/wiki/Q208693",
+    "biography": "https://en.wikipedia.org/wiki/Javier_Sotomayor"
+  },
+  "vaclav-havel": {
+    "born": 1936,
+    "died": 2011,
+    "activeFrom": 1989,
+    "activeUntil": 2011,
+    "source": "https://www.wikidata.org/wiki/Q36233",
+    "biography": "https://en.wikipedia.org/wiki/V%C3%A1clav_Havel"
+  },
+  "tomas-masaryk": {
+    "born": 1850,
+    "died": 1937,
+    "activeFrom": 1891,
+    "activeUntil": 1937,
+    "source": "https://www.wikidata.org/wiki/Q78492",
+    "biography": "https://en.wikipedia.org/wiki/Tom%C3%A1%C5%A1_Masaryk"
+  },
+  "jan-zizka": {
+    "born": 1360,
+    "died": 1424,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q215968",
+    "biography": "https://en.wikipedia.org/wiki/Jan_%C5%BDi%C5%BEka"
+  },
+  "gregor-mendel": {
+    "born": 1822,
+    "died": 1884,
+    "activeFrom": 1868,
+    "activeUntil": 1884,
+    "source": "https://www.wikidata.org/wiki/Q37970",
+    "biography": "https://en.wikipedia.org/wiki/Gregor_Mendel"
+  },
+  "franz-kafka": {
+    "born": 1883,
+    "died": 1924,
+    "activeFrom": 1904,
+    "activeUntil": 1924,
+    "source": "https://www.wikidata.org/wiki/Q905",
+    "biography": "https://en.wikipedia.org/wiki/Franz_Kafka"
+  },
+  "milan-kundera": {
+    "born": 1929,
+    "died": 2023,
+    "activeFrom": 1953,
+    "activeUntil": 2023,
+    "source": "https://www.wikidata.org/wiki/Q93166",
+    "biography": "https://en.wikipedia.org/wiki/Milan_Kundera"
+  },
+  "martina-navratilova": {
+    "born": 1956,
+    "died": null,
+    "activeFrom": 1975,
+    "activeUntil": 2006,
+    "source": "https://www.wikidata.org/wiki/Q54545",
+    "biography": "https://en.wikipedia.org/wiki/Martina_Navratilova"
+  },
+  "otto-von-bismarck": {
+    "born": 1815,
+    "died": 1898,
+    "activeFrom": 1835,
+    "activeUntil": 1890,
+    "source": "https://www.wikidata.org/wiki/Q8442",
+    "biography": "https://en.wikipedia.org/wiki/Otto_von_Bismarck"
+  },
+  "konrad-adenauer": {
+    "born": 1876,
+    "died": 1967,
+    "activeFrom": 1917,
+    "activeUntil": 1967,
+    "source": "https://www.wikidata.org/wiki/Q2492",
+    "biography": "https://en.wikipedia.org/wiki/Konrad_Adenauer"
+  },
+  "helmuth-von-moltke-the-elder": {
+    "born": 1800,
+    "died": 1891,
+    "activeFrom": 1819,
+    "activeUntil": 1891,
+    "source": "https://www.wikidata.org/wiki/Q44205",
+    "biography": "https://en.wikipedia.org/wiki/Helmuth_von_Moltke_the_Elder"
+  },
+  "werner-von-siemens": {
+    "born": 1816,
+    "died": 1892,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q58577",
+    "biography": "https://en.wikipedia.org/wiki/Werner_von_Siemens"
+  },
+  "johann-sebastian-bach": {
+    "born": 1685,
+    "died": 1750,
+    "activeFrom": 1710,
+    "activeUntil": 1750,
+    "source": "https://www.wikidata.org/wiki/Q1339",
+    "biography": "https://en.wikipedia.org/wiki/Johann_Sebastian_Bach"
+  },
+  "marlene-dietrich": {
+    "born": 1901,
+    "died": 1992,
+    "activeFrom": 1919,
+    "activeUntil": 1984,
+    "source": "https://www.wikidata.org/wiki/Q4612",
+    "biography": "https://en.wikipedia.org/wiki/Marlene_Dietrich"
+  },
+  "albert-einstein": {
+    "born": 1879,
+    "died": 1955,
+    "activeFrom": 1911,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q937",
+    "biography": "https://en.wikipedia.org/wiki/Albert_Einstein"
+  },
+  "max-planck": {
+    "born": 1858,
+    "died": 1947,
+    "activeFrom": 1885,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q9021",
+    "biography": "https://en.wikipedia.org/wiki/Max_Planck"
+  },
+  "johann-wolfgang-von-goethe": {
+    "born": 1749,
+    "died": 1832,
+    "activeFrom": 1766,
+    "activeUntil": 1832,
+    "source": "https://www.wikidata.org/wiki/Q5879",
+    "biography": "https://en.wikipedia.org/wiki/Johann_Wolfgang_von_Goethe"
+  },
+  "thomas-mann": {
+    "born": 1875,
+    "died": 1955,
+    "activeFrom": 1890,
+    "activeUntil": 1955,
+    "source": "https://www.wikidata.org/wiki/Q37030",
+    "biography": "https://en.wikipedia.org/wiki/Thomas_Mann"
+  },
+  "franz-beckenbauer": {
+    "born": 1945,
+    "died": 2024,
+    "activeFrom": 1964,
+    "activeUntil": 1983,
+    "source": "https://www.wikidata.org/wiki/Q4457",
+    "biography": "https://en.wikipedia.org/wiki/Franz_Beckenbauer"
+  },
+  "steffi-graf": {
+    "born": 1969,
+    "died": null,
+    "activeFrom": 1982,
+    "activeUntil": 1999,
+    "source": "https://www.wikidata.org/wiki/Q11662",
+    "biography": "https://en.wikipedia.org/wiki/Steffi_Graf"
+  },
+  "niels-bohr": {
+    "born": 1885,
+    "died": 1962,
+    "activeFrom": 1916,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7085",
+    "biography": "https://en.wikipedia.org/wiki/Niels_Bohr"
+  },
+  "hans-christian-andersen": {
+    "born": 1805,
+    "died": 1875,
+    "activeFrom": 1827,
+    "activeUntil": 1875,
+    "source": "https://www.wikidata.org/wiki/Q5673",
+    "biography": "https://en.wikipedia.org/wiki/Hans_Christian_Andersen"
+  },
+  "gamal-abdel-nasser": {
+    "born": 1918,
+    "died": 1970,
+    "activeFrom": 1938,
+    "activeUntil": 1970,
+    "source": "https://www.wikidata.org/wiki/Q39524",
+    "biography": "https://en.wikipedia.org/wiki/Gamal_Abdel_Nasser"
+  },
+  "anwar-sadat": {
+    "born": 1918,
+    "died": 1981,
+    "activeFrom": 1960,
+    "activeUntil": 1981,
+    "source": "https://www.wikidata.org/wiki/Q42013",
+    "biography": "https://en.wikipedia.org/wiki/Anwar_Sadat"
+  },
+  "umm-kulthum": {
+    "born": 1898,
+    "died": 1975,
+    "activeFrom": 1923,
+    "activeUntil": 1975,
+    "source": "https://www.wikidata.org/wiki/Q1110560",
+    "biography": "https://en.wikipedia.org/wiki/Umm_Kulthum"
+  },
+  "omar-sharif": {
+    "born": 1932,
+    "died": 2015,
+    "activeFrom": 1954,
+    "activeUntil": 2015,
+    "source": "https://www.wikidata.org/wiki/Q170515",
+    "biography": "https://en.wikipedia.org/wiki/Omar_Sharif"
+  },
+  "youssef-chahine": {
+    "born": 1926,
+    "died": 2008,
+    "activeFrom": 1950,
+    "activeUntil": 2004,
+    "source": "https://www.wikidata.org/wiki/Q312611",
+    "biography": "https://en.wikipedia.org/wiki/Youssef_Chahine"
+  },
+  "ismail-yassine": {
+    "born": 1912,
+    "died": 1972,
+    "activeFrom": 1939,
+    "activeUntil": 1972,
+    "source": "https://www.wikidata.org/wiki/Q4165823",
+    "biography": "https://en.wikipedia.org/wiki/Ismail_Yassine"
+  },
+  "naguib-mahfouz": {
+    "born": 1911,
+    "died": 2006,
+    "activeFrom": 1932,
+    "activeUntil": 2004,
+    "source": "https://www.wikidata.org/wiki/Q7176",
+    "biography": "https://en.wikipedia.org/wiki/Naguib_Mahfouz"
+  },
+  "nawal-el-saadawi": {
+    "born": 1931,
+    "died": 2021,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q238514",
+    "biography": "https://en.wikipedia.org/wiki/Nawal_El_Saadawi"
+  },
+  "mohamed-salah": {
+    "born": 1992,
+    "died": null,
+    "activeFrom": 2010,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1354960",
+    "biography": "https://en.wikipedia.org/wiki/Mohamed_Salah"
+  },
+  "isabella-i-of-castile": {
+    "born": 1451,
+    "died": 1504,
+    "activeFrom": 1474,
+    "activeUntil": 1504,
+    "source": "https://www.wikidata.org/wiki/Q45859",
+    "biography": "https://en.wikipedia.org/wiki/Isabella_I_of_Castile"
+  },
+  "philip-ii-of-spain": {
+    "born": 1527,
+    "died": 1598,
+    "activeFrom": 1554,
+    "activeUntil": 1598,
+    "source": "https://www.wikidata.org/wiki/Q34417",
+    "biography": "https://en.wikipedia.org/wiki/Philip_II_of_Spain"
+  },
+  "tomas-de-torquemada": {
+    "born": 1420,
+    "died": 1498,
+    "activeFrom": 1483,
+    "activeUntil": 1498,
+    "source": "https://www.wikidata.org/wiki/Q210735",
+    "biography": "https://en.wikipedia.org/wiki/Tom%C3%A1s_de_Torquemada"
+  },
+  "francisco-franco": {
+    "born": 1892,
+    "died": 1975,
+    "activeFrom": 1907,
+    "activeUntil": 1975,
+    "source": "https://www.wikidata.org/wiki/Q29179",
+    "biography": "https://en.wikipedia.org/wiki/Francisco_Franco"
+  },
+  "el-cid": {
+    "born": 1043,
+    "died": 1099,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q43958",
+    "biography": "https://en.wikipedia.org/wiki/El_Cid"
+  },
+  "manuel-de-falla": {
+    "born": 1876,
+    "died": 1946,
+    "activeFrom": 1929,
+    "activeUntil": 1941,
+    "source": "https://www.wikidata.org/wiki/Q193283",
+    "biography": "https://en.wikipedia.org/wiki/Manuel_de_Falla"
+  },
+  "penelope-cruz": {
+    "born": 1974,
+    "died": null,
+    "activeFrom": 1989,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q39666",
+    "biography": "https://en.wikipedia.org/wiki/Pen%C3%A9lope_Cruz"
+  },
+  "santiago-ramon-y-cajal": {
+    "born": 1852,
+    "died": 1934,
+    "activeFrom": 1887,
+    "activeUntil": 1934,
+    "source": "https://www.wikidata.org/wiki/Q150526",
+    "biography": "https://en.wikipedia.org/wiki/Santiago_Ram%C3%B3n_y_Cajal"
+  },
+  "juan-sebastian-elcano": {
+    "born": 1486,
+    "died": 1526,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q201510",
+    "biography": "https://en.wikipedia.org/wiki/Juan_Sebasti%C3%A1n_Elcano"
+  },
+  "miguel-de-cervantes": {
+    "born": 1547,
+    "died": 1616,
+    "activeFrom": 1569,
+    "activeUntil": 1616,
+    "source": "https://www.wikidata.org/wiki/Q5682",
+    "biography": "https://en.wikipedia.org/wiki/Miguel_de_Cervantes"
+  },
+  "federico-garcia-lorca": {
+    "born": 1898,
+    "died": 1936,
+    "activeFrom": 1932,
+    "activeUntil": 1936,
+    "source": "https://www.wikidata.org/wiki/Q41408",
+    "biography": "https://en.wikipedia.org/wiki/Federico_Garc%C3%ADa_Lorca"
+  },
+  "haile-selassie": {
+    "born": 1892,
+    "died": 1975,
+    "activeFrom": 1930,
+    "activeUntil": 1974,
+    "source": "https://www.wikidata.org/wiki/Q41178",
+    "biography": "https://en.wikipedia.org/wiki/Haile_Selassie"
+  },
+  "menelik-ii": {
+    "born": 1844,
+    "died": 1913,
+    "activeFrom": 1889,
+    "activeUntil": 1913,
+    "source": "https://www.wikidata.org/wiki/Q244748",
+    "biography": "https://en.wikipedia.org/wiki/Menelik_II"
+  },
+  "taytu-betul": {
+    "born": 1851,
+    "died": 1918,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q298216",
+    "biography": "https://en.wikipedia.org/wiki/Taytu_Betul"
+  },
+  "fredrik-idestam": {
+    "born": 1838,
+    "died": 1916,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q2271104",
+    "biography": "https://en.wikipedia.org/wiki/Fredrik_Idestam"
+  },
+  "paavo-nurmi": {
+    "born": 1897,
+    "died": 1973,
+    "activeFrom": 1914,
+    "activeUntil": 1934,
+    "source": "https://www.wikidata.org/wiki/Q101942",
+    "biography": "https://en.wikipedia.org/wiki/Paavo_Nurmi"
+  },
+  "kimi-raikkonen": {
+    "born": 1979,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q11192",
+    "biography": "https://en.wikipedia.org/wiki/Kimi_R%C3%A4ikk%C3%B6nen"
+  },
+  "charles-de-gaulle": {
+    "born": 1890,
+    "died": 1970,
+    "activeFrom": 1940,
+    "activeUntil": 1969,
+    "source": "https://www.wikidata.org/wiki/Q2042",
+    "biography": "https://en.wikipedia.org/wiki/Charles_de_Gaulle"
+  },
+  "louis-xiv": {
+    "born": 1638,
+    "died": 1715,
+    "activeFrom": 1643,
+    "activeUntil": 1715,
+    "source": "https://www.wikidata.org/wiki/Q7742",
+    "biography": "https://en.wikipedia.org/wiki/Louis_XIV"
+  },
+  "maximilien-robespierre": {
+    "born": 1758,
+    "died": 1794,
+    "activeFrom": 1793,
+    "activeUntil": 1794,
+    "source": "https://www.wikidata.org/wiki/Q44197",
+    "biography": "https://en.wikipedia.org/wiki/Maximilien_Robespierre"
+  },
+  "joan-of-arc": {
+    "born": 1412,
+    "died": 1431,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7226",
+    "biography": "https://en.wikipedia.org/wiki/Joan_of_Arc"
+  },
+  "coco-chanel": {
+    "born": 1883,
+    "died": 1971,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q45661",
+    "biography": "https://en.wikipedia.org/wiki/Coco_Chanel"
+  },
+  "edith-piaf": {
+    "born": 1915,
+    "died": 1963,
+    "activeFrom": 1935,
+    "activeUntil": 1963,
+    "source": "https://www.wikidata.org/wiki/Q1631",
+    "biography": "https://en.wikipedia.org/wiki/%C3%89dith_Piaf"
+  },
+  "claude-debussy": {
+    "born": 1862,
+    "died": 1918,
+    "activeFrom": 1884,
+    "activeUntil": 1918,
+    "source": "https://www.wikidata.org/wiki/Q4700",
+    "biography": "https://en.wikipedia.org/wiki/Claude_Debussy"
+  },
+  "brigitte-bardot": {
+    "born": 1934,
+    "died": 2025,
+    "activeFrom": 1952,
+    "activeUntil": 1982,
+    "source": "https://www.wikidata.org/wiki/Q36268",
+    "biography": "https://en.wikipedia.org/wiki/Brigitte_Bardot"
+  },
+  "jean-luc-godard": {
+    "born": 1930,
+    "died": 2022,
+    "activeFrom": 1954,
+    "activeUntil": 2022,
+    "source": "https://www.wikidata.org/wiki/Q53001",
+    "biography": "https://en.wikipedia.org/wiki/Jean-Luc_Godard"
+  },
+  "louis-pasteur": {
+    "born": 1822,
+    "died": 1895,
+    "activeFrom": 1881,
+    "activeUntil": 1895,
+    "source": "https://www.wikidata.org/wiki/Q529",
+    "biography": "https://en.wikipedia.org/wiki/Louis_Pasteur"
+  },
+  "antoine-lavoisier": {
+    "born": 1743,
+    "died": 1794,
+    "activeFrom": 1770,
+    "activeUntil": 1774,
+    "source": "https://www.wikidata.org/wiki/Q39607",
+    "biography": "https://en.wikipedia.org/wiki/Antoine_Lavoisier"
+  },
+  "victor-hugo": {
+    "born": 1802,
+    "died": 1885,
+    "activeFrom": 1819,
+    "activeUntil": 1885,
+    "source": "https://www.wikidata.org/wiki/Q535",
+    "biography": "https://en.wikipedia.org/wiki/Victor_Hugo"
+  },
+  "zinedine-zidane": {
+    "born": 1972,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1835",
+    "biography": "https://en.wikipedia.org/wiki/Zinedine_Zidane"
+  },
+  "marie-jose-perec": {
+    "born": 1968,
+    "died": null,
+    "activeFrom": 1984,
+    "activeUntil": 2004,
+    "source": "https://www.wikidata.org/wiki/Q228808",
+    "biography": "https://en.wikipedia.org/wiki/Marie-Jos%C3%A9_P%C3%A9rec"
+  },
+  "winston-churchill": {
+    "born": 1874,
+    "died": 1965,
+    "activeFrom": 1900,
+    "activeUntil": 1965,
+    "source": "https://www.wikidata.org/wiki/Q8016",
+    "biography": "https://en.wikipedia.org/wiki/Winston_Churchill"
+  },
+  "john-lennon": {
+    "born": 1940,
+    "died": 1980,
+    "activeFrom": 1956,
+    "activeUntil": 1980,
+    "source": "https://www.wikidata.org/wiki/Q1203",
+    "biography": "https://en.wikipedia.org/wiki/John_Lennon"
+  },
+  "paul-mccartney": {
+    "born": 1942,
+    "died": null,
+    "activeFrom": 1957,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q2599",
+    "biography": "https://en.wikipedia.org/wiki/Paul_McCartney"
+  },
+  "alfred-hitchcock": {
+    "born": 1899,
+    "died": 1980,
+    "activeFrom": 1919,
+    "activeUntil": 1980,
+    "source": "https://www.wikidata.org/wiki/Q7374",
+    "biography": "https://en.wikipedia.org/wiki/Alfred_Hitchcock"
+  },
+  "charlie-chaplin": {
+    "born": 1889,
+    "died": 1977,
+    "activeFrom": 1899,
+    "activeUntil": 1976,
+    "source": "https://www.wikidata.org/wiki/Q882",
+    "biography": "https://en.wikipedia.org/wiki/Charlie_Chaplin"
+  },
+  "isaac-newton": {
+    "born": 1642,
+    "died": 1727,
+    "activeFrom": 1669,
+    "activeUntil": 1727,
+    "source": "https://www.wikidata.org/wiki/Q935",
+    "biography": "https://en.wikipedia.org/wiki/Isaac_Newton"
+  },
+  "charles-darwin": {
+    "born": 1809,
+    "died": 1882,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1035",
+    "biography": "https://en.wikipedia.org/wiki/Charles_Darwin"
+  },
+  "blackbeard": {
+    "born": 1680,
+    "died": 1718,
+    "activeFrom": 1716,
+    "activeUntil": 1718,
+    "source": "https://www.wikidata.org/wiki/Q213518",
+    "biography": "https://en.wikipedia.org/wiki/Blackbeard"
+  },
+  "bartholomew-roberts": {
+    "born": 1682,
+    "died": 1722,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q313430",
+    "biography": "https://en.wikipedia.org/wiki/Bartholomew_Roberts"
+  },
+  "kofi-annan": {
+    "born": 1938,
+    "died": 2018,
+    "activeFrom": 1997,
+    "activeUntil": 2012,
+    "source": "https://www.wikidata.org/wiki/Q1254",
+    "biography": "https://en.wikipedia.org/wiki/Kofi_Annan"
+  },
+  "abedi-pele": {
+    "born": 1964,
+    "died": null,
+    "activeFrom": 1978,
+    "activeUntil": 1999,
+    "source": "https://www.wikidata.org/wiki/Q336916",
+    "biography": "https://en.wikipedia.org/wiki/Abedi_Pele"
+  },
+  "pericles": {
+    "born": -495,
+    "died": -429,
+    "activeFrom": -442,
+    "activeUntil": -429,
+    "source": "https://www.wikidata.org/wiki/Q80398",
+    "biography": "https://en.wikipedia.org/wiki/Pericles"
+  },
+  "cleisthenes": {
+    "born": -570,
+    "died": -492,
+    "activeFrom": -524,
+    "activeUntil": -523,
+    "source": "https://www.wikidata.org/wiki/Q207634",
+    "biography": "https://en.wikipedia.org/wiki/Cleisthenes"
+  },
+  "alexander-the-great": {
+    "born": -356,
+    "died": -323,
+    "activeFrom": -336,
+    "activeUntil": -323,
+    "source": "https://www.wikidata.org/wiki/Q8409",
+    "biography": "https://en.wikipedia.org/wiki/Alexander_the_Great"
+  },
+  "leonidas-i": {
+    "born": null,
+    "died": -480,
+    "activeFrom": -491,
+    "activeUntil": -480,
+    "source": "https://www.wikidata.org/wiki/Q44228",
+    "biography": "https://en.wikipedia.org/wiki/Leonidas_I"
+  },
+  "aristotle-onassis": {
+    "born": 1906,
+    "died": 1975,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q180455",
+    "biography": "https://en.wikipedia.org/wiki/Aristotle_Onassis"
+  },
+  "maria-callas": {
+    "born": 1923,
+    "died": 1977,
+    "activeFrom": 1942,
+    "activeUntil": 1974,
+    "source": "https://www.wikidata.org/wiki/Q128297",
+    "biography": "https://en.wikipedia.org/wiki/Maria_Callas"
+  },
+  "sappho": {
+    "born": -650,
+    "died": -550,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q17892",
+    "biography": "https://en.wikipedia.org/wiki/Sappho"
+  },
+  "lajos-kossuth": {
+    "born": 1802,
+    "died": 1894,
+    "activeFrom": 1848,
+    "activeUntil": 1849,
+    "source": "https://www.wikidata.org/wiki/Q157040",
+    "biography": "https://en.wikipedia.org/wiki/Lajos_Kossuth"
+  },
+  "imre-nagy": {
+    "born": 1896,
+    "died": 1958,
+    "activeFrom": 1944,
+    "activeUntil": 1956,
+    "source": "https://www.wikidata.org/wiki/Q177917",
+    "biography": "https://en.wikipedia.org/wiki/Imre_Nagy"
+  },
+  "franz-liszt": {
+    "born": 1811,
+    "died": 1886,
+    "activeFrom": 1830,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q41309",
+    "biography": "https://en.wikipedia.org/wiki/Franz_Liszt"
+  },
+  "bela-bartok": {
+    "born": 1881,
+    "died": 1945,
+    "activeFrom": 1945,
+    "activeUntil": 1945,
+    "source": "https://www.wikidata.org/wiki/Q83326",
+    "biography": "https://en.wikipedia.org/wiki/B%C3%A9la_Bart%C3%B3k"
+  },
+  "john-von-neumann": {
+    "born": 1903,
+    "died": 1957,
+    "activeFrom": 1951,
+    "activeUntil": 1952,
+    "source": "https://www.wikidata.org/wiki/Q17455",
+    "biography": "https://en.wikipedia.org/wiki/John_von_Neumann"
+  },
+  "ferenc-puskas": {
+    "born": 1927,
+    "died": 2006,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q482931",
+    "biography": "https://en.wikipedia.org/wiki/Ferenc_Pusk%C3%A1s"
+  },
+  "sukarno": {
+    "born": 1901,
+    "died": 1970,
+    "activeFrom": 1925,
+    "activeUntil": 1967,
+    "source": "https://www.wikidata.org/wiki/Q76127",
+    "biography": "https://en.wikipedia.org/wiki/Sukarno"
+  },
+  "mohammad-hatta": {
+    "born": 1902,
+    "died": 1980,
+    "activeFrom": 1945,
+    "activeUntil": 1956,
+    "source": "https://www.wikidata.org/wiki/Q29050",
+    "biography": "https://en.wikipedia.org/wiki/Mohammad_Hatta"
+  },
+  "ashoka": {
+    "born": -304,
+    "died": -232,
+    "activeFrom": -268,
+    "activeUntil": -232,
+    "source": "https://www.wikidata.org/wiki/Q8589",
+    "biography": "https://en.wikipedia.org/wiki/Ashoka"
+  },
+  "mahatma-gandhi": {
+    "born": 1869,
+    "died": 1948,
+    "activeFrom": 1893,
+    "activeUntil": 1948,
+    "source": "https://www.wikidata.org/wiki/Q1001",
+    "biography": "https://en.wikipedia.org/wiki/Mahatma_Gandhi"
+  },
+  "jamsetji-tata": {
+    "born": 1839,
+    "died": 1904,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q320109",
+    "biography": "https://en.wikipedia.org/wiki/Jamsetji_Tata"
+  },
+  "lata-mangeshkar": {
+    "born": 1929,
+    "died": 2022,
+    "activeFrom": 1942,
+    "activeUntil": 2022,
+    "source": "https://www.wikidata.org/wiki/Q156347",
+    "biography": "https://en.wikipedia.org/wiki/Lata_Mangeshkar"
+  },
+  "satyajit-ray": {
+    "born": 1921,
+    "died": 1992,
+    "activeFrom": 1950,
+    "activeUntil": 1991,
+    "source": "https://www.wikidata.org/wiki/Q8873",
+    "biography": "https://en.wikipedia.org/wiki/Satyajit_Ray"
+  },
+  "amitabh-bachchan": {
+    "born": 1942,
+    "died": null,
+    "activeFrom": 1969,
+    "activeUntil": 1987,
+    "source": "https://www.wikidata.org/wiki/Q9570",
+    "biography": "https://en.wikipedia.org/wiki/Amitabh_Bachchan"
+  },
+  "sachin-tendulkar": {
+    "born": 1973,
+    "died": null,
+    "activeFrom": 1989,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q9488",
+    "biography": "https://en.wikipedia.org/wiki/Sachin_Tendulkar"
+  },
+  "kapil-dev": {
+    "born": 1959,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q558189",
+    "biography": "https://en.wikipedia.org/wiki/Kapil_Dev"
+  },
+  "eamon-de-valera": {
+    "born": 1882,
+    "died": 1975,
+    "activeFrom": 1917,
+    "activeUntil": 1973,
+    "source": "https://www.wikidata.org/wiki/Q173347",
+    "biography": "https://en.wikipedia.org/wiki/%C3%89amon_de_Valera"
+  },
+  "daniel-o-connell": {
+    "born": 1775,
+    "died": 1847,
+    "activeFrom": 1828,
+    "activeUntil": 1847,
+    "source": "https://www.wikidata.org/wiki/Q314917",
+    "biography": "https://en.wikipedia.org/wiki/Daniel_O'Connell"
+  },
+  "sinead-o-connor": {
+    "born": 1966,
+    "died": 2023,
+    "activeFrom": 1986,
+    "activeUntil": 2023,
+    "source": "https://www.wikidata.org/wiki/Q193982",
+    "biography": "https://en.wikipedia.org/wiki/Sin%C3%A9ad_O'Connor"
+  },
+  "cillian-murphy": {
+    "born": 1976,
+    "died": null,
+    "activeFrom": 1995,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q202589",
+    "biography": "https://en.wikipedia.org/wiki/Cillian_Murphy"
+  },
+  "james-joyce": {
+    "born": 1882,
+    "died": 1941,
+    "activeFrom": 1904,
+    "activeUntil": 1939,
+    "source": "https://www.wikidata.org/wiki/Q6882",
+    "biography": "https://en.wikipedia.org/wiki/James_Joyce"
+  },
+  "oscar-wilde": {
+    "born": 1854,
+    "died": 1900,
+    "activeFrom": 1878,
+    "activeUntil": 1900,
+    "source": "https://www.wikidata.org/wiki/Q30875",
+    "biography": "https://en.wikipedia.org/wiki/Oscar_Wilde"
+  },
+  "anne-bonny": {
+    "born": 1697,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q231549",
+    "biography": "https://en.wikipedia.org/wiki/Anne_Bonny"
+  },
+  "cyrus-the-great": {
+    "born": -600,
+    "died": -530,
+    "activeFrom": -559,
+    "activeUntil": -530,
+    "source": "https://www.wikidata.org/wiki/Q8423",
+    "biography": "https://en.wikipedia.org/wiki/Cyrus_the_Great"
+  },
+  "abbas-kiarostami": {
+    "born": 1940,
+    "died": 2016,
+    "activeFrom": 1962,
+    "activeUntil": 2016,
+    "source": "https://www.wikidata.org/wiki/Q55210",
+    "biography": "https://en.wikipedia.org/wiki/Abbas_Kiarostami"
+  },
+  "asghar-farhadi": {
+    "born": 1972,
+    "died": null,
+    "activeFrom": 2002,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q334242",
+    "biography": "https://en.wikipedia.org/wiki/Asghar_Farhadi"
+  },
+  "hafez": {
+    "born": 1325,
+    "died": 1389,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q6240",
+    "biography": "https://en.wikipedia.org/wiki/Hafez"
+  },
+  "david-ben-gurion": {
+    "born": 1886,
+    "died": 1973,
+    "activeFrom": 1921,
+    "activeUntil": 1973,
+    "source": "https://www.wikidata.org/wiki/Q37610",
+    "biography": "https://en.wikipedia.org/wiki/David_Ben-Gurion"
+  },
+  "golda-meir": {
+    "born": 1898,
+    "died": 1978,
+    "activeFrom": 1948,
+    "activeUntil": 1974,
+    "source": "https://www.wikidata.org/wiki/Q42992",
+    "biography": "https://en.wikipedia.org/wiki/Golda_Meir"
+  },
+  "ofra-haza": {
+    "born": 1957,
+    "died": 2000,
+    "activeFrom": 1969,
+    "activeUntil": 2000,
+    "source": "https://www.wikidata.org/wiki/Q111087",
+    "biography": "https://en.wikipedia.org/wiki/Ofra_Haza"
+  },
+  "amos-oz": {
+    "born": 1939,
+    "died": 2018,
+    "activeFrom": 1960,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q151872",
+    "biography": "https://en.wikipedia.org/wiki/Amos_Oz"
+  },
+  "augustus": {
+    "born": -63,
+    "died": 14,
+    "activeFrom": -43,
+    "activeUntil": 14,
+    "source": "https://www.wikidata.org/wiki/Q1405",
+    "biography": "https://en.wikipedia.org/wiki/Augustus"
+  },
+  "julius-caesar": {
+    "born": -102,
+    "died": -44,
+    "activeFrom": -84,
+    "activeUntil": -44,
+    "source": "https://www.wikidata.org/wiki/Q1048",
+    "biography": "https://en.wikipedia.org/wiki/Julius_Caesar"
+  },
+  "scipio-africanus": {
+    "born": -235,
+    "died": -183,
+    "activeFrom": -216,
+    "activeUntil": -183,
+    "source": "https://www.wikidata.org/wiki/Q2253",
+    "biography": "https://en.wikipedia.org/wiki/Scipio_Africanus"
+  },
+  "enzo-ferrari": {
+    "born": 1898,
+    "died": 1988,
+    "activeFrom": 1918,
+    "activeUntil": 1988,
+    "source": "https://www.wikidata.org/wiki/Q181282",
+    "biography": "https://en.wikipedia.org/wiki/Enzo_Ferrari"
+  },
+  "federico-fellini": {
+    "born": 1920,
+    "died": 1993,
+    "activeFrom": 1945,
+    "activeUntil": 1992,
+    "source": "https://www.wikidata.org/wiki/Q7371",
+    "biography": "https://en.wikipedia.org/wiki/Federico_Fellini"
+  },
+  "sophia-loren": {
+    "born": 1934,
+    "died": null,
+    "activeFrom": 1950,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q43252",
+    "biography": "https://en.wikipedia.org/wiki/Sophia_Loren"
+  },
+  "toto": {
+    "born": 1898,
+    "died": 1967,
+    "activeFrom": 1922,
+    "activeUntil": 1967,
+    "source": "https://www.wikidata.org/wiki/Q2291",
+    "biography": "https://en.wikipedia.org/wiki/Tot%C3%B2"
+  },
+  "galileo-galilei": {
+    "born": 1564,
+    "died": 1642,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q307",
+    "biography": "https://en.wikipedia.org/wiki/Galileo_Galilei"
+  },
+  "leonardo-da-vinci": {
+    "born": 1452,
+    "died": 1519,
+    "activeFrom": 1519,
+    "activeUntil": 1519,
+    "source": "https://www.wikidata.org/wiki/Q762",
+    "biography": "https://en.wikipedia.org/wiki/Leonardo_da_Vinci"
+  },
+  "dante-alighieri": {
+    "born": 1265,
+    "died": 1321,
+    "activeFrom": 1292,
+    "activeUntil": 1321,
+    "source": "https://www.wikidata.org/wiki/Q1067",
+    "biography": "https://en.wikipedia.org/wiki/Dante_Alighieri"
+  },
+  "italo-calvino": {
+    "born": 1923,
+    "died": 1985,
+    "activeFrom": 1947,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q154756",
+    "biography": "https://en.wikipedia.org/wiki/Italo_Calvino"
+  },
+  "roberto-baggio": {
+    "born": 1967,
+    "died": null,
+    "activeFrom": 1982,
+    "activeUntil": 2004,
+    "source": "https://www.wikidata.org/wiki/Q67964",
+    "biography": "https://en.wikipedia.org/wiki/Roberto_Baggio"
+  },
+  "valentino-rossi": {
+    "born": 1979,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q169814",
+    "biography": "https://en.wikipedia.org/wiki/Valentino_Rossi"
+  },
+  "salvatore-giuliano": {
+    "born": 1922,
+    "died": 1950,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q559541",
+    "biography": "https://en.wikipedia.org/wiki/Salvatore_Giuliano"
+  },
+  "marcus-garvey": {
+    "born": 1887,
+    "died": 1940,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q272504",
+    "biography": "https://en.wikipedia.org/wiki/Marcus_Garvey"
+  },
+  "shelly-ann-fraser-pryce": {
+    "born": 1986,
+    "died": null,
+    "activeFrom": 2008,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q5793",
+    "biography": "https://en.wikipedia.org/wiki/Shelly-Ann_Fraser-Pryce"
+  },
+  "tokugawa-ieyasu": {
+    "born": 1543,
+    "died": 1616,
+    "activeFrom": 1603,
+    "activeUntil": 1616,
+    "source": "https://www.wikidata.org/wiki/Q171977",
+    "biography": "https://en.wikipedia.org/wiki/Tokugawa_Ieyasu"
+  },
+  "emperor-meiji": {
+    "born": 1852,
+    "died": 1912,
+    "activeFrom": 1867,
+    "activeUntil": 1912,
+    "source": "https://www.wikidata.org/wiki/Q174231",
+    "biography": "https://en.wikipedia.org/wiki/Emperor_Meiji"
+  },
+  "oda-nobunaga": {
+    "born": 1534,
+    "died": 1582,
+    "activeFrom": 1575,
+    "activeUntil": 1578,
+    "source": "https://www.wikidata.org/wiki/Q171411",
+    "biography": "https://en.wikipedia.org/wiki/Oda_Nobunaga"
+  },
+  "soichiro-honda": {
+    "born": 1906,
+    "died": 1991,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q313304",
+    "biography": "https://en.wikipedia.org/wiki/Soichiro_Honda"
+  },
+  "akio-morita": {
+    "born": 1921,
+    "died": 1999,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q310845",
+    "biography": "https://en.wikipedia.org/wiki/Akio_Morita"
+  },
+  "joe-hisaishi": {
+    "born": 1950,
+    "died": null,
+    "activeFrom": 1974,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q275900",
+    "biography": "https://en.wikipedia.org/wiki/Joe_Hisaishi"
+  },
+  "akira-kurosawa": {
+    "born": 1910,
+    "died": 1998,
+    "activeFrom": 1936,
+    "activeUntil": 1993,
+    "source": "https://www.wikidata.org/wiki/Q8006",
+    "biography": "https://en.wikipedia.org/wiki/Akira_Kurosawa"
+  },
+  "toshiro-mifune": {
+    "born": 1920,
+    "died": 1997,
+    "activeFrom": 1948,
+    "activeUntil": 1995,
+    "source": "https://www.wikidata.org/wiki/Q37001",
+    "biography": "https://en.wikipedia.org/wiki/Toshiro_Mifune"
+  },
+  "murasaki-shikibu": {
+    "born": 970,
+    "died": 1100,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q81731",
+    "biography": "https://en.wikipedia.org/wiki/Murasaki_Shikibu"
+  },
+  "matsuo-basho": {
+    "born": 1644,
+    "died": 1694,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q5676",
+    "biography": "https://en.wikipedia.org/wiki/Matsuo_Bash%C5%8D"
+  },
+  "shohei-ohtani": {
+    "born": 1994,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q4391858",
+    "biography": "https://en.wikipedia.org/wiki/Shohei_Ohtani"
+  },
+  "naomi-osaka": {
+    "born": 1997,
+    "died": null,
+    "activeFrom": 2011,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q17466583",
+    "biography": "https://en.wikipedia.org/wiki/Naomi_Osaka"
+  },
+  "jomo-kenyatta": {
+    "born": 1893,
+    "died": 1978,
+    "activeFrom": 1963,
+    "activeUntil": 1978,
+    "source": "https://www.wikidata.org/wiki/Q173563",
+    "biography": "https://en.wikipedia.org/wiki/Jomo_Kenyatta"
+  },
+  "wangari-maathai": {
+    "born": 1940,
+    "died": 2011,
+    "activeFrom": 2002,
+    "activeUntil": 2007,
+    "source": "https://www.wikidata.org/wiki/Q46795",
+    "biography": "https://en.wikipedia.org/wiki/Wangar%C4%A9_Maathai"
+  },
+  "eliud-kipchoge": {
+    "born": 1984,
+    "died": null,
+    "activeFrom": 2002,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q9124",
+    "biography": "https://en.wikipedia.org/wiki/Eliud_Kipchoge"
+  },
+  "lee-byung-chul": {
+    "born": 1910,
+    "died": 1987,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q445643",
+    "biography": "https://en.wikipedia.org/wiki/Lee_Byung-chul"
+  },
+  "bong-joon-ho": {
+    "born": 1969,
+    "died": null,
+    "activeFrom": 1999,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q495980",
+    "biography": "https://en.wikipedia.org/wiki/Bong_Joon_Ho"
+  },
+  "son-heung-min": {
+    "born": 1992,
+    "died": null,
+    "activeFrom": 2010,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q439722",
+    "biography": "https://en.wikipedia.org/wiki/Son_Heung-min"
+  },
+  "mohammed-v-of-morocco": {
+    "born": 1909,
+    "died": 1961,
+    "activeFrom": 1927,
+    "activeUntil": 1961,
+    "source": "https://www.wikidata.org/wiki/Q193874",
+    "biography": "https://en.wikipedia.org/wiki/Muhammad_V_of_Morocco"
+  },
+  "ibn-battuta": {
+    "born": 1304,
+    "died": 1378,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7331",
+    "biography": "https://en.wikipedia.org/wiki/Ibn_Battuta"
+  },
+  "hicham-el-guerrouj": {
+    "born": 1974,
+    "died": null,
+    "activeFrom": 1992,
+    "activeUntil": 2006,
+    "source": "https://www.wikidata.org/wiki/Q83905",
+    "biography": "https://en.wikipedia.org/wiki/Hicham_El_Guerrouj"
+  },
+  "nawal-el-moutawakel": {
+    "born": 1962,
+    "died": null,
+    "activeFrom": 1998,
+    "activeUntil": 2021,
+    "source": "https://www.wikidata.org/wiki/Q239993",
+    "biography": "https://en.wikipedia.org/wiki/Nawal_El_Moutawakel"
+  },
+  "benito-juarez": {
+    "born": 1806,
+    "died": 1872,
+    "activeFrom": 1847,
+    "activeUntil": 1872,
+    "source": "https://www.wikidata.org/wiki/Q182276",
+    "biography": "https://en.wikipedia.org/wiki/Benito_Ju%C3%A1rez"
+  },
+  "porfirio-diaz": {
+    "born": 1830,
+    "died": 1915,
+    "activeFrom": 1854,
+    "activeUntil": 1911,
+    "source": "https://www.wikidata.org/wiki/Q150688",
+    "biography": "https://en.wikipedia.org/wiki/Porfirio_D%C3%ADaz"
+  },
+  "emiliano-zapata": {
+    "born": 1879,
+    "died": 1919,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q41718",
+    "biography": "https://en.wikipedia.org/wiki/Emiliano_Zapata"
+  },
+  "pancho-villa": {
+    "born": 1878,
+    "died": 1923,
+    "activeFrom": 1913,
+    "activeUntil": 1914,
+    "source": "https://www.wikidata.org/wiki/Q192278",
+    "biography": "https://en.wikipedia.org/wiki/Pancho_Villa"
+  },
+  "carlos-slim": {
+    "born": 1940,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q170419",
+    "biography": "https://en.wikipedia.org/wiki/Carlos_Slim"
+  },
+  "juan-gabriel": {
+    "born": 1950,
+    "died": 2016,
+    "activeFrom": 1971,
+    "activeUntil": 2016,
+    "source": "https://www.wikidata.org/wiki/Q738404",
+    "biography": "https://en.wikipedia.org/wiki/Juan_Gabriel"
+  },
+  "guillermo-del-toro": {
+    "born": 1964,
+    "died": null,
+    "activeFrom": 1985,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q219124",
+    "biography": "https://en.wikipedia.org/wiki/Guillermo_del_Toro"
+  },
+  "alfonso-cuaron": {
+    "born": 1961,
+    "died": null,
+    "activeFrom": 1983,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q28028",
+    "biography": "https://en.wikipedia.org/wiki/Alfonso_Cuar%C3%B3n"
+  },
+  "octavio-paz": {
+    "born": 1914,
+    "died": 1998,
+    "activeFrom": 1962,
+    "activeUntil": 1968,
+    "source": "https://www.wikidata.org/wiki/Q46739",
+    "biography": "https://en.wikipedia.org/wiki/Octavio_Paz"
+  },
+  "hugo-sanchez": {
+    "born": 1958,
+    "died": null,
+    "activeFrom": 1976,
+    "activeUntil": 1997,
+    "source": "https://www.wikidata.org/wiki/Q487155",
+    "biography": "https://en.wikipedia.org/wiki/Hugo_S%C3%A1nchez"
+  },
+  "julio-cesar-chavez": {
+    "born": 1962,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q471461",
+    "biography": "https://en.wikipedia.org/wiki/Julio_C%C3%A9sar_Ch%C3%A1vez"
+  },
+  "nnamdi-azikiwe": {
+    "born": 1904,
+    "died": 1996,
+    "activeFrom": 1960,
+    "activeUntil": 1966,
+    "source": "https://www.wikidata.org/wiki/Q181782",
+    "biography": "https://en.wikipedia.org/wiki/Nnamdi_Azikiwe"
+  },
+  "obafemi-awolowo": {
+    "born": 1909,
+    "died": 1987,
+    "activeFrom": 1967,
+    "activeUntil": 1971,
+    "source": "https://www.wikidata.org/wiki/Q960892",
+    "biography": "https://en.wikipedia.org/wiki/Obafemi_Awolowo"
+  },
+  "aliko-dangote": {
+    "born": 1957,
+    "died": null,
+    "activeFrom": 1977,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1394965",
+    "biography": "https://en.wikipedia.org/wiki/Aliko_Dangote"
+  },
+  "fela-kuti": {
+    "born": 1938,
+    "died": 1997,
+    "activeFrom": 1958,
+    "activeUntil": 1997,
+    "source": "https://www.wikidata.org/wiki/Q313868",
+    "biography": "https://en.wikipedia.org/wiki/Fela_Kuti"
+  },
+  "william-the-silent": {
+    "born": 1533,
+    "died": 1584,
+    "activeFrom": 1544,
+    "activeUntil": 1584,
+    "source": "https://www.wikidata.org/wiki/Q78454",
+    "biography": "https://en.wikipedia.org/wiki/William_the_Silent"
+  },
+  "antonie-van-leeuwenhoek": {
+    "born": 1632,
+    "died": 1723,
+    "activeFrom": 1660,
+    "activeUntil": 1699,
+    "source": "https://www.wikidata.org/wiki/Q43522",
+    "biography": "https://en.wikipedia.org/wiki/Antonie_van_Leeuwenhoek"
+  },
+  "johan-cruyff": {
+    "born": 1947,
+    "died": 2016,
+    "activeFrom": 1964,
+    "activeUntil": 1984,
+    "source": "https://www.wikidata.org/wiki/Q17163",
+    "biography": "https://en.wikipedia.org/wiki/Johan_Cruyff"
+  },
+  "henrik-ibsen": {
+    "born": 1828,
+    "died": 1906,
+    "activeFrom": 1850,
+    "activeUntil": 1906,
+    "source": "https://www.wikidata.org/wiki/Q36661",
+    "biography": "https://en.wikipedia.org/wiki/Henrik_Ibsen"
+  },
+  "michael-joseph-savage": {
+    "born": 1872,
+    "died": 1940,
+    "activeFrom": 1935,
+    "activeUntil": 1940,
+    "source": "https://www.wikidata.org/wiki/Q1371015",
+    "biography": "https://en.wikipedia.org/wiki/Michael_Joseph_Savage"
+  },
+  "jacinda-ardern": {
+    "born": 1980,
+    "died": null,
+    "activeFrom": 2008,
+    "activeUntil": 2023,
+    "source": "https://www.wikidata.org/wiki/Q3606816",
+    "biography": "https://en.wikipedia.org/wiki/Jacinda_Ardern"
+  },
+  "richie-mccaw": {
+    "born": 1980,
+    "died": null,
+    "activeFrom": 2000,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q726148",
+    "biography": "https://en.wikipedia.org/wiki/Richie_McCaw"
+  },
+  "muhammad-ali-jinnah": {
+    "born": 1876,
+    "died": 1948,
+    "activeFrom": 1947,
+    "activeUntil": 1948,
+    "source": "https://www.wikidata.org/wiki/Q160554",
+    "biography": "https://en.wikipedia.org/wiki/Muhammad_Ali_Jinnah"
+  },
+  "benazir-bhutto": {
+    "born": 1953,
+    "died": 2007,
+    "activeFrom": 1982,
+    "activeUntil": 2007,
+    "source": "https://www.wikidata.org/wiki/Q34413",
+    "biography": "https://en.wikipedia.org/wiki/Benazir_Bhutto"
+  },
+  "nusrat-fateh-ali-khan": {
+    "born": 1948,
+    "died": 1997,
+    "activeFrom": 1965,
+    "activeUntil": 1997,
+    "source": "https://www.wikidata.org/wiki/Q299073",
+    "biography": "https://en.wikipedia.org/wiki/Nusrat_Fateh_Ali_Khan"
+  },
+  "jahangir-khan": {
+    "born": 1963,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q741690",
+    "biography": "https://en.wikipedia.org/wiki/Jahangir_Khan"
+  },
+  "wasim-akram": {
+    "born": 1966,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q982801",
+    "biography": "https://en.wikipedia.org/wiki/Wasim_Akram"
+  },
+  "ferdinand-marcos": {
+    "born": 1917,
+    "died": 1989,
+    "activeFrom": 1949,
+    "activeUntil": 1986,
+    "source": "https://www.wikidata.org/wiki/Q1463",
+    "biography": "https://en.wikipedia.org/wiki/Ferdinand_Marcos"
+  },
+  "lino-brocka": {
+    "born": 1939,
+    "died": 1991,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q983322",
+    "biography": "https://en.wikipedia.org/wiki/Lino_Brocka"
+  },
+  "jose-rizal": {
+    "born": 1861,
+    "died": 1896,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1500",
+    "biography": "https://en.wikipedia.org/wiki/Jos%C3%A9_Rizal"
+  },
+  "manny-pacquiao": {
+    "born": 1978,
+    "died": null,
+    "activeFrom": 1995,
+    "activeUntil": 2022,
+    "source": "https://www.wikidata.org/wiki/Q486359",
+    "biography": "https://en.wikipedia.org/wiki/Manny_Pacquiao"
+  },
+  "jozef-pi-sudski": {
+    "born": 1867,
+    "died": 1935,
+    "activeFrom": 1918,
+    "activeUntil": 1935,
+    "source": "https://www.wikidata.org/wiki/Q885",
+    "biography": "https://en.wikipedia.org/wiki/J%C3%B3zef_Pi%C5%82sudski"
+  },
+  "lech-wa-esa": {
+    "born": 1943,
+    "died": null,
+    "activeFrom": 1990,
+    "activeUntil": 1995,
+    "source": "https://www.wikidata.org/wiki/Q444",
+    "biography": "https://en.wikipedia.org/wiki/Lech_Wa%C5%82%C4%99sa"
+  },
+  "tadeusz-kosciuszko": {
+    "born": 1746,
+    "died": 1817,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q191479",
+    "biography": "https://en.wikipedia.org/wiki/Tadeusz_Ko%C5%9Bciuszko"
+  },
+  "frederic-chopin": {
+    "born": 1810,
+    "died": 1849,
+    "activeFrom": 1817,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1268",
+    "biography": "https://en.wikipedia.org/wiki/Fr%C3%A9d%C3%A9ric_Chopin"
+  },
+  "krzysztof-kieslowski": {
+    "born": 1941,
+    "died": 1996,
+    "activeFrom": 1955,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q55165",
+    "biography": "https://en.wikipedia.org/wiki/Krzysztof_Kie%C5%9Blowski"
+  },
+  "nicolaus-copernicus": {
+    "born": 1473,
+    "died": 1543,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q619",
+    "biography": "https://en.wikipedia.org/wiki/Nicolaus_Copernicus"
+  },
+  "marie-curie": {
+    "born": 1867,
+    "died": 1934,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7186",
+    "biography": "https://en.wikipedia.org/wiki/Marie_Curie"
+  },
+  "wis-awa-szymborska": {
+    "born": 1923,
+    "died": 2012,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q42552",
+    "biography": "https://en.wikipedia.org/wiki/Wis%C5%82awa_Szymborska"
+  },
+  "mario-soares": {
+    "born": 1924,
+    "died": 2017,
+    "activeFrom": 1973,
+    "activeUntil": 2004,
+    "source": "https://www.wikidata.org/wiki/Q156781",
+    "biography": "https://en.wikipedia.org/wiki/M%C3%A1rio_Soares"
+  },
+  "antonio-de-oliveira-salazar": {
+    "born": 1889,
+    "died": 1970,
+    "activeFrom": 1932,
+    "activeUntil": 1968,
+    "source": "https://www.wikidata.org/wiki/Q151394",
+    "biography": "https://en.wikipedia.org/wiki/Ant%C3%B3nio_de_Oliveira_Salazar"
+  },
+  "amalia-rodrigues": {
+    "born": 1920,
+    "died": 1999,
+    "activeFrom": 1939,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q214813",
+    "biography": "https://en.wikipedia.org/wiki/Am%C3%A1lia_Rodrigues"
+  },
+  "vasco-da-gama": {
+    "born": 1460,
+    "died": 1524,
+    "activeFrom": 1524,
+    "activeUntil": 1524,
+    "source": "https://www.wikidata.org/wiki/Q7328",
+    "biography": "https://en.wikipedia.org/wiki/Vasco_da_Gama"
+  },
+  "ferdinand-magellan": {
+    "born": 1480,
+    "died": 1521,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1496",
+    "biography": "https://en.wikipedia.org/wiki/Ferdinand_Magellan"
+  },
+  "cristiano-ronaldo": {
+    "born": 1985,
+    "died": null,
+    "activeFrom": 2002,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q11571",
+    "biography": "https://en.wikipedia.org/wiki/Cristiano_Ronaldo"
+  },
+  "eusebio": {
+    "born": 1942,
+    "died": 2014,
+    "activeFrom": 1957,
+    "activeUntil": 1979,
+    "source": "https://www.wikidata.org/wiki/Q162043",
+    "biography": "https://en.wikipedia.org/wiki/Eus%C3%A9bio"
+  },
+  "peter-the-great": {
+    "born": 1672,
+    "died": 1725,
+    "activeFrom": 1682,
+    "activeUntil": 1725,
+    "source": "https://www.wikidata.org/wiki/Q8479",
+    "biography": "https://en.wikipedia.org/wiki/Peter_the_Great"
+  },
+  "catherine-the-great": {
+    "born": 1729,
+    "died": 1796,
+    "activeFrom": 1762,
+    "activeUntil": 1796,
+    "source": "https://www.wikidata.org/wiki/Q36450",
+    "biography": "https://en.wikipedia.org/wiki/Catherine_the_Great"
+  },
+  "ivan-the-terrible": {
+    "born": 1530,
+    "died": 1584,
+    "activeFrom": 1533,
+    "activeUntil": 1584,
+    "source": "https://www.wikidata.org/wiki/Q7996",
+    "biography": "https://en.wikipedia.org/wiki/Ivan_the_Terrible"
+  },
+  "joseph-stalin": {
+    "born": 1878,
+    "died": 1953,
+    "activeFrom": 1895,
+    "activeUntil": 1953,
+    "source": "https://www.wikidata.org/wiki/Q855",
+    "biography": "https://en.wikipedia.org/wiki/Joseph_Stalin"
+  },
+  "alexander-suvorov": {
+    "born": 1729,
+    "died": 1800,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q154232",
+    "biography": "https://en.wikipedia.org/wiki/Alexander_Suvorov"
+  },
+  "mikhail-kutuzov": {
+    "born": 1747,
+    "died": 1813,
+    "activeFrom": 1759,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q185801",
+    "biography": "https://en.wikipedia.org/wiki/Mikhail_Kutuzov"
+  },
+  "sergei-rachmaninoff": {
+    "born": 1873,
+    "died": 1943,
+    "activeFrom": 1892,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q131861",
+    "biography": "https://en.wikipedia.org/wiki/Sergei_Rachmaninoff"
+  },
+  "sergei-eisenstein": {
+    "born": 1898,
+    "died": 1948,
+    "activeFrom": 1924,
+    "activeUntil": 1945,
+    "source": "https://www.wikidata.org/wiki/Q8003",
+    "biography": "https://en.wikipedia.org/wiki/Sergei_Eisenstein"
+  },
+  "andrei-tarkovsky": {
+    "born": 1932,
+    "died": 1986,
+    "activeFrom": 1958,
+    "activeUntil": 1986,
+    "source": "https://www.wikidata.org/wiki/Q853",
+    "biography": "https://en.wikipedia.org/wiki/Andrei_Tarkovsky"
+  },
+  "dmitri-mendeleev": {
+    "born": 1834,
+    "died": 1907,
+    "activeFrom": 1855,
+    "activeUntil": 1890,
+    "source": "https://www.wikidata.org/wiki/Q9106",
+    "biography": "https://en.wikipedia.org/wiki/Dmitri_Mendeleev"
+  },
+  "ivan-pavlov": {
+    "born": 1849,
+    "died": 1936,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q42985",
+    "biography": "https://en.wikipedia.org/wiki/Ivan_Pavlov"
+  },
+  "leo-tolstoy": {
+    "born": 1828,
+    "died": 1910,
+    "activeFrom": 1847,
+    "activeUntil": 1910,
+    "source": "https://www.wikidata.org/wiki/Q7243",
+    "biography": "https://en.wikipedia.org/wiki/Leo_Tolstoy"
+  },
+  "fyodor-dostoevsky": {
+    "born": 1821,
+    "died": 1881,
+    "activeFrom": 1844,
+    "activeUntil": 1880,
+    "source": "https://www.wikidata.org/wiki/Q991",
+    "biography": "https://en.wikipedia.org/wiki/Fyodor_Dostoevsky"
+  },
+  "lev-yashin": {
+    "born": 1929,
+    "died": 1990,
+    "activeFrom": 1949,
+    "activeUntil": 1971,
+    "source": "https://www.wikidata.org/wiki/Q167828",
+    "biography": "https://en.wikipedia.org/wiki/Lev_Yashin"
+  },
+  "youssou-n-dour": {
+    "born": 1959,
+    "died": null,
+    "activeFrom": 1971,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q210734",
+    "biography": "https://en.wikipedia.org/wiki/Youssou_N'Dour"
+  },
+  "ousmane-sembene": {
+    "born": 1923,
+    "died": 2007,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q314966",
+    "biography": "https://en.wikipedia.org/wiki/Ousmane_Semb%C3%A8ne"
+  },
+  "mariama-ba": {
+    "born": 1929,
+    "died": 1981,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q464389",
+    "biography": "https://en.wikipedia.org/wiki/Mariama_B%C3%A2"
+  },
+  "dag-hammarskjold": {
+    "born": 1905,
+    "died": 1961,
+    "activeFrom": 1936,
+    "activeUntil": 1961,
+    "source": "https://www.wikidata.org/wiki/Q1267",
+    "biography": "https://en.wikipedia.org/wiki/Dag_Hammarskj%C3%B6ld"
+  },
+  "gustavus-adolphus": {
+    "born": 1594,
+    "died": 1632,
+    "activeFrom": 1611,
+    "activeUntil": 1632,
+    "source": "https://www.wikidata.org/wiki/Q52938",
+    "biography": "https://en.wikipedia.org/wiki/Gustavus_Adolphus"
+  },
+  "ingvar-kamprad": {
+    "born": 1926,
+    "died": 2018,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q216932",
+    "biography": "https://en.wikipedia.org/wiki/Ingvar_Kamprad"
+  },
+  "avicii": {
+    "born": 1989,
+    "died": 2018,
+    "activeFrom": 2006,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q505476",
+    "biography": "https://en.wikipedia.org/wiki/Avicii"
+  },
+  "ingmar-bergman": {
+    "born": 1918,
+    "died": 2007,
+    "activeFrom": 1944,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7546",
+    "biography": "https://en.wikipedia.org/wiki/Ingmar_Bergman"
+  },
+  "greta-garbo": {
+    "born": 1905,
+    "died": 1990,
+    "activeFrom": 1920,
+    "activeUntil": 1941,
+    "source": "https://www.wikidata.org/wiki/Q5443",
+    "biography": "https://en.wikipedia.org/wiki/Greta_Garbo"
+  },
+  "astrid-lindgren": {
+    "born": 1907,
+    "died": 2002,
+    "activeFrom": 1944,
+    "activeUntil": 1993,
+    "source": "https://www.wikidata.org/wiki/Q55767",
+    "biography": "https://en.wikipedia.org/wiki/Astrid_Lindgren"
+  },
+  "bjorn-borg": {
+    "born": 1956,
+    "died": null,
+    "activeFrom": 1973,
+    "activeUntil": 1993,
+    "source": "https://www.wikidata.org/wiki/Q104506",
+    "biography": "https://en.wikipedia.org/wiki/Bj%C3%B6rn_Borg"
+  },
+  "mustafa-kemal-ataturk": {
+    "born": 1881,
+    "died": 1938,
+    "activeFrom": 1920,
+    "activeUntil": 1938,
+    "source": "https://www.wikidata.org/wiki/Q5152",
+    "biography": "https://en.wikipedia.org/wiki/Mustafa_Kemal_Atat%C3%BCrk"
+  },
+  "suleiman-the-magnificent": {
+    "born": 1494,
+    "died": 1566,
+    "activeFrom": 1520,
+    "activeUntil": 1566,
+    "source": "https://www.wikidata.org/wiki/Q8474",
+    "biography": "https://en.wikipedia.org/wiki/Suleiman_the_Magnificent"
+  },
+  "hayreddin-barbarossa": {
+    "born": 1478,
+    "died": 1546,
+    "activeFrom": 1519,
+    "activeUntil": 1546,
+    "source": "https://www.wikidata.org/wiki/Q200582",
+    "biography": "https://en.wikipedia.org/wiki/Hayreddin_Barbarossa"
+  },
+  "sezen-aksu": {
+    "born": 1954,
+    "died": null,
+    "activeFrom": 1975,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q298139",
+    "biography": "https://en.wikipedia.org/wiki/Sezen_Aksu"
+  },
+  "nuri-bilge-ceylan": {
+    "born": 1959,
+    "died": null,
+    "activeFrom": 1995,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q724172",
+    "biography": "https://en.wikipedia.org/wiki/Nuri_Bilge_Ceylan"
+  },
+  "yaroslav-the-wise": {
+    "born": 978,
+    "died": 1054,
+    "activeFrom": 987,
+    "activeUntil": 1054,
+    "source": "https://www.wikidata.org/wiki/Q188943",
+    "biography": "https://en.wikipedia.org/wiki/Yaroslav_the_Wise"
+  },
+  "bohdan-khmelnytsky": {
+    "born": 1595,
+    "died": 1657,
+    "activeFrom": 1648,
+    "activeUntil": 1657,
+    "source": "https://www.wikidata.org/wiki/Q203808",
+    "biography": "https://en.wikipedia.org/wiki/Bohdan_Khmelnytsky"
+  },
+  "taras-shevchenko": {
+    "born": 1814,
+    "died": 1861,
+    "activeFrom": 1832,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q134958",
+    "biography": "https://en.wikipedia.org/wiki/Taras_Shevchenko"
+  },
+  "andriy-shevchenko": {
+    "born": 1976,
+    "died": null,
+    "activeFrom": 1993,
+    "activeUntil": 2012,
+    "source": "https://www.wikidata.org/wiki/Q41244",
+    "biography": "https://en.wikipedia.org/wiki/Andriy_Shevchenko"
+  },
+  "george-washington": {
+    "born": 1732,
+    "died": 1799,
+    "activeFrom": 1752,
+    "activeUntil": 1799,
+    "source": "https://www.wikidata.org/wiki/Q23",
+    "biography": "https://en.wikipedia.org/wiki/George_Washington"
+  },
+  "abraham-lincoln": {
+    "born": 1809,
+    "died": 1865,
+    "activeFrom": 1834,
+    "activeUntil": 1865,
+    "source": "https://www.wikidata.org/wiki/Q91",
+    "biography": "https://en.wikipedia.org/wiki/Abraham_Lincoln"
+  },
+  "dwight-d-eisenhower": {
+    "born": 1890,
+    "died": 1969,
+    "activeFrom": 1914,
+    "activeUntil": 1961,
+    "source": "https://www.wikidata.org/wiki/Q9916",
+    "biography": "https://en.wikipedia.org/wiki/Dwight_D._Eisenhower"
+  },
+  "ulysses-s-grant": {
+    "born": 1822,
+    "died": 1885,
+    "activeFrom": 1864,
+    "activeUntil": 1877,
+    "source": "https://www.wikidata.org/wiki/Q34836",
+    "biography": "https://en.wikipedia.org/wiki/Ulysses_S._Grant"
+  },
+  "john-d-rockefeller": {
+    "born": 1839,
+    "died": 1937,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q160278",
+    "biography": "https://en.wikipedia.org/wiki/John_D._Rockefeller"
+  },
+  "marilyn-monroe": {
+    "born": 1926,
+    "died": 1962,
+    "activeFrom": 1945,
+    "activeUntil": 1962,
+    "source": "https://www.wikidata.org/wiki/Q4616",
+    "biography": "https://en.wikipedia.org/wiki/Marilyn_Monroe"
+  },
+  "orson-welles": {
+    "born": 1915,
+    "died": 1985,
+    "activeFrom": 1934,
+    "activeUntil": 1985,
+    "source": "https://www.wikidata.org/wiki/Q24829",
+    "biography": "https://en.wikipedia.org/wiki/Orson_Welles"
+  },
+  "lucille-ball": {
+    "born": 1911,
+    "died": 1989,
+    "activeFrom": 1928,
+    "activeUntil": 1989,
+    "source": "https://www.wikidata.org/wiki/Q209662",
+    "biography": "https://en.wikipedia.org/wiki/Lucille_Ball"
+  },
+  "benjamin-franklin": {
+    "born": 1706,
+    "died": 1790,
+    "activeFrom": 1764,
+    "activeUntil": 1788,
+    "source": "https://www.wikidata.org/wiki/Q34969",
+    "biography": "https://en.wikipedia.org/wiki/Benjamin_Franklin"
+  },
+  "thomas-edison": {
+    "born": 1847,
+    "died": 1931,
+    "activeFrom": 1877,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q8743",
+    "biography": "https://en.wikipedia.org/wiki/Thomas_Edison"
+  },
+  "mark-twain": {
+    "born": 1835,
+    "died": 1910,
+    "activeFrom": 1864,
+    "activeUntil": 1910,
+    "source": "https://www.wikidata.org/wiki/Q7245",
+    "biography": "https://en.wikipedia.org/wiki/Mark_Twain"
+  },
+  "jesse-owens": {
+    "born": 1913,
+    "died": 1980,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q52651",
+    "biography": "https://en.wikipedia.org/wiki/Jesse_Owens"
+  },
+  "jesse-james": {
+    "born": 1847,
+    "died": 1882,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q213626",
+    "biography": "https://en.wikipedia.org/wiki/Jesse_James"
+  },
+  "billy-the-kid": {
+    "born": 1859,
+    "died": 1881,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q44200",
+    "biography": "https://en.wikipedia.org/wiki/Billy_the_Kid"
+  },
+  "nelson-mandela": {
+    "born": 1918,
+    "died": 2013,
+    "activeFrom": 1994,
+    "activeUntil": 1999,
+    "source": "https://www.wikidata.org/wiki/Q8023",
+    "biography": "https://en.wikipedia.org/wiki/Nelson_Mandela"
+  },
+  "desmond-tutu": {
+    "born": 1931,
+    "died": 2021,
+    "activeFrom": 1976,
+    "activeUntil": 1996,
+    "source": "https://www.wikidata.org/wiki/Q43033",
+    "biography": "https://en.wikipedia.org/wiki/Desmond_Tutu"
+  },
+  "shaka": {
+    "born": 1786,
+    "died": 1828,
+    "activeFrom": 1816,
+    "activeUntil": 1828,
+    "source": "https://www.wikidata.org/wiki/Q27695",
+    "biography": "https://en.wikipedia.org/wiki/Shaka"
+  },
+  "miriam-makeba": {
+    "born": 1932,
+    "died": 2008,
+    "activeFrom": 1953,
+    "activeUntil": 2008,
+    "source": "https://www.wikidata.org/wiki/Q146256",
+    "biography": "https://en.wikipedia.org/wiki/Miriam_Makeba"
+  },
+  "hugh-masekela": {
+    "born": 1939,
+    "died": 2018,
+    "activeFrom": 1956,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q246594",
+    "biography": "https://en.wikipedia.org/wiki/Hugh_Masekela"
+  },
+  "john-kani": {
+    "born": 1943,
+    "died": null,
+    "activeFrom": 1965,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q6242471",
+    "biography": "https://en.wikipedia.org/wiki/John_Kani"
+  },
+  "j-m-coetzee": {
+    "born": 1940,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q43293",
+    "biography": "https://en.wikipedia.org/wiki/J._M._Coetzee"
+  },
+  "siya-kolisi": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": 2011,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7533339",
+    "biography": "https://en.wikipedia.org/wiki/Siya_Kolisi"
+  },
+  "caster-semenya": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q5834",
+    "biography": "https://en.wikipedia.org/wiki/Caster_Semenya"
+  }
+}

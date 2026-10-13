@@ -51,3 +51,7 @@ supabase/.temp/
 
 # clay stills for the play header
 !public/clay/*.png
+
+# Local anonymous backend regression artifacts
+/.check-anonymous/
+/.check-render/

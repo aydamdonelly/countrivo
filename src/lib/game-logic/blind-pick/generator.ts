@@ -27,22 +27,8 @@ export const MIN_SOVEREIGN_ENTRIES = 180;
  * entries, no caveat flag (renewables, unemployment and inflation carry one; tourism has 163
  * entries), and always "Most ..." or "Largest ...", never "best". Rank 1 is the highest value.
  */
-export const STAT_WORDING: Readonly<Record<string, string>> = {
-  population: "Most people",
-  "area-km2": "Largest area",
-  gdp: "Largest economy",
-  "gdp-per-capita": "Most GDP per person",
-  "urban-population-pct": "Most urban",
-  "forest-coverage-pct": "Most forest",
-  "internet-users-pct": "Most internet use",
-  "life-expectancy": "Most years lived",
-  "fertility-rate": "Most births per woman",
-};
-
-/** The slot label for a stat slug. */
-export function statWording(slug: string): string {
-  return STAT_WORDING[slug] ?? slug;
-}
+export { STAT_WORDING, statWording } from "./display";
+import { STAT_WORDING } from "./display";
 
 const ELIGIBLE_STATS: Category[] = categories.filter(
   (c) => c.slug in STAT_WORDING && sovereignCount(c.slug) >= MIN_SOVEREIGN_ENTRIES,

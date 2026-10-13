@@ -38,9 +38,11 @@ import { gameModule as higherOrLower, currentAnswer, type HoLState } from "../sr
 import { gameModule as geoWordle } from "../src/games/geo-wordle/module";
 import { gameModule as statGuesser } from "../src/games/stat-guesser/module";
 import { gameModule as flagQuiz, type QuizState } from "../src/games/flag-quiz/module";
+import { gameModule as pinpoint } from "../src/games/pinpoint/module";
+import type { PinpointState } from "../src/lib/game-logic/pinpoint/engine";
 import { gameModule as speedFlags } from "../src/games/speed-flags/module";
 
-import type { DraftState, PoolIdx, SeatIdx } from "../src/lib/game-logic/country-draft/types";
+import type { DraftState } from "../src/lib/game-logic/country-draft/types";
 import { guessableCountries, type GeoWordleState } from "../src/lib/game-logic/geo-wordle/engine";
 import type { StatGuesserState } from "../src/lib/game-logic/stat-guesser/engine";
 import type { SpeedFlagsState } from "../src/lib/game-logic/speed-flags/engine";
@@ -151,6 +153,18 @@ const VALIDATORS: Record<string, Validator> = {
     if (scoreRaw > scoreMax) return "score_exceeds_total";
     return null;
   },
+  "pinpoint": (raw, max, r) => {
+    if(!Number.isInteger(raw) || raw < 0 || raw > 1200 || max !== 1200) return "invalid_score";
+    if(!Array.isArray(r.rounds) || r.rounds.length !== 5) return "invalid_result";
+    if(r.score !== raw) return "score_mismatch";
+    let total=0;
+    for(const round of r.rounds) {
+      if(!round || typeof round !== "object" || !("points" in round) || typeof round.points !== "number" || !("lat" in round) || typeof round.lat !== "number" || !("lng" in round) || typeof round.lng !== "number")return "invalid_result";
+      if(round.lat < -65 || round.lat > 85 || round.lng < -180 || round.lng > 180) return "invalid_result";
+      total+=round.points;
+    }
+    return total === raw ? null : "score_mismatch";
+  },
   "country-draft": (scoreRaw, scoreMax, r) => {
     if (typeof r.score !== "number") return "invalid_result";
     if (r.score !== scoreRaw) return "score_mismatch";
@@ -166,6 +180,7 @@ const VALIDATORS: Record<string, Validator> = {
 
 /** The server's scoreSortValue override, mirrored from the same switch. */
 const SORT: Record<string, (raw: number, max: number) => number> = {
+  "pinpoint": (raw) => raw,
   "country-draft": (raw) => raw,
   "flag-quiz": (raw) => raw,
   "speed-flags": (raw) => raw,
@@ -237,18 +252,21 @@ function step<S>(m: GameModule<S, Action>, s: S, a: Action, push: (a: Action) =>
 const countryDraftDriver: Driver<DraftState> = {
   // Five rounds, five seats: take the first person on offer and fill the lowest free seat.
   module: countryDraft as unknown as GameModule<DraftState, Action>,
-  resultKeys: ["score", "ceiling", "fitTotal", "standingTotal", "bonusTotal", "appointments", "poolVersion"],
+  resultKeys: ["score", "fitTotal", "standingTotal", "bonusTotal", "appointments", "poolVersion"],
   tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 10 }),
   play(state, push) {
     const m = this.module;
     let s = state;
     let guard = 0;
-    while (s.round < s.board.rounds.length && guard < 20) {
+    while (!m.done(s) && guard < 30) {
       guard += 1;
-      const seat = s.seats.findIndex((x) => x === null) as SeatIdx;
-      s = step(m, s, { t: "appoint", i: 0 as PoolIdx, s: seat } as Action, push);
+      if (s.phase === "country") s = step(m, s, {t: "open", c: 0} as Action, push);
+      else if(s.phase === "people") {
+        const seat = s.seats.findIndex((x) => x === null);
+        s = step(m, s, {t: "appoint", i: 0, s: seat} as Action, push);
+      } else s = step(m, s, {t: "next"}, push);
     }
-    return step(m, s, { t: "seen" }, push);
+    return s;
   },
 };
 
@@ -368,7 +386,22 @@ const speedFlagsDriver: Driver<SpeedFlagsState> = {
   },
 };
 
-const drivers: Record<GameSlug, Driver<never>> = {
+const pinpointDriver: Driver<PinpointState> = {
+  module: pinpoint,
+  resultKeys: ["score", "rounds"],
+  tamper: (payload) => ({...payload, scoreRaw: payload.scoreRaw + 1}),
+  play(state,push) {
+    let next=state;
+    while(!this.module.done(next)) {
+      const action=next.phase === "placing" ? {t:"drop",lat:0,lng:0} : {t:"next"};
+      next=step(this.module,next,action,push);
+    }
+    return next;
+  },
+};
+
+const drivers = {
+  "pinpoint": pinpointDriver,
   "country-draft": countryDraftDriver as unknown as Driver<never>,
   "blind-pick": blindPickDriver as unknown as Driver<never>,
   "higher-or-lower": higherOrLowerDriver as unknown as Driver<never>,
@@ -537,7 +570,7 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser", "flag-quiz", "speed-flags"],
+    ["country-draft", "geo-wordle", "pinpoint", "flag-quiz", "higher-or-lower", "stat-guesser", "blind-pick", "speed-flags"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");

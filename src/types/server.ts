@@ -13,6 +13,9 @@ export interface ServerGameRun {
   isPersonalBest: boolean;
   resultJson: Record<string, unknown>;
   completedAt: string;
+  placeCountry?: string | null;
+  moderationHidden?: boolean;
+  dailyNameCount?: number;
 }
 
 export interface LeaderboardEntry {
@@ -27,6 +30,7 @@ export interface LeaderboardEntry {
   scoreSortValue: number;
   rankDaily: number;
   percentile: number;
+  countryCode?: string | null;
 }
 
 export interface RunDetail {

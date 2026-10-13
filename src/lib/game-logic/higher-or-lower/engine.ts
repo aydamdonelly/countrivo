@@ -359,3 +359,8 @@ export function makeCall(g: HoLGame, c: Call): HoLGame {
   if (isOver(g)) return g;
   return { ...g, calls: [...g.calls, c] };
 }
+
+/** Fixed-stat practice uses the same valid comparison-chain generator as random practice. */
+export function createPracticeOnStat(rng: () => number, stat: HoLStat): HoLGame {
+  return { mode: "practice", stat, chain: practiceChain(stat, rng), calls: [] };
+}

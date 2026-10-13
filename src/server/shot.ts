@@ -1,6 +1,5 @@
-import { compactScore } from "@/server/boards";
 import { readDone, type CookieReader } from "@/server/progress";
-import { getTodayRun, getTodayRuns } from "@/server/runs";
+import { getDeviceDailyRuns } from "@/server/anonymous-runs";
 import type { Viewer } from "@/ui/types";
 
 /**
@@ -23,18 +22,8 @@ export interface Shot {
  * Used by the play route, the home card, NextDailies and the profile "Today" list.
  */
 export async function resolveShot(slug: string, dateKey: string, edition: string, viewer: Viewer, cookies: CookieReader): Promise<Shot | null> {
-  if (viewer.user) {
-    const run = await getTodayRun(viewer.user.id, slug, dateKey);
-    if (!run) return null;
-    return {
-      scoreLabel: compactScore(run.scoreDisplay, run.scoreRaw),
-      scoreDisplay: run.scoreDisplay,
-      rankDaily: run.rankDaily,
-      percentile: run.percentile,
-      runId: run.id,
-      isPersonalBest: run.isPersonalBest,
-    };
-  }
+  const run = (await getDeviceDailyRuns(dateKey, edition)).find((r) => r.gameSlug === slug);
+  if (run) return { scoreLabel: run.scoreDisplay, scoreDisplay: run.scoreDisplay, rankDaily: run.rankDaily, percentile: run.percentile, runId: run.id };
   const label = readDone(cookies, dateKey, edition)[slug];
   return label ? { scoreLabel: label } : null;
 }
@@ -42,19 +31,7 @@ export async function resolveShot(slug: string, dateKey: string, edition: string
 /** Every shot of the day at once (one query signed in, the cookie for guests), keyed by slug. */
 export async function resolveShots(dateKey: string, edition: string, viewer: Viewer, cookies: CookieReader): Promise<Record<string, Shot>> {
   const out: Record<string, Shot> = {};
-  if (viewer.user) {
-    for (const run of await getTodayRuns(viewer.user.id, dateKey)) {
-      out[run.gameSlug] = {
-        scoreLabel: compactScore(run.scoreDisplay, run.scoreRaw),
-        scoreDisplay: run.scoreDisplay,
-        rankDaily: run.rankDaily,
-        percentile: run.percentile,
-        runId: run.id,
-        isPersonalBest: run.isPersonalBest,
-      };
-    }
-    return out;
-  }
-  for (const [slug, label] of Object.entries(readDone(cookies, dateKey, edition))) out[slug] = { scoreLabel: label };
+  for (const run of await getDeviceDailyRuns(dateKey, edition)) out[run.gameSlug] = { scoreLabel: run.scoreDisplay, scoreDisplay: run.scoreDisplay, rankDaily: run.rankDaily, percentile: run.percentile, runId: run.id };
+  for (const [slug, label] of Object.entries(readDone(cookies, dateKey, edition))) if (!out[slug]) out[slug] = { scoreLabel: label };
   return out;
 }

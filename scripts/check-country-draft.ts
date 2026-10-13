@@ -1,166 +1,117 @@
-/*
- * Country Draft contract check (SPEC 22). Generates the board for 400 consecutive daily
- * keys and asserts every property the game, the payload and the validator rely on, then
- * plays each board to completion through the module and re-validates the payload.
- * Run: npx tsx scripts/check-country-draft.ts
- */
 import { dateSeed } from "../src/lib/daily-seed";
-import { mulberry32 } from "../src/lib/seeded-random";
-import { createBoard } from "../src/lib/game-logic/country-draft/generator";
-import { CONTINENTS, POOL } from "../src/lib/game-logic/country-draft/roster";
-import { greedyLine } from "../src/lib/game-logic/country-draft/scoring";
-import { MAX_CEILING, MAX_SCORE, MIN_CEILING, MIN_GREEDY_GAP, ROUNDS, bandOf } from "../src/lib/game-logic/country-draft/tables";
-import { appoint, appointmentsOf, createGame, figureAt, scoreState, seen, undo } from "../src/lib/game-logic/country-draft/engine";
-import { fillOrder } from "../src/lib/game-logic/country-draft/fill-order";
-import type { PoolIdx, SeatIdx } from "../src/lib/game-logic/country-draft/types";
-import { gameModule } from "../src/games/country-draft/module";
+import { createGame, appoint, openCountry, nextRound, scoreState, appointmentsOf, countryAt } from "../src/lib/game-logic/country-draft/engine";
+import { draftReviewView, draftView } from "../src/lib/game-logic/country-draft/public-view";
+import { fameOf, figureFit } from "../src/lib/game-logic/country-draft/scoring";
+import { validateCountryDraftResult } from "../src/lib/game-logic/country-draft/server-validate";
+import { gameModule, type CountryDraftAction } from "../src/games/country-draft/module";
 import { codec } from "../src/games/country-draft/codec";
+import { poolIndex, seatIndex } from "../src/lib/game-logic/country-draft/types";
+import { fillOrder } from "../src/lib/game-logic/country-draft/fill-order";
+import { POOL } from "../src/lib/game-logic/country-draft/roster";
+import { MAX_SCORE } from "../src/lib/game-logic/country-draft/tables";
 
+let checks = 0;
 let failures = 0;
-function check(ok: boolean, what: string) {
-  if (!ok) {
-    failures += 1;
-    console.error("FAIL:", what);
-  }
-}
-
-const CONTINENT_OF = new Map(POOL.map((c) => [c.iso3, c.continent]));
+function check(condition: boolean, message: string) { checks += 1; if (!condition) { failures += 1; console.error(`FAIL ${message}`); } }
 const ceilings: number[] = [];
-const gaps: number[] = [];
-const greedies: number[] = [];
-
-const start = Date.UTC(2026, 8, 1);
-for (let day = 0; day < 400; day += 1) {
-  const d = new Date(start + day * 86_400_000);
-  const dateKey = d.toISOString().slice(0, 10);
+for (let day = 0; day < 120; day += 1) {
+  const dateKey = new Date(Date.UTC(2026, 9, 13 + day)).toISOString().slice(0, 10);
   const seed = dateSeed(dateKey);
-  const board = createBoard(mulberry32(seed));
-
-  check(board.rounds.length === ROUNDS, `${dateKey}: five rounds`);
-  check(new Set(board.rounds.map((r) => r.iso3)).size === ROUNDS, `${dateKey}: five distinct countries`);
-  check(new Set(board.rounds.map((r) => CONTINENT_OF.get(r.iso3))).size >= 3, `${dateKey}: three continents`);
-  for (const r of board.rounds) {
-    check(r.pool.length === 3, `${dateKey}: ${r.iso3} pool of three`);
-    check(new Set(r.pool.map((p) => p.archetype)).size === 3, `${dateKey}: ${r.iso3} three archetypes`);
-    check(new Set(r.pool.map((p) => p.standing)).size > 1, `${dateKey}: ${r.iso3} standings not all equal`);
-    check(r.pool.every((p) => p.standing >= 1 && p.standing <= 5), `${dateKey}: ${r.iso3} standing in range`);
-    check(r.iso2.length === 2 && r.name.length > 0, `${dateKey}: ${r.iso3} has a flag and a name`);
-  }
-  const offered = new Set(board.rounds.flatMap((r) => r.pool.map((p) => p.archetype)));
-  check([0, 1, 2, 3, 4].filter((a) => offered.has(a)).length >= 4, `${dateKey}: four naturals offered`);
-  check(board.ceiling >= MIN_CEILING && board.ceiling <= MAX_CEILING, `${dateKey}: ceiling ${board.ceiling} in window`);
-  const greedy = greedyLine(board.rounds).score;
-  check(board.ceiling - greedy >= 5, `${dateKey}: greedy gap ${board.ceiling - greedy}`);
-  check(board.best.length === ROUNDS, `${dateKey}: best line has five picks`);
-  check(new Set(board.best.map((p) => p.seat)).size === ROUNDS, `${dateKey}: best line uses five seats`);
-  ceilings.push(board.ceiling);
-  greedies.push(greedy);
-  gaps.push(board.ceiling - greedy);
-
-  // determinism
-  const again = createBoard(mulberry32(seed));
-  check(JSON.stringify(again) === JSON.stringify(board), `${dateKey}: same seed, same board`);
-
-  // the fill order is a pure function of the five countries and always leads with them
-  const order = fillOrder(board.rounds.map((r) => r.iso3));
-  check(order.length === 195, `${dateKey}: fill order covers 195`);
-  check(new Set(order).size === 195, `${dateKey}: fill order has no repeats`);
-  check(board.rounds.every((r) => order.indexOf(r.iso3) < 5), `${dateKey}: the five round countries fill first`);
-
-  // play it out through the module, seating each round's best-scoring open seat
-  let s = createGame(seed);
-  const log: { t: string }[] = [];
-  for (let round = 0; round < ROUNDS; round += 1) {
-    const pick = board.best.find((p) => p.round === round)!;
-    const next = appoint(s, pick.poolIdx as PoolIdx, pick.seat as SeatIdx);
-    check(next !== s, `${dateKey}: round ${round} appointment lands`);
-    s = next;
-    log.push({ t: "appoint" });
-  }
-  check(s.phase === "reveal", `${dateKey}: reveal after the fifth`);
-  const scored = scoreState(s);
-  check(scored.score === board.ceiling, `${dateKey}: replaying the best line scores the ceiling`);
-  check(scored.score >= 0 && scored.score <= MAX_SCORE, `${dateKey}: score in range`);
-  check(scored.fitTotal + scored.standingTotal + scored.bonusTotal === scored.score, `${dateKey}: parts sum`);
-  s = seen(s);
-  check(gameModule.done(s), `${dateKey}: done after seen`);
-
-  const payload = gameModule.payload(s, { mode: "daily", dateKey, startedAt: new Date().toISOString() });
-  check(payload.scoreRaw === board.ceiling, `${dateKey}: payload score`);
-  check(payload.scoreMax === MAX_SCORE, `${dateKey}: payload max`);
-  check(payload.scoreSortValue === board.ceiling, `${dateKey}: payload sort value`);
-  const rj = payload.resultJson as Record<string, unknown>;
-  check((rj.appointments as unknown[]).length === 5, `${dateKey}: five appointments in the payload`);
-  check((rj.best as unknown[]).length === 5, `${dateKey}: best line in the payload`);
-  check((rj.roundCountries as string[]).length === 5, `${dateKey}: round countries in the payload`);
-  check(rj.band === bandOf(board.ceiling).key, `${dateKey}: band key`);
-  check(rj.gap === 0, `${dateKey}: gap to the ceiling is zero on the best line`);
-}
-
-// the undo path and the codec
-{
-  const s0 = createGame(dateSeed("2026-09-01"));
-  let s = appoint(s0, 0, 0);
-  s = appoint(s, 1, 1);
-  const back = undo(s);
-  check(back.round === 1 && back.seats[1] === null && back.undoUsed, "undo takes back the last appointment");
-  check(undo(back) === back, "only one undo per run");
-  const log = [
-    { t: "appoint", i: 0, s: 0 },
-    { t: "appoint", i: 1, s: 1 },
-    { t: "undo" },
-    { t: "appoint", i: 2, s: 3 },
-    { t: "appoint", i: 0, s: 2 },
-    { t: "appoint", i: 1, s: 4 },
-    { t: "appoint", i: 0, s: 1 },
-    { t: "seen" },
-  ] as Parameters<typeof codec.enc>[0];
-  const enc = codec.enc(log);
-  check(enc.length <= 24, `codec worst case is ${enc.length} characters`);
-  check(JSON.stringify(codec.dec(enc)) === JSON.stringify(log), "codec round trips");
-  let threw = false;
-  try {
-    codec.dec("a9z");
-  } catch {
-    threw = true;
-  }
-  check(threw, "codec rejects a malformed log");
-}
-
-// a random cabinet is never out of range, and an independent re-implementation agrees
-{
-  const rng = mulberry32(12345);
-  for (let i = 0; i < 4000; i += 1) {
-    const board = createBoard(mulberry32(Math.floor(rng() * 2 ** 31)));
-    let s = createGame(0);
-    s = { ...s, board };
-    const seats = [0, 1, 2, 3, 4].sort(() => rng() - 0.5) as SeatIdx[];
-    for (let round = 0; round < ROUNDS; round += 1) s = appoint(s, Math.floor(rng() * 3) as PoolIdx, seats[round]);
-    const r = scoreState(s);
-    check(r.score >= 0 && r.score <= MAX_SCORE, `random cabinet in range (${r.score})`);
-    const picks = appointmentsOf(s);
-    let fit = 0;
-    let st = 0;
-    for (const p of picks) {
-      fit += p.fit;
-      st += p.standingPoints;
+  let state = createGame(seed);
+  const board = state.board;
+  const countries = board.rounds.flatMap((round) => round.countries);
+  check(board.rounds.length === 5, `${dateKey} five rounds`);
+  check(countries.length === 15 && new Set(countries.map((c) => c.iso3)).size === 15, `${dateKey} fifteen distinct countries`);
+  for (const round of board.rounds) {
+    check(round.countries.length === 3, `${dateKey} three countries per round`);
+    check(new Set(round.countries.map((c) => c.region)).size >= 2, `${dateKey} countries cross world regions`);
+    for (const country of round.countries) {
+      check(country.pool.length === 3 && country.pool.every((p) => p.portrait), `${dateKey} three portrait-ready people`);
+      check(new Set(country.pool.map((p) => p.archetype)).size === 3, `${dateKey} three different career types`);
     }
-    check(fit === r.fitTotal && st === r.standingTotal, "independent totals agree");
-    const top = Math.max(...picks.map((p) => figureAt(board, p).standing));
-    const expected = {
-      fullCabinet: picks.every((p) => p.fit >= 12),
-      rightHand: picks.some((p) => figureAt(board, p).standing === top && p.fit === 25),
-      threeNaturals: picks.filter((p) => p.fit === 25).length >= 3,
-    };
-    check(JSON.stringify(expected) === JSON.stringify(r.bonuses), "independent bonuses agree");
-    if (i > 60) break;
   }
+  check(JSON.stringify(createGame(seed)) === JSON.stringify(state), `${dateKey} same seed, same full board`);
+  const initial = draftView(state);
+  check(initial.people.length === 0 && initial.countries.length === 3, `${dateKey} unopened people absent`);
+  check(!JSON.stringify(initial).includes('"ceiling"') && !JSON.stringify(initial).includes('"standing"') && !JSON.stringify(initial).includes('"archetype"'), `${dateKey} public state has no solution fields`);
+  check(appoint(state, 0, 0) === state, `${dateKey} cannot seat before opening country`);
+  const log: CountryDraftAction[] = [];
+  for (const best of board.best) {
+    state = openCountry(state, best.countryIdx); log.push({ t: "open", c: best.countryIdx });
+    const opened = draftView(state);
+    check(opened.people.length === 3 && opened.countries.length === 0, `${dateKey} opened country exposes only its own people`);
+    check(openCountry(state, poolIndex((best.countryIdx + 1) % 3) ?? 0) === state, `${dateKey} country cannot change after opening`);
+    check(opened.people.every((person) => !('fit' in person) && !('standing' in person) && !('archetype' in person) && !('note' in person)), `${dateKey} candidates have no score hints`);
+    state = appoint(state, best.poolIdx, best.seat); log.push({ t: "appoint", i: best.poolIdx, s: best.seat });
+    check(state.phase === "seated", `${dateKey} reveal waits for explicit next`);
+    check(appoint(state, best.poolIdx, best.seat) === state, `${dateKey} cannot change an appointment after reveal`);
+    check(draftView(state).seats[best.seat]?.points === best.points, `${dateKey} points revealed after seating`);
+    state = nextRound(state); log.push({ t: "next" });
+  }
+  check(state.phase === "done", `${dateKey} fifth manual next completes`);
+  const todayReview = draftReviewView(state, { mode: "daily", dateKey, today: dateKey }).review;
+  check(todayReview?.rounds.length === 5 && todayReview.optimal === null && !todayReview.unlocked, `${dateKey} today's review withholds the optimum`);
+  check(todayReview?.rounds.every((round) => round.passedPeople.length === 2 && round.passedPeople.every((person) => person.best === null) && round.unopenedCountries.length === 2) === true, `${dateKey} today's review shows only two passed names and unopened countries per round`);
+  const pastReview = draftReviewView(state, { mode: "daily", dateKey, today: "2099-01-01" }).review;
+  check(pastReview?.optimal?.score === board.ceiling && pastReview.optimal.gap === 0, `${dateKey} expired optimum is recomputed exactly from the frozen board`);
+  check(pastReview?.rounds.every((round) => round.passedPeople.every((person) => person.best && person.best.points === person.best.fit + person.best.fame && Boolean(person.best.why) && person.best.source.startsWith("https://"))) === true, `${dateKey} passed-on values carry arithmetic, evidence and sources after midnight`);
+  check(draftReviewView(state, { mode: "practice", dateKey, today: dateKey }).review?.optimal?.score === board.ceiling, `${dateKey} practice unlocks its own complete review`);
+  check(scoreState(state).score === board.ceiling, `${dateKey} computed optimum includes country paths and bonuses`);
+  check(scoreState(state).score <= MAX_SCORE, `${dateKey} score capped at 195`);
+  const scored = scoreState(state);
+  const picks = appointmentsOf(state);
+  const expectedBonus = (picks.every((p) => p.fit >= 12) ? 8 : 0) + (new Set(picks.map((p) => p.region)).size >= 3 ? 6 : 0) + (picks.some((p) => p.era === "early") && picks.some((p) => p.era === "recent") ? 6 : 0);
+  check(expectedBonus === scored.bonusTotal, `${dateKey} independent bonus arithmetic`);
+  check(scored.fitTotal + scored.standingTotal + scored.bonusTotal === scored.score, `${dateKey} visible tally sums exactly`);
+  const payload = gameModule.payload(state, { mode: "daily", dateKey, startedAt: "2026-10-13T00:00:00.000Z" });
+  check(validateCountryDraftResult(dateKey, payload.scoreRaw, payload.resultJson).valid, `${dateKey} real payload validates`);
+  check(!validateCountryDraftResult(dateKey, payload.scoreRaw + 1, payload.resultJson).valid, `${dateKey} inflated score rejected`);
+  const homes = picks.map((pick) => countryAt(board, pick).iso3);
+  const order = fillOrder(homes);
+  check(order.length === 195 && new Set(order).size === 195 && homes.every((home) => order.indexOf(home) < 5), `${dateKey} conquest starts at chosen homelands`);
+  const encoded = codec.enc(log);
+  check(encoded.length <= 32 && JSON.stringify(codec.dec(encoded)) === JSON.stringify(log), `${dateKey} complete log round-trips under cookie budget`);
+  check(!('best' in payload.resultJson) && !('ceiling' in payload.resultJson) && !('poolNames' in payload.resultJson), `${dateKey} completed payload contains only chosen people`);
+  ceilings.push(board.ceiling);
 }
 
-const q = (a: number[], x: number) => [...a].sort((p, n) => p - n)[Math.floor(a.length * x)];
-console.log("continents:", CONTINENTS.join(", "), "| countries:", POOL.length);
-console.log("ceiling  min", Math.min(...ceilings), "p10", q(ceilings, 0.1), "med", q(ceilings, 0.5), "p90", q(ceilings, 0.9), "max", Math.max(...ceilings));
-console.log("greedy   min", Math.min(...greedies), "med", q(greedies, 0.5), "max", Math.max(...greedies));
-console.log("greedy gap min", Math.min(...gaps), "med", q(gaps, 0.5), "max", Math.max(...gaps), "| boards meeting the", MIN_GREEDY_GAP, "target:", `${((gaps.filter((g) => g >= MIN_GREEDY_GAP).length / gaps.length) * 100).toFixed(1)} %`);
-console.log(failures === 0 ? "country-draft: all checks passed" : `country-draft: ${failures} FAILURES`);
-process.exit(failures === 0 ? 0 : 1);
+// Practice excludes today’s fifteen countries without seed rejection or private-pool clues.
+for (let sample = 0; sample < 12; sample += 1) {
+  const daily = createGame(dateSeed(`practice-sample-${sample}`));
+  const excluded = daily.board.rounds.flatMap((round) => round.countries.map((country) => country.iso3));
+  const first = POOL.find((country) => !excluded.includes(country.iso3) && country.groups.filter((group) => group.people.some((person) => person.portrait)).length >= 3);
+  const practice = createGame(sample + 10, { excludeCountries: excluded, firstCountry: first?.iso3 });
+  check(practice.board.rounds.every((round) => round.countries.every((country) => !excluded.includes(country.iso3))), "practice contains none of today's fifteen countries");
+  check(practice.board.rounds[0].countries.some((country) => country.iso3 === first?.iso3), "requested eligible homeland is offered first");
+}
+
+const dateKey = "2026-10-13";
+const portraits = POOL.flatMap((country) => country.groups.flatMap((group) => group.people)).filter((person) => person.portrait);
+check(portraits.length === 304 && portraits.every((person) => person.fits?.length === 5 && person.fitEvidence?.length === 5), "all 304 portrait-ready people have individual career records and five explanations");
+check(new Set(portraits.map((person) => person.fits?.join(","))).size > 30, "actual individual careers create diverse fit vectors");
+for (const person of portraits) {
+  check(person.fits?.every((value) => [0, 6, 12, 18, 25].includes(value)) === true, `${person.slug} five authored fit levels`);
+  check(person.fitEvidence?.every((evidence) => evidence.line.length > 0 && evidence.source.startsWith("https://www.wikidata.org/wiki/")) === true, `${person.slug} every rating has source-linked evidence or an explicit source limitation`);
+  check(fameOf(person) >= 4 && fameOf(person) <= 10, `${person.slug} frozen fame bounded from 4 to 10`);
+  check(figureFit({ ...person, archetype: 7 }, 4) === figureFit(person, 4), `${person.slug} changing a category does not change frozen individual fit`);
+  check(fameOf({ ...person, standing: 0 }) === fameOf(person), `${person.slug} changing old standing does not change frozen sitelink fame`);
+}
+const siemens = portraits.find((person) => person.slug === "werner-von-siemens");
+const churchill = portraits.find((person) => person.slug === "winston-churchill");
+const blanchett = portraits.find((person) => person.slug === "cate-blanchett");
+const newton = portraits.find((person) => person.slug === "isaac-newton");
+check(Boolean(siemens) && siemens?.fits?.[4] === 25 && siemens.fits?.[2] === 25, "Siemens' inventor and industrialist careers count separately");
+check(Boolean(churchill) && churchill?.fits?.[2] === 25 && churchill.fitEvidence?.[2].line.includes("Chancellor of the Exchequer") === true, "Churchill's documented finance office supplies its own Purse evidence");
+check(Boolean(blanchett) && blanchett?.fits?.[0] !== 25, "a film jury president is not mistaken for a national president");
+check(Boolean(newton) && newton?.fits?.[0] !== 25, "Royal Society presidency is not mistaken for a head of state");
+let edge = openCountry(createGame(dateSeed(dateKey)), 0);
+edge = nextRound(appoint(edge, 0, 0));
+edge = openCountry(edge, 1);
+check(appoint(edge, 0, 0) === edge, "an occupied job cannot be used twice");
+for (const malformed of ["u", "a9z", "o4", "o", "a00u"]) {
+  let rejected = false; try { codec.dec(malformed); } catch { rejected = true; }
+  check(rejected, `malformed or retired undo log ${malformed} rejected`);
+}
+check(poolIndex(3) === null && seatIndex(5) === null, "invalid input indices rejected");
+console.log(`Country Draft: ${checks} checks, ${failures} failures. Ceiling range ${Math.min(...ceilings)} to ${Math.max(...ceilings)}.`);
+process.exitCode = failures ? 1 : 0;

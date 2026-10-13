@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { cardValue } from "@/lib/game-logic/higher-or-lower/stats";
 import type { HoLStat } from "@/lib/game-logic/higher-or-lower/stats";

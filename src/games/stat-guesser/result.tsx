@@ -1,5 +1,3 @@
-"use client";
-
 import { PAR, ROUND_WEIGHTS, type StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { Flag } from "@/ui/flag";
 import type { ResultProps } from "@/games/types";

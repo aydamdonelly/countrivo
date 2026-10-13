@@ -1,5 +1,3 @@
-"use client";
-
 import { Flag } from "@/ui/flag";
 import { CheckIcon } from "@/ui/icons/check";
 import { ChevronDownIcon } from "@/ui/icons/chevron-down";

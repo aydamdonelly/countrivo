@@ -3,6 +3,7 @@
    .r .n .week .flag .crest). Colours are tokens only; the only shadows are the flag
    ring (tokens) and the focus ring (base); the only gradient is the fade bar. */
 @layer components {
+  .native-offline { position: fixed; top: env(safe-area-inset-top, 0px); inset-inline: 0; z-index: 110; margin: 0; padding: 10px var(--gutter); background: var(--color-ink); color: var(--color-on-ink); text-align: center; pointer-events: none; }
   /* ── frames ─────────────────────────────────────────────────────────── */
   .frame { width: 100%; margin: 0 auto; padding: 0 var(--gutter); }
   .frame-bar { padding-bottom: 120px; }

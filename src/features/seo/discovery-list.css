@@ -1,0 +1,10 @@
+@layer components {
+ .discovery-list {max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+ .discovery-list h1 {text-wrap:balance;}
+ .discovery-list>.clay-object {width:100px;height:100px;}
+ .discovery-examples {display:flex;flex-direction:column;gap:16px;}
+ .discovery-examples article,.discovery-routes li {padding:24px;background:var(--color-card);border-radius:var(--radius-card);display:flex;flex-direction:column;gap:12px;}
+ .discovery-list a {text-decoration:underline;text-underline-offset:3px;}
+ .discovery-routes {display:flex;flex-direction:column;gap:16px;list-style:none;padding:0;}
+ .discovery-play {display:flex;align-items:center;gap:16px;margin:24px 0;flex-wrap:wrap;}.discovery-play>div{flex:1;min-width:180px;}.discovery-play .clay-object{width:64px;height:64px;}
+}

@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Mark } from "@/ui/mark";
+import { Clay } from "@/ui/clay";
+import { gamePresentation } from "@/content/table";
 import { Flag } from "@/ui/flag";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import type { GameSlug } from "@/ui/types";
@@ -32,7 +33,7 @@ export interface GameRowProps {
 export function GameRow({ slug, title, meta, href, tag, action, lead, flags, prefetch, className }: GameRowProps) {
   return (
     <Link href={href} prefetch={prefetch} className={cn("row t-list", className)}>
-      <span className="lead">{lead ?? (slug ? <Mark slug={slug} size={26} /> : null)}</span>
+      <span className="lead">{lead ?? (slug ? <Clay object={gamePresentation(slug)?.clay ?? "cl-24"} state={slug === "speed-flags" ? "full" : "rest"} /> : null)}</span>
       <span className="body">
         <span className="title">{title}</span>
         {tag ? <em className="t-kicker">{tag}</em> : null}

@@ -1,24 +1,17 @@
-import type { ReactNode } from "react";
-import { getClock } from "@/server/clock";
-import { getPendingRequestCount, getViewer } from "@/server/viewer";
-import { FadeBar, Header, TabBar, ViewerSeed } from "@/ui";
+import type { ReactNode } from 'react';
+import { cookies } from 'next/headers';
+import { Header } from '@/ui/header';
+import { getClock } from '@/server/clock';
 
-/*
- * The app chrome (blueprint 9.1 step 9): home, leaderboard, run, friends, add-friend and
- * profile. One viewer and one clock per request; the header carries the crest, streak and
- * countdown in the first HTML; the tab bar carries the pending-request count for signed-in
- * viewers. The pages are dynamic (cookies), so nothing here is ever cached.
- */
 export default async function AppLayout({ children }: { children: ReactNode }) {
-  const [viewer, clock, pendingRequests] = await Promise.all([getViewer(), getClock(), getPendingRequestCount()]);
-  return (
-    <ViewerSeed user={viewer.user} profile={viewer.profile}>
-      <div className="frame frame-bar">
-        <Header variant="app" viewer={viewer} clock={clock} />
-        {children}
-      </div>
-      <FadeBar />
-      <TabBar viewer={viewer} pendingRequests={pendingRequests} />
-    </ViewerSeed>
-  );
+  const [store, clock] = await Promise.all([cookies(), getClock()]);
+  const yesterday = new Date(`${clock.dateKey}T12:00:00Z`);
+  yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+  const yesterdayKey = yesterday.toISOString().slice(0, 10);
+  let streak = 0;
+  try {
+    const value: unknown = JSON.parse(store.get('cv_streak')?.value ?? 'null');
+    if (value && typeof value === 'object' && 'count' in value && typeof value.count === 'number' && 'day' in value && (value.day === clock.dateKey || value.day === yesterdayKey)) streak = value.count;
+  } catch { /* A cleared or older cookie starts a fresh device streak. */ }
+  return <div className="frame table-frame"><Header streak={streak} />{children}</div>;
 }

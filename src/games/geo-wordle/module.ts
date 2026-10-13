@@ -4,6 +4,8 @@ import {
   answerCountry,
   createGeoWordle,
   guessesUsed,
+  rowsUsed,
+  revealOutlineClue,
   submitGuess,
   MAX_GUESSES,
   type GeoWordleState,
@@ -18,7 +20,8 @@ import { codec } from "./codec";
  * is never persisted; it exists so a rejected input still carries the wrong sound and clears
  * a verdict that belongs to an older guess.
  */
-export type GeoAction = { t: "guess"; iso3: string } | { t: "reject"; ui: true };
+export type GeoCommitAction = { t: "guess"; iso3: string } | { t: "clue" };
+export type GeoAction = GeoCommitAction | { t: "reject"; ui: true };
 
 export const REJECTED: GeoAction = { t: "reject", ui: true };
 
@@ -55,6 +58,7 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
   },
 
   reduce(state, action) {
+    if (action.t === "clue") return revealOutlineClue(state);
     if (action.t !== "guess") return state;
     const country = getCountryByIso3(action.iso3);
     return country ? submitGuess(state, country) : state;
@@ -65,7 +69,7 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
   done: (state) => state.phase !== "playing",
 
   progress(state) {
-    const played = state.guesses.length;
+    const played = rowsUsed(state);
     const finished = state.phase !== "playing";
     // While the board is live the value is the guess you are on; once it is over it is the
     // number you used, and no pip is left burning as the current one.
@@ -88,11 +92,12 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
   verdict(prev, next, action) {
     if (action.t === "reject") return { tone: "bad", text: "" };
     if (next === prev) return { tone: "bad", text: "" };
+    if (action.t === "clue") return { tone: "neutral", text: "Outline revealed. One guess used." };
     const guess = next.guesses[next.guesses.length - 1];
     if (guess.correct) return { tone: "good", text: "Solved." };
     if (next.phase === "lost") return { tone: "bad", text: "Out of guesses." };
     const before = prev.guesses[prev.guesses.length - 1];
-    const left = MAX_GUESSES - next.guesses.length;
+    const left = MAX_GUESSES - rowsUsed(next);
     const remaining = `${left} ${left === 1 ? "guess" : "guesses"} left.`;
     if (!before) return { tone: "neutral", text: remaining };
     const diff = guess.distanceKm - before.distanceKm;
@@ -118,6 +123,7 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
       resultJson: {
         answerIso3: state.answerIso3,
         won,
+        clueAt: state.clueAt,
         guesses: state.guesses.map((g) => ({
           iso3: g.iso3,
           distanceKm: g.distanceKm,
@@ -125,6 +131,7 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
           arrow: g.arrow,
           band: g.band,
           correct: g.correct,
+          distanceBasis: g.distanceBasis,
         })),
       },
       startedAt: ctx.startedAt,
@@ -134,11 +141,11 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
   scoreLabel(state) {
     if (state.phase === "won") return `${guessesUsed(state)}/${MAX_GUESSES}`;
     if (state.phase === "lost") return `X/${MAX_GUESSES}`;
-    return `${state.guesses.length}/${MAX_GUESSES}`;
+    return `${rowsUsed(state)}/${MAX_GUESSES}`;
   },
 
   share: (state, ctx) =>
-    buildGeoWordleShareText({ won: state.phase === "won", guesses: state.guesses }, ctx.dateKey),
+    buildGeoWordleShareText({ won: state.phase === "won", guesses: state.guesses, clueAt: state.clueAt }, ctx.dateKey),
 
   keyHint: "Enter guess · Tab fill",
   keepBoardOnResult: true,

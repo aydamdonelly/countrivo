@@ -41,20 +41,20 @@ const GAME_SEO: Record<string, GameSeo> = {
   "country-draft": {
     title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
     description:
-      "Draft famous people into your cabinet and conquer up to 195 nations of the world. Five countries, three people each, one daily board. Free, no signup.",
+      "Choose countries and draft five famous people into a cabinet. Reveal their points after each appointment and conquer up to 195 countries. Free, no account.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
-      "Five countries are on the board from the first second",
-      "Every round is one of them, and it offers three of its people",
-      "Give them one of five seats, the seat decides most of the points",
-      "After five appointments the cabinet is scored out of 195",
+      "Choose one of three countries each round",
+      "Open the country and choose one of its three people",
+      "Give the person an open job and confirm to reveal their points",
+      "Fill five jobs and earn up to 195 points with cabinet bonuses",
     ],
   },
   "blind-pick": {
-    title: "Blind Pick: Which Country Ranks Highest? Daily Stats Puzzle | Countrivo",
+    title: "Blind Pick: Which Country Ranks Highest? Stats Practice | Countrivo",
     description:
-      "Six world rankings are open and six countries arrive one at a time. Put each country on the stat where it ranks highest. Scored like golf, par +10. Free daily puzzle, no signup.",
+      "Six countries, six world rankings. Place each country on a stat and compare with the perfect assignment. Unlimited practice, golf scoring, par +10.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
@@ -67,14 +67,14 @@ const GAME_SEO: Record<string, GameSeo> = {
   "flag-quiz": {
     title: "Flag Quiz: Guess the Country by Its Flag, Free Daily Flag Game | Countrivo",
     description:
-      "Name the country from its flag across 10 rounds. A free flag quiz with a daily board and unlimited practice. 243 countries, no signup.",
+      "Name countries from their flags in ten rounds. The final three lookalikes count double. Free daily flag quiz and unlimited practice, no account.",
     genre: "Geography Quiz",
     playMode: "SinglePlayer",
     rules: [
       "A flag is shown on screen",
       "Pick the correct country from 4 options",
       "10 questions per round",
-      "Score equals correct answers out of 10",
+      "The first seven flags score one point each, the last three two: maximum 13",
     ],
   },
   "higher-or-lower": {
@@ -116,6 +116,13 @@ const GAME_SEO: Record<string, GameSeo> = {
       "A wrong answer takes 3 seconds off the clock",
       "Score equals the number of flags you get right",
     ],
+  },
+  "pinpoint": {
+    title: "Pinpoint: Find Countries on a World Map | Countrivo",
+    description: "Place five countries on a world map. Closer pins score more and the last round counts double. Free daily geography game and unlimited practice.",
+    genre: "Geography Map Game",
+    playMode: "SinglePlayer",
+    rules: ["Find the named country on the map", "Place a pin and confirm it", "Closer pins earn more points", "The fifth round counts double, maximum 1200 points"],
   },
 };
 

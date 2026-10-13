@@ -1,0 +1,53 @@
+import "server-only";
+
+import { getTodayDateKey } from "@/lib/daily-seed";
+import { gameDatabase } from "./anonymous-identity";
+
+export interface ArchivedBoard {
+  game_slug: string;
+  date_key: string;
+  edition: string;
+  engine_version: string;
+  seed: number;
+  public_board: unknown;
+  solution: unknown;
+}
+
+/** Immutable records ensure tomorrow's deploy cannot rewrite yesterday's answers. */
+export async function storeBoardSnapshot(input: { slug: string; dateKey: string; edition: string; seed: number; publicBoard: unknown; solution: unknown }): Promise<void> {
+  const { error } = await gameDatabase().from("countrivo_boards").upsert({ game_slug: input.slug, date_key: input.dateKey, edition: input.edition,
+    engine_version: "october-relaunch-1", seed: input.seed, public_board: input.publicBoard, solution: input.solution },
+    { onConflict: "game_slug,date_key,edition", ignoreDuplicates: true });
+  if (error) throw new Error("Could not preserve this daily board");
+}
+
+export async function getArchivedBoard(slug: string, dateKey: string): Promise<ArchivedBoard | null> {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateKey) || dateKey >= getTodayDateKey()) return null;
+  const { data } = await gameDatabase().from("countrivo_boards").select("*").eq("game_slug", slug).eq("date_key", dateKey)
+    .order("created_at", { ascending: false }).limit(1).maybeSingle<ArchivedBoard>();
+  return data;
+}
+
+export async function listArchivedBoards(slug?: string): Promise<{ game_slug: string; date_key: string; edition: string }[]> {
+  let query = gameDatabase().from("countrivo_boards").select("game_slug,date_key,edition").lt("date_key", getTodayDateKey()).order("date_key", { ascending: false });
+  if (slug) query = query.eq("game_slug", slug);
+  const { data } = await query.limit(365).returns<{ game_slug: string; date_key: string; edition: string }[]>();
+  return data ?? [];
+}
+
+export async function archivedState<S>(slug: string, dateKey: string, edition: string): Promise<S | null> {
+  if (dateKey >= getTodayDateKey()) return null;
+  return frozenBoardState<S>(slug,dateKey,edition);
+}
+
+/** Private server sessions may load today's frozen state; public archive readers may not. */
+export async function frozenBoardState<S>(slug:string,dateKey:string,edition:string):Promise<S|null> {
+  return (await frozenBoardSnapshot<S>(slug,dateKey,edition))?.solution ?? null;
+}
+
+export async function frozenBoardSnapshot<S>(slug:string,dateKey:string,edition:string):Promise<{seed:number;solution:S}|null> {
+  const {data,error}=await gameDatabase().from('countrivo_boards').select('seed,solution').eq('game_slug',slug).eq('date_key',dateKey).eq('edition',edition)
+    .maybeSingle<{seed:number;solution:S}>();
+  if(error)throw new Error('Could not read the preserved daily board');
+  return data;
+}

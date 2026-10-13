@@ -1,8 +1,11 @@
+import { outcomeClay } from "@/content/table";
+import { Clay } from "@/ui/clay";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Countdown } from "@/ui/countdown";
 import { CountUp } from "@/ui/count-up";
+import "./result-panel.css";
 
 export type ResultMode = "daily" | "practice" | "lockout" | "shared";
 
@@ -46,7 +49,8 @@ export function failReasonText(code: string): string {
   if (code === "already_played") return "already played today";
   if (code.startsWith("server_validation_failed")) return "the server rejected the replay";
   if (code === "invalid_start_time") return "the clock did not agree";
-  if (code === "not_authenticated") return "not signed in";
+  if (code === "board_closed") return "this daily board closed at midnight";
+  if (code === "save_unavailable") return "connection interrupted; your result is still here";
   return "something went wrong";
 }
 
@@ -56,39 +60,39 @@ export function failReasonText(code: string): string {
  */
 /** Splits `1 280 pts` into its leading number and the rest, or null when the score does not start with one. */
 function splitScore(score: string): { n: number; digits: string; rest: string } | null {
-  const m = score.match(/^(\d[\d ]*)(.*)$/);
+  const m = score.match(/^[+]?(\d[\d ]*)(.*)$/);
   if (!m) return null;
   const digits = m[1].trimEnd();
   const n = Number(digits.replace(/ /g, ""));
   if (!Number.isFinite(n)) return null;
-  return { n, digits, rest: score.slice(digits.length) };
+  return { n, digits, rest: m[2] };
 }
 
 export function ResultPanel({ mode, game, score, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, children, animateScore, className }: ResultPanelProps) {
-  const k =
-    kicker ?? (mode === "practice" ? `PRACTICE · ${game.toUpperCase()}` : "TODAY · YOUR SHOT");
-  const c = counter ?? (mode === "practice" ? "doesn't count" : mode === "shared" ? undefined : "holds till 00:00");
+  const k = kicker ?? (mode === "practice" ? `Practice · ${game}` : "Today’s result");
+  const c = counter;
+  const parByGame: Record<string, number> = { "Country Draft": 140, GeoWordle: 4, Pinpoint: 720, "Flag Quiz": 9, "Higher or Lower": 9, "Stat Guesser": 300, "Blind Pick": 10 };
+  const par = mode === "practice" && game === "Higher or Lower" ? undefined : parByGame[game];
+  const value = Number(score.match(/^[+]?(\d+)/)?.[1]);
+  const lowerIsBetter = game === "GeoWordle" || game === "Blind Pick";
+  const delta = Number.isFinite(value) && par !== undefined ? (lowerIsBetter ? par - value : value - par) : null;
   return (
     <div className={cn("rp-wrap", className)}>
-      <section className="rp on-ink">
+      <section className="rp">
+        <Clay object={outcomeClay(game,score)} alternate={outcomeClay(game,score)==='cl-20'?'tip':undefined} className="result-clay" />
         <div className="k t-kicker">
           <span>{k}</span>
           {c ? <span>{c}</span> : null}
         </div>
-        <b className="score t-score-xl num">
+        <div className="score num" aria-label={score}>
           {(() => {
-            const parts = animateScore ? splitScore(score) : null;
-            if (!parts) return score;
-            const spaced = parts.digits.includes(" ");
-            return (
-              <>
-                <CountUp value={parts.n} duration={600} kind={spaced ? "grouped" : "int"} />
-                {parts.rest}
-              </>
-            );
+            const parts = splitScore(score);
+            if (!parts) return <b className="t-score-xl">{score}</b>;
+            return <><b className="t-score-xl" aria-hidden="true">{score.startsWith("+") ? "+" : ""}{animateScore ? <CountUp value={parts.n} duration={750} kind={parts.digits.includes(" ") ? "grouped" : "int"} /> : parts.digits}</b>{parts.rest ? <span className="score-unit t-body" aria-hidden="true">{parts.rest}</span> : null}</>;
           })()}
-        </b>
-        {ranks ? (
+        </div>
+        {delta !== null ? <p className="result-par t-body">Par {game === "Blind Pick" ? "+" : ""}{par}. {game === "Blind Pick" ? delta > 0 ? `${delta} under par.` : delta < 0 ? `${Math.abs(delta)} over par.` : "Right on par." : delta > 0 ? `You beat it by ${delta}.` : delta < 0 ? `${Math.abs(delta)} short.` : "Right on par."}</p> : null}
+        {ranks && (mode === "practice" || ranks.globalRank !== null) ? (
           <p className="ranks t-body">
             {mode === "practice" ? (
               ranks.best ? (
@@ -98,7 +102,7 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
               ) : null
             ) : (
               <>
-                <b className="num">#{ranks.globalRank ?? "–"}</b> of {ranks.globalShots} global
+                <b className="num">#{ranks.globalRank}</b> of {ranks.globalShots} names today
                 {ranks.friendCount > 0 ? (
                   <>
                     <br />
@@ -112,8 +116,8 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
         {personalBest ? <p className="pb-line t-body">New personal best</p> : null}
         {mode === "daily" || mode === "lockout" ? (
           <p className="note t-body">
-            {mode === "lockout" ? "You've shot today. " : "Bad day? "}
-            <Link href={practiceHref ?? "?mode=practice"}>Practice a board</Link>, it won&apos;t count.
+            {mode === "lockout" ? "You’ve finished today. " : "Keep exploring. "}
+            <Link href={practiceHref ?? "?mode=practice"}>Practice a board</Link> whenever you like.
           </p>
         ) : null}
         {mode === "lockout" && clock ? (
@@ -122,7 +126,7 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
           </p>
         ) : null}
       </section>
-      {failReason ? <p className="rp-fail t-meta">Couldn&apos;t save this shot ({failReason}).</p> : null}
+      {failReason ? <p className="rp-fail t-meta">Couldn&apos;t save your result ({failReason}).</p> : null}
       {children ? <div className="rp-rows">{children}</div> : null}
       {actions ? <div className="rp-actions">{actions}</div> : null}
     </div>

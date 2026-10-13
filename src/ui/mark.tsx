@@ -61,6 +61,8 @@ function Drawing({ slug, c }: { slug: GameSlug; c: string }) {
       );
     case "higher-or-lower":
       return <g fill={c}><Sil iso3="CHL" box={28} /></g>;
+    case "pinpoint":
+      return <g fill="none" stroke={c} strokeWidth="2"><path d="M14 25s8-9 8-15a8 8 0 1 0-16 0c0 6 8 15 8 15Z"/><circle cx="14" cy="10" r="3"/></g>;
     case "geo-wordle":
       return (
         <g fill="none" stroke={c} strokeWidth={2 / MARK_K} strokeDasharray={`${3 / MARK_K} ${3 / MARK_K}`} strokeLinejoin="round">

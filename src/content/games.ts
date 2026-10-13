@@ -8,7 +8,7 @@
  * src/lib/seo/game-metadata.ts; neither is duplicated here.
  */
 import { SEAT_CHIPS } from "./draft";
-import { guessableCountries } from "@/lib/game-logic/geo-wordle/engine";
+
 
 export interface GameContent {
   /** The one-line rule (blueprint 10.5): the landing card's how-text. */
@@ -37,15 +37,15 @@ export const DEFAULT_RELATED = [
 
 export const GAME_CONTENT: Record<string, GameContent> = {
   "country-draft": {
-    how: "Five rounds, five seats. Each round hands you a country and three people. Pick one, seat them, and take the map.",
-    steps: ["five seats sit empty", "each round offers three people", "seat them, take the map"],
-    facts: ["5 rounds", "5 seats", "out of 195"],
+    how: "Choose a country, pick one of its people, then give them a job. Points show after you seat them.",
+    steps: ["choose one of three countries", "pick a person and an open job", "seat them to reveal their points"],
+    facts: ["5 rounds", "5 jobs", "out of 195"],
     chips: SEAT_CHIPS,
     rules: [
-      "Five countries are on the board from the first second",
-      "Every round is one of them, and it offers three of its people",
-      "Give them one of five seats, the seat decides most of the points",
-      "After five appointments the cabinet is scored out of 195",
+      "Each round offers three countries. Choose one, then open it",
+      "Choose one of that country's three people",
+      "Select a job still open and confirm the appointment to see its points",
+      "Fill five jobs and collect bonuses for career fit, world regions and different eras",
     ],
     related: ["blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser"],
   },
@@ -73,9 +73,17 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Practice is endless on any other stat, and one wrong call ends the streak",
     ],
   },
+  "pinpoint": {
+    how: "Five countries. Tap where they are.",
+    steps: ["No borders, no labels.", "Closer taps score more.", "The last one counts double."],
+    facts: ["5 countries", "Par 720", "About 2 minutes"],
+    rules: ["Tap the blank coastline map to place your pin", "Adjust your pin, then choose Drop pin", "Inside the country or within 25 km scores 200; further misses lose points by distance and countries passed", "Five rounds, with the last worth double. Maximum 1,200. Approximate borders from Natural Earth."],
+    related: ["geo-wordle", "country-draft", "flag-quiz", "stat-guesser"],
+  },
   "geo-wordle": {
-    how: "Guess the country in six tries. Each guess gives you a distance and direction. Play free, no signup.",
-    facts: ["6 guesses", `${guessableCountries().length} countries`, "unlimited practice"],
+    how: "Find the hidden country in six guesses.",
+    steps: ["Guess any country.", "Follow distance and direction.", "Neighbours read 0 km."],
+    facts: ["6 guesses", "Par 4", "About 2 minutes"],
     rules: [
       "Start with any country. Type its name and choose it from the suggestions",
       "Read the distance in kilometres and follow the arrow from your guess toward the answer",

@@ -1,4 +1,4 @@
-import { statWording } from "@/lib/game-logic/blind-pick/generator";
+import { statWording } from "@/lib/game-logic/blind-pick/display";
 import { BLIND_PICK_PAR, overLabel, swapCycles } from "@/lib/game-logic/blind-pick/scoring";
 import { CheckIcon } from "@/ui/icons/check";
 import { StatIcon } from "@/ui/icons/stat";

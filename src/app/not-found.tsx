@@ -1,4 +1,5 @@
-import { Button, FadeBar, Header, PageTitle, TabBar } from "@/ui";
+import { Button, Header, PageTitle } from "@/ui";
+import { Clay } from "@/ui/clay";
 
 /*
  * The 404 (blueprint 7.18): the static chrome, "Not on the map", one line, Home and All
@@ -10,9 +11,9 @@ export default function NotFound() {
     <>
       <div className="frame frame-bar">
         <Header variant="static" />
-        <PageTitle title="Not on the map" />
+        <div className="system-page"><Clay object="cl-24" state="americas" alternate="afreu" /><PageTitle title="No country at this address." />
         <p className="t-body" style={{ color: "var(--color-mute)" }}>
-          That page does not exist.
+          The page you wanted is not on our map.
         </p>
         <div className="flex flex-wrap items-center gap-4 mt-6">
           <Button href="/" prefetch>
@@ -22,9 +23,7 @@ export default function NotFound() {
             All games
           </Button>
         </div>
-      </div>
-      <FadeBar />
-      <TabBar />
+      </div></div>
     </>
   );
 }

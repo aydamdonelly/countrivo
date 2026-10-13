@@ -22,13 +22,12 @@ interface PeerLink {
   detail: string;
 }
 
-// Continent hubs that have a dedicated ranking page. Oceania has none, so the hub group
-// falls back to the full country index instead of an empty heading.
 const CONTINENT_HUBS: Record<string, string> = {
   Africa: "/lists/countries-in-africa",
   Americas: "/lists/countries-in-americas",
   Asia: "/lists/countries-in-asia",
   Europe: "/lists/countries-in-europe",
+  Oceania: "/lists/countries-in-oceania",
 };
 
 // Countries ordered by a stat, biggest first. Cached per category because the country

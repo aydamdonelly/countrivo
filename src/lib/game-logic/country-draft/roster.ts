@@ -1,79 +1,53 @@
-/*
- * The draft roster, read once from src/data/draft-pool.json (built by
- * scripts/build-draft-pool.mjs from src/data/figures.json). Only countries that can field
- * three different archetypes are in the file, so the generator never searches at runtime.
- *
- * The file is 33 KB and ships to the browser on purpose: the board is rebuilt from the
- * seed alone on the client so a resumed run and the server HTML agree exactly, which is
- * the whole reason there is no loading state on the play route.
- */
-import pool from "@/data/draft-pool.json";
-import PORTRAIT_SLUGS from "@/data/portrait-slugs.json";
+import { draftBiography, draftCareerRecord, draftCareerRecords, draftPool, draftPortraits } from "@/lib/data/loader";
+import { careerRatings, fameRating } from "./career-ratings";
 import type { DraftFigure } from "./types";
 
-interface RawCountry {
-  c: string;
-  i: string;
-  n: string;
-  r: string;
-  t: number;
-  g: [number, [string, number, string][]][];
-}
+export interface PoolGroup { archetype: number; people: readonly DraftFigure[]; }
+export interface PoolCountry { iso3: string; iso2: string; name: string; region: string; continent: number; groups: readonly PoolGroup[]; }
 
-const RAW = pool as { v: number; a: string[]; t: string[]; p: RawCountry[] };
-
-export interface PoolGroup {
-  archetype: number;
-  people: readonly DraftFigure[];
-}
-
-export interface PoolCountry {
-  iso3: string;
-  iso2: string;
-  name: string;
-  /** `Americas · South America`, the line under the country on the board. */
-  region: string;
-  /** Index into CONTINENTS; the generator spreads a board across at least three. */
-  continent: number;
-  groups: readonly PoolGroup[];
-}
-
-/**
- * The slug rule, shared with scripts/fetch-portraits.ts: strip accents, lowercase, and
- * join on hyphens. It is the file name of the portrait, so the two must never disagree.
- */
 export function figureSlug(name: string): string {
-  return name
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+  return name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
 
-const PORTRAITS = new Set<string>(PORTRAIT_SLUGS as string[]);
+const PORTRAITS = new Set(draftPortraits);
+const IDENTITIES = ["Public figure", "Historical figure", "Business figure", "Cultural figure", "Inventor and thinker", "Writer and thinker", "Sporting figure", "Historical figure"];
+const RECORDS = Object.values(draftCareerRecords);
+export const CONTINENTS: readonly string[] = draftPool.t;
 
-export const CONTINENTS: readonly string[] = RAW.t;
-
-export const POOL: readonly PoolCountry[] = RAW.p.map((c) => ({
-  iso3: c.c,
-  iso2: c.i,
-  name: c.n,
-  region: c.r,
-  continent: c.t,
-  groups: c.g.map(([archetype, people]) => ({
-    archetype,
-    people: people.map(([name, standing, note]) => {
-      const slug = figureSlug(name);
-      return { name, slug, portrait: PORTRAITS.has(slug), note, archetype, standing };
-    }),
-  })),
+export const POOL: readonly PoolCountry[] = draftPool.p.map((c) => ({
+  iso3: c.c, iso2: c.i, name: c.n, region: c.r, continent: c.t,
+  groups: c.g.map((group) => {
+    const archetypeValue = group[0];
+    const peopleValue = group[1];
+    if (typeof archetypeValue !== "number" || !Array.isArray(peopleValue)) throw new Error("Invalid draft pool group");
+    return {
+      archetype: archetypeValue,
+      people: peopleValue.map((person): DraftFigure => {
+        if (!Array.isArray(person)) throw new Error("Invalid draft person");
+        const [name, standing, note] = person;
+        if (typeof name !== "string" || typeof standing !== "number" || typeof note !== "string") throw new Error("Invalid draft person fields");
+        const slug = figureSlug(name);
+        const facts = draftBiography(slug);
+        const career = draftCareerRecord(slug);
+        const homeland = c.g.flatMap(([, entries]) => Array.isArray(entries) ? entries.flatMap((entry) => {
+          if (!Array.isArray(entry) || typeof entry[0] !== "string") return [];
+          const found = draftCareerRecord(figureSlug(entry[0]));
+          return found ? [found] : [];
+        }) : []);
+        const activeUntil = facts?.activeUntil ?? facts?.died ?? null;
+        const recent = activeUntil !== null ? activeUntil > 1950 : (facts?.born ?? 0) > 1915;
+        return {
+          name, slug, portrait: PORTRAITS.has(slug), note, identity: IDENTITIES[archetypeValue] ?? "Public figure", archetype: archetypeValue, standing,
+          born: facts?.born ?? null, died: facts?.died ?? null, activeFrom: facts?.activeFrom ?? null, activeUntil: facts?.activeUntil ?? null,
+          era: activeUntil !== null && activeUntil < 1900 ? "early" : recent ? "recent" : "middle",
+          source: facts?.source ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(" ", "_"))}`,
+          biography: facts?.biography ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(" ", "_"))}`,
+          ...(career ? { ...careerRatings(career), fame: fameRating(career, RECORDS, homeland) } : {}),
+        };
+      }),
+    };
+  }),
 }));
 
-/**
- * The roster version, read from the data file itself so it can never drift from the
- * roster it describes. It is stamped into every payload, so a run submitted from a client
- * that still holds yesterday's roster is detectable and handled rather than thrown away
- * (src/lib/game-logic/country-draft/server-validate.ts).
- */
-export const POOL_VERSION = RAW.v;
+// New country-choice boards cannot be replayed as the old five-country model.
+export const POOL_VERSION = draftPool.v + 2;

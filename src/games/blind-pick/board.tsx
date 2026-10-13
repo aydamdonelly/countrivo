@@ -1,15 +1,14 @@
-"use client";
-
 import { useState } from "react";
-import { currentIndex, isComplete, slotOwner } from "@/lib/game-logic/blind-pick/engine";
-import { statWording } from "@/lib/game-logic/blind-pick/generator";
+import { currentIndex, isComplete, slotOwner } from "@/lib/game-logic/blind-pick/display";
+import { statWording } from "@/lib/game-logic/blind-pick/display";
 import { tierFor } from "@/lib/game-logic/blind-pick/scoring";
 import { cn } from "@/lib/utils";
 import { CountUp } from "@/ui/count-up";
 import { StatIcon } from "@/ui/icons/stat";
 import type { BoardProps } from "@/games/types";
 import { BpFlag } from "./bp-flag";
-import { PICK_COUNT, type BlindPickAction, type BlindPickState } from "./module";
+import type { BlindPickAction, BlindPickState } from "./module";
+import { PICK_COUNT } from "@/lib/game-logic/blind-pick/display";
 import "./blind-pick.css";
 
 /*

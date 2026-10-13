@@ -9,6 +9,7 @@ export type GameSlug =
   | "country-draft"
   | "blind-pick"
   | "higher-or-lower"
+  | "pinpoint"
   | "geo-wordle"
   | "stat-guesser"
   | "flag-quiz"
@@ -19,6 +20,7 @@ export const GAME_SLUGS: readonly GameSlug[] = [
   "blind-pick",
   "higher-or-lower",
   "geo-wordle",
+  "pinpoint",
   "stat-guesser",
   "flag-quiz",
   "speed-flags",

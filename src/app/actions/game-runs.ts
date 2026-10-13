@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { anonymousLeaderboard, anonymousSummary, anonymousRunDetail } from "@/server/anonymous-runs";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
 import { blindPickShapeError, validateBlindPickResult } from "@/lib/game-logic/blind-pick/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
@@ -100,6 +101,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     case "speed-flags":
     case "stat-guesser":
     case "higher-or-lower":
+    case "pinpoint":
       // For these games, higher score_raw = better
       scoreSortValue = input.scoreRaw;
       break;
@@ -276,57 +278,13 @@ export async function getDailyLeaderboard(
   dateKey: string,
   limit: number = 50
 ): Promise<LeaderboardEntry[]> {
-  const supabase = await createClient();
-  const { data } = await supabase.rpc("get_daily_leaderboard", {
-    p_game_slug: gameSlug,
-    p_daily_date: dateKey,
-    p_limit: limit,
-  });
-
-  if (!data) return [];
-
-  return data.map((row: Record<string, unknown>) => ({
-    runId: Number(row.run_id),
-    userId: row.user_id as string,
-    username: row.username as string,
-    displayName: row.display_name as string,
-    avatarUrl: row.avatar_url as string | null,
-    scoreRaw: row.score_raw as number,
-    scoreMax: row.score_max as number,
-    scoreDisplay: row.score_display as string,
-    scoreSortValue: row.score_sort_value as number,
-    rankDaily: row.rank_daily as number,
-    percentile: row.percentile as number,
-  }));
+  return anonymousLeaderboard(gameSlug, dateKey, limit);
 }
 
 // ─── Get Run Detail ────────────────────────────────────────────────
 
 export async function getRunDetail(runId: number): Promise<RunDetail | null> {
-  const supabase = await createClient();
-  const { data } = await supabase.rpc("get_run_detail", { p_run_id: runId });
-
-  const row = data?.[0] as Record<string, unknown> | undefined;
-  if (!row) return null;
-
-  return {
-    runId: Number(row.run_id),
-    userId: row.user_id as string,
-    username: row.username as string,
-    displayName: row.display_name as string,
-    avatarUrl: (row.avatar_url as string | null) ?? null,
-    gameSlug: row.game_slug as string,
-    dailyDate: row.daily_date as string,
-    scoreRaw: Number(row.score_raw),
-    scoreMax: Number(row.score_max),
-    scoreDisplay: (row.score_display as string) ?? "",
-    scoreSortValue: Number(row.score_sort_value),
-    rankDaily: row.rank_daily != null ? Number(row.rank_daily) : null,
-    percentile: row.percentile != null ? Number(row.percentile) : null,
-    resultJson: (row.result_json as Record<string, unknown> | null) ?? null,
-    seed: row.seed != null ? Number(row.seed) : null,
-    completedAt: row.completed_at as string,
-  };
+  return anonymousRunDetail(runId);
 }
 
 // ─── Get Daily Summary ─────────────────────────────────────────────
@@ -335,23 +293,7 @@ export async function getDailySummary(
   gameSlug: string,
   dateKey: string
 ): Promise<DailySummary> {
-  const supabase = await createClient();
-  const { data } = await supabase.rpc("get_daily_summary", {
-    p_game_slug: gameSlug,
-    p_daily_date: dateKey,
-  });
-
-  const row = data?.[0];
-  if (!row) {
-    return { playerCount: 0, avgScore: 0, topScoreRaw: null, topScoreDisplay: null };
-  }
-
-  return {
-    playerCount: Number(row.player_count) || 0,
-    avgScore: Number(row.avg_score) || 0,
-    topScoreRaw: row.top_score_raw as number | null,
-    topScoreDisplay: row.top_score_display as string | null,
-  };
+  return anonymousSummary(gameSlug, dateKey);
 }
 
 // ─── Get User Game Stats ───────────────────────────────────────────
@@ -537,6 +479,18 @@ function validateGameResult(
 ): string | null {
   try {
     switch (gameSlug) {
+      case "pinpoint": {
+        const rounds = resultJson.rounds;
+        if (!Number.isInteger(scoreRaw) || scoreRaw < 0 || scoreRaw > 1200 || scoreMax !== 1200 || resultJson.score !== scoreRaw || !Array.isArray(rounds) || rounds.length !== 5) return "invalid_result";
+        let total = 0;
+        for (const round of rounds) {
+          if (!round || typeof round !== "object" || !("lat" in round) || !("lng" in round) || !("points" in round) || !("iso3" in round) || !("basePoints" in round)) return "invalid_result";
+          if (typeof round.lat !== "number" || typeof round.lng !== "number" || !Number.isFinite(round.lat) || !Number.isFinite(round.lng) || round.lat < -65 || round.lat > 85 || round.lng < -180 || round.lng > 180) return "invalid_result";
+          if (typeof round.iso3 !== "string" || !/^[A-Z]{3}$/.test(round.iso3) || typeof round.points !== "number" || !Number.isInteger(round.points) || round.points < 0 || round.points > 400 || typeof round.basePoints !== "number" || round.basePoints < 0 || round.basePoints > 200) return "invalid_result";
+          total += round.points;
+        }
+        return total === scoreRaw ? null : "score_mismatch";
+      }
       case "flag-quiz": {
         // Ten flags, flags 8 to 10 count double: points of 13 (concept 5.4).
         const answers = resultJson.answers;

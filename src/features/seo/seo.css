@@ -98,6 +98,7 @@
   /* The row height is the blueprint's (7 and 10 px), so the link takes its target from
      padding that a matching negative margin gives straight back to the grid cell. */
   .rank .nm a { padding: 13px 0; margin: -13px 0; }
+  .split .rank .nm, .split .rank .nm a { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
   .stat-rows .lbl a { padding: 13px 0; margin: -13px 0; }
 
   /* ── fact tiles ──────────────────────────────────────────────────────── */
@@ -121,6 +122,9 @@
   /* ── category page ───────────────────────────────────────────────────── */
   .lead-line { color: var(--color-mute); max-width: 62ch; margin-bottom: 20px; }
   .cat-facts, .list-facts { margin-bottom: 8px; }
+  .cat-facts .facts .v, .list-facts .facts .v { font-size: 22px; line-height: 26px; }
+  .list-facts .facts .v { white-space: normal; }
+  .list-facts .facts .fact-unit { display: inline-block; overflow-wrap: anywhere; }
   .rank.cols5 td.ar { display: none; }
   @media (min-width: 1024px) {
     .rank.cols5 tr { grid-template-columns: 18px 26px minmax(0, 1fr) auto auto auto; }

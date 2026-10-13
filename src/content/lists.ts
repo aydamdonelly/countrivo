@@ -24,7 +24,8 @@ export type ListFact =
 
 export type ListSource =
   | { kind: "stat"; category: string }
-  | { kind: "continent"; continent: string; sovereign: number };
+  | { kind: "continent"; continent: string; sovereign: number }
+  | { kind: "editorial" };
 
 export interface ListContent {
   slug: string;
@@ -51,6 +52,10 @@ export interface ListContent {
 }
 
 export const LISTS: readonly ListContent[] = [
+  {slug:"doubly-landlocked",metaTitle:"Which countries are doubly landlocked?",description:"Liechtenstein and Uzbekistan, with their neighbours and the definition of double landlocking.",shortName:"Doubly landlocked",h1:"Which countries are doubly landlocked?",hubTitle:"Which countries are doubly landlocked?",hubDescription:"Two countries whose neighbours are landlocked too.",listName:"Doubly landlocked countries",listDescription:"The two doubly landlocked countries, verified against a UNECE source.",numberCaption:"countries",intro:["Reaching the open ocean from a doubly landlocked country means crossing at least two national borders. Neither the country nor any of its neighbours has an ocean coast."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["longest-land-routes","countries-in-asia","countries-in-europe"]},
+  {slug:"longest-land-routes",metaTitle:"Which country pairs take the most border steps?",description:"The longest minimum border chains in Countrivo’s sovereign-country graph, with an explicit method and caveats.",shortName:"Longest border chains",h1:"How many borders separate distant countries?",hubTitle:"Which places are furthest apart in border steps?",hubDescription:"Longest minimum paths through the country-border graph.",listName:"Longest minimum country-border chains",listDescription:"Ten country pairs requiring the most border transitions in the available graph.",numberCaption:"border steps",intro:["Distance on a political map can be measured in borders as well as kilometres. These pairs sit far apart in the country-border network, even along a shortest chain."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["doubly-landlocked","countries-in-africa","countries-in-asia"]},
+  {slug:"more-than-one-capital",metaTitle:"Which countries split capital functions?",description:"Verified examples of administrative, legislative, commercial and constitutional roles shared between cities.",shortName:"Capital functions",h1:"Which countries split capital functions between cities?",hubTitle:"Can a country have more than one capital?",hubDescription:"Three verified examples, with each city’s exact role.",listName:"Countries with split capital functions",listDescription:"Primary-source examples distinguishing legal capitals from seats of government and commercial capitals.",numberCaption:"verified examples",intro:["The word capital can describe different jobs. A constitutional capital, a seat of government and a commercial capital do not always mean the same thing. Here are three examples with the roles stated explicitly."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["countries-in-africa","countries-in-asia","countries-in-europe"]},
+
   {
     slug: "largest-countries",
     metaTitle: "Largest Countries in the World by Area (2024)",
@@ -159,6 +164,65 @@ export const LISTS: readonly ListContent[] = [
     ],
     source: { kind: "stat", category: "gdp-per-capita" },
     seeAlso: ["largest-countries", "most-populated-countries", "countries-in-europe", "countries-in-americas"],
+  },
+  {
+    "slug": "countries-in-oceania",
+    "metaTitle": "Countries in Oceania | Complete List with Stats",
+    "description": "The sovereign countries of Oceania with flags, capitals, population and area. Practice naming them on a map; territories appear separately.",
+    "shortName": "Countries in Oceania",
+    "h1": "All Countries in Oceania",
+    "hubTitle": "Countries in Oceania",
+    "hubDescription": "Sovereign countries, capitals and statistics, with an untimed map quiz.",
+    "listName": "All Countries in Oceania",
+    "listDescription": "Sovereign countries in Oceania listed by population, with capital and area.",
+    "numberCaption": "sovereign countries in Oceania",
+    "intro": [
+      "Oceania includes Australia and the Pacific countries assigned to this region in Countrivo’s country dataset. Sovereign countries count in the quiz, while territories and other places are listed separately."
+    ],
+    "quickFacts": [
+      {
+        "kind": "sum",
+        "stat": "population",
+        "label": "everyone in Oceania"
+      },
+      {
+        "kind": "top",
+        "stat": "population",
+        "label": "the most populous"
+      },
+      {
+        "kind": "top",
+        "stat": "area-km2",
+        "label": "the largest"
+      },
+      {
+        "kind": "bottom",
+        "stat": "area-km2",
+        "label": "the smallest"
+      }
+    ],
+    "faq": [
+      {
+        "q": "How many countries are in Oceania?",
+        "a": "Countrivo’s sovereign-country dataset assigns 14 countries to Oceania, including Australia. Territories and other places are listed separately."
+      },
+      {
+        "q": "Which countries count in this quiz?",
+        "a": "Only the sovereign countries shown in this list. The country set consists of the UN members plus the Holy See and Palestine; regional groupings follow the country dataset."
+      }
+    ],
+    "source": {
+      "kind": "continent",
+      "continent": "Oceania",
+      "sovereign": 14
+    },
+    "seeAlso": [
+      "countries-in-asia",
+      "countries-in-africa",
+      "countries-in-americas",
+      "countries-in-europe",
+      "largest-countries"
+    ]
   },
   {
     slug: "countries-in-europe",
@@ -588,16 +652,16 @@ export const LISTS: readonly ListContent[] = [
     description:
       "Countries ranked by share of energy from renewable sources. Iceland, Norway, and Brazil lead the green energy transition.",
     shortName: "Greenest Countries",
-    h1: "Greenest Countries by Renewable Energy Usage",
-    hubTitle: "Greenest Countries",
+    h1: "Which countries use the largest share of renewable energy?",
+    hubTitle: "Which countries use the most renewable energy?",
     hubDescription: "Countries ranked by share of energy from renewable sources.",
     listName: "Greenest Countries by Renewable Energy Usage",
     listDescription: "The 50 greenest countries ranked by share of energy from renewable sources.",
-    numberCaption: "the greenest energy mix",
+    numberCaption: "the highest recorded renewable share",
     intro: [
-      "Hydropower-rich nations dominate the renewable energy rankings. Iceland is nearly 100% powered by renewable sources, primarily geothermal and hydroelectric energy. Norway, Brazil, and New Zealand also derive large shares of their energy from renewables.",
-      "Many developing nations also rank surprisingly high due to their reliance on biomass (wood, charcoal, agricultural waste) for energy. While this is technically renewable, it comes with deforestation and air quality concerns.",
-      "This ranking uses the share of total energy consumption from renewable sources, based on data from the International Energy Agency (IEA) and World Bank.",
+      "This ranking compares the renewable share of total final energy consumption, rather than renewable electricity alone. Only sovereign countries with data appear below.",
+      "Renewable energy includes traditional biomass such as wood and charcoal. A high share can reflect reliance on those fuels; this table is not an environmental sustainability ranking.",
+      "Values are compared within the World Bank dataset and its stated source year. Missing values are excluded, rather than counted as zero.",
     ],
     quickFacts: [
       { kind: "row", rank: 2, label: "second" },

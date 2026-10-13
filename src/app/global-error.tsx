@@ -9,7 +9,7 @@ import { useEffect } from "react";
  */
 const PAPER = "#fbfaf6";
 const INK = "#17181a";
-const MUTE = "#74756f";
+const MUTE = "#6a6b65";
 const EMBER = "#b8432a";
 
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
@@ -33,10 +33,10 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
         <div style={{ maxWidth: 440, margin: "0 auto" }}>
           <p style={{ fontSize: 22, fontWeight: 600, lineHeight: 1, margin: 0, fontFamily: "Erode, Georgia, serif" }}>Countrivo</p>
           <h1 style={{ fontSize: 28, fontWeight: 600, lineHeight: 1.1, margin: "40px 0 0", fontFamily: "Erode, Georgia, serif" }}>
-            Something went wrong
+            Something broke on our side.
           </h1>
           <p style={{ fontSize: 13, lineHeight: 1.45, color: MUTE, margin: "12px 0 0" }}>
-            Something broke at the app level. Try again, or head home.
+            Your saved moves are kept. Try again to continue.
           </p>
           <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 24, flexWrap: "wrap" }}>
             <button

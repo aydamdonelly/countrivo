@@ -1,100 +1,54 @@
-/*
- * The Country Draft state machine. Pure: every transition is a function of the state and
- * the action, so the host replays a resume log through it and lands on the same board the
- * player left. Illegal actions return the state unchanged, per the module contract.
- */
 import { mulberry32 } from "@/lib/seeded-random";
-import { createBoard } from "./generator";
+import { createBoard, type DraftBoardOptions } from "./generator";
 import { makePick, scoreOf } from "./scoring";
 import { ROUNDS } from "./tables";
 import type { DraftBoard, DraftPick, DraftScore, DraftState, PoolIdx, SeatIdx } from "./types";
 
-export function createGame(seed: number): DraftState {
-  return {
-    board: createBoard(mulberry32(seed)),
-    round: 0,
-    held: null,
-    seats: [null, null, null, null, null],
-    undoUsed: false,
-    phase: "playing",
-    moves: 0,
-    lastSeat: null,
-  };
+export function createGame(seed: number, options?: DraftBoardOptions): DraftState {
+  return { board: createBoard(mulberry32(seed), options), round: 0, country: null, held: null, selectedCountry: null, selectedSeat: null, seats: [null, null, null, null, null], phase: "country", moves: 0, lastSeat: null };
 }
 
-export function filledSeats(s: DraftState): number {
-  return s.seats.filter((x) => x !== null).length;
+export function filledSeats(s: DraftState): number { return s.seats.filter((x) => x !== null).length; }
+export function appointmentsOf(s: DraftState): DraftPick[] { return s.seats.filter((x): x is DraftPick => x !== null).sort((a, b) => a.round - b.round); }
+export function countryAt(board: DraftBoard, pick: DraftPick) { return board.rounds[pick.round].countries[pick.countryIdx]; }
+export function figureAt(board: DraftBoard, pick: DraftPick) { return countryAt(board, pick).pool[pick.poolIdx]; }
+export function scoreState(s: DraftState): DraftScore { return scoreOf(appointmentsOf(s)); }
+
+export function chooseCountry(s: DraftState, c: PoolIdx): DraftState {
+  return s.phase === "country" && s.board.rounds[s.round]?.countries[c] ? { ...s, selectedCountry: c } : s;
 }
 
-/** The appointments in round order: what the payload and the result rows read. */
-export function appointmentsOf(s: DraftState): DraftPick[] {
-  return s.seats.filter((x): x is DraftPick => x !== null).sort((a, b) => a.round - b.round);
-}
-
-export function figureAt(board: DraftBoard, pick: DraftPick) {
-  return board.rounds[pick.round].pool[pick.poolIdx];
-}
-
-export function scoreState(s: DraftState): DraftScore {
-  const picks = appointmentsOf(s);
-  return scoreOf(picks, picks.map((p) => figureAt(s.board, p).standing));
-}
-
-export function canUndo(s: DraftState): boolean {
-  return !s.undoUsed && s.phase !== "done" && filledSeats(s) > 0;
+export function openCountry(s: DraftState, c: PoolIdx): DraftState {
+  return s.phase === "country" && s.board.rounds[s.round]?.countries[c] ? { ...s, country: c, selectedCountry: null, phase: "people", moves: s.moves + 1 } : s;
 }
 
 export function hold(s: DraftState, i: PoolIdx): DraftState {
-  if (s.phase !== "playing" || s.round >= ROUNDS) return s;
-  if (i < 0 || i >= s.board.rounds[s.round].pool.length) return s;
-  return { ...s, held: s.held === i ? null : i };
+  if (s.phase !== "people" || s.country === null || !s.board.rounds[s.round].countries[s.country].pool[i]) return s;
+  const open = s.seats.map((pick, seat) => pick === null ? seat : null).filter((seat): seat is SeatIdx => seat === 0 || seat === 1 || seat === 2 || seat === 3 || seat === 4);
+  return { ...s, held: i, selectedSeat: open.length === 1 ? open[0] : null };
 }
 
-export function drop(s: DraftState): DraftState {
-  return s.held === null ? s : { ...s, held: null };
+export function chooseSeat(s: DraftState, seat: SeatIdx): DraftState {
+  return s.phase === "people" && s.held !== null && s.seats[seat] === null ? { ...s, selectedSeat: seat } : s;
 }
 
-/** Seat one of the round's three. Fills the fifth seat and the reveal window opens. */
+export function drop(s: DraftState): DraftState { return s.held === null ? s : { ...s, held: null, selectedSeat: null }; }
+
 export function appoint(s: DraftState, i: PoolIdx, seat: SeatIdx): DraftState {
-  if (s.phase !== "playing" || s.round >= ROUNDS) return s;
-  if (seat < 0 || seat >= s.seats.length || s.seats[seat] !== null) return s;
-  const round = s.board.rounds[s.round];
-  if (i < 0 || i >= round.pool.length) return s;
-  const pick = makePick(s.round, seat, i, round.pool[i]);
-  const seats = s.seats.map((x, k) => (k === seat ? pick : x));
-  const round1 = s.round + 1;
-  return {
-    ...s,
-    seats,
-    round: round1,
-    held: null,
-    phase: round1 >= ROUNDS ? "reveal" : "playing",
-    moves: s.moves + 1,
-    lastSeat: seat,
-  };
+  if (s.phase !== "people" || s.country === null || s.seats[seat] !== null) return s;
+  const country = s.board.rounds[s.round].countries[s.country];
+  const figure = country.pool[i];
+  if (!figure) return s;
+  const pick = makePick(s.round, s.country, seat, i, figure, country.region);
+  return { ...s, seats: s.seats.map((x, k) => k === seat ? pick : x), held: null, selectedSeat: null, phase: "seated", moves: s.moves + 1, lastSeat: seat };
 }
 
-/** One take-back per run, allowed while playing and during the reveal window. */
-export function undo(s: DraftState): DraftState {
-  if (!canUndo(s)) return s;
-  const last = appointmentsOf(s).pop();
-  if (!last) return s;
-  return {
-    ...s,
-    seats: s.seats.map((x, k) => (k === last.seat ? null : x)),
-    round: last.round,
-    held: null,
-    undoUsed: true,
-    phase: "playing",
-    moves: s.moves + 1,
-    lastSeat: null,
-  };
+/** A reveal stays until the player chooses to continue. There is no undo after reveal. */
+export function nextRound(s: DraftState): DraftState {
+  if (s.phase !== "seated") return s;
+  if (s.round === ROUNDS - 1) return { ...s, phase: "done" };
+  return { ...s, round: s.round + 1, country: null, held: null, selectedCountry: null, selectedSeat: null, phase: "country" };
 }
 
-export function seen(s: DraftState): DraftState {
-  return s.phase === "reveal" ? { ...s, phase: "done" } : s;
-}
-
-export function isComplete(s: DraftState): boolean {
-  return filledSeats(s) === ROUNDS;
-}
+export function seen(s: DraftState): DraftState { return s.phase === "seated" && s.round === ROUNDS - 1 ? nextRound(s) : s; }
+export function isComplete(s: DraftState): boolean { return s.phase === "done"; }

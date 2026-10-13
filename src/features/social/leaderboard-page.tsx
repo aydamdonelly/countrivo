@@ -1,207 +1,59 @@
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getDailyLeaderboard, getDailySummary } from "@/app/actions/game-runs";
-import { getFriends, getFriendsLeaderboard } from "@/app/actions/friends";
+import { getAllGames, getGameBySlug } from "@/lib/data/games";
+import { getAllCountries } from "@/lib/data/countries";
 import { getTodayDateKey } from "@/lib/daily-seed";
-import { getGameBySlug } from "@/lib/data/registry";
-import { createClient } from "@/lib/supabase/server";
-import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
-import { isPlayable } from "@/games/registry";
-import { compactScore } from "@/server/boards";
+import { anonymousLeaderboard, deviceDailyRows, mapAnonymousRun } from "@/server/anonymous-runs";
+import { getArchivedBoard } from "@/server/board-snapshots";
 import { getEdition } from "@/server/edition";
-import { resolveShot } from "@/server/shot";
-import { getViewer } from "@/server/viewer";
-import type { LeaderboardEntry } from "@/types/server";
-import { Board, Mark, Nudge, isGameSlug, type BoardData, type BoardRowWithRun, type BoardTab, type FriendRowWithRun } from "@/ui";
+import { getSimulatedRivals } from "@/server/leaderboard-bots";
+import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
+import { Flag } from "@/ui/flag";
+import { Button } from "@/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
-import "./social.css";
+import { ReportName } from "./report-name";
+import "./leaderboard.css";
 
-export interface LeaderboardPageProps {
-  slug: string;
-  date?: string;
-  tab?: string;
-}
+export interface LeaderboardPageProps { slug: string; date?: string; tab?: string }
+export function shortDate(dateKey: string): string { return new Date(`${dateKey}T12:00:00Z`).toLocaleDateString("en-GB", {weekday:"short",day:"numeric",month:"short"}); }
+export function shiftDateKey(dateKey: string, days: number): string { const d = new Date(`${dateKey}T12:00:00Z`);d.setUTCDate(d.getUTCDate()+days);return d.toISOString().slice(0,10); }
+const PAR: Record<string, string> = {"country-draft":"140 of 195","geo-wordle":"4 guesses",pinpoint:"720 of 1200","flag-quiz":"9 of 13","higher-or-lower":"9 of 13","stat-guesser":"300 of 600"};
 
-const DATE_KEY = /^\d{4}-\d{2}-\d{2}$/;
-
-/** `Wed 27 Aug`. Midday UTC keeps the day stable in every zone. */
-export function shortDate(dateKey: string): string {
-  return new Date(`${dateKey}T12:00:00Z`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
-}
-
-/** `2026-08-28` shifted by whole days. */
-export function shiftDateKey(dateKey: string, days: number): string {
-  const d = new Date(`${dateKey}T12:00:00Z`);
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
-}
-
-/**
- * The day's board (blueprint 7.6): the game title, the day row with its facts, the open-shot
- * nudge and the one Board with 50 rows on both tabs. Dynamic and noindex; every row links to
- * its run page.
- */
 export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps) {
   const game = getGameBySlug(slug);
-  /* A board exists only where a daily exists: the five practice-only games and World Draft
-     have no shots to rank, so the URL is not a page (blueprint 7.5 and 7.6). */
-  if (!game || !isGameSlug(slug) || !game.availableModes.includes("daily")) notFound();
-
-  const todayKey = getTodayDateKey();
-  const dateKey = date && DATE_KEY.test(date) && date <= todayKey ? date : todayKey;
-  const isToday = dateKey === todayKey;
-  const initialTab: BoardTab = tab === "friends" ? "friends" : "global";
-
-  const viewer = await getViewer();
-  const [global, friendRuns, friendList, summary, edition, jar] = await Promise.all([
-    getDailyLeaderboard(slug, dateKey, 50),
-    viewer.signedIn ? getFriendsLeaderboard(slug, dateKey) : Promise.resolve([] as LeaderboardEntry[]),
-    viewer.signedIn ? getFriends() : Promise.resolve([]),
-    getDailySummary(slug, dateKey),
-    getEdition(),
-    cookies(),
-  ]);
-
-  /* One profiles read for the identity of every row: flags on the global tab, crests on the
-     friends tab (blueprint 5.2). getDailyLeaderboard does not carry country_code. */
-  const ids = Array.from(new Set([...global.map((r) => r.userId), ...friendRuns.map((r) => r.userId)]));
-  const countryById = new Map<string, string | null>();
-  if (ids.length > 0) {
-    try {
-      const supabase = await createClient();
-      const { data } = await supabase.from("profiles").select("id, country_code").in("id", ids);
-      for (const p of data ?? []) countryById.set(p.id as string, (p.country_code as string | null) ?? null);
-    } catch (err) {
-      console.error("[leaderboard] country read failed", err);
-    }
-  }
-
-  const meId = viewer.user?.id ?? null;
-  const globalRows: BoardRowWithRun[] = global.map((e, i) => {
-    const country = countryById.get(e.userId) ?? null;
-    return {
-      userId: e.userId,
-      name: e.displayName || e.username,
-      flag: toFlagCode(country),
-      crest: getSilhouettePath(iso2ToIso3(country)),
-      score: compactScore(e.scoreDisplay, e.scoreRaw),
-      sort: e.scoreSortValue,
-      rank: e.rankDaily ?? i + 1,
-      isMe: e.userId === meId,
-      runId: e.runId,
-    };
-  });
-  const mine = globalRows.find((r) => r.isMe) ?? null;
-
-  /* The friends tab lists every friend, not only those who shot: the ones still out wear the
-     wait crest and read `not yet` (blueprint 3.7). Run ids come from the friends board. */
-  const runByUser = new Map(friendRuns.map((r) => [r.userId, r]));
-  const friendRows: FriendRowWithRun[] = [];
-  const meRun = runByUser.get(meId ?? "");
-  if (viewer.signedIn) {
-    friendRows.push({
-      userId: meId ?? "me",
-      name: "you",
-      crest: viewer.crest,
-      score: meRun ? compactScore(meRun.scoreDisplay, meRun.scoreRaw) : null,
-      sort: meRun ? meRun.scoreSortValue : null,
-      isMe: true,
-      runId: meRun?.runId ?? null,
-    });
-    for (const f of friendList) {
-      const run = runByUser.get(f.profile.id);
-      friendRows.push({
-        userId: f.profile.id,
-        name: f.profile.displayName || f.profile.username,
-        crest: getSilhouettePath(iso2ToIso3(f.profile.countryCode)),
-        score: run ? compactScore(run.scoreDisplay, run.scoreRaw) : null,
-        sort: run ? run.scoreSortValue : null,
-        isMe: false,
-        runId: run?.runId ?? null,
-      });
-    }
-    /* Highest first, everyone still out last and in the order the friends list gave them.
-       Two unplayed rows must compare equal: answering 1 both ways is an inconsistent
-       comparator and shuffles them. */
-    friendRows.sort((x, y) => {
-      if (x.sort === null && y.sort === null) return 0;
-      if (x.sort === null) return 1;
-      if (y.sort === null) return -1;
-      return y.sort - x.sort;
-    });
-  }
-
-  const shots = summary.playerCount || global.length;
-  const board: BoardData = {
-    slug,
-    shots,
-    top: summary.topScoreDisplay ? compactScore(summary.topScoreDisplay, summary.topScoreRaw ?? 0) : null,
-    global: globalRows,
-    me: mine ? { rank: mine.rank, score: mine.score } : null,
-    friends: friendRows,
-  };
-
-  const shot = isToday ? await resolveShot(slug, dateKey, edition, viewer, jar) : null;
-  /* A shot is only open where the game has a board to shoot it on: Country Draft holds the
-     ranking URL before its board lands (P9), and a nudge into a route that does not exist
-     yet is a dead control. */
-  const showNudge = isToday && !shot && !mine && isPlayable(slug);
-
-  /* The day and its numbers. An empty day says nothing here: the row under the tabs already
-     says it in a sentence, and printing it twice, 50 px apart, adds nothing. */
-  const facts: string[] = [isToday ? "Today's board" : shortDate(dateKey)];
-  if (shots > 0) {
-    facts.push(shots === 1 ? "1 shot" : `${shots} shots`);
-    if (board.top) facts.push(`top ${board.top}`);
-    if (summary.avgScore > 0) facts.push(`avg ${Math.round(summary.avgScore)}`);
-  }
-
-  const tabQuery = initialTab === "friends" ? "&tab=friends" : "";
-  const prevKey = shiftDateKey(dateKey, -1);
-  const nextKey = shiftDateKey(dateKey, 1);
-  const canGoForward = nextKey <= todayKey;
-
-  return (
-    <div className="col-640">
-      <div className="lb-head">
-        <Mark slug={slug} size={26} />
-        <h1 className="t-h1">{game.title}</h1>
-      </div>
-      <nav className="lb-days t-meta" aria-label="Pick a day">
-        <Link href={`/games/${slug}/leaderboard?date=${prevKey}${tabQuery}`} aria-label={`Board for ${shortDate(prevKey)}`}>
-          <ChevronLeftIcon size={20} />
-        </Link>
-        <p className="day num">{facts.join(" · ")}</p>
-        {canGoForward ? (
-          <Link href={`/games/${slug}/leaderboard?date=${nextKey}${tabQuery}`} aria-label={`Board for ${shortDate(nextKey)}`}>
-            <ChevronRightIcon size={20} />
-          </Link>
-        ) : (
-          <span className="step" role="link" aria-disabled="true" aria-label="No board after today">
-            <ChevronRightIcon size={20} />
-          </span>
-        )}
-      </nav>
-      {showNudge ? (
-        <Nudge className="lb-nudge" action={{ label: "Shoot", href: `/games/${slug}/play?mode=daily`, prefetch: true }}>
-          Your shot is still open.
-        </Nudge>
-      ) : null}
-      {shots === 0 && !isToday ? (
-        <p className="empty-row t-body">No shots on this day.</p>
-      ) : (
-      <Board
-        slug={slug}
-        title={game.title}
-        board={board}
-        viewer={viewer}
-        initialTab={initialTab}
-        hrefFull={`/games/${slug}/leaderboard`}
-        limit={50}
-        foot={false}
-      />
-      )}
+  if (!game || !game.availableModes.includes("daily")) notFound();
+  const today = getTodayDateKey();
+  const validDate = date && /^\d{4}-\d{2}-\d{2}$/.test(date) && Number.isFinite(Date.parse(`${date}T12:00:00Z`));
+  const day = validDate && date <= today ? date : today, yesterday=shiftDateKey(today,-1);
+  const edition = await getEdition();
+  const [rows,owned,practice,past]=await Promise.all([anonymousLeaderboard(slug,day,500),deviceDailyRows(day,edition),getSimulatedRivals(slug,day),day<today?getArchivedBoard(slug,day):null]);
+  const mine=owned.find(r=>r.game_slug===slug),ownEntry=rows.find(r=>r.runId===mine?.id),top=rows.slice(0,50);
+  const groups=new Map<string,{code:string;name:string;total:number;sort:number;count:number}>();
+  for(const row of rows){if(!row.countryCode)continue;const old=groups.get(row.countryCode),country=getAllCountries().find(c=>c.iso2===row.countryCode);
+    if(old){old.total+=row.scoreRaw;old.sort+=row.scoreSortValue;old.count+=1;}else groups.set(row.countryCode,{code:row.countryCode,name:country?.displayName??row.countryCode,total:row.scoreRaw,sort:row.scoreSortValue,count:1});}
+  const countryRows=[...groups.values()].filter(g=>g.count>=10).sort((a,b)=>b.sort/b.count-a.sort/a.count);
+  const countriesTab=tab==='countries'&&countryRows.length>0;
+  const href=(dateKey:string,choice=tab)=>`/games/${slug}/leaderboard?date=${dateKey}${choice==='countries'?'&tab=countries':''}`;
+  return <div className="new-leaderboard">
+    <div className="lb-title">
+      {/* eslint-disable-next-line @next/next/no-img-element -- local clay still */}
+      <img src="/clay/cl-25/rest.webp" alt="" width={88} height={88}/><div><p className="t-kicker text-mute">Same board. Your name.</p><h1 className="t-h1">Leaderboard</h1></div>
     </div>
-  );
+    <nav className="lb-games" aria-label="Pick a game's leaderboard">{getAllGames().filter(g=>g.availableModes.includes('daily')).map(g=><Link key={g.slug} href={`/games/${g.slug}/leaderboard?date=${day}`} aria-current={g.slug===slug?'page':undefined}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- local clay game object */}
+      <img src={`/clay/${g.slug}.png`} width={40} height={40} alt=""/><span>{g.title}</span></Link>)}</nav>
+    <div className="lb-board">
+      <nav className="lb-date" aria-label="Pick a day"><Link href={href(shiftDateKey(day,-1))} aria-label="Previous day"><ChevronLeftIcon size={20}/></Link><p><b className="t-h3">{game.title}</b><br/><span className="t-meta text-mute">{day===today?'Today':shortDate(day)} · {rows.length} {rows.length===1?'name':'names'}</span></p>{day<today?<Link href={href(shiftDateKey(day,1))} aria-label="Next day"><ChevronRightIcon size={20}/></Link>:<span aria-hidden="true"/>}</nav>
+      <nav className="lb-period" aria-label="Recent boards"><Link href={href(today)} aria-current={day===today?'page':undefined}>Today</Link><Link href={href(yesterday)} aria-current={day===yesterday?'page':undefined}>Yesterday</Link>{past?<Link href={`/games/${slug}/play?mode=practice&date=${day}`}>Explore the answers</Link>:null}</nav>
+      <nav className="lb-view-tabs" aria-label="Leaderboard view"><Link href={href(day,'names')} aria-current={!countriesTab?'page':undefined}>Names</Link>{countryRows.length>0?<Link href={href(day,'countries')} aria-current={countriesTab?'page':undefined}>Country averages</Link>:null}</nav>
+      <div className="lb-par"><strong>Par</strong><div><b className="t-body">{PAR[slug]}</b><p className="t-meta text-mute">A fixed target to aim for every day.</p></div></div>
+      {countriesTab?<><p className="t-meta text-mute">A country appears after at least 10 named players choose its flag. Each player’s score counts once.</p>{countryRows.length?<ol aria-label="Country averages">{countryRows.map((g,i)=><li className="lb-row" key={g.code}><span className="rank">{i+1}</span><div className="lb-person"><Flag iso2={g.code} size="s" alt=""/> <b>{g.name}</b><br/><span className="t-meta">{g.count} named players</span></div><span className="score">{(g.total/g.count).toLocaleString('en-US',{maximumFractionDigits:1})}</span></li>)}</ol>:<p className="lb-empty t-body">No country has 10 named players yet. Everyone’s individual score is visible in Names.</p>}</>:<>
+        {top.length?<ol aria-label="Named player scores">{top.map(r=><li className={`lb-row${mine?.id===r.runId?' mine':''}`} key={r.runId}><span className="rank">{r.rankDaily}</span><div className="lb-person">{r.countryCode?<Flag iso2={r.countryCode} size="xs" alt=""/>:null} <b>{r.displayName}</b>{mine?.id===r.runId?<span className="t-meta">You</span>:null}<br/><ReportName runId={r.runId} name={r.displayName}/></div><span className="score">{r.scoreDisplay}</span></li>)}</ol>:<div className="lb-empty"><p className="t-body">{day===today?'Your name could be first today.':'No names were published on this board.'}</p>{day===today?<Button href={`/games/${slug}/play?mode=daily`}>Play {game.title}</Button>:null}</div>}
+        {ownEntry&&!top.some(r=>r.runId===ownEntry.runId)?<div className="lb-row mine" aria-label="Your place outside the top 50"><span className="rank">{ownEntry.rankDaily}</span><b>{ownEntry.displayName} · You</b><span className="score">{ownEntry.scoreDisplay}</span></div>:null}
+        {day===today&&mine&&mine.display_name?<div className="lb-own"><LeaderboardEntryForm run={await mapAnonymousRun(mine)} publishedName={mine.display_name}/></div>:null}
+      </>}
+      <p className="t-meta text-mute mt-4">{day===today?'Play first. Add your name after the result.':'This board is closed. Published scores are read-only.'}</p>
+      {practice.length?<details className="lb-demo" open><summary>Practice rivals <span className="t-meta text-mute">Simulated bots</span></summary><p className="t-meta text-mute mb-3">These are computer opponents for comparison. They aren’t counted as players or included in your rank.</p><ol aria-label="Simulated practice opponents">{practice.map((r,i)=><li className="lb-row" key={r.name}><span className="rank">{i+1}</span><div className="lb-person">{r.name}<span className="t-meta">Bot</span></div><span className="score">{r.score}</span></li>)}</ol></details>:null}
+    </div>
+  </div>;
 }

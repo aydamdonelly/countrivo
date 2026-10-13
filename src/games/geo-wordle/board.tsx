@@ -1,286 +1,34 @@
-"use client";
-
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  resolveGuess,
-  MAX_GUESSES,
-  type GeoWordleState,
-} from "@/lib/game-logic/geo-wordle/engine";
-import { suggestCountries } from "@/lib/game-logic/geo-wordle/input";
-import { Button } from "@/ui/button";
-import { Flag } from "@/ui/flag";
-import { CheckIcon } from "@/ui/icons/check";
-import { Suggest, type SuggestItem } from "@/ui/suggest";
-import type { BoardProps } from "@/games/types";
-import { WorldMap, type MapGuess } from "@/games/_shared/world-map";
-import { REJECTED, kmLabel, type GeoAction } from "./module";
-
-const INTRO = "Six guesses. Distance and arrows guide you to the hidden country.";
-
-/*
- * Everything this board needs on top of the shared play furniture, in one place. Six
- * decisions worth their comment:
- *
- * 1. The row grid (blueprint 8.8): flag, name, distance, the 3 px proximity bar, the needle.
- *    The shared rule sizes the bar column at 64, which leaves 150 px for the name and clips
- *    ten of the 237 country names on a 390 px phone; 48 gives the name 162 and only the three
- *    longest ("Saint Vincent and the Grenadines" and its kin) still end in an ellipsis.
- *
- * 2. The proximity ramp. Blueprint 1 cuts the six bands out of the grey ramp starting at
- *    `line`, which is the value of the bar's own track: a cold guess would draw an invisible
- *    bar, and cold is exactly the guess a player most needs to read. The two coldest bands
- *    move one step down the same ramp (cold `wait`, cool `faint`) so all six clear the track
- *    and still darken monotonically towards the answer. Warm, hot, burning and hit are
- *    untouched.
- *
- * 3. The map dots. The same ramp cannot run on the map, whose backdrop of 237 centroids is
- *    itself `wait`: a cold or cool guess would sit lighter than the world behind it. On a map
- *    the dot's position already IS its distance, so the guesses take one tone, ink, and the
- *    answer takes ember when it is revealed. The band ramp lives in the bars, where it reads.
- *
- * 4. The empty rows. The shared rule centres the LAST child of a row, which is right for the
- *    needle in its 20 px column and wrong for the dash of an empty row, whose only siblings
- *    are the numeral and itself: it floated the dash into the middle of the name column. The
- *    dash starts where a country name starts, so the six rows read as one table.
- *
- * 5. The row at 1024. The name column stops at 260 (the longest name, "Saint Vincent and the
- *    Grenadines", needs 235) and the bar takes everything left over, because a full-width row
- *    on the 720 px desktop column otherwise strands the distance and the bar at the far right
- *    with 300 px of dead air in the middle. A proximity bar is the one element in the row
- *    that WANTS the length: it closes the gap, and six bars on a 300 px scale can finally be
- *    compared against each other at a glance.
- *
- * 6. The error under the field is taken out of the flow (the field reserves its 22 px), so a
- *    refused word does not shove six guess rows down and back up two seconds later. The
- *    readout above reserves two lines on a phone, where the intro copy wraps, and none from
- *    768 up, where every line of it fits on one.
- *
- * The two keyframes animate out of the element's own final transform (blueprint 6.3.8), so a
- * board with animation off (reduced motion, a screenshot pass, no JS at all) still shows
- * every bar at its true length and every needle on its true bearing.
- */
-const STYLE = `
-.geo .grow { grid-template-columns: 26px minmax(0, 1fr) 62px 48px 20px; }
-.geo .grow .bar { background: var(--color-card); }
-.geo .grow.empty .dash { border-radius: 1px; justify-self: start; }
-.geo .grow:not(.empty) > :last-child { justify-self: center; }
-.geo .band-cold { background: var(--color-wait); }
-.geo .band-cool { background: var(--color-faint); }
-.geo-map .dot-cold, .geo-map .dot-cool, .geo-map .dot-warm, .geo-map .dot-hot, .geo-map .dot-burning { fill: var(--color-ink); }
-.geo-map .dot-hit { fill: var(--color-ember); }
-.geo .grow .bar i { animation: geo-bar 240ms var(--ease-out); }
-.geo .grow .needle { animation: geo-needle 300ms var(--ease-out); }
-.geo .read { min-height: 2.9em; }
-.geo .typed .field { position: relative; padding-bottom: 22px; }
-.geo .typed .field .hint { position: absolute; left: 0; top: 50px; margin: 0; }
-@media (min-width: 768px) {
-  .geo .read { min-height: 0; }
+import {useMemo,useRef,useState,type MouseEvent} from 'react';
+import {centroids,coastline} from '@/lib/data/loader';
+import type {GeoWordleView,GeoGuess} from '@/lib/game-logic/geo-wordle/engine';
+import {resolveGuess,suggestCountries} from '@/lib/game-logic/geo-wordle/input';
+import {previewMapCountry} from '@/app/actions/geography-preview';
+import {projectPoint,unprojectPoint} from '@/lib/game-logic/map-projection';
+import {Button} from '@/ui/button';
+import {Flag} from '@/ui/flag';
+import {Suggest,type SuggestItem} from '@/ui/suggest';
+import type {GeoCommitAction} from './module';
+import './geo-wordle.css';
+interface GeoBoardProps {state:GeoWordleView;dispatch:(action:GeoCommitAction)=>void;busy:boolean}
+function kmLabel(km:number):string{return `${String(Math.max(0,Math.round(km))).replace(/\B(?=(\d{3})+(?!\d))/g,' ')} km`;}
+function bandLabel(g:GeoGuess):string {return g.correct?'Found it':g.distanceKm===0?'Touching':g.band[0].toUpperCase()+g.band.slice(1);}
+function Arrow({bearing,direction}:{bearing:number;direction:string}){return <svg viewBox="0 0 24 24" width="22" height="22" role="img" aria-label={`Answer to the ${direction}`} style={{transform:`rotate(${Math.round(bearing-90)}deg)`}}><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+function GuessMap({state,onPick}:{state:GeoWordleView;onPick:(lat:number,lng:number)=>void}){
+ const answer=state.answer?centroids[state.answer.iso3]:null;
+ let viewBox=coastline.viewBox;
+ if(state.guesses.length){const points=state.guesses.map(g=>centroids[g.iso3]).filter((p):p is number[]=>!!p).map(p=>projectPoint({lat:p[0],lng:p[1]}));if(answer)points.push(projectPoint({lat:answer[0],lng:answer[1]}));if(points.length>1){const xs=points.map(p=>p.x),ys=points.map(p=>p.y),cx=(Math.min(...xs)+Math.max(...xs))/2,cy=(Math.min(...ys)+Math.max(...ys))/2,w=Math.max(100,Math.max(...xs)-Math.min(...xs)+100),h=Math.max(60,Math.max(...ys)-Math.min(...ys)+70);const width=Math.max(w,h*2);viewBox=`${cx-width/2} ${cy-width/4} ${width} ${width/2}`;}}
+ function pick(e:MouseEvent<SVGSVGElement>){if(state.phase!=='playing')return;const matrix=e.currentTarget.getScreenCTM();if(!matrix)return;const point=new DOMPoint(e.clientX,e.clientY).matrixTransform(matrix.inverse()),coordinate=unprojectPoint(point.x,point.y);onPick(coordinate.lat,coordinate.lng);}
+ return <svg className="gw-map" onClick={pick} viewBox={viewBox} role="img" aria-label={`${state.guesses.length} guessed countries on the map${state.answer?', with the answer revealed':''}`}><path d={coastline.land} fill="var(--color-wait)"/>{state.guesses.map(g=>state.guessPaths[g.iso3]?<path key={g.iso3} d={state.guessPaths[g.iso3]} className={`gw-land-${g.band}`} stroke="var(--color-ink)" strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>:centroids[g.iso3]?<circle key={g.iso3} cx={projectPoint({lat:centroids[g.iso3][0],lng:centroids[g.iso3][1]}).x} cy={projectPoint({lat:centroids[g.iso3][0],lng:centroids[g.iso3][1]}).y} r="3" fill="var(--color-ink)"/>:null)}{state.answerPath?<path d={state.answerPath} fill="var(--color-ink)"/>:null}{answer?state.guesses.filter(g=>!g.correct).map(g=>{const from=centroids[g.iso3];if(!from)return null;const a=projectPoint({lat:from[0],lng:from[1]}),b=projectPoint({lat:answer[0],lng:answer[1]});return Math.abs(a.x-b.x)<360?<line key={`route-${g.iso3}`} className="gw-route" x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="4 3" vectorEffect="non-scaling-stroke"/>:null;}):null}</svg>;
 }
-@media (min-width: 1024px) {
-  .geo .grow { grid-template-columns: 26px minmax(0, 260px) 72px minmax(0, 1fr) 20px; height: 36px; }
-}
-@keyframes geo-bar { from { transform: scaleX(0); } }
-@keyframes geo-needle { from { transform: rotate(0deg); } }
-@media (prefers-reduced-motion: reduce) {
-  .geo .grow .bar i, .geo .grow .needle { animation: none; }
-}
-`;
-
-/**
- * The needle: one ink dart, drawn with a notched tail so the direction reads at 20 px and at
- * any rotation (a two-tone lens turns into a bowtie the moment it is small, and a bare
- * triangle loses its tail). It carries the engine's bearing, which runs FROM the guess TO
- * the answer, so the dart points the way you still have to travel. The bearing is rounded to
- * a whole degree because the browser re-serialises a long one and hydration would then read
- * the server's string as a mismatch.
- */
-function Needle({ deg, label }: { deg: number; label: string }) {
-  return (
-    <svg
-      className="needle"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      role="img"
-      aria-label={label}
-      style={{ transform: `rotate(${Math.round(deg)}deg)` }}
-    >
-      <path d="M12 3 17 21 12 17 7 21Z" fill="currentColor" />
-    </svg>
-  );
-}
-
-/**
- * GeoWordle (blueprint 8.8): the map, the readout line, the field with Guess, six guess
- * rows. Everything renders from `state`, so a resumed board is complete in the first HTML.
- *
- * The readout says `Norway is 4 021 km away. Answer to the north-east.` and not the
- * blueprint's `Norway is 2 340 km north-east of the answer`, which states the relation
- * backwards: the engine's bearing runs FROM the guess TO the answer (the Worldle
- * convention, and what the needle and the share arrows both draw), so north-east is where
- * the answer sits from Norway, not where Norway sits from the answer. Naming the guess as
- * the subject also keeps the line clear of the definite article that half a dozen country
- * names need in a prepositional phrase (`south of United States`, `west of Netherlands`),
- * and it says the same thing the needle's label says, in the same words.
- */
-export function Board({ state, dispatch, busy }: BoardProps<GeoWordleState, GeoAction>) {
-  const [text, setText] = useState("");
-  const [error, setError] = useState<{ id: number; text: string } | null>(null);
-  const errorSeq = useRef(0);
-  const fieldWrap = useRef<HTMLDivElement>(null);
-  const live = state.phase === "playing";
-
-  // The error under the field clears itself after two seconds (blueprint 8.8).
-  useEffect(() => {
-    if (!error) return;
-    const id = window.setTimeout(() => setError((e) => (e && e.id === error.id ? null : e)), 2000);
-    return () => window.clearTimeout(id);
-  }, [error]);
-
-  function focusField(): void {
-    fieldWrap.current?.querySelector("input")?.focus();
-  }
-
-  /*
-   * A word the engine cannot use. The message sits under the field where it was typed, and
-   * the refusal still goes to the host: it leaves the state untouched (nothing is logged, no
-   * guess is spent) but it carries the wrong sound and clears a verdict that belongs to an
-   * older guess (blueprint 8.8: the two errors juice wrong).
-   */
-  function reject(message: string): void {
-    errorSeq.current += 1;
-    setError({ id: errorSeq.current, text: message });
-    dispatch(REJECTED);
-    focusField();
-  }
-
-  const guessed = useMemo(() => new Set(state.guesses.map((g) => g.iso3)), [state.guesses]);
-  /*
-   * `bearingDeg` comes out of Math.atan2, whose last bits are implementation-defined, so Node
-   * and the browser disagree on the sixteenth digit. Rounding to a whole degree before it
-   * reaches any attribute keeps the server HTML and the hydrated tree identical.
-   */
-  const mapGuesses = useMemo<MapGuess[]>(
-    () =>
-      state.guesses.map((g) => ({
-        iso3: g.iso3,
-        band: g.band,
-        bearingDeg: Math.round(g.bearingDeg),
-        correct: g.correct,
-      })),
-    [state.guesses],
-  );
-  const items: SuggestItem[] = useMemo(
-    () => suggestCountries(text, guessed).map((c) => ({ key: c.iso3, iso2: c.iso2, name: c.displayName })),
-    [text, guessed],
-  );
-
-  function guess(iso3: string): void {
-    if (guessed.has(iso3)) {
-      reject("Already guessed.");
-      return;
-    }
-    setText("");
-    setError(null);
-    dispatch({ t: "guess", iso3 });
-    focusField();
-  }
-
-  function guessTyped(raw: string): void {
-    const typed = raw.trim();
-    if (!typed) {
-      focusField();
-      return;
-    }
-    const iso3 = resolveGuess(typed)?.iso3;
-    if (!iso3) {
-      reject(items.length ? "Choose a country from the list." : "Not a country.");
-      return;
-    }
-    guess(iso3);
-  }
-
-  const last = state.guesses.length ? state.guesses[state.guesses.length - 1] : null;
-
-  return (
-    <div className="play-stack geo">
-      <style href="geo-wordle" precedence="default">
-        {STYLE}
-      </style>
-      <WorldMap className="geo-map" guesses={mapGuesses} answerIso3={live ? null : state.answerIso3} />
-      <p className="t-body play-line read" aria-live="polite">
-        {!last ? (
-          INTRO
-        ) : state.phase === "won" ? (
-          <>
-            <b>{last.name}</b>. Solved in {state.guesses.length}.
-          </>
-        ) : (
-          <>
-            {last.name} is <b>{kmLabel(last.distanceKm)}</b> away. Answer to the {last.direction}.
-          </>
-        )}
-      </p>
-      {live ? (
-        <div className="typed" ref={fieldWrap}>
-          <Suggest
-            id="geo-guess"
-            label="Country"
-            hideLabel
-            placeholder="Type a country"
-            value={text}
-            onChange={(v) => {
-              setText(v);
-              setError(null);
-            }}
-            items={items}
-            onSelect={(item) => guess(item.key)}
-            onSubmit={guessTyped}
-            autoSelectFirst={false}
-            max={5}
-            error={error?.text ?? null}
-            disabled={busy}
-            autoComplete="off"
-            autoCapitalize="words"
-            enterKeyHint="go"
-          />
-          <Button variant="ink" onClick={() => guessTyped(text)} disabled={busy}>
-            Guess
-          </Button>
-        </div>
-      ) : null}
-      <div className="grows t-row">
-        {Array.from({ length: MAX_GUESSES }, (_, i) => {
-          const g = state.guesses[i];
-          if (!g) {
-            return (
-              <div key={`open-${i}`} className="grow empty">
-                <span className="t-num num">{i + 1}</span>
-                <span className="dash" />
-              </div>
-            );
-          }
-          return (
-            <div key={g.iso3} className="grow">
-              <Flag iso2={g.iso2} size="xs" alt="" eager />
-              <span className="nm">{g.name}</span>
-              {g.correct ? (
-                <span className="km t-body">Solved</span>
-              ) : (
-                <b className="km t-score num">{kmLabel(g.distanceKm)}</b>
-              )}
-              <span className="bar" aria-hidden="true">
-                <i className={`band-${g.band}`} style={{ transform: `scaleX(${Math.max(g.proximityPct, 3) / 100})` }} />
-              </span>
-              {g.correct ? (
-                <CheckIcon size={18} className="ic-ok" />
-              ) : (
-                <Needle deg={g.bearingDeg} label={`answer to the ${g.direction}`} />
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+export function Board({state,dispatch,busy}:GeoBoardProps){
+ const [text,setText]=useState(''),[error,setError]=useState<string|null>(null),[confirmClue,setConfirmClue]=useState(false);
+ const [mapChoice,setMapChoice]=useState<{iso3:string;name:string}|null>(null),[mapPending,setMapPending]=useState(false);
+ const field=useRef<HTMLDivElement>(null),live=state.phase==='playing';
+ const guessed=useMemo(()=>new Set(state.guesses.map(g=>g.iso3)),[state.guesses]);
+ const items:SuggestItem[]=useMemo(()=>suggestCountries(text,guessed,6).map(c=>({key:c.iso3,iso2:c.iso2,name:c.displayName})),[text,guessed]);
+ async function pickMap(lat:number,lng:number){if(busy||mapPending||!live)return;setMapPending(true);try{const country=await previewMapCountry(lat,lng);if(country&&!guessed.has(country.iso3)){setMapChoice(country);setError(null);}else setError(country?'Already guessed. Try another country.':'Tap a country on land, or type its name below.');}catch{setError('Could not read this map point. Type a country below.');}finally{setMapPending(false);}}
+ function guess(iso3:string){setMapChoice(null);if(guessed.has(iso3)){setError('Already guessed. Try another country.');return;}setText('');setError(null);dispatch({t:'guess',iso3});field.current?.querySelector('input')?.focus();}
+ function submit(raw:string){if(!raw.trim())return;const country=resolveGuess(raw);if(!country){setError('No country by that name. Try another spelling.');return;}guess(country.iso3);}
+ const used=state.guesses.length+(state.clueAt===null?0:1);
+ return <div className="gw-board"><GuessMap state={state} onPick={(lat,lng)=>void pickMap(lat,lng)}/>{mapPending?<p className="t-meta text-mute" role="status">Reading the place you tapped…</p>:mapChoice?<div className="gw-confirm"><p className="t-body">Guess {mapChoice.name}?</p><div><Button variant="ink" disabled={busy} onClick={()=>guess(mapChoice.iso3)}>Guess {mapChoice.name}</Button><Button variant="text" onClick={()=>setMapChoice(null)}>Not now</Button></div></div>:null}{state.answer?<h2 className="t-h2">{state.phase==='won'?`${state.answer.name}, in ${used} ${used===1?'guess':'guesses'}`:`The answer was ${state.answer.name}`}</h2>:<p className="gw-intro t-meta text-mute">Type any country, or tap the map. Each guess shows how far and which way.</p>}{state.clue?<div className="gw-clue">{state.clue.label?<p className="t-h3">{state.clue.label}</p>:<svg viewBox={state.clue.viewBox} role="img" aria-label="Outline clue of the hidden country"><path d={state.clue.path} fill="var(--color-ink)"/></svg>}<p className="t-meta text-mute">Outline clue · one guess used</p></div>:null}<div className="gw-rows" aria-live="polite">{Array.from({length:6},(_,i)=>{const clue=state.clueAt===i;const guessIndex=state.clueAt!==null&&i>state.clueAt?i-1:i;const g=clue?null:state.guesses[guessIndex];if(clue)return <div key="clue" className="gw-row gw-empty"><span className="gw-pip"/><span className="t-meta">Clue</span></div>;if(!g)return <div className="gw-row gw-empty" key={`empty-${i}`}><span className="gw-pip"/><span className="t-meta">{i===used&&live?`Guess ${i+1} of 6`:''}</span></div>;return <div key={g.iso3} className="gw-row"><div className="gw-country"><Flag iso2={g.iso2} size="xs" alt="" eager/><span className="t-body">{g.name}</span></div><div className="gw-readout"><b className="t-score num">{g.correct?'Found it':kmLabel(g.distanceKm)}</b>{!g.correct?<Arrow bearing={g.bearingDeg} direction={g.direction}/>:null}<span className="t-body">{bandLabel(g)}</span>{!g.correct&&g.distanceBasis==='centres'?<small className="t-meta text-mute">centre distance</small>:null}</div></div>;})}</div>{live&&state.guesses.length>=2&&state.clueAt===null?<div className="gw-clue-control">{confirmClue?<div className="gw-confirm"><p className="t-body">Use a guess to see the outline?</p><div><Button variant="ink" onClick={()=>{dispatch({t:'clue'});setConfirmClue(false);}} disabled={busy}>Show outline</Button><Button variant="text" onClick={()=>setConfirmClue(false)}>Not now</Button></div></div>:<Button variant="text" onClick={()=>setConfirmClue(true)} disabled={busy}><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 5 2 4-1 3 5-2 4 1 5-6 3-5-2-4-5 2-4Z" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2"/></svg>Outline clue (uses a guess)</Button>}</div>:null}{live?<div className="gw-input" ref={field}><Suggest id="geo-guess" label="Country" hideLabel placeholder="Type a country" value={text} onChange={v=>{setText(v);setError(null);}} items={items} onSelect={item=>guess(item.key)} onSubmit={submit} autoSelectFirst={false} max={6} error={error} disabled={busy} autoComplete="off" autoCapitalize="words" enterKeyHint="go"/><Button variant="ink" onClick={()=>submit(text)} disabled={busy||!text.trim()}>Guess</Button></div>:null}<p className="gw-source t-meta text-mute">Approximate nearest-border distances · Natural Earth 1:50m. Territories without a mapped border use centre distance.</p></div>;
 }

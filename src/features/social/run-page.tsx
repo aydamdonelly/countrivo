@@ -1,9 +1,6 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDailySummary, getRunDetail } from "@/app/actions/game-runs";
 import { getGameBySlug } from "@/lib/data/registry";
-import { createClient } from "@/lib/supabase/server";
-import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
 import { compactScore } from "@/server/boards";
 import { RUN_DETAILS, isPlayable } from "@/games/registry";
 import { Button, Crest, ResultPanel } from "@/ui";
@@ -36,12 +33,13 @@ export async function RunPage({ slug, runId }: RunPageProps) {
   const title = game?.title ?? slug;
   const date = runDate(run.dailyDate);
 
-  const [summary, crest] = await Promise.all([getDailySummary(slug, run.dailyDate), ownerCrest(run.userId)]);
+  const summary = await getDailySummary(slug, run.dailyDate);
+  const crest = null;
   const shots = summary.playerCount;
   /* The kicker's right side is the standing itself (blueprint 7.7): `#9 of 41`, or the day's
      size when the rank never landed. A percentile is not printed beside it: with the rank and
      the field both on the card it says nothing new, and on a small board it reads `top 100 %`. */
-  const counter = shots > 0 ? (run.rankDaily !== null ? `#${run.rankDaily} of ${shots}` : `${shots} ${shots === 1 ? "shot" : "shots"}`) : undefined;
+  const counter = shots > 0 ? (run.rankDaily !== null ? `#${run.rankDaily} of ${shots}` : `${shots} ${shots === 1 ? "name" : "names"}`) : undefined;
   const Detail = isPlayable(slug) ? RUN_DETAILS[slug] : null;
 
   return (
@@ -50,7 +48,7 @@ export async function RunPage({ slug, runId }: RunPageProps) {
         <Crest path={crest} size={40} label={run.displayName || run.username} />
         <span className="who t-row">
           <span className="nm">
-            <Link href={`/profile/${run.username}`}>{run.displayName || run.username}</Link>
+            {run.displayName || run.username}
           </span>
           <span className="when t-meta">
             {title} · {date}
@@ -61,7 +59,7 @@ export async function RunPage({ slug, runId }: RunPageProps) {
         mode="shared"
         game={title}
         score={compactScore(run.scoreDisplay, run.scoreRaw)}
-        kicker={`${title.toUpperCase()} · ${date.toUpperCase()}`}
+        kicker={`${title} · ${date}`}
         counter={counter}
         actions={
           <>
@@ -72,20 +70,8 @@ export async function RunPage({ slug, runId }: RunPageProps) {
           </>
         }
       >
-        {Detail ? <Detail run={run} /> : null}
+        {Detail && run.resultJson ? <Detail run={run} /> : <p className="t-body text-mute">The answers appear after this daily board closes. Play today’s board to discover them yourself.</p>}
       </ResultPanel>
     </div>
   );
-}
-
-/** The owner's crest path: one profiles read (the run detail carries no country). */
-async function ownerCrest(userId: string): Promise<string | null> {
-  try {
-    const supabase = await createClient();
-    const { data } = await supabase.from("profiles").select("country_code").eq("id", userId).maybeSingle();
-    return getSilhouettePath(iso2ToIso3((data?.country_code as string | null) ?? null));
-  } catch (err) {
-    console.error("[run] crest read failed", err);
-    return null;
-  }
 }

@@ -1,3 +1,5 @@
+> Historical August blueprint. The October Table redesign and the owner’s no-account/full-site instructions supersede the old visual, scoring, account and release rules. See [REDESIGN-IMPLEMENTATION.md](REDESIGN-IMPLEMENTATION.md) for the current implementation contract.
+
 # Countrivo rebuild: the binding blueprint
 
 Status: BINDING. This is the one build contract for the from-scratch rebuild of the Countrivo front end (Next.js 16.2.1 App Router, React 19.2, Tailwind v4, Supabase). It starts from `proposals/engineering.md` (the judged winner), grafts everything the three judges asked for from `proposals/product.md` and `proposals/editorial.md`, and resolves every contradiction between them. Where this document and any proposal disagree, this document wins. Where this document is silent, `understand.json` (the map of the current system) and the anti-slop law (`~/.claude/CLAUDE.md`, read in full, every point binding) decide.

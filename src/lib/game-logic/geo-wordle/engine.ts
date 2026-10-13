@@ -1,4 +1,7 @@
-import { countries, centroids } from "@/lib/data/loader";
+import { countries, capitalsAccepted, centroids, geography, sovereignIso3 } from "@/lib/data/loader";
+import {CAPITAL_OVERRIDES} from '@/content/capitals';
+import { getStatValue } from "@/lib/data/ranks";
+import { borderDistanceKm } from "@/lib/game-logic/geography";
 import { seededPick } from "@/lib/seeded-random";
 import type { Country } from "@/types/country";
 
@@ -26,11 +29,13 @@ export interface GeoGuess {
   proximityPct: number; // 0..100, 100 when correct
   band: GeoBand;
   correct: boolean;
+  distanceBasis: "borders" | "centres";
 }
 
 export interface GeoWordleState {
   answerIso3: string; // the secret country — never rendered until finished
   guesses: GeoGuess[];
+  clueAt: number | null;
   phase: "playing" | "won" | "lost";
 }
 
@@ -53,10 +58,10 @@ const MAX_DIST_KM = 20015; // ~half earth circumference, normalises proximity
  * a distance fits under wins.
  */
 const BANDS: ReadonlyArray<{ band: GeoBand; maxKm: number }> = [
-  { band: "burning", maxKm: 1_000 },
-  { band: "hot", maxKm: 2_500 },
-  { band: "warm", maxKm: 5_000 },
-  { band: "cool", maxKm: 9_000 },
+  { band: "burning", maxKm: 500 },
+  { band: "hot", maxKm: 1_500 },
+  { band: "warm", maxKm: 3_000 },
+  { band: "cool", maxKm: 6_000 },
   { band: "cold", maxKm: Infinity },
 ];
 
@@ -153,9 +158,10 @@ export function answerCountry(state: GeoWordleState): Country | undefined {
  * getDailyRng(dateKey, edition) yields the same answer worldwide. No Math.random.
  */
 export function createGeoWordle(rng: () => number): GeoWordleState {
-  const pool = guessableCountries();
+  const sovereign = new Set(sovereignIso3);
+  const pool = guessableCountries().filter(c => sovereign.has(c.iso3) && geography.countries[c.iso3]);
   const [answer] = seededPick(pool, 1, rng);
-  return { answerIso3: answer.iso3, guesses: [], phase: "playing" };
+  return { answerIso3: answer.iso3, guesses: [], clueAt: null, phase: "playing" };
 }
 
 export function submitGuess(state: GeoWordleState, country: Country): GeoWordleState {
@@ -167,7 +173,9 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
   if (!answer || !gC || !aC) return state; // defensive; both have centroids post-filter
 
   const correct = country.iso3 === answer.iso3;
-  const distanceKm = correct ? 0 : Math.round(haversineKm(gC[0], gC[1], aC[0], aC[1]));
+  const touching = country.borders.includes(answer.iso3) || answer.borders.includes(country.iso3);
+  const borderKm = geography.countries[country.iso3] ? (touching ? 0 : borderDistanceKm(country.iso3, answer.iso3)) : null;
+  const distanceKm = correct ? 0 : borderKm ?? Math.round(haversineKm(gC[0], gC[1], aC[0], aC[1]));
   const bearing = correct ? 0 : bearingDeg(gC[0], gC[1], aC[0], aC[1]);
   const proximityPct = correct ? 100 : proximityFor(distanceKm);
 
@@ -182,11 +190,12 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
     proximityPct,
     band: bandFor(distanceKm, correct),
     correct,
+    distanceBasis: borderKm === null ? "centres" : "borders",
   };
   const guesses = [...state.guesses, guess];
   const phase: GeoWordleState["phase"] = correct
     ? "won"
-    : guesses.length >= MAX_GUESSES
+    : guesses.length + (state.clueAt === null ? 0 : 1) >= MAX_GUESSES
       ? "lost"
       : "playing";
   return { ...state, guesses, phase };
@@ -194,5 +203,44 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
 
 /** Guesses used: a win uses guesses.length (1..6); a loss is recorded as 6. */
 export function guessesUsed(state: GeoWordleState): number {
-  return state.phase === "won" ? state.guesses.length : MAX_GUESSES;
+  return state.phase === "won" ? rowsUsed(state) : MAX_GUESSES;
+}
+
+export function rowsUsed(state:Pick<GeoWordleState,"guesses"|"clueAt">):number {return state.guesses.length + (state.clueAt === null ? 0 : 1);}
+export function revealOutlineClue(state:GeoWordleState):GeoWordleState {
+ if(state.phase !== "playing" || state.clueAt !== null || state.guesses.length < 2)return state;
+ const used=state.guesses.length+1;
+ return {...state,clueAt:state.guesses.length,phase:used>=MAX_GUESSES?"lost":"playing"};
+}
+export interface GeoAnswer {iso3:string;name:string;iso2:string;slug:string;capital:string;capitalsAccepted:readonly string[];capitalQuestion:string;capitalExplanation:string;capitalSourceUrl:string;capitalSourceLabel:string;borders:string[];region:string;nearestCountry:string|null}
+export interface GeoWordleView {
+ phase:GeoWordleState["phase"];guesses:GeoGuess[];clueAt:number|null;
+ clue:{path:string;viewBox:string;label:string|null}|null;answer:GeoAnswer|null;
+ answerPath:string|null;guessPaths:Record<string,string>;
+}
+export function geoWordleView(state:GeoWordleState):GeoWordleView {
+ const answer=answerCountry(state),shape=geography.countries[state.answerIso3];
+ let clue:GeoWordleView["clue"]=null;
+ if(state.clueAt!==null&&answer){
+  const atoll=new Set(["KIR","MHL","FSM","TUV","MDV","NRU","PLW"]);
+  if(!shape||atoll.has(answer.iso3)){
+   const area=getStatValue(answer.iso3,"area-km2");
+   clue={path:"",viewBox:"0 0 120 120",label:`${answer.subregion || answer.region}${area!==null ? `, ${area<1000 ? "under 1,000" : area<10000 ? "under 10,000" : "over 10,000"} km²` : ""}`};
+  }else{
+   const coordinates=[...shape.path.matchAll(/[ML](-?[\d.]+),(-?[\d.]+)/g)].map(m=>({x:Number(m[1]),y:Number(m[2])}));
+   const xs=coordinates.map(p=>p.x),ys=coordinates.map(p=>p.y);
+   const x=Math.min(...xs),y=Math.min(...ys),w=Math.max(...xs)-x,h=Math.max(...ys)-y,k=104/Math.max(1,w,h);
+   const dx=8+(104-w*k)/2,dy=8+(104-h*k)/2;
+   // A clue shows shape, never the original projected coordinates of its location.
+   const path=shape.path.replace(/([ML])(-?[\d.]+),(-?[\d.]+)/g,(_token,command:string,a:string,b:string)=>`${command}${((Number(a)-x)*k+dx).toFixed(2)},${((Number(b)-y)*k+dy).toFixed(2)}`);
+   clue={path,viewBox:"0 0 120 120",label:null};
+  }
+ }
+ const revealed=state.phase !== "playing";
+ let nearestCountry:string|null=null;
+ if(revealed&&answer&&!answer.borders.length){
+ const sovereign=new Set(sovereignIso3);const a=centroids[answer.iso3];
+ if(a){let best=Infinity;for(const c of countries){const p=centroids[c.iso3];if(c.iso3===answer.iso3||!sovereign.has(c.iso3)||!p)continue;const distance=haversineKm(a[0],a[1],p[0],p[1]);if(distance<best){best=distance;nearestCountry=c.iso3;}}}
+ }
+ return {phase:state.phase,guesses:state.guesses,clueAt:state.clueAt,clue,answer:revealed&&answer?{iso3:answer.iso3,name:answer.displayName,iso2:answer.iso2,slug:answer.slug,capital:answer.capital,capitalsAccepted:capitalsAccepted[answer.iso3]??[],capitalQuestion:CAPITAL_OVERRIDES[answer.iso3]?.question??'Pick its capital.',capitalExplanation:CAPITAL_OVERRIDES[answer.iso3]?.explanation??`The capital listed for ${answer.displayName} is ${answer.capital}.`,capitalSourceUrl:CAPITAL_OVERRIDES[answer.iso3]?.sourceUrl??'/sources#countries',capitalSourceLabel:CAPITAL_OVERRIDES[answer.iso3]?.sourceLabel??'Country dataset',borders:answer.borders,region:answer.region,nearestCountry}:null,answerPath:revealed?shape?.path??null:null,guessPaths:Object.fromEntries(state.guesses.map(g=>[g.iso3,geography.countries[g.iso3]?.path??""]))};
 }
