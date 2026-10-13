@@ -5,8 +5,9 @@ import type { ResultProps } from "@/games/types";
 import type { QuizState } from "./module";
 
 /**
- * The Flag Quiz result rows (blueprint 8.8): the ten flags in the order they were asked, each
- * with its country name and a check or a cross. The score itself is the panel's Erode number.
+ * The Flag Quiz result rows (R6): the ten flags in the order they were asked, each with its
+ * country name and a check or a cross; the three lookalikes carry their double weight. The
+ * points themselves are the panel's Erode number.
  */
 export function Result({ state }: ResultProps<QuizState>) {
   return (
@@ -15,6 +16,7 @@ export function Result({ state }: ResultProps<QuizState>) {
         iso2: q.country.iso2,
         name: q.country.displayName,
         ok: state.g.answers[i] === q.correctIndex,
+        value: q.points > 1 ? "counts double" : undefined,
       }))}
     />
   );

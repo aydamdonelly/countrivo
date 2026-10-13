@@ -48,3 +48,6 @@ supabase/.temp/
 
 # monthly stats (scripts/monthly-report.py), local only
 /reports/
+
+# clay stills for the play header
+!public/clay/*.png

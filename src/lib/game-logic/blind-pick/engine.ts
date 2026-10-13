@@ -1,101 +1,52 @@
+/**
+ * Blind Pick (concept 5.7): six countries arrive one at a time and each is placed on one of
+ * six stat slots. The tap is the commit: there is no undo. Pure, no React, no clock, no
+ * Math.random; the RNG is injected.
+ */
+import type { Country } from "@/types/country";
 import type { BlindPickGame } from "./types";
 import { generateBlindPickConfig } from "./generator";
 
-export function createGame(
-  rng: () => number,
-  mode: "daily" | "practice",
-  dateKey: string
-): BlindPickGame {
-  const config = generateBlindPickConfig(rng, mode, dateKey);
-
-  return {
-    config,
-    currentStep: 0,
-    assignments: new Array(config.countries.length).fill(null),
-    usedCategories: new Set(),
-    phase: "playing",
-    undoUsed: false,
-  };
-}
-
-/**
- * Index of the pick that an undo would take back. While playing that's the
- * previous step; once the final pick locked the run into "results" it's the
- * current (last) step, which is where currentStep stays on completion.
- */
-function lastPickIndex(state: BlindPickGame): number {
-  return state.phase === "results" ? state.currentStep : state.currentStep - 1;
-}
-
-/** One undo per run, and only if there is a pick to take back. */
-export function canUndo(state: BlindPickGame): boolean {
-  if (state.undoUsed) return false;
-  const idx = lastPickIndex(state);
-  return idx >= 0 && state.assignments[idx] != null;
-}
-
-/** Take back the last pick — frees its category and returns to that country. */
-export function undoLastAssignment(state: BlindPickGame): BlindPickGame {
-  if (!canUndo(state)) return state;
-
-  const idx = lastPickIndex(state);
-  const categoryIdx = state.assignments[idx]!;
-
-  const newAssignments = [...state.assignments];
-  newAssignments[idx] = null;
-
-  const newUsed = new Set(state.usedCategories);
-  newUsed.delete(categoryIdx);
-
-  return {
-    ...state,
-    assignments: newAssignments,
-    usedCategories: newUsed,
-    currentStep: idx,
-    phase: "playing",
-    undoUsed: true,
-  };
-}
-
-export function getCurrentCountry(state: BlindPickGame) {
-  if (state.phase !== "playing") return null;
-  return state.config.countries[state.currentStep];
-}
-
-export function getAvailableCategories(state: BlindPickGame) {
-  return state.config.categories
-    .map((cat, idx) => ({ category: cat, index: idx }))
-    .filter(({ index }) => !state.usedCategories.has(index));
-}
-
-export function canAssign(state: BlindPickGame, categoryIdx: number): boolean {
-  return state.phase === "playing" && !state.usedCategories.has(categoryIdx);
-}
-
-export function assignCategory(
-  state: BlindPickGame,
-  categoryIdx: number
-): BlindPickGame {
-  if (!canAssign(state, categoryIdx)) return state;
-
-  const newAssignments = [...state.assignments];
-  newAssignments[state.currentStep] = categoryIdx;
-
-  const newUsed = new Set(state.usedCategories);
-  newUsed.add(categoryIdx);
-
-  const nextStep = state.currentStep + 1;
-  const isComplete = nextStep >= state.config.countries.length;
-
-  return {
-    ...state,
-    assignments: newAssignments,
-    usedCategories: newUsed,
-    currentStep: isComplete ? state.currentStep : nextStep,
-    phase: isComplete ? "results" : "playing",
-  };
+export function createGame(rng: () => number, mode: "daily" | "practice", dateKey: string): BlindPickGame {
+  return { config: generateBlindPickConfig(rng, mode, dateKey), placements: [] };
 }
 
 export function isComplete(state: BlindPickGame): boolean {
-  return state.phase === "results";
+  return state.placements.length >= state.config.countries.length;
+}
+
+/** The index of the country waiting to be placed, or the last one once the board is full. */
+export function currentIndex(state: BlindPickGame): number {
+  return Math.min(state.placements.length, state.config.countries.length - 1);
+}
+
+/** The country waiting to be placed, or null once all six are placed. */
+export function getCurrentCountry(state: BlindPickGame): Country | null {
+  return isComplete(state) ? null : state.config.countries[state.placements.length];
+}
+
+/** The country placed on a slot, or -1 while the slot is open. */
+export function slotOwner(state: BlindPickGame, slot: number): number {
+  return state.placements.indexOf(slot);
+}
+
+export function canPlace(state: BlindPickGame, slot: number): boolean {
+  return (
+    !isComplete(state) &&
+    Number.isInteger(slot) &&
+    slot >= 0 &&
+    slot < state.config.categories.length &&
+    !state.placements.includes(slot)
+  );
+}
+
+/** Places the waiting country on a slot. Returns the same object when the move is not allowed. */
+export function place(state: BlindPickGame, slot: number): BlindPickGame {
+  if (!canPlace(state, slot)) return state;
+  return { ...state, placements: [...state.placements, slot] };
+}
+
+/** The running sum of ranks of the countries placed so far. */
+export function placedSum(state: BlindPickGame): number {
+  return state.placements.reduce((sum, slot, c) => sum + state.config.costMatrix[c][slot], 0);
 }

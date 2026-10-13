@@ -54,14 +54,14 @@ const GAME_SEO: Record<string, GameSeo> = {
   "blind-pick": {
     title: "Blind Pick: Which Country Ranks Highest? Daily Stats Puzzle | Countrivo",
     description:
-      "Eight world rankings are open and eight countries arrive one at a time. Put each country on the stat where it ranks highest. Free daily puzzle, no signup.",
+      "Six world rankings are open and six countries arrive one at a time. Put each country on the stat where it ranks highest. Scored like golf, par +10. Free daily puzzle, no signup.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
-      "8 stat categories are shown upfront",
-      "Countries are revealed one by one",
-      "Assign each country to its strongest category",
-      "Your score is compared to the mathematically optimal assignment",
+      "6 stats are shown up front",
+      "Countries arrive one at a time",
+      "Place each country on the stat where it ranks highest among sovereign states",
+      "Your score is how far you finish over the perfect board",
     ],
   },
   "flag-quiz": {
@@ -80,40 +80,41 @@ const GAME_SEO: Record<string, GameSeo> = {
   "higher-or-lower": {
     title: "Higher or Lower: Which Country Ranks Higher? Free Daily Game | Countrivo",
     description:
-      "Two countries, one stat. Guess which ranks higher in population, GDP, area and more. Keep the streak alive. Free daily geography game, no signup.",
+      "Ten calls on one stat: is the next country higher or lower in population, GDP, area and more? A wrong call doesn't end it. Free daily geography game, no signup.",
     genre: "Geography Ranking",
     playMode: "SinglePlayer",
     rules: [
-      "Two countries are shown with a stat category",
-      "The left country's value is revealed",
-      "Guess whether the right country is higher or lower",
-      "One wrong answer ends your streak",
+      "One stat a day and eleven countries in a chain",
+      "The left country's value is shown; call whether the right one is higher or lower",
+      "The right country becomes the next left card, whether you were right or wrong",
+      "Calls 1 to 7 score 1 point and calls 8 to 10 score 2: 13 is perfect, par is 9",
     ],
   },
   "stat-guesser": {
     title: "Stat Guesser: Guess Country Statistics, Daily Geography Trivia | Countrivo",
     description:
-      "What is the population of Brazil or the GDP of Norway? Guess the exact value across 5 rounds: closer is better. Free daily geography trivia.",
+      "What is the population of Brazil or the GDP of Norway? Slide a pin to your guess across 5 rounds: closer scores more. Free daily geography trivia.",
     genre: "Geography Trivia",
     playMode: "SinglePlayer",
     rules: [
-      "A country and stat category are shown",
-      "Enter your best guess for the value",
-      "Your score is based on percentage error",
-      "Play 5 rounds: the lowest average error wins",
+      "A country and a stat are shown, with two well-known countries marked on the ruler for scale",
+      "Slide the pin to your guess and lock it",
+      "Each round scores up to 100 points, more the closer you land",
+      "Play 5 rounds: the last counts double, 600 is the maximum and par is 300",
     ],
   },
   "speed-flags": {
-    title: "Speed Flags: Name as Many Flags as You Can in 20 Seconds | Countrivo",
+    title: "Speed Flags: Name as Many Flags as You Can in 30 Seconds | Countrivo",
     description:
-      "Twenty seconds on the clock: how many flags can you identify? A fast-paced flag quiz where speed and accuracy both count. Free, no signup.",
+      "Thirty seconds on the clock and two names per flag: how many can you get right? A wrong answer costs three seconds. Free, no signup.",
     genre: "Geography Speed",
     playMode: "SinglePlayer",
     rules: [
-      "A flag is shown with 2 country options",
-      "Pick the correct country as fast as you can",
-      "A 20-second countdown runs the whole round",
-      "Score equals total correct answers",
+      "A flag is shown with 2 country names",
+      "Pick the right one as fast as you can",
+      "A 30-second countdown runs the whole round",
+      "A wrong answer takes 3 seconds off the clock",
+      "Score equals the number of flags you get right",
     ],
   },
 };

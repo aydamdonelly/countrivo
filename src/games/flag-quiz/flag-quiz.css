@@ -1,0 +1,47 @@
+/* Flag Quiz board (concept 5.4, panes FQ1 and FQ2). Tokens only. The flag sits in a fixed
+   3:2 box so nothing moves when the next flag arrives; the options sit in the bottom part
+   of the screen on phones and in a 2 x 2 grid under the flag on desktop. */
+@layer components {
+  .fq { display: flex; flex-direction: column; }
+  .fq-top { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0 24px; }
+  .fq-meta { min-height: 18px; color: var(--color-mute); text-align: center; }
+
+  /* the fixed 3:2 box; the flag is drawn at its full height inside it, centred, and the
+     edge ring hugs the flag, not the box */
+  .fq-box { width: 100%; max-width: 320px; aspect-ratio: 3 / 2; display: flex; align-items: center; justify-content: center; }
+  .fq-box .flag { width: 88.889%; aspect-ratio: 4 / 3; }   /* 4:3 art at the full height of a 3:2 box */
+
+  .fq-opts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .fq-opt.opt { height: 56px; padding: 0 16px; font-weight: 400; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  .fq-opt .fq-ic { flex: none; margin-left: auto; }
+  .fq-opt[data-state="right"] { background: var(--color-ink); color: var(--color-paper); }
+  .fq-opt[data-state="wrong"] { background: var(--color-ember); color: var(--color-paper); }
+  .fq-opt[data-state="answer"] { outline: 2px solid var(--color-ink); outline-offset: -2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .fq-opt[data-state="idle"]:hover { background: var(--color-line); }
+  }
+
+  /* the family line and its source: the room is always reserved, so a reveal never pushes */
+  .fq-family { min-height: 48px; padding-top: 12px; display: flex; flex-direction: column; gap: 2px; }
+  .fq-family .ln { color: var(--color-ink); }
+  .fq-family .src { color: var(--color-mute); }
+
+  /* phones and tablets: the flag centred in the space above, the options at the bottom */
+  @media (max-width: 1023px) {
+    .fq { min-height: calc(100svh - 184px); }
+    .fq-top { flex: 1; justify-content: center; }
+  }
+  @media (max-width: 1023px) and (max-height: 700px) {
+    .fq-box { max-width: 256px; }
+    .fq-top { padding-bottom: 16px; }
+  }
+
+  /* desktop: the flag at 400, the options 2 x 2 at 352 in the 720 column */
+  @media (min-width: 1024px) {
+    .fq-top { padding: 32px 0 20px; }
+    .fq-box { max-width: 400px; }
+    .fq-opts { grid-template-columns: repeat(2, minmax(0, 352px)); justify-content: center; column-gap: 16px; row-gap: 8px; }
+    .fq-opt.opt { height: 48px; }
+    .fq-family { width: 100%; max-width: 720px; margin: 0 auto; }
+  }
+}

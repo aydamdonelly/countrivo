@@ -1,105 +1,132 @@
 import { countries, categories } from "@/lib/data/loader";
-import ranksData from "@/data/ranks.json";
-import { seededPick, seededShuffle } from "@/lib/seeded-random";
+import { seededPick } from "@/lib/seeded-random";
 import { solveAssignment } from "@/lib/assignment-solver";
-import type { BlindPickConfig } from "./types";
 import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
+import { SOVEREIGN_SET, sovereignCount, sovereignRank } from "./sovereign-ranks";
+import type { BlindPickConfig } from "./types";
 
-const ranks: Record<string, Record<string, number>> = ranksData;
+/** Six countries, six stats (concept 5.7). */
+export const BOARD_SIZE = 6;
 
-const GAME_SIZE = 8;
+/** A board is dealt only when the greedy line lands at least this far above the perfect one (concept 5.7). */
+export const MIN_GREEDY_GAP = 8;
 
-// Categories that work well for the game (high coverage, interesting variance)
-const PREFERRED_CATEGORIES = [
-  "population", "area-km2", "gdp-per-capita", "gdp", "life-expectancy",
-  "urban-population-pct", "internet-users-pct",
-  "fertility-rate", "tourism-arrivals", "forest-coverage-pct",
-  "unemployment-rate", "renewable-energy-pct",
-  "beer-consumption-per-capita", "coffee-consumption-per-capita",
-  "wine-consumption-per-capita", "inflation-rate", "arable-land-pct",
-  "education-spending-pct", "health-spending-pct", "fdi-inflow",
-];
+/**
+ * ...and at most this far. Uncapped, the greedy line sits a median 74 ranks over perfect,
+ * which leaves the fixed par of +10 out of reach for almost everyone; inside 8 to 24 the
+ * greedy line lands near par, so thinking ahead is what beats it.
+ */
+export const MAX_GREEDY_GAP = 24;
 
-function getEligibleCategories(): Category[] {
-  return categories.filter((c) => PREFERRED_CATEGORIES.includes(c.slug));
+/** Stats need at least this many sovereign entries (concept 5.7). */
+export const MIN_SOVEREIGN_ENTRIES = 180;
+
+/**
+ * The eligible stats and their slot wording (concept 5.7 and 5.5): at least 180 sovereign
+ * entries, no caveat flag (renewables, unemployment and inflation carry one; tourism has 163
+ * entries), and always "Most ..." or "Largest ...", never "best". Rank 1 is the highest value.
+ */
+export const STAT_WORDING: Readonly<Record<string, string>> = {
+  population: "Most people",
+  "area-km2": "Largest area",
+  gdp: "Largest economy",
+  "gdp-per-capita": "Most GDP per person",
+  "urban-population-pct": "Most urban",
+  "forest-coverage-pct": "Most forest",
+  "internet-users-pct": "Most internet use",
+  "life-expectancy": "Most years lived",
+  "fertility-rate": "Most births per woman",
+};
+
+/** The slot label for a stat slug. */
+export function statWording(slug: string): string {
+  return STAT_WORDING[slug] ?? slug;
 }
 
-function getEligibleCountries(selectedCategories: Category[]): Country[] {
-  // Only include countries that have rank data for ALL selected categories
-  return countries.filter((country) => {
-    const countryRanks = ranks[country.iso3];
-    if (!countryRanks) return false;
-    return selectedCategories.every((cat) => countryRanks[cat.slug] !== undefined);
-  });
+const ELIGIBLE_STATS: Category[] = categories.filter(
+  (c) => c.slug in STAT_WORDING && sovereignCount(c.slug) >= MIN_SOVEREIGN_ENTRIES,
+);
+
+const SOVEREIGN_COUNTRIES: Country[] = countries.filter((c) => SOVEREIGN_SET.has(c.iso3));
+
+/** The sum a player reaches by putting each arriving country on its best free stat (ties: leftmost slot). */
+export function greedyScore(matrix: number[][]): number {
+  const used = new Set<number>();
+  let total = 0;
+  for (const row of matrix) {
+    let best = -1;
+    for (let j = 0; j < row.length; j += 1) {
+      if (used.has(j)) continue;
+      if (best < 0 || row[j] < row[best]) best = j;
+    }
+    used.add(best);
+    total += row[best];
+  }
+  return total;
 }
 
-function hasEnoughContinentDiversity(selected: Country[]): boolean {
-  const continents = new Set(selected.map((c) => c.continent));
-  return continents.size >= 3;
+/** How far a greedy gap sits outside the window; anything under the floor ranks behind any overshoot. */
+function gapMiss(gap: number): number {
+  if (gap < MIN_GREEDY_GAP) return 1000 + MIN_GREEDY_GAP - gap;
+  if (gap > MAX_GREEDY_GAP) return gap - MAX_GREEDY_GAP;
+  return 0;
 }
 
+interface Candidate {
+  countries: Country[];
+  stats: Category[];
+  matrix: number[][];
+  optimalScore: number;
+  optimalAssignment: number[];
+  greedy: number;
+}
+
+function candidate(stats: Category[], picked: Country[]): Candidate {
+  const matrix = picked.map((c) => stats.map((s) => sovereignRank(c.iso3, s.slug) ?? sovereignCount(s.slug)));
+  const { optimalScore, assignment } = solveAssignment(matrix);
+  return { countries: picked, stats, matrix, optimalScore, optimalAssignment: assignment, greedy: greedyScore(matrix) };
+}
+
+/**
+ * Deals one board from the RNG alone. Six stats are drawn from the eligible nine, then six
+ * sovereign states with a number on all six (from at least three continents) are drawn in
+ * arrival order, until the greedy line sits MIN_GREEDY_GAP to MAX_GREEDY_GAP above the perfect line.
+ * Deterministic for one RNG stream: the daily board is the same on the server and the client.
+ */
 export function generateBlindPickConfig(
   rng: () => number,
   mode: "daily" | "practice",
-  dateKey: string
+  dateKey: string,
 ): BlindPickConfig {
-  // 1. Pick 8 categories
-  const eligibleCats = getEligibleCategories();
-  const selectedCategories = seededPick(eligibleCats, GAME_SIZE, rng);
+  let best: Candidate | null = null;
 
-  // 2. Find countries with data for all selected categories
-  const eligible = getEligibleCountries(selectedCategories);
-
-  // 3. Pick 8 countries with continent diversity
-  let selectedCountries: Country[] = [];
-  const maxAttempts = 50;
-
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const candidates = seededPick(eligible, GAME_SIZE, rng);
-    if (hasEnoughContinentDiversity(candidates)) {
-      selectedCountries = candidates;
-      break;
+  for (let statRound = 0; statRound < 12; statRound += 1) {
+    const stats = seededPick(ELIGIBLE_STATS, BOARD_SIZE, rng);
+    const pool = SOVEREIGN_COUNTRIES.filter((c) => stats.every((s) => sovereignRank(c.iso3, s.slug) !== null));
+    for (let attempt = 0; attempt < 60; attempt += 1) {
+      const picked = seededPick(pool, BOARD_SIZE, rng);
+      if (new Set(picked.map((c) => c.continent)).size < 3) continue;
+      const cand = candidate(stats, picked);
+      const miss = gapMiss(cand.greedy - cand.optimalScore);
+      if (miss === 0) return toConfig(cand, mode, dateKey);
+      if (!best || miss < gapMiss(best.greedy - best.optimalScore)) best = cand;
     }
   }
 
-  // Fallback: just take what we get if diversity isn't achievable
-  if (selectedCountries.length === 0) {
-    selectedCountries = seededPick(eligible, GAME_SIZE, rng);
-  }
+  if (!best) throw new Error("blind-pick: no board could be dealt");
+  return toConfig(best, mode, dateKey);
+}
 
-  // 4. Build cost matrix
-  const costMatrix: number[][] = [];
-  for (const country of selectedCountries) {
-    const row: number[] = [];
-    for (const cat of selectedCategories) {
-      row.push(ranks[country.iso3][cat.slug] || 999);
-    }
-    costMatrix.push(row);
-  }
-
-  // 5. Compute optimal assignment (only needed to validate matrix; reordered below)
-  solveAssignment(costMatrix);
-
-  // 6. Shuffle reveal order
-  const revealOrder = seededShuffle(
-    selectedCountries.map((_, i) => i),
-    rng
-  );
-
-  const reorderedCountries = revealOrder.map((i) => selectedCountries[i]);
-  const reorderedCostMatrix = revealOrder.map((i) => costMatrix[i]);
-
-  // Recompute optimal for reordered matrix to keep assignment indices correct
-  const { optimalScore: reoptimalScore, assignment: reoptimalAssignment } =
-    solveAssignment(reorderedCostMatrix);
-
+function toConfig(c: Candidate, mode: "daily" | "practice", dateKey: string): BlindPickConfig {
   return {
-    countries: reorderedCountries,
-    categories: selectedCategories,
-    costMatrix: reorderedCostMatrix,
-    optimalScore: reoptimalScore,
-    optimalAssignment: reoptimalAssignment,
+    countries: c.countries,
+    categories: c.stats,
+    costMatrix: c.matrix,
+    of: c.stats.map((s) => sovereignCount(s.slug)),
+    optimalScore: c.optimalScore,
+    optimalAssignment: c.optimalAssignment,
+    greedyScore: c.greedy,
     mode,
     dateKey,
   };

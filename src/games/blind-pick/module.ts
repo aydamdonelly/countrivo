@@ -1,105 +1,66 @@
 /*
- * Blind Pick (blueprint 8.8; formerly the game at /games/country-draft). Eight stat
- * categories sit on the board and eight countries arrive one at a time, with no way to
- * know what comes next; each one is put on the stat where it ranks best in the world. The
- * score is the sum of the eight ranks, lower is better, and it is measured against the
- * optimal assignment. This adapter is pure and React-free: it wraps the kept engine under
- * src/lib/game-logic/blind-pick, so the board, the resume replay and the server validator
- * all read the same deterministic config.
+ * Blind Pick (concept 5.7, pane BP1). Six countries arrive one at a time and six stats wait;
+ * each country goes on the stat where it ranks highest among sovereign states, without
+ * seeing who comes next. The tap is the commit (no undo). Scoring is golf: the sum of the six
+ * ranks minus the perfect board's sum, "Perfect" or "+N", par +10.
+ *
+ * This adapter is pure and React-free: it wraps the engine under src/lib/game-logic/blind-pick,
+ * so the board, the resume replay and the server validator all read the same deterministic
+ * board.
  */
 import { mulberry32 } from "@/lib/seeded-random";
+import { createGame, getCurrentCountry, isComplete, place } from "@/lib/game-logic/blind-pick/engine";
 import {
-  assignCategory,
-  canUndo,
-  createGame,
-  getCurrentCountry,
-  isComplete,
-  undoLastAssignment,
-} from "@/lib/game-logic/blind-pick/engine";
-import { computeResult } from "@/lib/game-logic/blind-pick/scoring";
-import type { BlindPickGame, BlindPickResult } from "@/lib/game-logic/blind-pick/types";
+  BLIND_PICK_MAX_OVER,
+  BLIND_PICK_PAR,
+  computeResult,
+  overLabel,
+  placementMark,
+  tierFor,
+} from "@/lib/game-logic/blind-pick/scoring";
+import type { BlindPickGame } from "@/lib/game-logic/blind-pick/types";
 import { buildBlindPickShareText } from "@/lib/share";
 import type { GameModule } from "@/games/types";
 import { codec } from "./codec";
 
 export interface BlindPickState {
   g: BlindPickGame;
-  /** The reveal window was acknowledged (by the button, a key, or the 60 s timer). */
+  /** The last placement's flip was shown; the run is done once this is set on a full board. */
   seen: boolean;
-  /** The country index of the pick that just landed, for the counting rank; null after an undo. */
-  lastPick: number | null;
   /**
    * Board-changing actions applied so far. Deterministic under replay, so the board can
    * snapshot it at mount and animate only what moves after that: a resumed board arrives
-   * settled, with no rank counting up and no subject sliding in on first paint.
+   * settled, with no slot flipping and no country sliding in on first paint.
    */
   moves: number;
 }
 
-/** The grade the engine gives the gap, as one word (blueprint 8.7: the grade is a word, never stars). */
-export const GRADE_WORD: Record<BlindPickResult["grade"], string> = {
-  perfect: "Perfect.",
-  excellent: "Excellent.",
-  great: "Great.",
-  good: "Good.",
-  okay: "Okay.",
-  poor: "Poor.",
-};
+export type BlindPickAction = { t: "place"; s: number } | { t: "seen" };
 
-/**
- * The width of a rank cell on the result and run rows. The two columns are pinned so the
- * eight rows read as columns instead of a ragged list: the stat icon opens every cell and
- * the rank closes it, on every row.
- */
-export const RANK_CELL = { width: 62, display: "inline-flex", alignItems: "center", justifyContent: "space-between", gap: 6 } as const;
+/** Six countries, six stats. */
+export const PICK_COUNT = 6;
 
-export type BlindPickAction = { t: "pick"; c: number } | { t: "undo" } | { t: "seen" };
+/** How long the last flip stays on the board before the result takes over. */
+export const LAST_FLIP_MS = 900;
 
-/** The reveal window after the 8th pick (blueprint 8.8): the board stays up, undo still works. */
-export const RESULT_REVEAL_MS = 60_000;
-
-/** 8 picks at the worst possible rank (blueprint: scoreMax, and the validator's ceiling). */
-export const BLIND_PICK_MAX_SCORE = 8 * 243;
-
-/** The number of picks in a run; the engine deals one country per category. */
-export const PICK_COUNT = 8;
-
-/** The running total: the ranks of the picks made so far. */
-export function runningScore(g: BlindPickGame): number {
-  let total = 0;
-  g.assignments.forEach((c, i) => {
-    if (c !== null) total += g.config.costMatrix[i][c];
-  });
-  return total;
-}
-
-export function assignedCount(g: BlindPickGame): number {
-  return g.assignments.filter((c) => c !== null).length;
-}
-
-/** The rank a pick would score, used for the verdict of the action that just landed. */
-function rankOf(g: BlindPickGame, countryIdx: number, categoryIdx: number): number {
-  return g.config.costMatrix[countryIdx][categoryIdx];
+/** The board after a pick: the placed count, for the session line. */
+function placedCount(g: BlindPickGame): number {
+  return g.placements.length;
 }
 
 export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   slug: "blind-pick",
 
   create(seed, mode, dateKey) {
-    return { g: createGame(mulberry32(seed), mode, dateKey), seen: false, lastPick: null, moves: 0 };
+    return { g: createGame(mulberry32(seed), mode, dateKey), seen: false, moves: 0 };
   },
 
   reduce(s, a) {
     switch (a.t) {
-      case "pick": {
-        const countryIdx = s.g.currentStep;
-        const g = assignCategory(s.g, a.c);
+      case "place": {
+        const g = place(s.g, a.s);
         if (g === s.g) return s;
-        return { g, seen: false, lastPick: countryIdx, moves: s.moves + 1 };
-      }
-      case "undo": {
-        if (!canUndo(s.g)) return s;
-        return { g: undoLastAssignment(s.g), seen: false, lastPick: null, moves: s.moves + 1 };
+        return { g, seen: false, moves: s.moves + 1 };
       }
       case "seen":
         return isComplete(s.g) && !s.seen ? { ...s, seen: true } : s;
@@ -112,92 +73,82 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
 
   done: (s) => isComplete(s.g) && s.seen,
 
-  /*
-   * The session line carries the game's whole idea: the score so far, and how many countries
-   * are still waiting behind the one on the board. `unseen` is what the player is actually
-   * gambling against on every pick, so it is the one fact worth a permanent place up there.
-   */
   progress(s) {
-    const n = assignedCount(s.g);
-    const unseen = PICK_COUNT - n - 1;
-    return {
-      done: n,
-      total: PICK_COUNT,
-      label: "score",
-      value: String(runningScore(s.g)),
-      extra: isComplete(s.g) ? "all picks in" : unseen === 0 ? "last country" : `unseen ${unseen}`,
-    };
+    const n = placedCount(s.g);
+    return { done: n, total: PICK_COUNT, label: "placed", value: `${n} of ${PICK_COUNT}` };
   },
 
-  verdict(prev, next, a) {
-    if (next === prev) return null;
-    if (a.t === "undo") return { tone: "neutral", text: "Pick taken back." };
-    if (a.t !== "pick") return null;
-    const rank = rankOf(next.g, prev.g.currentStep, a.c);
-    const delta = `+${rank}`;
-    if (rank <= 5) return { tone: "good", text: `Rank ${rank}. Great pick.`, delta };
-    if (rank <= 30) return { tone: "neutral", text: `Solid. Rank ${rank}.`, delta };
-    return { tone: "bad", text: `Costly. Rank ${rank}.`, delta };
-  },
-
-  /**
-   * The 60 s reveal window (blueprint 8.8): the board stays live so the last pick can still
-   * be taken back, and the run settles by itself if nobody presses "See result".
+  /*
+   * The reveal lives in the slot itself ("#12 of 193", the tier word), so the verdict line
+   * stays empty and only carries the juice: a Top 10 landing plays the good beat, anything
+   * else the neutral one. A low rank is not an error, so nothing here is ever "bad".
    */
-  after(s) {
-    return isComplete(s.g) && !s.seen ? { ms: RESULT_REVEAL_MS, then: { t: "seen" }, busy: false } : null;
+  verdict(prev, next, a) {
+    if (next === prev || a.t !== "place") return null;
+    const c = prev.g.placements.length;
+    const rank = next.g.config.costMatrix[c][a.s];
+    const tier = tierFor(rank, next.g.config.of[a.s]);
+    return { tone: tier === "Top 10" ? "good" : "neutral", text: "" };
+  },
+
+  /** The last flip stays up for LAST_FLIP_MS, then the result takes the screen. */
+  feedback: {
+    ms: LAST_FLIP_MS,
+    inWindow: (s) => isComplete(s.g) && !s.seen,
+    advance: { t: "seen" },
   },
 
   payload(s, ctx) {
     const r = computeResult(s.g);
+    const cfg = s.g.config;
     return {
       gameSlug: "blind-pick",
       mode: ctx.mode,
       dateKey: ctx.dateKey,
-      scoreRaw: r.playerScore,
-      scoreMax: BLIND_PICK_MAX_SCORE,
-      // Lower is better; the server recomputes this the same way.
-      scoreSortValue: BLIND_PICK_MAX_SCORE - r.playerScore,
-      scoreDisplay: `Score: ${r.playerScore} (Gap: ${r.gap})`,
+      scoreRaw: r.over,
+      scoreMax: BLIND_PICK_MAX_OVER,
+      // Golf: lower is better, so the board sorts on minus the score (the server recomputes it).
+      scoreSortValue: -r.over,
+      scoreDisplay: overLabel(r.over),
       resultJson: {
+        v: 2,
+        over: r.over,
+        par: BLIND_PICK_PAR,
         playerScore: r.playerScore,
         optimalScore: r.optimalScore,
-        gap: r.gap,
-        grade: r.grade,
-        stars: r.stars,
-        assignments: r.assignments,
-        optimalAssignments: r.optimalAssignments,
-        countryIso3s: s.g.config.countries.map((c) => c.iso3),
+        countryIso3s: cfg.countries.map((c) => c.iso3),
+        stats: cfg.categories.map((c) => c.slug),
+        of: [...cfg.of],
+        placements: r.placements,
+        ranks: r.ranks,
+        perfect: r.perfect,
+        perfectRanks: r.perfectRanks,
       },
       startedAt: ctx.startedAt,
     };
   },
 
-  scoreLabel: (s) => String(runningScore(s.g)),
+  scoreLabel(s) {
+    if (!isComplete(s.g)) return `${placedCount(s.g)} of ${PICK_COUNT}`;
+    return overLabel(computeResult(s.g).over);
+  },
 
   share(s, ctx) {
     const r = computeResult(s.g);
-    return buildBlindPickShareText(
-      { playerScore: r.playerScore, assignments: r.assignments, optimalAssignments: r.optimalAssignments, rank: ctx.rank },
-      ctx.dateKey,
-    );
+    const marks = r.placements.map((slot, c) => placementMark(slot, r.ranks[c], r.perfect[c], r.perfectRanks[c]));
+    return buildBlindPickShareText({ over: r.over, marks, practice: ctx.mode === "practice" }, ctx.dateKey);
   },
 
-  /** Digits 1 to 8 pick the slot at that position; Enter closes the reveal window. */
+  /** Digits 1 to 6 place the waiting country on the slot at that position. */
   keys(s, dispatch): Record<string, () => void> {
     const map: Record<string, () => void> = {};
-    if (isComplete(s.g)) {
-      if (!s.seen) map.Enter = () => dispatch({ t: "seen" });
-      return map;
-    }
     if (!getCurrentCountry(s.g)) return map;
     s.g.config.categories.forEach((_, i) => {
-      if (!s.g.usedCategories.has(i)) map[String(i + 1)] = () => dispatch({ t: "pick", c: i });
+      if (!s.g.placements.includes(i)) map[String(i + 1)] = () => dispatch({ t: "place", s: i });
     });
     return map;
   },
 
-  keyHint: "1 to 8 pick",
-  keepBoardOnResult: true,
+  keepBoardOnResult: false,
   submits: true,
 };

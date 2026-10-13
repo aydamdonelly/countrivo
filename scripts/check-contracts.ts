@@ -22,15 +22,19 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import { dateSeed } from "../src/lib/daily-seed";
-import { validateBlindPickResult } from "../src/lib/game-logic/blind-pick/server-validate";
+import { blindPickShapeError, validateBlindPickResult } from "../src/lib/game-logic/blind-pick/server-validate";
 import { validateCountryDraftResult } from "../src/lib/game-logic/country-draft/server-validate";
-import { validateStatGuesserResult } from "../src/lib/game-logic/stat-guesser/server-validate";
+import { checkStatGuesserShape, validateStatGuesserResult } from "../src/lib/game-logic/stat-guesser/server-validate";
+import { validateHigherOrLowerResult } from "../src/lib/game-logic/higher-or-lower/server-validate";
+import { validateFlagQuizResult } from "../src/lib/game-logic/flag-quiz/server-validate";
+import { LADDER, answerAt, farEnough } from "../src/lib/game-logic/higher-or-lower/engine";
+import { rulerFor } from "../src/lib/game-logic/stat-guesser/engine";
 import type { Action, GameModule, PayloadContext, SubmitGameRunInput } from "../src/games/types";
 import type { GameSlug } from "../src/ui/types";
 
 import { gameModule as countryDraft } from "../src/games/country-draft/module";
 import { gameModule as blindPick, type BlindPickState } from "../src/games/blind-pick/module";
-import { gameModule as higherOrLower, type HoLState } from "../src/games/higher-or-lower/module";
+import { gameModule as higherOrLower, currentAnswer, type HoLState } from "../src/games/higher-or-lower/module";
 import { gameModule as geoWordle } from "../src/games/geo-wordle/module";
 import { gameModule as statGuesser } from "../src/games/stat-guesser/module";
 import { gameModule as flagQuiz, type QuizState } from "../src/games/flag-quiz/module";
@@ -95,43 +99,41 @@ type ResultJson = Record<string, unknown>;
 type Validator = (scoreRaw: number, scoreMax: number, r: ResultJson) => string | null;
 
 const VALIDATORS: Record<string, Validator> = {
-  "flag-quiz": (scoreRaw, _max, r) => {
-    const answers = r.answers as unknown[] | undefined;
-    if (!answers || !Array.isArray(answers)) return "invalid_result";
-    const objects = answers.filter((a): a is { correct?: boolean } => !!a && typeof a === "object");
-    if (objects.length === answers.length && answers.length > 0) {
-      if (objects.filter((a) => a.correct).length !== scoreRaw) return "score_mismatch";
-    } else {
-      if (typeof r.score !== "number") return "invalid_result";
-      if (r.score !== scoreRaw) return "score_mismatch";
-    }
-    if (scoreRaw > answers.length) return "score_exceeds_total";
+  "flag-quiz": (scoreRaw, scoreMax, r) => {
+    const answers = r.answers;
+    const hits = r.hits;
+    if (!Array.isArray(answers) || answers.length !== 10) return "invalid_result";
+    if (!Array.isArray(hits) || hits.length !== 10 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+    if (typeof r.score !== "number" || r.score !== scoreRaw) return "score_mismatch";
+    const points = hits.reduce((sum: number, ok: unknown, i: number) => sum + (ok === true ? (i >= 7 ? 2 : 1) : 0), 0);
+    if (points !== scoreRaw) return "score_mismatch";
+    if (scoreMax !== 13 || scoreRaw > 13) return "score_exceeds_total";
     return null;
   },
-  "higher-or-lower": (scoreRaw, _max, r) => {
+  "higher-or-lower": (scoreRaw, scoreMax, r) => {
+    if (typeof r.points === "number") {
+      const hits = r.hits;
+      if (!Array.isArray(hits) || hits.length !== 10) return "invalid_result";
+      const points = hits.reduce<number>((sum, h, i) => sum + (h === true ? (i < 7 ? 1 : 2) : 0), 0);
+      if (r.points !== scoreRaw || points !== scoreRaw) return "score_mismatch";
+      if (scoreMax !== 13 || scoreRaw < 0 || scoreRaw > 13) return "score_exceeds_total";
+      return null;
+    }
     if (typeof r.streak !== "number") return "invalid_result";
     if (r.streak !== scoreRaw) return "score_mismatch";
     return null;
   },
   "speed-flags": (scoreRaw, _max, r) => {
-    if (typeof r.correct !== "number") return "invalid_result";
-    if (r.correct !== scoreRaw) return "score_mismatch";
-    if (typeof r.total === "number" && scoreRaw > r.total) return "score_exceeds_total";
+    const { correct, wrong, total } = r;
+    if (typeof correct !== "number" || typeof wrong !== "number" || typeof total !== "number") return "invalid_result";
+    if (!Number.isInteger(correct) || !Number.isInteger(wrong) || correct < 0 || wrong < 0) return "invalid_result";
+    if (correct !== scoreRaw) return "score_mismatch";
+    if (correct + wrong !== total) return "score_mismatch";
+    if (total > 67 || wrong > 10) return "score_exceeds_total";
     return null;
   },
-  "stat-guesser": (scoreRaw, _max, r) => {
-    if (typeof r.avgError !== "number") return "invalid_result";
-    if (Math.abs(Math.round(Math.max(0, 100 - r.avgError)) - scoreRaw) > 1) return "score_mismatch";
-    return null;
-  },
-  "blind-pick": (scoreRaw, _max, r) => {
-    if (typeof r.playerScore !== "number") return "invalid_result";
-    if (r.playerScore !== scoreRaw) return "score_mismatch";
-    if (typeof r.optimalScore === "number" && typeof r.gap === "number") {
-      if (Math.abs(r.playerScore - r.optimalScore - r.gap) > 1) return "score_mismatch";
-    }
-    return null;
-  },
+  "stat-guesser": (scoreRaw, max, r) => checkStatGuesserShape(scoreRaw, max, r),
+  "blind-pick": (scoreRaw, max, r) => blindPickShapeError(scoreRaw, max, r),
   "geo-wordle": (scoreRaw, scoreMax, r) => {
     const guesses = r.guesses;
     if (!Array.isArray(guesses)) return "invalid_result";
@@ -169,7 +171,7 @@ const SORT: Record<string, (raw: number, max: number) => number> = {
   "speed-flags": (raw) => raw,
   "stat-guesser": (raw) => raw,
   "higher-or-lower": (raw) => raw,
-  "blind-pick": (raw) => 1944 - raw,
+  "blind-pick": (raw) => 10000 - raw,
   "geo-wordle": (raw, max) => (max > 0 ? max - raw : 0),
 };
 
@@ -251,42 +253,36 @@ const countryDraftDriver: Driver<DraftState> = {
 };
 
 const blindPickDriver: Driver<BlindPickState> = {
-  // Eight countries, one at a time, into the lowest free stat slot; the one undo is used once.
+  // Six countries, one at a time, each into the leftmost free slot; the tap is final.
   module: blindPick as unknown as GameModule<BlindPickState, Action>,
-  resultKeys: ["playerScore", "optimalScore", "gap", "grade", "assignments", "optimalAssignments"],
-  tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw - 50 }),
+  resultKeys: ["over", "playerScore", "optimalScore", "placements", "ranks", "perfect", "perfectRanks", "countryIso3s", "stats"],
+  tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 5 }),
   play(state, push) {
     const m = this.module;
     let s = state;
-    let undone = false;
     let guard = 0;
-    while (s.g.phase === "playing" && guard < 40) {
+    while (s.g.placements.length < 6 && guard < 20) {
       guard += 1;
-      const free = s.g.config.categories.findIndex((_c, i) => !s.g.usedCategories.has(i));
-      s = step(m, s, { t: "pick", c: free } as Action, push);
-      if (!undone && s.g.currentStep === 2) {
-        undone = true;
-        s = step(m, s, { t: "undo" }, push);
-      }
+      const free = s.g.config.categories.findIndex((_c, i) => !s.g.placements.includes(i));
+      s = step(m, s, { t: "place", s: free } as Action, push);
     }
-    return step(m, s, { t: "seen" }, push);
+    return s;
   },
 };
 
 const higherOrLowerDriver: Driver<HoLState> = {
-  // Call every round right for the first twenty, then miss on purpose, so the log is long
-  // enough to test the codec and the run still ends the way a real one does.
+  // Ten calls along the chain, right on the odd calls and wrong on the even ones, so the run
+  // proves a wrong call does not end the daily and the double calls are scored.
   module: higherOrLower as unknown as GameModule<HoLState, Action>,
-  resultKeys: ["streak", "bestStreak", "totalRounds", "lastAnswer"],
+  resultKeys: ["stat", "points", "calls", "hits", "chain"],
   tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 1 }),
   play(state, push) {
     const m = this.module;
     let s = state;
     let guard = 0;
-    while (!m.done(s) && guard < 200) {
-      const round = s.g.rounds[s.g.currentRound];
-      const right = round.answer;
-      const call = guard < 20 ? right : right === "higher" ? "lower" : "higher";
+    while (!m.done(s) && guard < 20) {
+      const right = currentAnswer(s);
+      const call = guard % 2 === 0 ? right : right === "higher" ? "lower" : "higher";
       guard += 1;
       s = step(m, s, { t: "guess", c: call } as Action, push);
     }
@@ -315,21 +311,18 @@ const geoWordleDriver: Driver<GeoWordleState> = {
 };
 
 const statGuesserDriver: Driver<StatGuesserState> = {
-  // Five rounds, one deliberately imperfect guess each, then the explicit advance.
+  // Five rounds, each locked at the ruler centre, then the explicit advance.
   module: statGuesser as unknown as GameModule<StatGuesserState, Action>,
-  resultKeys: ["avgError", "totalError", "scores", "guesses", "rounds", "targetIso3s", "targetIso3"],
-  tamper: (p) => ({ ...p, scoreRaw: 100 }),
+  resultKeys: ["v", "total", "points", "guesses", "stats", "targetIso3s"],
+  tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 10 }),
   play(state, push) {
     const m = this.module;
     let s = state;
     let guard = 0;
     while (s.phase !== "results" && guard < 40) {
       guard += 1;
-      if (s.phase === "playing") {
-        s = step(m, s, { t: "guess", v: s.rounds[s.currentRound].actualValue * 0.8 } as Action, push);
-      } else {
-        s = step(m, s, { t: "next" }, push);
-      }
+      if (s.phase === "playing") s = step(m, s, { t: "lock", i: rulerFor(s.rounds[s.currentRound].stat).centre } as Action, push);
+      else s = step(m, s, { t: "next" }, push);
     }
     return s;
   },
@@ -338,7 +331,7 @@ const statGuesserDriver: Driver<StatGuesserState> = {
 const flagQuizDriver: Driver<QuizState> = {
   // Ten flags, right then wrong alternating, so score, answers and the log all disagree usefully.
   module: flagQuiz as unknown as GameModule<QuizState, Action>,
-  resultKeys: ["score", "total", "answers"],
+  resultKeys: ["score", "total", "answers", "hits"],
   tamper: (p) => ({ ...p, scoreRaw: 10 }),
   play(state, push) {
     const m = this.module;
@@ -355,20 +348,23 @@ const flagQuizDriver: Driver<QuizState> = {
 };
 
 const speedFlagsDriver: Driver<SpeedFlagsState> = {
-  // Twenty seconds of wall clock, driven by explicit ticks; nothing here is persisted.
+  // Thirty seconds of wall clock, driven by explicit times; nothing here is persisted.
   module: speedFlags as unknown as GameModule<SpeedFlagsState, Action>,
-  resultKeys: ["correct", "total", "accuracy"],
+  resultKeys: ["correct", "wrong", "total", "seconds"],
   tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 5 }),
   play(state, push) {
     const m = this.module;
     const t0 = 1_800_000_000_000;
     let s = step(m, state, { t: "start", now: t0 } as Action, push);
+    let now = t0;
     let n = 0;
-    while (!m.done(s) && n < 60) {
-      s = step(m, s, { t: "answer", i: n % 2 } as Action, push);
+    while (!m.done(s) && n < 200) {
+      now += 450;
+      s = step(m, s, { t: "unlock", ui: true } as Action, push);
+      s = step(m, s, { t: "answer", i: n % 2, now } as Action, push);
       n += 1;
     }
-    return step(m, s, { t: "tick", now: t0 + 21_000, ui: true } as Action, push);
+    return step(m, s, { t: "tick", now: t0 + 31_000, ui: true } as Action, push);
   },
 };
 
@@ -488,12 +484,48 @@ function runDailyValidators(): void {
   const bp = playOut("blind-pick");
   const bpp = bp.m.payload(bp.end, CTX);
   eq(validateBlindPickResult(DATE_KEY, bpp.scoreRaw, bpp.resultJson, EDITION).valid, true, "validateBlindPickResult accepts the honest run");
-  eq(validateBlindPickResult(DATE_KEY, Math.max(0, bpp.scoreRaw - 100), bpp.resultJson, EDITION).valid, false, "validateBlindPickResult refuses a lowered score");
+  eq(validateBlindPickResult(DATE_KEY, bpp.scoreRaw + 1, bpp.resultJson, EDITION).valid, false, "validateBlindPickResult refuses a changed score");
 
   const sg = playOut("stat-guesser");
   const sgp = sg.m.payload(sg.end, CTX);
   eq(validateStatGuesserResult(DATE_KEY, sgp.scoreRaw, sgp.resultJson, EDITION).valid, true, "validateStatGuesserResult accepts the honest run");
-  eq(validateStatGuesserResult(DATE_KEY, 100, sgp.resultJson, EDITION).valid, false, "validateStatGuesserResult refuses a perfect score");
+  eq(validateStatGuesserResult(DATE_KEY, sgp.scoreRaw + 10, sgp.resultJson, EDITION).valid, false, "validateStatGuesserResult refuses a lifted score");
+
+  const hl = playOut("higher-or-lower");
+  const hlp = hl.m.payload(hl.end, CTX);
+  eq(validateHigherOrLowerResult(DATE_KEY, hlp.scoreRaw, hlp.resultJson, EDITION).valid, true, "validateHigherOrLowerResult accepts the honest run");
+  eq(validateHigherOrLowerResult(DATE_KEY, hlp.scoreRaw + 2, hlp.resultJson, EDITION).valid, false, "validateHigherOrLowerResult refuses a lifted score");
+
+  const fq = playOut("flag-quiz");
+  const fqp = fq.m.payload(fq.end, CTX);
+  eq(validateFlagQuizResult(DATE_KEY, fqp.scoreRaw, fqp.resultJson, EDITION).valid, true, "validateFlagQuizResult accepts the honest run");
+  eq(validateFlagQuizResult(DATE_KEY, Math.min(13, fqp.scoreRaw + 2), fqp.resultJson, EDITION).valid, false, "validateFlagQuizResult refuses a lifted score");
+}
+
+/** Concept 5.5: the rank-gap ladder, the direction balance and the 3% rule on 365 daily boards. */
+function checkHigherOrLowerBoards(): void {
+  current = "higher-or-lower, 365 daily boards";
+  for (let d = 0; d < 365; d += 1) {
+    const dk = new Date(Date.UTC(2026, 9, 12 + d)).toISOString().slice(0, 10);
+    const g = higherOrLower.create(dateSeed(dk + EDITION), "daily", dk).g;
+    const dirs = g.chain.slice(0, -1).map((_, i) => answerAt(g, i));
+    const highs = dirs.filter((x) => x === "higher").length;
+    let run = 1;
+    let worst = 1;
+    for (let i = 1; i < dirs.length; i += 1) {
+      run = dirs[i] === dirs[i - 1] ? run + 1 : 1;
+      worst = Math.max(worst, run);
+    }
+    check(g.chain.length === 11, `${dk}: eleven countries`);
+    check(highs >= 4 && highs <= 6 && worst <= 3, `${dk}: direction balance (${highs} higher, longest run ${worst})`);
+    for (let i = 0; i < g.chain.length - 1; i += 1) {
+      const a = g.chain[i];
+      const b = g.chain[i + 1];
+      const gap = Math.abs(a.rank - b.rank);
+      check(gap >= LADDER[i][0] && gap <= LADDER[i][1], `${dk}: call ${i + 1} rank gap ${gap}`);
+      check(farEnough(a.value, b.value), `${dk}: call ${i + 1} is at least 3% apart`);
+    }
+  }
 }
 
 function checkRoster(): void {
@@ -516,6 +548,7 @@ checkRoster();
 checkMirror();
 for (const slug of Object.keys(drivers) as GameSlug[]) runGame(slug);
 runDailyValidators();
+checkHigherOrLowerBoards();
 
 console.log(`check-contracts: ${checks} assertions, ${failures} failure(s)`);
 if (failures) process.exit(1);

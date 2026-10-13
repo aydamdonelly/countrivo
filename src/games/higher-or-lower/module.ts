@@ -1,236 +1,237 @@
 /*
- * Higher or Lower (blueprint 8.8): two countries, one stat, call which of the two ranks
- * higher. A wrong call ends the streak. The pure engine
- * (src/lib/game-logic/higher-or-lower/engine.ts) precomputes 80 rounds from the seed and
- * advances on `guess`; this adapter adds the one thing the board needs and the engine has no
- * concept of, the 1500 ms reveal (blueprint 8.5): the call is held in `pending` while the
- * hidden value counts up, and the engine only sees it when the host dispatches `advance` at
- * the end of the window (replay applies that at once, so a resumed board waits on nothing).
+ * Higher or Lower (concept 5.5, panes HL1 and HL2). The pure engine
+ * (src/lib/game-logic/higher-or-lower/engine.ts) deals the chain and scores the calls; this
+ * adapter adds the two timed beats the board needs and the engine has no notion of:
+ *
+ * - the reveal: a call opens a window (`rev`) in which the right value ticks in for 900 ms
+ *   and the verdict and the comparison line hold for 1.2 s. The host dispatches `advance`
+ *   at its end; a tap after the tick skips the hold. Replay applies `advance` at once, so a
+ *   resumed board lands on its next pair.
+ * - the deal lock: after `advance` the new pair ignores input for 300 ms (`fresh`), held as
+ *   the module's `after` window so the host keeps the buttons and the keys busy.
+ *
+ * The call itself is persisted; `advance` and `ready` are ui actions and never are.
  */
+import {
+  DAILY_MAX,
+  answerAt,
+  createDaily,
+  createPractice,
+  dailyPoints,
+  hitAt,
+  isOver,
+  makeCall,
+  statTable,
+  streak,
+  totalCalls,
+  worth,
+  type Call,
+  type HoLCard,
+  type HoLGame,
+} from "@/lib/game-logic/higher-or-lower/engine";
+import { cardValue, lineValue, statMeta } from "@/lib/game-logic/higher-or-lower/stats";
 import { mulberry32 } from "@/lib/seeded-random";
-import { formatStat } from "@/lib/utils";
-import { createHoL, guess, type HoLRound, type HoLState as EngineState } from "@/lib/game-logic/higher-or-lower/engine";
-import { buildShareGrid } from "@/lib/share";
+import { buildHigherOrLowerShareText } from "@/lib/share/higher-or-lower";
 import type { GameModule } from "@/games/types";
 import { codec } from "./codec";
 
-export type Call = "higher" | "lower";
+export type { Call } from "@/lib/game-logic/higher-or-lower/engine";
 
-/** The two options in the order the board renders them: 0 higher, 1 lower. */
-export const CALLS: readonly Call[] = ["higher", "lower"];
-
-/** How long the answered pair stays on screen before the engine takes the call (blueprint 8.5). */
-export const REVEAL_MS = 1500;
+/** The value ticks in over this, whatever its size (concept 3.7: fixed, so it leaks nothing). */
+export const TICK_MS = 900;
+/** The verdict and the comparison line hold this long before the next pair is dealt. */
+export const HOLD_MS = 1200;
+export const REVEAL_MS = TICK_MS + HOLD_MS;
+/** A newly dealt pair ignores input this long (concept 3.7). */
+export const DEAL_LOCK_MS = 300;
 
 export interface HoLState {
-  g: EngineState;
-  /** The call during the reveal window; the engine takes it on `advance`. */
-  pending: Call | null;
+  g: HoLGame;
+  /** The last call is on screen and its value is being revealed. */
+  rev: boolean;
+  /** A pair was just dealt; input waits for `ready`. */
+  fresh: boolean;
 }
 
-export type HoLAction = { t: "guess"; c: Call } | { t: "advance"; ui: true };
+export type HoLAction = { t: "guess"; c: Call } | { t: "advance"; ui: true } | { t: "ready"; ui: true };
 
-const ADVANCE: HoLAction = { t: "advance", ui: true };
+export const ADVANCE: HoLAction = { t: "advance", ui: true };
+const READY: HoLAction = { t: "ready", ui: true };
 
-/** The engine state as it stands once the reveal is over. */
-export function settled(s: HoLState): EngineState {
-  return s.pending === null ? s.g : guess(s.g, s.pending);
+/** The call on screen: during the reveal it is the one just made, else the next one. */
+export function callInView(s: HoLState): number {
+  const i = s.rev ? s.g.calls.length - 1 : s.g.calls.length;
+  return Math.max(0, Math.min(i, s.g.chain.length - 2));
+}
+
+export interface PairView {
+  index: number;
+  left: HoLCard;
+  right: HoLCard;
+  answer: Call;
+}
+
+export function pairInView(s: HoLState): PairView {
+  const i = callInView(s);
+  return { index: i, left: s.g.chain[i], right: s.g.chain[i + 1], answer: answerAt(s.g, i) };
+}
+
+/** The calls whose reveal is over, so the header never tells the verdict before the board does. */
+export function settledCalls(s: HoLState): number {
+  return s.rev ? s.g.calls.length - 1 : s.g.calls.length;
+}
+
+/** `Denmark: 5.95 million. Norway: 5.52 million.` Generated from the data, never typed. */
+export function comparisonLine(g: HoLGame, i: number): string {
+  const l = g.chain[i];
+  const r = g.chain[i + 1];
+  return `${r.name}: ${lineValue(g.stat, r.value)}. ${l.name}: ${lineValue(g.stat, l.value)}.`;
+}
+
+/** `Source: World Bank, 2023`. */
+export function sourceLine(g: HoLGame): string {
+  const t = statTable(g.stat);
+  return `Source: ${t.source}, ${t.year}`;
+}
+
+/** `Population, 2023`. */
+export function statLine(g: HoLGame): string {
+  return `${statMeta(g.stat).label}, ${statTable(g.stat).year}`;
+}
+
+/** `People, 2023`. */
+export function unitLine(g: HoLGame): string {
+  return `${statMeta(g.stat).unit}, ${statTable(g.stat).year}`;
+}
+
+export { cardValue };
+
+export interface CallRow {
+  index: number;
+  left: HoLCard;
+  right: HoLCard;
+  call: Call;
+  ok: boolean;
+  points: number;
+}
+
+/** Every call made, oldest first. */
+export function callLog(g: HoLGame): CallRow[] {
+  return g.calls.map((call, i) => ({
+    index: i,
+    left: g.chain[i],
+    right: g.chain[i + 1],
+    call,
+    ok: hitAt(g, i),
+    points: g.mode === "daily" && hitAt(g, i) ? worth(i) : 0,
+  }));
+}
+
+/** The right call for the pair on screen (the contract driver plays with it). */
+export function currentAnswer(s: HoLState): Call {
+  return answerAt(s.g, Math.min(s.g.calls.length, s.g.chain.length - 2));
 }
 
 function commit(s: HoLState): HoLState {
-  return s.pending === null ? s : { g: settled(s), pending: null };
+  return s.rev ? { g: s.g, rev: false, fresh: !isOver(s.g) } : s;
 }
 
-/**
- * The unit printed beside a pair value. The stat line above the pair already names the
- * measure, so the three units that would wrap a 22 px Erode numeral onto a second line in a
- * 165 px column ("1.1M arrivals/year", "4.6 births/woman", "84.5M people") are dropped and
- * the number stands alone. `%`, `years`, `km²` and `USD` stay: they carry meaning the stat
- * line does not.
- */
-const DROPPED_UNITS = new Set(["people", "births/woman", "arrivals/year"]);
-
-export function pairUnit(unit: string): string {
-  return DROPPED_UNITS.has(unit) ? "" : unit;
-}
-
-/**
- * `41.6%`, `84.5 years`, `1.1M`, `4.556`: the house formatter with no dangling space when the
- * unit is dropped. The figures are printed at the precision the data carries and are never
- * rounded further: a fertility pair is often decided in the second decimal (rounding the
- * category to one would print the same number on both sides of 4 rounds in 100), and a pair
- * that reads as a tie is a round the player cannot call.
- *
- * Above a trillion the house formatter keeps counting in billions (`$27292.2B` for the US
- * economy), which is the one figure in this game's ten categories that reads as a glitch, so
- * the value steps up to `$27.3T` here. When `formatNumber` grows a T tier this branch goes.
- */
-const TRILLION = 1e12;
-
-function trillions(value: number, unit: string): string | null {
-  if (Math.abs(value) < TRILLION) return null;
-  const t = `${(value / TRILLION).toFixed(1)}T`;
-  if (unit === "USD") return `$${t}`;
-  return unit ? `${t} ${unit}` : t;
-}
-
-export function pairValue(value: number, unit: string): string {
-  const u = pairUnit(unit);
-  return trillions(value, u) ?? formatStat(value, u).trimEnd();
-}
-
-/**
- * The two figures as the board prints them, and whether the hidden one may count up.
- *
- * Two guarantees the plain formatter cannot give on its own. First, a revealed pair never
- * shows the same number twice: about one round in six hundred holds two countries the house
- * rounding cannot tell apart (`5.1M` against `5.1M`), and a round that reads as a tie is one
- * the player is told they called wrong for no visible reason, so both sides step down to the
- * first decimal place that separates them (`5.10M` against `5.14M`) and stay in the compact
- * house form rather than spelling out ten digits that would not fit the column. Second,
- * `count` is false whenever the printed string is not what CountUp's own formatter would
- * produce (that finer step, or the trillions one), because the reveal would otherwise count
- * in one format and land in another.
- */
-export interface PairFigures {
-  left: string;
-  right: string;
-  count: boolean;
-}
-
-const TIERS: readonly (readonly [number, string])[] = [
-  [TRILLION, "T"],
-  [1e9, "B"],
-  [1e6, "M"],
-  [1e3, "K"],
-];
-
-function withUnit(figure: string, unit: string): string {
-  if (unit === "USD") return `$${figure}`;
-  return unit ? `${figure} ${unit}` : figure;
-}
-
-/** The house compact form at a chosen precision: `5.14M`, `$2.1277B`, `74.85 years`. */
-function finer(value: number, decimals: number, unit: string): string {
-  const abs = Math.abs(value);
-  for (const [size, suffix] of TIERS) {
-    if (abs >= size) return withUnit(`${(value / size).toFixed(decimals)}${suffix}`, unit);
-  }
-  return withUnit(value.toFixed(decimals), unit);
-}
-
-export function pairFigures(round: HoLRound): PairFigures {
-  const unit = pairUnit(round.category.unit);
-  const left = pairValue(round.leftValue, round.category.unit);
-  const right = pairValue(round.rightValue, round.category.unit);
-  if (left !== right) return { left, right, count: Math.abs(round.rightValue) < TRILLION };
-  for (let d = 2; d <= 4; d += 1) {
-    const l = finer(round.leftValue, d, unit);
-    const r = finer(round.rightValue, d, unit);
-    if (l !== r) return { left: l, right: r, count: false };
-  }
-  // Two figures that still print alike at four decimals are equal for every purpose the
-  // player can see; the generator drops exactly equal pairs, so this line is unreachable.
-  return { left, right, count: false };
-}
-
-/** The pair on screen: during the reveal it is still the round that was just called. */
-export function roundInView(s: HoLState): HoLRound {
-  return s.g.rounds[Math.min(s.g.currentRound, s.g.rounds.length - 1)];
-}
-
-export interface CalledRound {
-  index: number;
-  round: HoLRound;
-  call: Call;
-  ok: boolean;
-}
-
-/**
- * Every round the player answered, oldest first. A correct call is the round's own answer;
- * the round that ended the streak is the only wrong one, so its call is the other side.
- */
-export function callLog(g: EngineState): CalledRound[] {
-  const out: CalledRound[] = [];
-  for (let i = 0; i < g.currentRound && i < g.rounds.length; i += 1) {
-    out.push({ index: i, round: g.rounds[i], call: g.rounds[i].answer, ok: true });
-  }
-  if (g.lastAnswer === "wrong" && g.currentRound < g.rounds.length) {
-    const round = g.rounds[g.currentRound];
-    out.push({ index: g.currentRound, round, call: round.answer === "higher" ? "lower" : "higher", ok: false });
-  }
-  return out;
+export function scoreText(g: HoLGame): string {
+  return g.mode === "daily" ? `${dailyPoints(g)} of ${DAILY_MAX}` : `${streak(g)} in a row`;
 }
 
 export const gameModule: GameModule<HoLState, HoLAction> = {
   slug: "higher-or-lower",
-  create(seed) {
-    return { g: createHoL(mulberry32(seed)), pending: null };
+  create(seed, mode, dateKey) {
+    const rng = mulberry32(seed);
+    const g = mode === "daily" ? createDaily(rng, dateKey) : createPractice(rng, dateKey);
+    return { g, rev: false, fresh: false };
   },
   reduce(s, a) {
     if (a.t === "advance") return commit(s);
+    if (a.t === "ready") return s.fresh ? { ...s, fresh: false } : s;
     if (a.t === "guess") {
       const base = commit(s);
-      if (base.g.phase !== "playing") return base;
-      return { g: base.g, pending: a.c };
+      if (isOver(base.g)) return base;
+      return { g: makeCall(base.g, a.c), rev: true, fresh: false };
     }
     return s;
   },
   codec,
-  feedback: { ms: REVEAL_MS, inWindow: (s) => s.pending !== null, advance: ADVANCE },
-  // A deck the generator could not fill (every candidate pair tied) has nothing to play, so
-  // it is finished on arrival rather than rendering a board with no round in it.
-  done: (s) => s.g.rounds.length === 0 || (s.pending === null && s.g.phase === "gameover"),
-  /*
-   * The session line: the burning flame, `streak`, the numeral, and no pips (blueprint 8.8
-   * also asks for `best 22` beside it, but the engine's bestStreak only ever equals the
-   * running streak, so it would print the same number twice, and the viewer's own best
-   * across sessions never reaches `progress`, which sees the state alone).
-   */
+  feedback: { ms: REVEAL_MS, inWindow: (s) => s.rev, advance: ADVANCE },
+  after: (s) => (s.fresh ? { ms: DEAL_LOCK_MS, then: READY, busy: true } : null),
+  done: (s) => !s.rev && isOver(s.g),
   progress(s) {
-    const g = settled(s);
-    return { done: g.streak, label: "streak", value: String(g.streak), flame: true };
+    const n = settledCalls(s);
+    const g: HoLGame = n === s.g.calls.length ? s.g : { ...s.g, calls: s.g.calls.slice(0, n) };
+    if (g.mode === "practice") return { done: streak(g), label: "streak", value: String(streak(g)), flame: true };
+    const misses: number[] = [];
+    for (let i = 0; i < n; i += 1) if (!hitAt(g, i)) misses.push(i);
+    return { done: n, total: totalCalls(g), label: "score", value: String(dailyPoints(g)), extra: `of ${DAILY_MAX}`, misses };
   },
+  // The verdict word lives on the right card once the value has ticked in (HL2). The host
+  // line stays empty; the neutral tone gives the commit its light tap and nothing more, so
+  // no sound or haptic tells the answer before the number does.
   verdict(prev, next, a) {
-    if (a.t !== "guess" || next.pending === null) return null;
-    const round = roundInView(next);
-    if (next.pending !== round.answer) return { tone: "bad", text: "Wrong. Streak ends." };
-    return { tone: "good", text: "Right.", milestone: (next.g.streak + 1) % 5 === 0 };
+    if (a.t !== "guess" || !next.rev || next === prev) return null;
+    return { tone: "neutral", text: "" };
   },
   payload(s, ctx) {
-    const g = settled(s);
+    const g = s.g;
+    const calls = g.calls.map((c) => (c === "higher" ? "h" : "l")).join("");
+    if (g.mode === "daily") {
+      const points = dailyPoints(g);
+      return {
+        gameSlug: "higher-or-lower",
+        mode: ctx.mode,
+        dateKey: ctx.dateKey,
+        scoreRaw: points,
+        scoreMax: DAILY_MAX,
+        scoreSortValue: points,
+        scoreDisplay: `${points} of ${DAILY_MAX}`,
+        resultJson: {
+          stat: g.stat,
+          points,
+          calls,
+          hits: g.calls.map((_, i) => hitAt(g, i)),
+          chain: g.chain.map((c) => c.iso3),
+        },
+        startedAt: ctx.startedAt,
+      };
+    }
+    const n = streak(g);
     return {
       gameSlug: "higher-or-lower",
       mode: ctx.mode,
       dateKey: ctx.dateKey,
-      scoreRaw: g.streak,
-      scoreMax: g.streak,
-      scoreSortValue: g.streak,
-      scoreDisplay: `Streak: ${g.streak}`,
-      resultJson: { streak: g.streak, bestStreak: g.bestStreak, totalRounds: g.rounds.length, lastAnswer: g.lastAnswer },
+      scoreRaw: n,
+      scoreMax: n,
+      scoreSortValue: n,
+      scoreDisplay: `${n} in a row`,
+      resultJson: { stat: g.stat, streak: n, calls },
       startedAt: ctx.startedAt,
     };
   },
-  scoreLabel: (s) => `${settled(s).streak} in a row`,
+  scoreLabel: (s) => scoreText(s.g),
   share(s, ctx) {
-    // A streak has no fixed maximum, so the share carries the brag line without a grid row
-    // (the rule buildShareGrid documents for open-ended scores).
-    return buildShareGrid({
-      gameTitle: ctx.title,
-      gameSlug: "higher-or-lower",
-      scoreDisplay: `${settled(s).streak} in a row`,
+    const g = s.g;
+    return buildHigherOrLowerShareText({
+      practice: ctx.mode === "practice" || g.mode === "practice",
       dateKey: ctx.dateKey,
-      practice: ctx.mode === "practice",
+      noun: statMeta(g.stat).noun,
+      points: dailyPoints(g),
+      max: DAILY_MAX,
+      streak: streak(g),
+      hits: g.calls.map((_, i) => hitAt(g, i)),
     });
   },
   keys(s, dispatch): Record<string, () => void> {
-    if (s.pending !== null || s.g.phase !== "playing") return {};
-    return {
-      ArrowUp: () => dispatch({ t: "guess", c: "higher" }),
-      ArrowDown: () => dispatch({ t: "guess", c: "lower" }),
-    };
+    if (s.rev || s.fresh || isOver(s.g)) return {};
+    const higher = () => dispatch({ t: "guess", c: "higher" });
+    const lower = () => dispatch({ t: "guess", c: "lower" });
+    return { ArrowUp: higher, h: higher, H: higher, ArrowDown: lower, l: lower, L: lower };
   },
-  keyHint: "arrow up higher · arrow down lower",
+  // The hint sits inside the board, under the left card on desktop (HL1), not in the host row.
   keepBoardOnResult: false,
   submits: true,
 };

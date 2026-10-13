@@ -1,0 +1,87 @@
+/* Blind Pick (pane BP1, R6). Tokens only: no hex, no shadow, no gradient. Content is visible
+   by default; the slide-in and the flip only move things that are already on screen. */
+@layer components {
+  /* the board sits in the middle of the room, not under the header */
+  .bp { display: flex; flex-direction: column; justify-content: center; gap: 24px; min-height: calc(100svh - 220px); }
+
+  /* the arriving country: "Country 4 of 6", then the plain card */
+  .bp-arrive { display: flex; flex-direction: column; gap: 8px; }
+  .bp-count { color: var(--color-mute); }
+  .bp-card { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px; background: var(--color-card); border-radius: var(--radius-card); }
+  .bp-who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .bp-who .t-h3 { color: var(--color-ink); }
+  .bp-who .t-meta { color: var(--color-mute); }
+
+  /* the six slots: 2 x 3 at 167 x 72 on phones */
+  .bp-slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 12px; }
+  .bp-slot { position: relative; width: 100%; min-width: 0; min-height: 72px; padding: 10px 12px; background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink); text-align: left; }
+
+  .bp-slot.open { display: flex; align-items: center; gap: 10px; transition: background-color var(--dur-fast); }
+  .bp-slot.open svg { flex: none; }
+  .bp-lbl { min-width: 0; font-size: 16px; line-height: 1.25; font-weight: 400; overflow-wrap: anywhere; }
+  .bp-slot.open:disabled { cursor: default; }
+  @media (hover: hover) { .bp-slot.open:not(:disabled):hover { background: var(--color-line); } }
+  .bp-slot.open:not(:disabled):active { background: var(--color-ink-2); color: var(--color-paper); }
+
+  /* placed: "#2 of 195" and the tier word, then the flag at 20 and the stat */
+  .bp-slot.placed {
+    display: grid; grid-template-columns: 20px auto minmax(0, 1fr);
+    grid-template-areas: "rank rank tier" "flag lbl lbl";
+    align-content: center; align-items: center; column-gap: 8px; row-gap: 6px;
+  }
+  .bp-sflag { grid-area: flag; align-self: start; margin-top: 1px; }
+  .bp-rank { grid-area: rank; white-space: nowrap; color: var(--color-ink); }
+  .bp-tier { grid-area: tier; color: var(--color-ink); white-space: nowrap; }
+  /* the stat wraps to a second line rather than being cut ("Most GDP per person" at 167) */
+  .bp-slbl { grid-area: lbl; color: var(--color-mute); min-width: 0; line-height: 1.2; overflow-wrap: anywhere; }
+
+  /* the line under the slots */
+  .bp-line { color: var(--color-mute); text-align: center; min-height: 20px; }
+  .bp-keys { display: none; }
+  @media (hover: hover) and (pointer: fine) { .bp-keys { display: inline; } }
+
+
+  /* desktop: the card centred, one row of six at 150 x 96 across the 960 column */
+  @media (min-width: 1024px) {
+    .bp { gap: 32px; }
+    .bp-arrive { align-items: center; }
+    .bp-card { width: 320px; min-height: 80px; }
+    .bp-slots {
+      grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;
+      width: min(960px, calc(100vw - 48px));
+      margin-inline: calc((100% - min(960px, calc(100vw - 48px))) / 2);
+    }
+    .bp-slot { min-height: 96px; padding: 12px; }
+    .bp-slot.open { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .bp-lbl { font-size: 14px; line-height: 1.3; }
+    .bp-slot.placed {
+      grid-template-columns: 20px minmax(0, 1fr);
+      grid-template-areas: "flag rank" "tier tier" "lbl lbl";
+      row-gap: 6px; align-content: start;
+    }
+  }
+
+  /* motion: the next country slides in from the right, a placed slot flips once */
+  @media (prefers-reduced-motion: no-preference) {
+    .bp-in { animation: bp-in var(--dur-base) var(--ease-out); }
+    .bp-flip { animation: bp-flip 240ms var(--ease-out); }
+  }
+  @keyframes bp-in { from { transform: translateX(16px); } to { transform: none; } }
+  @keyframes bp-flip { from { transform: perspective(480px) rotateX(-75deg); } to { transform: none; } }
+
+  /* R6: your board over the perfect one, then the swaps */
+  .bp-ov { display: flex; flex-direction: column; gap: 4px; }
+  .bp-ov .rhead { flex-wrap: wrap; }
+  .rrow.bp-ovrow { grid-template-columns: 18px minmax(0, 1fr) 72px 72px; }
+  .bp-ovrow svg { color: var(--color-ink); }
+  .bp-ovhead { border-top: 0; min-height: 0; padding: 8px 0 4px; color: var(--color-mute); }
+  .bp-ovhead .t-meta { text-align: right; }
+  .bp-cell { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; white-space: nowrap; }
+  .bp-cell.mute { color: var(--color-mute); }
+  .bp-cell .ic-ok { color: var(--color-ink); }
+  .bp-swaps { display: flex; flex-direction: column; margin-top: 12px; }
+  .bp-swaps-h { color: var(--color-mute); padding-bottom: 4px; }
+  .bp-swap { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--color-line); color: var(--color-ink); }
+  .bp-saved { color: var(--color-mute); white-space: nowrap; }
+  .bp-saved .t-num { color: var(--color-ink); }
+}

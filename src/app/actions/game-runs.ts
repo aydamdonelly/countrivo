@@ -2,9 +2,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { dateSeed, getTodayDateKey } from "@/lib/daily-seed";
-import { validateBlindPickResult } from "@/lib/game-logic/blind-pick/server-validate";
+import { blindPickShapeError, validateBlindPickResult } from "@/lib/game-logic/blind-pick/server-validate";
 import { validateCountryDraftResult } from "@/lib/game-logic/country-draft/server-validate";
-import { validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
+import { checkStatGuesserShape, validateStatGuesserResult } from "@/lib/game-logic/stat-guesser/server-validate";
+import { validateHigherOrLowerResult } from "@/lib/game-logic/higher-or-lower/server-validate";
+import { validateFlagQuizResult } from "@/lib/game-logic/flag-quiz/server-validate";
 import { getDailyEdition } from "@/lib/daily-edition";
 import type { ServerGameRun, LeaderboardEntry, RunDetail, UserGameStats, DailySummary } from "@/types/server";
 
@@ -74,6 +76,12 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       case "stat-guesser":
         serverCheck = validateStatGuesserResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
         break;
+      case "higher-or-lower":
+        serverCheck = validateHigherOrLowerResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
+        break;
+      case "flag-quiz":
+        serverCheck = validateFlagQuizResult(input.dateKey, input.scoreRaw, input.resultJson, edition);
+        break;
     }
     if (serverCheck && !serverCheck.valid) {
       return {
@@ -96,8 +104,9 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       scoreSortValue = input.scoreRaw;
       break;
     case "blind-pick":
-      // Lower score = better, invert for ranking (8*243 = theoretical max)
-      scoreSortValue = 1944 - input.scoreRaw;
+      // Golf (6 x 6, concept 5.7): 0 over perfect is best. Sorted as 10000 - over so the value
+      // stays positive for the stats trigger and sits above the old eight-pick runs (max 1936).
+      scoreSortValue = 10000 - input.scoreRaw;
       break;
     case "geo-wordle":
       // Fewer guesses = better, invert so higher sort = better
@@ -207,7 +216,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
   // run. A record means: not the first run, a non-zero score, and at least as good as
   // the best on file (which, if this run is the best, equals this run).
   const isPersonalBest =
-    input.scoreRaw > 0 && !!stats && Number(stats.total_runs) > 1 && scoreSortValue >= Number(stats.best_sort_value);
+    (input.gameSlug === "blind-pick" || input.scoreRaw > 0) && !!stats && Number(stats.total_runs) > 1 && scoreSortValue >= Number(stats.best_sort_value);
 
   if (isPersonalBest && finalRun) {
     await supabase
@@ -529,47 +538,49 @@ function validateGameResult(
   try {
     switch (gameSlug) {
       case "flag-quiz": {
-        // Boards send `answers` as the picked option index per question (number | null)
-        // plus a `score`; older payloads sent objects with a `correct` flag. Accept both.
-        const answers = resultJson.answers as unknown[] | undefined;
-        if (!answers || !Array.isArray(answers)) return "invalid_result";
-        const objects = answers.filter((a): a is { correct?: boolean } => !!a && typeof a === "object");
-        if (objects.length === answers.length && answers.length > 0) {
-          const correctCount = objects.filter((a) => a.correct).length;
-          if (correctCount !== scoreRaw) return "score_mismatch";
-        } else {
-          if (typeof resultJson.score !== "number") return "invalid_result";
-          if (resultJson.score !== scoreRaw) return "score_mismatch";
-        }
-        if (scoreRaw > answers.length) return "score_exceeds_total";
+        // Ten flags, flags 8 to 10 count double: points of 13 (concept 5.4).
+        const answers = resultJson.answers;
+        const hits = resultJson.hits;
+        if (!Array.isArray(answers) || answers.length !== 10) return "invalid_result";
+        if (!Array.isArray(hits) || hits.length !== 10 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+        if (typeof resultJson.score !== "number" || resultJson.score !== scoreRaw) return "score_mismatch";
+        const points = hits.reduce((sum: number, ok: unknown, i: number) => sum + (ok === true ? (i >= 7 ? 2 : 1) : 0), 0);
+        if (points !== scoreRaw) return "score_mismatch";
+        if (scoreMax !== 13 || scoreRaw > 13) return "score_exceeds_total";
         break;
       }
       case "higher-or-lower": {
+        // Daily (concept 5.5): ten calls, 1 point each for calls 1 to 7 and 2 for 8 to 10.
+        if (typeof resultJson.points === "number") {
+          const hits = resultJson.hits;
+          if (!Array.isArray(hits) || hits.length !== 10) return "invalid_result";
+          const points = hits.reduce<number>((sum, h, i) => sum + (h === true ? (i < 7 ? 1 : 2) : 0), 0);
+          if (resultJson.points !== scoreRaw || points !== scoreRaw) return "score_mismatch";
+          if (scoreMax !== 13 || scoreRaw < 0 || scoreRaw > 13) return "score_exceeds_total";
+          break;
+        }
+        // Practice: the sudden-death streak.
         if (typeof resultJson.streak !== "number") return "invalid_result";
         if (resultJson.streak !== scoreRaw) return "score_mismatch";
         break;
       }
       case "speed-flags": {
-        if (typeof resultJson.correct !== "number") return "invalid_result";
-        if (resultJson.correct !== scoreRaw) return "score_mismatch";
-        if (typeof resultJson.total === "number" && scoreRaw > resultJson.total) return "score_exceeds_total";
+        const { correct, wrong, total } = resultJson;
+        if (typeof correct !== "number" || typeof wrong !== "number" || typeof total !== "number") return "invalid_result";
+        if (!Number.isInteger(correct) || !Number.isInteger(wrong) || correct < 0 || wrong < 0) return "invalid_result";
+        if (correct !== scoreRaw) return "score_mismatch";
+        if (correct + wrong !== total) return "score_mismatch";
+        if (total > 67 || wrong > 10) return "score_exceeds_total";
         break;
       }
       case "stat-guesser": {
-        if (typeof resultJson.avgError !== "number") return "invalid_result";
-        const expectedScore = Math.round(Math.max(0, 100 - resultJson.avgError));
-        if (Math.abs(expectedScore - scoreRaw) > 1) return "score_mismatch";
+        const err = checkStatGuesserShape(scoreRaw, scoreMax, resultJson);
+        if (err) return err;
         break;
       }
       case "blind-pick": {
-        // Renamed from "country-draft" (P0-swap): same eight-pick game, same payload.
-        if (typeof resultJson.playerScore !== "number") return "invalid_result";
-        if (resultJson.playerScore !== scoreRaw) return "score_mismatch";
-        if (typeof resultJson.optimalScore === "number" && typeof resultJson.gap === "number") {
-          if (Math.abs((resultJson.playerScore - resultJson.optimalScore) - resultJson.gap) > 1) {
-            return "score_mismatch";
-          }
-        }
+        const e = blindPickShapeError(scoreRaw, scoreMax, resultJson);
+        if (e) return e;
         break;
       }
       case "geo-wordle": {

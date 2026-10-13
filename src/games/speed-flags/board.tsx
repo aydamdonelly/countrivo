@@ -2,65 +2,123 @@
 
 import { useEffect } from "react";
 import type { SpeedFlagsState } from "@/lib/game-logic/speed-flags/engine";
+import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
-import { Mark } from "@/ui/mark";
-import { Options, OptionButton } from "@/ui/options";
-import { Subject } from "@/ui/subject";
+import { CheckIcon } from "@/ui/icons/check";
+import { CloseIcon } from "@/ui/icons/close";
+import { KeyHint } from "@/ui/key-hint";
 import type { BoardProps } from "@/games/types";
 import { SPEED_SECONDS, TICK_MS, type SpeedAction } from "./module";
+import "./board.css";
+
+/** How many flags ahead the board warms the image cache: a flag lives for under half a second. */
+const PRELOAD_AHEAD = 3;
+
+function flagSrc(iso2: string): string {
+  return `/flags/${iso2.toLowerCase()}.svg`;
+}
 
 /**
- * Speed Flags (blueprint 8.8): the ready screen, then twenty seconds of two-option flags.
+ * Speed Flags (concept 5.8, pane RF1): the count line, the flag in its 3:2 box, two name
+ * rows. Thirty seconds on the wall clock; the header carries the seconds (ember from 5 s,
+ * the penalty mark for 600 ms) through the module's progress.
  *
- * The round is practice only and it is short, so the frame says so three times over without
- * a word of chrome: the play bar reads `Practice · doesn't count`, the session bar stands
- * full at `time 20 s` before the clock starts and drains from the first second, and the
- * ready line puts the twenty seconds in ink while the rest of it stays mute.
- *
- * The clock is wall-clock (`endsAt`), never a counter, so a backgrounded tab cannot pause
- * the round: the interval only asks the engine what time it is, and the module folds a read
- * that changes nothing back to the same state.
- *
- * Both screens render entirely from `state`, so the ready screen is in the first HTML with
- * its button live; nothing appears after hydration. There is no feedback window here (a
- * blocking reveal would eat the round), so the answer lands and the next flag arrives on
- * the same frame; the verdict line carries `Right.` or `Wrong.`
+ * The board renders entirely from `state`, so the ready box and its Start button are in the
+ * first HTML and nothing appears after hydration. The 300 ms reveal and the 150 ms input lock
+ * are the module's feedback window and timed follow-up; while either is open the host holds
+ * `busy` and the rows ignore input without changing their look. At time up the board keeps
+ * only "Time." above the result.
  */
 export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, SpeedAction>) {
   const playing = state.phase === "playing";
+
   useEffect(() => {
     if (!playing) return;
     const id = window.setInterval(() => dispatch({ t: "tick", now: Date.now(), ui: true }), TICK_MS);
     return () => window.clearInterval(id);
   }, [playing, dispatch]);
 
-  if (state.phase === "ready") {
+  // Warm the next few flags so a new one is painted the frame it is dealt.
+  const { queue, currentIdx } = state;
+  useEffect(() => {
+    for (let k = 0; k <= PRELOAD_AHEAD; k++) {
+      const q = queue[currentIdx + k];
+      if (!q) break;
+      const img = new Image();
+      img.src = flagSrc(q.country.iso2);
+    }
+  }, [queue, currentIdx]);
+
+  if (state.phase === "results") {
     return (
-      <div className="ready">
-        <Mark slug="speed-flags" size={44} />
-        <p className="t-body play-line">
-          <b>{SPEED_SECONDS} seconds.</b> Two options each. Go.
-        </p>
-        <Button variant="ink" onClick={() => dispatch({ t: "start", now: Date.now() })}>
-          Start
-        </Button>
+      <div className="sf done">
+        <h2 className="sf-time t-h2">Time.</h2>
       </div>
     );
   }
 
-  const q = state.queue[Math.min(state.currentIdx, state.queue.length - 1)];
+  const count = (
+    <p className="sf-count">
+      <b key={state.correct} className={cn("t-num num", state.correct > 0 && "num-pop")}>
+        {state.correct}
+      </b>
+      <span className="w t-meta">right</span>
+    </p>
+  );
+
+  if (state.phase === "ready") {
+    return (
+      <div className="sf">
+        <div className="sf-stage">
+          {count}
+          <div className="sf-box ready">
+            <p className="t-h2">{SPEED_SECONDS} seconds.</p>
+            <p className="t-body">Two names per flag. A wrong one costs 3 seconds.</p>
+          </div>
+        </div>
+        <div className="sf-opts">
+          <Button variant="ink" block className="sf-start" onClick={() => dispatch({ t: "start", now: Date.now() })}>
+            Start
+          </Button>
+        </div>
+        <KeyHint>Press Enter to start</KeyHint>
+      </div>
+    );
+  }
+
+  const q = state.queue[state.currentIdx];
+  const reveal = state.reveal;
   return (
-    <div className="play-stack">
-      <Subject key={state.currentIdx} variant="flag-only" iso2={q.country.iso2} animate />
-      {/* Full-width rows on the phone: at 350 px two columns would cut `Bosnia and
-          Herzegovina` and `Central African Republic` down to the same ellipsis and the
-          answer would be unreadable. The 720 px play column has the room, so the pair sits
-          side by side from 1024 up. */}
-      <Options tall busy={busy} className="lg:grid lg:grid-cols-2">
-        {q.options.map((c, i) => (
-          <OptionButton key={c.iso3} label={c.displayName} keyHint={String(i + 1)} onClick={() => dispatch({ t: "answer", i })} />
-        ))}
-      </Options>
+    <div className="sf">
+      <div className="sf-stage">
+        {count}
+        <div className="sf-box">
+          <span className="flag">
+            {/* eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted */}
+            <img src={flagSrc(q.country.iso2)} alt="" decoding="sync" loading="eager" />
+          </span>
+        </div>
+      </div>
+      <div className={cn("sf-opts", busy && "busy")} role="group" aria-label="Which country is this?">
+        {q.options.map((c, i) => {
+          const st = reveal && reveal.chosen === i ? (reveal.right ? "right" : "wrong") : "idle";
+          return (
+            <button key={c.iso3} type="button" className="sf-opt opt" data-state={st} onClick={() => dispatch({ t: "answer", i, now: Date.now() })}>
+              <span className="lbl">{c.displayName}</span>
+              {st === "right" ? (
+                <span className="ic">
+                  <CheckIcon size={18} />
+                </span>
+              ) : st === "wrong" ? (
+                <span className="ic">
+                  <CloseIcon size={18} />
+                </span>
+              ) : null}
+            </button>
+          );
+        })}
+      </div>
+      <KeyHint>Press 1 or 2</KeyHint>
     </div>
   );
 }

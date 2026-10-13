@@ -484,18 +484,17 @@ const RECIPES = {
     await page.locator("main .dr-seat:not([disabled])").first().click();
   },
   "blind-pick": async (page) => {
-    await page.locator("main .slot").first().click();
+    await page.locator("main .bp-slot.open").first().click();
   },
   "higher-or-lower": async (page) => {
-    await page.locator("main .opt").first().click();
+    await page.locator('main button:has-text("Higher")').first().click();
   },
   "geo-wordle": async (page) => {
     await page.locator("main input").first().fill("Norway");
     await page.locator('main button:has-text("Guess")').click();
   },
   "stat-guesser": async (page) => {
-    await page.locator("main input").first().fill("1000000");
-    await page.locator('main button:has-text("Submit")').click();
+    await page.locator('main button:has-text("Lock it")').click();
   },
   "flag-quiz": async (page) => {
     await page.locator("main .opt").first().click();

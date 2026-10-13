@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Mark } from "@/ui/mark";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
 
@@ -13,7 +12,8 @@ export interface PlayBarProps {
 
 /**
  * The play-route header (blueprint 3.18): height 56, back chevron in a 44 px hit area,
- * Mark 22, the title in Erode 18, and the mode at the right. Nothing else.
+ * the game's clay object at 32 (concept 4.2, rest still), the title in Erode 18, and the
+ * mode at the right. Nothing else.
  */
 export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
   return (
@@ -21,7 +21,10 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
       <Link href={`/games/${slug}`} aria-label={`Back to ${title}`} className="back">
         <ChevronLeftIcon size={24} />
       </Link>
-      <Mark slug={slug} size={22} />
+      <span className="clay" aria-hidden="true">
+        {/* eslint-disable-next-line @next/next/no-img-element -- a 96 px static still, no optimisation wanted */}
+        <img src={`/clay/${slug}.png`} width={32} height={32} alt="" decoding="async" />
+      </span>
       <h1 className="t-h3">{title}</h1>
       <span className={cn("mode t-meta", mode)}>
         {mode === "daily" ? "Daily" : "Practice"}

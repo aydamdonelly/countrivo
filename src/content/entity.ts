@@ -24,7 +24,7 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   },
   "blind-pick": {
     mechanic:
-      "are shown eight countries one at a time and must assign each country to the one category, out of eight, where that country ranks highest globally",
+      "are shown six countries one at a time and must place each country on the one stat, out of six, where that country ranks highest among sovereign states, scored like golf against the perfect board",
     skill:
       "comparative ranking, knowing not just a country's statistics but where those statistics place the country against every other country",
   },
@@ -35,19 +35,19 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   },
   "higher-or-lower": {
     mechanic:
-      "compare two countries on a single statistic and pick which country ranks higher, with one wrong pick ending the streak",
+      "make ten higher-or-lower calls along a chain of eleven countries on one statistic a day, where a wrong call costs the point but not the run and the last three calls count double",
     skill:
       "an intuition for relative scale, how countries actually compare on population, area, GDP and other measures",
   },
   "stat-guesser": {
     mechanic:
-      "are asked for a real figure, the population of Brazil, the GDP of Norway, and type a numeric guess, scoring on how close that guess lands",
+      "are asked for a real figure, the population of Brazil, the GDP of Norway, and slide a pin along a ruler to their guess, scoring on how close it lands",
     skill:
       "numeric estimation: getting the order of magnitude right when the exact number is unknown",
   },
   "speed-flags": {
     mechanic:
-      "have twenty seconds on the clock to identify as many flags as possible, with speed and accuracy both counting",
+      "have thirty seconds on the clock to name as many flags as possible from two names each, and every wrong answer costs three seconds",
     skill: "instant flag recognition, fast enough to answer without deliberating",
   },
   "geo-wordle": {

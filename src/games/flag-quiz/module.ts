@@ -1,19 +1,30 @@
 /*
- * Flag Quiz (blueprint 8.8, drill tier): ten flags, four names each, score out of ten.
+ * Flag Quiz (concept 5.4): ten flags of sovereign states, four names each, easy to hard.
+ * Flags 1 to 7 score 1, flags 8 to 10 (lookalikes) score 2: points of 13, par 9.
  *
- * The engine in src/lib/game-logic/flag-quiz/engine.ts is pure and untouched; this adapter
- * adds one thing it has no concept of, the 1200 ms reveal window (blueprint 8.5). A pick is
- * held in `pending` so the board can show the fill states on the answered question, and the
- * host's queued `advance` commits it through `answerQuestion`. Replay applies that advance
- * right after every answer, so a resumed board is never mid-window.
+ * The engine in src/lib/game-logic/flag-quiz is pure. This adapter adds the 1.2 s reveal
+ * window: a pick is held in `pending` so the board can show the reveal on the answered flag,
+ * and the host's queued `advance` (or a tap on the board, which skips the wait) commits it
+ * through `answerQuestion`. Replay applies the advance right after every answer, so a
+ * resumed board is never mid-reveal.
  */
 import { mulberry32 } from "@/lib/seeded-random";
-import { answerQuestion, createFlagQuiz, type FlagQuizState } from "@/lib/game-logic/flag-quiz/engine";
+import {
+  DOUBLE_FROM,
+  FLAG_COUNT,
+  MAX_POINTS,
+  OPTION_COUNT,
+  answerQuestion,
+  createFlagQuiz,
+  hits,
+  type FlagQuizState,
+} from "@/lib/game-logic/flag-quiz/engine";
+import { buildFlagQuizShareText } from "@/lib/share/flag-quiz";
 import type { GameModule } from "@/games/types";
 import { codec } from "./codec";
 
 export interface QuizState {
-  /** The engine state: the ten questions, the committed answers and the score. */
+  /** The engine state: the ten questions, the committed answers and the points. */
   g: FlagQuizState;
   /** The option picked during the reveal window; null while the board waits for a pick. */
   pending: number | null;
@@ -21,14 +32,13 @@ export interface QuizState {
 
 export type QuizAction = { t: "answer"; i: number } | { t: "advance"; ui: true };
 
-/** Ten flags (blueprint 10.5: "Ten flags, four names each. Score out of ten."). */
-export const QUIZ_QUESTIONS = 10;
-/** Four names per flag; the engine always deals three distractors. */
-export const QUIZ_OPTIONS = 4;
-/** The reveal window before the next flag (blueprint 8.5). */
+export const QUIZ_QUESTIONS = FLAG_COUNT;
+export const QUIZ_OPTIONS = OPTION_COUNT;
+export const QUIZ_MAX = MAX_POINTS;
+/** The reveal holds 1.2 s, then advances (concept 5.4). */
 export const QUIZ_FEEDBACK_MS = 1200;
 
-const ADVANCE: QuizAction = { t: "advance", ui: true };
+export const ADVANCE: QuizAction = { t: "advance", ui: true };
 
 /** Commits the held pick through the engine; a no-op when nothing is pending. */
 function commit(s: QuizState): QuizState {
@@ -40,12 +50,22 @@ export function currentQuestion(s: QuizState) {
   return s.g.questions[s.g.currentQuestion];
 }
 
-/** True while the held pick is the right one; drives the running `right N` count. */
+/** True from flag 8 on: the meta "Counts double" sits above the flag. */
+export function countsDouble(s: QuizState): boolean {
+  return s.g.currentQuestion >= DOUBLE_FROM;
+}
+
+/** True while the held pick is the right one. */
 export function pendingCorrect(s: QuizState): boolean {
   return s.pending !== null && s.pending === currentQuestion(s).correctIndex;
 }
 
-/** Question indices answered wrongly, including a pending miss: the ember-outlined pips. */
+/** Points on the board, the pending pick included. */
+function points(s: QuizState): number {
+  return s.g.score + (pendingCorrect(s) ? currentQuestion(s).points : 0);
+}
+
+/** Flag indices answered wrongly, a pending miss included: the ember-outlined pips. */
 function misses(s: QuizState): number[] {
   const out: number[] = [];
   s.g.questions.forEach((q, i) => {
@@ -56,7 +76,7 @@ function misses(s: QuizState): number[] {
   return out;
 }
 
-/** Answers on the board, the pending one included: the filled pips and the `flag N of 10` value. */
+/** Answers on the board, the pending one included: the filled pips. */
 function answered(s: QuizState): number {
   const committed = s.g.answers.filter((a) => a !== null).length;
   return Math.min(committed + (s.pending === null ? 0 : 1), QUIZ_QUESTIONS);
@@ -65,8 +85,8 @@ function answered(s: QuizState): number {
 export const gameModule: GameModule<QuizState, QuizAction> = {
   slug: "flag-quiz",
 
-  create(seed) {
-    return { g: createFlagQuiz(mulberry32(seed), QUIZ_QUESTIONS), pending: null };
+  create(seed, mode, dateKey) {
+    return { g: createFlagQuiz(mulberry32(seed), { mode, dateKey }), pending: null };
   },
 
   reduce(s, a) {
@@ -86,22 +106,21 @@ export const gameModule: GameModule<QuizState, QuizAction> = {
   done: (s) => s.pending === null && s.g.phase === "results",
 
   progress(s) {
-    const shown = Math.min(s.g.currentQuestion + 1, QUIZ_QUESTIONS);
     return {
       done: answered(s),
       total: QUIZ_QUESTIONS,
-      label: "flag",
-      value: `${shown} of ${QUIZ_QUESTIONS}`,
-      extra: `right ${s.g.score + (pendingCorrect(s) ? 1 : 0)}`,
+      label: "score",
+      value: String(points(s)),
+      extra: `of ${QUIZ_MAX}`,
       misses: misses(s),
     };
   },
 
+  // The reveal is painted on the options themselves (and read out by the board's status
+  // line), so the shared verdict line stays empty; the tone still drives the juice.
   verdict(prev, next, a) {
     if (a.t !== "answer" || next.pending === null || next.pending === prev.pending) return null;
-    const q = currentQuestion(next);
-    if (next.pending === q.correctIndex) return { tone: "good", text: "Right." };
-    return { tone: "bad", text: `Wrong. It was ${q.country.displayName}.` };
+    return { tone: pendingCorrect(next) ? "good" : "bad", text: "" };
   },
 
   payload(s, ctx) {
@@ -111,24 +130,26 @@ export const gameModule: GameModule<QuizState, QuizAction> = {
       mode: ctx.mode,
       dateKey: ctx.dateKey,
       scoreRaw: g.score,
-      scoreMax: g.questions.length,
+      scoreMax: QUIZ_MAX,
       scoreSortValue: g.score,
-      scoreDisplay: `${g.score} / ${g.questions.length}`,
-      resultJson: { score: g.score, total: g.questions.length, answers: g.answers },
+      scoreDisplay: `${g.score} of ${QUIZ_MAX}`,
+      resultJson: { v: 2, score: g.score, total: QUIZ_MAX, answers: g.answers, hits: hits(g) },
       startedAt: ctx.startedAt,
     };
   },
 
-  scoreLabel: (s) => `${commit(s).g.score} / ${s.g.questions.length}`,
+  scoreLabel: (s) => `${commit(s).g.score} of ${QUIZ_MAX}`,
 
-  keys(s, dispatch): Record<string, () => void> {
-    if (s.pending !== null || s.g.phase !== "playing") return {};
-    const map: Record<string, () => void> = {};
-    for (let i = 0; i < QUIZ_OPTIONS; i += 1) map[String(i + 1)] = () => dispatch({ t: "answer", i });
-    return map;
+  share(s, ctx) {
+    const { g } = commit(s);
+    return buildFlagQuizShareText({ points: g.score, max: QUIZ_MAX, hits: hits(g), dateKey: ctx.dateKey, practice: ctx.mode === "practice" });
   },
 
-  keyHint: "1 to 4 pick",
+  // Keys 1 to 4 are bound by the board itself: it holds the 300 ms input guard on every new
+  // flag and takes Enter or Space to skip the reveal, which the host's map cannot do while busy.
+  keys: () => ({}),
+
+  keyHint: "Press 1 to 4",
   keepBoardOnResult: false,
   submits: true,
 };

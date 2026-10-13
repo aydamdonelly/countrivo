@@ -29,23 +29,23 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "blind-pick": {
     about: [
-      "Blind Pick is a daily geography strategy game. Eight statistics are on the board, from population and GDP per person to forest cover or coffee consumption. Eight countries then appear one at a time, and for each one you decide which open stat it should take. The catch: you do not know which countries are still to come, so every pick is a bet on what the rest of the draft will look like.",
-      "Your score is the sum of the world ranks you landed. The game then shows the mathematically optimal assignment, so you can see exactly where the draft slipped. Everyone gets the same eight countries on the same day, one shot each, and the result sits on the global board until midnight in Berlin.",
+      "Blind Pick is a daily geography strategy game. Six statistics are on the board, from most people and largest economy to most forest or most internet use. Six countries then arrive one at a time, and for each one you decide which open stat it should take. The catch: you do not know which countries are still to come, so every placement is a bet on what the rest of the board will look like.",
+      "Every rank is a rank among the 195 sovereign states, so a slot reads like #12 of 193. Blind Pick is scored like golf: the game finds the perfect board for the same six countries and counts how many ranks you finished over it. Perfect is zero, par is +10. Everyone gets the same six countries on the same day, one shot each, and the result sits on the global board until midnight in Berlin.",
     ],
     faq: [
-      { q: "How is Blind Pick scored?", a: "Each country scores the rank it holds in the stat you assigned it. Lower ranks are better, and the total is compared with the optimal assignment for that day's board." },
+      { q: "How is Blind Pick scored?", a: "Each country scores the rank it holds on the stat you placed it on. Your six ranks are added up and compared with the lowest total the board allows. The difference is your score: Perfect, or +N over perfect. Par is +10." },
       { q: "Can I play Blind Pick more than once a day?", a: "The daily board is one shot. Practice mode gives you a fresh, random board as often as you like, and practice runs never touch the leaderboard." },
-      { q: "Is Blind Pick the same as the game where you draft five people and conquer 195 countries?", a: "No. That one is Country Draft, the cabinet draft, at countrivo.com/games/country-draft. Blind Pick is about placing real countries on the statistics where they rank best, and it carried the Country Draft name until August 2026." },
+      { q: "Is Blind Pick the same as the game where you draft five people and conquer 195 countries?", a: "No. That one is Country Draft, the cabinet draft, at countrivo.com/games/country-draft. Blind Pick is about placing real countries on the statistics where they rank highest, and it carried the Country Draft name until August 2026." },
     ],
   },
   "flag-quiz": {
     about: [
-      "Flag Quiz is a free flag game with all 243 countries and territories. A flag appears, you pick the country from four options, ten rounds per run. The daily board gives everyone the same ten flags, so your score is comparable with every other player's that day; practice mode shuffles new flags every time.",
-      "It is the quickest way to learn the flags of the world: the distractors are chosen to be plausible (similar colours, same region), so you learn to tell Chad from Romania and Indonesia from Monaco instead of guessing.",
+      "Flag Quiz is a free daily flag game: ten flags of sovereign states, four names each, easy to hard. Everyone gets the same ten flags that day, so your points compare directly with every other player's. Practice mode deals new flags every time and never repeats today's daily answers.",
+      "The last three flags are true lookalikes and count double, for a maximum of 13 points. After each one a single line tells the family apart, so you learn to tell Chad from Romania and Indonesia from Monaco instead of guessing.",
     ],
     faq: [
-      { q: "How many flags are in the flag quiz?", a: "Every one of the 243 countries and territories on Countrivo has its flag in the pool, including small territories and dependencies." },
-      { q: "Is the flag quiz multiple choice?", a: "Yes. Each flag comes with four country names, one correct. Ten flags make a round." },
+      { q: "Which flags are in the flag quiz?", a: "The flags of the world's sovereign states: the 193 UN members plus the Holy See and Palestine. The first three flags of a run are widely known, the next four test a region, and the last three come from lookalike families." },
+      { q: "How is the flag quiz scored?", a: "Flags 1 to 7 score one point each and flags 8 to 10, the lookalikes, score two. The maximum is 13 and par is 9. There is no clock, and your first tap on each flag counts." },
       { q: "Is there a daily flag quiz?", a: "Yes. The daily board shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
     ],
   },
@@ -66,27 +66,27 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "higher-or-lower": {
     about: [
-      "Higher or Lower with countries: two countries, one statistic, and one question. Does the right one rank higher or lower than the left? Population, land area, GDP per person, life expectancy, tourists, internet use and more rotate through the rounds. One wrong call ends the streak.",
-      "It looks simple and gets hard fast, because it tests the comparisons most people never learn: is Vietnam or Turkey more populous, does Norway or Chile have more coastline per person. The daily run gives everyone the same sequence, so streak lengths compare directly.",
+      "Higher or Lower with countries: one statistic a day and ten calls along a chain of eleven countries. Is the next country higher or lower than the one before it? After each call the country you just called becomes the next one to beat, so the number moves up and down all the way. A wrong call costs you the point, not the run.",
+      "It starts easy and gets close fast. The first pair is far apart, the last ones sit a few places from each other in the world ranking, and calls 8 to 10 count double. Everyone plays the same chain each day, so scores out of 13 compare directly. Par is 9.",
     ],
     faq: [
-      { q: "What counts as a higher score in Higher or Lower?", a: "Your streak: the number of correct calls before the first miss. The daily board ranks streaks." },
-      { q: "Which stats appear?", a: "A rotating set of country statistics: population, area, GDP, life expectancy, tourism, forest cover, internet use and others, all from public sources such as the World Bank." },
-      { q: "Can I practice Higher or Lower?", a: "Yes. Practice mode draws new country pairs every run and does not affect the daily board." },
+      { q: "How is Higher or Lower scored?", a: "Calls 1 to 7 are worth 1 point and calls 8 to 10 are worth 2, so a perfect day is 13. A wrong call scores nothing but the run carries on to call 10." },
+      { q: "Which stats appear?", a: "One a day, rotating through population, land area, total GDP, GDP per person, life expectancy, urban share, internet use, forest cover and fertility, ranked over sovereign states from public sources such as the World Bank. The same stat never comes back within a week." },
+      { q: "Can I practice Higher or Lower?", a: "Yes. Practice is an endless chain on any stat other than today's, and one wrong call ends the streak. It never affects the daily board." },
     ],
   },
   "stat-guesser": {
     about: [
-      "Stat Guesser is geography trivia with numbers. Five rounds, each a country and a statistic: what is the population of Brazil, the GDP per person of Norway, the forest cover of Finland. You type your guess and the closer you are, the more points you score. It is the game for people who like being roughly right about the world.",
+      "Stat Guesser is geography trivia with numbers. Five rounds, each a country and a statistic: what is the population of Brazil, the GDP per person of Norway, the forest cover of Finland. You slide a pin along a ruler, with two well-known countries marked for scale, and the closer you land, the more points you score. It is the game for people who like being roughly right about the world.",
     ],
     faq: [
-      { q: "How is Stat Guesser scored?", a: "By how close your guess is to the real value, on a curve, so being in the right order of magnitude already earns points." },
-      { q: "Which statistics appear in Stat Guesser?", a: "Population, area, GDP, life expectancy, tourism, energy, land use and more, from public sources such as the World Bank, WHO and UNWTO." },
+      { q: "How is Stat Guesser scored?", a: "Up to 100 points a round. On population, area and GDP, being twice off still scores 70 and ten times off scores 0. On percentages, every point off costs 4. The last round counts double, so 600 is the maximum and par is 300." },
+      { q: "Which statistics appear in Stat Guesser?", a: "Population, area, GDP, GDP per person, the share of people living in cities, the share of people online and forest cover, from public sources such as the World Bank." },
     ],
   },
   "speed-flags": {
     about: [
-      "Speed Flags is the twenty-second flag quiz: as many flags as you can name before the timer ends. Practice only, built for repetition.",
+      "Speed Flags is the thirty-second flag quiz: two names per flag, as many right as you can before the timer ends. A wrong answer costs three seconds, so guessing fast does not pay. Practice only, built for repetition.",
     ],
     faq: [{ q: "Is Speed Flags a daily game?", a: "No, Speed Flags is practice only: unlimited runs, no leaderboard." }],
   },

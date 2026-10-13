@@ -7,7 +7,6 @@
  * Prose (about, faq) stays in src/lib/seo/game-copy.ts and the titles and descriptions in
  * src/lib/seo/game-metadata.ts; neither is duplicated here.
  */
-import { LANDING_DRAFT_CHIPS } from "./chips";
 import { SEAT_CHIPS } from "./draft";
 import { guessableCountries } from "@/lib/game-logic/geo-wordle/engine";
 
@@ -51,26 +50,27 @@ export const GAME_CONTENT: Record<string, GameContent> = {
     related: ["blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser"],
   },
   "blind-pick": {
-    how: "Countries appear one at a time. Put each one on the stat where it ranks highest in the world. Eight picks, one shot.",
-    steps: ["8 stats are on the board", "countries appear one by one", "put each where it ranks best"],
-    facts: ["8 stats", "8 countries", "3 to 5 min"],
-    chips: LANDING_DRAFT_CHIPS,
+    how: "Six countries arrive one at a time. Put each one on the stat where it ranks highest among sovereign states. Scored like golf.",
+    steps: ["6 stats are on the board", "countries arrive one by one", "put each where it ranks highest"],
+    facts: ["6 stats", "6 countries", "par +10"],
+    chips: ["Most people", "Largest area", "Largest economy", "Most urban", "Most forest", "Most internet use"],
     rules: [
-      "Eight stat categories are shown up front",
-      "Countries are revealed one by one, so you never know what is still to come",
-      "Assign each country to the open stat where it ranks best",
-      "Your total is compared with the mathematically optimal assignment",
+      "Six stats are shown up front",
+      "Six countries arrive one at a time, so you never know what is still to come",
+      "Tap the open stat where the country ranks highest; the tap is final",
+      "Your ranks are compared with the perfect board: Perfect, or +N over it",
     ],
     related: ["country-draft", "higher-or-lower", "stat-guesser", "geo-wordle"],
   },
   "higher-or-lower": {
-    how: "Two countries, one stat. Call which ranks higher. One wrong call ends the streak.",
-    facts: ["2 countries", "1 stat", "2 to 5 min"],
+    how: "Ten calls on one number. Is the next country higher or lower? A wrong call doesn't end it.",
+    facts: ["10 calls", "1 stat a day", "par 9"],
     rules: [
-      "Two countries are shown with a stat category",
-      "The left country's value is revealed",
-      "Guess if the right country is higher or lower",
-      "One wrong answer ends the streak",
+      "One stat a day and eleven countries in a chain",
+      "The left country's value is shown; call whether the right one is higher or lower",
+      "The right country then becomes the next left card, whether you were right or wrong",
+      "Calls 1 to 7 score 1 point and calls 8 to 10 score 2, so 13 is perfect and par is 9",
+      "Practice is endless on any other stat, and one wrong call ends the streak",
     ],
   },
   "geo-wordle": {
@@ -85,33 +85,35 @@ export const GAME_CONTENT: Record<string, GameContent> = {
     related: ["flag-quiz", "higher-or-lower", "blind-pick", "country-draft"],
   },
   "stat-guesser": {
-    how: "A country and a stat. Guess the number. Five rounds, closest wins.",
-    facts: ["5 rounds", "% error", "3 to 5 min"],
+    how: "Guess five numbers about the world.",
+    facts: ["5 rounds", "Par 300", "About 2 minutes"],
     rules: [
-      "A country and stat category are shown",
-      "Enter your best guess for the value",
-      "Score is based on percentage error",
-      "5 rounds per game. Lowest average error wins",
+      "Slide the pin to your guess",
+      "Two well-known countries are marked for scale",
+      "Up to 100 points a round, more the closer you land",
+      "The last round counts double",
     ],
   },
   "flag-quiz": {
-    how: "Ten flags, four names each. Score out of ten.",
-    facts: ["10 flags", "4 options", "2 to 3 min"],
+    how: "Ten flags. Name them.",
+    steps: ["Four names per flag.", "It gets harder as you go.", "The last three count double."],
+    facts: ["10 flags", "Par 9", "About 90 seconds"],
     rules: [
-      "A flag is shown on screen",
-      "Pick the correct country from 4 options",
-      "10 questions per round",
-      "Score: correct answers out of 10",
+      "Ten flags of sovereign states, easy to hard",
+      "Tap one of four names. Your first tap counts",
+      "Flags 8 to 10 are lookalikes and count double",
+      "Points of 13. Par is 9",
     ],
   },
   "speed-flags": {
-    how: "Twenty seconds. Two names per flag. Go.",
-    facts: ["20 s", "2 options", "1 min"],
+    how: "Thirty seconds. Two names per flag. A wrong one costs 3 seconds.",
+    facts: ["30 s", "2 options", "1 min"],
     rules: [
-      "A flag is shown with 2 country options",
-      "Pick the correct country as fast as you can",
-      "20-second countdown timer",
-      "Score: total correct answers",
+      "A flag is shown with 2 country names",
+      "Pick the right one as fast as you can",
+      "30-second countdown timer",
+      "A wrong answer takes 3 seconds off the clock",
+      "Score: the number of flags you get right",
     ],
   },
 };
@@ -121,7 +123,9 @@ export const GAME_CONTENT: Record<string, GameContent> = {
  * 8.9). The JSON itself is only ever rewritten by the data scripts, so a correction lives
  * here until the next run. The six-game roster needs none right now.
  */
-const HUB_META: Record<string, string> = {};
+const HUB_META: Record<string, string> = {
+  "speed-flags": "30 seconds. How many flags can you name?",
+};
 
 /** The row meta for a game: the correction if there is one, else the registry line. */
 export function gameMeta(slug: string, shortDescription: string): string {

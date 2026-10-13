@@ -7,21 +7,21 @@ function count(v: unknown): number | null {
 
 /**
  * The rows behind a shared Speed Flags run (blueprint 7.7). The saved resultJson carries
- * only the three counts, so the run page prints those three and nothing else; the generic
- * fallback would have labelled `total` as "of", which reads as half a sentence.
+ * counts only: right, wrong (30-second rules) and answers given. Runs from the 20-second
+ * rules carry no `wrong` and no `seconds`; they print what they have under their own length.
  */
 export function RunDetail({ run }: RunDetailProps) {
   const json = run.resultJson ?? {};
   const correct = count(json.correct);
   if (correct === null) return null;
+  const wrong = count(json.wrong);
   const total = count(json.total);
-  const stored = count(json.accuracy);
-  const acc = stored ?? (total !== null && total > 0 ? Math.round((correct / total) * 100) : null);
+  const seconds = count(json.seconds) ?? (wrong === null ? 20 : SPEED_SECONDS);
 
   const rows = [
-    { label: "flags right", value: String(correct) },
-    ...(total === null ? [] : [{ label: `called in ${SPEED_SECONDS} s`, value: String(total) }]),
-    ...(acc === null ? [] : [{ label: "accuracy", value: `${acc} %` }]),
+    { label: `right in ${seconds} seconds`, value: String(correct) },
+    ...(wrong === null ? [] : [{ label: wrong === 1 ? "wrong, 3 seconds off" : "wrong, 3 seconds off each", value: String(wrong) }]),
+    ...(total === null ? [] : [{ label: "flags answered", value: String(total) }]),
   ];
 
   return (

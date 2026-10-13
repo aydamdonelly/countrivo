@@ -191,6 +191,8 @@
   .pb { height: 56px; display: flex; align-items: center; gap: 12px; }
   .pb .back { width: 44px; height: 44px; margin-left: -10px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-ink); flex: none; }
   .pb h1 { flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+  .pb .clay { width: 32px; height: 32px; flex: none; display: inline-flex; }
+  .pb .clay img { width: 32px; height: 32px; object-fit: contain; }
   /* The title is never shaved: at narrow widths the mode word yields first. */
   @media (max-width: 430px) { .pb .mode .mode-long { display: none; } }
   .pb .mode { margin-left: auto; white-space: nowrap; flex: none; }

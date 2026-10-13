@@ -1,0 +1,107 @@
+/* Stat Guesser: the question, the live value, the ruler and the reveal (concept 5.6, panes
+   SG1 and SG2). Tokens only, no hex, no shadow except the focus ring, no gradient. Every
+   mark is in the DOM at its final place; motion only moves things that are already visible. */
+@layer components {
+  .sg { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
+
+  /* the question: flag and name on one line, the stat under it */
+  .sg-q { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; margin-top: 20px; }
+  .sg-name { display: flex; align-items: center; justify-content: center; gap: 10px; max-width: 100%; }
+  .sg-name b { min-width: 0; }
+  .sg-stat { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0; color: var(--color-ink); }
+
+  /* the live value: `about` over the pin's value, `The answer` over the truth */
+  .sg-live { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 28px; text-align: center; }
+  .sg-live .cap { color: var(--color-mute); }
+  .sg-live .t-big { white-space: nowrap; }
+
+  /* the ruler: 350 on a phone, 640 on desktop; the marks sit in an inset box so the knob's
+     44 px hit area and the hanging labels never leave the column */
+  .sg-ruler { position: relative; width: 100%; max-width: 640px; margin: 24px auto 0; padding: 0 14px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
+  .sg-ruler.done { cursor: default; touch-action: auto; }
+  .sg-box { position: relative; height: 104px; }
+
+  .sg-line { position: absolute; left: 0; right: 0; top: 62px; height: 2px; border-radius: 1px; background: var(--color-wait); }
+  .sg-end { position: absolute; top: 72px; color: var(--color-mute); white-space: nowrap; }
+  .sg-end.lo { left: -14px; }
+  .sg-end.hi { right: -14px; }
+
+  /* a mark is a zero-width anchor at its position; its parts hang off it */
+  .sg-mark { position: absolute; top: 0; bottom: 0; width: 0; }
+  .sg-tick { position: absolute; left: -1px; width: 2px; border-radius: 1px; }
+  .sg-ref .sg-tick { top: 46px; height: 26px; background: var(--color-mute); }
+  .sg-truth .sg-tick { top: 20px; height: 52px; background: var(--color-ink); }
+  .sg-truth .sg-dot { position: absolute; left: -4px; top: 59px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-ink); }
+  .sg-ctx .sg-dot { position: absolute; left: -3px; top: 60px; width: 6px; height: 6px; border-radius: 50%; background: var(--color-mute); }
+
+  /* labels: on paper, above the lines, so a line passing behind one never cuts its text */
+  .sg-label { position: absolute; z-index: 2; display: inline-flex; width: max-content; align-items: center; gap: 5px; padding: 0 2px; white-space: nowrap; background: var(--color-paper); color: var(--color-ink); line-height: 18px; }
+  .sg-label.row-truth { top: 0; line-height: 20px; }
+  .sg-label.row-ref { top: 26px; color: var(--color-mute); }
+  .sg-label.row-pin { top: 73px; font-weight: 600; }
+  .sg-label .flag { width: 16px; height: 12px; }
+
+  /* the route from your pin to the truth: round dots, drawn from the pin outward */
+  .sg-route { position: absolute; left: 0; top: 52px; width: 100%; height: 8px; overflow: visible; color: var(--color-mute); }
+  .sg-route.to-right { animation: sg-route-r 400ms var(--ease-out); }
+  .sg-route.to-left { animation: sg-route-l 400ms var(--ease-out); }
+
+  /* your pin: an ink stem through the track and the 44 px knob below it */
+  .sg-pin .sg-tick { top: 52px; height: 22px; background: var(--color-ink); }
+  .sg-knob { position: absolute; z-index: 3; left: -22px; top: 60px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-ctl); cursor: grab; }
+  .sg-ruler.done .sg-knob { cursor: default; }
+  .sg-knob > i { display: block; width: 20px; height: 20px; margin-top: 4px; border-radius: var(--radius-ctl); background: var(--color-ink); transition: background-color var(--dur-fast); }
+  .sg-ruler:not(.done) .sg-knob:active > i { background: var(--color-ink-2); }
+  .sg-knob:focus-visible { box-shadow: none; }
+  .sg-knob:focus-visible > i { box-shadow: 0 0 0 2px var(--color-paper), 0 0 0 4px var(--color-ink); }
+
+  /* the true marker drops in on twos: four held frames, nothing hidden at any point */
+  .sg-truth.drop { animation: sg-drop 332ms steps(4, end); }
+
+  /* the outcome: the gap and the points, the context line under them */
+  .sg-out { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 16px; row-gap: 6px; margin-top: 20px; }
+  .sg-out .gap { margin: 0; color: var(--color-ink); font-weight: 600; }
+  .sg-out .pts { display: inline-flex; align-items: baseline; gap: 6px; white-space: nowrap; }
+  .sg-out .pts .of { color: var(--color-mute); }
+  .sg-out .ctx { grid-column: 1 / -1; margin: 0; color: var(--color-mute); }
+
+  /* the one action, Lock it or Next: ink, 56 tall, pinned to the bottom on a phone */
+  .sg-act { position: sticky; bottom: 12px; z-index: 4; margin-top: auto; padding-top: 24px; }
+  .sg-cta.btn { min-height: 56px; width: 100%; }
+  /* the reveal's foot carries Next, so it takes the rest of the column and Next still pins */
+  .sg-foot { display: flex; flex-direction: column; flex: 1 0 auto; }
+
+  @media (max-width: 1023px) {
+    /* the board fills the screen under the header so the action sits at the thumb */
+    .sg { min-height: calc(100svh - 190px); }
+  }
+
+  @media (min-width: 1024px) {
+    .sg-q { margin-top: 8px; }
+    .sg-live { margin-top: 20px; }
+    .sg-out, .sg-act { width: 100%; max-width: 640px; margin-left: auto; margin-right: auto; }
+    .sg-act { position: static; display: flex; justify-content: flex-end; padding-top: 20px; }
+    .sg-cta.btn { width: auto; min-width: 160px; }
+    /* desktop reveal: gap and context on the left, the points, then Next on the right */
+    .sg.is-reveal .sg-foot { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 32px; width: 100%; max-width: 640px; margin: 20px auto 0; }
+    .sg.is-reveal .sg-foot .sg-out { margin-top: 0; column-gap: 32px; }
+    .sg.is-reveal .sg-foot .sg-act { padding-top: 0; width: auto; margin: 0; }
+  }
+
+  @keyframes sg-drop {
+    from { transform: translateY(-12px); }
+    to { transform: none; }
+  }
+  @keyframes sg-route-r {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes sg-route-l {
+    from { clip-path: inset(0 0 0 100%); }
+    to { clip-path: inset(0 0 0 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sg-truth.drop, .sg-route.to-right, .sg-route.to-left { animation: none; }
+  }
+}

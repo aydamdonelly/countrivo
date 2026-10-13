@@ -1,0 +1,50 @@
+/* Speed Flags (concept 5.8, pane RF1). Colours are tokens only.
+   The play route sits on the paper ground, so the option rows and the ready box take the
+   card fill: paper-on-paper would leave a rest-state row with no edge at all. */
+@layer components {
+  .sf { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+
+  /* Phone: the flag sits in the middle of the free height and the two rows wait at the
+     bottom, under the thumb. The floor keeps the stage composed on short screens. */
+  @media (max-width: 1023px) {
+    .sf { min-height: max(420px, calc(100svh - 190px)); }
+    .sf .sf-stage { flex: 1; justify-content: center; }
+  }
+
+  .sf-stage { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
+
+  /* `9 right` above the flag: the Erode numeral and a mute word */
+  .sf-count { display: flex; align-items: baseline; gap: 6px; color: var(--color-ink); }
+  .sf-count .w { color: var(--color-mute); }
+
+  /* the 3:2 box: 320 on phones, 400 on desktop; the 4:3 flag is contained, its ring hugging it */
+  .sf-box { display: flex; align-items: center; justify-content: center; width: 320px; max-width: 100%; aspect-ratio: 3 / 2; }
+  @media (min-width: 1024px) { .sf-box { width: 400px; } }
+  .sf-box .flag { height: 100%; aspect-ratio: 4 / 3; width: auto; }
+  .sf-box.ready { flex-direction: column; gap: 6px; background: var(--color-card); border-radius: var(--radius-card); padding: 0 24px; text-align: center; }
+  .sf-box.ready .t-body { color: var(--color-mute); }
+
+  /* two rows: stacked on phones, side by side at 1024 */
+  .sf-opts { display: grid; grid-template-columns: 1fr; gap: 8px; width: 100%; }
+  @media (min-width: 1024px) { .sf-opts { grid-template-columns: 1fr 1fr; gap: 16px; } }
+  .sf-opts.busy { pointer-events: none; }
+
+  .sf-opts .sf-opt { display: flex; align-items: center; gap: 10px; width: 100%; height: 56px; padding: 0 16px; border-radius: var(--radius-ctl); background: var(--color-card); color: var(--color-ink); text-align: left; font-size: 16px; line-height: 1.25; font-weight: 500; cursor: pointer; }
+  .sf-opts .sf-opt .lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sf-opts .sf-opt .ic { flex: none; display: inline-flex; }
+  @media (hover: hover) and (pointer: fine) { .sf-opts .sf-opt[data-state="idle"]:hover { background: var(--color-line); } }
+  .sf-opts .sf-opt[data-state="right"] { background: var(--color-ink); color: var(--color-paper); }
+  .sf-opts .sf-opt[data-state="wrong"] { background: var(--color-ember); color: var(--color-paper); }
+
+  .sf .sf-start { width: 100%; height: 56px; }
+
+  .sf .keyhint { margin-top: 0; text-align: center; }
+
+  /* the time-up line, centred over the result */
+  .sf-time { text-align: center; padding: 24px 0 8px; }
+  @media (max-width: 1023px) { .sf.done { min-height: 0; } }
+
+  /* the result under the score: the sentence, then the device best in meta */
+  .sf-res { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+  .sf-res .best { color: var(--color-mute); }
+}

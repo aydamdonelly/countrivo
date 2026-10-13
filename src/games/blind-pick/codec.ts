@@ -2,42 +2,41 @@ import type { Codec } from "@/games/types";
 import type { BlindPickAction } from "./module";
 
 /*
- * The resume log (blueprint 8.3): `p{c}` a pick on category 0 to 7, `u` the one undo, `s` the
- * reveal acknowledged. Worst case is eight picks, the undo, the re-pick and the reveal token:
- * 20 characters, far inside the 900-byte cookie cap. `dec` throws on anything it cannot read,
- * and the play page then drops the cookie rather than replaying nonsense.
+ * The resume log for the 6 x 6 board: the version prefix `b6.`, then one digit per
+ * placement (the slot, 0 to 5) and `s` once the last flip was shown. Worst case
+ * `b6.012345s`, 10 bytes. A log from the old eight-pick rules (`p3p1u...`) has no prefix,
+ * so `dec` throws and the play page drops the cookie instead of replaying it.
  */
-const MAX_CATEGORY = 7;
+const PREFIX = "b6.";
+const MAX_SLOT = 5;
 
 export const codec: Codec<BlindPickAction> = {
   enc(log) {
-    return log
-      .map((a) => {
-        switch (a.t) {
-          case "pick":
-            return `p${a.c}`;
-          case "undo":
-            return "u";
-          case "seen":
-            return "s";
-        }
-      })
-      .join("");
+    return (
+      PREFIX +
+      log
+        .map((a) => {
+          switch (a.t) {
+            case "place":
+              return String(a.s);
+            case "seen":
+              return "s";
+          }
+        })
+        .join("")
+    );
   },
 
   dec(s) {
+    if (!s.startsWith(PREFIX)) throw new Error("not a 6 x 6 Blind Pick log");
     const out: BlindPickAction[] = [];
-    for (let i = 0; i < s.length; i += 1) {
-      const ch = s[i];
-      if (ch === "p") {
-        const digit = s[i + 1];
-        if (digit === undefined || !/^[0-9]$/.test(digit)) throw new Error(`bad pick at ${i}`);
-        const c = Number(digit);
-        if (c > MAX_CATEGORY) throw new Error(`bad pick at ${i}`);
-        out.push({ t: "pick", c });
-        i += 1;
-      } else if (ch === "u") {
-        out.push({ t: "undo" });
+    const body = s.slice(PREFIX.length);
+    for (let i = 0; i < body.length; i += 1) {
+      const ch = body[i];
+      if (/^[0-9]$/.test(ch)) {
+        const slot = Number(ch);
+        if (slot > MAX_SLOT) throw new Error(`bad slot at ${i}`);
+        out.push({ t: "place", s: slot });
       } else if (ch === "s") {
         out.push({ t: "seen" });
       } else {

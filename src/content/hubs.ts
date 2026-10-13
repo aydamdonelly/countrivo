@@ -20,7 +20,7 @@ export function gamesHubFaq(games: number, dailies: number): { q: string; a: str
   return [
     {
       q: "What are the best free geography games online?",
-      a: `Countrivo has ${games} free geography games: daily one-shot puzzles such as Country Draft, GeoWordle, Higher or Lower and Blind Pick, the ten-round Flag Quiz, and Speed Flags for twenty seconds of practice. No signup is needed to play.`,
+      a: `Countrivo has ${games} free geography games: daily one-shot puzzles such as Country Draft, GeoWordle, Higher or Lower and Blind Pick, the ten-round Flag Quiz, and Speed Flags for thirty seconds of practice. No signup is needed to play.`,
     },
     {
       q: "Do I need an account to play?",

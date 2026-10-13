@@ -123,6 +123,7 @@
   /* the real-time timer (Speed Flags): the bar runs linearly, the numeral burns under 5 s */
   .prog.timer .bar i { transition: width 1s linear; }
   .prog .score.hot b { color: var(--color-ember); }
+  .prog.timer .score .extra { color: var(--color-ember); }
 
   /* four flags in one result row (Odd One Out), the odd one ringed; the trait wraps rather
      than being cut, so no row ever ends in an ellipsis */
@@ -157,3 +158,4 @@
   /* the Borderline path chain */
   .path .path-step { display: inline-flex; align-items: center; gap: 4px; }
 }
+

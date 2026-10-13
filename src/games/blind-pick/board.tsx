@@ -1,128 +1,109 @@
 "use client";
 
 import { useState } from "react";
-import { canUndo, getCurrentCountry, isComplete } from "@/lib/game-logic/blind-pick/engine";
-import { chipLabel } from "@/content/chips";
-import { Button } from "@/ui/button";
-import { Slot } from "@/ui/slot";
+import { currentIndex, isComplete, slotOwner } from "@/lib/game-logic/blind-pick/engine";
+import { statWording } from "@/lib/game-logic/blind-pick/generator";
+import { tierFor } from "@/lib/game-logic/blind-pick/scoring";
+import { cn } from "@/lib/utils";
+import { CountUp } from "@/ui/count-up";
+import { StatIcon } from "@/ui/icons/stat";
 import type { BoardProps } from "@/games/types";
-import { CountryBlock } from "@/games/_shared/country-block";
-import { assignedCount, type BlindPickAction, type BlindPickState } from "./module";
+import { BpFlag } from "./bp-flag";
+import { PICK_COUNT, type BlindPickAction, type BlindPickState } from "./module";
+import "./blind-pick.css";
 
 /*
- * The Blind Pick board (blueprint 8.8): the subject at the top, the eight category slots
- * as a 2x4 grid (4x2 on desktop), one row under it, and the reveal window after the eighth
- * pick. Everything is drawn from `state`, so the server HTML is already the board and a
- * resumed run arrives with its picks in place.
+ * The Blind Pick board (pane BP1). The arriving country on a plain card, then the six stat
+ * slots: two columns of three on phones (167 x 72), one row of six at 150 x 96 across the
+ * 960 column on desktop. A placed slot flips to "#12 of 193", the tier word and the country's
+ * flag at 20. Everything is drawn from `state`, so the server HTML is already the board and a
+ * resumed run arrives with its placements in place.
  *
- * The game's whole idea is what the board does NOT show: the country on screen is the only
- * one you get to see, so every slot you spend is spent against seven strangers. Two places
- * carry that: `unseen 5` in the session line (module.progress), which counts down all run, and
- * the rule on the row under the grid before the first pick.
+ * The card and the slots are card fill on the paper ground, in the daily and in practice.
  */
-
-/*
- * One geometry for all eight slots, open or filled, phone or desktop.
- *   min-h-[76px]      every slot is the height of a two-line label, so a row never goes
- *                     ragged when `Foreign investment` wraps beside `Coffee`.
- *   justify-between   the label line sits at the top and the stat line at the bottom of
- *                     every slot, so both read across the grid on one baseline.
- *   items-start       the icon (or the flag) and the corner numeral hold the first line
- *                     while the label wraps under them.
- *   min-w-0           a 1fr grid track cannot shrink below its content, and a long country
- *                     name would otherwise widen both columns and push the page sideways.
- *   whitespace-normal names and category labels wrap to a second line instead of being cut;
- *                     the reserved height is already there to hold them.
- */
-const SLOT = "min-h-[76px] min-w-0 justify-between [&_.lbl]:items-start [&_.nm]:whitespace-normal";
-
-export function Board({ state, dispatch, busy }: BoardProps<BlindPickState, BlindPickAction>) {
+export function Board({ state, dispatch, busy, mode }: BoardProps<BlindPickState, BlindPickAction>) {
   const { g } = state;
-  const country = getCurrentCountry(g);
+  const cfg = g.config;
   const complete = isComplete(g);
-  const revealing = complete && !state.seen;
-  const undoable = canUndo(g) && !state.seen;
-  /*
-   * Before the first pick there is no undo to show and nothing has happened yet, so the row
-   * says the rule instead. Once a pick has landed the space belongs to the undo, and when the
-   * undo is spent the row stays empty rather than repeating a line the player has read: three
-   * stacked grey lines under the grid (rule, verdict, key hint) is chatter, not help.
-   */
-  const hint = !revealing && !undoable && assignedCount(g) === 0;
-  /** The run is over and the result panel is under the board: the row has nothing left to hold. */
-  const settled = complete && state.seen;
+  const idx = currentIndex(g);
+  const country = cfg.countries[idx];
+  const lastSlot = g.placements.length > 0 ? g.placements[g.placements.length - 1] : -1;
 
-  // Snapshot the move count at mount: a board that arrives resumed (or finished) is settled,
-  // and only what moves after that plays the reveal and the counting rank (blueprint 6.3.1, 6.3.2).
+  // Snapshot the move count at mount: a board that arrives resumed is settled, and only what
+  // moves after that slides in or flips.
   const [movesAtMount] = useState(state.moves);
   const moved = state.moves > movesAtMount;
 
-  return (
-    <div className="play-stack">
-      {country ? (
-        <CountryBlock key={g.currentStep} country={country} animate={moved} />
-      ) : revealing ? (
-        <div className="subj">
-          <b className="t-card">Final pick in.</b>
-        </div>
-      ) : null}
+  const lastCountry = g.placements.length > 0 ? cfg.countries[g.placements.length - 1] : null;
+  const lastRank = lastCountry ? cfg.costMatrix[g.placements.length - 1][lastSlot] : null;
 
-      <div className="slot-grid">
-        {g.config.categories.map((cat, i) => {
-          const countryIdx = g.assignments.indexOf(i);
-          if (countryIdx >= 0) {
-            const picked = g.config.countries[countryIdx];
+  return (
+    <div className={cn("bp", mode === "practice" && "bp-practice")}>
+      <div className="bp-arrive">
+        <p className="bp-count t-meta">
+          Country <span className="num">{idx + 1}</span> of {PICK_COUNT}
+        </p>
+        <div key={idx} className={cn("bp-card", moved && !complete && "bp-in")}>
+          <BpFlag iso2={country.iso2} w={64} h={43} alt="" />
+          <span className="bp-who">
+            <b className="t-h3">{country.displayName}</b>
+            <span className="t-meta">{country.region}</span>
+          </span>
+        </div>
+      </div>
+
+      <div className="bp-slots">
+        {cfg.categories.map((cat, i) => {
+          const label = statWording(cat.slug);
+          const owner = slotOwner(g, i);
+          if (owner >= 0) {
+            const placed = cfg.countries[owner];
+            const rank = cfg.costMatrix[owner][i];
+            const fresh = moved && lastSlot === i;
             return (
-              <Slot
-                key={cat.slug}
-                className={SLOT}
-                state="assigned"
-                iso2={picked.iso2}
-                country={picked.displayName}
-                rank={g.config.costMatrix[countryIdx][i]}
-                label={chipLabel(cat.slug)}
-                animate={moved && state.lastPick === countryIdx}
-              />
+              <div key={cat.slug} className={cn("bp-slot placed", fresh && "bp-flip")} data-state="placed">
+                <BpFlag className="bp-sflag" iso2={placed.iso2} w={20} h={15} alt={placed.displayName} />
+                <b className="bp-rank t-num">
+                  #{fresh ? <CountUp value={rank} duration={300} pop /> : <span className="num">{rank}</span>}
+                  <span className="bp-of"> of {cfg.of[i]}</span>
+                </b>
+                <span className="bp-tier t-meta">{tierFor(rank, cfg.of[i])}</span>
+                <span className="bp-slbl t-meta">{label}</span>
+              </div>
             );
           }
           return (
-            <Slot
+            <button
               key={cat.slug}
-              className={SLOT}
-              state="open"
-              slug={cat.slug}
-              label={chipLabel(cat.slug)}
-              clarifier={cat.clarifier}
-              keyHint={String(i + 1)}
-              onClick={() => dispatch({ t: "pick", c: i })}
-              disabled={busy || country === null}
-              aria-label={`Put ${country ? country.displayName : "this country"} on ${chipLabel(cat.slug)}`}
-            />
+              type="button"
+              className="bp-slot open"
+              data-state="open"
+              disabled={busy || complete}
+              onClick={() => dispatch({ t: "place", s: i })}
+              aria-label={`Put ${country.displayName} on ${label}`}
+            >
+              <StatIcon slug={cat.slug} size={22} />
+              <span className="bp-lbl">{label}</span>
+            </button>
           );
         })}
       </div>
 
-      {/*
-        One row under the grid, always 44 px tall whether it is full or empty, so the board
-        never jumps mid-run. It says the rule while there is nothing else to say, then hands
-        the space to the undo, then to the reveal window's button. Once the run has settled
-        the result panel sits under the board and the row is gone.
-      */}
-      {settled ? null : (
-        <div className="play-actions min-h-11">
-          {revealing ? (
-            <Button variant="ink" onClick={() => dispatch({ t: "seen" })}>
-              See result
-            </Button>
-          ) : null}
-          {undoable ? (
-            <Button variant="text" icon="undo" onClick={() => dispatch({ t: "undo" })}>
-              Undo last pick · 1 left
-            </Button>
-          ) : null}
-          {hint ? <p className="t-body play-line">You never see the next country.</p> : null}
-        </div>
-      )}
+      <p className="bp-line t-body">
+        {complete ? (
+          "All six placed."
+        ) : (
+          <>
+            Tap a stat to place the country.<span className="bp-keys"> Keys 1 to {PICK_COUNT}.</span>
+          </>
+        )}
+      </p>
+
+      <p className="sr-only" aria-live="polite">
+        {moved && lastCountry && lastRank !== null && lastSlot >= 0
+          ? `${lastCountry.displayName} is number ${lastRank} of ${cfg.of[lastSlot]} on ${statWording(cfg.categories[lastSlot].slug)}. ${tierFor(lastRank, cfg.of[lastSlot])}.`
+          : ""}
+      </p>
     </div>
   );
 }
