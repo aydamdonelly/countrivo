@@ -47,6 +47,8 @@ export async function frozenBoardState<S>(slug:string,dateKey:string,edition:str
 
 export async function frozenBoardSnapshot<S>(slug:string,dateKey:string,edition:string):Promise<{seed:number;solution:S}|null> {
   const {data,error}=await gameDatabase().from('countrivo_boards').select('seed,solution').eq('game_slug',slug).eq('date_key',dateKey).eq('edition',edition)
+    // A fresh signal bypasses React's GET deduplication after creating the first snapshot.
+    .abortSignal(AbortSignal.timeout(6000))
     .maybeSingle<{seed:number;solution:S}>();
   if(error)throw new Error('Could not read the preserved daily board');
   return data;
