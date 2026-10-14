@@ -59,6 +59,8 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
   useEffect(() => {
     if (busy || finished) return;
     const onKey = (event: KeyboardEvent) => {
+      if (document.querySelector(":popover-open")) return;
+      if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select"))) return;
       const slot = Number(event.key) - 1;

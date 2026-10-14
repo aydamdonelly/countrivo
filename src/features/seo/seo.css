@@ -157,4 +157,11 @@
 
   /* ── legal ───────────────────────────────────────────────────────────── */
   .mail-line { color: var(--color-mute); margin-top: 32px; }
+  .dossier-stat-spotlight > div { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px 16px; margin-block: 8px; }
+  .dossier-stat-spotlight > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .dossier-method { color: var(--color-mute); }
+  .dossier-method summary { display: flex; align-items: center; gap: 6px; min-height: 44px; cursor: pointer; }
+  .dossier-method summary::after { content: "+"; }
+  .dossier-method[open] summary::after { content: "−"; }
+  .dossier-method p { max-width: 48ch; line-height: 20px; }
 }

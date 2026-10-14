@@ -16,6 +16,8 @@ export function usePlayKeys(keymap: Record<string, () => void>, enabled: boolean
   useEffect(() => {
     if (!enabled) return;
     const onKey = (e: KeyboardEvent) => {
+      if (document.querySelector(":popover-open")) return;
+      if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.closest("button,a,summary")) return;
       if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
       const target = e.target as HTMLElement | null;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable)) return;

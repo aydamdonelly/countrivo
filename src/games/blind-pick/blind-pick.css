@@ -38,8 +38,6 @@
 
   /* the line under the slots */
   .bp-line { color: var(--color-mute); text-align: center; min-height: 20px; }
-  .bp-keys { display: none; }
-  @media (hover: hover) and (pointer: fine) { .bp-keys { display: inline; } }
 
 
   /* desktop: the card centred, one row of six at 150 x 96 across the 960 column */
@@ -80,8 +78,11 @@
   .bp-cell { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; white-space: nowrap; }
   .bp-cell.mute { color: var(--color-mute); }
   .bp-cell .ic-ok { color: var(--color-ink); }
-  .bp-swaps { display: flex; flex-direction: column; margin-top: 12px; }
-  .bp-swaps-h { color: var(--color-mute); padding-bottom: 4px; }
+  .bp-swaps { margin-top: 12px; }
+  .bp-swaps-h { display:flex; align-items:center; gap:6px; min-height:44px; width:fit-content; color:var(--color-mute); cursor:pointer; list-style:none; }
+  .bp-swaps-h::before { content:'+'; font-size:18px; }
+  .bp-swaps[open] .bp-swaps-h::before { content:'−'; }
+  .bp-swaps-h:focus-visible { outline:2px solid var(--color-ink); outline-offset:2px; }
   .bp-swap { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--color-line); color: var(--color-ink); }
   .bp-saved { color: var(--color-mute); white-space: nowrap; }
   .bp-saved .t-num { color: var(--color-ink); }

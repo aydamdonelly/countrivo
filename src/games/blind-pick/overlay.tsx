@@ -88,8 +88,8 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
       </div>
 
       {swaps.length > 0 ? (
-        <div className="bp-swaps">
-          <p className="t-meta bp-swaps-h">{swaps.length === 1 ? "The move that fixes it" : "The moves that fix it"}</p>
+        <details className="bp-swaps">
+          <summary className="t-meta bp-swaps-h">Better swaps</summary>
           {swaps.map((s) => {
             const text =
               s.moves.length === 2
@@ -104,7 +104,7 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
               </div>
             );
           })}
-        </div>
+        </details>
       ) : null}
     </div>
   );

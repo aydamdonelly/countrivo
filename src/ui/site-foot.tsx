@@ -1,15 +1,12 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { Clay } from '@/ui/clay';
+import './site-foot.css';
 export function SiteFoot({ className }: { className?: string }) {
-  return <footer className={cn('table-foot', className)}>
-    <div className="foot-objects"><Clay object="cl-23" state="open" /><Clay object="cl-24" state="americas" alternate="afreu" /></div>
-    <div className="foot-copy">
-      <p>Play <Link href="/">today&apos;s games</Link>, <Link href="/practice">practice</Link>, or open <Link href="/archive">the archive</Link>.</p>
-      <p>Read about <Link href="/countries">countries</Link>, <Link href="/categories">stats</Link> and <Link href="/lists">lists</Link>, and <Link href="/sources">the sources</Link> behind them.</p>
-      <p><Link href="/about">How Countrivo works</Link>, <Link href="/credits">credits</Link>, <Link href="/privacy">privacy</Link>, <Link href="/terms">terms</Link>, <Link href="/imprint">imprint</Link> and <Link href="/support">support</Link>.</p>
-      <p className="t-meta text-mute">Free daily geography games. No accounts. New boards at midnight Berlin time.</p>
-      <p className="t-meta text-mute">Copyright 2026 Countrivo</p>
-    </div>
+  return <footer className={cn('table-foot', 'site-foot-compact', className)}>
+    <nav className="site-foot-links" aria-label="Footer">
+      <Link href="/practice">Practice</Link><Link href="/archive">Archive</Link><Link href="/countries">Countries</Link>
+      <details className="site-foot-more"><summary>More</summary><div><Link href="/categories">Stats</Link><Link href="/lists">Lists</Link><Link href="/sources">Sources</Link><Link href="/about">About</Link><Link href="/credits">Credits</Link><Link href="/terms">Terms</Link><Link href="/support">Support</Link></div></details>
+    </nav>
+    <div className="site-foot-legal t-meta"><span>2026 Countrivo</span><Link href="/privacy">Privacy</Link><Link href="/imprint">Imprint</Link></div>
   </footer>;
 }

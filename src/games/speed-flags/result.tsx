@@ -44,8 +44,7 @@ export function Result({ state }: ResultProps<SpeedFlagsState>) {
 
   return (
     <div className="sf-res">
-      <p className="t-body">right in {SPEED_SECONDS} seconds</p>
-      <p className="best t-meta">{fresh ? "New best on this device" : `Best on this device: ${best}`}</p>
+      <p className="best t-meta">{SPEED_SECONDS}s · {fresh ? "New device best" : `Device best: ${best}`}</p>
     </div>
   );
 }

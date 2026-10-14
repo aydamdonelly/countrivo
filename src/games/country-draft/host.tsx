@@ -11,17 +11,18 @@ import { trackPlay } from "@/lib/play-events";
 import { buildCountryDraftShareText } from "@/lib/share";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
-import { Sheet } from "@/ui/sheet";
 import { CountUp } from "@/ui/count-up";
+import { Flag } from "@/ui/flag";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
-import { MAX_SCORE, SEAT_NAMES, SEAT_WANTS, bandOf } from "@/lib/game-logic/country-draft/tables";
+import { UserIcon } from "@/ui/icons/user";
+import { BONUSES, MAX_SCORE, SEAT_WANTS, bandOf } from "@/lib/game-logic/country-draft/tables";
 import { poolIndex, seatIndex } from "@/lib/game-logic/country-draft/types";
 import type { DraftView } from "@/lib/game-logic/country-draft/public-view";
 import type { PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import type { HostProps } from "@/games/types";
 import type { DraftCommitAction } from "./module";
 import type { ServerGameRun } from "@/types/server";
-import { Board, type DraftSelection } from "./board";
+import { Board, ClayJob, JOB_NAMES, type DraftSelection } from "./board";
 import "./draft.css";
 
 const Result = dynamic(() => import("./result").then(module => module.Result));
@@ -42,17 +43,12 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const [revision, setRevision] = useState(p.sessionRevision ?? 0);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [rules, setRules] = useState(p.showDraftRules ?? false);
   const [animate, setAnimate] = useState(false);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
   const [publishedName, setPublishedName] = useState<string | null>(p.publishedName ?? null);
   const busyRef = useRef(false);
   const mountedAt = useRef(0);
   const moved = useRef(false);
-  const closedRules = useCallback(() => {
-    document.cookie = "cv_draft_rules_seen=1; Path=/; Max-Age=31536000; SameSite=Lax";
-    setRules(false);
-  }, []);
   const onDrop = useCallback(() => setSelection((s) => ({ ...s, person: null, seat: null })), []);
   const onDetail = useCallback((detail: PoolIdx | null) => setSelection((s) => ({ ...s, detail })), []);
   const onCountry = useCallback((country: PoolIdx) => setSelection((s) => ({ ...s, country })), []);
@@ -104,8 +100,9 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (busy || rules || selection.detail !== null || state.phase === "done") return;
+      if (busy || selection.detail !== null || state.phase === "done" || document.querySelector(".dr-help-details[open]")) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select"))) return;
+      if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       const digit = Number(event.key) - 1;
       let action: (() => void) | null = null;
       if (state.phase === "country") {
@@ -120,7 +117,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [busy, rules, selection.detail, selection.person, state, onCountry, onOpen, onPerson, onSeat, onCommit, onDrop, onNext]);
+  }, [busy, selection.detail, selection.person, state, onCountry, onOpen, onPerson, onSeat, onCommit, onDrop, onNext]);
 
   async function newPractice() {
     if (busyRef.current) return;
@@ -136,15 +133,22 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const filled = state.seats.filter((seat) => seat !== null).length;
   const shareText = buildCountryDraftShareText({ score: state.score, band: bandOf(state.score).word, fits: state.seats.flatMap((seat) => seat ? [seat.fit] : []), rank: run?.rankDaily ?? null, practice: p.mode === "practice" }, p.dateKey);
   return <div className="dr-game" aria-busy={busy}>
-    <header className="dr-play-header"><Link href="/games/country-draft" aria-label="Back to Country Draft" className="dr-back"><ChevronLeftIcon size={24} /></Link>
+    <header className="dr-play-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
       <span className={cn("dr-header-clay", state.phase === "done" && "finished")} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size clay object */}
         <img src={`/clay/cl-01/${state.phase === 'done' ? 'coins' : 'rest'}.128.webp`} width={32} height={32} alt="" />
       </span>
       <h1 className="t-h3">Country Draft</h1><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
-      <b className="dr-header-score t-score"><CountUp value={state.score} duration={750} animate={animate} /> <small>of 195</small></b><button type="button" className="dr-help" onClick={() => setRules(true)} aria-label="How Country Draft works"><span>?</span></button>
+      <b className="dr-header-score t-score"><CountUp value={state.score} duration={750} animate={animate} /> <small>/ 195</small></b>
+      <details className="dr-help-details"><summary className="dr-help" aria-label="How to play Country Draft"><span>?</span></summary><div className="dr-help-panel">
+        <h2 className="t-h3">How to play</h2>
+        <ol className="dr-help-steps t-meta"><li><Flag iso2="fr" size="m" alt="" /><b>Country</b></li><li><UserIcon size={40} /><b>Person</b></li><li><ClayJob seat={0} /><b>Job</b></li></ol>
+        <p className="t-body">5 rounds. Each job once.</p>
+        <details className="dr-score-details"><summary className="t-meta">Jobs &amp; scoring</summary><div className="dr-rules-jobs">{JOB_NAMES.map((name, index) => <div key={name}><b className="t-body">{name}</b><small className="t-meta">{SEAT_WANTS[index]}</small></div>)}</div><p className="t-body">Up to 25 for job fit + 10 for fame. Points appear after seating.</p>{BONUSES.map(bonus => <p className="t-meta" key={bonus.key}>{bonus.name} +{bonus.points}: {bonus.needs}.</p>)}</details>
+        <details className="dr-score-details"><summary className="t-meta">Keyboard</summary><p className="t-meta">1–3: country or person. 1–5: job. Enter: confirm. Esc: put back. N: next round.</p></details>
+      </div></details>
     </header>
-    {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice · this round stays off the daily board</p> : null}
+    {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
     {state.phase !== "done" ? <Board state={state} selection={selection} busy={busy} animate={animate} onCountry={onCountry} onOpen={onOpen} onPerson={onPerson} onSeat={onSeat} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
       <Result state={state} shareText={shareText} animate={animate} />
       {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
@@ -153,6 +157,5 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
       <DraftResultDetails state={state} />
     </div>}
     {error ? <p className="dr-error t-body" role="alert">{error}</p> : null}
-    <Sheet open={rules} onClose={closedRules} labelledBy="draft-rules-title" className="dr-rules-sheet" portal={false}><h2 className="t-h2" id="draft-rules-title">How Country Draft works</h2><ol className="t-body"><li>Pick a country, then one of its people.</li><li>Give them a job in your cabinet. Each job can be used once.</li><li>Points show only after you seat them.</li></ol><p className="t-body">Each person earns up to 25 for the job and up to 10 for fame. Every choice is final once you seat them.</p><p className="t-body">Three regions: +6. Mix someone from before 1900 with someone active after 1950: +6. Every job at a fit of 12 or more: +8.</p><div className="dr-rules-jobs">{SEAT_NAMES.map((name, index) => <div key={name}><b className="t-h3">{name}</b><small className="t-meta">{SEAT_WANTS[index]}</small></div>)}</div><Button block variant="ink" onClick={closedRules}>Got it</Button></Sheet>
   </div>;
 }

@@ -18,7 +18,7 @@ export function ListsHub() {
   return (
     <>
       <PageTitle title={LISTS_HUB.h1} meta={`${LISTS.length} curated rankings`} />
-      <Prose paragraphs={LISTS_INTRO} />
+      <details className="info-disclosure"><summary>About these lists</summary><Prose paragraphs={LISTS_INTRO} /></details>
 
       <section className="ls lists-rows">
         {LISTS.map((list) => {
@@ -28,7 +28,6 @@ export function ListsHub() {
               key={list.slug}
               href={`/lists/${list.slug}`}
               title={list.hubTitle}
-              meta={list.hubDescription}
               lead={category ? <StatIcon slug={category.slug} size={24} /> : <Icon name="globe" size={24} />}
             />
           );
@@ -39,7 +38,7 @@ export function ListsHub() {
         <SectionHead title="Test yourself" fact="5 games" />
         <GameRow slug="country-draft" title="Country Draft" meta="five seats, one map" href="/games/country-draft" />
         <GameRow slug="flag-quiz" title="Flag Quiz" meta="10 flags · 4 options" href="/games/flag-quiz" />
-        <GameRow slug="blind-pick" title="Blind Pick" meta="8 picks, one shot" href="/games/blind-pick" />
+        <GameRow slug="blind-pick" title="Blind Pick" meta="6 countries · 6 stats" href="/games/blind-pick" />
         <GameRow
           slug="higher-or-lower"
           title="Higher or Lower"

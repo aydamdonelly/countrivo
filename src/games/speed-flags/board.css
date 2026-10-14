@@ -10,6 +10,12 @@
     .sf { min-height: max(420px, calc(100svh - 190px)); }
     .sf .sf-stage { flex: 1; justify-content: center; }
   }
+  @media (max-width: 767px) and (max-height: 700px) {
+    .sf { min-height: max(360px, calc(100svh - 190px)); }
+    .sf .sf-box { width: 256px; }
+    .sf .sf-box.ready { min-height: 220px; }
+    .sf .sf-hourglass { width: 96px; height: 96px; }
+  }
 
   .sf-stage { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; }
 
@@ -21,8 +27,9 @@
   .sf-box { display: flex; align-items: center; justify-content: center; width: 320px; max-width: 100%; aspect-ratio: 3 / 2; }
   @media (min-width: 1024px) { .sf-box { width: 400px; } }
   .sf-box .flag { height: 100%; aspect-ratio: 4 / 3; width: auto; }
-  .sf-box.ready { flex-direction: column; gap: 6px; background: var(--color-card); border-radius: var(--radius-card); padding: 0 24px; text-align: center; }
-  .sf-box.ready .t-body { color: var(--color-mute); }
+  .sf-box.ready { flex-direction: column; gap: 8px; min-height: 280px; text-align: center; }
+  .sf-hourglass { width: 128px; height: 128px; }
+  .sf-penalty { padding: 4px 10px; border-radius: var(--radius-chip); background: var(--color-card); color: var(--color-mute); }
 
   /* two rows: stacked on phones, side by side at 1024 */
   .sf-opts { display: grid; grid-template-columns: 1fr; gap: 8px; width: 100%; }
@@ -38,7 +45,6 @@
 
   .sf .sf-start { width: 100%; height: 56px; }
 
-  .sf .keyhint { margin-top: 0; text-align: center; }
 
   /* the time-up line, centred over the result */
   .sf-time { text-align: center; padding: 24px 0 8px; }

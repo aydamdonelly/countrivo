@@ -17,7 +17,7 @@ let checks=0,failures=0;
 const results=[];
 function check(ok,label,details=''){checks++;results.push({ok,label,details});if(!ok){failures++;console.error(`FAIL ${label}: ${details}`);}}
 const routes=['/','/practice','/games','/countries','/countries/portugal','/categories','/categories/population','/lists/countries-in-africa','/leaderboard','/archive','/about','/sources','/privacy','/terms','/support','/imprint'];
-async function settled(page){await page.evaluate(async()=>{await document.fonts.ready;await Promise.all(Array.from(document.images).filter(image=>{const r=image.getBoundingClientRect();return r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;}).map(image=>image.decode().catch(()=>undefined)));});}
+async function settled(page){await page.evaluate(async()=>{await document.fonts.ready;await Promise.all(Array.from(document.images).filter(image=>{const r=image.getBoundingClientRect();return image.checkVisibility()&&r.bottom>0&&r.top<innerHeight&&r.right>0&&r.left<innerWidth;}).map(image=>image.decode().catch(()=>undefined)));});}
 for(const width of [320,390,1440]){
   const context=await browser.newContext({viewport:{width,height:width===1440?900:844},reducedMotion:'reduce'});
   const page=await context.newPage();
@@ -27,7 +27,7 @@ for(const width of [320,390,1440]){
     await settled(page);
     const label=`${route} @${width}`;
     check(response?.status()===200,label+' HTTP',String(response?.status()));
-    const measured=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth+1,badLinks:Array.from(document.querySelectorAll('a[href]')).filter(a=>/\/(auth|friends|profile)(\/|$)/.test(new URL(a.href,location.href).pathname)).map(a=>a.textContent),broken:Array.from(document.images).filter(image=>{const r=image.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0&&r.left<innerWidth&&r.right>0&&!image.naturalWidth;}).map(image=>image.getAttribute('src'))}));
+    const measured=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth+1,badLinks:Array.from(document.querySelectorAll('a[href]')).filter(a=>/\/(auth|friends|profile)(\/|$)/.test(new URL(a.href,location.href).pathname)).map(a=>a.textContent),broken:Array.from(document.images).filter(image=>{const r=image.getBoundingClientRect();return image.checkVisibility()&&r.top<innerHeight&&r.bottom>0&&r.left<innerWidth&&r.right>0&&!image.naturalWidth;}).map(image=>image.getAttribute('src'))}));
     check(!measured.overflow,label+' no page overflow');
     check(!measured.badLinks.length,label+' no account navigation',measured.badLinks.join(','));
     check(!measured.broken.length,label+' visible assets loaded',measured.broken.join(','));

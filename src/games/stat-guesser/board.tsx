@@ -53,15 +53,18 @@ export function Board({ view, busy, commitBusy = busy, send, animate = false }: 
   useEffect(() => {
     const element = box.current;
     if (!element) return;
+    let active = true;
     const observer = new ResizeObserver(() => fitReferenceLabels(element));
     observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
+    for (const label of element.querySelectorAll<HTMLElement>(".qr-ref-label")) observer.observe(label);
+    void document.fonts.ready.then(() => { if (active) fitReferenceLabels(element); });
+    return () => { active = false; observer.disconnect(); };
+  }, [view.refs]);
   function moveAt(clientX: number) { const bounds = box.current?.getBoundingClientRect(); if (bounds) setPin(nearest(view.ruler, (clientX - bounds.left) / bounds.width)); }
   function startDrag(event: PointerEvent<HTMLDivElement>) { if (!live || (event.pointerType === "mouse" && event.button !== 0)) return; event.preventDefault(); event.currentTarget.setPointerCapture(event.pointerId); dragging.current = true; moveAt(event.clientX); }
   function endDrag(event: PointerEvent<HTMLDivElement>) { dragging.current = false; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); }
   const onKey = useCallback((event: KeyboardEvent) => {
-    if (!live || event.ctrlKey || event.altKey || event.metaKey || event.target instanceof HTMLElement && event.target.closest("input,textarea,select")) return;
+    if (document.querySelector(":popover-open") || !live || event.ctrlKey || event.altKey || event.metaKey || event.target instanceof HTMLElement && event.target.closest("input,textarea,select")) return;
     let next: number | null = null;
     const upward = ["ArrowRight", "ArrowUp"].includes(event.key);
     const downward = ["ArrowLeft", "ArrowDown"].includes(event.key);
@@ -73,14 +76,14 @@ export function Board({ view, busy, commitBusy = busy, send, animate = false }: 
   }, [live, pin, view.ruler, send, commitBusy]);
   useEffect(() => { window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey); }, [onKey]);
   return <div className={cn("sg qr-stat-game", reveal && "is-reveal")}>
-    <div className="sg-q"><div className="sg-name"><Flag iso2={view.country.iso2} size="s" alt="" eager /><b className="t-h2">{view.country.name}</b></div><p className="sg-stat t-body">{view.stat}</p>{view.doubled ? <p className="t-meta text-mute">Counts double</p> : null}</div>
-    <div className="sg-live"><span className="cap t-body">{reveal ? "The answer" : "about"}</span><b className="t-big num">{statValue(view, view.actualValue ?? guessed)}</b></div>
+    <div className="sg-q"><div className="sg-name"><Flag iso2={view.country.iso2} size="s" alt="" eager /><b className="t-h2">{view.country.name}</b></div><div className="qr-stage-title"><p className="sg-stat t-body">{view.stat}</p>{view.doubled ? <span className="qr-multiplier t-meta" aria-label="This round counts double">×2</span> : null}</div></div>
+    <div className="sg-live"><span className="cap t-meta">{reveal ? "Answer" : "Your guess"}</span><b className="t-big num">{statValue(view, view.actualValue ?? guessed)}</b></div>
     <div className={cn("sg-ruler", !live && "done")} onPointerDown={startDrag} onPointerMove={(event) => { if (dragging.current && live) moveAt(event.clientX); }} onPointerUp={endDrag} onPointerCancel={endDrag}><div className="sg-box" ref={box}>
       <span className="sg-line" aria-hidden="true" /><span className="sg-end lo t-meta">{statValue(view, view.ruler.min)}</span><span className="sg-end hi t-meta">{statValue(view, view.ruler.max)}</span>
-      {view.refs.map((ref, i) => <span className="sg-mark sg-ref" key={ref.name} style={{ left: `${position(view.ruler, ref.value) * 100}%` }}><span className="sg-tick" /><span className={cn("qr-ref-label t-meta", i === 0 ? "left" : "right")}><Flag iso2={ref.iso2} size="xs" alt="" />{ref.name}</span></span>)}
-      {actualPos !== null ? <><span className={cn("sg-mark sg-truth", animate && "drop")} style={{ left: `${actualPos * 100}%` }} aria-hidden="true"><span className="sg-tick" /><span className="sg-dot" /></span><span className="qr-truth-label t-meta">{view.country.name}: {statValue(view, view.actualValue ?? 0)}</span></> : null}
+      {view.refs.map((ref, i) => <span className="sg-mark sg-ref" key={ref.name} style={{ left: `${position(view.ruler, ref.value) * 100}%` }}><span className="sg-tick" /><span className={cn("qr-ref-label t-meta", i === 0 ? "left" : "right")}><Flag iso2={ref.iso2} size="xs" alt="" /><span>{ref.name}<small className="num">{statValue(view, ref.value)}</small></span></span></span>)}
+      {actualPos !== null ? <span className={cn("sg-mark sg-truth", animate && "drop")} style={{ left: `${actualPos * 100}%` }} aria-hidden="true"><span className="sg-tick" /><span className="sg-dot" /></span> : null}
       <span className="sg-mark sg-pin" style={{ left: `${pinPos * 100}%` }}><span className="sg-tick" /><span className="sg-knob" role="slider" tabIndex={live ? 0 : -1} aria-label={`Your guess for ${view.country.name}`} aria-valuemin={0} aria-valuemax={view.ruler.steps.length - 1} aria-valuenow={pin} aria-valuetext={statValue(view, guessed)} aria-disabled={!live}><i /></span></span>
     </div></div>
-    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={400} animate={animate} className="t-h1" /><span className="of t-body">of {view.doubled ? 200 : 100}</span></span><p className="ctx t-meta">{view.context}</p></div><div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "See result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={busy ? "Guess locked…" : "Opening round…"} onClick={(event) => { if (event.detail < 2) void send({ t: "lock", i: pin }); }}>Lock it</Button></div>}
+    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={400} animate={animate} className="t-h1" /><span className="of t-body">/ {view.doubled ? 200 : 100}</span></span>{view.context ? <details className="ctx qr-info"><summary className="t-meta">Compare</summary><p className="t-body">{view.context}</p></details> : null}</div><div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "Result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={busy ? "Guess locked…" : "Opening round…"} onClick={(event) => { if (event.detail < 2) void send({ t: "lock", i: pin }); }}>Lock in</Button></div>}
   </div>;
 }

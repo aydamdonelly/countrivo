@@ -69,13 +69,15 @@ function splitScore(score: string): { n: number; digits: string; rest: string } 
 }
 
 export function ResultPanel({ mode, game, score, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, children, animateScore, className }: ResultPanelProps) {
-  const k = kicker ?? (mode === "practice" ? `Practice · ${game}` : "Today’s result");
-  const c = counter;
+  const k = kicker ?? (mode === "practice" ? "Practice" : "Today’s result");
   const parByGame: Record<string, number> = { "Country Draft": 140, GeoWordle: 4, Pinpoint: 720, "Flag Quiz": 9, "Higher or Lower": 9, "Stat Guesser": 300, "Blind Pick": 10 };
   const par = mode === "practice" && game === "Higher or Lower" ? undefined : parByGame[game];
   const value = Number(score.match(/^[+]?(\d+)/)?.[1]);
   const lowerIsBetter = game === "GeoWordle" || game === "Blind Pick";
   const delta = Number.isFinite(value) && par !== undefined ? (lowerIsBetter ? par - value : value - par) : null;
+  const c = counter && (delta === null || !/^par\b/i.test(counter)) ? counter : undefined;
+  const parLabel = par === undefined ? undefined : `${game === "Blind Pick" ? "+" : ""}${par}`;
+  const deltaLabel = delta === null ? undefined : delta === 0 ? "On par" : `${Math.abs(delta)} ${delta > 0 ? "better than" : "off"} par`;
   return (
     <div className={cn("rp-wrap", className)}>
       <section className="rp">
@@ -91,7 +93,7 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
             return <><b className="t-score-xl" aria-hidden="true">{score.startsWith("+") ? "+" : ""}{animateScore ? <CountUp value={parts.n} duration={750} kind={parts.digits.includes(" ") ? "grouped" : "int"} /> : parts.digits}</b>{parts.rest ? <span className="score-unit t-body" aria-hidden="true">{parts.rest}</span> : null}</>;
           })()}
         </div>
-        {delta !== null ? <p className="result-par t-body">Par {game === "Blind Pick" ? "+" : ""}{par}. {game === "Blind Pick" ? delta > 0 ? `${delta} under par.` : delta < 0 ? `${Math.abs(delta)} over par.` : "Right on par." : delta > 0 ? `You beat it by ${delta}.` : delta < 0 ? `${Math.abs(delta)} short.` : "Right on par."}</p> : null}
+        {delta !== null ? <div className="result-benchmarks t-meta"><span>Par <b className="num">{parLabel}</b></span><span aria-label={deltaLabel}>{delta === 0 ? "On par" : <><b className="num">{lowerIsBetter ? "" : delta > 0 ? "+" : "−"}{Math.abs(delta)}</b> {lowerIsBetter ? `${delta > 0 ? "under" : "over"} par` : "vs par"}</>}</span></div> : null}
         {ranks && (mode === "practice" || ranks.globalRank !== null) ? (
           <p className="ranks t-body">
             {mode === "practice" ? (
@@ -102,11 +104,11 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
               ) : null
             ) : (
               <>
-                <b className="num">#{ranks.globalRank}</b> of {ranks.globalShots} names today
+                <span aria-label={`Rank ${ranks.globalRank} of ${ranks.globalShots} players today`}><b className="num">#{ranks.globalRank}</b> / {ranks.globalShots}</span>
                 {ranks.friendCount > 0 ? (
                   <>
                     <br />
-                    <b className="num">#{ranks.friendRank ?? "–"}</b> of {ranks.friendCount} friends
+                    <b className="num">#{ranks.friendRank ?? "–"}</b> / {ranks.friendCount} friends
                   </>
                 ) : null}
               </>
@@ -115,10 +117,7 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
         ) : null}
         {personalBest ? <p className="pb-line t-body">New personal best</p> : null}
         {mode === "daily" || mode === "lockout" ? (
-          <p className="note t-body">
-            {mode === "lockout" ? "You’ve finished today. " : "Keep exploring. "}
-            <Link href={practiceHref ?? "?mode=practice"}>Practice a board</Link> whenever you like.
-          </p>
+          <Link className="result-practice t-meta" href={practiceHref ?? "?mode=practice"}>Practice</Link>
         ) : null}
         {mode === "lockout" && clock ? (
           <p className="next t-body">
@@ -126,7 +125,7 @@ export function ResultPanel({ mode, game, score, kicker, counter, ranks, persona
           </p>
         ) : null}
       </section>
-      {failReason ? <p className="rp-fail t-meta">Couldn&apos;t save your result ({failReason}).</p> : null}
+      {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}
       {children ? <div className="rp-rows">{children}</div> : null}
       {actions ? <div className="rp-actions">{actions}</div> : null}
     </div>

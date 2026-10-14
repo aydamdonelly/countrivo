@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { CheckIcon } from "@/ui/icons/check";
 import { CloseIcon } from "@/ui/icons/close";
-import { KeyHint } from "@/ui/key-hint";
+import { Clay } from "@/ui/clay";
 import type { BoardProps } from "@/games/types";
 import { SPEED_SECONDS, TICK_MS, type SpeedAction } from "./module";
 import "./board.css";
@@ -70,10 +70,10 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
     return (
       <div className="sf">
         <div className="sf-stage">
-          {count}
           <div className="sf-box ready">
-            <p className="t-h2">{SPEED_SECONDS} seconds.</p>
-            <p className="t-body">Two names per flag. A wrong one costs 3 seconds.</p>
+            <Clay object="cl-08" state="full" className="sf-hourglass" sizes="128px" loading="eager" />
+            <b className="t-h1 num">{SPEED_SECONDS}s</b>
+            <span className="sf-penalty t-meta">Wrong −3s</span>
           </div>
         </div>
         <div className="sf-opts">
@@ -81,7 +81,6 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
             Start
           </Button>
         </div>
-        <KeyHint>Press Enter to start</KeyHint>
       </div>
     );
   }
@@ -118,7 +117,6 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
           );
         })}
       </div>
-      <KeyHint>Press 1 or 2</KeyHint>
     </div>
   );
 }

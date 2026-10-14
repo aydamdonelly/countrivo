@@ -17,6 +17,16 @@
   --color-ink-2:  #2b2c2e;   /* pressed/hover state of ink fills; chip fill on the ink card */
   --color-ember:  #b8432a;   /* THE colour: flame, live counters, NEW, friends-link facts, me-crest ring, active tab seed, wrong verdicts, GeoWordle "hit" */
 
+  /* Game tiles: one recognisable colour per game. */
+  --color-game-draft:  #f3cd83;
+  --color-game-geo:    #8fcede;
+  --color-game-pin:    #eaa38e;
+  --color-game-flag:   #dbc2e9;
+  --color-game-higher: #b6d38d;
+  --color-game-stat:   #efaec4;
+  --color-game-blind:  #bec4f0;
+  --color-game-speed:  #e6cf80;
+
   /* text on ink (anchor card, result panel) */
   --color-on-ink:        #fbfaf6;
   --color-on-ink-body:   #c9c8c1;   /* how-text on the card */

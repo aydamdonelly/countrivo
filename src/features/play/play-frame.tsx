@@ -14,7 +14,7 @@ export interface PlayFrameProps {
 /** The play route's frame (blueprint 8.1): the PlayBar, then the host, in one 640/720 column. */
 export function PlayFrame({ slug, title, mode, children }: PlayFrameProps) {
   return (
-    <div className="play-root play-frame">
+    <div className="play-root play-frame" data-game={slug}>
       <PlayBar slug={slug} title={title} mode={mode} />
       {children}
     </div>

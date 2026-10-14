@@ -27,11 +27,11 @@ export function gamePresentation(slug: string): GamePresentation | undefined {
 }
 
 export const CABINET_JOBS = [
-  { slug: "chair", name: "The Chair", description: "Leads the country", clay: "cl-10" },
-  { slug: "field", name: "The Field", description: "Runs the army", clay: "cl-11" },
-  { slug: "purse", name: "The Purse", description: "Runs the money", clay: "cl-12" },
-  { slug: "voice", name: "The Voice", description: "Speaks for the country", clay: "cl-13" },
-  { slug: "desk", name: "The Desk", description: "Builds and invents", clay: "cl-14" },
+  { slug: "chair", name: "Leader", description: "Leads the country", clay: "cl-10" },
+  { slug: "field", name: "Army", description: "Runs the army", clay: "cl-11" },
+  { slug: "purse", name: "Money", description: "Runs the money", clay: "cl-12" },
+  { slug: "voice", name: "Voice", description: "Speaks for the country", clay: "cl-13" },
+  { slug: "desk", name: "Builder", description: "Builds and invents", clay: "cl-14" },
 ] as const;
 
 export function outcomeClay(game: string, score: string): string {

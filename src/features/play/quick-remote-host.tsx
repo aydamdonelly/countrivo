@@ -10,10 +10,12 @@ import type { ServerGameRun } from "@/types/server";
 import { trackPlay } from "@/lib/play-events";
 import { Button } from "@/ui/button";
 import { Progress } from "@/ui/progress";
+import { GameHelp } from "@/ui/game-help";
 import { ResultPanel } from "@/ui/result-panel";
 import { ShareButton } from "@/ui/share-button";
 import { CheckIcon } from "@/ui/icons/check";
 import { CrossIcon } from "@/ui/icons/cross";
+import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { LeaderboardEntryForm } from "./leaderboard-entry";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "./persist";
@@ -94,8 +96,9 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (busy || event.repeat || event.metaKey || event.ctrlKey || event.altKey || view.phase === "finished") return;
+      if (document.querySelector(":popover-open") || busy || event.repeat || event.metaKey || event.ctrlKey || event.altKey || view.phase === "finished") return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select,[role=slider]"))) return;
+      if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       let action: QuickAction | null = null;
       if (view.phase === "reveal" && ["Enter", "n", "N"].includes(event.key)) action = { t: "next" };
       else if (view.phase === "playing" && view.kind === "higher-or-lower") {
@@ -114,14 +117,14 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   const next = p.dailies.find((daily) => daily.slug !== view.kind && !p.shotToday.includes(daily.slug));
   const stage = preview ?? view;
   return <div className="quick-remote" aria-busy={busy}>
-    <header className="qr-header"><Link href={`/games/${view.kind}`} aria-label={`Back to ${p.title}`}><ChevronLeftIcon size={24} /></Link>
+    <header className="qr-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games"><ChevronLeftIcon size={24} /></Link>
       {/* eslint-disable-next-line @next/next/no-img-element -- local clay frame changes only after commit */}
-      <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small>
+      <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small><GameHelp slug={view.kind} title={p.title} />
     </header>
     {view.phase === "finished" ? <>
       <ResultPanel mode={p.mode} game={p.title} score={view.score} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<><Button variant="ink" onClick={p.mode === "practice" ? () => void practice() : undefined} href={p.mode === "daily" ? `/games/${view.kind}/leaderboard` : undefined} disabled={busy}>{p.mode === "daily" ? "Today's board" : "One more"}</Button><ShareButton text={view.shareText} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
         {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun} /> : null}
-        <details className="qr-history"><summary className="t-body">How it went</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta">Your guess: {row.guess}. Answer: {row.answer}.</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
+        <details className="qr-history"><summary className="t-body">Answers</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
       </ResultPanel>
       {p.mode === "daily" ? <DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : null}
     </> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}

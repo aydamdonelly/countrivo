@@ -16,7 +16,7 @@ export function CountriesHub(){
   const other=countries.filter((country)=>!sovereignIso3.includes(country.iso3));
   const groups=[...CONTINENTS.map((continent)=>({title:continent,id:continent.toLowerCase(),countries:countries.filter((country)=>country.continent===continent&&sovereignIso3.includes(country.iso3))})),{title:'Territories and other places',id:'other-places',countries:other}];
   return <>
-    <div className="world-index-hero"><div><h1 className="t-h1">Countries of the world</h1><p className="t-body text-mute">{sovereignIso3.length} countries, and {other.length} territories and other places.</p></div><Clay object="cl-24" state="americas" alternate="afreu" /></div>
+    <div className="world-index-hero"><div><h1 className="t-h1">Countries</h1><p className="t-meta text-mute">{sovereignIso3.length} countries · {other.length} other places</p></div><Clay object="cl-24" state="americas" alternate="afreu" /></div>
     <CountriesSearch total={countries.length} />
     <WorldMap />
     <nav className="table-subnav mb-6" aria-label="Jump to a region">{groups.map((group)=><a key={group.id} href={`#${group.id}`}>{group.title}</a>)}</nav>

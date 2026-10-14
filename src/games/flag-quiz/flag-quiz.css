@@ -4,7 +4,6 @@
 @layer components {
   .fq { display: flex; flex-direction: column; }
   .fq-top { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 0 24px; }
-  .fq-meta { min-height: 18px; color: var(--color-mute); text-align: center; }
 
   /* the fixed 3:2 box; the flag is drawn at its full height inside it, centred, and the
      edge ring hugs the flag, not the box */
@@ -21,10 +20,7 @@
     .fq-opt[data-state="idle"]:hover { background: var(--color-line); }
   }
 
-  /* the family line and its source: the room is always reserved, so a reveal never pushes */
-  .fq-family { min-height: 48px; padding-top: 12px; display: flex; flex-direction: column; gap: 2px; }
-  .fq-family .ln { color: var(--color-ink); }
-  .fq-family .src { color: var(--color-mute); }
+  .fq .qr-flag-next { margin-top: 16px; }
 
   /* phones and tablets: the flag centred in the space above, the options at the bottom */
   @media (max-width: 1023px) {

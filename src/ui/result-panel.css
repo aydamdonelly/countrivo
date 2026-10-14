@@ -6,7 +6,10 @@
   .rp-wrap .rp .score { margin-top: 12px; color: var(--color-ink); }
   .rp-wrap .rp .ranks, .rp-wrap .rp .note, .rp-wrap .rp .next { color: var(--color-mute); }
   .rp-wrap .rp .ranks b, .rp-wrap .rp .pb-line, .rp-wrap .rp .note a { color: var(--color-ink); }
-  .result-par { margin-top: 8px; color: var(--color-ink); }
+  .result-benchmarks { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--color-mute); }
+  .result-benchmarks > span { padding: 6px 12px; border-radius: var(--radius-ctl); background: var(--color-paper); }
+  .result-benchmarks b { color: var(--color-ink); }
+  .result-practice { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; color: var(--color-mute); text-decoration: underline; text-underline-offset: 3px; }
   .rp-wrap .rp-actions { flex-wrap: wrap; justify-content: center; }
   .name-entry > .btn { width: 100%; min-height: 56px; }
   .name-entry, .name-published { margin-bottom: 24px; }

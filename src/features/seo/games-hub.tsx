@@ -7,5 +7,5 @@ export function GamesHub() {
   const registry = getAllGames();
   const daily = TABLE_GAMES.filter((game)=>registry.find((g)=>g.slug===game.slug)?.availableModes.includes('daily'));
   const practice = TABLE_GAMES.filter((game)=>!daily.includes(game));
-  return <><PageTitle title="Geography games" meta="Six daily boards. A little more of the world every day." /><div className="game-index">{daily.map((game)=><GameCard key={game.slug} game={game} />)}</div><h2 className="t-h2 mt-20">Practice games</h2><div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} practice />)}</div><SiteFoot /></>;
+  return <><PageTitle title="Daily games" /><div className="game-index">{daily.map((game, i)=><GameCard key={game.slug} game={game} active={i === 0} />)}</div><h2 className="t-h2 mt-12">Practice</h2><div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} active={false} practice />)}</div><SiteFoot /></>;
 }

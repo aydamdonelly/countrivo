@@ -9,8 +9,8 @@ const base = process.env.COUNTRIVO_QA_BASE ?? "http://localhost:3292";
 if (!["localhost", "127.0.0.1"].includes(new URL(base).hostname)) throw new Error("This check is local only.");
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const cases = [
-  { slug: "higher-or-lower", answer: ".qr-call", next: "Next pair", stage: ".qr-question", marker: "Is Spain higher or lower than France?", protected: ".qr-verdict", controls: ".qr-call" },
-  { slug: "flag-quiz", answer: ".fq-opt", next: "Next flag", stage: ".fq-meta", marker: "Flag 2 of 10", protected: ".fq-family .t-body", controls: ".fq-opt" },
+  { slug: "higher-or-lower", answer: ".qr-call", next: "Next", stage: ".qr-country:nth-child(2) .t-h3", marker: "Spain", protected: ".qr-verdict", controls: ".qr-call" },
+  { slug: "flag-quiz", answer: ".fq-opt", next: "Next", stage: ".fq-box img", marker: "/quiz-flags/c588dbd85c7d9ff0694b689cf43bbfc4a22d8a92.svg", attribute: "src", protected: ".fq-opt[data-state=right],.fq-opt[data-state=wrong],.fq-opt[data-state=answer]", controls: ".fq-opt" },
   { slug: "stat-guesser", answer: ".sg-cta", next: "Next", stage: ".sg-name b", marker: "Spain", protected: ".sg-truth", controls: ".sg-cta" },
 ];
 
@@ -60,14 +60,14 @@ try {
       const score = await page.locator(".prog").textContent();
       await button.evaluate(element => element.addEventListener("click", () => { document.documentElement.dataset.nextClickedAt = String(performance.now()); }, { once: true }));
       await button.click();
-      await page.waitForFunction(({ selector, text }) => {
+      await page.waitForFunction(({ selector, text, attribute }) => {
         const stage = document.querySelector(selector);
-        if (stage?.textContent === text) {
+        if ((attribute ? stage?.getAttribute(attribute) : stage?.textContent) === text) {
           document.documentElement.dataset.nextLatency = String(performance.now() - Number(document.documentElement.dataset.nextClickedAt));
           return true;
         }
         return false;
-      }, { selector: scenario.stage, text: scenario.marker });
+      }, { selector: scenario.stage, text: scenario.marker, attribute: scenario.attribute });
       const latency = Number(await page.locator("html").getAttribute("data-next-latency"));
       assert.ok(latency < 150, `${scenario.slug}/${outcome}: next stage took ${latency.toFixed(1)} ms`); checks++;
       latencies.push(latency);
@@ -89,7 +89,7 @@ try {
       assert.equal(requests, 2, "Rapid keys cannot submit a second action while Next saves"); checks++;
       if (outcome === "success") {
         await page.waitForFunction(selector => !document.querySelector(selector).disabled, scenario.controls);
-        assert.equal(await page.locator(scenario.stage).textContent(), scenario.marker, "Acknowledged stage stays in place"); checks++;
+        assert.equal(scenario.attribute ? await page.locator(scenario.stage).getAttribute(scenario.attribute) : await page.locator(scenario.stage).textContent(), scenario.marker, "Acknowledged stage stays in place"); checks++;
         if (scenario.slug === "stat-guesser") {
           assert.equal(await page.getByRole("slider").getAttribute("aria-valuenow"), "4", "Successful acknowledgement preserves the edited pin"); checks++;
         }
@@ -119,9 +119,9 @@ try {
     });
     await page.goto(`${base}/games/flag-quiz/play?mode=practice`, { waitUntil: "networkidle" });
     await page.locator(".fq-opt").first().click();
-    const button = page.getByRole("button", { name: final ? "See result" : "Next flag", exact: true });
+    const button = page.getByRole("button", { name: final ? "Result" : "Next", exact: true });
     await button.click();
-    assert.equal(await page.locator(".fq-family .t-body").count(), 1, "Legacy/final reveal remains while saving"); checks++;
+    assert.equal(await page.locator(".fq-opt[data-state=right]").count(), 1, "Legacy/final reveal remains while saving"); checks++;
     assert.equal(await page.locator(".rp").count(), 0, "No result panel before server confirmation"); checks++;
     await page.waitForFunction(() => document.querySelector('.quick-remote[aria-busy="false"]'));
     assert.equal(requests, 2, "Legacy/final Next commits once"); checks++;

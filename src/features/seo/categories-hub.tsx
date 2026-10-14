@@ -18,7 +18,7 @@ export function CategoriesHub() {
 
   return (
     <>
-      <PageTitle title={CATEGORIES_HUB.h1} meta={`${categories.length} statistics · every country ranked`} />
+      <PageTitle title={CATEGORIES_HUB.h1} meta={`${categories.length} statistics`} />
 
       <section className="ls">
         <div className="cols2">
@@ -31,7 +31,7 @@ export function CategoriesHub() {
                 key={cat.slug}
                 href={`/categories/${cat.slug}`}
                 title={cat.label}
-                meta={`${cat.clarifier ?? cat.description} · ${cat.source} ${cat.sourceYear}`}
+                meta={`${cat.source} ${cat.sourceYear}`}
                 lead={<StatIcon slug={cat.slug} size={24} />}
                 flags={top3.map((c) => c.iso2)}
               />
@@ -45,7 +45,7 @@ export function CategoriesHub() {
         <GameRow
           slug="higher-or-lower"
           title="Higher or Lower"
-          meta="the daily that tests exactly this"
+          meta="Play"
           href="/games/higher-or-lower"
         />
       </section>

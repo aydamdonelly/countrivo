@@ -39,7 +39,7 @@ export function Board({ state, dispatch, busy, mode, pendingSlot }: BoardProps<B
   return (
     <div className={cn("bp", mode === "practice" && "bp-practice")}>
       <div className="bp-arrive">
-        <p className="bp-count t-meta">
+        <p className="sr-only">
           Country <span className="num">{idx + 1}</span> of {PICK_COUNT}
         </p>
         <div key={idx} className={cn("bp-card", moved && !complete && "bp-in")}>
@@ -51,6 +51,7 @@ export function Board({ state, dispatch, busy, mode, pendingSlot }: BoardProps<B
         </div>
       </div>
 
+      {!complete ? <p className="bp-line t-meta">Choose a stat</p> : null}
       <div className="bp-slots">
         {cfg.categories.map((cat, i) => {
           const label = statWording(cat.slug);
@@ -66,7 +67,6 @@ export function Board({ state, dispatch, busy, mode, pendingSlot }: BoardProps<B
                   #{fresh ? <CountUp value={rank} duration={300} pop /> : <span className="num">{rank}</span>}
                   <span className="bp-of"> of {cfg.of[i]}</span>
                 </b>
-                <span className="bp-tier t-meta">{tierFor(rank, cfg.of[i])}</span>
                 <span className="bp-slbl t-meta">{label}</span>
               </div>
             );
@@ -88,16 +88,6 @@ export function Board({ state, dispatch, busy, mode, pendingSlot }: BoardProps<B
           );
         })}
       </div>
-
-      <p className="bp-line t-body">
-        {complete ? (
-          "All six placed."
-        ) : (
-          <>
-            Tap a stat to place the country.<span className="bp-keys"> Keys 1 to {PICK_COUNT}.</span>
-          </>
-        )}
-      </p>
 
       <p className="sr-only" aria-live="polite">
         {moved && lastCountry && lastRank !== null && lastSlot >= 0

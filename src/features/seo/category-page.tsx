@@ -84,13 +84,11 @@ export function CategoryPage({ category }: { category: Category }) {
             <PageTitle
               eyebrow={<StatIcon slug={category.slug} size={32} />}
               title={`${category.label} by Country`}
-              meta={`${category.clarifier ?? category.description} · ${category.source} ${category.sourceYear} · ${rows.length} countries ranked`}
+              meta={`${category.source} ${category.sourceYear} · ${rows.length} countries`}
             />
           </div>
 
-          <p data-o="2" className="t-row lead-line">
-            {category.description}
-          </p>
+          <details data-o="2" className="info-disclosure"><summary>About this statistic</summary><p className="t-row lead-line">{category.description}</p></details>
 
           <section data-o="4" aria-labelledby="full-ranking">
             <EditorialHead
@@ -110,16 +108,16 @@ export function CategoryPage({ category }: { category: Category }) {
           <section data-o="5" className="src-block">
             <SectionHead title="Source" variant="strip" />
             <p className="t-body src-line">
-              {category.source}, {category.sourceYear}. {rows.length} of {sovereignIso3.length} sovereign countries with data. Values are ordered from highest to lowest.
+              {category.source} · {category.sourceYear} · {rows.length}/{sovereignIso3.length} countries
             </p>
           </section>
 
           <section data-o="5" className="category-surprises" aria-labelledby="surprising-positions">
             <h2 id="surprising-positions" className="t-h3">Surprising positions</h2>
             {surprising.map((position)=>{const country=getCountryByIso3(position.iso3),comparison=getAllCategories().find(c=>c.slug===position.comparisonStat);return country ? <p className="t-body" key={position.iso3}><Link href={`/countries/${country.slug}`}>{country.displayName}</Link> ranks <b>{position.rank} of {position.count}</b> for {category.label.toLowerCase()}, and <b>{position.comparisonRank} of {position.comparisonCount}</b> for {comparison?.label.toLowerCase()}.</p> : null;})}
-            <p className="t-meta text-mute">Method: the three largest gaps in relative ranking position, compared with {category.slug==='population'?'total area':'population'}. Only sovereign countries with both values count. This describes position, not whether a country is better.</p>
+            <details className="info-disclosure"><summary>Method</summary><p className="t-meta text-mute">The three largest gaps in relative ranking position, compared with {category.slug==='population'?'total area':'population'}. Only sovereign countries with both values count. This describes position, not whether a country is better.</p></details>
           </section>
-          {guessable || comparable ? <section data-o="5" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"}/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3><p className="t-body">Practice with this statistic. The answers come after your choice.</p>{guessable?<Button variant="ink" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="text" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}<p className="t-meta text-mute">Today’s daily content stays out of practice.</p></section> : null}
+          {guessable || comparable ? <section data-o="5" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"}/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3>{guessable?<Button variant="ink" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="text" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}</section> : null}
 
           <section data-o="6" className="ls">
             <SectionHead title="More rankings" fact={`${others.length} of ${getAllCategories().length}`} />
@@ -128,7 +126,7 @@ export function CategoryPage({ category }: { category: Category }) {
                 key={c.slug}
                 href={`/categories/${c.slug}`}
                 title={c.label}
-                meta={c.clarifier ?? c.description}
+                meta={`${c.source} · ${c.sourceYear}`}
                 lead={<StatIcon slug={c.slug} size={24} />}
               />
             ))}

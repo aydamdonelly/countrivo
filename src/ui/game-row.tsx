@@ -12,7 +12,7 @@ export interface GameRowProps {
   slug?: GameSlug;
   title: string;
   /** Server-computed meta (blueprint 10.4). */
-  meta: string;
+  meta?: string;
   href: string;
   tag?: "NEW";
   /** An action word at the right instead of the chevron (`Shoot`). */
@@ -37,7 +37,7 @@ export function GameRow({ slug, title, meta, href, tag, action, lead, flags, pre
       <span className="body">
         <span className="title">{title}</span>
         {tag ? <em className="t-kicker">{tag}</em> : null}
-        <small className="t-meta">{meta}</small>
+        {meta ? <small className="t-meta">{meta}</small> : null}
       </span>
       {flags && flags.length > 0 ? (
         <span className="flags">

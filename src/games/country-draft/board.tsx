@@ -4,18 +4,17 @@ import { Flag } from "@/ui/flag";
 import { Portrait } from "@/ui/portrait";
 import { Sheet } from "@/ui/sheet";
 import { cn } from "@/lib/utils";
-import { MAX_SCORE, SEAT_NAMES, SEAT_WANTS, fitWord } from "@/lib/game-logic/country-draft/tables";
+import { LockIcon } from "@/ui/icons/lock";
+import { MAX_SCORE, SEAT_NAMES, fitWord } from "@/lib/game-logic/country-draft/tables";
 import type { DraftPersonView, DraftView } from "@/lib/game-logic/country-draft/public-view";
 import type { PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import { poolIndex, seatIndex } from "@/lib/game-logic/country-draft/types";
 import "./draft.css";
 
 const JOB_SLUGS = ["chair", "field", "purse", "voice", "desk"];
-const JOB_SHORT = ["Leader", "Army", "Money", "Voice", "Builder"];
-const REGION_SHORT: Readonly<Record<string, string>> = { Africa: "Af", Americas: "Am", Asia: "As", Europe: "Eu", Oceania: "Oc" };
-const REGIONS = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
+export const JOB_NAMES = ["Leader", "Army", "Money", "Voice", "Builder"] as const;
 
-function ClayJob({ seat, animate = false }: { seat: number; animate?: boolean }) {
+export function ClayJob({ seat, animate = false }: { seat: number; animate?: boolean }) {
   return <span className={cn("dr-clay-job", animate && "plop")} aria-hidden="true">
     {/* eslint-disable-next-line @next/next/no-img-element -- small transparent clay stills */}
     <img src={`/clay/${JOB_SLUGS[seat]}.png`} alt="" width={56} height={56} />
@@ -36,10 +35,10 @@ export function Cabinet({ state, animate, onInspect }: { state: DraftView; anima
         <span className="dr-job-art"><ClayJob seat={seat} animate={animate && state.lastSeat === seat} />
           {pick ? <Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={30} className="dr-seated-face" /> : null}
         </span>
-        <span className="dr-seat-short">{JOB_SHORT[seat]}</span><span className="dr-seat-full">{name}</span>
-        {pick ? <><b className={cn("t-body num", pick.fit <= 6 && "text-ember")}><CountUp value={pick.points} duration={750} animate={animate && state.lastSeat === seat} /></b><small className={cn("t-meta", pick.fit <= 6 && "text-ember")}>{fitWord(pick.fit)}</small></> : <span className="dr-seat-empty" />}
+        <span className="dr-seat-short">{JOB_NAMES[seat]}</span>
+        {pick ? <b className={cn("t-body num", pick.fit <= 6 && "text-ember")}><CountUp value={pick.points} duration={750} animate={animate && state.lastSeat === seat} /></b> : <span className="dr-seat-empty" />}
       </>;
-      return pick && onInspect ? <button type="button" className="dr-cabinet-place" key={name} onClick={() => onInspect(seat)} aria-label={`${pick.person.name}, ${name}, ${pick.points} points`}>{content}</button> : <div className="dr-cabinet-place" key={name}>{content}</div>;
+      return pick && onInspect ? <button type="button" className="dr-cabinet-place" key={name} onClick={() => onInspect(seat)} aria-label={`${pick.person.name}, ${JOB_NAMES[seat]}, ${pick.points} points. View score details.`}>{content}</button> : <div className="dr-cabinet-place" key={name}>{content}</div>;
     })}
   </div>;
 }
@@ -74,23 +73,22 @@ export function Board(p: DraftBoardProps) {
   const { state, selection, busy } = p;
   const held = selection.person === null ? null : state.people[selection.person];
   const detail = selection.detail === null ? null : state.people[selection.detail];
-  const revealIndex = selection.revealSeat ?? state.lastSeat;
+  const revealIndex = selection.revealSeat ?? (state.phase === "seated" ? state.lastSeat : null);
   const reveal = revealIndex === null ? null : state.seats[revealIndex];
   const selectedCountry = selection.country === null ? null : state.countries[selection.country];
   const lastRound = state.phase !== "seated";
   return <div className={cn("dr", held && "dr-holding")}>
     <Cabinet state={state} animate={p.animate && state.phase === "seated"} onInspect={p.onReveal} />
     {reveal ? <div className={cn("dr-reveal", lastRound && "previous")} aria-live="polite">
-      <p className="t-body">{lastRound ? "Last round: " : null}<b className={cn("t-score num", reveal.fit <= 6 && "text-ember")}>+{reveal.points}</b> in {SEAT_NAMES[reveal.seat]}: {fitWord(reveal.fit)} fit {reveal.fit}, fame {reveal.fame}.</p>
-      {!lastRound || selection.revealSeat !== null ? <p className="t-body">{reveal.why} <a href={reveal.source} target="_blank" rel="noreferrer" className="dr-source">Source</a></p> : null}
+      <div className="dr-reveal-score"><b className={cn("t-score num", reveal.fit <= 6 && "text-ember")}>+{reveal.points}</b><span className="t-body">{JOB_NAMES[reveal.seat]}</span><small className="t-meta">Fit {reveal.fit} + fame {reveal.fame}</small></div>
+      <details className="dr-score-details"><summary className="t-meta">Why {reveal.points}?</summary><p className="t-body">{fitWord(reveal.fit)} fit. {reveal.why} <a href={reveal.source} target="_blank" rel="noreferrer" className="dr-source">Source</a></p></details>
     </div> : null}
     <div className="dr-meters t-meta">
-      <div className="dr-regions">{REGIONS.map((region) => <span key={region} className={cn("dr-region", state.regions.includes(region) && "earned")}><i /><span className="dr-region-short">{REGION_SHORT[region]}</span><span className="dr-region-full">{region}</span></span>)}</div>
-      <p>{state.regions.length >= 3 ? "Three regions: +6 earned." : `Seat people from 3 regions: +6. You have ${state.regions.length}.`}</p>
-      <p className="dr-ages">Before 1900: {state.early ? "done" : "not yet"}. After 1950: {state.recent ? "done" : "not yet"}. +6.</p>
+      <div className="dr-bonus-progress" aria-label={`Three regions bonus: ${Math.min(3, state.regions.length)} of 3, ${state.regions.length >= 3 ? "6 points earned" : "worth 6 points"}`}><span>Regions</span><span className="dr-bonus-dots" aria-hidden="true">{[0, 1, 2].map(index => <i key={index} className={index < state.regions.length ? "earned" : undefined} />)}</span><b>+6</b></div>
+      <div className="dr-bonus-progress" aria-label={`Across the ages bonus: before 1900 ${state.early ? "done" : "needed"}, after 1950 ${state.recent ? "done" : "needed"}, ${state.early && state.recent ? "6 points earned" : "worth 6 points"}`}><span className={cn("dr-era", state.early && "earned")} aria-hidden="true">&lt;1900</span><span className={cn("dr-era", state.recent && "earned")} aria-hidden="true">&gt;1950</span><b>+6</b></div>
     </div>
     {state.phase === "country" ? <>
-      <p className="t-body dr-instruction">Round {state.round + 1} of 5: choose a country.{state.round === 0 ? " You'll see three of its people. You can't switch after." : null}</p>
+      <div className="dr-stage-title"><h2 className="t-h3 dr-instruction">Pick a country</h2><span className="t-meta">{state.round + 1} / 5</span></div>
       <div className="dr-country-options" key={`countries-${state.round}`}>
         {state.countries.map((country, index) => {
           const i = poolIndex(index);
@@ -100,10 +98,10 @@ export function Board(p: DraftBoardProps) {
           </button>;
         })}
       </div>
-      <div className="dr-pinned-action"><Button variant="ink" disabled={busy || selectedCountry === null} onClick={p.onOpen} pending={busy} pendingLabel="Opening country…">{selectedCountry ? `Open ${selectedCountry.name}` : "Choose a country"}</Button></div>
+      <div className="dr-pinned-action"><small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small><Button variant="ink" disabled={busy || selectedCountry === null} onClick={p.onOpen} pending={busy} pendingLabel="Opening…" aria-describedby="draft-country-warning">{selectedCountry ? `Open ${selectedCountry.name}` : "Choose a country"}</Button></div>
     </> : <>
       {state.country ? <div className="dr-round"><Flag iso2={state.country.iso2} size="m" alt="" eager /><b className="t-h3">{state.country.name}</b><small className="t-meta">Round {state.round + 1} of 5</small></div> : null}
-      {state.phase === "people" ? <p className="t-meta dr-person-prompt">Choose one person. Give them one of the jobs still open.</p> : null}
+      {state.phase === "people" ? <h2 className="t-h3 dr-person-prompt">Pick a person</h2> : null}
       <div className="dr-pool" key={`people-${state.round}`}>
         {state.people.map((person, index) => {
           const i = poolIndex(index);
@@ -111,7 +109,7 @@ export function Board(p: DraftBoardProps) {
           const seated = state.seats.some((pick) => pick?.person.slug === person.slug);
           return <div className={cn("dr-person-card", seated && "seated")} key={person.slug}>
             <button type="button" className="dr-person-select" onClick={() => p.onPerson(i)} disabled={busy || state.phase !== "people"} aria-pressed={selection.person === i}>
-              <Portrait slug={person.slug} name={person.name} has={person.portrait} size={72} /><span className="dr-person-copy"><b className="t-h3">{person.name}</b><small className="t-meta">{seated ? `In ${SEAT_NAMES[state.lastSeat ?? 0]}` : personYears(person)}</small><span className="t-body">{person.identity}</span></span>
+              <Portrait slug={person.slug} name={person.name} has={person.portrait} size={72} /><span className="dr-person-copy"><b className="t-h3">{person.name}</b><small className="t-meta">{seated ? JOB_NAMES[state.lastSeat ?? 0] : personYears(person)}</small></span>
             </button>
             <button type="button" className="dr-info" aria-label={`About ${person.name}`} onClick={() => p.onDetail(i)}>i</button>
           </div>;
@@ -119,22 +117,21 @@ export function Board(p: DraftBoardProps) {
       </div>
       {state.phase === "seated" ? <div className="dr-pinned-action"><Button variant="ink" onClick={p.onNext} disabled={busy} pending={busy} pendingLabel="Continuing…">{state.round === 4 ? "See my result" : "Next country"}</Button></div> : null}
     </>}
-    <p className="dr-keyhint t-meta">{state.phase === "country" ? "Press 1 to 3 to choose a country, Enter to open." : state.phase === "seated" ? "Press N or Enter to continue when you're ready." : "Press 1 to 3 to choose a person. Esc puts them back."}</p>
     <Sheet open={held !== null} onClose={p.onDrop} labelledBy="draft-job-title" className="dr-job-sheet">
       {held ? <>
         <div className="dr-sheet-handle" />
         <div className="dr-sheet-top"><Portrait slug={held.slug} name={held.name} has={held.portrait} size={40} /><b className="t-h3">{held.name}</b><button type="button" className="dr-close" aria-label="Put person back" onClick={p.onDrop}>×</button></div>
-        <h2 id="draft-job-title" className="t-h2">Give {held.name.split(" ").at(-1)} a job</h2><p className="t-meta">Nothing is final until you tap Seat.</p>
+        <h2 id="draft-job-title" className="t-h2">Pick a job</h2>
         <div className="dr-job-options">{SEAT_NAMES.map((name, index) => {
           const seat = seatIndex(index);
           if (seat === null) return null;
           const filled = state.seats[seat];
           return <button type="button" key={name} className="dr-job-option" disabled={busy || filled !== null} aria-pressed={!filled && selection.seat === seat} onClick={() => p.onSeat(seat)}>
-            <ClayJob seat={seat} /><span className="dr-job-copy"><b className="t-h3">{name}</b><small className="t-meta">{SEAT_WANTS[seat]}</small></span>
-            {filled ? <span className="dr-job-filled"><Portrait slug={filled.person.slug} name={filled.person.name} has={filled.person.portrait} size={28} /><span><b className="num">{filled.points}</b><small className="t-meta">{fitWord(filled.fit)} fit</small></span></span> : null}
+            <ClayJob seat={seat} /><span className="dr-job-copy"><b className="t-h3">{JOB_NAMES[seat]}</b></span>
+            {filled ? <span className="dr-job-filled"><Portrait slug={filled.person.slug} name={filled.person.name} has={filled.person.portrait} size={28} /><span className="t-meta">Filled</span></span> : null}
           </button>;
         })}</div>
-        <Button className="dr-seat-confirm" block variant="ink" disabled={busy || selection.seat === null} pending={busy} pendingLabel="Seating…" onClick={p.onCommit}>{selection.seat === null ? "Choose a job" : `Seat ${held.name.split(" ").at(-1)} in ${SEAT_NAMES[selection.seat]}`}</Button>
+        <small className="dr-commit-note t-meta" id="draft-seat-warning"><LockIcon size={14} />Final once seated</small><Button className="dr-seat-confirm" block variant="ink" disabled={busy || selection.seat === null} pending={busy} pendingLabel="Seating…" aria-describedby="draft-seat-warning" onClick={p.onCommit}>{selection.seat === null ? "Choose a job" : `Seat as ${JOB_NAMES[selection.seat]}`}</Button>
       </> : null}
     </Sheet>
     <Sheet open={detail !== null} onClose={() => p.onDetail(null)} labelledBy="draft-person-title" className="dr-detail-sheet">

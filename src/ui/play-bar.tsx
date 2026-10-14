@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
 import { gamePresentation } from '@/content/table';
+import { GameHelp } from '@/ui/game-help';
 
 export interface PlayBarProps {
   slug: GameSlug;
@@ -19,7 +20,7 @@ export interface PlayBarProps {
 export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
   return (
     <div className={cn("pb", className)}>
-      <Link href={`/games/${slug}`} aria-label={`Back to ${title}`} className="back">
+      <Link href={mode === "daily" ? "/" : "/practice"} aria-label="Back to games" className="back">
         <ChevronLeftIcon size={24} />
       </Link>
       <span className="clay" aria-hidden="true">
@@ -29,8 +30,8 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
       <h1 className="t-h3">{title}</h1>
       <span className={cn("mode t-meta", mode)}>
         {mode === "daily" ? "Daily" : "Practice"}
-        <span className="mode-long">{mode === "daily" ? " · one shot" : " · doesn't count"}</span>
       </span>
+      {["geo-wordle", "pinpoint", "blind-pick", "speed-flags"].includes(slug) ? <GameHelp slug={slug} title={title} /> : null}
     </div>
   );
 }
