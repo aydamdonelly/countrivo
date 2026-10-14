@@ -15,6 +15,11 @@ const config: CapacitorConfig = {
     allowNavigation: ["countrivo.com", "www.countrivo.com"],
   },
   ios: {
+    // The retired Apple sign-in plugin requires Capacitor 7; the app uses no accounts.
+    includePlugins: [
+      "@capacitor/app", "@capacitor/haptics", "@capacitor/keyboard", "@capacitor/network",
+      "@capacitor/preferences", "@capacitor/push-notifications", "@capacitor/splash-screen", "@capacitor/status-bar",
+    ],
     contentInset: "always",
     backgroundColor: "#fbfaf6", // matches --color-bg (light); the site is light-first, dark follows the system
     limitsNavigationsToAppBoundDomains: true, // pairs w/ WKAppBoundDomains → exempts from ITP 7-day purge

@@ -65,3 +65,7 @@ supabase/.temp/
 # Local anonymous backend regression artifacts
 /.check-anonymous/
 /.check-render/
+
+# Local App Store screenshots and Swift package tooling output.
+/resources/app-store-current/
+/ios/App/CapApp-SPM/Package.resolved
