@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 };
 
+function portraitLicenceUrl(licence: string, source: string): string {
+  if (licence === "CC0") return "https://creativecommons.org/publicdomain/zero/1.0/";
+  const cc = /^CC (BY(?:-SA)?) ([\d.]+)(?: ([a-z]+))?$/.exec(licence);
+  if (!cc) return `${source}#Licensing`;
+  return `https://creativecommons.org/licenses/${cc[1].toLowerCase()}/${cc[2]}/${cc[3] ? `${cc[3]}/` : ""}`;
+}
+
 /**
  * The people on the draft board are real, so their pictures are real too: freely licensed
  * images from Wikimedia Commons. This page names every one of them and its licence, which
@@ -26,6 +33,11 @@ export default function CreditsPage() {
         Commons that are in the public domain or under a Creative Commons licence. Where no
         free portrait exists we draw a monogram rather than invent a likeness.
       </p>
+      <p className="t-body prose-lead">
+        Portraits are cropped to a square, resized and compressed for Countrivo. Each image
+        retains its stated licence, including ShareAlike where applicable. Public-domain and
+        other licence details are on the linked source page. No endorsement is implied.
+      </p>
       <ul className="credits">
         {rows.map((c) => (
           <li key={c.slug}>
@@ -33,14 +45,14 @@ export default function CreditsPage() {
             <small className="t-meta">
               {c.author}
               {c.author && c.licence ? " · " : ""}
-              {c.licence}{" "}
+              <a href={portraitLicenceUrl(c.licence, c.url)} rel="noreferrer nofollow" target="_blank">{c.licence}</a>{" "}
               <a href={c.url} rel="noreferrer nofollow" target="_blank">
                 source
               </a>
             </small>
           </li>
         ))}
-      </ul><section className="mt-8"><h2 className="t-h2 mb-4">Clay illustrations</h2><p className="t-body">The handmade-looking game objects are generated clay illustrations. They do not depict real artefacts or photographs. Country flags and portraits keep their original source identities.</p></section><SiteFoot />
+      </ul><section className="mt-8"><h2 className="t-h2 mb-4">Flags</h2><p className="t-body">Flag artwork comes from <a href="https://github.com/lipis/flag-icons" target="_blank" rel="noreferrer">flag-icons</a>. <a href="/flags/LICENSE.txt">Copyright and MIT licence</a>.</p></section><section className="mt-8"><h2 className="t-h2 mb-4">Clay illustrations</h2><p className="t-body">The handmade-looking game objects are generated clay illustrations. They do not depict real artefacts or photographs. Country flags and portraits keep their original source identities.</p></section><SiteFoot />
     </>
   );
 }

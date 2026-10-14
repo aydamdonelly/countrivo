@@ -4,6 +4,7 @@ import { cn, formatNumber } from "@/lib/utils";
 import { Button } from "@/ui/button";
 import { Flag } from "@/ui/flag";
 import { CountUp } from "@/ui/count-up";
+import { isGameHelpOpen } from "@/features/play/keys";
 import "./ruler.css";
 
 function position(ruler: StatQuickView["ruler"], value: number): number {
@@ -64,7 +65,7 @@ export function Board({ view, busy, commitBusy = busy, send, animate = false }: 
   function startDrag(event: PointerEvent<HTMLDivElement>) { if (!live || (event.pointerType === "mouse" && event.button !== 0)) return; event.preventDefault(); event.currentTarget.setPointerCapture(event.pointerId); dragging.current = true; moveAt(event.clientX); }
   function endDrag(event: PointerEvent<HTMLDivElement>) { dragging.current = false; if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId); }
   const onKey = useCallback((event: KeyboardEvent) => {
-    if (document.querySelector(":popover-open") || !live || event.ctrlKey || event.altKey || event.metaKey || event.target instanceof HTMLElement && event.target.closest("input,textarea,select")) return;
+    if (isGameHelpOpen() || !live || event.ctrlKey || event.altKey || event.metaKey || event.target instanceof HTMLElement && event.target.closest("input,textarea,select")) return;
     let next: number | null = null;
     const upward = ["ArrowRight", "ArrowUp"].includes(event.key);
     const downward = ["ArrowLeft", "ArrowDown"].includes(event.key);

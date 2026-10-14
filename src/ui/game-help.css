@@ -1,7 +1,10 @@
 @layer components {
   .game-help-trigger, .game-help-close { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; flex:none; color:var(--color-ink); border-radius:var(--radius-ctl); }
   .game-help-trigger:hover, .game-help-close:hover { background:var(--color-card); }
-  .game-help-panel { width:min(360px, calc(100vw - 40px)); margin:auto; padding:28px; background:var(--color-paper); color:var(--color-ink); border:1px solid var(--color-line); border-radius:var(--radius-card); }
+  .game-help-panel { display:none; width:min(360px, calc(100vw - 40px)); margin:auto; padding:28px; background:var(--color-paper); color:var(--color-ink); border:1px solid var(--color-line); border-radius:var(--radius-card); }
+  .game-help-panel:popover-open { display:block; }
+  .game-help-scrim { position:fixed; inset:0; z-index:121; background:var(--color-scrim); }
+  .game-help-panel.fallback-open { display:block; position:fixed; top:50%; left:50%; z-index:122; margin:0; transform:translate(-50%, -50%); max-height:calc(100vh - 40px); max-height:calc(100dvh - 40px); overflow-y:auto; }
   .game-help-panel::backdrop { background:var(--color-scrim); }
   .game-help-close { position:absolute; top:8px; right:8px; }
   .game-help-panel > .clay-object { width:64px; height:64px; }

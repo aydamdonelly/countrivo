@@ -1,6 +1,6 @@
 @layer components {
-  .play-root:has(.quick-remote) { max-width: 1000px; }
-  .play-root:has(.quick-remote) > .pb { display: none; }
+  .play-root[data-game="higher-or-lower"], .play-root[data-game="flag-quiz"], .play-root[data-game="stat-guesser"] { max-width: 1000px; }
+  .play-root[data-game="higher-or-lower"] > .pb, .play-root[data-game="flag-quiz"] > .pb, .play-root[data-game="stat-guesser"] > .pb { display: none; }
   .quick-remote { display: flex; flex-direction: column; gap: 16px; }
   .qr-header { display: flex; align-items: center; gap: 12px; height: 56px; }
   .qr-header > a { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 44px; min-height: 44px; margin-left: -12px; }

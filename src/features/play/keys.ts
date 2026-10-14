@@ -2,6 +2,12 @@
 
 import { useEffect, useRef } from "react";
 
+/** Unsupported selectors throw in older iOS WebViews. */
+export function isGameHelpOpen(): boolean {
+  return !!document.querySelector('[data-game-help-open="true"]') ||
+    typeof HTMLElement.prototype.showPopover === 'function' && !!document.querySelector(':popover-open');
+}
+
 /**
  * Binds a key map while the board is live and not busy (blueprint 8.5). Keys typed into an
  * editable element are never intercepted (the typed games handle Enter in their field), and
@@ -16,7 +22,7 @@ export function usePlayKeys(keymap: Record<string, () => void>, enabled: boolean
   useEffect(() => {
     if (!enabled) return;
     const onKey = (e: KeyboardEvent) => {
-      if (document.querySelector(":popover-open")) return;
+      if (isGameHelpOpen()) return;
       if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.closest("button,a,summary")) return;
       if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
       const target = e.target as HTMLElement | null;

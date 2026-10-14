@@ -89,7 +89,7 @@
 }
 
 @layer components {
-  .play-root:has(.blind-remote) { max-width: 1000px; }
+  .play-root[data-game="blind-pick"] { max-width: 1000px; }
 }
 
 @layer components {

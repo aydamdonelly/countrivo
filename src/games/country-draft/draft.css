@@ -1,6 +1,6 @@
 @layer components {
-  .play-root:has(.dr-game) { max-width: 1000px; }
-  .play-root:has(.dr-game) > .pb { display: none; }
+  .play-root[data-game="country-draft"] { max-width: 1000px; }
+  .play-root[data-game="country-draft"] > .pb { display: none; }
   .dr-game { width: 100%; padding-bottom: 24px; }
   .dr-play-header { position: relative; display: flex; align-items: center; gap: 12px; height: 52px; margin-bottom: 8px; }
   .dr-back, .dr-help { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 44px; min-height: 44px; color: var(--color-ink); }

@@ -51,10 +51,10 @@ for (const c of countries) {
   }
 }
 
-// A tiny attribution file next to the flags (the package is MIT).
 writeFileSync(
   path.join(out, "LICENSE.txt"),
-  "Flags: flag-icons (https://github.com/lipis/flag-icons), MIT License, 4x3 set copied by scripts/build-flags.ts.\n",
+  "Flags: flag-icons (https://github.com/lipis/flag-icons), 4x3 set copied by scripts/build-flags.ts.\n\n" +
+    readFileSync(path.join(root, "node_modules", "flag-icons", "LICENSE"), "utf8"),
 );
 
 console.log(`flags: ${copied} copied from flag-icons 4x3, ${kept.length} kept as they were, ${missing.length} missing`);

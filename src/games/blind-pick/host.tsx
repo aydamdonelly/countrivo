@@ -12,6 +12,7 @@ import { Progress } from "@/ui/progress";
 import { ResultPanel } from "@/ui/result-panel";
 import { ShareButton } from "@/ui/share-button";
 import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
+import { isGameHelpOpen } from "@/features/play/keys";
 import type { HostProps } from "@/games/types";
 import type { ServerGameRun } from "@/types/server";
 import type { BlindPickAction, BlindPickState } from "./module";
@@ -59,7 +60,7 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
   useEffect(() => {
     if (busy || finished) return;
     const onKey = (event: KeyboardEvent) => {
-      if (document.querySelector(":popover-open")) return;
+      if (isGameHelpOpen()) return;
       if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select"))) return;

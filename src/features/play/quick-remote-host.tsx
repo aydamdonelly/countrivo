@@ -19,6 +19,7 @@ import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { LeaderboardEntryForm } from "./leaderboard-entry";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "./persist";
+import { isGameHelpOpen } from "./keys";
 import "./quick-remote.css";
 import { Board as HigherBoard } from "@/games/higher-or-lower/board";
 import { Board as FlagBoard } from "@/games/flag-quiz/board";
@@ -96,7 +97,7 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (document.querySelector(":popover-open") || busy || event.repeat || event.metaKey || event.ctrlKey || event.altKey || view.phase === "finished") return;
+      if (isGameHelpOpen() || busy || event.repeat || event.metaKey || event.ctrlKey || event.altKey || view.phase === "finished") return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select,[role=slider]"))) return;
       if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       let action: QuickAction | null = null;
