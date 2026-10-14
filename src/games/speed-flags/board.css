@@ -7,11 +7,11 @@
   /* Phone: the flag sits in the middle of the free height and the two rows wait at the
      bottom, under the thumb. The floor keeps the stage composed on short screens. */
   @media (max-width: 1023px) {
-    .sf { min-height: max(420px, calc(100svh - 190px)); }
+    .sf { min-height: max(420px, calc(100vh - 190px)); min-height: max(420px, calc(100svh - 190px)); }
     .sf .sf-stage { flex: 1; justify-content: center; }
   }
   @media (max-width: 767px) and (max-height: 700px) {
-    .sf { min-height: max(360px, calc(100svh - 190px)); }
+    .sf { min-height: max(360px, calc(100vh - 190px)); min-height: max(360px, calc(100svh - 190px)); }
     .sf .sf-box { width: 256px; }
     .sf .sf-box.ready { min-height: 220px; }
     .sf .sf-hourglass { width: 96px; height: 96px; }

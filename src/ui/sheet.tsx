@@ -11,6 +11,7 @@ export interface SheetProps {
   labelledBy?: string;
   children: ReactNode;
   className?: string;
+  scrimClassName?: string;
   /** Initially open dialogs render in place so the first HTML and hydration agree. */
   portal?: boolean;
 }
@@ -23,7 +24,7 @@ const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]):not([hi
  * opacity from the first frame; the panel slides up, the scrim colour fades. Escape and
  * a scrim click close; focus is trapped and restored.
  */
-export function Sheet({ open, onClose, labelledBy, children, className, portal = true }: SheetProps) {
+export function Sheet({ open, onClose, labelledBy, children, className, scrimClassName, portal = true }: SheetProps) {
   const panel = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export function Sheet({ open, onClose, labelledBy, children, className, portal =
   }
 
   const content = (
-    <div className="sheet-scrim" role="presentation" onMouseDown={onScrim}>
+    <div className={cn("sheet-scrim", scrimClassName)} role="presentation" onMouseDown={onScrim}>
       <div ref={panel} className={cn("sheet", className)} role="dialog" aria-modal="true" aria-labelledby={labelledBy}>
         {children}
       </div>

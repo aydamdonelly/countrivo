@@ -28,7 +28,7 @@ export interface FactRowProps {
  */
 export function FactRow({ facts, className }: FactRowProps) {
   return (
-    <div className={cn("facts", className)} data-n={facts.length}>
+    <div className={cn("facts", facts.some(f => f.href) && "linked", className)} data-n={facts.length}>
       {facts.map((f, i) => {
         const inner = (
           <>

@@ -2,7 +2,7 @@
    by default; the slide-in and the flip only move things that are already on screen. */
 @layer components {
   /* the board sits in the middle of the room, not under the header */
-  .bp { display: flex; flex-direction: column; justify-content: center; gap: 24px; min-height: calc(100svh - 220px); }
+  .bp { display: flex; flex-direction: column; justify-content: center; gap: 24px; min-height: calc(100vh - 220px); min-height: calc(100svh - 220px); }
 
   /* the arriving country: "Country 4 of 6", then the plain card */
   .bp-arrive { display: flex; flex-direction: column; gap: 8px; }

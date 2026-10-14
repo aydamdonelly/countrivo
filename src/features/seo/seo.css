@@ -116,7 +116,7 @@
     .col.side .facts[data-n="4"] .f:nth-child(2) { grid-area: 1 / 2 / span 3 / auto; }
     .col.side .facts[data-n="4"] .f:nth-child(3) { grid-area: 5 / 1 / span 3 / auto; }
     .col.side .facts[data-n="4"] .f:nth-child(4) { grid-area: 5 / 2 / span 3 / auto; }
-    .col.side .facts[data-n="4"]:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
+    .col.side .facts[data-n="4"].linked { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
   }
 
   /* ── category page ───────────────────────────────────────────────────── */

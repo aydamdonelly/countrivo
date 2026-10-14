@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "max-snippet": -1,
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/branding/icon-32.png", type: "image/png", sizes: "32x32" }],
   },
   verification: {
     google: "PpK1QzA2nH6mTqcSPf_TcNsD7DCPXL6dcW1SEAoG9po",
@@ -77,7 +77,7 @@ const SITE_JSON_LD = JSON.stringify({
       "@type": "Organization",
       name: "Countrivo",
       url: SITE,
-      logo: `${SITE}/favicon.svg`,
+      logo: `${SITE}/branding/icon-512.png`,
       description: "Free online geography games and quizzes to learn flags, countries and statistics.",
     },
   ],

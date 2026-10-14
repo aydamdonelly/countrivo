@@ -2349,7 +2349,11 @@
   "file": "Pertini_ritratto.jpg",
   "licence": "Attribution",
   "author": "Unknown authorUnknown author",
-  "url": "https://commons.wikimedia.org/wiki/File:Pertini_ritratto.jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Pertini_ritratto.jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Pertini_ritratto.jpg",
+  "attribution": "Presidency of the Italian Republic, Quirinale.it.",
+  "licenceNotice": "Attribution-only permission for this image, first published on Commons in 2008. The permission covers Quirinale files published before 10 September 2024.",
+  "originalSource": "https://presidenti.quirinale.it/elementi/237164"
  },
  "mikhail-gorbachev": {
   "slug": "mikhail-gorbachev",
@@ -2429,7 +2433,10 @@
   "file": "Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg",
   "licence": "Attribution",
   "author": "Alexandra Studio",
-  "url": "https://commons.wikimedia.org/wiki/File:Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Premier_Tommy_Douglas_(F1257_s1057_it2743).jpg",
+  "attribution": "City of Toronto Archives, Fonds 1257, Series 1057, Item 2743. Photographer: Alexandra Studio.",
+  "originalSource": "https://gencat.eloquent-systems.com/city-of-toronto-archives-m-permalink.html?key=213541"
  },
  "julia-gillard": {
   "slug": "julia-gillard",
@@ -2493,7 +2500,10 @@
   "file": "Cleisthenes.jpg",
   "licence": "Attribution",
   "author": "Unknown authorUnknown author",
-  "url": "https://commons.wikimedia.org/wiki/File:Cleisthenes.jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Cleisthenes.jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Cleisthenes.jpg",
+  "attribution": "Ohio Channel, www.ohiochannel.org. Photographer unknown.",
+  "originalSource": "http://www.ohiostatehouse.org/Multimedia/MediaLibrary/Media.aspx?fileId=117260"
  },
  "vaclav-havel": {
   "slug": "vaclav-havel",
@@ -2525,7 +2535,10 @@
   "file": "Medalha_de_Galiza_1993_-_5.jpg",
   "licence": "Attribution",
   "author": "Xunta de Galicia",
-  "url": "https://commons.wikimedia.org/wiki/File:Medalha_de_Galiza_1993_-_5.jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Medalha_de_Galiza_1993_-_5.jpg",
+  "licenceUrl": "https://www.xunta.gal/aviso-legal-do-portal-da-xunta",
+  "attribution": "Xunta de Galicia, Medallas de Galicia, 1993.",
+  "originalSource": "https://www.xunta.gal/medallas-de-galicia/1993"
  },
  "benazir-bhutto": {
   "slug": "benazir-bhutto",
@@ -2629,7 +2642,10 @@
   "file": "Nicolae_Ceaușescu_(3x4_cropped).jpg",
   "licence": "Attribution",
   "author": "Unknown authorUnknown author",
-  "url": "https://commons.wikimedia.org/wiki/File:Nicolae_Ceau%C8%99escu_(3x4_cropped).jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Nicolae_Ceau%C8%99escu_(3x4_cropped).jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Nicolae_Ceau%C8%99escu_(3x4_cropped).jpg",
+  "attribution": "Romanian National Archives, Fototeca online a comunismului românesc, photo E594, archival quota as published: 4/ (14.10.2026). Photographer unknown.",
+  "originalSource": "https://fototeca.iiccmer.ro/picdetails.php?picid=33364X156X537"
  },
  "pol-pot": {
   "slug": "pol-pot",
@@ -2637,7 +2653,10 @@
   "file": "Pol_Pot_(cropped).jpg",
   "licence": "Attribution",
   "author": "Unknown authorUnknown author",
-  "url": "https://commons.wikimedia.org/wiki/File:Pol_Pot_(cropped).jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Pol_Pot_(cropped).jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Pol_Pot_(cropped).jpg",
+  "attribution": "Romanian National Archives, Fototeca online a comunismului românesc, photo BA403, archival quota 173/1978 (14.10.2026). Photographer unknown.",
+  "originalSource": "https://fototeca.iiccmer.ro/picdetails.php?picid=45014X1X4"
  },
  "ferdinand-marcos": {
   "slug": "ferdinand-marcos",
@@ -2653,7 +2672,10 @@
   "file": "Bokassa_with_Ceausescu_(cropped).jpg",
   "licence": "Attribution",
   "author": "unknown, image comes from the National Archives",
-  "url": "https://commons.wikimedia.org/wiki/File:Bokassa_with_Ceausescu_(cropped).jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Bokassa_with_Ceausescu_(cropped).jpg",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:Bokassa_with_Ceausescu_(cropped).jpg",
+  "attribution": "Romanian National Archives, Fototeca online a comunismului românesc, photo Z260, archival quota 75/1970 (14.10.2026). Photographer unknown.",
+  "originalSource": "https://fototeca.iiccmer.ro/picdetails.php?picid=36860X4X5"
  },
  "henry-morgan": {
   "slug": "henry-morgan",
@@ -3021,7 +3043,10 @@
   "file": "JohnvonNeumann-LosAlamos.gif",
   "licence": "Attribution",
   "author": "LANL",
-  "url": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif"
+  "url": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif",
+  "licenceUrl": "https://commons.wikimedia.org/wiki/File:JohnvonNeumann-LosAlamos.gif",
+  "attribution": "Los Alamos National Laboratory (LANL), Los Alamos National Security, LLC (LANS), U.S. Department of Energy.",
+  "licenceNotice": "Unless otherwise indicated, this information has been authored by an employee or employees of the Los Alamos National Security, LLC (LANS), operator of the Los Alamos National Laboratory under Contract No. DE-AC52-06NA25396 with the U.S. Department of Energy. The U.S. Government has rights to use, reproduce, and distribute this information. The public may copy and use this information without charge, provided that this Notice and any statement of authorship are reproduced on all copies. Neither the Government nor LANS makes any warranty, express or implied, or assumes any liability or responsibility for the use of this information."
  },
  "wangari-maathai": {
   "slug": "wangari-maathai",

@@ -3,6 +3,17 @@ import { portraitCredits } from "@/lib/data/loader";
 import { SiteFoot } from "@/ui/site-foot";
 import { PageTitle } from "@/ui/page-title";
 
+interface PortraitCredit {
+  slug: string;
+  title: string;
+  author: string;
+  licence: string;
+  url: string;
+  attribution?: string;
+  licenceNotice?: string;
+  originalSource?: string;
+  licenceUrl?: string;
+}
 
 export const metadata: Metadata = {
   title: { absolute: "Picture credits | Countrivo" },
@@ -24,13 +35,14 @@ function portraitLicenceUrl(licence: string, source: string): string {
  * is both the honest thing and what the licences ask for.
  */
 export default function CreditsPage() {
-  const rows = Object.values(portraitCredits).sort((a, b) => a.title.localeCompare(b.title));
+  const rows: PortraitCredit[] = Object.values(portraitCredits).sort((a, b) => a.title.localeCompare(b.title));
   return (
     <>
       <PageTitle title="Picture credits" meta={`${rows.length} portraits`} />
       <p className="t-body prose-lead">
         Country Draft draws real people, so it shows real pictures: portraits from Wikimedia
-        Commons that are in the public domain or under a Creative Commons licence. Where no
+        Commons that are in the public domain, under a Creative Commons licence or covered by
+        a source-specific reuse permission. Where no
         free portrait exists we draw a monogram rather than invent a likeness.
       </p>
       <p className="t-body prose-lead">
@@ -45,14 +57,16 @@ export default function CreditsPage() {
             <small className="t-meta">
               {c.author}
               {c.author && c.licence ? " · " : ""}
-              <a href={portraitLicenceUrl(c.licence, c.url)} rel="noreferrer nofollow" target="_blank">{c.licence}</a>{" "}
+              <a href={c.licenceUrl ?? portraitLicenceUrl(c.licence, c.url)} rel="noreferrer nofollow" target="_blank">{c.licence}</a>{" "}
               <a href={c.url} rel="noreferrer nofollow" target="_blank">
                 source
               </a>
             </small>
+            {c.attribution ? <p className="t-meta">{c.attribution}{c.originalSource ? <> <a href={c.originalSource} target="_blank" rel="noreferrer">Original source</a></> : null}</p> : null}
+            {c.licenceNotice ? <p className="t-meta">{c.licenceNotice}</p> : null}
           </li>
         ))}
-      </ul><section className="mt-8"><h2 className="t-h2 mb-4">Flags</h2><p className="t-body">Flag artwork comes from <a href="https://github.com/lipis/flag-icons" target="_blank" rel="noreferrer">flag-icons</a>. <a href="/flags/LICENSE.txt">Copyright and MIT licence</a>.</p></section><section className="mt-8"><h2 className="t-h2 mb-4">Clay illustrations</h2><p className="t-body">The handmade-looking game objects are generated clay illustrations. They do not depict real artefacts or photographs. Country flags and portraits keep their original source identities.</p></section><SiteFoot />
+      </ul><section className="mt-8"><h2 className="t-h2 mb-4">Flags</h2><p className="t-body">Flag artwork comes from <a href="https://github.com/lipis/flag-icons" target="_blank" rel="noreferrer">flag-icons</a>. <a href="/flags/LICENSE.txt">Copyright and MIT licence</a>.</p></section><section className="mt-8"><h2 className="t-h2 mb-4">Clay illustrations</h2><p className="t-body">The handmade-looking game objects are generated clay illustrations. They do not depict real artefacts or photographs. Country flags and portraits keep their original source identities.</p></section><section className="mt-8"><h2 className="t-h2 mb-4">Statistics</h2><p className="t-body">Country statistics, providers and reference years are listed on <a href="/sources">Data sources</a>. World Bank: World Development Indicators, with the named original providers. Data are filtered, rounded and ranked for Countrivo. <a href="https://data.worldbank.org/summary-terms-of-use" target="_blank" rel="noreferrer">World Bank terms and CC BY 4.0</a>, except where an indicator names different terms.</p><p className="t-body mt-3">Information from the Stockholm International Peace Research Institute (SIPRI) Military Expenditure Database, <a href="https://doi.org/10.55163/CQGC9685" target="_blank" rel="noreferrer">SIPRI</a>. Countrivo shows a limited, noncommercial extract of reference-year values. <a href="https://www.sipri.org/about/terms-and-conditions" target="_blank" rel="noreferrer">SIPRI usage terms</a> require separate permission for commercial use.</p></section><SiteFoot />
     </>
   );
 }

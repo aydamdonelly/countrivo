@@ -52,6 +52,16 @@ supabase/.temp/
 # clay stills for the play header
 !public/clay/*.png
 
+# Production brand artwork and native asset catalog must travel with a build.
+!public/branding/*.png
+!resources/icon.png
+!resources/splash.png
+!resources/branding/countrivo-icon-master.png
+!resources/branding/countrivo-splash-globe.png
+!resources/branding/logo.png
+!ios/App/App/Assets.xcassets/AppIcon.appiconset/*.png
+!ios/App/App/Assets.xcassets/Splash.imageset/Default*.png
+
 # Local anonymous backend regression artifacts
 /.check-anonymous/
 /.check-render/

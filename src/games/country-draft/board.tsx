@@ -107,7 +107,7 @@ export function Board(p: DraftBoardProps) {
           const i = poolIndex(index);
           if (i === null) return null;
           const seated = state.seats.some((pick) => pick?.person.slug === person.slug);
-          return <div className={cn("dr-person-card", seated && "seated")} key={person.slug}>
+          return <div className={cn("dr-person-card", seated && "seated", selection.person === i && "selected", !busy && state.phase === "people" && "selectable")} key={person.slug}>
             <button type="button" className="dr-person-select" onClick={() => p.onPerson(i)} disabled={busy || state.phase !== "people"} aria-pressed={selection.person === i}>
               <Portrait slug={person.slug} name={person.name} has={person.portrait} size={72} /><span className="dr-person-copy"><b className="t-h3">{person.name}</b><small className="t-meta">{seated ? JOB_NAMES[state.lastSeat ?? 0] : personYears(person)}</small></span>
             </button>
@@ -117,7 +117,7 @@ export function Board(p: DraftBoardProps) {
       </div>
       {state.phase === "seated" ? <div className="dr-pinned-action"><Button variant="ink" onClick={p.onNext} disabled={busy} pending={busy} pendingLabel="Continuing…">{state.round === 4 ? "See my result" : "Next country"}</Button></div> : null}
     </>}
-    <Sheet open={held !== null} onClose={p.onDrop} labelledBy="draft-job-title" className="dr-job-sheet">
+    <Sheet open={held !== null} onClose={p.onDrop} labelledBy="draft-job-title" className="dr-job-sheet" scrimClassName="dr-job-scrim">
       {held ? <>
         <div className="dr-sheet-handle" />
         <div className="dr-sheet-top"><Portrait slug={held.slug} name={held.name} has={held.portrait} size={40} /><b className="t-h3">{held.name}</b><button type="button" className="dr-close" aria-label="Put person back" onClick={p.onDrop}>×</button></div>

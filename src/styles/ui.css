@@ -311,10 +311,10 @@
   /* ── sheet, toast ────────────────────────────────────────────────────── */
   .sheet-scrim { position: fixed; inset: 0; z-index: 100; background: var(--color-scrim); animation: scrim-in 240ms var(--ease-out); }
   @keyframes scrim-in { from { background-color: transparent; } }
-  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 101; background: var(--color-bar); border-radius: var(--radius-card) var(--radius-card) 0 0; padding: 20px 20px calc(env(safe-area-inset-bottom) + 28px); animation: sheet-in 240ms var(--ease-out); max-height: calc(100dvh - 40px); overflow-y: auto; }
+  .sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 101; background: var(--color-bar); border-radius: var(--radius-card) var(--radius-card) 0 0; padding: 20px 20px calc(env(safe-area-inset-bottom) + 28px); animation: sheet-in 240ms var(--ease-out); max-height: calc(100vh - 40px); max-height: calc(100dvh - 40px); overflow-y: auto; }
   @keyframes sheet-in { from { transform: translateY(100%); } to { transform: none; } }
   @media (min-width: 768px) {
-    .sheet { left: 50%; right: auto; top: 50%; bottom: auto; width: 440px; max-height: calc(100dvh - 80px); transform: translate(-50%, -50%); border-radius: var(--radius-card); padding: 24px; animation: none; }
+    .sheet { left: 50%; right: auto; top: 50%; bottom: auto; width: 440px; max-height: calc(100vh - 80px); max-height: calc(100dvh - 80px); transform: translate(-50%, -50%); border-radius: var(--radius-card); padding: 24px; animation: none; }
   }
   .sheet .x { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; color: var(--color-mute); border-radius: var(--radius-ctl); }
   .toast { position: fixed; left: 50%; bottom: calc(80px + env(safe-area-inset-bottom) + 12px); z-index: 120; max-width: 350px; padding: 10px 14px; background: var(--color-ink); color: var(--color-paper); border-radius: var(--radius-ctl); animation: toast-in 200ms var(--ease-out); transform: translateX(-50%); cursor: pointer; }
@@ -431,7 +431,7 @@
   /* A linked tile is a control and carries a 44 px target. A subgrid's own min-height cannot
      reach the rows it borrows, so the floor goes on the two rows every tile fills: 22 + 22
      clears 44 even for a tile with no third line, and neither floor moves a tile that has one. */
-  .facts:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto; }
+  .facts.linked { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto; }
   /* Four tiles do not fit four Erode values across 350 px: 2x2 on phones. The 16 px between the
      two pairs is an explicit spacer row and the tiles are placed by hand, so the gap can never
      open up between the three lines inside a tile. */
@@ -441,7 +441,7 @@
     .facts[data-n="4"] .f:nth-child(2) { grid-area: 1 / 2 / span 3 / auto; }
     .facts[data-n="4"] .f:nth-child(3) { grid-area: 5 / 1 / span 3 / auto; }
     .facts[data-n="4"] .f:nth-child(4) { grid-area: 5 / 2 / span 3 / auto; }
-    .facts[data-n="4"]:has(a.f) { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
+    .facts[data-n="4"].linked { grid-template-rows: minmax(22px, auto) minmax(22px, auto) auto 16px minmax(22px, auto) minmax(22px, auto) auto; }
   }
   .facts .v { display: block; white-space: nowrap; color: var(--color-ink); }
   .facts .l { display: block; color: var(--color-mute); margin-top: 4px; }

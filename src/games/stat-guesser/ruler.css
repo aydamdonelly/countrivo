@@ -73,7 +73,7 @@
 
   @media (max-width: 1023px) {
     /* the board fills the screen under the header so the action sits at the thumb */
-    .sg { min-height: calc(100svh - 190px); }
+    .sg { min-height: calc(100vh - 190px); min-height: calc(100svh - 190px); }
   }
 
   @media (min-width: 1024px) {

@@ -69,7 +69,7 @@
   .dr-person-prompt { margin: 0; }
   .dr-pool { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; animation: dr-stamp 300ms steps(2, end); }
   .dr-person-card { position: relative; background: var(--color-card); border: 2px solid transparent; border-radius: var(--radius-card); min-height: 112px; }
-  .dr-person-card:has([aria-pressed="true"]) { border-color: var(--color-ink); }
+  .dr-person-card.selected { border-color: var(--color-ink); }
   .dr-person-select { display: flex; align-items: center; width: 100%; gap: 14px; text-align: left; padding: 16px 40px 16px 14px; color: var(--color-ink); min-height: 108px; }
   .dr-person-select:disabled { color: var(--color-ink); cursor: default; }
   .dr-person-select .fig { flex: none; filter: grayscale(1); border-radius: 50%; }
@@ -91,7 +91,7 @@
   .dr-reveal.previous { color: var(--color-mute); }
   .dr-reveal.previous .t-score { font-size: inherit; }
   .dr-source { font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
-  .dr-job-sheet, .dr-detail-sheet { padding: 24px 20px max(20px, env(safe-area-inset-bottom)); gap: 12px; max-height: 88svh; overflow-y: auto; }
+  .dr-job-sheet, .dr-detail-sheet { padding: 24px 20px max(20px, env(safe-area-inset-bottom)); gap: 12px; max-height: 88vh; max-height: 88svh; overflow-y: auto; }
   .dr-sheet-handle { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 36px; height: 4px; border-radius: 2px; background: var(--color-faint); }
   .dr-sheet-top { display: flex; align-items: center; gap: 12px; }
   .dr-sheet-top .fig { filter: grayscale(1); border-radius: 50%; }
@@ -165,7 +165,7 @@
   .dr-q-good { color: var(--color-ink); }
   .dr-q-fair { color: var(--color-mute); }
   .dr-q-bad { color: var(--color-ember); }
-  @media (hover: hover) { .dr-country-card:hover, .dr-person-card:has(.dr-person-select:enabled):hover, .dr-job-option:enabled:hover { background: var(--color-line); } }
+  @media (hover: hover) { .dr-country-card:hover, .dr-person-card.selectable:hover, .dr-job-option:enabled:hover { background: var(--color-line); } }
   @media (min-width: 768px) { .dr-play-header h1 { position: static; width: auto; height: auto; overflow: visible; clip-path: none; } .dr-seat-short { font-size: 13px; line-height: 18px; } }
   @media (min-width: 1024px) {
     .dr-play-header { height: 64px; margin-bottom: 24px; }
@@ -188,8 +188,8 @@
     .dr-holding .dr-person-card { min-height: 96px; }
     .dr-holding .dr-person-select { flex-direction: row; align-items: center; min-height: 92px; padding: 12px 40px 12px 16px; }
     .dr-holding .dr-person-copy .t-body { margin-top: 0; }
-    .sheet-scrim:has(> .dr-job-sheet) { background: transparent; justify-content: flex-end; align-items: flex-start; padding-top: 260px; pointer-events: none; }
-    .dr-job-sheet { width: 400px; max-height: calc(100svh - 280px); margin-right: max(var(--gutter), calc((100vw - 960px) / 2)); pointer-events: auto; border-radius: var(--radius-card); border: 1px solid var(--color-line); padding: 20px; }
+    .sheet-scrim.dr-job-scrim { background: transparent; justify-content: flex-end; align-items: flex-start; padding-top: 260px; pointer-events: none; }
+    .dr-job-sheet { width: 400px; max-height: calc(100vh - 280px); max-height: calc(100svh - 280px); margin-right: max(var(--gutter), calc((100vw - 960px) / 2)); pointer-events: auto; border-radius: var(--radius-card); border: 1px solid var(--color-line); padding: 20px; }
     .dr-sheet-handle { display: none; }
     .dr-result-card { padding: 40px 32px 24px; }
     .dr-result-card .dr-cabinet-strip { column-gap: 14px; }

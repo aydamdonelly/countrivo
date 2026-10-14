@@ -1,0 +1,21 @@
+{
+  "created": "2026-10-13",
+  "method": "built-in image_gen",
+  "source": "/Users/adamkahirov/.codex/generated_images/01a13486-e292-7fe1-b5f6-dd036aea0150/exec-ccf92f02-83f1-4722-bd8e-cca44285e79c.png",
+  "sourceSha256": "0e14a22a2585ff347e6052abf83cc222e1a841918b813a9f60e93b7944df1c83",
+  "sourceDimensions": [
+    1254,
+    1254
+  ],
+  "sourceHasAlpha": false,
+  "prompt": "Use case: stylized-concept. Asset type: final iOS App Store icon for Countrivo, a playful daily geography quiz app with pastel tiles and handmade clay objects. Create a single square 1024 x 1024 full-bleed image. The design is a beautiful tactile handmade plasticine Earth, a bold soft azure-blue sphere with raised spring-green Africa, Europe and nearby Asia, simplified but geographically recognizable. Large centered Earth fills about 80 percent of the canvas, viewed slightly three-quarters, pleasantly imperfect round silhouette. A few subtle thumbprints and soft sculpted edges, matte clay, clear broad shapes rather than tiny detail. Warm pale butter-cream background extending all the way to every square edge. Strong silhouette and readable blue/green separation at 48px. Soft upper-left studio lighting, compact subtle contact shadow. Premium art direction, playful and warm, contemporary app brand, not childish. No eyes, no mouth, no character face. No stand, no metal axis, no grid lines, no text, no initials, no badge, no flags, no frame, no watermark. No gold and no black background. Do not pre-round the square corners: iOS will apply its own mask. This is the actual flat icon asset, not a mockup, no phone, no screenshot, no alternate panels.",
+  "exportCommand": "node scripts/build-branding.mjs",
+  "nativeBuild": "1.0 (2)",
+  "splash": {
+    "method": "built-in image_gen edit",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a138b7-2e18-7091-87ee-657104cb59c6/exec-9b2d8988-e8aa-4f92-bbfb-83c583d18e16.png",
+    "sourceSha256": "b3dfaf22f81786cf9e7ff4c9f24e10a8590454df86ddc3ee86278b9b549049ed",
+    "transparent": true,
+    "prompt": "Edit target: the supplied Countrivo icon. Extract only the existing blue and green handmade clay Earth from its butter-cream square background. Preserve the exact existing Earth, every recognizable continent shape, colors, surface texture, proportions, camera angle, composition, light direction and soft contact shadow. Remove only the cream background completely and output actual transparent pixels around the globe. No new object, no new details, no outline, no rectangle, no text. This is a transparent launch-screen asset derived from the exact approved app icon."
+  }
+}

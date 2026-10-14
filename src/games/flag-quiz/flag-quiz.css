@@ -24,7 +24,7 @@
 
   /* phones and tablets: the flag centred in the space above, the options at the bottom */
   @media (max-width: 1023px) {
-    .fq { min-height: calc(100svh - 184px); }
+    .fq { min-height: calc(100vh - 184px); min-height: calc(100svh - 184px); }
     .fq-top { flex: 1; justify-content: center; }
   }
   @media (max-width: 1023px) and (max-height: 700px) {

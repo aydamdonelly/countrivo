@@ -30,16 +30,16 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["games", "education", "trivia"],
     icons: [
       {
-        src: "/favicon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
+        src: "/branding/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
         purpose: "any",
       },
-      // 180x180 PNG from app/apple-icon.tsx, for platforms that do not render SVG icons.
       {
-        src: "/apple-icon",
-        sizes: "180x180",
+        src: "/branding/icon-512.png",
+        sizes: "512x512",
         type: "image/png",
+        purpose: "any",
       },
     ],
   };
