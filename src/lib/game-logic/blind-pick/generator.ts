@@ -1,4 +1,4 @@
-import { countries, categories } from "@/lib/data/loader";
+import { countries, categories } from "@/lib/data/public";
 import { seededPick } from "@/lib/seeded-random";
 import { solveAssignment } from "@/lib/assignment-solver";
 import type { Country } from "@/types/country";

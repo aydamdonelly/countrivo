@@ -6,7 +6,7 @@ import { getGameBySlug } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getEdition } from "@/server/edition";
 import { createRunTicket, ensureDeviceId, gameDatabase, readDeviceId, readRunTicket } from "@/server/anonymous-identity";
-import { anonymousLeaderboard, mapAnonymousRun, type AnonymousRunRow } from "@/server/anonymous-runs";
+import { anonymousLeaderboard, invalidateAnonymousLeaderboards, mapAnonymousRun, type AnonymousRunRow } from "@/server/anonymous-runs";
 import { replaySubmission } from "@/server/replay-submission";
 import type { ServerGameRun } from "@/types/server";
 import { dailyNetworkHash } from "@/server/abuse-identity";
@@ -70,6 +70,7 @@ export async function publishAnonymousRun(runId: number, name: string, placeCoun
       return {success:false,error:reason.includes("board_closed")?"This daily board has closed.":reason.includes("network_throttled")?"Too many names from this network today. Try again tomorrow.":reason.includes("name_throttled")?"You’ve changed your name often. Try again in an hour.":"Could not publish. Try again."};
     }
     const row=Array.isArray(data)?data[0]:undefined;
+    if(row)invalidateAnonymousLeaderboards();
     return row?{success:true,run:await mapAnonymousRun(row),publishedName:row.display_name}:{success:false,error:"Finish today’s game first."};
   } catch {
     return { success: false, error: "Could not publish. Try again." };
@@ -90,6 +91,7 @@ export async function withdrawLeaderboardName(runId: number): Promise<{ success:
     if (!device || !Number.isSafeInteger(runId)) return { success: false, error: "This result belongs to a different browser." };
     const { data, error } = await gameDatabase().from("countrivo_runs").update({ display_name: null, published_at: null })
       .eq("id", runId).eq("device_id", device).eq("date_key", getTodayDateKey()).eq("edition", await getEdition()).eq("mode", "daily").select("id").maybeSingle();
+    if(!error&&data)invalidateAnonymousLeaderboards();
     return !error && data ? { success: true } : { success: false, error: "Could not remove your name. Try again." };
   } catch { return { success: false, error: "Could not remove your name. Try again." }; }
 }
@@ -101,6 +103,7 @@ export async function reportLeaderboardName(runId: number, reason: string): Prom
     const { data: run } = await gameDatabase().from("countrivo_runs").select("id").eq("id", runId).not("display_name", "is", null).maybeSingle();
     if (!run) return { success: false, error: "This name is no longer on the board." };
     const {error}=await gameDatabase().rpc("countrivo_report_name",{p_run_id:runId,p_device:device,p_ip:await dailyNetworkHash(),p_reason:reason.trim()});
+    if(!error)invalidateAnonymousLeaderboards();
     return error?{success:false,error:error.message.includes("report_throttled")?"Too many reports from this network. Try again tomorrow.":"Could not send this report. Try again."}:{success:true};
   } catch { return { success: false, error: "Could not send this report. Try again." }; }
 }
@@ -110,6 +113,7 @@ export async function forgetThisDevice(): Promise<void> {
   if (device) {
     const { error } = await gameDatabase().rpc("countrivo_forget_device", { p_device_id: device });
     if (error) throw new Error("Could not clear your saved results. Try again.");
+    invalidateAnonymousLeaderboards();
   }
   const jar = await cookies();
   for (const cookie of jar.getAll()) if (cookie.name.startsWith("cv_") || cookie.name.startsWith("sb-")) jar.delete(cookie.name);

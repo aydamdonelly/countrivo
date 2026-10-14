@@ -8,7 +8,7 @@
  *
  * No RNG, so the run page redraws the map from resultJson.roundCountries alone.
  */
-import { centroids, sovereignIso3 } from "@/lib/data/loader";
+import { centroids, sovereignIso3 } from "@/lib/data/public";
 
 const CENTROIDS: Record<string, number[]> = centroids;
 

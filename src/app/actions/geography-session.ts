@@ -19,12 +19,12 @@ export async function commitPinpointSession(input: { sessionToken: string; revis
 
 export async function startGeoWordlePractice() {
   const dateKey=getTodayDateKey(),edition=await getEdition();
-  return prepareGameSession(geoWordle, geoWordleView, { slug: "geo-wordle", mode: "practice", dateKey: getTodayDateKey(),
-    edition: await getEdition(), seed: await practiceSeedFor("geo-wordle",dateKey,edition), startedAt: new Date().toISOString() });
+  return prepareGameSession(geoWordle, geoWordleView, { slug: "geo-wordle", mode: "practice", dateKey,
+    edition, seed: await practiceSeedFor("geo-wordle",dateKey,edition), startedAt: new Date().toISOString() });
 }
 
 export async function startPinpointPractice() {
   const dateKey=getTodayDateKey(),edition=await getEdition();
-  return prepareGameSession(pinpoint, pinpointView, { slug: "pinpoint", mode: "practice", dateKey: getTodayDateKey(),
-    edition: await getEdition(), seed: await practiceSeedFor("pinpoint",dateKey,edition), startedAt: new Date().toISOString() });
+  return prepareGameSession(pinpoint, pinpointView, { slug: "pinpoint", mode: "practice", dateKey,
+    edition, seed: await practiceSeedFor("pinpoint",dateKey,edition), startedAt: new Date().toISOString() });
 }

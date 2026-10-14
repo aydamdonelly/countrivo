@@ -15,7 +15,7 @@
  *
  * Pure: the RNG is injected, no Date.now(), no Math.random(), no React.
  */
-import { categories, countries } from "@/lib/data/loader";
+import { categories, countries } from "@/lib/data/public";
 import statsData from "@/data/stats.json";
 import sovereignData from "@/data/sovereign.json";
 import { mulberry32, seededShuffle } from "@/lib/seeded-random";

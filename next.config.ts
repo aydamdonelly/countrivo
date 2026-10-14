@@ -84,6 +84,14 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: '/clay/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }],
+      },
+      {
+        source: '/design/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }],
+      },
+      {
         // Long-cache the non-hashed static assets in /public. Hashed
         // /_next/static files already get immutable caching from Next.js.
         source: "/favicon.svg",

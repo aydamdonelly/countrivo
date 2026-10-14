@@ -31,8 +31,10 @@ export function TableHome({ games, done, progress, opening, dateKey, resetAt, se
   const [active, setActive] = useState(fullSet ? "fullset" : opening);
   const [dayClosed, setDayClosed] = useState(false);
   const move = (slug: string) => {
-    const card = deck.current?.querySelector<HTMLElement>(`[data-game="${slug}"]`);
-    if (card && deck.current) deck.current.scrollTo({left: card.offsetLeft - deck.current.offsetLeft, behavior: "smooth"});
+    const container = deck.current;
+    const card = container?.querySelector<HTMLElement>(`[data-game="${slug}"]`);
+    const first = container?.querySelector<HTMLElement>("[data-game]");
+    if (card && container && first) container.scrollTo({left: card.offsetLeft - first.offsetLeft, behavior: "instant"});
     setActive(slug);
   };
   const step = (direction: number) => {
@@ -60,7 +62,7 @@ export function TableHome({ games, done, progress, opening, dateKey, resetAt, se
     }}>
       {dayClosed && !practice ? <div className="rollover"><p>New boards are out.</p><Link href="/" className="btn btn-ink t-cta">See today&apos;s</Link></div> : null}
       <nav className="today-strip" aria-label={practice ? "Practice games" : "Today's games"}>
-        {games.map((game) => <button key={game.slug} type="button" onClick={() => move(game.slug)} aria-label={`${game.title}${done[game.slug] ? `, finished, ${done[game.slug]}` : progress[game.slug] ? ", in progress" : ""}`} aria-current={active === game.slug ? "true" : undefined}><Clay object={game.clay} state={game.clay === "cl-08" ? "full" : done[game.slug] ? game.done : "rest"} /><span className="strip-state">{done[game.slug] ? <CheckIcon size={12} /> : progress[game.slug] ? "Playing" : <span className="sr-only">{game.title}</span>}</span></button>)}
+        {games.map((game) => <button key={game.slug} type="button" onClick={() => move(game.slug)} aria-label={`${game.title}${done[game.slug] ? `, finished, ${done[game.slug]}` : progress[game.slug] ? ", in progress" : ""}`} aria-current={active === game.slug ? "true" : undefined}><Clay object={game.clay} state={game.clay === "cl-08" ? "full" : done[game.slug] ? game.done : "rest"} sizes="(min-width: 1024px) 56px, 44px" loading="eager" /><span className="strip-state">{done[game.slug] ? <CheckIcon size={12} /> : progress[game.slug] ? "Playing" : <span className="sr-only">{game.title}</span>}</span></button>)}
       </nav>
       <div className="deck-stage">
         <button className="deck-arrow deck-prev" aria-label="Previous game" disabled={active === "fullset" || active === games[0]?.slug} onClick={() => step(-1)}><ChevronLeftIcon size={24} /></button>
@@ -72,7 +74,7 @@ export function TableHome({ games, done, progress, opening, dateKey, resetAt, se
       </div>
       <p className="deck-hint t-meta">Swipe for the next game</p>
       <div className="below-deck">
-        {practice ? <p className="t-body text-mute">Fresh boards, as many times as you like. Practice never counts on the daily leaderboard.</p> : focused ? <section aria-label={`Today on ${focused.title}`}><h2 className="t-h3">Today on {focused.title}</h2>{boards?.[focused.slug]}<Link href={`/games/${focused.slug}/leaderboard`} className="table-link">See the leaderboard <ChevronRightIcon size={18} /></Link></section> : null}
+        {practice ? <p className="t-body text-mute">Fresh boards, as many times as you like. Practice never counts on the daily leaderboard.</p> : focused ? <section aria-label={`Today on ${focused.title}`}><h2 className="t-h3">Today on {focused.title}</h2>{boards?.[focused.slug]}<Link href={`/games/${focused.slug}/leaderboard`} prefetch className="table-link">See the leaderboard <ChevronRightIcon size={18} /></Link></section> : null}
         {!practice ? yesterday : null}
         <p className="t-body text-mute">Countrivo is six short geography games, new every day at midnight Berlin time. Everyone gets the same boards. No accounts: finish a game and put your name on the leaderboard if you like.</p>
         <nav className="table-subnav" aria-label="Explore Countrivo"><Link href="/countries">World</Link><Link href="/practice">Practice</Link><Link href="/games">All games</Link><Link href="/archive">Past boards</Link></nav>

@@ -10,6 +10,7 @@ const args=process.argv.slice(2);
 const option=(name,fallback)=>{const index=args.indexOf(name);return index>=0?args[index+1]:fallback;};
 const base=option('--base','http://localhost:3290');
 const out=option('--out','.check-render/table');
+const readOnly=args.includes('--read-only');
 mkdirSync(out,{recursive:true});
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM??'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 let checks=0,failures=0;
@@ -64,12 +65,12 @@ for(const slug of ['country-draft','geo-wordle','flag-quiz','higher-or-lower','s
   const controls=plain.locator('.no-script-controls');
   check(await controls.isVisible(),slug+' no-JS controls visible');
   check(await controls.locator('form[action]').count()>0,slug+' no-JS server form');
-  if(slug==='country-draft'){
+  if(slug==='country-draft'&&!readOnly){
     await controls.getByRole('button',{name:'Open country',exact:true}).click();
     await plain.waitForLoadState('networkidle');
     check(await plain.getByText('Choose a person',{exact:false}).count()>0,'Draft no-JS practice resumes chosen country');
   }
-  if(slug==='flag-quiz'){
+  if(slug==='flag-quiz'&&!readOnly){
     await controls.locator('form button').first().click();await plain.waitForLoadState('networkidle');
     check(await plain.getByRole('button',{name:'Next',exact:true}).count()>0,'Flag no-JS reveal after commit');
   }

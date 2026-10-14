@@ -23,3 +23,4 @@ for (const asset of assets) {
 }
 writeFileSync('docs/concept/clay-web-provenance.json',JSON.stringify(records,null,2)+'\n');
 console.log(`Prepared ${records.length} clay states`);
+await import('./build-clay-sizes.mjs');

@@ -17,6 +17,6 @@ export async function commitDraftSession(input: { sessionToken: string; revision
 
 export async function startDraftPractice() {
   const dateKey=getTodayDateKey(),edition=await getEdition();
-  return prepareGameSession(await draftSessionModule("practice",dateKey,edition), (state) => draftReviewView(state,{mode:"practice",dateKey,today:getTodayDateKey()}), { slug: "country-draft", mode: "practice", dateKey: getTodayDateKey(),
-    edition: await getEdition(), seed: randomInt(0, 2147483647), startedAt: new Date().toISOString() });
+  return prepareGameSession(await draftSessionModule("practice",dateKey,edition), (state) => draftReviewView(state,{mode:"practice",dateKey,today:dateKey}), { slug: "country-draft", mode: "practice", dateKey,
+    edition, seed: randomInt(0, 2147483647), startedAt: new Date().toISOString() });
 }

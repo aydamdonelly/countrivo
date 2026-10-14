@@ -16,7 +16,7 @@
  * land on the same country, the later round moves to its next allowed stat, which keeps the
  * rotation intact.
  */
-import { countries, categories } from "@/lib/data/loader";
+import { countries, categories } from "@/lib/data/public";
 import statsData from "@/data/stats.json";
 import sovereignData from "@/data/sovereign.json";
 import { dateSeed } from "@/lib/daily-seed";

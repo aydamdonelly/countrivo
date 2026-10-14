@@ -7,6 +7,7 @@ import { gameDatabase, signValue } from '@/server/anonymous-identity';
 import { requireAdminSession } from '@/server/admin-session';
 import { getTodayDateKey } from '@/lib/daily-seed';
 import { revalidateEdition } from '@/server/edition';
+import { invalidateAnonymousLeaderboards } from '@/server/anonymous-runs';
 export async function openAdmin(form:FormData):Promise<void>{
   const given=form.get('secret'),expected=process.env.COUNTRIVO_ADMIN_SECRET;
   if(typeof given!=='string'||!expected||expected.length<32)redirect('/admin?denied=1');
@@ -22,6 +23,7 @@ export async function setNameVisibility(form:FormData):Promise<void>{
   if(!Number.isInteger(id)||id<1)return;
   const {error}=await gameDatabase().from('countrivo_runs').update({moderation_hidden:hidden}).eq('id',id);
   if(error)throw new Error('Could not update this name');
+  invalidateAnonymousLeaderboards();
   revalidatePath('/admin');revalidatePath('/leaderboard');
 }
 export async function prepareTomorrowBoards():Promise<void>{

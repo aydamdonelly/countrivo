@@ -1,4 +1,4 @@
-import { countries, centroids } from "@/lib/data/loader";
+import { countries, centroids } from "@/lib/data/public";
 import type { Country } from "@/types/country";
 
 const ALIASES: Readonly<Record<string, readonly string[]>> = {

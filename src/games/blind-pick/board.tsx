@@ -20,7 +20,7 @@ import "./blind-pick.css";
  *
  * The card and the slots are card fill on the paper ground, in the daily and in practice.
  */
-export function Board({ state, dispatch, busy, mode }: BoardProps<BlindPickState, BlindPickAction>) {
+export function Board({ state, dispatch, busy, mode, pendingSlot }: BoardProps<BlindPickState, BlindPickAction> & { pendingSlot?: number | null }) {
   const { g } = state;
   const cfg = g.config;
   const complete = isComplete(g);
@@ -78,7 +78,8 @@ export function Board({ state, dispatch, busy, mode }: BoardProps<BlindPickState
               className="bp-slot open"
               data-state="open"
               disabled={busy || complete}
-              onClick={() => dispatch({ t: "place", s: i })}
+              aria-pressed={pendingSlot === i}
+              onClick={(event) => { if (event.detail < 2) dispatch({ t: "place", s: i }); }}
               aria-label={`Put ${country.displayName} on ${label}`}
             >
               <StatIcon slug={cat.slug} size={22} />

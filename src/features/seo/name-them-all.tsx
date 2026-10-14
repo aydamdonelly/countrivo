@@ -1,7 +1,8 @@
 'use client';
 import {useMemo,useRef,useState} from 'react';
 import Link from 'next/link';
-import {countries,sovereignIso3,worldAtlas} from '@/lib/data/loader';
+import {countries,sovereignIso3} from '@/lib/data/public';
+import {worldAtlas} from '@/lib/data/world-atlas';
 import {normalizeCountryInput,resolveGuess} from '@/lib/game-logic/geo-wordle/input';
 import {Button} from '@/ui/button';
 import {Flag} from '@/ui/flag';

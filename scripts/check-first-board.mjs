@@ -1,6 +1,7 @@
 /** Run with NODE_OPTIONS='--conditions=react-server' node --import tsx scripts/check-first-board.mjs. */
 import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
+import { AsyncLocalStorage } from 'node:async_hooks';
+import { createHash, randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { registerHooks } from 'node:module';
 import React from 'react';
@@ -21,11 +22,19 @@ for (const name of ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY',
   process.env[name] = local[name];
 }
 
+globalThis.AsyncLocalStorage = AsyncLocalStorage;
 const { resolveDailyBoard } = await import('../src/server/daily-board-state.ts');
 const { gameModule } = await import('../src/games/country-draft/module.ts');
 const { draftView } = await import('../src/lib/game-logic/country-draft/public-view.ts');
 const { dailyBoardSeed } = await import('../src/server/anonymous-identity.ts');
 const { getTodayDateKey } = await import('../src/lib/daily-seed.ts');
+// Exercise Next's actual unstable_cache with isolated storage instead of a running app server.
+const cachedEntries = new Map();
+globalThis.__incrementalCache = {
+  async generateCacheKey(value) { return createHash('sha256').update(value).digest('hex'); },
+  async get(key) { return cachedEntries.get(key) ?? null; },
+  async set(key,value) { cachedEntries.set(key,{value,isStale:false}); },
+};
 const nativeFetch = globalThis.fetch;
 const db = createClient(local.NEXT_PUBLIC_SUPABASE_URL, local.COUNTRIVO_SUPABASE_SERVICE_KEY, { auth: { persistSession: false } });
 const dateKey = getTodayDateKey(), edition = `qa-rsc-${randomUUID()}`, slug = 'country-draft';
@@ -60,6 +69,9 @@ async function FirstBoard() {
   assert.deepEqual(preserved.state, gameModule.create(seed, 'daily', dateKey));
   assert.equal(freshReads, 2, 'Initial lookup and canonical reread must both reach the database');
   assert.equal(writes, 1, 'A first rendering must preserve exactly one snapshot');
+  const cached=await resolveDailyBoard(gameModule,draftView,{slug,dateKey,edition,seed});
+  assert.deepEqual(cached,preserved);
+  assert.equal(freshReads,2,'Saved immutable boards must reuse the server cache without another database read');
   const staleControl = await snapshotQuery();
   assert.equal(staleControl.data, null, 'An unsignalled GET still sees the memoized missing row in this same render');
   assert.equal(readsWithoutSignal, 1);
@@ -68,7 +80,7 @@ async function FirstBoard() {
 }
 
 try {
-  const stream = await renderToReadableStream(React.createElement(FirstBoard), {}, { onError: error => renderErrors.push(error) });
+  const stream = await renderToReadableStream(React.createElement(FirstBoard), {}, { onError: error => {renderErrors.push(error);} });
   const flight = await new Response(stream).text();
   assert.equal(renderErrors.length, 0, renderErrors[0]?.message);
   assert(completed && flight.includes('first-board-ready'), 'First RSC rendering must finish without a retry');
@@ -77,8 +89,10 @@ try {
   assert.equal(actual.count, 1);
   console.log('PASS first missing daily board completes in one real React Server Component rendering.');
   console.log('PASS cache control: duplicate unsignalled reads hit the network once and retain null; both signalled canonical reads are fresh.');
+  console.log('PASS saved-board cache: the canonical solution is reused with no additional database read.');
 } finally {
   globalThis.fetch = nativeFetch;
+  delete globalThis.__incrementalCache;
   const { error } = await db.from('countrivo_boards').delete().eq('game_slug', slug).eq('date_key', dateKey).eq('edition', edition);
   if (error) throw new Error('Could not remove the isolated QA snapshot');
   console.log('Isolated QA edition removed; actual daily snapshots, runs, bots and configuration untouched.');

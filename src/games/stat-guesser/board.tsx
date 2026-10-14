@@ -23,14 +23,19 @@ function statValue(view: StatQuickView, value: number): string {
 
 function fitReferenceLabels(box: HTMLDivElement): void {
   const width = box.clientWidth;
+  const boxLeft = box.getBoundingClientRect().left;
+  const positions: {label: HTMLElement; left: number}[] = [];
   for (const label of box.querySelectorAll<HTMLElement>(".qr-ref-label")) {
     const mark = label.parentElement;
     if (!mark) continue;
-    const point = mark.getBoundingClientRect().left - box.getBoundingClientRect().left;
+    const point = mark.getBoundingClientRect().left - boxLeft;
     const labelWidth = label.getBoundingClientRect().width;
     const wanted = label.classList.contains("left") ? point - labelWidth - 6 : point + 6;
     const clamped = Math.max(0, Math.min(width - labelWidth, wanted));
-    label.style.left = `${clamped - point}px`;
+    positions.push({label, left: clamped - point});
+  }
+  for (const {label, left} of positions) {
+    label.style.left = `${left}px`;
     label.style.right = "auto";
   }
 }
@@ -76,6 +81,6 @@ export function Board({ view, busy, send, animate = false }: { view: StatQuickVi
       {actualPos !== null ? <><span className={cn("sg-mark sg-truth", animate && "drop")} style={{ left: `${actualPos * 100}%` }} aria-hidden="true"><span className="sg-tick" /><span className="sg-dot" /></span><span className="qr-truth-label t-meta">{view.country.name}: {statValue(view, view.actualValue ?? 0)}</span></> : null}
       <span className="sg-mark sg-pin" style={{ left: `${pinPos * 100}%` }}><span className="sg-tick" /><span className="sg-knob" role="slider" tabIndex={live ? 0 : -1} aria-label={`Your guess for ${view.country.name}`} aria-valuemin={0} aria-valuemax={view.ruler.steps.length - 1} aria-valuenow={pin} aria-valuetext={statValue(view, guessed)} aria-disabled={!live}><i /></span></span>
     </div></div>
-    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={750} animate={animate} className="t-h1" /><span className="of t-body">of {view.doubled ? 200 : 100}</span></span><p className="ctx t-meta">{view.context}</p></div><div className="sg-act"><Button variant="ink" className="sg-cta" disabled={busy} onClick={() => void send({ t: "next" })}>{view.round + 1 === view.total ? "See result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="ink" className="sg-cta" disabled={busy} onClick={() => void send({ t: "lock", i: pin })}>Lock it</Button></div>}
+    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={400} animate={animate} className="t-h1" /><span className="of t-body">of {view.doubled ? 200 : 100}</span></span><p className="ctx t-meta">{view.context}</p></div><div className="sg-act"><Button variant="ink" className="sg-cta" disabled={busy} pending={busy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "See result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="ink" className="sg-cta" disabled={busy} pending={busy} pendingLabel="Guess locked…" onClick={(event) => { if (event.detail < 2) void send({ t: "lock", i: pin }); }}>Lock it</Button></div>}
   </div>;
 }

@@ -1,4 +1,4 @@
-import { countries } from "./loader";
+import { countries } from "./public";
 import type { Country } from "@/types/country";
 
 const byIso3 = new Map(countries.map((c) => [c.iso3, c]));

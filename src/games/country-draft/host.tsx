@@ -133,7 +133,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     <header className="dr-play-header"><Link href="/games/country-draft" aria-label="Back to Country Draft" className="dr-back"><ChevronLeftIcon size={24} /></Link>
       <span className={cn("dr-header-clay", state.phase === "done" && "finished")} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size clay object */}
-        <img src={state.phase === "done" ? "/clay/country-draft-done.png" : "/clay/country-draft.png"} width={32} height={32} alt="" />
+        <img src={`/clay/cl-01/${state.phase === 'done' ? 'coins' : 'rest'}.128.webp`} width={32} height={32} alt="" />
       </span>
       <h1 className="t-h3">Country Draft</h1><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
       <b className="dr-header-score t-score"><CountUp value={state.score} duration={750} animate={animate} /> <small>of 195</small></b><button type="button" className="dr-help" onClick={() => setRules(true)} aria-label="How Country Draft works"><span>?</span></button>

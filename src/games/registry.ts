@@ -1,21 +1,11 @@
 /*
- * The server-only registry (blueprint 8.1): the host entries imported statically. A
- * server-side map of client components costs nothing on the client: the browser fetches
- * only the chunk of the host that appears in the RSC payload, so each board stays its own
- * chunk. Append-only: each P4 package owns its one line per map. Never import this from a
- * client component.
+ * Server lookup for codecs and run details. GameEntryHost splits each interactive game
+ * at the client boundary while preserving its server-rendered first board.
  */
 import type { ComponentType } from "react";
 import type { HostProps, PlayableSlug, RunDetailProps } from "./types";
 
-import { CountryDraftHost } from "./country-draft/host";
-import { BlindPickHost } from "./blind-pick/host";
-import { HigherOrLowerHost } from "./higher-or-lower/host";
-import { PinpointHost } from "./pinpoint/host";
-import { GeoWordleHost } from "./geo-wordle/host";
-import { StatGuesserHost } from "./stat-guesser/host";
-import { FlagQuizHost } from "./flag-quiz/host";
-import { SpeedFlagsHost } from "./speed-flags/host";
+import { GameEntryHost } from '@/features/play/game-entry-host';
 
 import { codec as countryDraftCodec } from "./country-draft/codec";
 import { codec as blindPickCodec } from "./blind-pick/codec";
@@ -37,14 +27,14 @@ import { RunDetail as SpeedFlagsDetail } from "./speed-flags/run-detail";
 
 /** The client host of every playable game, keyed by slug. */
 export const HOSTS: Record<PlayableSlug, ComponentType<HostProps>> = {
-  "country-draft": CountryDraftHost,
-  "blind-pick": BlindPickHost,
-  "higher-or-lower": HigherOrLowerHost,
-  "geo-wordle": GeoWordleHost,
-  "pinpoint": PinpointHost,
-  "stat-guesser": StatGuesserHost,
-  "flag-quiz": FlagQuizHost,
-  "speed-flags": SpeedFlagsHost,
+  "country-draft": GameEntryHost,
+  "blind-pick": GameEntryHost,
+  "higher-or-lower": GameEntryHost,
+  "geo-wordle": GameEntryHost,
+  "pinpoint": GameEntryHost,
+  "stat-guesser": GameEntryHost,
+  "flag-quiz": GameEntryHost,
+  "speed-flags": GameEntryHost,
 };
 
 /** Each game's log decoder, so the play page can discard a cookie the codec rejects (blueprint 8.6). */

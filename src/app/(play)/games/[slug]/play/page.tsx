@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { getGameBySlug } from "@/lib/data/games";
 import { createRunTicket, dailyBoardSeed, readRunTicket } from "@/server/anonymous-identity";
-import { deviceDailyRows, mapAnonymousRun, anonymousSummary } from "@/server/anonymous-runs";
+import { deviceDailySessionRows, mapAnonymousRun, anonymousSummary } from "@/server/anonymous-runs";
 import { gameModule as higherCore } from "@/games/higher-or-lower/module";
 import { flagRemote, flagView, higherView, statView, quickProject, statSessionModule, higherSessionModule } from "@/server/quick-sessions";
 import { preserveGenericBoard } from "@/server/replay-submission";
@@ -63,7 +63,9 @@ export default async function PlayPage({ params, searchParams }: Props) {
   const practiceCountry = query.country && /^[A-Z]{3}$/.test(query.country) ? query.country : resumed?.practiceCountry;
   const practiceStat = query.stat && /^[a-z0-9-]{1,48}$/.test(query.stat) ? query.stat : resumed?.practiceStat;
   const dailies = dailyRefs();
-  const completed = mode === "daily" ? await deviceDailyRows(dateKey, edition) : [];
+  const todayRows = mode === "daily" ? await deviceDailySessionRows(dateKey, edition) : [];
+  const knownRun = mode==='daily'?todayRows.find(row=>row.game_slug===slug)??null:undefined;
+  const completed = todayRows.filter(row=>row.status==='complete');
   const shotToday = completed.map((r) => r.game_slug);
   const saved = completed.find((r) => r.game_slug === slug);
   const startedAt = new Date(clock.now).toISOString();
@@ -75,21 +77,21 @@ export default async function PlayPage({ params, searchParams }: Props) {
   if (slug === "country-draft" || slug === "geo-wordle" || slug === "pinpoint") {
     const props = { ...common, seed: 0, log: "" };
     if (slug === "country-draft") {
-      const specific = await prepareGameSession(await draftSessionModule(mode,dateKey,edition,practiceCountry), (state) => draftReviewView(state,{mode,dateKey,today:clock.dateKey}), sessionSeed);
+      const specific = await prepareGameSession(await draftSessionModule(mode,dateKey,edition,practiceCountry), (state) => draftReviewView(state,{mode,dateKey,today:clock.dateKey}), sessionSeed, knownRun);
       return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} showDraftRules={!jar.get("cv_draft_rules_seen")} draftView={specific.view} /></div>{mode==="practice"&&practiceCountry&&!archived&&await draftCountryUnavailable(practiceCountry,dateKey,edition)?<p className="t-meta text-mute">This country is in today’s daily Draft. Practice uses other countries until tomorrow.</p>:null}<NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} draft={specific.view} run={specific.run}/></PlayFrame>;
     }
     if (slug === "geo-wordle") {
-      const specific = await prepareGameSession(geo, geoWordleView, sessionSeed);
+      const specific = await prepareGameSession(geo, geoWordleView, sessionSeed, knownRun);
       return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} geoWordleView={specific.view} /></div><NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} geo={specific.view} run={specific.run}/></PlayFrame>;
     }
-    const specific = await prepareGameSession(pinpoint, pinpointView, sessionSeed);
+    const specific = await prepareGameSession(pinpoint, pinpointView, sessionSeed, knownRun);
     return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} pinpointView={specific.view} /></div><NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} run={specific.run}/></PlayFrame>;
   }
   if (slug === "higher-or-lower" || slug === "flag-quiz" || slug === "stat-guesser") {
     const requestedStatBlocked = slug === "higher-or-lower" && mode === "practice" && practiceStat && higherCore.create(dailyBoardSeed(slug,dateKey,edition),"daily",dateKey).g.stat === practiceStat;
-    const session = slug === "higher-or-lower" ? await prepareGameSession(await higherSessionModule(mode,dateKey,edition,practiceStat), quickProject(higherView,mode,dateKey), sessionSeed)
-      : slug === "flag-quiz" ? await prepareGameSession(flagRemote, quickProject(flagView,mode,dateKey), sessionSeed)
-      : await prepareGameSession(await statSessionModule(mode,dateKey,edition,practiceCountry,practiceStat), quickProject(statView,mode,dateKey), sessionSeed);
+    const session = slug === "higher-or-lower" ? await prepareGameSession(await higherSessionModule(mode,dateKey,edition,practiceStat), quickProject(higherView,mode,dateKey), sessionSeed, knownRun)
+      : slug === "flag-quiz" ? await prepareGameSession(flagRemote, quickProject(flagView,mode,dateKey), sessionSeed, knownRun)
+      : await prepareGameSession(await statSessionModule(mode,dateKey,edition,practiceCountry,practiceStat), quickProject(statView,mode,dateKey), sessionSeed, knownRun);
     return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...common} seed={0} log="" quickView={session.view} sessionToken={session.sessionToken}
       sessionRevision={session.revision} savedRun={session.run} publishedName={session.publishedName} /></div>{requestedStatBlocked?<p className="t-meta text-mute">That statistic is on today’s daily board. Practice uses another statistic until tomorrow.</p>:null}<NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} quick={session.view} run={session.run}/></PlayFrame>;
   }

@@ -5,7 +5,7 @@ import records from "@/data/draft-records.json";
 import credits from "@/data/figure-credits.json";
 import stats from "@/data/stats.json";
 import sovereign from "@/data/sovereign.json";
-import { countries } from "./loader";
+import { countries } from "./public";
 
 export interface DraftBiography {
   born: number | null;

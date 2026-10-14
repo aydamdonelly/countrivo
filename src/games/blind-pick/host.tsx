@@ -29,17 +29,16 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
   const [revision, setRevision] = useState(p.sessionRevision ?? 0);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
   const [busy, setBusy] = useState(false);
+  const [pendingSlot, setPendingSlot] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [animate, setAnimate] = useState(false);
   const busyRef = useRef(false);
   const started = useRef(false);
-  const armedAt = useRef(0);
   const complete = isComplete(state.g);
   const finished = complete && state.seen;
-  useEffect(() => { armedAt.current = performance.now() + 300; }, [state.moves]);
   const send = useCallback(async (action: BlindPickAction) => {
-    if (busyRef.current || (action.t === "place" && performance.now() < armedAt.current)) return;
-    busyRef.current = true; setBusy(true); setError(null);
+    if (busyRef.current) return;
+    busyRef.current = true; setBusy(true); setPendingSlot(action.t === "place" ? action.s : null); setError(null);
     if (!started.current) { started.current = true; trackPlay("play_start", "blind-pick", p.mode); }
     try {
       const response = await commitBlindSession({ sessionToken: token, revision, action });
@@ -49,13 +48,12 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
       if (!response.success) setError(response.error ?? "Your placement could not be saved. Try again.");
       else if (response.view.seen) trackPlay("play_finish", "blind-pick", p.mode);
     } catch { setError("Your placement was not confirmed. Check your connection and try again."); }
-    finally { busyRef.current = false; setBusy(false); }
+    finally { busyRef.current = false; setBusy(false); setPendingSlot(null); }
   }, [token, revision, p.mode]);
 
   useEffect(() => {
     if (!complete || finished || busy || error) return;
-    const timeout = window.setTimeout(() => void send({ t: "seen" }), 900);
-    return () => window.clearTimeout(timeout);
+    void send({ t: "seen" });
   }, [complete, finished, busy, error, send]);
 
   useEffect(() => {
@@ -85,7 +83,8 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
     {finished && result ? <ResultPanel mode={p.mode} game="Blind Pick" score={overLabel(result.over)} animateScore={animate} actions={<><Button variant="ink" onClick={() => void practice()} disabled={busy}>One more</Button><ShareButton text={shareText} onShare={() => trackPlay("share", "blind-pick", p.mode)} /></>}>
       {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={p.publishedName} onPublished={setRun} /> : null}
       <Result state={state} mode={p.mode} run={run} />
-    </ResultPanel> : <><Progress done={state.g.placements.length} total={PICK_COUNT} label="placed" value={`${state.g.placements.length} of ${PICK_COUNT}`} /><Board state={state} dispatch={(action) => void send(action)} busy={busy} mode={p.mode} viewer={p.viewer} seed={0} />{complete && error ? <Button variant="ink" onClick={() => void send({ t: "seen" })} disabled={busy}>See result</Button> : null}</>}
+    </ResultPanel> : <><Progress done={state.g.placements.length} total={PICK_COUNT} label="placed" value={`${state.g.placements.length} of ${PICK_COUNT}`} /><Board state={state} dispatch={(action) => void send(action)} busy={busy} pendingSlot={pendingSlot} mode={p.mode} viewer={p.viewer} seed={0} />{complete && error ? <Button variant="ink" onClick={() => void send({ t: "seen" })} disabled={busy}>See result</Button> : null}</>}
+    <span className="sr-only" role="status">{pendingSlot !== null ? "Placement selected. Waiting for confirmation." : busy ? "Opening result." : ""}</span>
     {error ? <p className="t-body text-ember" role="alert">{error}</p> : null}
   </div>;
 }

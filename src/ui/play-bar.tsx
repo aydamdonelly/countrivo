@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
+import { gamePresentation } from '@/content/table';
 
 export interface PlayBarProps {
   slug: GameSlug;
@@ -22,8 +23,8 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
         <ChevronLeftIcon size={24} />
       </Link>
       <span className="clay" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element -- a 96 px static still, no optimisation wanted */}
-        <img src={`/clay/${slug}.png`} width={32} height={32} alt="" decoding="async" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized local header still */}
+        <img src={`/clay/${gamePresentation(slug)?.clay ?? 'cl-01'}/${slug === 'speed-flags' ? 'full' : 'rest'}.128.webp`} width={32} height={32} alt="" decoding="async" />
       </span>
       <h1 className="t-h3">{title}</h1>
       <span className={cn("mode t-meta", mode)}>

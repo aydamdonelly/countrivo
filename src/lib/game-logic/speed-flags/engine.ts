@@ -15,7 +15,7 @@
  *
  * Sovereign states only: the distractor is always the same kind of thing as the answer.
  */
-import { countries } from "@/lib/data/loader";
+import { countries } from "@/lib/data/public";
 import { seededPick, seededShuffle } from "@/lib/seeded-random";
 import sovereign from "@/data/sovereign.json";
 import type { Country } from "@/types/country";

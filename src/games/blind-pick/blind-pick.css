@@ -20,6 +20,7 @@
   .bp-slot.open svg { flex: none; }
   .bp-lbl { min-width: 0; font-size: 16px; line-height: 1.25; font-weight: 400; overflow-wrap: anywhere; }
   .bp-slot.open:disabled { cursor: default; }
+  .bp-slot.open[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); transition: none; }
   @media (hover: hover) { .bp-slot.open:not(:disabled):hover { background: var(--color-line); } }
   .bp-slot.open:not(:disabled):active { background: var(--color-ink-2); color: var(--color-paper); }
 

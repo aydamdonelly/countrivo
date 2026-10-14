@@ -16,7 +16,7 @@
  * alone; the board seed decides the distractors and the option order. Practice draws at
  * random and never uses today's daily answers or today's lookalike families.
  */
-import { centroids, countries } from "@/lib/data/loader";
+import { centroids, countries } from "@/lib/data/public";
 import sovereignData from "@/data/sovereign.json";
 import type { Country } from "@/types/country";
 import { FAMILY_SOURCE, KNOWN, LOOKALIKES, type LookalikeSet } from "./pools";

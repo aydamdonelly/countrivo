@@ -1,4 +1,4 @@
-import { draftConquestMap } from "@/lib/data/loader";
+import { draftConquestMap } from "@/lib/data/draft-map";
 import { takenAt } from "@/lib/game-logic/country-draft/fill-order";
 import { MAX_SCORE } from "@/lib/game-logic/country-draft/tables";
 

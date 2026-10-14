@@ -37,7 +37,7 @@ export default async function Home({searchParams}: Props) {
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}} />
     <h1 className="sr-only">Countrivo: daily geography games</h1>
-    <TableHome games={ordered} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} boards={boards} atlas={<DayAtlas key="day-atlas" runs={runs} />} yesterday={<YesterdayAnswers key="yesterday" />} />
+    <TableHome games={ordered} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} boards={boards} atlas={games.every(game=>Boolean(done[game.slug]))?<DayAtlas key="day-atlas" runs={runs} />:null} yesterday={<YesterdayAnswers key="yesterday" />} />
     <SiteFoot />
   </>;
 }

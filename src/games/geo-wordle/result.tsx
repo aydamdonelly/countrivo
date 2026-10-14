@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import Link from 'next/link';
-import {countries} from '@/lib/data/loader';
+import {countries} from '@/lib/data/public';
 import {mulberry32,seededShuffle} from '@/lib/seeded-random';
 import {capitalBonusChoices,capitalIsAccepted} from '@/lib/game-logic/geo-wordle/bonus';
 import type {GeoWordleState,GeoWordleView,GeoAnswer} from '@/lib/game-logic/geo-wordle/engine';

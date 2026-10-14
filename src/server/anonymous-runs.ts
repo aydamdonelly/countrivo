@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+import { unstable_cache, updateTag } from "next/cache";
 import { createClient } from "@supabase/supabase-js";
 import { gameDatabase, readDeviceId } from "./anonymous-identity";
 import type { DailySummary, LeaderboardEntry, RunDetail, ServerGameRun } from "@/types/server";
@@ -45,18 +47,28 @@ interface PublicRow {
   place_country_code: string | null;
 }
 
-export async function anonymousLeaderboard(slug: string, dateKey: string, limit = 50): Promise<LeaderboardEntry[]> {
+const LEADERBOARD_TAG = 'anonymous-leaderboards';
+
+/** Server actions expire this after name publication or moderation, before reading their result. */
+export function invalidateAnonymousLeaderboards():void {updateTag(LEADERBOARD_TAG);}
+
+const readLeaderboardRows = cache(unstable_cache(async (slug:string,dateKey:string):Promise<PublicRow[]> => {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return [];
   const db = createClient(url, key, { auth: { persistSession: false } });
   const { data, error } = await db.from("countrivo_leaderboard").select("*")
     .eq("game_slug", slug).eq("date_key", dateKey).order("score_sort_value", { ascending: false })
-    .order("completed_at", { ascending: true }).limit(Math.min(500, Math.max(1, limit)))
+    .order("completed_at", { ascending: true }).limit(500)
     .abortSignal(AbortSignal.timeout(6000)).returns<PublicRow[]>();
-  if (error) return [];
-  const rows = data ?? [];
-  return rows.map((r, i) => ({
+  if (error) throw error;
+  return data??[];
+}, ['anonymous-leaderboard-rows'], {revalidate:10,tags:[LEADERBOARD_TAG]}));
+
+export async function anonymousLeaderboard(slug: string, dateKey: string, limit = 50): Promise<LeaderboardEntry[]> {
+  let rows:PublicRow[];
+  try {rows=await readLeaderboardRows(slug,dateKey);}catch{return[];}
+  return rows.slice(0,Math.min(500,Math.max(1,limit))).map((r, i) => ({
     runId: r.id, userId: `run-${r.id}`, username: r.display_name, displayName: r.display_name, avatarUrl: null,
     scoreRaw: Number(r.score_raw), scoreMax: Number(r.score_max), scoreSortValue: Number(r.score_sort_value), scoreDisplay: r.score_display,
     countryCode: r.place_country_code ? getCountryByIso3(r.place_country_code)?.iso2 ?? null : null,
@@ -85,17 +97,26 @@ export async function mapAnonymousRun(row: AnonymousRunRow): Promise<ServerGameR
   };
 }
 
-export async function deviceDailyRows(dateKey: string, edition: string): Promise<AnonymousRunRow[]> {
-  const id = await readDeviceId();
-  if (!id) return [];
+const readDeviceDailyRows=cache(async (id:string,dateKey:string,edition:string):Promise<AnonymousRunRow[]>=>{
   try {
     const { data } = await gameDatabase().from("countrivo_runs").select("*").eq("device_id", id)
-      .eq("date_key", dateKey).eq("edition", edition).eq("mode", "daily").eq("status", "complete")
+      .eq("date_key", dateKey).eq("edition", edition).eq("mode", "daily")
+      .abortSignal(AbortSignal.timeout(6000))
       .returns<AnonymousRunRow[]>();
     return data ?? [];
   } catch {
     return [];
   }
+});
+
+/** Private rows are deduplicated only inside this React request, never shared across devices. */
+export async function deviceDailySessionRows(dateKey:string,edition:string):Promise<AnonymousRunRow[]> {
+  const id=await readDeviceId();
+  return id?readDeviceDailyRows(id,dateKey,edition):[];
+}
+
+export async function deviceDailyRows(dateKey: string, edition: string): Promise<AnonymousRunRow[]> {
+  return (await deviceDailySessionRows(dateKey,edition)).filter(row=>row.status==='complete');
 }
 
 export async function getDeviceDailyRuns(dateKey: string, edition: string): Promise<ServerGameRun[]> {
@@ -106,13 +127,8 @@ export interface DeviceOpenRun { game_slug: string; revision: number; started_at
 
 /** Home only needs status, never the private seed or answers from a live session. */
 export async function deviceOpenRows(dateKey:string,edition:string):Promise<DeviceOpenRun[]> {
-  const device=await readDeviceId();
-  if(!device)return[];
-  try {
-    const {data}=await gameDatabase().from('countrivo_runs').select('game_slug,revision,started_at').eq('device_id',device)
-      .eq('date_key',dateKey).eq('edition',edition).eq('mode','daily').eq('status','open').gt('revision',0).returns<DeviceOpenRun[]>();
-    return data??[];
-  } catch{return[];}
+  return (await deviceDailySessionRows(dateKey,edition)).filter(row=>row.status==='open'&&row.revision>0)
+    .map(({game_slug,revision,started_at})=>({game_slug,revision,started_at}));
 }
 
 export async function anonymousRunDetail(runId: number): Promise<RunDetail | null> {

@@ -99,3 +99,30 @@ extension walkthroughs cover selection/reveal/result, reload/resume and map cont
 The complete Higher or Lower daily also verifies all ten calls, saved-result reload and a 320px result. Backend tests cover save, name management, reports, privacy, revisions, RLS, opaque
 flags and archive date rejection. QA-only database rows are cleared before launch;
 labelled simulated rivals remain.
+
+## Response performance
+
+Functions run in Frankfurt alongside Supabase (`vercel.json`), avoiding the old
+US-to-Europe database round trips. Only successful immutable board snapshots are
+shared-cached; private device rows are deduplicated within one request. Public names
+cache for ten seconds and publication/removal/moderation expires that cache immediately.
+Moves still use server-owned revisions and scores. Bot seeding happens after the response.
+
+Each game host is split inside a client boundary with server rendering retained. In
+the measured Chrome run, Flag Quiz/Higher/Stat initial JavaScript fell from 5.08 MB to
+0.99 MB (gzip 1.78 MB to 297 KB). Quick games load no map chunks or private Draft records.
+Display maps use simplified public paths; border scoring retains its original geometry.
+The unused day atlas is omitted until all daily games are complete. Geo map selection
+is local, and Pinpoint panning keeps one coordinate scale throughout a gesture.
+
+The active game is fully prefetched. Icon navigation switches the deck immediately;
+swiping remains native. Clay assets have static responsive sizes and browser caching.
+Blanket 300 ms input locks and the Blind Pick 900 ms result delay are removed. Neutral
+selected states acknowledge input without predicting answers. Tests with move requests
+held for 1.2 seconds measured visible feedback in 30–43 ms, no duplicate moves and a
+recoverable network error. Stale identical/conflicting requests still preserve the saved
+revision and view.
+
+`check-interaction-feedback.mjs` aborts move requests. `check-navigation-performance.mjs`
+measures the local deck and prefetched navigation without moves. `check-render.mjs
+--read-only` skips its two no-JS mutations for repeatable checks against existing data.

@@ -19,7 +19,7 @@ export async function commitQuickSession(input:{sessionToken:string;revision:num
 
 export async function startQuickPractice(slug:QuickSlug) {
   const dateKey=getTodayDateKey(),edition=await getEdition();
-  const input={slug,mode:'practice' as const,dateKey:getTodayDateKey(),edition:await getEdition(),seed:await practiceSeedFor(slug,dateKey,edition),startedAt:new Date().toISOString()};
+  const input={slug,mode:'practice' as const,dateKey,edition,seed:await practiceSeedFor(slug,dateKey,edition),startedAt:new Date().toISOString()};
   if(slug==='higher-or-lower')return prepareGameSession(higherRemote,quickProject(higherView,input.mode,input.dateKey),input);
   if(slug==='flag-quiz')return prepareGameSession(flagRemote,quickProject(flagView,input.mode,input.dateKey),input);
   return prepareGameSession(statRemote,quickProject(statView,input.mode,input.dateKey),input);

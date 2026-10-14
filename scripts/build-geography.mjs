@@ -53,3 +53,4 @@ const data = {source:'Natural Earth 1:50m, world-atlas 2',sourceUrl:'https://www
 writeFileSync(new URL('../src/data/geography.json',import.meta.url),JSON.stringify(data)+'\n');
 writeFileSync(new URL('../src/data/geography-coastline.json',import.meta.url),JSON.stringify({viewBox:data.viewBox,land:data.land})+'\n');
 console.log(`${Object.keys(shapes).length} sovereign country shapes; ${(JSON.stringify(data).length/1024).toFixed(0)} KB`);
+await import('./build-client-geography.mjs');

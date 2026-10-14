@@ -27,11 +27,13 @@
   .qr-call > .up { transform: rotate(-45deg); }
   .qr-call > .down { transform: rotate(135deg); }
   .qr-call:disabled { color: var(--color-mute); }
+  .qr-call[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); }
   .qr-keyhint { display: none; color: var(--color-mute); }
   .qr-flag { max-width: 720px; width: 100%; margin: 0 auto; }
   .qr-flag .fq-opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .qr-flag .fq-opt:disabled { cursor: default; opacity: 1; }
   .qr-flag .fq-opt[data-state="idle"]:disabled { color: var(--color-ink); }
+  .qr-flag .fq-opt[aria-pressed="true"]:disabled { background: var(--color-ink); color: var(--color-paper); transition: none; }
   .qr-flag-next { min-height: 56px; }
   .qr-stat-game .t-big { font-size: 44px; }
   .qr-ref-label { position: absolute; top: 24px; display: flex; align-items: center; gap: 4px; width: max-content; color: var(--color-mute); background: var(--color-paper); }

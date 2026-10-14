@@ -1,4 +1,4 @@
-import {capitalsAccepted,countries,sovereignIso3} from '@/lib/data/loader';
+import {capitalsAccepted,countries,sovereignIso3} from '@/lib/data/public';
 import {seededShuffle} from '@/lib/seeded-random';
 
 export function capitalIsAccepted(accepted:readonly string[],choice:string):boolean {
