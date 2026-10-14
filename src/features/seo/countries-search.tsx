@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { Field } from "@/ui";
+import { Field } from "@/ui/field";
 import { COUNTRIES_HUB } from "@/content/hubs";
 
 /**

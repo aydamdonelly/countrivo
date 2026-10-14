@@ -14,6 +14,8 @@ export interface QuickBase {
   progress: ProgressInfo;
   shareText: string;
   history: QuickHistory[];
+  /** Only the next unanswered challenge; never an unconfirmed result. */
+  nextView?: QuickView;
 }
 export interface QuickCountry { name: string; iso2: string; value: string | null }
 export interface HigherQuickView extends QuickBase {

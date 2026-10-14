@@ -1,7 +1,8 @@
 import { getAllGames } from '@/lib/data/games';
 import { TABLE_GAMES } from '@/content/table';
 import { GameCard } from '@/ui/game-card';
-import { PageTitle, SiteFoot } from '@/ui';
+import { PageTitle } from "@/ui/page-title";
+import { SiteFoot } from "@/ui/site-foot";
 export function GamesHub() {
   const registry = getAllGames();
   const daily = TABLE_GAMES.filter((game)=>registry.find((g)=>g.slug===game.slug)?.availableModes.includes('daily'));

@@ -36,6 +36,7 @@ export function QuickRemoteHost(p: HostProps) {
 function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: string }) {
   const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
   const [view, setView] = useState(p.initialView);
+  const [preview, setPreview] = useState<QuickView | null>(null);
   const [token, setToken] = useState(p.initialToken);
   const [revision, setRevision] = useState(p.sessionRevision ?? 0);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
@@ -48,10 +49,20 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   const mountedAt = useRef(0);
   const started = useRef(false);
   useEffect(() => { mountedAt.current = Date.now(); }, []);
+  useEffect(() => {
+    const next = view.nextView;
+    if (view.phase !== "reveal" || next?.kind !== "flag-quiz") return;
+    const image = new Image();
+    image.src = next.flagSrc;
+  }, [view]);
 
   const send = useCallback(async (action: QuickAction) => {
     if (busyRef.current) return;
     busyRef.current = true; setBusy(true); setPendingAction(action); setError(null);
+    const next = action.t === "next" && view.phase === "reveal" ? view.nextView : null;
+    if (next?.phase === "playing" && next.kind === view.kind && next.mode === view.mode && next.round === view.round + 1) {
+      setPreview({ ...next, score: view.score, progress: view.progress });
+    }
     if (!started.current) { started.current = true; trackPlay("play_start", view.kind, p.mode); }
     try {
       const response = await commitQuickSession({ sessionToken: token, revision, action });
@@ -70,8 +81,8 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
         }
       }
     } catch { setError("Your move was not confirmed. Check your connection and try again."); }
-    finally { busyRef.current = false; setBusy(false); setPendingAction(null); }
-  }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow, view.kind]);
+    finally { busyRef.current = false; setBusy(false); setPendingAction(null); setPreview(null); }
+  }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow, view]);
 
   async function practice() {
     if (busyRef.current) return;
@@ -101,10 +112,11 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   }, [view, busy, send]);
 
   const next = p.dailies.find((daily) => daily.slug !== view.kind && !p.shotToday.includes(daily.slug));
+  const stage = preview ?? view;
   return <div className="quick-remote" aria-busy={busy}>
     <header className="qr-header"><Link href={`/games/${view.kind}`} aria-label={`Back to ${p.title}`}><ChevronLeftIcon size={24} /></Link>
       {/* eslint-disable-next-line @next/next/no-img-element -- local clay frame changes only after commit */}
-      <img src={clayFor(view)} width={40} height={40} alt="" className={animate && view.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small>
+      <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small>
     </header>
     {view.phase === "finished" ? <>
       <ResultPanel mode={p.mode} game={p.title} score={view.score} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<><Button variant="ink" onClick={p.mode === "practice" ? () => void practice() : undefined} href={p.mode === "daily" ? `/games/${view.kind}/leaderboard` : undefined} disabled={busy}>{p.mode === "daily" ? "Today's board" : "One more"}</Button><ShareButton text={view.shareText} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
@@ -112,7 +124,7 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
         <details className="qr-history"><summary className="t-body">How it went</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta">Your guess: {row.guess}. Answer: {row.answer}.</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
       </ResultPanel>
       {p.mode === "daily" ? <DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : null}
-    </> : <><Progress {...view.progress} />{view.kind === "higher-or-lower" ? <HigherBoard view={view} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : view.kind === "flag-quiz" ? <FlagBoard view={view} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={view.round} view={view} busy={busy} send={send} animate={animate} />}</>}
+    </> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}
     <span className="sr-only" role="status">{busy ? pendingAction?.t === "next" ? "Opening the next round." : "Choice selected. Waiting for confirmation." : ""}</span>
     {error ? <p className="t-body text-ember qr-error" role="alert">{error}</p> : null}
   </div>;

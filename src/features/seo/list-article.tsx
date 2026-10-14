@@ -6,21 +6,17 @@ import { DiscoveryList } from "./discovery-list";
 import { NameThemAll } from "./name-them-all";
 import { formatStat } from "@/lib/utils";
 import { getList, LISTS, type ListContent, type ListFact } from "@/content/lists";
-import {
-  EditorialHead,
-  FactRow,
-  GameRow,
-  Icon,
-  PageTitle,
-  QaList,
-  RankTable,
-  SectionHead,
-  SiteFoot,
-  StatIcon,
-  type Fact,
-  type GameSlug,
-  type RankRow,
-} from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { FactRow, type Fact } from "@/ui/fact-row";
+import { GameRow } from "@/ui/game-row";
+import { Icon } from "@/ui/icons";
+import { PageTitle } from "@/ui/page-title";
+import { QaList } from "@/ui/qa-list";
+import { RankTable, type RankRow } from "@/ui/rank-table";
+import { SectionHead } from "@/ui/section-head";
+import { SiteFoot } from "@/ui/site-foot";
+import { StatIcon } from "@/ui/icons/stat";
+import { type GameSlug } from "@/ui/types";
 import { breadcrumbList, faqPage, graph, jsonLdProps } from "./breadcrumbs";
 import { ListItemJsonLd } from "./list-jsonld";
 import "./seo.css";

@@ -3,7 +3,10 @@ import { getCategoryBySlug } from "@/lib/data/categories";
 import { getRank, getStatValue } from "@/lib/data/ranks";
 import { formatStat, ordinal } from "@/lib/utils";
 import type { Country } from "@/types/country";
-import { Flag, GameRow, Icon, SectionHead } from "@/ui";
+import { Flag } from "@/ui/flag";
+import { GameRow } from "@/ui/game-row";
+import { Icon } from "@/ui/icons";
+import { SectionHead } from "@/ui/section-head";
 
 /**
  * The data-derived internal link graph of a country page (blueprint 7.9 step 6), moved

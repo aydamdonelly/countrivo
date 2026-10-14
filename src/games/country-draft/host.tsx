@@ -2,6 +2,7 @@
 
 import { DailyNext } from '@/ui/daily-next';
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { commitDraftSession, startDraftPractice } from "@/app/actions/draft-session";
 import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
@@ -21,8 +22,10 @@ import type { HostProps } from "@/games/types";
 import type { DraftCommitAction } from "./module";
 import type { ServerGameRun } from "@/types/server";
 import { Board, type DraftSelection } from "./board";
-import { DraftResultDetails, Result } from "./result";
 import "./draft.css";
+
+const Result = dynamic(() => import("./result").then(module => module.Result));
+const DraftResultDetails = dynamic(() => import("./result").then(module => module.DraftResultDetails));
 
 const EMPTY_SELECTION: DraftSelection = { country: null, person: null, seat: null, detail: null, revealSeat: null };
 
@@ -61,6 +64,9 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   }, [state.seats]);
 
   useEffect(() => { mountedAt.current = Date.now(); }, []);
+  useEffect(() => {
+    if (state.seats.filter(seat => seat !== null).length >= 4) void import("./result").catch(() => {});
+  }, [state.seats]);
 
   const commit = useCallback(async (action: DraftCommitAction) => {
     if (busyRef.current) return;

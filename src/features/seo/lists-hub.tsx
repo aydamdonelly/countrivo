@@ -1,7 +1,13 @@
 import { getCategoryBySlug } from "@/lib/data/categories";
 import { LISTS } from "@/content/lists";
 import { LISTS_HUB, LISTS_INTRO } from "@/content/hubs";
-import { GameRow, Icon, PageTitle, Prose, SectionHead, SiteFoot, StatIcon } from "@/ui";
+import { GameRow } from "@/ui/game-row";
+import { Icon } from "@/ui/icons";
+import { PageTitle } from "@/ui/page-title";
+import { Prose } from "@/ui/prose";
+import { SectionHead } from "@/ui/section-head";
+import { SiteFoot } from "@/ui/site-foot";
+import { StatIcon } from "@/ui/icons/stat";
 import "./seo.css";
 
 /**

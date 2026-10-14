@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { portraitCredits } from "@/lib/data/loader";
 import { SiteFoot } from "@/ui/site-foot";
-import { PageTitle } from "@/ui";
+import { PageTitle } from "@/ui/page-title";
 
 
 export const metadata: Metadata = {

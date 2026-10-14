@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { CABINET_JOBS, type GamePresentation } from "@/content/table";
 import { Clay } from "@/ui/clay";
 import { cn } from "@/lib/utils";
@@ -41,6 +40,12 @@ function GamePreview({ slug, rounds }: { slug: string; rounds: number }) {
   if (slug === "country-draft") return <div className="tray-preview cabinet-preview" aria-hidden="true">{CABINET_JOBS.map((job) => <div key={job.slug}><Clay object={job.clay} sizes="40px" /><span><b>{job.name}</b><small>{job.description}</small></span></div>)}</div>;
   if (slug === "higher-or-lower") return <div className="tray-preview pair-preview" aria-hidden="true"><span className="t-score-l">?</span><span className="t-score-l">?</span></div>;
   if (slug === "stat-guesser") return <div className="tray-preview ruler-preview" aria-hidden="true"><div>{Array.from({length: 11}, (_, i) => <i key={i} />)}</div><span className="t-meta">Your guess</span></div>;
-  if (slug === "pinpoint" || slug === "geo-wordle") return <div className="tray-preview map-preview" aria-hidden="true"><Image src="/design/map-empty.svg" width={222} height={97} alt="" unoptimized /><div className="preview-pips">{Array.from({length: rounds}, (_, i) => <i key={i} />)}</div></div>;
+  if (slug === "pinpoint" || slug === "geo-wordle") return (
+    <div className="tray-preview map-preview" aria-hidden="true">
+      {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size public SVG needs no image loader */}
+      <img src="/design/map-empty.svg" width={222} height={97} alt="" loading="lazy" decoding="async" />
+      <div className="preview-pips">{Array.from({length: rounds}, (_, i) => <i key={i} />)}</div>
+    </div>
+  );
   return <div className="tray-preview flag-preview" aria-hidden="true"><span className="flag-box-empty" /><div className="preview-pips">{Array.from({length: 4}, (_, i) => <i key={i} />)}</div></div>;
 }

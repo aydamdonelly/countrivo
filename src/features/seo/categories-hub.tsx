@@ -2,7 +2,11 @@ import { getAllCategories } from "@/lib/data/categories";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { getTopCountries } from "@/lib/data/ranks";
 import { CATEGORIES_HUB } from "@/content/hubs";
-import { GameRow, PageTitle, SectionHead, SiteFoot, StatIcon } from "@/ui";
+import { GameRow } from "@/ui/game-row";
+import { PageTitle } from "@/ui/page-title";
+import { SectionHead } from "@/ui/section-head";
+import { SiteFoot } from "@/ui/site-foot";
+import { StatIcon } from "@/ui/icons/stat";
 import "./seo.css";
 
 /**

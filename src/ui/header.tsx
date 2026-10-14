@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Wordmark } from '@/ui/wordmark';
 import { Streak } from '@/ui/streak';
 import type { Clock, Viewer } from '@/ui/types';
@@ -20,7 +19,11 @@ export function Header({ streak = 0 }: HeaderProps) {
       <nav aria-label="Primary">
         <Link href="/countries" className="header-world">World</Link>
         <Link href="/practice" className="header-practice">Practice</Link>
-        <Link href="/leaderboard" prefetch className="header-board"><Image src="/design/leaderboard.svg" width={24} height={24} alt="" unoptimized /><span>Leaderboard</span></Link>
+        <Link href="/leaderboard" prefetch className="header-board">
+          {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size public SVG needs no image loader */}
+          <img src="/design/leaderboard.svg" width={24} height={24} alt="" decoding="async" />
+          <span>Leaderboard</span>
+        </Link>
         {streak >= 2 ? <Streak n={streak} /> : null}
       </nav>
     </header>

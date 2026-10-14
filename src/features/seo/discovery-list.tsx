@@ -4,7 +4,10 @@ import {countryBorders} from '@/lib/data/loader';
 import {longestBorderChains} from '@/lib/data/discovery';
 import {CAPITAL_EXAMPLES,DOUBLE_LANDLOCKED_SOURCE} from '@/content/discovery';
 import type {ListContent} from '@/content/lists';
-import {PageTitle,SiteFoot,Flag,Button} from '@/ui';
+import { PageTitle } from "@/ui/page-title";
+import { SiteFoot } from "@/ui/site-foot";
+import { Flag } from "@/ui/flag";
+import { Button } from "@/ui/button";
 import {Clay} from '@/ui/clay';
 import './discovery-list.css';
 function CountryName({iso3}:{iso3:string}){const c=getCountryByIso3(iso3);return c?<Link href={`/countries/${c.slug}`}>{c.displayName}</Link>:<span>{iso3}</span>;}

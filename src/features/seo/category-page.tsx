@@ -10,19 +10,15 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { getStatValue, getTopCountries } from "@/lib/data/ranks";
 import { formatStat, ordinal } from "@/lib/utils";
 import type { Category } from "@/types/category";
-import {
-  EditorialHead,
-  FactRow,
-  GameRow,
-  PageTitle,
-  RankTable,
-  SectionHead,
-  SiteFoot,
-  StatIcon,
-  type Fact,
-  type GameSlug,
-  type RankRow,
-} from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { FactRow, type Fact } from "@/ui/fact-row";
+import { GameRow } from "@/ui/game-row";
+import { PageTitle } from "@/ui/page-title";
+import { RankTable, type RankRow } from "@/ui/rank-table";
+import { SectionHead } from "@/ui/section-head";
+import { SiteFoot } from "@/ui/site-foot";
+import { StatIcon } from "@/ui/icons/stat";
+import { type GameSlug } from "@/ui/types";
 import "./seo.css";
 import "./category-discovery.css";
 

@@ -1,7 +1,8 @@
 import { getAllCategories, getCategoryBySlug } from "@/lib/data/categories";
 import { getStatValue } from "@/lib/data/ranks";
 import { formatStat, ordinal } from "@/lib/utils";
-import { FactRow, SectionHead } from "@/ui";
+import { FactRow } from "@/ui/fact-row";
+import { SectionHead } from "@/ui/section-head";
 
 /**
  * "Where {Name} stands" (blueprint 7.9 step 2): the three best world ranks as the one

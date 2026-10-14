@@ -1,4 +1,4 @@
-import { QaList } from "@/ui";
+import { QaList } from "@/ui/qa-list";
 import type { Capsule } from "./capsules";
 
 /**

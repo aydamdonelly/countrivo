@@ -6,7 +6,8 @@ import {
   practiceParagraph,
   TOTAL_COUNTRIES,
 } from "@/content/entity";
-import { EditorialHead, Prose } from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { Prose } from "@/ui/prose";
 import { guessableCountries } from "@/lib/game-logic/geo-wordle/engine";
 
 /**

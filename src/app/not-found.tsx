@@ -1,4 +1,6 @@
-import { Button, Header, PageTitle } from "@/ui";
+import { Button } from "@/ui/button";
+import { Header } from "@/ui/header";
+import { PageTitle } from "@/ui/page-title";
 import { Clay } from "@/ui/clay";
 
 /*

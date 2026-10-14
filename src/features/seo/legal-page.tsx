@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { EditorialHead, PageTitle, Prose, QaList, SiteFoot } from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { PageTitle } from "@/ui/page-title";
+import { Prose } from "@/ui/prose";
+import { QaList } from "@/ui/qa-list";
+import { SiteFoot } from "@/ui/site-foot";
 import { SUPPORT_EMAIL, type LegalPageCopy } from "@/content/hubs";
 import "./seo.css";
 import { ForgetDevice } from "./forget-device";

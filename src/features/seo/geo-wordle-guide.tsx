@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { submitGuess, type GeoWordleState } from "@/lib/game-logic/geo-wordle/engine";
-import { EditorialHead, Prose, Table } from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { Prose } from "@/ui/prose";
+import { Table } from "@/ui/table";
 
 // A fixed teaching example, independent of the daily seed and today's answer.
 const EXAMPLE: GeoWordleState = { answerIso3: "POL", guesses: [], clueAt: null, phase: "playing" };

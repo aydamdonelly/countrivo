@@ -72,32 +72,47 @@ export function opaqueFlagSrc(iso2:string):string {
   return `/quiz-flags/${createHmac('sha256',secret).update(`flag|${iso2.toLowerCase()}`).digest('hex').slice(0,40)}.svg`;
 }
 
-export function higherView(state:HoLState,mode:Mode,dateKey:string):HigherQuickView {
+export function higherView(state:HoLState,mode:Mode,dateKey:string,preview=true):HigherQuickView {
   const pair=pairInView(state),revealed=state.rev,base=common(higher,state,mode,dateKey,'Higher or Lower');
   const chosen=revealed?state.g.calls[pair.index]??null:null;
-  return {...base,kind:'higher-or-lower',phase:higher.done(state)?'finished':revealed?'reveal':'playing',round:pair.index,total:mode==='daily'?10:120,
+  const view:HigherQuickView={...base,kind:'higher-or-lower',phase:higher.done(state)?'finished':revealed?'reveal':'playing',round:pair.index,total:mode==='daily'?10:120,
     left:{name:pair.left.name,iso2:pair.left.iso2,value:cardValue(state.g.stat,pair.left.value)},right:{name:pair.right.name,iso2:pair.right.iso2,value:revealed?cardValue(state.g.stat,pair.right.value):null},
     stat:higherStat(state.g),unit:unitLine(state.g),chosen,correct:revealed?chosen===pair.answer:null,comparison:revealed?comparisonLine(state.g,pair.index):null,
     source:sourceLine(state.g),doubled:mode==='daily'&&pair.index>=7,history:callLog(state.g).map(r=>({label:`${r.left.name} · ${r.right.name}`,guess:r.call,answer:cardValue(state.g.stat,r.right.value),points:r.points,correct:r.ok}))};
+  if(preview&&view.phase==='reveal') {
+    const next=higherView(higherRemote.reduce(state,{t:'next'}),mode,dateKey,false);
+    if(next.phase==='playing')view.nextView=next;
+  }
+  return view;
 }
 
-export function flagView(state:QuizState,mode:Mode,dateKey:string):FlagQuickView {
+export function flagView(state:QuizState,mode:Mode,dateKey:string,preview=true):FlagQuickView {
   const q=currentQuestion(state)??state.g.questions[state.g.questions.length-1];
   const revealed=state.pending!==null,finished=flags.done(state);
-  return {...common(flags,state,mode,dateKey,'Flag Quiz'),kind:'flag-quiz',phase:finished?'finished':revealed?'reveal':'playing',round:Math.min(state.g.currentQuestion,9),total:10,
+  const view:FlagQuickView={...common(flags,state,mode,dateKey,'Flag Quiz'),kind:'flag-quiz',phase:finished?'finished':revealed?'reveal':'playing',round:Math.min(state.g.currentQuestion,9),total:10,
     flagSrc:opaqueFlagSrc(q.country.iso2),options:q.options.map(c=>c.displayName),picked:state.pending,correctIndex:revealed?q.correctIndex:null,
     fact:revealed?q.family?.line??null:null,source:revealed?q.family?.source??null:null,doubled:state.g.currentQuestion>=7,
     history:state.g.questions.flatMap((question,i)=>{const picked=state.g.answers[i];if(picked===null)return[];return[{label:`Flag ${i+1}`,guess:question.options[picked]?.displayName??'',answer:question.country.displayName,points:picked===question.correctIndex?question.points:0,correct:picked===question.correctIndex}];})};
+  if(preview&&view.phase==='reveal') {
+    const next=flagView(flagRemote.reduce(state,{t:'next'}),mode,dateKey,false);
+    if(next.phase==='playing')view.nextView=next;
+  }
+  return view;
 }
 
-export function statView(state:StatGuesserState,mode:Mode,dateKey:string):StatQuickView {
+export function statView(state:StatGuesserState,mode:Mode,dateKey:string,preview=true):StatQuickView {
   const round=state.rounds[state.currentRound],revealed=state.phase!=='playing',ruler=rulerFor(round.stat),guess=state.guesses[state.currentRound];
-  return {...common(stats,state,mode,dateKey,'Stat Guesser'),kind:'stat-guesser',phase:state.phase==='results'?'finished':revealed?'reveal':'playing',round:state.currentRound,total:5,
+  const view:StatQuickView={...common(stats,state,mode,dateKey,'Stat Guesser'),kind:'stat-guesser',phase:state.phase==='results'?'finished':revealed?'reveal':'playing',round:state.currentRound,total:5,
     country:{name:round.country.name,iso2:round.country.iso2},stat:guessStat(round.stat),unit:round.stat.includes('percent')?'percent':'',ruler,
     refs:round.refs.map(c=>({name:c.name,iso2:c.iso2,value:c.value})),actualValue:revealed?round.actualValue:null,guessValue:revealed?guess??null:null,
     points:revealed?state.points[state.currentRound]??null:null,context:revealed?contextLine(round.context.map(c=>c.name)):null,
     gap:revealed&&guess!==null?gapText(round.stat,guess,round.actualValue):null,doubled:state.currentRound===4,
     history:state.rounds.flatMap((r,i)=>{const g=state.guesses[i];if(g===null)return[];return[{label:`${r.country.name} · ${guessStat(r.stat)}`,guess:valueText(r.stat,g),answer:valueText(r.stat,r.actualValue),points:(state.points[i]??0)*(i===4?2:1),correct:(state.points[i]??0)>=80}];})};
+  if(preview&&view.phase==='reveal') {
+    const next=statView(statRemote.reduce(state,{t:'next'}),mode,dateKey,false);
+    if(next.phase==='playing')view.nextView=next;
+  }
+  return view;
 }
 
 export function quickProject<S>(project:(s:S,m:Mode,d:string)=>QuickView,mode:Mode,dateKey:string) {return (state:S)=>project(state,mode,dateKey);}

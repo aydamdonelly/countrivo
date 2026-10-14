@@ -2,7 +2,9 @@
 
 import { Clay } from "@/ui/clay";
 import { useEffect } from "react";
-import { Button, Header, PageTitle } from "@/ui";
+import { Button } from "@/ui/button";
+import { Header } from "@/ui/header";
+import { PageTitle } from "@/ui/page-title";
 
 /*
  * The route error boundary (blueprint 7.18): "Something went wrong", Try again, Home. It

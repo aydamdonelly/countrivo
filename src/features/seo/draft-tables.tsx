@@ -1,5 +1,7 @@
 import { BONUSES, MAX_SCORE, SEATS } from "@/content/draft";
-import { EditorialHead, Prose, Table } from "@/ui";
+import { EditorialHead } from "@/ui/editorial-head";
+import { Prose } from "@/ui/prose";
+import { Table } from "@/ui/table";
 
 export function DraftTables() {
   return <>

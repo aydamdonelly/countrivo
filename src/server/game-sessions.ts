@@ -39,7 +39,8 @@ export interface SessionResponse<V> {
 }
 
 function rowTicket(row: AnonymousRunRow): RunTicket {
-  return { id: row.session_id, slug: row.game_slug, mode: row.mode, dateKey: row.date_key, edition: row.edition, seed: row.seed, startedAt: row.started_at, archived: row.archived, practiceCountry: row.state_json?.practiceCountry, practiceStat: row.state_json?.practiceStat };
+  return { id: row.session_id, slug: row.game_slug, mode: row.mode, dateKey: row.date_key, edition: row.edition, seed: row.seed, startedAt: row.started_at, archived: row.archived, practiceCountry: row.state_json?.practiceCountry, practiceStat: row.state_json?.practiceStat,
+    cursor: row.status === 'open' && row.action_log.length <= 512 ? {deviceId:row.device_id,revision:row.revision,actionLog:row.action_log} : undefined };
 }
 
 export async function prepareGameSession<S, A extends Action, V>(module: GameModule<S, A>, view: (state: S) => V, input: SessionSeed, knownRun?:AnonymousRunRow|null): Promise<SessionResponse<V>> {
@@ -82,7 +83,7 @@ export async function prepareGameSession<S, A extends Action, V>(module: GameMod
 
 export async function updateDeviceStreak(deviceId: string, dateKey: string): Promise<void> {
   const { data } = await gameDatabase().from("countrivo_runs").select("date_key").eq("device_id", deviceId).eq("mode", "daily").eq("status", "complete")
-    .lte("date_key", dateKey).order("date_key", { ascending: false }).limit(1000).returns<{ date_key: string }[]>();
+    .lte("date_key", dateKey).order("date_key", { ascending: false }).limit(1000).abortSignal(AbortSignal.timeout(6000)).returns<{ date_key: string }[]>();
   const dates = new Set((data ?? []).map((r) => r.date_key));
   const cursor = new Date(`${dateKey}T12:00:00Z`);
   let count = 0;
@@ -100,17 +101,69 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
     return { success: false, view: view(closed??module.create(ticket.seed,ticket.mode,ticket.dateKey)), sessionToken: input.sessionToken, revision: 0, error: "This daily board has closed. Play today's board." };
   }
   const db = gameDatabase();
-  const [dailyInitial,owned]=await Promise.all([
+  const [dailyInitial,deviceId]=await Promise.all([
     ticket.mode==='daily'?resolveDailyBoard(module,view,{slug:ticket.slug,dateKey:ticket.dateKey,edition:ticket.edition,seed:ticket.seed}):null,
-    (async()=>{
-      const deviceId=await ensureDeviceId();
-      const {data:row}=await db.from('countrivo_runs').select('*').eq('session_id',ticket.id).eq('device_id',deviceId).maybeSingle<AnonymousRunRow>();
-      return {deviceId,row};
-    })(),
+    ensureDeviceId(),
   ]);
   const empty=()=>view(dailyInitial?.state??module.create(ticket.seed,ticket.mode,ticket.dateKey));
-  const deviceId=owned.deviceId;
-  let row=owned.row;
+  const initial = ticket.archived ? await archivedState<S>(ticket.slug,ticket.dateKey,ticket.edition) : dailyInitial?.state ?? null;
+  if (ticket.archived && !initial) throw new Error("Archived board not found");
+  const activeModule = initial ? { ...module, create: () => initial } : module;
+  const response = async (r: AnonymousRunRow,state?:S): Promise<SessionResponse<V>> => ({ success: true,
+    view: view(state??replay(activeModule, r.seed, r.mode, r.date_key, r.action_log).state), sessionToken: encodeRunTicket(rowTicket(r)), revision: r.revision,
+    run: r.status === "complete" ? await mapAnonymousRun(r) : undefined, publishedName: r.display_name });
+  const committedResponse = async (r:AnonymousRunRow,state:S):Promise<SessionResponse<V>> => {
+    if(r.status!=='complete'||r.mode!=='daily')return response(r,state);
+    const [result]=await Promise.all([response(r,state),updateDeviceStreak(deviceId,r.date_key)]);
+    return result;
+  };
+  const plan = (current: ReturnType<typeof replay<S,A>>, currentTicket:RunTicket, revision:number) => {
+    let decoded:A[],encodedAction:string;
+    try {encodedAction=module.codec.enc([input.action]);decoded=module.codec.dec(encodedAction);} catch {return null;}
+    if(decoded.length!==1||encodedAction.length>128)return null;
+    const next=module.reduce(current.state,decoded[0]);
+    if(next===current.state)return null;
+    const finished=module.done(next);
+    const payload=finished?module.payload(next,{mode:currentTicket.mode,dateKey:currentTicket.dateKey,startedAt:currentTicket.startedAt}):null;
+    return {next,finished,update:{action_log:module.codec.enc([...current.actions,decoded[0]]),revision:revision+1,status:finished?'complete':'open',
+      ...(payload?{score_raw:payload.scoreRaw,score_max:payload.scoreMax,score_sort_value:payload.scoreSortValue,score_display:payload.scoreDisplay,
+        result_json:payload.resultJson,completed_at:new Date().toISOString()}: {})}};
+  };
+  const persist = async (currentTicket:RunTicket,revision:number,move:NonNullable<ReturnType<typeof plan>>) => {
+    const {data}=await db.from('countrivo_runs').update(move.update).eq('session_id',currentTicket.id).eq('device_id',deviceId)
+      .eq('revision',revision).eq('status','open').select('*').maybeSingle<AnonymousRunRow>();
+    return data;
+  };
+  const cursor=ticket.cursor;
+  if(!cursor&&input.revision===0) {
+    const move=plan(replay(activeModule,ticket.seed,ticket.mode,ticket.dateKey,''),ticket,0);
+    if(move) {
+      // Unique session and daily-device constraints make the first committed move atomic as well.
+      const {data:inserted}=await db.from('countrivo_runs').insert({session_id:ticket.id,device_id:deviceId,game_slug:ticket.slug,mode:ticket.mode,
+        date_key:ticket.dateKey,edition:ticket.edition,seed:ticket.seed,started_at:ticket.startedAt,archived:ticket.archived===true,
+        state_json:ticket.practiceCountry||ticket.practiceStat?{practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat}:null,
+        ...move.update}).select('*').maybeSingle<AnonymousRunRow>();
+      if(inserted) {
+        if(ticket.mode==='daily') {
+          after(()=>seedRivalsForGame(ticket.slug,ticket.dateKey).catch(error=>console.error('[rivals] seeding failed',error)));
+        }
+        return committedResponse(inserted,move.next);
+      }
+    }
+  }
+  let attempted=false;
+  if(cursor?.deviceId===deviceId&&cursor.revision===input.revision) {
+    const current=replay(activeModule,ticket.seed,ticket.mode,ticket.dateKey,cursor.actionLog);
+    const move=plan(current,ticket,cursor.revision);
+    if(move) {
+      attempted=true;
+      // The encrypted cursor removes the read, never the compare-and-swap. Only its stored result reveals an answer.
+      const updated=await persist(ticket,cursor.revision,move);
+      if(updated)return committedResponse(updated,move.next);
+    }
+  }
+  const {data:saved}=await db.from('countrivo_runs').select('*').eq('session_id',ticket.id).eq('device_id',deviceId).maybeSingle<AnonymousRunRow>();
+  let row=saved;
   if (!row) {
     const inserted = await db.from("countrivo_runs").insert({ session_id: ticket.id, device_id: deviceId, game_slug: ticket.slug, mode: ticket.mode,
       date_key: ticket.dateKey, edition: ticket.edition, seed: ticket.seed, started_at: ticket.startedAt, archived: ticket.archived === true,
@@ -126,32 +179,14 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
   if (!row) return { success: false, view: empty(), sessionToken: input.sessionToken, revision: 0, error: "Couldn't save this move. Try again." };
   const currentTicket = rowTicket(row);
   const token = encodeRunTicket(currentTicket);
-  const frozen = currentTicket.archived ? await archivedState<S>(currentTicket.slug,currentTicket.dateKey,currentTicket.edition)
-    : currentTicket.mode==='daily'?(dailyInitial?.state??await frozenBoardState<S>(currentTicket.slug,currentTicket.dateKey,currentTicket.edition)):null;
-  if (currentTicket.archived && !frozen) throw new Error("Archived board not found");
-  const activeModule = frozen ? { ...module, create: () => frozen } : module;
   const current = replay(activeModule, currentTicket.seed, currentTicket.mode, currentTicket.dateKey, row.action_log);
-  const response = async (r: AnonymousRunRow,state?:S): Promise<SessionResponse<V>> => ({ success: true,
-    view: view(state??replay(activeModule, r.seed, r.mode, r.date_key, r.action_log).state), sessionToken: token, revision: r.revision,
-    run: r.status === "complete" ? await mapAnonymousRun(r) : undefined, publishedName: r.display_name });
   if (row.revision !== input.revision || row.status === "complete") return response(row);
-  const encodedAction = module.codec.enc([input.action]);
-  const decoded = module.codec.dec(encodedAction);
-  if (decoded.length !== 1 || encodedAction.length > 128) return { success: false, view: view(current.state), sessionToken: token, revision: row.revision, error: "Choose a valid move." };
-  const next = module.reduce(current.state, decoded[0]);
-  if (next === current.state) return { success: false, view: view(current.state), sessionToken: token, revision: row.revision, error: "Choose a valid move." };
-  const log = module.codec.enc([...current.actions, decoded[0]]);
-  const finished = module.done(next);
-  const payload = finished ? module.payload(next, { mode: ticket.mode, dateKey: ticket.dateKey, startedAt: ticket.startedAt }) : null;
-  const update = { action_log: log, revision: row.revision + 1, status: finished ? "complete" : "open",
-    ...(payload ? { score_raw: payload.scoreRaw, score_max: payload.scoreMax, score_sort_value: payload.scoreSortValue,
-      score_display: payload.scoreDisplay, result_json: payload.resultJson, completed_at: new Date().toISOString() } : {}) };
-  const { data: updated } = await db.from("countrivo_runs").update(update).eq("id", row.id).eq("device_id", deviceId).eq("revision", row.revision)
-    .select("*").maybeSingle<AnonymousRunRow>();
-  if (updated) {
-    if (finished && ticket.mode === "daily") await updateDeviceStreak(deviceId, ticket.dateKey);
-    return response(updated,next);
-  }
+  if(attempted)return {success:false,view:view(current.state),sessionToken:token,revision:row.revision,error:'Connection interrupted. Try this move again.'};
+  const move=plan(current,currentTicket,row.revision);
+  if(!move)return {success:false,view:view(current.state),sessionToken:token,revision:row.revision,error:'Choose a valid move.'};
+  const updated=await persist(currentTicket,row.revision,move);
+  if(updated)return committedResponse(updated,move.next);
   const { data: latest } = await db.from("countrivo_runs").select("*").eq("id", row.id).eq("device_id", deviceId).single<AnonymousRunRow>();
-  return latest ? response(latest) : { success: false, view: view(current.state), sessionToken: token, revision: row.revision, error: "Connection interrupted. Try this move again." };
+  return latest && (latest.revision!==row.revision||latest.status==='complete') ? response(latest)
+    : { success: false, view: view(current.state), sessionToken: token, revision: row.revision, error: "Connection interrupted. Try this move again." };
 }
