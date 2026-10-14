@@ -1,8 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
 import { CABINET_JOBS, type GamePresentation } from "@/content/table";
 import { Clay } from "@/ui/clay";
 import { cn } from "@/lib/utils";
+import { GamePlayLink } from '@/ui/game-play-link';
 
 export interface GameCardProps {
   game: GamePresentation;
@@ -23,7 +23,7 @@ export function GameCard({ game, practice, score, progress, heading = "h2", acti
       <span className="tray-surface" aria-hidden="true" />
       <Clay object={game.clay} state={state} alternate={active && !score && !progress ? game.idle : undefined} className="tray-clay" sizes="(min-width: 1024px) 200px, 104px" loading={active ? 'eager' : 'lazy'} />
       <div className="tray-content">
-        <Heading className="t-card tray-title"><Link href={href} prefetch={active} className="tray-link">{game.title}</Link></Heading>
+        <Heading className="t-card tray-title"><GamePlayLink slug={game.slug} href={href} prefetch={active} className="tray-link">{game.title}</GamePlayLink></Heading>
         <div className="tray-body">
           {score ? <><p className="t-score-l">{score}</p><p className="t-body">Today&apos;s board, finished.</p></> : <p className="tray-promise">{game.promise}</p>}
           {progress ? <p className="t-body">Your board is saved. Pick up where you left off.</p> : !score ? <div className="tray-steps">{game.steps.map((step) => <p key={step}>{step}</p>)}</div> : null}
@@ -32,7 +32,7 @@ export function GameCard({ game, practice, score, progress, heading = "h2", acti
       </div>
       <GamePreview slug={game.slug} rounds={game.rounds} />
       {practice ? <Clay object="cl-26" className="tray-stamp" /> : null}
-      <Link href={href} prefetch={active} className="btn btn-ink t-cta tray-play">{score ? "See result" : progress ? "Continue" : practice ? "Play practice" : "Play"}</Link>
+      <GamePlayLink slug={game.slug} href={href} prefetch={active} pendingLabel="Opening…" className="btn btn-ink t-cta tray-play">{score ? "See result" : progress ? "Continue" : practice ? "Play practice" : "Play"}</GamePlayLink>
     </article>
   );
 }

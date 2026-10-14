@@ -16,13 +16,12 @@ try {
     page.setDefaultTimeout(15000);
     page.setDefaultNavigationTimeout(15000);
     let posts = 0;
-    await page.route('**/*', route => {
-      if (route.request().method() === 'POST') { posts++; return route.abort(); }
-      return route.continue();
+    page.on('request', request => {
+      if (request.method() === 'POST' && request.headers()['next-action']) posts++;
     });
     const warmed = page.waitForResponse(response => response.url().includes('/games/country-draft/play') && response.request().headers().rsc === '1');
     await page.goto(base, { waitUntil: 'domcontentloaded' });
-    await (await warmed).finished();
+    await warmed;
     console.log(`${width}px: active game prefetch observed`);
     const switchedAt = performance.now();
     await page.getByRole('button', { name: 'Stat Guesser', exact: true }).click();

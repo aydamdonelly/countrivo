@@ -10,6 +10,7 @@ import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { CheckIcon } from "@/ui/icons/check";
 import { ShareButton } from "@/ui/share-button";
 import { Countdown } from "@/ui/countdown";
+import { preloadGameHost } from '@/features/play/preload-game-host';
 
 interface TableHomeProps {
   games: readonly GamePresentation[];
@@ -53,6 +54,10 @@ export function TableHome({ games, done, progress, opening, dateKey, resetAt, se
     const id = window.setTimeout(() => setDayClosed(true), Math.max(0, resetAt - serverNow));
     return () => window.clearTimeout(id);
   }, [resetAt, serverNow]);
+  useEffect(() => {
+    const selected = games.find(game => game.slug === active);
+    if (selected) void preloadGameHost(selected.slug).catch(() => undefined);
+  }, [active, games]);
   const focused = games.find((game) => game.slug === active) ?? games[0];
   return (
     <div className="table-home" onKeyDown={(event) => {
