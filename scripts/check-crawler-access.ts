@@ -35,8 +35,11 @@ const PAGES: PageCheck[] = [
     // Leaderboard names and scores disappear at the daily reset. Verify the full
     // playable roster even on an empty board, rather than requiring yesterday's text length.
     minTextLength: 960,
-    canaries: [/Country Draft/, /Blind Pick/, /Higher or Lower/, /GeoWordle/, /Stat Guesser/, /Flag Quiz/, /Speed Flags/],
+    canaries: [/Country Draft/, /Pinpoint/, /Higher or Lower/, /GeoWordle/, /Stat Guesser/, /Flag Quiz/],
   },
+  { path: "/practice", minTextLength: 360, canaries: [/Blind Pick/, /Speed Flags/, /Flags of Europe/, /How urban is the world/] },
+  { path: "/practice/europe-flags", minTextLength: 830, canaries: [/Flags of Europe/, /Play Europe flags/, /European/] },
+  { path: "/practice/urban-geography", minTextLength: 600, canaries: [/How urban is the world/, /2022/, /World Cities Day/, /national definition/i] },
   {
     path: "/countries/japan",
     minTextLength: 1710,
