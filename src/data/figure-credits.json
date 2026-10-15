@@ -26,10 +26,14 @@
  "martin-luther-king-jr": {
   "slug": "martin-luther-king-jr",
   "title": "Martin Luther King Jr.",
-  "file": "Martin_Luther_King,_Jr..jpg",
+  "file": "Martin_Luther_King_Jr_NYWTS.jpg",
   "licence": "Public domain",
-  "author": "Bernie Faingold",
-  "url": "https://commons.wikimedia.org/wiki/File:Martin_Luther_King%2C_Jr..jpg"
+  "author": "Dick DeMarsico, New York World-Telegram & Sun staff photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Martin_Luther_King_Jr_NYWTS.jpg",
+  "attribution": "Dick DeMarsico, 1964. Library of Congress, New York World-Telegram and the Sun Newspaper Photograph Collection, LC-USZ62-126559. Cropped for Countrivo.",
+  "licenceNotice": "Library of Congress: No known restrictions on publication for NYWT&S staff photographs. Commons identifies this pre-1968 staff photograph as public domain under the collection's instrument of gift.",
+  "originalSource": "https://www.loc.gov/pictures/item/00651714/",
+  "licenceUrl": "https://hdl.loc.gov/loc.pnp/res.076.nyw"
  },
  "winston-churchill": {
   "slug": "winston-churchill",

@@ -1,5 +1,6 @@
 import { draftBiography, draftCareerRecord, draftCareerRecords, draftPool, draftPortraits } from "@/lib/data/loader";
 import { careerRatings, fameRating } from "./career-ratings";
+import { applyCareerEvidence } from "./career-evidence";
 import type { DraftFigure } from "./types";
 
 export interface PoolGroup { archetype: number; people: readonly DraftFigure[]; }
@@ -37,12 +38,12 @@ export const POOL: readonly PoolCountry[] = draftPool.p.map((c) => ({
         const activeUntil = facts?.activeUntil ?? facts?.died ?? null;
         const recent = activeUntil !== null ? activeUntil > 1950 : (facts?.born ?? 0) > 1915;
         return {
-          name, slug, portrait: PORTRAITS.has(slug), note, identity: IDENTITIES[archetypeValue] ?? "Public figure", archetype: archetypeValue, standing,
+          name, slug, portrait: PORTRAITS.has(slug) && facts !== undefined && career !== undefined, note, identity: IDENTITIES[archetypeValue] ?? "Public figure", archetype: archetypeValue, standing,
           born: facts?.born ?? null, died: facts?.died ?? null, activeFrom: facts?.activeFrom ?? null, activeUntil: facts?.activeUntil ?? null,
           era: activeUntil !== null && activeUntil < 1900 ? "early" : recent ? "recent" : "middle",
           source: facts?.source ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(" ", "_"))}`,
           biography: facts?.biography ?? `https://en.wikipedia.org/wiki/${encodeURIComponent(name.replaceAll(" ", "_"))}`,
-          ...(career ? { ...careerRatings(career), fame: fameRating(career, RECORDS, homeland) } : {}),
+          ...(career ? { ...applyCareerEvidence(slug, careerRatings(career, { archetype: archetypeValue, primaryNote: note })), fame: fameRating(career, RECORDS, homeland) } : {}),
         };
       }),
     };
@@ -50,4 +51,4 @@ export const POOL: readonly PoolCountry[] = draftPool.p.map((c) => ({
 }));
 
 // New country-choice boards cannot be replayed as the old five-country model.
-export const POOL_VERSION = draftPool.v + 2;
+export const POOL_VERSION = draftPool.v + 3;

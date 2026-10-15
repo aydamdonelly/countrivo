@@ -1,6 +1,6 @@
 import "server-only";
 
-import { randomUUID } from "node:crypto";
+import { randomInt, randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Action, GameModule } from "@/games/types";
@@ -30,6 +30,7 @@ export interface SessionSeed {
 
 export interface SessionResponse<V> {
   success: boolean;
+  reset?: boolean;
   view: V;
   sessionToken: string;
   revision: number;
@@ -40,17 +41,33 @@ export interface SessionResponse<V> {
 
 function rowTicket(row: AnonymousRunRow): RunTicket {
   return { id: row.session_id, slug: row.game_slug, mode: row.mode, dateKey: row.date_key, edition: row.edition, seed: row.seed, startedAt: row.started_at, archived: row.archived, practiceCountry: row.state_json?.practiceCountry, practiceStat: row.state_json?.practiceStat, practiceRegion: row.state_json?.practiceRegion,
+    contentVersion: row.state_json?.contentVersion,
     cursor: row.status === 'open' && row.action_log.length <= 512 ? {deviceId:row.device_id,revision:row.revision,actionLog:row.action_log} : undefined };
+}
+
+const PRACTICE_UPDATED = 'Practice roster updated. A fresh draft is ready.';
+function currentContent(version: number | undefined, ticket: Pick<RunTicket, 'mode' | 'archived' | 'contentVersion'>): boolean {
+  return ticket.mode !== 'practice' || ticket.archived === true || version === undefined || ticket.contentVersion === version;
+}
+function freshPractice<S, A extends Action, V>(module: GameModule<S, A>, view: (state: S) => V, old: RunTicket): SessionResponse<V> {
+  const ticket: RunTicket = {...old,id:randomUUID(),seed:randomInt(0,2147483647),startedAt:new Date().toISOString(),contentVersion:module.contentVersion,cursor:undefined};
+  return {success:false,reset:true,error:PRACTICE_UPDATED,view:view(module.create(ticket.seed,ticket.mode,ticket.dateKey)),sessionToken:encodeRunTicket(ticket),revision:0};
+}
+function sessionMetadata(ticket: RunTicket): AnonymousRunRow['state_json'] {
+  return ticket.contentVersion !== undefined || ticket.practiceCountry || ticket.practiceStat || ticket.practiceRegion
+    ? {contentVersion:ticket.contentVersion,practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion} : null;
 }
 
 export async function prepareGameSession<S, A extends Action, V>(module: GameModule<S, A>, view: (state: S) => V, input: SessionSeed, knownRun?:AnonymousRunRow|null): Promise<SessionResponse<V>> {
   if(input.archived&&input.dateKey>=getTodayDateKey())throw new Error('Archived board not found');
+  const resumed=input.mode==='practice'&&input.resumeToken?readRunTicket(input.resumeToken):null;
+  const expiredResume=!input.archived&&resumed?.slug===input.slug&&!currentContent(module.contentVersion,resumed);
   const prior = async ():Promise<AnonymousRunRow|null> => {
+    if(expiredResume)return null;
     if(knownRun!==undefined)return knownRun;
     const device = await readDeviceId();
     if(!device)return null;
-    const resumed=input.mode==='practice'&&input.resumeToken?readRunTicket(input.resumeToken):null;
-    if(input.mode==='practice'&&resumed?.slug===input.slug&&resumed.mode==='practice') {
+    if(input.mode==='practice'&&resumed?.slug===input.slug&&resumed.mode==='practice'&&!!resumed.archived===!!input.archived) {
       const {data}=await gameDatabase().from('countrivo_runs').select('*').eq('device_id',device).eq('session_id',resumed.id).maybeSingle<AnonymousRunRow>();
       return data;
     }
@@ -68,17 +85,20 @@ export async function prepareGameSession<S, A extends Action, V>(module: GameMod
   ]);
   const frozen=snapshot?.solution??null;
   if (input.archived && !frozen) throw new Error("Archived board not found");
-  const created=frozen??daily?.state??module.create(input.seed,input.mode,input.dateKey);
-  const seed=snapshot?.seed??daily?.seed??input.seed;
+  const reset=!input.archived&&(expiredResume||!!saved&&!currentContent(module.contentVersion,rowTicket(saved)));
+  const seed=reset?randomInt(0,2147483647):snapshot?.seed??daily?.seed??input.seed;
+  const created=frozen??daily?.state??module.create(seed,input.mode,input.dateKey);
   const active=input.archived||input.mode==='daily'?{...module,create:()=>created}:module;
-  if(saved) {
+  if(saved&&!reset) {
     const ticket=rowTicket(saved);
     const state=replay(active,ticket.seed,ticket.mode,ticket.dateKey,saved.action_log).state;
     return {success:true,view:view(state),sessionToken:encodeRunTicket(ticket),revision:saved.revision,
       run:saved.status==='complete'?await mapAnonymousRun(saved):undefined,publishedName:saved.display_name};
   }
-  const ticket = { ...input, seed, id: randomUUID() };
-  return { success: true, view: view(created), sessionToken: encodeRunTicket(ticket), revision: 0 };
+  const ticket: RunTicket = {id:randomUUID(),slug:input.slug,mode:input.mode,dateKey:input.dateKey,edition:input.edition,seed,
+    startedAt:reset?new Date().toISOString():input.startedAt,archived:input.archived,practiceCountry:input.practiceCountry,
+    practiceStat:input.practiceStat,practiceRegion:input.practiceRegion,contentVersion:module.contentVersion};
+  return { success: true, view: view(created), sessionToken: encodeRunTicket(ticket), revision: 0,...(reset?{reset:true,error:PRACTICE_UPDATED}:{}) };
 }
 
 export async function updateDeviceStreak(deviceId: string, dateKey: string): Promise<void> {
@@ -103,6 +123,7 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
   input: { sessionToken: string; revision: number; action: A }): Promise<SessionResponse<V>> {
   const ticket = readRunTicket(input.sessionToken);
   if (!ticket || ticket.slug !== module.slug) throw new Error("invalid_session");
+  if(!currentContent(module.contentVersion,ticket))return freshPractice(module,view,ticket);
   if (ticket.mode === "daily" && (ticket.dateKey !== getTodayDateKey() || ticket.edition !== await getEdition())) {
     const closed=await frozenBoardState<S>(ticket.slug,ticket.dateKey,ticket.edition);
     return { success: false, view: view(closed??module.create(ticket.seed,ticket.mode,ticket.dateKey)), sessionToken: input.sessionToken, revision: 0, error: "This daily board has closed. Play today's board." };
@@ -148,7 +169,7 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
       // Unique session and daily-device constraints make the first committed move atomic as well.
       const {data:inserted}=await db.from('countrivo_runs').insert({session_id:ticket.id,device_id:deviceId,game_slug:ticket.slug,mode:ticket.mode,
         date_key:ticket.dateKey,edition:ticket.edition,seed:ticket.seed,started_at:ticket.startedAt,archived:ticket.archived===true,
-        state_json:ticket.practiceCountry||ticket.practiceStat||ticket.practiceRegion?{practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion}:null,
+        state_json:sessionMetadata(ticket),
         ...move.update}).select('*').maybeSingle<AnonymousRunRow>();
       if(inserted) {
         return committedResponse(inserted,move.next);
@@ -171,7 +192,7 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
   if (!row) {
     const inserted = await db.from("countrivo_runs").insert({ session_id: ticket.id, device_id: deviceId, game_slug: ticket.slug, mode: ticket.mode,
       date_key: ticket.dateKey, edition: ticket.edition, seed: ticket.seed, started_at: ticket.startedAt, archived: ticket.archived === true,
-      state_json: ticket.practiceCountry || ticket.practiceStat || ticket.practiceRegion ? {practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion}:null }).select("*").maybeSingle<AnonymousRunRow>();
+      state_json: sessionMetadata(ticket) }).select("*").maybeSingle<AnonymousRunRow>();
     row = inserted.data;
     if (!row && ticket.mode === "daily") {
       const daily = await db.from("countrivo_runs").select("*").eq("device_id", deviceId).eq("game_slug", ticket.slug).eq("mode", "daily")
@@ -181,6 +202,7 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
   }
   if (!row) return { success: false, view: empty(), sessionToken: input.sessionToken, revision: 0, error: "Couldn't save this move. Try again." };
   const currentTicket = rowTicket(row);
+  if(!currentContent(module.contentVersion,currentTicket))return freshPractice(module,view,currentTicket);
   const token = encodeRunTicket(currentTicket);
   const current = replay(activeModule, currentTicket.seed, currentTicket.mode, currentTicket.dateKey, row.action_log);
   if (row.revision !== input.revision || row.status === "complete") return response(row);

@@ -13,8 +13,6 @@ import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "@
 import { trackCompletedRun, trackPlay } from "@/lib/play-events";
 import { buildCountryDraftShareText } from "@/lib/share";
 import { cn } from "@/lib/utils";
-import { Button } from "@/ui/button";
-import { CountUp } from "@/ui/count-up";
 import { Flag } from "@/ui/flag";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { UserIcon } from "@/ui/icons/user";
@@ -51,6 +49,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const [failedAction, setFailedAction] = useState<DraftCommitAction | null>(null);
   const [pendingAction, setPendingAction] = useState<DraftCommitAction | null>(null);
   const [animate, setAnimate] = useState(false);
+  const [reveal, setReveal] = useState(false);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
   const [publishedName, setPublishedName] = useState<string | null>(p.publishedName ?? null);
   const busyRef = useRef(false);
@@ -61,6 +60,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const onCountry = useCallback((country: PoolIdx) => setSelection((s) => ({ ...s, country })), []);
   const onSeat = useCallback((seat: SeatIdx) => setSelection((s) => ({ ...s, seat })), []);
   const onReveal = useCallback((revealSeat: SeatIdx) => setSelection((s) => ({ ...s, revealSeat })), []);
+  const finishReveal = useCallback(() => setReveal(false), []);
   const onPerson = useCallback((person: PoolIdx) => {
     const open = state.seats.map((pick, index) => pick === null ? seatIndex(index) : null).filter((index): index is SeatIdx => index !== null);
     setSelection((s) => ({ ...s, person, detail: null, seat: open.length === 1 ? open[0] : null }));
@@ -88,13 +88,20 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
       setState(response.view);
       setToken(response.sessionToken);
       setRevision(response.revision);
+      if ("reset" in response && response.reset === true) {
+        setSelection(EMPTY_SELECTION); setRun(null); setPublishedName(null); setChallenge(undefined);
+        setAnimate(false); setReveal(false); setFailedAction(null); moved.current = false;
+        setError("Practice roster updated. A fresh draft is ready.");
+        return;
+      }
       if (response.success) {
         const samePreview = action.t === "next" && response.view.phase === "country" && response.view.round === state.round + 1;
         if (!samePreview) setSelection(EMPTY_SELECTION);
-        setAnimate(true);
+        setAnimate(action.t === "appoint");
         if (response.run) setRun(response.run);
         setPublishedName(response.publishedName ?? null);
         if (response.view.phase === "done") {
+          setReveal(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
           if (response.run) trackCompletedRun("country-draft", p.mode, response.run.id);
           if (p.mode === "daily") {
             const label = `${response.view.score} of ${MAX_SCORE}`;
@@ -109,7 +116,8 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow, state]);
 
   const onOpen = useCallback(() => { if (selection.country !== null) void commit({ t: "open", c: selection.country }); }, [selection.country, commit]);
-  const onCommit = useCallback(() => { if (selection.person !== null && selection.seat !== null) void commit({ t: "appoint", i: selection.person, s: selection.seat }); }, [selection.person, selection.seat, commit]);
+  const onOpenCountry = useCallback((country: PoolIdx) => { setSelection(s => ({ ...s, country })); void commit({ t: "open", c: country }); }, [commit]);
+  const onCommit = useCallback((seat: SeatIdx | null = selection.seat) => { if (selection.person !== null && seat !== null) { setSelection(s => ({ ...s, seat })); void commit({ t: "appoint", i: selection.person, s: seat }); } }, [selection.person, selection.seat, commit]);
   const onNext = useCallback(() => { void commit({ t: "next" }); }, [commit]);
   const stage = preview ?? state;
 
@@ -139,7 +147,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     busyRef.current = true; setBusy(true); setError(null); setFailedAction(null);
     try {
       const response = await startDraftPractice();
-      setState(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setPublishedName(null); setChallenge(undefined); setSelection(EMPTY_SELECTION); setAnimate(false); moved.current = false;
+      setState(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setPublishedName(null); setChallenge(undefined); setSelection(EMPTY_SELECTION); setAnimate(false); setReveal(false); moved.current = false;
     } catch { setError("The next board could not be opened. Try again."); }
     finally { busyRef.current = false; setBusy(false); }
   }
@@ -154,7 +162,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
         <img src={`/clay/cl-01/${state.phase === 'done' ? 'coins' : 'rest'}.128.webp`} width={32} height={32} alt="" />
       </span>
       <h1 className="t-h3">Country Draft</h1><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
-      <b className="dr-header-score t-score"><CountUp value={state.score} duration={750} animate={animate} /> <small>/ 195</small></b>
+      <b className="dr-header-score t-score"><span className="num">{state.score}</span> <small>/ 195</small></b>
       <details className="dr-help-details"><summary className="dr-help" aria-label="How to play Country Draft"><span>?</span></summary><div className="dr-help-panel">
         <h2 className="t-h3">How to play</h2>
         <ol className="dr-help-steps t-meta"><li><Flag iso2="fr" size="m" alt="" /><b>Country</b></li><li><UserIcon size={40} /><b>Person</b></li><li><ClayJob seat={0} /><b>Job</b></li></ol>
@@ -165,13 +173,12 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     </header>
     {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
     <ChallengeResult challenge={challenge} run={run} />
-    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpen={onOpen} onPerson={onPerson} onSeat={onSeat} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
-      <Result state={state} shareText={shareText} challengeUrl={run?.challengeUrl} animate={animate} onShare={() => trackPlay("share", "country-draft", p.mode)}>
+    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
+      <Result state={state} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
         {p.mode === "daily" ? <><DailyNext next={nextGame} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
       </Result>
       {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
       {!run && p.mode === "daily" ? <p className="t-meta">Your score is saved on this device. Reload to restore the leaderboard option.</p> : null}
-      {p.mode === "practice" ? <Button block variant="ink" onClick={() => void newPractice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more draft</Button> : null}
       <DraftResultDetails state={state} />
     </div>}
     <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next country…" : pendingAction?.t === "open" ? "Opening your country…" : "Confirming your choice…"} onRetry={failedAction ? () => void commit(failedAction) : undefined} />

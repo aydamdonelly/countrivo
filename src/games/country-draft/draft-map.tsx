@@ -10,6 +10,8 @@ export interface DraftMapProps {
   /** 0 to 195. */
   score: number;
   className?: string;
+  reveal?: boolean;
+  onRevealEnd?: () => void;
 }
 
 /**
@@ -27,18 +29,22 @@ export interface DraftMapProps {
  * Monaco, San Marino, the Vatican) have no outline in the atlas and are carried by the
  * land layer underneath.
  */
-export function DraftMap({ from, score, className }: DraftMapProps) {
+export function DraftMap({ from, score, className, reveal = false, onRevealEnd }: DraftMapProps) {
   const taken = takenAt(from, score);
+  const waveSize = Math.max(1, Math.ceil(taken.length / 3));
+  const waves = [taken.slice(0, waveSize), taken.slice(waveSize, waveSize * 2), taken.slice(waveSize * 2)];
   return (
     <svg
-      className={className ? `dr-map ${className}` : "dr-map"}
+      className={`dr-map${reveal ? " dr-map-revealing" : ""}${className ? ` ${className}` : ""}`}
       viewBox={MAP.viewBox}
       preserveAspectRatio="xMidYMid meet"
       role="img"
       aria-label={`${Math.max(0, Math.min(MAX_SCORE, score))} of ${MAX_SCORE} countries taken`}
     >
-      <path d={MAP.land} fill="var(--color-wait)" />
-      {taken.map((iso3) => (MAP.countries[iso3] ? <path key={iso3} d={MAP.countries[iso3]} fill="var(--color-ink)" /> : null))}
+      <path className="dr-map-land" d={MAP.land} fill="var(--color-wait)" />
+      {waves.map((wave, index) => <g key={index} className={`dr-map-wave dr-map-wave-${index}`} onAnimationEnd={index === 2 ? onRevealEnd : undefined}>
+        {wave.map(iso3 => MAP.countries[iso3] ? <path className="dr-map-taken" key={iso3} d={MAP.countries[iso3]} fill="var(--color-ink)" /> : null)}
+      </g>)}
     </svg>
   );
 }

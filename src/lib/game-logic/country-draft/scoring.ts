@@ -138,7 +138,7 @@ export function greedyLine(rounds: readonly DraftRound[]): DraftLine {
 export function whyLine(figure: DraftFigure, seat: SeatIdx, fit: number): string {
   if (figure.fitEvidence?.[seat]) return figure.fitEvidence[seat].line;
   const career = `${figure.note.charAt(0).toUpperCase()}${figure.note.slice(1)}`;
-  const reasons = ["leadership", "military command", "finance", "public communication", "building and invention"];
+  const reasons = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
   if (fit === 0) return `${career}. That career does not match ${reasons[seat]}.`;
   if (fit <= 6) return `${career}. There is only a thin connection to ${reasons[seat]}.`;
   if (fit === 25) return `${career}. Their recorded career is a natural match for ${reasons[seat]}.`;

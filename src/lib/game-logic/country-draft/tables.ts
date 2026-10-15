@@ -32,9 +32,9 @@ export const GEN_ATTEMPTS = 40;
 /** The board stays live after the fifth appointment so the last one can still be taken back. */
 export const RESULT_REVEAL_MS = 60_000;
 
-export const SEAT_NAMES = ["The Chair", "The Field", "The Purse", "The Voice", "The Desk"] as const;
+export const SEAT_NAMES = ["Leader", "Army", "Money", "Voice", "Science & ideas"] as const;
 /** Rendered under the seat name, on the board and in the seats table. */
-export const SEAT_WANTS = ["Leads the country", "Runs the army", "Runs the money", "Speaks for the country", "Builds and invents"] as const;
+export const SEAT_WANTS = ["Leads the country", "Commands the armed forces", "Runs business and finance", "Wins people over", "Science, invention and exploration"] as const;
 
 /**
  * The eight archetypes, in fit-table order. scripts/build-draft-pool.mjs folds the twelve
@@ -107,7 +107,7 @@ export type BandKey = "footnote" | "region" | "continent" | "most" | "whole";
 
 /** The bands, highest first. The word is the grade; there is never a star or a colour. */
 export const BANDS: readonly { from: number; key: BandKey; word: string }[] = [
-  { from: 160, key: "whole", word: "The whole thing." },
+  { from: 160, key: "whole", word: "Almost the whole world." },
   { from: 120, key: "most", word: "Most of the map." },
   { from: 80, key: "continent", word: "A continent." },
   { from: 40, key: "region", word: "A region." },
@@ -120,7 +120,7 @@ export function fitWord(fit: number): string {
 
 export function bandOf(score: number): { key: BandKey; word: string } {
   const b = BANDS.find((x) => score >= x.from) ?? BANDS[BANDS.length - 1];
-  return { key: b.key, word: b.word };
+  return { key: b.key, word: score >= MAX_SCORE ? "The whole world." : b.word };
 }
 
 /**

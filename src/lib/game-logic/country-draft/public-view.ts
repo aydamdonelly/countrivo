@@ -73,7 +73,7 @@ export interface DraftView {
 
 function publicPerson(person: DraftFigure): DraftPersonView {
   const credit = draftPortraitCredit(person.slug);
-  return { name: person.name, slug: person.slug, portrait: person.portrait, identity: person.identity, born: person.born, died: person.died, activeFrom: person.activeFrom, activeUntil: person.activeUntil, era: person.era, photoAuthor: credit?.author ?? "Wikimedia Commons", photoLicence: credit?.licence ?? "", photoSource: credit?.url ?? "https://commons.wikimedia.org" };
+  return { name: person.name, slug: person.slug, portrait: person.portrait, identity: person.died === null ? "Public figure" : "Historical figure", born: person.born, died: person.died, activeFrom: person.activeFrom, activeUntil: person.activeUntil, era: person.era, photoAuthor: credit?.author ?? "Wikimedia Commons", photoLicence: credit?.licence ?? "", photoSource: credit?.url ?? "https://commons.wikimedia.org" };
 }
 
 function appointmentView(state: DraftState, pick: DraftPick): DraftAppointmentView {

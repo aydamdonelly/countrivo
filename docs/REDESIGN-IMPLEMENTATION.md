@@ -12,8 +12,8 @@ sample Figma counts, scores or country facts as live data.
 - Home first visit, returning/resumable, finished game, full six-game day with the
   map of encountered countries; practice room and eight-game index.
 - Eight landings with rules, real daily scores/Par, FAQ, related games and archive.
-- Country Draft country selection, confirmation, portraits, person information,
-  free-job sheet, irreversible seating, score reveal, bonuses and conquest result.
+- Country Draft explicit country-opening actions, credited portraits, person information,
+  free-job sheet, irreversible seating, score reveal, bonuses and a personal cabinet result.
 - GeoWordle country search and map selection, distance/bearing, costed outline clue,
   solve/loss, neighbours and capital discovery.
 - Pinpoint pan/zoom/touch/keyboard map, five rounds, distance/points reveal and result.
@@ -43,11 +43,29 @@ flag SVGs are reused with credit information. Asset conversion is repeatable wit
 Generated geography uses Natural Earth 50m polygons, Equal Earth display paths and
 scoring on geographic coordinates. It is an approximation, labelled accordingly.
 
-Mobile layout keeps the important decision controls and three instructions visible.
+Mobile layout keeps decision controls visible and explanations optional.
 Desktop uses the same hierarchy with additional contextual columns. Browser QA covers
 320, 390 and 1440 px. Fonts, real data and animation states can change text wrapping
 relative to the static Figma samples; screenshots, rather than a claim of universal
 pixel identity, are the evidence for matching the design.
+
+The October 15 play-flow revision takes a normal five-round Draft from 29 clicks to
+20: open a country, choose a person, explicitly seat them in a job, then continue.
+Job actions state their consequence; closing the sheet remains safe. Roles carry
+neutral skill descriptions, with no individual points or fit shown before seating.
+Person details also withhold career-category labels until the choice is committed.
+The result derives a cabinet story and two highlights from the actual appointments,
+with a one-second skippable map reveal and immediate share/replay actions.
+GeoWordle keeps heat feedback on the map as well as in words, identifies a shared
+border separately from a rounded zero distance, and brings the result and bonus
+into view while preserving the complete route in an expandable section.
+
+Each Draft offers fifteen distinct countries, grouped into five choices of three
+that cross world regions. Opening a country reveals three different career groups;
+the people within each group are drawn from its complete portrait-backed bench.
+A country needs three usable groups, and every playable person needs a local image,
+credit, biography and career record. Old per-category caps and equal-standing
+rejections no longer discard otherwise usable people or countries.
 
 ## Anonymous backend
 
@@ -76,7 +94,12 @@ are queued for tomorrow rather than changing today's committed puzzle.
 
 Published geography facts carry sources and dates. Country Draft's biography dates
 are source-backed; its entire per-person scoring corpus is not independently
-fact-checked. The 304 eligible portrait records have individual career-based fit inputs. Job fit is a game judgement; fame compares Wikidata language coverage across the eligible roster and within each homeland,
+fact-checked. The expanded playable roster contains 482 credited portraits across
+41 countries, each with biography and career records. Missing main military careers
+have source-linked corrections; secondary entertainment credits and honorary advocacy
+appointments cannot masquerade as full professional careers. Job fit is a game
+judgement; fame compares frozen Wikidata language coverage across the configured
+record corpus and within each homeland,
 not a claim about a person's value. Existing curated beverage rows lack verified
 per-row source coverage; this is disclosed on Sources.
 

@@ -4,33 +4,59 @@ import { Flag } from "@/ui/flag";
 import { Portrait } from "@/ui/portrait";
 import { CountUp } from "@/ui/count-up";
 import { ShareButton } from "@/ui/share-button";
+import { Button } from "@/ui/button";
 import { BONUSES, MAX_SCORE, bandOf, fitWord } from "@/lib/game-logic/country-draft/tables";
 import type { DraftView } from "@/lib/game-logic/country-draft/public-view";
 import { formatNumber } from "@/lib/utils";
 import { Cabinet, JOB_NAMES } from "./board";
 import { DraftMap } from "./draft-map";
 import { DraftReviewDetails } from "./review";
+import { cabinetStory } from "./presentation";
 import "./draft.css";
 
-export function Result({ state, shareText, animate = false, children, onShare, challengeUrl }: { state: DraftView; shareText: string; animate?: boolean; children?: ReactNode; onShare?: () => void; challengeUrl?: string }) {
+interface ResultProps {
+  state: DraftView;
+  shareText: string;
+  reveal?: boolean;
+  onRevealEnd?: () => void;
+  children?: ReactNode;
+  onShare?: () => void;
+  challengeUrl?: string;
+  onReplay?: () => void;
+  replayBusy?: boolean;
+}
+
+export function Result({ state, shareText, reveal = false, onRevealEnd, children, onShare, challengeUrl, onReplay, replayBusy = false }: ResultProps) {
   const fiveSeats = state.fitTotal + state.fameTotal;
   const thinJobs = state.seats.flatMap((pick) => pick && pick.fit < 12 ? [JOB_NAMES[pick.seat]] : []);
   const bonusTotal = state.score - fiveSeats;
+  const story = cabinetStory(state.seats);
+  const highlights = [{ pick: story.strongest, label: "Standout pick" }, { pick: story.weakest, label: story.weakestLabel }];
   return <>
     <section className="dr-result-card" aria-labelledby="draft-result-title">
-      <div className="dr-result-art" aria-hidden="true">
-        {/* eslint-disable-next-line @next/next/no-img-element -- finished clay trophy */}
-        <img src="/clay/cl-20/rest.webp" alt="" width={128} height={128} />
+      <div className="dr-result-heading">
+        <p className="dr-result-kicker t-meta">Cabinet complete</p>
+        <p className="dr-result-number"><CountUp key={reveal ? "reveal" : "final"} value={state.score} animate={reveal} duration={1000} /> <span>/ {MAX_SCORE}</span></p>
+        <h2 className="t-h2" id="draft-result-title">{bandOf(state.score).word.replace(/\.$/, "")}</h2>
+        <p className="t-meta">Par 140 · {state.score > 140 ? `+${state.score - 140} above` : state.score === 140 ? "on par" : `${140 - state.score} to go`}</p>
+        <div className="dr-result-art" aria-hidden="true">
+          {/* eslint-disable-next-line @next/next/no-img-element -- finished clay trophy */}
+          <img src="/clay/cl-20/rest.webp" alt="" width={128} height={128} />
+        </div>
       </div>
-      <p className="dr-result-number"><CountUp value={state.score} animate={animate} duration={900} /> <span>/ {MAX_SCORE}</span></p>
-      <h2 className="t-h2" id="draft-result-title">{bandOf(state.score).word.replace(/\.$/, "")}</h2>
-      <p className="t-meta">Par 140 · {state.score > 140 ? `+${state.score - 140} above` : state.score === 140 ? "on par" : `${140 - state.score} to go`}</p>
-      {children}
+      <div className="dr-conquest-panel">
+        <div className="dr-conquest-caption"><b className="t-h3">{story.title}</b>{reveal ? <button className="t-meta dr-skip-reveal" type="button" onClick={onRevealEnd}>Skip animation</button> : <span className="t-meta">{state.regions.length} regions</span>}</div>
+        <DraftMap from={state.seats.flatMap((seat) => seat ? [seat.country.iso3] : [])} score={state.score} reveal={reveal} onRevealEnd={onRevealEnd} />
+      </div>
+      <div className="dr-result-actions"><ShareButton text={shareText} challengeUrl={challengeUrl} onShare={onShare} label={challengeUrl ? "Challenge a friend" : "Share my cabinet"} />{onReplay ? <Button variant="ink" onClick={onReplay} disabled={replayBusy} pending={replayBusy} pendingLabel="Opening…">One more draft</Button> : null}</div>
+      {children ? <div className="dr-result-followup">{children}</div> : null}
+      <div className="dr-campaign-highlights">{highlights.map(({ pick, label }) => pick ? <div className="dr-campaign-pick" key={pick.seat}>
+        <Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={40} />
+        <div><span className="t-meta">{label}</span><b className="t-body">{pick.person.name}</b><small className="t-meta">{JOB_NAMES[pick.seat]} · {pick.points} points</small></div>
+      </div> : null)}</div>
       <Cabinet state={state} />
       <div className="dr-tally-inline t-meta"><span>Seats <b className="num">{fiveSeats}</b></span><span>Bonuses <b className="num">+{bonusTotal}</b></span></div>
       <details className="dr-score-details"><summary className="t-meta">Score breakdown</summary><div className="dr-tally t-body"><p><span>Five seats</span><b className="num">{fiveSeats}</b></p>{BONUSES.map((bonus) => <p key={bonus.key}><span>{bonus.name}{bonus.key === "fullCabinet" && !state.bonuses.fullCabinet && thinJobs.length ? <small className="t-meta">{thinJobs.join(" and ")} needed a fit of 12 or more.</small> : null}</span><b className="num">{state.bonuses[bonus.key] ? `+${bonus.points}` : "0"}</b></p>)}</div></details>
-      <DraftMap from={state.seats.flatMap((seat) => seat ? [seat.country.iso3] : [])} score={state.score} />
-      <ShareButton text={shareText} challengeUrl={challengeUrl} onShare={onShare} />
     </section>
   </>;
 }

@@ -105,6 +105,7 @@ export interface ShareContext {
 
 export interface GameModule<S, A extends Action> {
   slug: PlayableSlug;
+  contentVersion?: number;
   /** Pure. Same seed, same state on server and client. No Date.now(), no Math.random(). */
   create(seed: number, mode: Mode, dateKey: string): S;
   /** Pure reducer over engine functions. Unknown actions return state unchanged. */

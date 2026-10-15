@@ -70,11 +70,13 @@ stub('../src/server/anonymous-runs.ts', { mapAnonymousRun: async row => {
   return { id: row.id, scoreRaw: row.score_raw };
 } });
 stub('../src/server/edition.ts', { getEdition: async () => 'isolated-edition' });
-stub('../src/server/daily-board-state.ts', { resolveDailyBoard: async (module, _view, input) => ({ seed: input.seed, state: module.create(input.seed, 'daily', input.dateKey) }) });
-stub('../src/server/board-snapshots.ts', { archivedState: async () => null, frozenBoardState: async () => null });
+let preservedState = null;
+stub('../src/server/daily-board-state.ts', { resolveDailyBoard: async (module, _view, input) => ({ seed: input.seed, state: preservedState ?? module.create(input.seed, 'daily', input.dateKey) }) });
+stub('../src/server/board-snapshots.ts', { archivedState: async () => preservedState, frozenBoardState: async () => preservedState,
+  frozenBoardSnapshot: async () => preservedState ? {seed:4321,solution:preservedState} : null });
 stub('../src/server/leaderboard-bots.ts', { seedRivalsForGame: async () => {} });
 const { encodeRunTicket, readRunTicket, signValue } = require('../src/server/anonymous-identity.ts');
-const { commitGameSession } = require('../src/server/game-sessions.ts');
+const { commitGameSession, prepareGameSession } = require('../src/server/game-sessions.ts');
 const { getTodayDateKey } = require('../src/lib/daily-seed.ts');
 const { flagRemote, flagView, quickProject, flagSessionModule } = require('../src/server/quick-sessions.ts');
 const deviceId = randomUUID();
@@ -156,5 +158,52 @@ const completed = await commitGameSession(finalDaily, state => ({ finished: stat
   sessionToken: encodeRunTicket({ ...ticket, id: randomUUID(), mode: 'daily' }), revision: 0, action: { t: 'answer', i: 0 },
 });
 check(completed.success && completed.run && runProjectionFinished && cookieValues.has('cv_streak'), 'completed daily projects result and writes streak concurrently within the request');
+
+const contentModule = {...flagRemote,slug:'country-draft',contentVersion:2,create:seed=>({pool:2,seed,picks:[]}),
+  reduce:(state,action)=>action.t==='answer'?{...state,picks:[...state.picks,action.i]}:state,done:()=>false};
+const contentView = state=>({pool:state.pool,picks:state.picks});
+const oldContent = {...ticket,id:randomUUID(),slug:'country-draft',contentVersion:1};
+for(const contentVersion of [undefined,1]){
+  queries.length=0;
+  const changed=await commitGameSession(contentModule,contentView,{sessionToken:encodeRunTicket({...oldContent,contentVersion}),revision:4,action:{t:'answer',i:17}});
+  const renewed=readRunTicket(changed.sessionToken);
+  check(!changed.success&&changed.reset&&changed.revision===0&&changed.view.pool===2&&changed.view.picks.length===0,'old or unversioned practice never applies an old pick to a new roster');
+  check(renewed.id!==oldContent.id&&renewed.contentVersion===2&&!renewed.cursor,'practice reset issues a fresh current-version identity without old cursor');
+  check(changed.error==='Practice roster updated. A fresh draft is ready.'&&queries.length===0,'practice reset is explained and performs no database read or write');
+}
+queries.length=0;
+const prepared=await prepareGameSession(contentModule,contentView,{...oldContent,resumeToken:encodeRunTicket(oldContent)});
+check(prepared.reset&&prepared.revision===0&&prepared.view.picks.length===0&&queries.length===0,'resuming an old practice token starts fresh before reading or replaying history');
+const oldRow={...rows.get(ticket.id),session_id:oldContent.id,game_slug:'country-draft',status:'complete',action_log:'[{"t":"answer","i":17}]',revision:1,
+  state_json:{contentVersion:1},score_raw:999,display_name:'Original result'};
+const oldSnapshot=JSON.stringify(oldRow);
+const completedBefore=await prepareGameSession(contentModule,contentView,oldContent,oldRow);
+check(completedBefore.reset&&!completedBefore.run&&completedBefore.view.picks.length===0&&JSON.stringify(oldRow)===oldSnapshot,'completed old practice scores and names are not reconstructed from the new roster');
+const versioned=await prepareGameSession(contentModule,contentView,{...oldContent,id:randomUUID()},null);
+check(readRunTicket(versioned.sessionToken).contentVersion===2&&!versioned.reset,'new practice is issued with the current roster version');
+queries.length=0;
+const versionedFirst=await commitGameSession(contentModule,contentView,{sessionToken:versioned.sessionToken,revision:0,action:{t:'answer',i:0}});
+check(versionedFirst.success&&versionedFirst.view.picks.length===1&&JSON.stringify(queries)==='["INSERT"]','new versioned practice still needs only one atomic first insert');
+const firstVersionedTicket=readRunTicket(versionedFirst.sessionToken);
+check(rows.get(firstVersionedTicket.id).state_json.contentVersion===2&&firstVersionedTicket.contentVersion===2,'stored metadata and returned row ticket preserve the content version');
+queries.length=0;
+const versionedSecond=await commitGameSession(contentModule,contentView,{sessionToken:versionedFirst.sessionToken,revision:1,action:{t:'answer',i:1}});
+check(versionedSecond.success&&versionedSecond.view.picks.length===2&&JSON.stringify(queries)==='["UPDATE"]','normal versioned moves retain the single-update fast path');
+delete firstVersionedTicket.cursor;
+const restored=await commitGameSession(contentModule,contentView,{sessionToken:encodeRunTicket(firstVersionedTicket),revision:2,action:{t:'answer',i:2}});
+check(restored.success&&restored.view.picks.length===3&&readRunTicket(restored.sessionToken).contentVersion===2,'database fallback restores a current version instead of dropping it');
+rows.set(oldRow.session_id,oldRow);queries.length=0;
+const oldStored=await commitGameSession(contentModule,contentView,{sessionToken:encodeRunTicket({...oldContent,contentVersion:2}),revision:1,action:{t:'answer',i:0}});
+check(oldStored.reset&&oldStored.view.picks.length===0&&JSON.stringify(rows.get(oldRow.session_id))===oldSnapshot&&JSON.stringify(queries)==='["SELECT"]','a stale stored practice row cannot be replayed even if the supplied ticket claims the current version');
+preservedState={pool:1,picks:[],seed:4321};
+const frozenDaily=await commitGameSession(contentModule,contentView,{sessionToken:encodeRunTicket({...oldContent,id:randomUUID(),mode:'daily'}),revision:0,action:{t:'answer',i:0}});
+check(frozenDaily.success&&!frozenDaily.reset&&frozenDaily.view.pool===1&&frozenDaily.view.picks.length===1,'daily moves use their frozen old roster despite a newer module version');
+const yesterday=new Date(Date.parse(`${dateKey}T12:00:00Z`)-86400000).toISOString().slice(0,10);
+const frozenArchive=await commitGameSession(contentModule,contentView,{sessionToken:encodeRunTicket({...oldContent,id:randomUUID(),dateKey:yesterday,archived:true}),revision:0,action:{t:'answer',i:0}});
+check(frozenArchive.success&&!frozenArchive.reset&&frozenArchive.view.pool===1,'archived practice uses the immutable historical roster, not a fresh current one');
+const archivedPrepared=await prepareGameSession(contentModule,contentView,{...oldContent,dateKey:yesterday,archived:true,resumeToken:encodeRunTicket(oldContent)});
+check(archivedPrepared.success&&!archivedPrepared.reset&&archivedPrepared.view.pool===1,'opening an archive ignores an unrelated old non-archived resume cookie');
+preservedState=null;
+check(readRunTicket(encodeRunTicket({...oldContent,contentVersion:-1}))===null,'invalid content-version metadata is rejected');
 console.log(`Session fast-path: ${passed} checks passed. First move: 3 → 1 database calls; normal move: 2 → 1; conflict and legacy fallback remain authoritative.`);
 Module._load = load;

@@ -22,7 +22,7 @@ export interface GeoGuess {
   iso3: string;
   name: string;
   iso2: string;
-  distanceKm: number; // great-circle km from guess to answer (0 if correct)
+  distanceKm: number; // nearest-border km, or centre distance when no mapped border exists
   bearingDeg: number; // 0..360 compass bearing FROM guess TO answer (0 if correct)
   arrow: string; // 8-way direction emoji; 🎯 when correct — share text + a11y fallback
   direction: string; // spelled-out bearing ("north-east"); "" when correct
@@ -30,6 +30,7 @@ export interface GeoGuess {
   band: GeoBand;
   correct: boolean;
   distanceBasis: "borders" | "centres";
+  sharedBorder?: boolean; // older saved guesses predate this explicit distinction
 }
 
 export interface GeoWordleState {
@@ -191,6 +192,7 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
     band: bandFor(distanceKm, correct),
     correct,
     distanceBasis: borderKm === null ? "centres" : "borders",
+    sharedBorder: !correct && touching,
   };
   const guesses = [...state.guesses, guess];
   const phase: GeoWordleState["phase"] = correct

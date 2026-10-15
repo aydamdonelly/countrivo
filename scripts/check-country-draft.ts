@@ -9,6 +9,9 @@ import { poolIndex, seatIndex } from "../src/lib/game-logic/country-draft/types"
 import { fillOrder } from "../src/lib/game-logic/country-draft/fill-order";
 import { POOL } from "../src/lib/game-logic/country-draft/roster";
 import { MAX_SCORE } from "../src/lib/game-logic/country-draft/tables";
+import { draftCareerRecord } from "../src/lib/data/loader";
+import { careerRatings } from "../src/lib/game-logic/country-draft/career-ratings";
+import { applyCareerEvidence } from "../src/lib/game-logic/country-draft/career-evidence";
 
 let checks = 0;
 let failures = 0;
@@ -44,6 +47,7 @@ for (let day = 0; day < 120; day += 1) {
     check(opened.nextView === undefined, `${dateKey} uncommitted people do not expose the next country selection`);
     check(openCountry(state, poolIndex((best.countryIdx + 1) % 3) ?? 0) === state, `${dateKey} country cannot change after opening`);
     check(opened.people.every((person) => !('fit' in person) && !('standing' in person) && !('archetype' in person) && !('note' in person)), `${dateKey} candidates have no score hints`);
+    check(opened.people.every((person) => person.identity === "Public figure" || person.identity === "Historical figure"), `${dateKey} person details cannot reveal a hidden career category`);
     state = appoint(state, best.poolIdx, best.seat); log.push({ t: "appoint", i: best.poolIdx, s: best.seat });
     check(state.phase === "seated", `${dateKey} reveal waits for explicit next`);
     check(appoint(state, best.poolIdx, best.seat) === state, `${dateKey} cannot change an appointment after reveal`);
@@ -96,11 +100,11 @@ for (let sample = 0; sample < 12; sample += 1) {
 
 const dateKey = "2026-10-13";
 const portraits = POOL.flatMap((country) => country.groups.flatMap((group) => group.people)).filter((person) => person.portrait);
-check(portraits.length === 304 && portraits.every((person) => person.fits?.length === 5 && person.fitEvidence?.length === 5), "all 304 portrait-ready people have individual career records and five explanations");
+check(portraits.length >= 304 && portraits.every((person) => person.fits?.length === 5 && person.fitEvidence?.length === 5), "the portrait-backed roster never shrinks below the prior 304 people, and every person has five sourced ratings");
 check(new Set(portraits.map((person) => person.fits?.join(","))).size > 30, "actual individual careers create diverse fit vectors");
 for (const person of portraits) {
   check(person.fits?.every((value) => [0, 6, 12, 18, 25].includes(value)) === true, `${person.slug} five authored fit levels`);
-  check(person.fitEvidence?.every((evidence) => evidence.line.length > 0 && evidence.source.startsWith("https://www.wikidata.org/wiki/")) === true, `${person.slug} every rating has source-linked evidence or an explicit source limitation`);
+  check(person.fitEvidence?.every((evidence) => evidence.line.length > 0 && evidence.source.startsWith("https://")) === true, `${person.slug} every rating has source-linked evidence or an explicit source limitation`);
   check(fameOf(person) >= 4 && fameOf(person) <= 10, `${person.slug} frozen fame bounded from 4 to 10`);
   check(figureFit({ ...person, archetype: 7 }, 4) === figureFit(person, 4), `${person.slug} changing a category does not change frozen individual fit`);
   check(fameOf({ ...person, standing: 0 }) === fameOf(person), `${person.slug} changing old standing does not change frozen sitelink fame`);
@@ -113,6 +117,25 @@ check(Boolean(siemens) && siemens?.fits?.[4] === 25 && siemens.fits?.[2] === 25,
 check(Boolean(churchill) && churchill?.fits?.[2] === 25 && churchill.fitEvidence?.[2].line.includes("Chancellor of the Exchequer") === true, "Churchill's documented finance office supplies its own Purse evidence");
 check(Boolean(blanchett) && blanchett?.fits?.[0] !== 25, "a film jury president is not mistaken for a national president");
 check(Boolean(newton) && newton?.fits?.[0] !== 25, "Royal Society presidency is not mistaken for a head of state");
+const bySlug = (slug: string) => portraits.find((person) => person.slug === slug);
+for (const slug of ["shaka", "leonidas-i", "joan-of-arc"]) {
+  const person = bySlug(slug);
+  check(person?.fits?.[1] === 25, `${slug} documented command is not lost to an incomplete occupation list`);
+  check(person?.fitEvidence?.[1].source !== person?.source && !person?.fitEvidence?.[1].line.includes("Worked as a monarch"), `${slug} military rating cites the actual career evidence`);
+}
+const taytuRecord = draftCareerRecord("taytu-betul");
+check(Boolean(taytuRecord), "Taytu's sourced record remains available even while her homeland lacks a complete portrait-backed pool");
+if (taytuRecord) check(applyCareerEvidence("taytu-betul", careerRatings(taytuRecord, { archetype: 1, primaryNote: "empress who campaigned at Adwa" })).fits[1] === 18, "Taytu's documented Adwa involvement counts without inventing a formal rank");
+check(bySlug("cristiano-ronaldo")?.fits?.[3] === 12 && bySlug("cristiano-ronaldo")?.fits?.[4] === 6, "a secondary acting credit does not turn Ronaldo into a professional communicator or inventor");
+check(bySlug("cristiano-ronaldo")?.fitEvidence?.[3].line.includes("football player") === true, "equally strong primary career evidence takes precedence over an incidental acting credit");
+check(bySlug("zinedine-zidane")?.fits?.[0] === 6 && bySlug("zinedine-zidane")?.fits?.[3] === 12, "a goodwill appointment is not a government office or a full diplomatic career");
+for (const slug of ["sigmund-freud", "chris-hadfield"]) check(bySlug(slug)?.fits?.[4] === 25, `${slug} science career is recognised alongside writing or music credits`);
+for (const slug of ["juan-sebastian-elcano", "ferdinand-magellan", "vasco-da-gama"]) check(bySlug(slug)?.fits?.[4] === 18, `${slug} exploration provides a plausible discovery connection`);
+const shaka = bySlug("shaka");
+if (shaka) {
+  const frozen = { ...shaka, fits: [25, 6, 12, 18, 6], fitEvidence: shaka.fitEvidence?.map(evidence => ({ ...evidence, line: "Old board evidence" })) };
+  check(figureFit(frozen, 1) === 6, "a preserved board keeps the rating it was played with after current roster corrections");
+}
 let edge = openCountry(createGame(dateSeed(dateKey)), 0);
 edge = nextRound(appoint(edge, 0, 0));
 edge = openCountry(edge, 1);

@@ -71,6 +71,7 @@ export interface RunTicket {
   practiceCountry?: string;
   practiceStat?: string;
   practiceRegion?: string;
+  contentVersion?: number;
   /** Encrypted, server-issued cursor. The database revision still owns every reveal. */
   cursor?: { deviceId: string; revision: number; actionLog: string };
 }
@@ -103,6 +104,8 @@ export function readRunTicket(token: string): RunTicket | null {
     if (!o || typeof o !== "object" || !("id" in o) || !("slug" in o) || !("mode" in o) || !("dateKey" in o) || !("edition" in o) || !("seed" in o) || !("startedAt" in o)) return null;
     if (typeof o.id !== "string" || typeof o.slug !== "string" || (o.mode !== "daily" && o.mode !== "practice") || typeof o.dateKey !== "string" || typeof o.edition !== "string" || typeof o.seed !== "number" || typeof o.startedAt !== "string") return null;
     if (!Number.isInteger(o.seed) || !Number.isFinite(Date.parse(o.startedAt)) || !/^\d{4}-\d{2}-\d{2}$/.test(o.dateKey)) return null;
+    const contentVersion = "contentVersion" in o ? o.contentVersion : undefined;
+    if (contentVersion !== undefined && (typeof contentVersion !== "number" || !Number.isSafeInteger(contentVersion) || contentVersion < 1)) return null;
     const cursor = "cursor" in o ? o.cursor : undefined;
     const validCursor = cursor && typeof cursor === "object" && "deviceId" in cursor && typeof cursor.deviceId === "string" && /^[\da-f-]{36}$/.test(cursor.deviceId)
       && "revision" in cursor && typeof cursor.revision === "number" && Number.isSafeInteger(cursor.revision) && cursor.revision >= 0
@@ -112,6 +115,7 @@ export function readRunTicket(token: string): RunTicket | null {
       practiceCountry: "practiceCountry" in o && typeof o.practiceCountry === "string" && /^[A-Z]{3}$/.test(o.practiceCountry) ? o.practiceCountry : undefined,
       practiceStat: "practiceStat" in o && typeof o.practiceStat === "string" && /^[a-z0-9-]{1,48}$/.test(o.practiceStat) ? o.practiceStat : undefined,
       practiceRegion: 'practiceRegion' in o && o.practiceRegion === 'europe' ? o.practiceRegion : undefined,
+      contentVersion,
       cursor: validCursor };
   } catch {
     return null;

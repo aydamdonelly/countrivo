@@ -113,6 +113,9 @@ assert.equal(northEast.direction, "north-east", "bearing points from the guessed
 assert.equal(southWest.direction, "south-west", "reversing the countries reverses the direction");
 assert.equal(northEast.distanceKm, southWest.distanceKm, "distance is symmetric");
 assert.equal(northEast.distanceKm,0,"land neighbours have zero border distance");
+assert.equal(northEast.sharedBorder,true,"neighbours are distinguished from rounded-zero distances");
+assert.equal(northEast.correct,false,"a shared border is not a solved country");
+assert.equal(won.guesses[5].sharedBorder,false,"the exact country uses the solved state, not neighbour feedback");
 assert(northEast.bearingDeg >= 0 && northEast.bearingDeg < 360);
 assert(guess(fresh("DEU"), "Poland").guesses[0].proximityPct > guess(fresh("DEU"), "Japan").guesses[0].proximityPct);
 

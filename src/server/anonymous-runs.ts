@@ -33,7 +33,7 @@ export interface AnonymousRunRow {
   started_at: string;
   completed_at: string | null;
   archived: boolean;
-  state_json: { practiceCountry?: string; practiceStat?: string; practiceRegion?: string } | null;
+  state_json: { practiceCountry?: string; practiceStat?: string; practiceRegion?: string; contentVersion?: number } | null;
   place_country_code: string | null;
   moderation_hidden: boolean;
 }

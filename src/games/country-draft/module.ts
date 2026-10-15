@@ -38,6 +38,7 @@ export function bestRows(s: DraftState) {
 
 export const gameModule: GameModule<DraftState, CountryDraftAction> = {
   slug: "country-draft",
+  contentVersion: POOL_VERSION,
   create: (seed) => createGame(seed),
   reduce(s, a) {
     switch (a.t) {

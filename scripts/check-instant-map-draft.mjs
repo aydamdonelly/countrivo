@@ -49,7 +49,6 @@ try {
       await page.goto(`${base}/games/${slug}/play?mode=practice`, { waitUntil: 'networkidle' });
       if (slug === 'country-draft') {
         await page.locator('.dr-country-card').first().click();
-        await page.locator('.dr-pinned-action button').click();
       } else {
         await page.locator('.pp-map').click({ position: { x: 100, y: 100 } });
         await page.getByRole('button', { name: 'Drop pin', exact: true }).click();

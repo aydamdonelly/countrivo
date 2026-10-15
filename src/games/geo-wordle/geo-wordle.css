@@ -1,11 +1,25 @@
 @layer components {
  .geography-next {display:flex;align-items:center;gap:16px;margin-top:24px;padding:16px;background:var(--color-card);border-radius:var(--radius-card);}.geography-next>div{flex:1;}.geography-next img{object-fit:contain;}
- .gw-board {display:flex;flex-direction:column;gap:20px;width:100%;}
+ .gw-board {display:flex;flex-direction:column;gap:16px;width:100%;}
  .gw-map {display:block;width:100%;height:240px;background:var(--color-paper);overflow:hidden;}
- .gw-land-hit,.gw-land-burning,.gw-land-hot {fill:var(--color-ink);} .gw-land-warm {fill:var(--color-mute);} .gw-land-cool,.gw-land-cold {fill:var(--color-paper);}
+ .gw-map-live {cursor:pointer;touch-action:pan-y;}
+ .gw-start {color:var(--color-mute);text-align:center;}
+ .gw-heat-cold {--gw-heat:color-mix(in srgb,var(--color-game-geo) 40%,var(--color-paper));}
+ .gw-heat-cool {--gw-heat:var(--color-game-geo);}
+ .gw-heat-warm {--gw-heat:var(--color-game-draft);}
+ .gw-heat-hot {--gw-heat:var(--color-game-pin);}
+ .gw-heat-burning {--gw-heat:var(--color-ember);}
+ .gw-heat-hit {--gw-heat:var(--color-ink);}
+ .gw-land {fill:var(--gw-heat);}
+ .gw-heat-dot {display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--gw-heat);box-shadow:inset 0 0 0 1px var(--color-edge);flex:none;}
+ .gw-legend,.gw-legend-colours,.gw-band {display:flex;align-items:center;gap:6px;}
+ .gw-legend {justify-content:center;margin-top:-8px;}
+ .gw-legend-colours {gap:4px;}
  .gw-row {min-height:64px;padding:10px 0;border-bottom:1px solid var(--color-line);display:flex;flex-direction:column;gap:4px;}
  .gw-country {display:flex;align-items:center;gap:10px;}
  .gw-readout {display:flex;align-items:center;gap:12px;padding-left:30px;flex-wrap:wrap;}
+ .gw-neighbour {gap:6px 12px;}
+ .gw-neighbour>b {color:var(--color-ember);}
  .gw-empty {flex-direction:row;align-items:center;gap:16px;color:var(--color-mute);}
  .gw-pip {width:8px;height:8px;background:var(--color-wait);border-radius:50%;margin-left:6px;flex:none;}
  .gw-input {display:flex;gap:8px;position:sticky;bottom:12px;background:var(--color-paper);padding:4px 0;z-index:2;}
@@ -16,7 +30,19 @@
  .gw-clue-control {margin-top:4px;} .gw-clue-control button {min-height:44px;gap:10px;}
  .gw-confirm {padding:16px;border-radius:var(--radius-card);background:var(--color-card);} .gw-confirm>div {display:flex;gap:8px;} .gw-confirm>p+div {margin-top:12px;}
  .gw-source {line-height:1.45;color:var(--color-mute);} .gw-source summary {display:flex;align-items:center;gap:6px;min-height:44px;width:fit-content;cursor:pointer;list-style:none;} .gw-source summary::before {content:'+';font-size:18px;} .gw-source[open] summary::before {content:'−';} .gw-source summary:focus-visible {outline:2px solid var(--color-ink);outline-offset:2px;}
- .gw-bonus {display:flex;flex-direction:column;gap:16px;padding:24px 0;}
+ .gw-history>summary {display:flex;align-items:center;gap:12px;min-height:48px;cursor:pointer;list-style:none;}
+ .gw-history>summary::before {content:'+';font-size:20px;}
+ .gw-history[open]>summary::before {content:'−';}
+ .gw-history>summary:focus-visible {outline:2px solid var(--color-ink);outline-offset:2px;}
+ .gw-result {scroll-margin-top:16px;}
+ .gw-result:focus {outline:none;box-shadow:none;}
+ .gw-result-title {text-align:center;margin-bottom:12px;}
+ .gw-result .gw-result-panel {padding-top:24px;}
+ .gw-result .gw-result-panel .rp {padding-top:40px;}
+ .gw-result .gw-result-panel .result-clay {width:72px;height:72px;left:calc(50% - 36px);top:-36px;}
+ .gw-result .gw-result-panel .t-score-xl {font-size:56px;line-height:1;}
+ .gw-result .gw-result-panel .rp-actions {margin-top:16px;}
+ .gw-bonus {display:flex;flex-direction:column;gap:16px;padding:12px 0;}
  .gw-bonus-tiles {display:grid;grid-template-columns:1fr 1fr;gap:10px;}
  .gw-bonus-tile {display:flex;align-items:center;gap:8px;min-height:56px;padding:12px;background:var(--color-card);border-radius:var(--radius-ctl);text-align:left;}
  .gw-bonus-tile.selected {background:var(--color-ink);color:var(--color-paper);} .gw-bonus-tile.wrong {background:var(--color-ember);color:var(--color-paper);} .gw-bonus-tile.missed {outline:2px solid var(--color-ink);outline-offset:-2px;}

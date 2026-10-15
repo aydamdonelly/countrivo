@@ -1,20 +1,14 @@
-// Builds src/data/draft-pool.json: the Country Draft candidate pool (P9). figures.json is
-// 164 KB and the board has to be rebuilt in the browser from the seed alone (resume replay
-// and hydration parity), so the roster is packed down to only what a round can offer:
-// the countries that can field three different archetypes, capped at CAP people per
-// archetype, with the 12 authored categories folded into the 8 archetypes the fit table
-// scores. Standing is the person's position inside their country's list in their own
-// category, which figures.json orders most-canonical-first.
+// Builds the portrait-backed Country Draft pool. Complete biographies and career records
+// are checked again by the runtime roster before a person can be dealt.
 // Run: node scripts/build-draft-pool.mjs
 import { writeFileSync, readFileSync, existsSync } from "node:fs";
 
 // Stamped into every payload and compared by the server validator. Bump it in the same
 // commit as any roster change; the build refuses to write a changed pool under an
 // unchanged version, so this cannot drift by accident.
-const POOL_VERSION = 1;
+const POOL_VERSION = 3;
 
-const PER_CATEGORY = 2;      // people kept per (country, authored category)
-const CAP = 5;               // people kept per (country, archetype), the standing ladder 5..1
+const CAP = 32;              // bounded future growth; retains every currently credited portrait in eligible countries
 const MIN_ARCHETYPES = 3;    // a round needs three different archetypes from one country
 
 /** The 8 archetypes, in fit-table order. Every authored category maps to exactly one. */
@@ -38,6 +32,9 @@ const src = new URL("../src/data/figures.json", import.meta.url);
 const roster = JSON.parse(readFileSync(src, "utf8"));
 const countries = JSON.parse(readFileSync(new URL("../src/data/countries.json", import.meta.url), "utf8"));
 const sovereign = new Set(JSON.parse(readFileSync(new URL("../src/data/sovereign.json", import.meta.url), "utf8")));
+const portraits = new Set(JSON.parse(readFileSync(new URL("../src/data/portrait-slugs.json", import.meta.url), "utf8")));
+const credits = JSON.parse(readFileSync(new URL("../src/data/figure-credits.json", import.meta.url), "utf8"));
+const slugOf = (name) => name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const byIso = new Map(countries.map((c) => [c.iso3, c]));
 
 const authored = new Set(roster.categories.map((c) => c.id));
@@ -46,22 +43,21 @@ for (const id of Object.keys(OF_CATEGORY)) if (!authored.has(id)) throw new Erro
 
 const EMOJI = /\p{Extended_Pictographic}|[\u{1F1E6}-\u{1F1FF}]/u;
 
-// A country's bench for one archetype is built in the order figures.json already holds:
-// the most canonical name of each of that archetype's categories first, at most two per
-// category, capped at five. Standing is the position on that bench, so standing 5 is the
-// first name the country would give you for that kind of person.
+// Keep the authored order, selecting usable portraits before the per-archetype cap.
+// Standing remains a bounded legacy field; current scores use individual career records.
 const bench = new Map();  // iso3 -> archetype -> people[]
-const cellCount = new Map();
+const usedNames = new Set();
 for (const [order, f] of roster.figures.entries()) {
   if (!byIso.has(f.iso3)) throw new Error(`unknown iso3 ${f.iso3} on ${f.name}`);
   if (EMOJI.test(f.name) || EMOJI.test(f.note)) throw new Error(`emoji in the roster: ${f.name}`);
   if (f.name.length > 28) throw new Error(`name too long: ${f.name}`);
   if (f.note.length > 52) throw new Error(`note too long on ${f.name}`);
   if (!sovereign.has(f.iso3)) continue;
-  const cell = `${f.iso3}|${f.category}`;
-  const idx = cellCount.get(cell) ?? 0;
-  cellCount.set(cell, idx + 1);
-  if (idx >= PER_CATEGORY) continue;
+  const slug = slugOf(f.name);
+  const credit = credits[slug];
+  if (!portraits.has(slug) || !existsSync(new URL(`../public/figures/${slug}.jpg`, import.meta.url)) || !credit?.licence || !credit.author || !credit.url) continue;
+  if (usedNames.has(slug)) throw new Error(`duplicate person in roster: ${f.name}`);
+  usedNames.add(slug);
   const archetype = OF_CATEGORY[f.category];
   if (!bench.has(f.iso3)) bench.set(f.iso3, new Map());
   const byArch = bench.get(f.iso3);
@@ -73,7 +69,7 @@ for (const [iso3, byArch] of bench) {
   const out = new Map();
   for (const [archetype, list] of byArch) {
     list.sort((a, b) => a.order - b.order);
-    out.set(archetype, list.slice(0, CAP).map((p, i) => ({ name: p.name, note: p.note, standing: 5 - i })));
+    out.set(archetype, list.slice(0, CAP).map((p, i) => ({ name: p.name, note: p.note, standing: Math.max(1, 5 - i) })));
   }
   kept.set(iso3, out);
 }
@@ -82,19 +78,8 @@ const CONTINENTS = ["Africa", "Americas", "Asia", "Europe", "Oceania"];
 const out = [];
 for (const [iso3, byArch] of [...kept].sort((a, b) => (a[0] < b[0] ? -1 : 1))) {
   if (byArch.size < MIN_ARCHETYPES) continue;
-  // A round must be able to offer three different archetypes whose standings are not all
-  // equal, or the pick would be a coin toss between three identical-looking people.
+  // Individual careers now determine fit and fame, so equal legacy standings do not make a country unplayable.
   const arches = [...byArch.keys()].sort((a, b) => ARCHETYPES.indexOf(a) - ARCHETYPES.indexOf(b));
-  let spread = false;
-  for (let a = 0; a < arches.length && !spread; a++)
-    for (let b = a + 1; b < arches.length && !spread; b++)
-      for (let c = b + 1; c < arches.length && !spread; c++) {
-        const s = [byArch.get(arches[a]), byArch.get(arches[b]), byArch.get(arches[c])];
-        const lo = s.map((g) => Math.min(...g.map((p) => p.standing)));
-        const hi = s.map((g) => Math.max(...g.map((p) => p.standing)));
-        if (Math.max(...hi) !== Math.min(...lo)) spread = true;
-      }
-  if (!spread) continue;
   const country = byIso.get(iso3);
   const t = CONTINENTS.indexOf(country.continent);
   if (t < 0) throw new Error(`unknown continent ${country.continent} for ${iso3}`);
