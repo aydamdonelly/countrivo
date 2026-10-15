@@ -73,6 +73,7 @@
   .world-hero .clay-object { width: 120px; height: 120px; position: absolute; right: 0; top: 0; }
   .world-map { display: block; width: 100%; height: auto; max-height: 500px; }
   .world-map path, .world-map circle { fill: var(--color-wait); stroke: var(--color-paper); stroke-width: 0.5; }
+  .day-atlas .world-map use { fill:var(--color-wait); stroke:var(--color-paper); stroke-width:0.5; }
   .world-map a:hover path, .world-map a:focus path, .world-map a:hover circle, .world-map a:focus circle { fill: var(--color-ink); }
   .world-intro { max-width: 680px; margin: 24px 0; }
   .system-page { max-width: 720px; margin: 40px auto; }

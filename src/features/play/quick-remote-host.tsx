@@ -1,5 +1,7 @@
 "use client";
 import { DailyNext } from '@/ui/daily-next';
+import { ChallengeResult } from "@/ui/challenge-result";
+import { DailyHabit } from '@/ui/daily-habit';
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -7,7 +9,7 @@ import { commitQuickSession, startQuickPractice } from "@/app/actions/quick-sess
 import type { QuickAction, QuickView } from "@/games/quick-views";
 import type { HostProps } from "@/games/types";
 import type { ServerGameRun } from "@/types/server";
-import { trackPlay } from "@/lib/play-events";
+import { trackCompletedRun, trackPlay } from "@/lib/play-events";
 import { Button } from "@/ui/button";
 import { Progress } from "@/ui/progress";
 import { GameHelp } from "@/ui/game-help";
@@ -18,6 +20,7 @@ import { CrossIcon } from "@/ui/icons/cross";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { LeaderboardEntryForm } from "./leaderboard-entry";
+import { SessionNotice } from "./session-notice";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "./persist";
 import { isGameHelpOpen } from "./keys";
 import "./quick-remote.css";
@@ -38,6 +41,7 @@ export function QuickRemoteHost(p: HostProps) {
 
 function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: string }) {
   const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
+  const [challenge, setChallenge] = useState(p.challenge);
   const [view, setView] = useState(p.initialView);
   const [preview, setPreview] = useState<QuickView | null>(null);
   const [token, setToken] = useState(p.initialToken);
@@ -47,6 +51,7 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   const [busy, setBusy] = useState(false);
   const [pendingAction, setPendingAction] = useState<QuickAction | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [failedAction, setFailedAction] = useState<QuickAction | null>(null);
   const [animate, setAnimate] = useState(false);
   const busyRef = useRef(false);
   const mountedAt = useRef(0);
@@ -61,7 +66,7 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
 
   const send = useCallback(async (action: QuickAction) => {
     if (busyRef.current) return;
-    busyRef.current = true; setBusy(true); setPendingAction(action); setError(null);
+    busyRef.current = true; setBusy(true); setPendingAction(action); setError(null); setFailedAction(null);
     const next = action.t === "next" && view.phase === "reveal" ? view.nextView : null;
     if (next?.phase === "playing" && next.kind === view.kind && next.mode === view.mode && next.round === view.round + 1) {
       setPreview({ ...next, score: view.score, progress: view.progress });
@@ -73,9 +78,9 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
       if (response.success) setAnimate(true);
       if (response.run) setRun(response.run);
       setName(response.publishedName ?? null);
-      if (!response.success) setError(response.error ?? "Your move could not be saved. Try again.");
+      if (!response.success) { setError(response.error ?? "Your move could not be saved."); setFailedAction(action); }
       else if (response.view.phase === "finished") {
-        trackPlay("play_finish", view.kind, p.mode);
+        if (response.run) trackCompletedRun(view.kind, p.mode, response.run.id);
         if (p.mode === "daily") {
           const maxAge = secondsUntilReset(p.resetAt, p.serverNow, mountedAt.current || Date.now());
           writeDone(p.dateKey, p.edition, view.kind, response.view.score, maxAge);
@@ -83,14 +88,14 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
           clearProgress(view.kind);
         }
       }
-    } catch { setError("Your move was not confirmed. Check your connection and try again."); }
+    } catch { setError("Your move was not confirmed. Check your connection."); setFailedAction(action); }
     finally { busyRef.current = false; setBusy(false); setPendingAction(null); setPreview(null); }
   }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow, view]);
 
   async function practice() {
     if (busyRef.current) return;
-    busyRef.current = true; setBusy(true); setError(null);
-    try { const response = await startQuickPractice(view.kind); setView(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setName(null); setAnimate(false); started.current = false; }
+    busyRef.current = true; setBusy(true); setError(null); setFailedAction(null);
+    try { const response = await startQuickPractice(view.kind, token); setView(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setName(null); setChallenge(undefined); setAnimate(false); started.current = false; }
     catch { setError("The next board could not be opened. Try again."); }
     finally { busyRef.current = false; setBusy(false); }
   }
@@ -120,16 +125,16 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   return <div className="quick-remote" aria-busy={busy}>
     <header className="qr-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games"><ChevronLeftIcon size={24} /></Link>
       {/* eslint-disable-next-line @next/next/no-img-element -- local clay frame changes only after commit */}
-      <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small><GameHelp slug={view.kind} title={p.title} />
+      <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.displayTitle ?? p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small><GameHelp slug={view.kind} title={p.title} />
     </header>
+    <ChallengeResult challenge={challenge} run={run} />
     {view.phase === "finished" ? <>
-      <ResultPanel mode={p.mode} game={p.title} score={view.score} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<><Button variant="ink" onClick={p.mode === "practice" ? () => void practice() : undefined} href={p.mode === "daily" ? `/games/${view.kind}/leaderboard` : undefined} disabled={busy}>{p.mode === "daily" ? "Today's board" : "One more"}</Button><ShareButton text={view.shareText} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
+      <ResultPanel mode={p.mode} game={p.title} score={view.score} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : <Button variant="text" href={`/games/${view.kind}/leaderboard`}>Leaderboard</Button>}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
+        {p.mode === "daily" ? <><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
         {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun} /> : null}
         <details className="qr-history"><summary className="t-body">Answers</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
       </ResultPanel>
-      {p.mode === "daily" ? <DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : null}
     </> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}
-    <span className="sr-only" role="status">{busy ? pendingAction?.t === "next" ? "Opening the next round." : "Choice selected. Waiting for confirmation." : ""}</span>
-    {error ? <p className="t-body text-ember qr-error" role="alert">{error}</p> : null}
+    <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next round…" : "Confirming your choice…"} onRetry={failedAction ? () => void send(failedAction) : undefined} />
   </div>;
 }

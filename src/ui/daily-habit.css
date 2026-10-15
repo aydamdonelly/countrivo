@@ -1,0 +1,23 @@
+@layer components {
+  .daily-habit { width:100%; max-width:420px; margin-block:20px; }
+  .habit-heading, .habit-footer { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .habit-heading b { font-size:14px; font-weight:600; }
+  .habit-heading small, .habit-footer small { font-size:12px; color:var(--color-mute); }
+  .habit-week { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:8px; list-style:none; padding:0; margin-block:12px 4px; }
+  .habit-week li { display:flex; flex-direction:column; align-items:center; gap:6px; font-size:12px; color:var(--color-mute); }
+  .habit-stamp { display:flex; justify-content:center; align-items:center; width:100%; aspect-ratio:1; max-height:40px; border-radius:var(--radius-ctl); background:var(--color-card); }
+  .habit-week .played .habit-stamp { background:var(--color-ink); color:var(--color-paper); }
+  .habit-week [aria-current=date] .habit-stamp { outline:1px solid var(--color-ink); outline-offset:2px; }
+  .habit-week .future .habit-stamp { background:transparent; border:1px solid var(--color-line); }
+  .habit-footer { align-items:flex-start; }
+  .habit-footer > small { padding-top:14px; }
+  .habit-footer details { text-align:right; }
+  .habit-footer summary { display:flex; min-height:44px; align-items:center; justify-content:flex-end; font-size:12px; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+  .habit-footer summary::marker { content:''; }
+  .habit-footer summary::-webkit-details-marker { display:none; }
+  .habit-reminder { display:flex; flex-direction:column; align-items:flex-end; gap:10px; max-width:240px; padding-block:8px; }
+  .habit-reminder label { display:flex; align-items:center; gap:12px; font-size:13px; }
+  .habit-reminder input { min-height:44px; border:1px solid var(--color-line); border-radius:var(--radius-ctl); padding:6px 10px; color:var(--color-ink); background:var(--color-paper); }
+  .habit-reminder .btn { min-height:44px; }
+  .habit-reminder p { color:var(--color-mute); }
+}

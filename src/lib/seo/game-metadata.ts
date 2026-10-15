@@ -25,9 +25,9 @@ interface GameSeo {
 
 const GAME_SEO: Record<string, GameSeo> = {
   "geo-wordle": {
-    title: "GeoWordle: Daily & Unlimited Country Wordle | Countrivo",
+    title: "GeoWordle: Guess the Country, Daily & Unlimited | Countrivo",
     description:
-      "Play GeoWordle free: guess the country in 6 tries with distance and direction clues. Solve today's puzzle or play unlimited practice. No signup.",
+      "Guess the hidden country in six tries using a map, distance and direction clues. Free daily GeoWordle and unlimited practice. No account or download.",
     genre: "Geography Puzzle",
     playMode: "SinglePlayer",
     rules: [
@@ -41,7 +41,7 @@ const GAME_SEO: Record<string, GameSeo> = {
   "country-draft": {
     title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
     description:
-      "Choose countries and draft five famous people into a cabinet. Reveal their points after each appointment and conquer up to 195 countries. Free, no account.",
+      "Draft 5 people and conquer the world. Choose countries, fill five cabinet jobs and reveal your score out of 195. Free daily game and practice, no account.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [

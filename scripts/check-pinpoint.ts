@@ -24,6 +24,7 @@ for(let seed=0;seed<30;seed++){
  const view=pinpointView(state);
  assert.equal(view.current,null,'no target polygon before drop');assert.equal(view.results.length,0,'no future answers before drop');
  assert(!('countries' in view),'future names are not in the public view');
+ assert.equal(view.nextView,undefined,'no later target before committing the current pin');
  assert.equal(dropPin(state,91,0),state,'invalid latitude rejected');
  const log:PinpointAction[]=[];
  for(let round=0;round<5;round++){
@@ -34,6 +35,15 @@ for(let seed=0;seed<30;seed++){
   assert.equal(state.phase,'reveal');assert.equal(gameModule.progress(state).current,null,'answered round does not stay marked current');assert(pinpointView(state).current?.path,'committed reveal includes only that country');
   assert.equal(state.results.at(-1)?.points,(state.results.at(-1)?.basePoints??0)*(round===4?2:1),'round five alone doubles');
   assert.equal(gameModule.reduce(state,action),state,'committed pin cannot be changed');
+  const reveal=pinpointView(state),preview=reveal.nextView;
+  if(round<4){
+   assert(preview&&preview.phase==='placing'&&preview.round===round+1,'only the immediate next named target can be previewed');
+   assert.equal(preview.current,null,'next target polygon and nearest point stay hidden');
+   assert.equal(preview.nextView,undefined,'preview cannot expose further rounds');
+   assert.deepEqual(preview.results,reveal.results,'preview contains only already committed results');
+   assert.equal(preview.score,reveal.score,'preview cannot change the confirmed score');
+   assert.deepEqual(preview,pinpointView(nextPinpoint(state)),'preview equals canonical public next projection');
+  }else assert.equal(preview,undefined,'final result is never previewed before saving');
   log.push({t:'next'});state=nextPinpoint(state);
  }
  assert.equal(state.phase,'finished');assert(gameModule.done(state));assert(state.score>=0&&state.score<=1200);

@@ -1,0 +1,15 @@
+@layer components {
+  .challenge-page { width: 100%; max-width: 640px; margin: 32px auto 48px; }
+  .challenge-card { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 32px 24px; background: var(--color-card); border-radius: var(--radius-card); text-align: center; }
+  .challenge-card > img { width: 100px; height: 100px; object-fit: contain; }
+  .challenge-card .challenge-big-score { font-family: var(--font-display); font-size: 64px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .challenge-card .btn { width: 100%; min-height: 52px; }
+  .challenge-page > .challenge-match { margin-top: 20px; }
+  .challenge-privacy { margin: 16px 0; text-align: center; }
+  .challenge-match { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; padding: 16px 20px; border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+  .challenge-match.won { background: var(--color-card); }
+  .challenge-match-scores { display: flex; align-items: center; gap: 16px; }
+  .challenge-match-scores > div { display: flex; flex-direction: column; gap: 4px; }
+  .challenge-match-scores b { font-family: var(--font-display); font-size: 24px; font-variant-numeric: tabular-nums; }
+  .challenge-compare-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+}

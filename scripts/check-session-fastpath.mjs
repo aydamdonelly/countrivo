@@ -76,7 +76,7 @@ stub('../src/server/leaderboard-bots.ts', { seedRivalsForGame: async () => {} })
 const { encodeRunTicket, readRunTicket, signValue } = require('../src/server/anonymous-identity.ts');
 const { commitGameSession } = require('../src/server/game-sessions.ts');
 const { getTodayDateKey } = require('../src/lib/daily-seed.ts');
-const { flagRemote, flagView, quickProject } = require('../src/server/quick-sessions.ts');
+const { flagRemote, flagView, quickProject, flagSessionModule } = require('../src/server/quick-sessions.ts');
 const deviceId = randomUUID();
 cookieValues.set('cv_device', signValue(deviceId));
 const dateKey = getTodayDateKey();
@@ -140,6 +140,15 @@ while (!result.run) result = await move(result.sessionToken, result.revision, re
 check(result.revision === 20 && rows.get(ticket.id).status === 'complete', 'all ten questions complete with correct persisted revision');
 const completeReplay = await move(result.sessionToken, 20, { t: 'answer', i: 1 }, ['SELECT']);
 check(completeReplay.revision === 20 && completeReplay.run, 'finished games cannot be rewritten');
+const regionalTicket = { ...ticket, id: randomUUID(), practiceRegion: 'europe' };
+const regionalModule = await flagSessionModule('practice', dateKey, ticket.edition, 'europe');
+const regionalFirst = await commitGameSession(regionalModule, project, { sessionToken: encodeRunTicket(regionalTicket), revision: 0, action: { t: 'answer', i: 0 } });
+check(regionalFirst.success && rows.get(regionalTicket.id).state_json.practiceRegion === 'europe', 'regional practice context persists on the first atomic move');
+const regionalRead = readRunTicket(regionalFirst.sessionToken);
+check(regionalRead.practiceRegion === 'europe', 'regional context survives the encrypted response ticket');
+const regionalNext = await commitGameSession(await flagSessionModule(regionalRead.mode, regionalRead.dateKey, regionalRead.edition, regionalRead.practiceRegion), project,
+  { sessionToken: regionalFirst.sessionToken, revision: 1, action: { t: 'next' } });
+check(regionalNext.success && regionalNext.view.phase === 'playing' && regionalNext.revision === 2, 'the next regional move replays the same pool after module reconstruction');
 runProjectionStarted = false; runProjectionFinished = false;
 const finalDaily = { ...flagRemote, create: () => ({ done: false }), reduce: (state, action) => action.t === 'answer' ? { done: true } : state,
   done: state => state.done, payload: () => ({ scoreRaw: 1, scoreMax: 1, scoreSortValue: 1, scoreDisplay: '1', resultJson: {} }) };

@@ -7,7 +7,8 @@ import { Clay } from "@/ui/clay";
 import { sovereignIso3 } from "@/lib/data/loader";
 import { getAllCategories } from "@/lib/data/categories";
 import { getCountryByIso3 } from "@/lib/data/countries";
-import { getStatValue, getTopCountries } from "@/lib/data/ranks";
+import { getStatValue } from "@/lib/data/ranks";
+import { sovereignRanking } from './ranking-data';
 import { formatStat, ordinal } from "@/lib/utils";
 import type { Category } from "@/types/category";
 import { EditorialHead } from "@/ui/editorial-head";
@@ -43,7 +44,7 @@ function splitStat(raw: number, unit: string): { value: string; unit?: string } 
  * a curious reader both want the whole thing.
  */
 export function CategoryPage({ category }: { category: Category }) {
-  const ranked = getTopCountries(category.slug, 300).filter((row) => sovereignIso3.includes(row.iso3)).map((row, i) => ({...row, rank: i + 1}));
+  const ranked = sovereignRanking(category.slug);
   const surprising = surprisingPositions(category.slug);
   const guessable = isGuessStat(category.slug), comparable = isHoLStat(category.slug);
   const others = getAllCategories()
@@ -118,6 +119,7 @@ export function CategoryPage({ category }: { category: Category }) {
             <details className="info-disclosure"><summary>Method</summary><p className="t-meta text-mute">The three largest gaps in relative ranking position, compared with {category.slug==='population'?'total area':'population'}. Only sovereign countries with both values count. This describes position, not whether a country is better.</p></details>
           </section>
           {guessable || comparable ? <section data-o="5" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"}/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3>{guessable?<Button variant="ink" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="text" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}</section> : null}
+          {category.slug === 'urban-population-pct' || category.slug === 'population' ? <p data-o="5" className="t-body mt-4"><Link href="/practice/urban-geography">Compare urban share and population in two quick examples</Link></p> : null}
 
           <section data-o="6" className="ls">
             <SectionHead title="More rankings" fact={`${others.length} of ${getAllCategories().length}`} />

@@ -19,6 +19,12 @@
   .landing-scoring ul { display: grid; gap: 8px; padding-left: 20px; list-style: disc; font-size: 14px; line-height: 22px; margin-bottom: 16px; }
   .landing-scoring .job-guide { color: var(--color-ink); }
   .landing-details > .qa, .landing-details > section { margin: 0 0 20px; }
+  .landing-about { display: grid; gap: 12px; margin-bottom: 20px; max-width: 62ch; line-height: 1.6; }
+  .landing-about a { text-decoration: underline; text-underline-offset: 3px; }
+  .landing-topic { margin-top: 16px; }
+  .landing-topic a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+  .guide-country { display: inline-flex; align-items: center; gap: 8px; }
+  .landing-details .prose { margin: 12px 0; }
   .landing-more { margin-top: 32px; }
   .landing-more h2 { margin-bottom: 16px; }
   .landing-game-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }

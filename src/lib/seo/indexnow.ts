@@ -1,4 +1,5 @@
 export type UrlStamps = Record<string, string>;
+import { PRACTICE_PAGES } from './practice-pages';
 
 export interface PageTimestamps {
   generatedAt: string;
@@ -32,6 +33,7 @@ export function buildIndexNowStamps(
     [`${base}/countries`]: countriesUpdated,
     [`${base}/categories`]: newest("category:"),
     [`${base}/lists`]: newest("list:"),
+    [`${base}/practice`]: stamp('practice:hub'),
   };
 
   for (const country of inventory.countries) {
@@ -42,6 +44,7 @@ export function buildIndexNowStamps(
   }
   for (const game of inventory.games) resolved[`${base}${game.route}`] = stamp(`game:${game.slug}`);
   for (const slug of inventory.listSlugs) resolved[`${base}/lists/${slug}`] = stamp(`list:${slug}`);
+  for (const slug of PRACTICE_PAGES) resolved[`${base}/practice/${slug}`] = stamp(`practice:${slug}`);
   return resolved;
 }
 

@@ -4,6 +4,7 @@ import { submitGuess, type GeoWordleState } from "@/lib/game-logic/geo-wordle/en
 import { EditorialHead } from "@/ui/editorial-head";
 import { Prose } from "@/ui/prose";
 import { Table } from "@/ui/table";
+import { Flag } from '@/ui/flag';
 
 // A fixed teaching example, independent of the daily seed and today's answer.
 const EXAMPLE: GeoWordleState = { answerIso3: "POL", guesses: [], clueAt: null, phase: "playing" };
@@ -12,7 +13,7 @@ const rows = ["FRA", "DEU", "POL"].map((iso3) => {
   if (!country) throw new Error(`Missing GeoWordle example country: ${iso3}`);
   const guess = submitGuess(EXAMPLE, country).guesses[0];
   return {
-    country: country.displayName,
+    country: <span className="guide-country"><Flag iso2={country.iso2} size="xs" alt="" />{country.displayName}</span>,
     distance: `${guess.distanceKm.toLocaleString("en-US")} km`,
     direction: guess.correct ? "Solved" : guess.direction,
   };
@@ -22,18 +23,7 @@ export function GeoWordleGuide() {
   return (
     <section aria-labelledby="geowordle-clues">
       <EditorialHead id="geowordle-clues" title="How to read GeoWordle clues" />
-      <Prose>
-        <p>
-          Each arrow starts at the country you guessed and points toward the answer. Read it
-          together with the distance: north-east and 600 km calls for a different next guess
-          than north-east and 6,000 km.
-        </p>
-        <p>
-          Here is a worked example with <b>Poland as the answer</b>. This is a fixed example,
-          separate from today&apos;s puzzle. These clues use the same distance calculation as
-          the game.
-        </p>
-      </Prose>
+      <Prose><p>Example answer: <b>Poland</b>. Follow the arrow from each guess and compare distances. This fixed example uses the real game engine, separate from today’s puzzle.</p></Prose>
       <Table
         caption="Example GeoWordle guesses when Poland is the hidden country"
         columns={[
@@ -42,27 +32,12 @@ export function GeoWordleGuide() {
           { key: "direction", label: "Answer lies" },
         ]}
         rows={rows}
-        rowKey={(row) => String(row.country)}
       />
       <Prose>
-        <p>
-          Germany is closer than France, so use the shorter distance to narrow your next
-          guess. Keep the earlier clue in mind too: the answer must fit both. The map shows
-          your guesses; it reveals the answer when the round ends.
-        </p>
-        <p>
-          Sovereign-country distances use approximate nearest borders from Natural Earth
-          1:50m. Land neighbours read 0 km. Territories without mapped borders use their
-          reference centres, clearly labelled in the game. A compass bearing follows the initial direction
-          of the shortest route around the globe, which can look curved on a flat map.
-        </p>
-        <p>
-          Need a geography refresher? Browse the <Link href="/countries">country directory</Link>{" "}
-          for names, regions and neighbours, or test recognition in the{" "}
-          <Link href="/games/flag-quiz">Flag Quiz</Link>. To try the clues yourself, start{" "}
-          <Link href="/games/geo-wordle/play?mode=practice">unlimited GeoWordle practice</Link>.
-        </p>
+        <p>Germany shows 0 km because it shares a border with Poland. Zero can mean a neighbour; only the correct country solves the puzzle.</p>
+        <p><Link href="/games/geo-wordle/play?mode=practice">Try a practice round</Link> or <Link href="/countries">explore countries and neighbours</Link>.</p>
       </Prose>
+      <details className="landing-scoring"><summary>How distance is measured</summary><Prose><p>Nearest mapped borders, approximated from Natural Earth 1:50m. Territories without mapped borders use reference centres and say so. Arrows point from the guessed country’s reference centre toward the answer’s reference centre.</p></Prose></details>
     </section>
   );
 }

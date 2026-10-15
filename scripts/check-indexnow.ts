@@ -6,7 +6,7 @@ import { tmpdir } from "node:os";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import countries from "../src/data/countries.json";
-import categories from "../src/data/categories.json";
+import { getAllCategories } from '../src/lib/data/categories';
 import games from "../src/data/game-registry.json";
 import timestamps from "../src/data/data-timestamps.json";
 import submitted from "./.indexnow-snapshot.json";
@@ -17,7 +17,7 @@ import countrySitemap from "../src/app/(seo)/countries/sitemap";
 import listSitemap from "../src/app/(seo)/lists/sitemap";
 import { acceptedIndexNowSnapshot, buildIndexNowStamps, changedIndexNowUrls } from "../src/lib/seo/indexnow";
 
-const inventory = { countries, categories, games, listSlugs: LIST_SLUGS };
+const inventory = { countries, categories: getAllCategories(), games, listSlugs: LIST_SLUGS };
 const current = buildIndexNowStamps(timestamps, inventory, BASE_URL);
 const sitemapStamps = Object.fromEntries(
   [...rootSitemap(), ...gameSitemap(), ...countrySitemap(), ...listSitemap()].map((page) => {
@@ -66,7 +66,7 @@ try {
     "--require", guard,
     "--import", pathToFileURL(resolve(repo, "node_modules/tsx/dist/loader.mjs")).href,
     resolve(repo, "scripts/submit-indexnow.ts"), ...args,
-  ], { cwd: fixture, encoding: "utf8", timeout: 30_000 });
+  ], { cwd: fixture, encoding: "utf8", timeout: 30_000, env: { ...process.env, TSX_TSCONFIG_PATH: resolve(repo, 'tsconfig.json') } });
 
   writeFileSync(snapshotPath, JSON.stringify(previous));
   const original = readFileSync(snapshotPath, "utf8");

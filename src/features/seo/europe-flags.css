@@ -1,0 +1,17 @@
+@layer components {
+  .europe-practice { max-width: 720px; margin: 24px auto 0; }
+  .europe-practice-hero { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; margin-bottom: 32px; }
+  .europe-practice-hero > .clay-object { width: 128px; height: 128px; }
+  .europe-practice-hero > .btn { min-height: 56px; }
+  .europe-practice-preview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 16px; padding: 24px; background: var(--color-card); border-radius: var(--radius-card); }
+  .europe-practice-preview > div { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .europe-practice-about { margin-top: 24px; border-top: 1px solid var(--color-line); }
+  .europe-practice-about > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 56px; cursor: pointer; }
+  .europe-practice-about > summary::marker { content: ''; }
+  .europe-practice-about > summary::-webkit-details-marker { display: none; }
+  .europe-practice-about[open] > summary .ic { transform: rotate(90deg); }
+  .europe-practice-about > div { display: grid; gap: 12px; margin-bottom: 16px; line-height: 1.6; }
+  .europe-practice-about a { text-decoration: underline; text-underline-offset: 3px; }
+  .europe-practice-links { display: flex; flex-wrap: wrap; gap: 0 24px; color: var(--color-mute); margin-top: 16px; }
+  .europe-practice-links > a { display: inline-flex; align-items: center; min-height: 44px; }
+}

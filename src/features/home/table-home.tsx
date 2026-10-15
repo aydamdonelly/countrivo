@@ -9,6 +9,8 @@ import { ChevronRightIcon } from '@/ui/icons/chevron-right';
 import { Countdown } from '@/ui/countdown';
 import { ShareButton } from '@/ui/share-button';
 import { preloadGameHost } from '@/features/play/preload-game-host';
+import { DailyHabit } from '@/ui/daily-habit';
+import type { DailyActivity } from '@/lib/daily-activity';
 
 interface TableHomeProps {
   games: readonly GamePresentation[];
@@ -21,9 +23,10 @@ interface TableHomeProps {
   practice?: boolean;
   yesterday?: ReactNode;
   atlas?: ReactNode;
+  activity?: DailyActivity;
 }
 
-export function TableHome({games, done, progress, opening, dateKey, resetAt, serverNow, practice, yesterday, atlas}: TableHomeProps) {
+export function TableHome({games, done, progress, opening, dateKey, resetAt, serverNow, practice, yesterday, atlas, activity}: TableHomeProps) {
   const finished = games.filter(game => Boolean(done[game.slug])).length;
   const fullSet = !practice && finished === games.length;
   const [dayClosed, setDayClosed] = useState(false);
@@ -44,7 +47,7 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
     <div className="game-index daily-game-grid">
       {games.map(game => <GameCard key={game.slug} game={game} practice={practice} score={done[game.slug]} progress={progress[game.slug]} active={!fullSet && game.slug === opening} />)}
     </div>
-    {fullSet ? <div className="full-set-actions"><ShareButton text={`Countrivo ${dateKey}\n${games.map(game => `${game.title}: ${done[game.slug]}`).join('\n')}\ncountrivo.com`} label="Share your day" />{atlas ? <details><summary>Your world today</summary>{atlas}</details> : null}</div> : null}
+    {!practice ? <div className="full-set-actions"><DailyHabit dateKey={dateKey} activity={activity} completed={finished > 0} />{finished > 0 ? <ShareButton text={`Countrivo ${dateKey}\n${games.filter(game => done[game.slug]).map(game => `${game.title}: ${done[game.slug]}`).join('\n')}\nhttps://countrivo.com`} label="Share your day" /> : null}{atlas ? <details><summary>Your world today</summary>{atlas}</details> : null}</div> : null}
     {!practice && yesterday ? <details className="past-answers"><summary>Yesterday’s answers</summary>{yesterday}</details> : null}
   </div>;
 }

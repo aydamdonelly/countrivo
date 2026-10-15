@@ -1,4 +1,4 @@
-import { countryAt, figureAt, scoreState } from "./engine";
+import { countryAt, figureAt, nextRound, scoreState } from "./engine";
 import { bestLine, bonusesOf, bonusTotalOf, fameOf, figureFit, whyLine, whySource } from "./scoring";
 import { draftPortraitCredit } from "@/lib/data/loader";
 import { draftCountrySlug, draftHomelandTotals } from "@/lib/data/draft";
@@ -67,6 +67,8 @@ export interface DraftView {
   lastSeat: SeatIdx | null;
   geography: { population: number; area: number; areaPercent: number };
   review: DraftReview | null;
+  /** Only the next country's names, never its unopened people or their points. */
+  nextView?: DraftView;
 }
 
 function publicPerson(person: DraftFigure): DraftPersonView {
@@ -112,12 +114,12 @@ export function draftReviewView(state: DraftState, context: { mode: "daily" | "p
 }
 
 /** Whitelist instead of deleting fields: unopened people and uncommitted values never cross RSC. */
-export function draftView(state: DraftState, reviewUnlocked = false): DraftView {
+export function draftView(state: DraftState, reviewUnlocked = false, preview = true): DraftView {
   const round = state.board.rounds[state.round];
   const country = state.country === null ? null : round?.countries[state.country];
   const scored = scoreState(state);
   const seats = state.seats.map((pick) => pick ? appointmentView(state, pick) : null);
-  return {
+  const view: DraftView = {
     round: state.round, phase: state.phase,
     country: country ? { iso3: country.iso3, iso2: country.iso2, slug: draftCountrySlug(country.iso3), name: country.name, region: country.region } : null,
     countries: state.phase === "country" ? round.countries.map((c) => ({ iso3: c.iso3, iso2: c.iso2, slug: draftCountrySlug(c.iso3), name: c.name, region: c.region })) : [],
@@ -128,4 +130,8 @@ export function draftView(state: DraftState, reviewUnlocked = false): DraftView 
     geography: draftHomelandTotals(seats.flatMap((seat) => seat ? [seat.country.iso3] : [])),
     review: reviewOf(state, reviewUnlocked),
   };
+  if (preview && state.phase === "seated" && state.round < 4) {
+    view.nextView = draftView(nextRound(state), reviewUnlocked, false);
+  }
+  return view;
 }

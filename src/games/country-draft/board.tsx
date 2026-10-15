@@ -57,6 +57,7 @@ export interface DraftBoardProps {
   state: DraftView;
   selection: DraftSelection;
   busy: boolean;
+  commitBusy?: boolean;
   animate: boolean;
   onCountry: (index: PoolIdx) => void;
   onOpen: () => void;
@@ -71,6 +72,7 @@ export interface DraftBoardProps {
 
 export function Board(p: DraftBoardProps) {
   const { state, selection, busy } = p;
+  const commitBusy = p.commitBusy ?? busy;
   const held = selection.person === null ? null : state.people[selection.person];
   const detail = selection.detail === null ? null : state.people[selection.detail];
   const revealIndex = selection.revealSeat ?? (state.phase === "seated" ? state.lastSeat : null);
@@ -98,7 +100,7 @@ export function Board(p: DraftBoardProps) {
           </button>;
         })}
       </div>
-      <div className="dr-pinned-action"><small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small><Button variant="ink" disabled={busy || selectedCountry === null} onClick={p.onOpen} pending={busy} pendingLabel="Opening…" aria-describedby="draft-country-warning">{selectedCountry ? `Open ${selectedCountry.name}` : "Choose a country"}</Button></div>
+      <div className="dr-pinned-action"><small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small><Button variant="ink" disabled={commitBusy || selectedCountry === null} onClick={p.onOpen} pending={commitBusy} pendingLabel="Opening…" aria-describedby="draft-country-warning">{selectedCountry ? `Open ${selectedCountry.name}` : "Choose a country"}</Button></div>
     </> : <>
       {state.country ? <div className="dr-round"><Flag iso2={state.country.iso2} size="m" alt="" eager /><b className="t-h3">{state.country.name}</b><small className="t-meta">Round {state.round + 1} of 5</small></div> : null}
       {state.phase === "people" ? <h2 className="t-h3 dr-person-prompt">Pick a person</h2> : null}

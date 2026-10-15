@@ -13,6 +13,7 @@ export function ForgetDevice(){
     try {
       await forgetThisDevice();
       for(const key of Object.keys(localStorage)) if(key.startsWith('countrivo_') || key.startsWith('cv_'))localStorage.removeItem(key);
+      for(const key of Object.keys(sessionStorage)) if(key.startsWith('countrivo_') || key.startsWith('cv_'))sessionStorage.removeItem(key);
       router.replace('/');router.refresh();
     }catch{setError('Could not forget this device. Try again.');setBusy(false);}
   }

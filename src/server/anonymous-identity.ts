@@ -70,6 +70,7 @@ export interface RunTicket {
   archived?: boolean;
   practiceCountry?: string;
   practiceStat?: string;
+  practiceRegion?: string;
   /** Encrypted, server-issued cursor. The database revision still owns every reveal. */
   cursor?: { deviceId: string; revision: number; actionLog: string };
 }
@@ -110,6 +111,7 @@ export function readRunTicket(token: string): RunTicket | null {
     return { id: o.id, slug: o.slug, mode: o.mode, dateKey: o.dateKey, edition: o.edition, seed: o.seed, startedAt: o.startedAt, archived: "archived" in o && o.archived === true,
       practiceCountry: "practiceCountry" in o && typeof o.practiceCountry === "string" && /^[A-Z]{3}$/.test(o.practiceCountry) ? o.practiceCountry : undefined,
       practiceStat: "practiceStat" in o && typeof o.practiceStat === "string" && /^[a-z0-9-]{1,48}$/.test(o.practiceStat) ? o.practiceStat : undefined,
+      practiceRegion: 'practiceRegion' in o && o.practiceRegion === 'europe' ? o.practiceRegion : undefined,
       cursor: validCursor };
   } catch {
     return null;

@@ -33,6 +33,7 @@ for (let day = 0; day < 120; day += 1) {
   check(JSON.stringify(createGame(seed)) === JSON.stringify(state), `${dateKey} same seed, same full board`);
   const initial = draftView(state);
   check(initial.people.length === 0 && initial.countries.length === 3, `${dateKey} unopened people absent`);
+  check(initial.nextView === undefined, `${dateKey} country selection does not expose later rounds`);
   check(!JSON.stringify(initial).includes('"ceiling"') && !JSON.stringify(initial).includes('"standing"') && !JSON.stringify(initial).includes('"archetype"'), `${dateKey} public state has no solution fields`);
   check(appoint(state, 0, 0) === state, `${dateKey} cannot seat before opening country`);
   const log: CountryDraftAction[] = [];
@@ -40,12 +41,20 @@ for (let day = 0; day < 120; day += 1) {
     state = openCountry(state, best.countryIdx); log.push({ t: "open", c: best.countryIdx });
     const opened = draftView(state);
     check(opened.people.length === 3 && opened.countries.length === 0, `${dateKey} opened country exposes only its own people`);
+    check(opened.nextView === undefined, `${dateKey} uncommitted people do not expose the next country selection`);
     check(openCountry(state, poolIndex((best.countryIdx + 1) % 3) ?? 0) === state, `${dateKey} country cannot change after opening`);
     check(opened.people.every((person) => !('fit' in person) && !('standing' in person) && !('archetype' in person) && !('note' in person)), `${dateKey} candidates have no score hints`);
     state = appoint(state, best.poolIdx, best.seat); log.push({ t: "appoint", i: best.poolIdx, s: best.seat });
     check(state.phase === "seated", `${dateKey} reveal waits for explicit next`);
     check(appoint(state, best.poolIdx, best.seat) === state, `${dateKey} cannot change an appointment after reveal`);
     check(draftView(state).seats[best.seat]?.points === best.points, `${dateKey} points revealed after seating`);
+    const reveal = draftView(state);
+    if (state.round < 4) {
+      check(reveal.nextView?.phase === "country" && reveal.nextView.round === state.round + 1, `${dateKey} revealed appointment preloads exactly one next country choice`);
+      check(reveal.nextView?.people.length === 0 && reveal.nextView.country === null && reveal.nextView.review === null && reveal.nextView.nextView === undefined, `${dateKey} preview contains no unopened people, review or later preview`);
+      check(reveal.nextView?.score === reveal.score && JSON.stringify(reveal.nextView.seats) === JSON.stringify(reveal.seats), `${dateKey} preview changes no confirmed score or appointment`);
+      check(JSON.stringify(reveal.nextView) === JSON.stringify(draftView(nextRound(state))), `${dateKey} preview exactly matches the canonical next public projection`);
+    } else check(reveal.nextView === undefined, `${dateKey} final appointment cannot preview an unconfirmed result`);
     state = nextRound(state); log.push({ t: "next" });
   }
   check(state.phase === "done", `${dateKey} fifth manual next completes`);

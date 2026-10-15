@@ -2,7 +2,6 @@ import "server-only";
 
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
-import { after } from "next/server";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Action, GameModule } from "@/games/types";
 import type { Mode } from "@/ui/types";
@@ -13,7 +12,7 @@ import { mapAnonymousRun, type AnonymousRunRow } from "./anonymous-runs";
 import { getEdition } from "./edition";
 import { archivedState, frozenBoardSnapshot, frozenBoardState } from "./board-snapshots";
 import {resolveDailyBoard} from './daily-board-state';
-import { seedRivalsForGame } from "./leaderboard-bots";
+import { activityFromDates, readActivity, withCompletedDay } from '@/lib/daily-activity';
 
 export interface SessionSeed {
   slug: string;
@@ -25,6 +24,7 @@ export interface SessionSeed {
   archived?: boolean;
   practiceCountry?: string;
   practiceStat?: string;
+  practiceRegion?: string;
   resumeToken?: string;
 }
 
@@ -39,7 +39,7 @@ export interface SessionResponse<V> {
 }
 
 function rowTicket(row: AnonymousRunRow): RunTicket {
-  return { id: row.session_id, slug: row.game_slug, mode: row.mode, dateKey: row.date_key, edition: row.edition, seed: row.seed, startedAt: row.started_at, archived: row.archived, practiceCountry: row.state_json?.practiceCountry, practiceStat: row.state_json?.practiceStat,
+  return { id: row.session_id, slug: row.game_slug, mode: row.mode, dateKey: row.date_key, edition: row.edition, seed: row.seed, startedAt: row.started_at, archived: row.archived, practiceCountry: row.state_json?.practiceCountry, practiceStat: row.state_json?.practiceStat, practiceRegion: row.state_json?.practiceRegion,
     cursor: row.status === 'open' && row.action_log.length <= 512 ? {deviceId:row.device_id,revision:row.revision,actionLog:row.action_log} : undefined };
 }
 
@@ -82,13 +82,20 @@ export async function prepareGameSession<S, A extends Action, V>(module: GameMod
 }
 
 export async function updateDeviceStreak(deviceId: string, dateKey: string): Promise<void> {
-  const { data } = await gameDatabase().from("countrivo_runs").select("date_key").eq("device_id", deviceId).eq("mode", "daily").eq("status", "complete")
-    .lte("date_key", dateKey).order("date_key", { ascending: false }).limit(1000).abortSignal(AbortSignal.timeout(6000)).returns<{ date_key: string }[]>();
-  const dates = new Set((data ?? []).map((r) => r.date_key));
-  const cursor = new Date(`${dateKey}T12:00:00Z`);
-  let count = 0;
-  while (dates.has(cursor.toISOString().slice(0, 10))) { count += 1; cursor.setUTCDate(cursor.getUTCDate() - 1); }
-  (await cookies()).set("cv_streak", JSON.stringify({ day: dateKey, count }), { path: "/", sameSite: "lax", secure: process.env.NODE_ENV === "production", maxAge: 31536000 });
+  const store = await cookies();
+  const previous = readActivity(store.get('cv_activity')?.value, dateKey);
+  // A second game on the same day adds no day to the habit and needs no history query.
+  if (previous.days.includes(dateKey)) return;
+  const { data, error } = await gameDatabase().from("countrivo_runs").select("date_key").eq("device_id", deviceId).eq("mode", "daily").eq("status", "complete")
+    .lte("date_key", dateKey).order("date_key", { ascending: false }).limit(4000).abortSignal(AbortSignal.timeout(6000)).returns<{ date_key: string }[]>();
+  const fallback = withCompletedDay(previous, dateKey);
+  const activity = error ? fallback : activityFromDates([...(data ?? []).map(row => row.date_key), dateKey], dateKey, previous.best);
+  activity.current = Math.max(activity.current, fallback.current);
+  activity.best = Math.max(activity.best, activity.current);
+  activity.played = Math.max(activity.played, fallback.played);
+  const options = { path: '/', sameSite: 'lax' as const, secure: process.env.NODE_ENV === 'production', maxAge: 31536000 };
+  store.set('cv_activity', JSON.stringify(activity), options);
+  store.set('cv_streak', JSON.stringify({ day: dateKey, count: activity.current }), options);
 }
 
 /** Revision compare-and-swap makes every committed reveal irreversible, including concurrent tabs. */
@@ -141,12 +148,9 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
       // Unique session and daily-device constraints make the first committed move atomic as well.
       const {data:inserted}=await db.from('countrivo_runs').insert({session_id:ticket.id,device_id:deviceId,game_slug:ticket.slug,mode:ticket.mode,
         date_key:ticket.dateKey,edition:ticket.edition,seed:ticket.seed,started_at:ticket.startedAt,archived:ticket.archived===true,
-        state_json:ticket.practiceCountry||ticket.practiceStat?{practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat}:null,
+        state_json:ticket.practiceCountry||ticket.practiceStat||ticket.practiceRegion?{practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion}:null,
         ...move.update}).select('*').maybeSingle<AnonymousRunRow>();
       if(inserted) {
-        if(ticket.mode==='daily') {
-          after(()=>seedRivalsForGame(ticket.slug,ticket.dateKey).catch(error=>console.error('[rivals] seeding failed',error)));
-        }
         return committedResponse(inserted,move.next);
       }
     }
@@ -167,9 +171,8 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
   if (!row) {
     const inserted = await db.from("countrivo_runs").insert({ session_id: ticket.id, device_id: deviceId, game_slug: ticket.slug, mode: ticket.mode,
       date_key: ticket.dateKey, edition: ticket.edition, seed: ticket.seed, started_at: ticket.startedAt, archived: ticket.archived === true,
-      state_json: ticket.practiceCountry || ticket.practiceStat ? {practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat}:null }).select("*").maybeSingle<AnonymousRunRow>();
+      state_json: ticket.practiceCountry || ticket.practiceStat || ticket.practiceRegion ? {practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion}:null }).select("*").maybeSingle<AnonymousRunRow>();
     row = inserted.data;
-    if(row&&ticket.mode==='daily')after(()=>seedRivalsForGame(ticket.slug,ticket.dateKey).catch(error=>console.error('[rivals] seeding failed',error)));
     if (!row && ticket.mode === "daily") {
       const daily = await db.from("countrivo_runs").select("*").eq("device_id", deviceId).eq("game_slug", ticket.slug).eq("mode", "daily")
         .eq("date_key", ticket.dateKey).eq("edition", ticket.edition).maybeSingle<AnonymousRunRow>();

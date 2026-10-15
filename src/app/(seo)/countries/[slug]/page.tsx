@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAllCategories, getCategoryBySlug } from "@/lib/data/categories";
 import { getAllCountries, getCountryBySlug } from "@/lib/data/countries";
-import { getRanksForCountry } from "@/lib/data/ranks";
+import { sovereignIso3 } from '@/lib/data/loader';
+import { worldStandings } from '@/lib/data/world';
 import { ordinal } from "@/lib/utils";
 import { CountryPage } from "@/features/seo/country-page";
 import { breadcrumbList, graph, jsonLdProps, SITE_URL } from "@/features/seo/breadcrumbs";
@@ -22,22 +22,18 @@ export async function generateMetadata({
   const country = getCountryBySlug(slug);
   if (!country) return {};
 
-  const ranks = getRanksForCountry(country.iso3);
-  const highlights = Object.entries(ranks)
-    .sort(([, a], [, b]) => a - b)
+  const rankings = worldStandings(country.iso3);
+  const highlights = [...rankings]
+    .sort((a, b) => a.rank / a.count - b.rank / b.count)
     .slice(0, 3)
-    .map(([catSlug, rank]) => {
-      const cat = getCategoryBySlug(catSlug);
-      return cat ? `${ordinal(rank)} in ${cat.label}` : null;
-    })
-    .filter(Boolean)
+    .map(({ category, rank }) => `${ordinal(rank)} in ${category.label}`)
     .join(", ");
   const capitalPart = country.capital ? ` Its capital is ${country.capital}.` : "";
   const title = `${country.displayName} | Stats, Rankings & Geography Facts`;
 
   return {
     title,
-    description: `${country.displayName} is a country in ${country.continent}.${capitalPart} Top rankings: ${highlights}. Explore ${getAllCategories().length}+ statistics and world rankings.`,
+    description: `${country.displayName} in ${country.subregion || country.continent}.${capitalPart}${highlights ? ` Rankings: ${highlights}.` : ''} Explore geography facts and ${rankings.length} available statistics.`,
     alternates: { canonical: `${SITE_URL}/countries/${slug}` },
     openGraph: {
       title,
@@ -60,10 +56,10 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       { name: country.displayName, path: `/countries/${slug}` },
     ]),
     {
-      "@type": "Country",
+      "@type": sovereignIso3.includes(country.iso3) ? 'Country' : 'Place',
       name: country.displayName,
       alternateName: country.iso3,
-      description: `${country.displayName} is a country located in ${country.subregion}, ${country.continent}.${capitalPart}`,
+      description: `${country.displayName} is located in ${country.subregion}, ${country.continent}.${capitalPart}`,
       containedInPlace: { "@type": "Continent", name: country.continent },
     },
   ]);

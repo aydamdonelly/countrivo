@@ -1,0 +1,21 @@
+import assert from 'node:assert/strict';
+import { activityFromDates, activityWeek, EMPTY_ACTIVITY, readActivity, withCompletedDay } from '../src/lib/daily-activity';
+
+const today = '2026-10-15';
+const first = withCompletedDay(EMPTY_ACTIVITY, today);
+assert.equal(first.current, 1);
+assert.deepEqual(withCompletedDay(first, today), first, 'Multiple games still count as one day');
+const broken = activityFromDates(['2026-10-10', '2026-10-11', today], today);
+assert.equal(broken.current, 1);
+assert.equal(broken.best, 2, 'A missed day does not erase the personal best');
+assert.equal(activityFromDates(['2026-10-13', '2026-10-14'], today).current, 2);
+assert.equal(activityFromDates(['2026-10-13'], today).current, 0);
+assert.equal(activityFromDates(['2026-02-29', '2026-10-16', today, today], today).played, 1);
+assert.equal(activityFromDates(['2024-02-28', '2024-02-29', '2024-03-01'], '2024-03-01').current, 3);
+assert.deepEqual(activityWeek('2026-03-29'), ['2026-03-23', '2026-03-24', '2026-03-25', '2026-03-26', '2026-03-27', '2026-03-28', '2026-03-29']);
+assert.deepEqual(readActivity('{broken', today), EMPTY_ACTIVITY);
+const long = { days: ['2026-10-14'], current: 60, best: 60, played: 80 };
+assert.equal(withCompletedDay(readActivity(JSON.stringify(long), today), today).current, 61);
+assert.equal(readActivity(JSON.stringify(long), '2026-10-17').current, 0);
+assert.equal(readActivity(JSON.stringify(long), '2026-10-17').best, 60);
+console.log('check-daily-activity: 13 assertions passed');

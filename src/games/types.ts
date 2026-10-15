@@ -1,3 +1,4 @@
+import type { ChallengeTarget } from "@/lib/challenges";
 /*
  * The frozen game contract (blueprint 8.2). A game is a server-safe adapter (`module.ts`,
  * no React) plus a client board; the generic host (src/features/play/game-host.tsx) owns
@@ -13,6 +14,7 @@ import type { GeoWordleView } from "@/lib/game-logic/geo-wordle/engine";
 import type { PinpointView } from "@/lib/game-logic/pinpoint/engine";
 import type { QuickView } from "./quick-views";
 import type { BlindPickState } from "./blind-pick/module";
+import type { DailyActivity } from '@/lib/daily-activity';
 
 /** The slugs with a play route. Every game in the roster now has a board. */
 export type PlayableSlug = GameSlug;
@@ -173,8 +175,11 @@ export interface DailyRef {
 }
 
 export interface HostProps {
+  challenge?: ChallengeTarget;
+  activity?: DailyActivity;
   slug: PlayableSlug;
   title: string;
+  displayTitle?: string;
   mode: Mode;
   dateKey: string;
   edition: string;

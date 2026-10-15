@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { Flag } from "@/ui/flag";
 import { Portrait } from "@/ui/portrait";
 import { CountUp } from "@/ui/count-up";
@@ -11,7 +12,7 @@ import { DraftMap } from "./draft-map";
 import { DraftReviewDetails } from "./review";
 import "./draft.css";
 
-export function Result({ state, shareText, animate = false }: { state: DraftView; shareText: string; animate?: boolean }) {
+export function Result({ state, shareText, animate = false, children, onShare, challengeUrl }: { state: DraftView; shareText: string; animate?: boolean; children?: ReactNode; onShare?: () => void; challengeUrl?: string }) {
   const fiveSeats = state.fitTotal + state.fameTotal;
   const thinJobs = state.seats.flatMap((pick) => pick && pick.fit < 12 ? [JOB_NAMES[pick.seat]] : []);
   const bonusTotal = state.score - fiveSeats;
@@ -24,11 +25,12 @@ export function Result({ state, shareText, animate = false }: { state: DraftView
       <p className="dr-result-number"><CountUp value={state.score} animate={animate} duration={900} /> <span>/ {MAX_SCORE}</span></p>
       <h2 className="t-h2" id="draft-result-title">{bandOf(state.score).word.replace(/\.$/, "")}</h2>
       <p className="t-meta">Par 140 · {state.score > 140 ? `+${state.score - 140} above` : state.score === 140 ? "on par" : `${140 - state.score} to go`}</p>
+      {children}
       <Cabinet state={state} />
       <div className="dr-tally-inline t-meta"><span>Seats <b className="num">{fiveSeats}</b></span><span>Bonuses <b className="num">+{bonusTotal}</b></span></div>
       <details className="dr-score-details"><summary className="t-meta">Score breakdown</summary><div className="dr-tally t-body"><p><span>Five seats</span><b className="num">{fiveSeats}</b></p>{BONUSES.map((bonus) => <p key={bonus.key}><span>{bonus.name}{bonus.key === "fullCabinet" && !state.bonuses.fullCabinet && thinJobs.length ? <small className="t-meta">{thinJobs.join(" and ")} needed a fit of 12 or more.</small> : null}</span><b className="num">{state.bonuses[bonus.key] ? `+${bonus.points}` : "0"}</b></p>)}</div></details>
       <DraftMap from={state.seats.flatMap((seat) => seat ? [seat.country.iso3] : [])} score={state.score} />
-      <ShareButton text={shareText} />
+      <ShareButton text={shareText} challengeUrl={challengeUrl} onShare={onShare} />
     </section>
   </>;
 }

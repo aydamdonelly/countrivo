@@ -7,6 +7,7 @@ import { gameModule as stats, type GuesserAction } from "@/games/stat-guesser/mo
 import { isGuessStat, retargetStatForPractice, retargetStatPractice, rulerFor, type StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { createPracticeOnStat } from "@/lib/game-logic/higher-or-lower/engine";
 import { isHoLStat } from "@/lib/game-logic/higher-or-lower/stats";
+import { createEuropeFlagQuiz } from '@/lib/game-logic/flag-quiz/engine';
 import { mulberry32 } from "@/lib/seeded-random";
 import { dailyBoardSeed } from "./anonymous-identity";
 import { frozenBoardState } from "./board-snapshots";
@@ -42,6 +43,13 @@ export const flagRemote = { ...flagBase, create(seed:number,mode:Mode,dateKey:st
   return flags.create(seed,mode,mode==='daily'?rotationDate:dateKey);
 } };
 export const statRemote = remoteModule(stats,(a):GuesserAction|null=>a.t==='lock'||a.t==='next'?a:null);
+
+export async function flagSessionModule(mode:Mode,dateKey:string,edition:string,region?:string) {
+  if(mode==='daily'||region!=='europe')return flagRemote;
+  const daily=await frozenBoardState<QuizState>('flag-quiz',dateKey,edition)??flagRemote.create(dailyBoardSeed('flag-quiz',dateKey,edition),'daily',dateKey);
+  const excluded=daily.g.questions.map(question=>question.country.iso3);
+  return {...flagRemote,create(seed:number){return {g:createEuropeFlagQuiz(mulberry32(seed),excluded),pending:null};}};
+}
 
 export async function statSessionModule(mode:Mode,dateKey:string,edition:string,country?:string,stat?:string) {
   if(mode==='daily'||(!country&&!stat))return statRemote;

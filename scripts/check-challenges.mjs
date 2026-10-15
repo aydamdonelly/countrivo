@@ -1,0 +1,115 @@
+import assert from 'node:assert/strict';
+import Module, {createRequire} from 'node:module';
+import {randomUUID} from 'node:crypto';
+
+// Run with node --import tsx scripts/check-challenges.mjs. No production requests or writes.
+const require=createRequire(import.meta.url),load=Module._load;
+Module._load=function(name,parent,main){return name==='server-only'?{}:load.call(this,name,parent,main);};
+function stub(name,exports){const id=require.resolve(name);require.cache[id]={id,filename:id,loaded:true,exports};}
+const cookieValues=new Map(),snapshots=new Map();
+let databaseCalls=0,detailRow=null,allowDetailReads=false;
+stub('next/cache',{unstable_cache:callback=>callback,updateTag:()=>{}});
+stub('@supabase/supabase-js',{createClient:()=>{
+  databaseCalls++;
+  if(!allowDetailReads)throw new Error('Unexpected database request in isolated challenge check');
+  return {
+    from:table=>{
+      assert.equal(table,'countrivo_runs');
+      const filters=[];
+      return {select(){return this;},eq(key,value){filters.push([key,value]);return this;},
+        async maybeSingle(){return {data:detailRow&&filters.every(([key,value])=>detailRow[key]===value)?detailRow:null,error:null};}};
+    },
+    rpc:name=>{
+      assert.equal(name,'countrivo_ranked_board');
+      return {abortSignal(){return this;},async returns(){return {data:{count:0,average:0,entries:[],countries:[]},error:null};}};
+    },
+  };
+}});
+let editionReads=0,archiveReads=0;
+stub('next/headers',{cookies:async()=>({get:name=>cookieValues.has(name)?{value:cookieValues.get(name)}:undefined})});
+stub('../src/server/edition.ts',{getEdition:async()=>{editionReads++;return 'test-edition';}});
+stub('../src/server/board-snapshots.ts',{getArchivedBoard:async(slug,date)=>{archiveReads++;return snapshots.get(`${slug}|${date}`)??null;}});
+process.env.COUNTRIVO_GAME_SECRET='isolated-challenge-check-key-not-production';
+process.env.NEXT_PUBLIC_SUPABASE_URL='https://example.supabase.co';
+process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY='isolated-anon-test';
+process.env.COUNTRIVO_SUPABASE_SERVICE_KEY='isolated-service-test';
+const {challengeMatchesBoard,challengeShareText,compareChallenge}=require('../src/lib/challenges.ts');
+const {signValue}=require('../src/server/anonymous-identity.ts');
+const {readChallengeToken,openChallenge,readPlayChallenge,challengeUrlForRun}=require('../src/server/challenges.ts');
+const {getTodayDateKey}=require('../src/lib/daily-seed.ts');
+const today=getTodayDateKey();
+const yesterdayDate=new Date(`${today}T12:00:00Z`);yesterdayDate.setUTCDate(yesterdayDate.getUTCDate()-1);
+const yesterday=yesterdayDate.toISOString().slice(0,10);
+const device=randomUUID();cookieValues.set('cv_device',signValue(device));
+const payload={version:1,slug:'country-draft',dateKey:today,edition:'test-edition',scoreRaw:145,scoreMax:195,scoreSortValue:145,scoreDisplay:'145 of 195'};
+const sign=value=>signValue(Buffer.from(JSON.stringify(value)).toString('base64url'));
+const token=sign(payload),challenge=readChallengeToken(token);
+assert.ok(challenge);
+assert.equal(challenge.scoreDisplay,'145 of 195');
+assert.equal(readChallengeToken(token.slice(0,-1)+(token.endsWith('a')?'b':'a')),null);
+assert.equal(readChallengeToken(sign({...payload,slug:'speed-flags'})),null);
+assert.equal(readChallengeToken(sign({...payload,dateKey:'2026-02-30'})),null);
+assert.equal(readChallengeToken(sign({...payload,scoreMax:0})),null);
+assert.equal(readChallengeToken(sign({...payload,scoreRaw:'145'})),null);
+assert.equal(readChallengeToken('x'.repeat(1201)),null);
+assert.equal(challengeMatchesBoard(challenge,{slug:'country-draft',dateKey:today,edition:'test-edition'}),true);
+assert.equal(challengeMatchesBoard(challenge,{slug:'country-draft',dateKey:today,edition:'different-edition'}),false);
+assert.equal(challengeMatchesBoard(challenge,{slug:'flag-quiz',dateKey:today,edition:'test-edition'}),false);
+assert.equal(compareChallenge(challenge,{scoreSortValue:146}),'won');
+assert.equal(compareChallenge(challenge,{scoreSortValue:145}),'tied');
+assert.equal(compareChallenge(challenge,{scoreSortValue:144}),'lost');
+assert.equal(challengeShareText('A result\n\nhttps://countrivo.com/games/country-draft',`https://countrivo.com/challenge/${token}`),`A result\n\nCan you beat my score?\nhttps://countrivo.com/challenge/${token}`);
+assert.equal(challengeShareText('A result','https://evil.invalid/'),'A result');
+assert.equal(challengeShareText('Flag Quiz\n9/13\ncountrivo.com/games/flag-quiz',`https://countrivo.com/challenge/${token}`),`Flag Quiz\n9/13\n\nCan you beat my score?\nhttps://countrivo.com/challenge/${token}`);
+assert.equal(challengeShareText('Practice result'),'Practice result');
+const readsBeforeFuture=editionReads+archiveReads;
+assert.equal(await openChallenge(sign({...payload,dateKey:'2099-01-01'})),null);
+assert.equal(editionReads+archiveReads,readsBeforeFuture,'future challenge never opens an archive or edition');
+assert.equal((await openChallenge(token)).available,true);
+assert.equal((await openChallenge(sign({...payload,edition:'different-edition'}))).available,false);
+assert.equal(await readPlayChallenge(token,{slug:'flag-quiz',dateKey:today,edition:'test-edition',mode:'daily',archived:false}),undefined);
+assert.ok(await readPlayChallenge(token,{slug:'country-draft',dateKey:today,edition:'test-edition',mode:'daily',archived:false}));
+assert.equal(await readPlayChallenge(token,{slug:'country-draft',dateKey:today,edition:'test-edition',mode:'practice',archived:false}),undefined,'random practice cannot claim the daily comparison');
+const pastToken=sign({...payload,dateKey:yesterday});
+snapshots.set(`country-draft|${yesterday}`,{edition:'test-edition'});
+const past=await openChallenge(pastToken);
+assert.equal(past.available,true);assert.equal(past.past,true);
+assert.ok(past.href.includes(`date=${yesterday}`)&&past.href.includes('mode=practice'));
+snapshots.set(`country-draft|${yesterday}`,{edition:'different-edition'});
+assert.equal((await openChallenge(pastToken)).available,false,'archives cannot compare a different frozen edition');
+snapshots.delete(`country-draft|${yesterday}`);
+assert.equal((await openChallenge(pastToken)).href,null);
+const row={id:1,started_at:new Date().toISOString(),completed_at:new Date().toISOString(),status:'complete',mode:'daily',archived:false,device_id:device,game_slug:'country-draft',date_key:today,edition:'test-edition',score_raw:145,score_max:195,score_sort_value:145,score_display:'145 of 195',seed:123,result_json:{secret:'answer'},action_log:'secret picks',display_name:'Private name'};
+const readsBeforeSigning=editionReads+archiveReads;
+const first=await challengeUrlForRun(row),second=await challengeUrlForRun(row);
+assert.equal(first,second,'sharing an existing own result is deterministic');
+assert.equal(editionReads+archiveReads,readsBeforeSigning,'signing a saved result adds no database roundtrip');
+const signedToken=first.split('/challenge/')[1];
+const publicPayload=JSON.parse(Buffer.from(signedToken.split('.')[0],'base64url').toString('utf8'));
+assert.deepEqual(Object.keys(publicPayload).sort(),Object.keys(payload).sort());
+assert.ok(!JSON.stringify(publicPayload).includes(device)&&!('seed' in publicPayload)&&!('result_json' in publicPayload)&&!('display_name' in publicPayload));
+assert.equal(await challengeUrlForRun({...row,device_id:randomUUID()}),undefined);
+assert.equal(await challengeUrlForRun({...row,status:'open'}),undefined);
+assert.equal(await challengeUrlForRun({...row,mode:'practice'}),undefined);
+assert.equal(await challengeUrlForRun({...row,archived:true}),undefined);
+const {mapAnonymousRun,anonymousRunDetail}=require('../src/server/anonymous-runs.ts');
+const lean=await mapAnonymousRun(row,{includeLeaderboard:false,includeChallenge:false});
+assert.equal(lean.scoreRaw,145);assert.equal(lean.challengeUrl,undefined);assert.equal(lean.rankDaily,null);assert.deepEqual(lean.resultJson,row.result_json);
+assert.equal(databaseCalls,0,'lean home projection and challenge signing never fetch a leaderboard or database');
+allowDetailReads=true;
+detailRow={...row,moderation_hidden:true,device_id:randomUUID()};
+assert.equal(await anonymousRunDetail(1),null,'hidden publisher names are unavailable through a direct link to another browser');
+detailRow={...row,moderation_hidden:true};
+const hiddenOwner=await anonymousRunDetail(1);
+assert.ok(hiddenOwner,'the owner can still open their hidden result');
+assert.equal(hiddenOwner.displayName,row.display_name);assert.deepEqual(hiddenOwner.resultJson,row.result_json);
+detailRow={...row,moderation_hidden:false,display_name:null,device_id:randomUUID()};
+assert.equal(await anonymousRunDetail(1),null,'an unpublished result stays private even through its direct URL');
+detailRow={...row,moderation_hidden:false,display_name:null};
+const unnamedOwner=await anonymousRunDetail(1);
+assert.ok(unnamedOwner);assert.equal(unnamedOwner.displayName,'Anonymous');
+detailRow={...row,moderation_hidden:false,device_id:randomUUID()};
+const publishedGuest=await anonymousRunDetail(1);
+assert.ok(publishedGuest);assert.equal(publishedGuest.resultJson,null,'public current-day results never reveal answers');assert.equal(publishedGuest.seed,null);
+console.log('Run-detail regression: hidden non-owner denied, hidden owner allowed, unpublished non-owner denied, unpublished owner allowed, public answers withheld.');
+console.log('Challenge regression: signatures, tampering, ownership, future dates, editions, archive availability, private-field exclusion, score outcomes, share URLs and zero extra signing reads passed.');

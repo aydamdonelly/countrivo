@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Agent worktrees (stale copies, lint runs against main src/)
     ".claude/worktrees/**",
+    ".check-render/**",
+    ".check-anonymous/**",
   ]),
 ]);
 

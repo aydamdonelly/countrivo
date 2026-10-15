@@ -1,0 +1,10 @@
+@layer components {
+  .session-notice { width: 100%; }
+  .session-status { min-height: 20px; color: var(--color-mute); }
+  .session-status[data-pending] { animation: session-status-appear 600ms step-end both; }
+  .session-error { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 0; }
+  .session-error p { color: var(--color-ember); }
+  .session-error .btn { flex: none; }
+  @keyframes session-status-appear { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .session-status[data-pending] { animation: none; } }
+}

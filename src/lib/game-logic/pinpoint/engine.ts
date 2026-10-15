@@ -17,6 +17,8 @@ export interface PinpointState {
 export interface PinpointView {
  round:number;country:PinpointCountry;phase:PinpointState['phase'];score:number;
  results:PinpointRoundResult[];current:PinpointRoundResult|null;
+ /** A named next target, with no border, coordinates or uncommitted result. */
+ nextView?:PinpointView;
 }
 const LARGE = new Set(['CAN','USA','MEX','BRA','ARG','COL','PER','CHL','VEN','BOL','DZA','AGO','EGY','ETH','ZAF','NGA','KEN','TZA','COD','SDN','MDG','MLI','NER','TCD','MRT','NAM','BWA','ZMB','MOZ','ZWE','RUS','CHN','IND','AUS','KAZ','MNG','IDN','SAU','IRN','PAK','AFG','THA','MMR','VNM','TUR','FRA','ESP','DEU','POL','UKR','SWE','FIN','NOR','GBR','NZL']);
 const sovereign = new Set(sovereignIso3);
@@ -57,6 +59,8 @@ export function nextPinpoint(state:PinpointState):PinpointState {
  return state.round===4?{...state,phase:'finished'}:{...state,round:state.round+1,phase:'placing'};
 }
 /** Only the named current target and already committed reveals leave the server. */
-export function pinpointView(state:PinpointState):PinpointView {
- return {round:state.round,country:state.countries[state.round],phase:state.phase,score:state.score,results:state.results,current:state.phase==='placing'?null:state.results.at(-1)??null};
+export function pinpointView(state:PinpointState,preview=true):PinpointView {
+ const view:PinpointView={round:state.round,country:state.countries[state.round],phase:state.phase,score:state.score,results:state.results,current:state.phase==='placing'?null:state.results.at(-1)??null};
+ if(preview&&state.phase==='reveal'&&state.round<4)view.nextView=pinpointView(nextPinpoint(state),false);
+ return view;
 }

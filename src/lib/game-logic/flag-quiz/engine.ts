@@ -274,6 +274,43 @@ export function createFlagQuiz(rng: () => number, setup: FlagQuizSetup): FlagQui
   };
 }
 
+/** A separate regional practice pool. Daily generation and its rotation stay unchanged. */
+export function createEuropeFlagQuiz(rng: () => number, excluded: readonly string[] = []): FlagQuizState {
+  const blocked = new Set(excluded);
+  const european = SOVEREIGN.filter(iso3 => country(iso3).continent === 'Europe');
+  const available = european.filter(iso3 => !blocked.has(iso3));
+  if (available.length < FLAG_COUNT) throw new Error('Not enough European flags for practice');
+  const allowed = new Set(available);
+  const used = new Set<string>();
+  const final: { answer: string; family: LookalikeSet | null }[] = [];
+  const families = shuffled(LOOKALIKES.filter(set => set.core.every(iso3 => european.includes(iso3))), rng);
+  for (const family of families) {
+    const answer = shuffled(family.core.filter(iso3 => allowed.has(iso3) && !used.has(iso3)), rng)[0];
+    if (!answer) continue;
+    final.push({ answer, family });
+    used.add(answer);
+    if (final.length === FLAG_COUNT - DOUBLE_FROM) break;
+  }
+  for (const answer of [...shuffled(available.filter(iso3 => !KNOWN_SET.has(iso3)), rng), ...shuffled(available.filter(iso3 => KNOWN_SET.has(iso3)), rng)]) {
+    if (final.length === FLAG_COUNT - DOUBLE_FROM) break;
+    if (used.has(answer)) continue;
+    final.push({ answer, family: null });
+    used.add(answer);
+  }
+  const first = shuffled(available.filter(iso3 => !used.has(iso3) && KNOWN_SET.has(iso3)), rng).slice(0, KNOWN_PER_DAY);
+  first.forEach(iso3 => used.add(iso3));
+  const middle = shuffled(available.filter(iso3 => !used.has(iso3)), rng).slice(0, DOUBLE_FROM - first.length);
+  const plan = [...first.map(answer => ({ answer, family: null })), ...middle.map(answer => ({ answer, family: null })), ...final];
+  const questions = plan.map(({ answer, family }, index) => {
+    const kin = family ? shuffled([...family.core, ...family.kin].filter(iso3 => iso3 !== answer && allowed.has(iso3)), rng) : [];
+    const nearby = regionRanked(answer, rng, new Set(plan.map(item => item.answer))).filter(iso3 => allowed.has(iso3));
+    const distractors = [...new Set([...kin, ...nearby])].slice(0, OPTION_COUNT - 1);
+    const fact = family && kin.length ? { line: family.line, source: FAMILY_SOURCE } : null;
+    return question(answer, distractors, fact ? 'lookalike' : 'region', pointsAt(index), fact, rng);
+  });
+  return { questions, currentQuestion: 0, answers: new Array<number | null>(FLAG_COUNT).fill(null), score: 0, phase: 'playing' };
+}
+
 export function answerQuestion(state: FlagQuizState, optionIndex: number): FlagQuizState {
   if (state.phase !== "playing") return state;
   const q = state.questions[state.currentQuestion];

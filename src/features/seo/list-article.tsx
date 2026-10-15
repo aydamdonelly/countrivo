@@ -1,4 +1,5 @@
 import { getCategoryBySlug } from "@/lib/data/categories";
+import Link from 'next/link';
 import { getAllCountries, getCountriesByContinent, getCountryByIso3 } from "@/lib/data/countries";
 import { getStatValue } from "@/lib/data/ranks";
 import { sovereignIso3 } from "@/lib/data/loader";
@@ -234,6 +235,7 @@ export function ListArticle({ list }: { list: ListContent }) {
           </div>
 
           {list.source.kind === "continent" ? <NameThemAll continent={list.source.continent} /> : null}
+          {list.source.kind === 'continent' && list.source.continent === 'Europe' ? <p className="t-body mb-4"><Link href="/practice/europe-flags">Test yourself on the flags of Europe</Link></p> : null}
 
           <div data-o="3" className="intro">
             <div className="prose t-prose">

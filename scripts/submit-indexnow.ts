@@ -9,7 +9,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import countries from "../src/data/countries.json";
-import categories from "../src/data/categories.json";
+import { getAllCategories } from '../src/lib/data/categories';
 import games from "../src/data/game-registry.json";
 import timestamps from "../src/data/data-timestamps.json";
 import { LIST_SLUGS } from "../src/content/lists";
@@ -26,6 +26,7 @@ const BASE = `https://${HOST}`;
 const KEY_LOCATION = `${BASE}/${API_KEY}.txt`;
 const ENDPOINT = "https://api.indexnow.org/indexnow";
 const BATCH_SIZE = 10_000;
+const categories = getAllCategories();
 
 function findRepoRoot(): string {
   let dir = process.cwd();

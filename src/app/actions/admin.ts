@@ -21,10 +21,37 @@ export async function setNameVisibility(form:FormData):Promise<void>{
   await requireAdminSession();
   const id=Number(form.get('id')),hidden=form.get('hidden')==='1';
   if(!Number.isInteger(id)||id<1)return;
-  const {error}=await gameDatabase().from('countrivo_runs').update({moderation_hidden:hidden}).eq('id',id);
+  const db=gameDatabase();
+  if(!hidden){
+    const {data:run}=await db.from('countrivo_runs').select('device_id').eq('id',id).maybeSingle<{device_id:string}>();
+    if(!run)return;
+    const {data:ban}=await db.from('countrivo_publisher_bans').select('device_id').eq('device_id',run.device_id).maybeSingle();
+    if(ban)throw new Error('This publisher is blocked. Its names remain hidden.');
+  }
+  const {error}=await db.from('countrivo_runs').update({moderation_hidden:hidden}).eq('id',id);
   if(error)throw new Error('Could not update this name');
   invalidateAnonymousLeaderboards();
   revalidatePath('/admin');revalidatePath('/leaderboard');
+}
+export async function banNamePublisher(form:FormData):Promise<void>{
+  await requireAdminSession();
+  const id=Number(form.get('id'));
+  if(!Number.isSafeInteger(id)||id<1)return;
+  const {error}=await gameDatabase().rpc('countrivo_ban_publisher',{p_run_id:id});
+  if(error)throw new Error('Could not block this publisher');
+  invalidateAnonymousLeaderboards();
+  revalidatePath('/admin');revalidatePath('/leaderboard');
+}
+export async function unbanNamePublisher(form:FormData):Promise<void>{
+  await requireAdminSession();
+  const id=Number(form.get('id'));
+  if(!Number.isSafeInteger(id)||id<1)return;
+  const db=gameDatabase();
+  const {data:run,error:readError}=await db.from('countrivo_runs').select('device_id').eq('id',id).maybeSingle<{device_id:string}>();
+  if(readError||!run)throw new Error('Could not find this publisher');
+  const {error}=await db.from('countrivo_publisher_bans').delete().eq('device_id',run.device_id);
+  if(error)throw new Error('Could not unblock this publisher');
+  revalidatePath('/admin');
 }
 export async function prepareTomorrowBoards():Promise<void>{
   await requireAdminSession();

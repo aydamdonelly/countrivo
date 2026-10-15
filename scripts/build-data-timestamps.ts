@@ -27,6 +27,8 @@ import { ENTITY_COPY } from "../src/content/entity";
 import { getGameContent } from "../src/content/games";
 import { getGameCopy } from "../src/lib/seo/game-copy";
 import { getGameSeo } from "../src/lib/seo/game-metadata";
+import { PRACTICE_PAGES } from '../src/lib/seo/practice-pages';
+import { TABLE_GAMES } from '../src/content/table';
 
 const REBASELINE = process.argv.includes("--rebaseline");
 
@@ -206,6 +208,21 @@ for (const game of games) {
   });
 }
 
+for (const slug of PRACTICE_PAGES) {
+  hashes[`practice:${slug}`] = hash({
+    page: readFileSync(join(REPO_ROOT, `src/app/(seo)/practice/${slug}/page.tsx`), 'utf8'),
+    view: readFileSync(join(REPO_ROOT, `src/features/seo/${slug}.tsx`), 'utf8'),
+    styles: readFileSync(join(REPO_ROOT, `src/features/seo/${slug}.css`), 'utf8'),
+    countries: countries.filter(country => slug === 'europe-flags' ? country.continent === 'Europe' : ['JPN', 'BRA', 'NGA', 'IND'].includes(country.iso3)),
+    ...(slug === 'urban-geography' ? { values: Object.fromEntries(Object.entries(stats).map(([iso3, values]) => [iso3, { urban: values['urban-population-pct'], population: values.population }])), categories: categories.filter(category => ['urban-population-pct', 'population'].includes(category.slug)) } : {}),
+  });
+}
+hashes['practice:hub'] = hash({
+  page: readFileSync(join(REPO_ROOT, 'src/app/(seo)/practice/page.tsx'), 'utf8'),
+  games: TABLE_GAMES,
+  topics: PRACTICE_PAGES,
+});
+
 // --------------- merge with previous run ---------------
 
 let previous: Record<string, TimestampEntry> = {};
@@ -246,6 +263,8 @@ function sourceCommitDate(relPath: string): string {
 
 /** Which source file each key namespace derives from. */
 function seedDateFor(key: string): string {
+  // These pages are introduced or materially revised with this namespace.
+  if (key.startsWith('practice:')) return now;
   if (key.startsWith("game:")) return sourceCommitDate("src/data/game-registry.json");
   if (key.startsWith("category:")) return sourceCommitDate("src/data/categories.json");
   // country: and list: are both driven by the stats/ranks pipeline; take the

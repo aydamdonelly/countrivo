@@ -1,0 +1,35 @@
+@layer components {
+  .urban-geography { max-width: 720px; margin: 24px auto 0; }
+  .urban-heading { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; margin-bottom: 32px; }
+  .urban-heading > .clay-object { width: 128px; height: 128px; }
+  .urban-heading > .btn { min-height: 56px; }
+  .urban-comparisons { display: grid; gap: 16px; }
+  .urban-comparison { background: var(--color-card); padding: 24px; border-radius: var(--radius-card); }
+  .urban-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 24px 0 12px; }
+  .urban-pair > div { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .urban-comparison summary, .urban-sources > summary { min-height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--color-mute); }
+  .urban-geography details > summary::marker { content: ''; }
+  .urban-geography details > summary::-webkit-details-marker { display: none; }
+  .urban-geography details[open] > summary .ic { transform: rotate(90deg); }
+  .urban-answer { display: grid; gap: 12px; margin-top: 8px; }
+  .urban-value { display: grid; grid-template-columns: 88px 1fr 56px; align-items: center; gap: 12px; }
+  .urban-value > b { text-align: right; font-variant-numeric: tabular-nums; }
+  .urban-value > meter { width: 100%; min-width: 0; height: 16px; }
+  .urban-value meter::-webkit-meter-bar { background: var(--color-paper); border: 0; border-radius: var(--radius-ctl); }
+  .urban-value meter::-webkit-meter-optimum-value { background: var(--color-ink); }
+  .urban-value meter::-moz-meter-bar { background: var(--color-ink); }
+  .urban-takeaway { padding: 24px 0; max-width: 60ch; }
+  .urban-next { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px 0; border-top: 1px solid var(--color-line); }
+  .urban-sources { border-top: 1px solid var(--color-line); }
+  .urban-source-content { display: grid; gap: 12px; line-height: 1.6; padding-bottom: 16px; }
+  .urban-source-content a, .urban-value a { text-decoration: underline; text-underline-offset: 3px; }
+  .urban-links { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 24px; color: var(--color-mute); }
+  .urban-links > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .practice-topics { max-width: 720px; margin: 32px auto 0; }
+  .practice-topics > .row { margin-top: 12px; }
+  @media (max-width: 399px) {
+    .urban-comparison { padding: 16px; }
+    .urban-pair > div { flex-direction: column; align-items: flex-start; }
+    .urban-value { grid-template-columns: 76px 1fr 52px; gap: 8px; }
+  }
+}

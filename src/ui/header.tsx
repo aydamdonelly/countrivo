@@ -24,7 +24,7 @@ export function Header({ streak = 0 }: HeaderProps) {
           <img src="/design/leaderboard.svg" width={24} height={24} alt="" decoding="async" />
           <span>Leaderboard</span>
         </Link>
-        {streak >= 2 ? <Streak n={streak} /> : null}
+        {streak >= 1 ? <Streak n={streak} /> : null}
       </nav>
     </header>
   );

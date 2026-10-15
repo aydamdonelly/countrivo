@@ -13,7 +13,9 @@ import {pinpointView} from '@/lib/game-logic/pinpoint/engine';
 import type { QuizState } from "@/games/flag-quiz/module";
 import type { StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 
-export async function practiceSeedFor(slug:string,dateKey:string,edition:string):Promise<number> {
+export async function practiceSeedFor(slug:string,dateKey:string,edition:string,region?:string):Promise<number> {
+  // The regional factory already excludes today's answers before drawing from its pool.
+  if(slug==='flag-quiz'&&region==='europe')return randomInt(0,2147483647);
   const seed=dailyBoardSeed(slug,dateKey,edition);
   const forbiddenGeo=slug==='geo-wordle'?(await resolveDailyBoard(geo,geoWordleView,{slug,dateKey,edition,seed})).state.answerIso3:null;
   const forbiddenPin=slug==='pinpoint'?new Set((await resolveDailyBoard(pinpoint,pinpointView,{slug,dateKey,edition,seed})).state.countries.map(c=>c.iso3)):null;

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-13T10:24:43.967Z",
+  "generatedAt": "2026-10-15T08:47:57.624Z",
   "entries": {
     "category:arable-land-pct": {
       "hash": "bc83258b793cac4f",
@@ -1062,16 +1062,16 @@
       "lastModified": "2026-10-13T10:24:43.967Z"
     },
     "game:country-draft": {
-      "hash": "bd9773f8c4f46581",
-      "lastModified": "2026-10-13T10:23:12.942Z"
+      "hash": "29a9091ddf1562e9",
+      "lastModified": "2026-10-15T08:47:12.865Z"
     },
     "game:flag-quiz": {
       "hash": "013837662e912d22",
       "lastModified": "2026-10-13T10:24:43.967Z"
     },
     "game:geo-wordle": {
-      "hash": "6d9f6ea571532326",
-      "lastModified": "2026-10-13T10:23:12.942Z"
+      "hash": "3d417acba60a271f",
+      "lastModified": "2026-10-15T08:47:12.865Z"
     },
     "game:higher-or-lower": {
       "hash": "806ab2a7ea669d52",
@@ -1164,6 +1164,18 @@
     "list:richest-countries": {
       "hash": "4b21a36f55f8096c",
       "lastModified": "2026-04-01T10:13:06.000Z"
+    },
+    "practice:europe-flags": {
+      "hash": "1a39db7263309e6a",
+      "lastModified": "2026-10-15T08:47:12.865Z"
+    },
+    "practice:hub": {
+      "hash": "b42958ee9fe77391",
+      "lastModified": "2026-10-15T08:47:12.865Z"
+    },
+    "practice:urban-geography": {
+      "hash": "edda53dbe71c4aa7",
+      "lastModified": "2026-10-15T08:47:57.624Z"
     }
   }
 }

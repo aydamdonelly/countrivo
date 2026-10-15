@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { getGameBySlug } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getEdition } from "@/server/edition";
-import { createRunTicket, ensureDeviceId, gameDatabase, readDeviceId, readRunTicket } from "@/server/anonymous-identity";
+import { createRunTicket, ensureDeviceId, gameDatabase, readDeviceId, readRunTicket, signValue } from "@/server/anonymous-identity";
 import { anonymousLeaderboard, invalidateAnonymousLeaderboards, mapAnonymousRun, type AnonymousRunRow } from "@/server/anonymous-runs";
 import { replaySubmission } from "@/server/replay-submission";
 import type { ServerGameRun } from "@/types/server";
@@ -58,7 +58,8 @@ export async function submitAnonymousRun(input: { ticket: string; log: string; t
 export async function publishAnonymousRun(runId: number, name: string, placeCountry?: string | null): Promise<AnonymousSubmitResult> {
   const clean = name.normalize("NFKC").trim().replace(/\s+/g, " ");
   if (clean.length < 2 || clean.length > 20 || !/^[\p{L}\p{N} ._'’-]+$/u.test(clean)) return { success: false, error: "Use 2 to 20 letters, numbers or spaces." };
-  if (/https?|www|admin|moderator|countrivo|fuck|shit|nigger|nazi/i.test(clean)) return { success: false, error: "Choose a different name." };
+  const compact = clean.toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]/gu, "");
+  if (/https?|www|admin|moderator|countrivo|fuck|shit|nigger|nazi/i.test(compact)) return { success: false, error: "Choose a different name." };
   if (placeCountry && !sovereignIso3.includes(placeCountry)) return {success:false,error:"Choose a country from the list."};
   try {
     const deviceId = await readDeviceId();
@@ -67,7 +68,7 @@ export async function publishAnonymousRun(runId: number, name: string, placeCoun
     const { data, error } = await db.rpc("countrivo_publish_name", {p_run_id:runId,p_device:deviceId,p_ip:await dailyNetworkHash(),p_day:getTodayDateKey(),p_edition:await getEdition(),p_name:clean,p_place:placeCountry||null}).returns<AnonymousRunRow[]>();
     if(error) {
       const reason=error.message;
-      return {success:false,error:reason.includes("board_closed")?"This daily board has closed.":reason.includes("network_throttled")?"Too many names from this network today. Try again tomorrow.":reason.includes("name_throttled")?"You’ve changed your name often. Try again in an hour.":"Could not publish. Try again."};
+      return {success:false,error:reason.includes("publisher_banned")?"This browser cannot publish names. Contact countrivo@gmail.com to appeal.":reason.includes("board_closed")?"This daily board has closed.":reason.includes("network_throttled")?"Too many names from this network today. Try again tomorrow.":reason.includes("name_throttled")?"You’ve changed your name often. Try again in an hour.":"Could not publish. Try again."};
     }
     const row=Array.isArray(data)?data[0]:undefined;
     if(row)invalidateAnonymousLeaderboards();
@@ -106,6 +107,29 @@ export async function reportLeaderboardName(runId: number, reason: string): Prom
     if(!error)invalidateAnonymousLeaderboards();
     return error?{success:false,error:error.message.includes("report_throttled")?"Too many reports from this network. Try again tomorrow.":"Could not send this report. Try again."}:{success:true};
   } catch { return { success: false, error: "Could not send this report. Try again." }; }
+}
+
+
+export async function blockLeaderboardPublisher(runId: number): Promise<{ success: boolean; error?: string }> {
+  if (!Number.isSafeInteger(runId) || runId < 1) return { success: false, error: "Choose a published player." };
+  try {
+    const device = await ensureDeviceId();
+    const { error } = await gameDatabase().rpc("countrivo_block_publisher", { p_run_id: runId, p_viewer: device });
+    if (error) return { success: false, error: error.message.includes("block_limit") ? "Your blocked-player list is full." : "Could not block this player. Try again." };
+    (await cookies()).set("cv_blocks", signValue("enabled"), { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 365 * 2 });
+    return { success: true };
+  } catch { return { success: false, error: "Could not block this player. Try again." }; }
+}
+
+export async function unblockLeaderboardPublishers(): Promise<{ success: boolean; error?: string }> {
+  try {
+    const device = await readDeviceId();
+    if (!device) return { success: false, error: "Open this page in your original browser." };
+    const { error } = await gameDatabase().from("countrivo_publisher_blocks").delete().eq("viewer_id", device);
+    if (error) return { success: false, error: "Could not update your blocked players. Try again." };
+    (await cookies()).delete("cv_blocks");
+    return { success: true };
+  } catch { return { success: false, error: "Could not update your blocked players. Try again." }; }
 }
 
 export async function forgetThisDevice(): Promise<void> {

@@ -1,13 +1,16 @@
 "use client";
 
 import { DailyNext } from '@/ui/daily-next';
+import { ChallengeResult } from "@/ui/challenge-result";
+import { DailyHabit } from '@/ui/daily-habit';
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { commitDraftSession, startDraftPractice } from "@/app/actions/draft-session";
 import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
+import { SessionNotice } from "@/features/play/session-notice";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "@/features/play/persist";
-import { trackPlay } from "@/lib/play-events";
+import { trackCompletedRun, trackPlay } from "@/lib/play-events";
 import { buildCountryDraftShareText } from "@/lib/share";
 import { cn } from "@/lib/utils";
 import { Button } from "@/ui/button";
@@ -37,12 +40,16 @@ export function CountryDraftHost(p: HostProps) {
 
 function DraftSession(p: HostProps & { initialView: DraftView; initialToken: string }) {
   const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
+  const [challenge, setChallenge] = useState(p.challenge);
   const [state, setState] = useState(p.initialView);
+  const [preview, setPreview] = useState<DraftView | null>(null);
   const [selection, setSelection] = useState<DraftSelection>(EMPTY_SELECTION);
   const [token, setToken] = useState(p.initialToken);
   const [revision, setRevision] = useState(p.sessionRevision ?? 0);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [failedAction, setFailedAction] = useState<DraftCommitAction | null>(null);
+  const [pendingAction, setPendingAction] = useState<DraftCommitAction | null>(null);
   const [animate, setAnimate] = useState(false);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
   const [publishedName, setPublishedName] = useState<string | null>(p.publishedName ?? null);
@@ -68,7 +75,13 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     if (busyRef.current) return;
     busyRef.current = true;
     setBusy(true);
+    setPendingAction(action);
+    setFailedAction(null);
     setError(null);
+    if (action.t === "next" && state.phase === "seated" && state.nextView?.phase === "country") {
+      setSelection(EMPTY_SELECTION);
+      setPreview(state.nextView);
+    }
     if (!moved.current) { moved.current = true; trackPlay("play_start", "country-draft", p.mode); }
     try {
       const response = await commitDraftSession({ sessionToken: token, revision, action });
@@ -76,12 +89,13 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
       setToken(response.sessionToken);
       setRevision(response.revision);
       if (response.success) {
-        setSelection(EMPTY_SELECTION);
+        const samePreview = action.t === "next" && response.view.phase === "country" && response.view.round === state.round + 1;
+        if (!samePreview) setSelection(EMPTY_SELECTION);
         setAnimate(true);
         if (response.run) setRun(response.run);
         setPublishedName(response.publishedName ?? null);
         if (response.view.phase === "done") {
-          trackPlay("play_finish", "country-draft", p.mode);
+          if (response.run) trackCompletedRun("country-draft", p.mode, response.run.id);
           if (p.mode === "daily") {
             const label = `${response.view.score} of ${MAX_SCORE}`;
             writeDone(p.dateKey, p.edition, "country-draft", label, secondsUntilReset(p.resetAt, p.serverNow, mountedAt.current || Date.now()));
@@ -89,42 +103,43 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
             clearProgress("country-draft");
           }
         }
-      } else setError(response.error ?? "Your move could not be saved. Try again.");
-    } catch { setError("Your move was not confirmed. Check your connection and try again."); }
-    finally { busyRef.current = false; setBusy(false); }
-  }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow]);
+      } else { setSelection(EMPTY_SELECTION); setError(response.error ?? "Your move could not be saved."); setFailedAction(action); }
+    } catch { setSelection(EMPTY_SELECTION); setError("Your move was not confirmed. Check your connection."); setFailedAction(action); }
+    finally { busyRef.current = false; setBusy(false); setPendingAction(null); setPreview(null); }
+  }, [token, revision, p.mode, p.dateKey, p.edition, p.resetAt, p.serverNow, state]);
 
   const onOpen = useCallback(() => { if (selection.country !== null) void commit({ t: "open", c: selection.country }); }, [selection.country, commit]);
   const onCommit = useCallback(() => { if (selection.person !== null && selection.seat !== null) void commit({ t: "appoint", i: selection.person, s: selection.seat }); }, [selection.person, selection.seat, commit]);
   const onNext = useCallback(() => { void commit({ t: "next" }); }, [commit]);
+  const stage = preview ?? state;
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (busy || selection.detail !== null || state.phase === "done" || document.querySelector(".dr-help-details[open]")) return;
+      if ((busy && !preview) || selection.detail !== null || stage.phase === "done" || document.querySelector(".dr-help-details[open]")) return;
       if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select"))) return;
       if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
       const digit = Number(event.key) - 1;
       let action: (() => void) | null = null;
-      if (state.phase === "country") {
+      if (stage.phase === "country") {
         const i = poolIndex(digit);
         if (i !== null) action = () => onCountry(i);
         else if (event.key === "Enter") action = onOpen;
-      } else if (state.phase === "people") {
+      } else if (stage.phase === "people") {
         if (selection.person === null) { const i = poolIndex(digit); if (i !== null) action = () => onPerson(i); }
         else { const seat = seatIndex(digit); if (seat !== null && state.seats[seat] === null) action = () => onSeat(seat); else if (event.key === "Enter") action = onCommit; else if (event.key === "Escape") action = onDrop; }
-      } else if (state.phase === "seated" && ["Enter", "n", "N"].includes(event.key)) action = onNext;
+      } else if (stage.phase === "seated" && ["Enter", "n", "N"].includes(event.key)) action = onNext;
       if (action) { event.preventDefault(); action(); }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [busy, selection.detail, selection.person, state, onCountry, onOpen, onPerson, onSeat, onCommit, onDrop, onNext]);
+  }, [busy, preview, selection.detail, selection.person, stage, state.seats, onCountry, onOpen, onPerson, onSeat, onCommit, onDrop, onNext]);
 
   async function newPractice() {
     if (busyRef.current) return;
-    busyRef.current = true; setBusy(true); setError(null);
+    busyRef.current = true; setBusy(true); setError(null); setFailedAction(null);
     try {
       const response = await startDraftPractice();
-      setState(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setPublishedName(null); setSelection(EMPTY_SELECTION); setAnimate(false); moved.current = false;
+      setState(response.view); setToken(response.sessionToken); setRevision(response.revision); setRun(response.run ?? null); setPublishedName(null); setChallenge(undefined); setSelection(EMPTY_SELECTION); setAnimate(false); moved.current = false;
     } catch { setError("The next board could not be opened. Try again."); }
     finally { busyRef.current = false; setBusy(false); }
   }
@@ -149,13 +164,16 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
       </div></details>
     </header>
     {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
-    {state.phase !== "done" ? <Board state={state} selection={selection} busy={busy} animate={animate} onCountry={onCountry} onOpen={onOpen} onPerson={onPerson} onSeat={onSeat} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
-      <Result state={state} shareText={shareText} animate={animate} />
+    <ChallengeResult challenge={challenge} run={run} />
+    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpen={onOpen} onPerson={onPerson} onSeat={onSeat} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
+      <Result state={state} shareText={shareText} challengeUrl={run?.challengeUrl} animate={animate} onShare={() => trackPlay("share", "country-draft", p.mode)}>
+        {p.mode === "daily" ? <><DailyNext next={nextGame} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
+      </Result>
       {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
       {!run && p.mode === "daily" ? <p className="t-meta">Your score is saved on this device. Reload to restore the leaderboard option.</p> : null}
-      {p.mode === "practice" ? <Button block variant="ink" onClick={() => void newPractice()} disabled={busy}>One more draft</Button> : <DailyNext next={nextGame} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} />}
+      {p.mode === "practice" ? <Button block variant="ink" onClick={() => void newPractice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more draft</Button> : null}
       <DraftResultDetails state={state} />
     </div>}
-    {error ? <p className="dr-error t-body" role="alert">{error}</p> : null}
+    <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next country…" : pendingAction?.t === "open" ? "Opening your country…" : "Confirming your choice…"} onRetry={failedAction ? () => void commit(failedAction) : undefined} />
   </div>;
 }

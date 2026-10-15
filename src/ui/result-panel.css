@@ -25,3 +25,11 @@
 }
 
 @layer components { .rp .score { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 8px; } .rp .score-unit { color: var(--color-mute); } }
+
+@layer components {
+  .name-board-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+  .name-small-actions { flex-wrap: wrap; }
+  .name-country summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .name-country select { width: 100%; }
+  .name-entry form[aria-busy="true"] { cursor: progress; }
+}

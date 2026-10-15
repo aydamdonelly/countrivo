@@ -12,6 +12,7 @@ import { QaList } from "@/ui/qa-list";
 import { SiteFoot } from "@/ui/site-foot";
 import { YesterdayAnswers } from '@/features/home/yesterday-answers';
 import { GameJsonLd } from './game-jsonld';
+import { GeoWordleGuide } from './geo-wordle-guide';
 import { faqPage, jsonLdProps, node } from './breadcrumbs';
 import './seo.css';
 import './game-landing.css';
@@ -52,7 +53,7 @@ export async function GameLanding({slug}: {slug:string}) {
   const faq = [
     {q:'Do I need an account?',a:'No. There is no login. Finish a daily game, then add a name to the leaderboard if you like.'},
     {q:'What is Par?',a:`Par ${presentation.par} is a good score to aim for. It is a reference score, not another player.`},
-    {q:'When does the board reset?',a:'New daily boards arrive at midnight in Europe/Berlin. Everyone gets the same boards.'},
+    daily ? {q:'When does the board reset?',a:'New daily boards arrive at midnight in Europe/Berlin. Everyone gets the same boards.'} : {q:'Is this a daily game?',a:'This game is practice only. Start a new run whenever you like; practice has no daily leaderboard.'},
     {q:'Can I practice?',a:'Yes. Practice gives you fresh boards and never changes the daily leaderboard.'},
     ...(copy?.faq ?? []).filter((item)=>!/(account|sign.in|leaderboard|reset|streak|practice)/i.test(item.q+' '+item.a)).slice(0,3),
   ];
@@ -76,8 +77,11 @@ export async function GameLanding({slug}: {slug:string}) {
           {slug === 'country-draft' ? <div className="job-guide">{CABINET_JOBS.map((job)=><div key={job.slug}><Clay object={job.clay} sizes="72px" /><span><b>{job.name}</b><small>{job.description}</small></span></div>)}</div> : null}
         </details>
       </details>
+      {slug === 'geo-wordle' ? <details className="landing-details"><summary>See an example<ChevronRightIcon size={18} /></summary><GeoWordleGuide /></details> : null}
+      {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details"><summary>About {game.title}<ChevronRightIcon size={18} /></summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p>}</div></details> : null}
       <details className="landing-details"><summary>Questions<ChevronRightIcon size={18} /></summary><QaList open="details" items={faq} /></details>
       {daily ? <details className="landing-details"><summary>Yesterday’s answers<ChevronRightIcon size={18} /></summary><YesterdayAnswers slug={slug} /></details> : null}
+      {slug === 'flag-quiz' ? <p className="landing-topic t-body"><Link href="/practice/europe-flags">Practise just the flags of Europe</Link></p> : null}
       <section className="landing-more"><h2 className="t-h2">More games</h2><div className="landing-game-grid">{relatedSlugs(slug).map((other)=>{const g=gamePresentation(other);return g ? <GameCard key={g.slug} game={g} active={false} practice={!getGameBySlug(g.slug)?.availableModes.includes('daily')} /> : null;})}</div></section>
     </div>
     <SiteFoot />
