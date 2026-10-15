@@ -1,0 +1,462 @@
+{
+  "assets": [
+    {
+      "id": "CL-01",
+      "slug": "table",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-rest.png",
+      "used_for": "Country Draft rest still: game card, strip (in progress), landing hero, play header slot, archive; first frame of cd-idle and cd-done",
+      "notes": "Model drew four chairs instead of three (count drift, accepted)."
+    },
+    {
+      "id": "CL-01",
+      "slug": "table",
+      "state": "out",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-out.png",
+      "used_for": "Country Draft cd-idle (focused card): front chair pulled out",
+      "notes": ""
+    },
+    {
+      "id": "CL-01",
+      "slug": "table",
+      "state": "coins",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-coins.png",
+      "used_for": "Country Draft done still (strip, H5) and end of cd-done in the header slot when the draft finishes",
+      "notes": "Generated with X2 (green allowed) because coins are money. Four coins and four chairs."
+    },
+    {
+      "id": "CL-02",
+      "slug": "pin-magnifier",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-rest.png",
+      "used_for": "GeoWordle rest still: card, strip, play header; stays at rest in the header on a loss",
+      "notes": ""
+    },
+    {
+      "id": "CL-02",
+      "slug": "pin-magnifier",
+      "state": "tilt",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-tilt.png",
+      "used_for": "GeoWordle gw-idle (focused card)",
+      "notes": ""
+    },
+    {
+      "id": "CL-02",
+      "slug": "pin-magnifier",
+      "state": "pressed",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-pressed-v2.png",
+      "used_for": "GeoWordle done still (strip, H5) and end of gw-solve on a solve",
+      "notes": "v1 did not sink the pin or lay the magnifier flat; v2 with tightened prompt chosen. v1 kept on disk."
+    },
+    {
+      "id": "CL-03",
+      "slug": "pin-disc",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-rest.png",
+      "used_for": "Pinpoint rest still: card, strip, play header (wave 2)",
+      "notes": ""
+    },
+    {
+      "id": "CL-03",
+      "slug": "pin-disc",
+      "state": "lean",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-lean.png",
+      "used_for": "Pinpoint pp-idle and middle frame of pp-drop",
+      "notes": ""
+    },
+    {
+      "id": "CL-03",
+      "slug": "pin-disc",
+      "state": "deep",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-deep.png",
+      "used_for": "Pinpoint done still (strip, H5) and end of pp-drop, played on every round commit regardless of result",
+      "notes": ""
+    },
+    {
+      "id": "CL-04",
+      "slug": "blocks",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-rest.png",
+      "used_for": "Higher or Lower rest still: card, strip, play header; first frame of hl-right/hl-wrong/hl-idle",
+      "notes": "Arrow survived the cutout (old cv-higherlower lost it)."
+    },
+    {
+      "id": "CL-04",
+      "slug": "blocks",
+      "state": "level",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-level-v2.png",
+      "used_for": "Higher or Lower done still (strip, H5), hl-right and hl-idle",
+      "notes": "v1 lost the base slab and split into two separate blocks; v2 chosen (equal blocks on a shared slab). v1 kept on disk."
+    },
+    {
+      "id": "CL-04",
+      "slug": "blocks",
+      "state": "lean",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-lean.png",
+      "used_for": "Higher or Lower hl-wrong (bad reveal in the header slot)",
+      "notes": "X3 error state: arrow is burnt brick-orange; extra adjusted to allow burnt brick-orange on the arrow only."
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-rest.png",
+      "used_for": "Flag Quiz rest still: card, strip, play header, per-flag reveal base",
+      "notes": "Stripe narrower than 'wide'."
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "wave1",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-wave1.png",
+      "used_for": "Flag Quiz fq-right flutter, fq-perfect and fq-idle",
+      "notes": ""
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "wave2",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-wave2.png",
+      "used_for": "Flag Quiz fq-right flutter and fq-perfect",
+      "notes": ""
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "droop",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-droop-v2.png",
+      "used_for": "Flag Quiz fq-wrong (bad reveal)",
+      "notes": "X3 error state (burnt brick-orange stripe). v1 did not droop; v2 hangs more limply, still not fully vertical. v1 kept on disk."
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "rosette",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-rosette.png",
+      "used_for": "Flag Quiz fq-perfect at 13 of 13, header slot only",
+      "notes": "Generated with X2 (green rosette). Flag faces left, mirrored versus the other flag states."
+    },
+    {
+      "id": "CL-05",
+      "slug": "flag",
+      "state": "furled",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-furled-v2.png",
+      "used_for": "Flag Quiz done still (strip, H5)",
+      "notes": "v1 was not furled (cloth still flying); v2 rolled and tied around the pole. v1 kept on disk."
+    },
+    {
+      "id": "CL-06",
+      "slug": "ruler",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-06-ruler-rest.png",
+      "used_for": "Stat Guesser rest still: card, strip, play header; first frame of sg",
+      "notes": "Ruler stands on edge rather than lying flat; no tick marks or numbers."
+    },
+    {
+      "id": "CL-06",
+      "slug": "ruler",
+      "state": "slide",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-06-ruler-slide.png",
+      "used_for": "Stat Guesser done still (strip, H5) and sg idle / per-round reveal",
+      "notes": "Ruler lies flat here (angle differs from rest)."
+    },
+    {
+      "id": "CL-07",
+      "slug": "cards",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-rest.png",
+      "used_for": "Blind Pick rest still: practice room, landing, placement base",
+      "notes": "Four cards rendered instead of three (count drift)."
+    },
+    {
+      "id": "CL-07",
+      "slug": "cards",
+      "state": "lift",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-lift-v2.png",
+      "used_for": "Blind Pick bp-idle and middle frame of bp per placement",
+      "notes": "v1 lifted a back card instead of the front card; v2 chosen. v1 kept on disk."
+    },
+    {
+      "id": "CL-07",
+      "slug": "cards",
+      "state": "flip",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-flip.png",
+      "used_for": "Blind Pick done still (strip) and end of bp per placement",
+      "notes": ""
+    },
+    {
+      "id": "CL-08",
+      "slug": "hourglass",
+      "state": "full",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-full.png",
+      "used_for": "Speed Flags live timer 30 to 21 s, practice room, landing",
+      "notes": ""
+    },
+    {
+      "id": "CL-08",
+      "slug": "hourglass",
+      "state": "t2",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-t2.png",
+      "used_for": "Speed Flags live timer 20 to 11 s",
+      "notes": ""
+    },
+    {
+      "id": "CL-08",
+      "slug": "hourglass",
+      "state": "t1",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-t1.png",
+      "used_for": "Speed Flags live timer 10 to 1 s",
+      "notes": "Bulbs render more translucent than other states; top still looks a bit fuller than one third."
+    },
+    {
+      "id": "CL-08",
+      "slug": "hourglass",
+      "state": "empty",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-empty.png",
+      "used_for": "Speed Flags timer at 0 s and done still",
+      "notes": "A small trace of sand remains in the top bulb."
+    },
+    {
+      "id": "CL-10",
+      "slug": "chair",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-10-chair-rest.png",
+      "used_for": "Cabinet job The Chair (Leader): Country Draft cabinet strip, job sheet, R1 cabinet strip, R6, landing 'the five jobs' rows",
+      "notes": ""
+    },
+    {
+      "id": "CL-10",
+      "slug": "chair",
+      "state": "squash",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-10-chair-squash.png",
+      "used_for": "The Chair seating plop [[squash,2],[rest,2]]",
+      "notes": "Squash is subtle; a CSS scale may be needed to read."
+    },
+    {
+      "id": "CL-11",
+      "slug": "helmet",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-11-helmet-rest.png",
+      "used_for": "Cabinet job The Field (Army): cabinet strip, job sheet, R1, R6, landing jobs rows",
+      "notes": ""
+    },
+    {
+      "id": "CL-11",
+      "slug": "helmet",
+      "state": "squash",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-11-helmet-squash.png",
+      "used_for": "The Field seating plop",
+      "notes": ""
+    },
+    {
+      "id": "CL-12",
+      "slug": "purse",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-12-purse-rest.png",
+      "used_for": "Cabinet job The Purse (Money): cabinet strip, job sheet, R1, R6, landing jobs rows",
+      "notes": "X2 (green allowed)."
+    },
+    {
+      "id": "CL-12",
+      "slug": "purse",
+      "state": "squash",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-12-purse-squash.png",
+      "used_for": "The Purse seating plop",
+      "notes": "X2."
+    },
+    {
+      "id": "CL-13",
+      "slug": "megaphone",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-13-megaphone-rest.png",
+      "used_for": "Cabinet job The Voice (Voice): cabinet strip, job sheet, R1, R6, landing jobs rows",
+      "notes": ""
+    },
+    {
+      "id": "CL-13",
+      "slug": "megaphone",
+      "state": "squash",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-13-megaphone-squash.png",
+      "used_for": "The Voice seating plop",
+      "notes": "Angle differs from rest."
+    },
+    {
+      "id": "CL-14",
+      "slug": "cog",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-14-cog-rest.png",
+      "used_for": "Cabinet job The Desk (Builder): cabinet strip, job sheet, R1, R6, landing jobs rows",
+      "notes": ""
+    },
+    {
+      "id": "CL-14",
+      "slug": "cog",
+      "state": "squash",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-14-cog-squash.png",
+      "used_for": "The Desk seating plop",
+      "notes": "Squash barely visible."
+    },
+    {
+      "id": "CL-20",
+      "slug": "trophy",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-20-trophy-rest.png",
+      "used_for": "Outcome top band: R1 notch and Day complete card notch",
+      "notes": "X2."
+    },
+    {
+      "id": "CL-20",
+      "slug": "trophy",
+      "state": "tip",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-20-trophy-tip.png",
+      "used_for": "Trophy tip loop in the R1 notch",
+      "notes": "X2."
+    },
+    {
+      "id": "CL-21",
+      "slug": "rosette",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-21-rosette-rest.png",
+      "used_for": "Outcome mid band in the R1 notch (still only)",
+      "notes": ""
+    },
+    {
+      "id": "CL-22",
+      "slug": "hill",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-22-hill-rest.png",
+      "used_for": "Outcome low band in the R1 notch (still only; losing is not an error)",
+      "notes": ""
+    },
+    {
+      "id": "CL-23",
+      "slug": "crate",
+      "state": "covered",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-covered.png",
+      "used_for": "Crate covered: tomorrow line on results and Day complete card (peek loop base)",
+      "notes": ""
+    },
+    {
+      "id": "CL-23",
+      "slug": "crate",
+      "state": "peek",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-peek.png",
+      "used_for": "Crate peek loop on the tomorrow line and Day complete card",
+      "notes": ""
+    },
+    {
+      "id": "CL-23",
+      "slug": "crate",
+      "state": "open",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-open.png",
+      "used_for": "Crate open still: archive pages and footer shelf",
+      "notes": ""
+    },
+    {
+      "id": "CL-24",
+      "slug": "globe",
+      "state": "americas",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-americas.png",
+      "used_for": "Globe: 404, /sources, /about, countries index header, footer shelf still; dossiers for the Americas",
+      "notes": "Never on a GeoWordle or Pinpoint board before the reveal."
+    },
+    {
+      "id": "CL-24",
+      "slug": "globe",
+      "state": "afreu",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-afreu.png",
+      "used_for": "Globe spin frame on 404; dossier still for Africa and Europe",
+      "notes": "Stand arm mirrored versus americas."
+    },
+    {
+      "id": "CL-24",
+      "slug": "globe",
+      "state": "asia",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-asia.png",
+      "used_for": "Globe spin frame on 404; dossier still for Asia",
+      "notes": "Stand arm mirrored versus americas."
+    },
+    {
+      "id": "CL-24",
+      "slug": "globe",
+      "state": "pacific",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-pacific.png",
+      "used_for": "Globe spin frame on 404; dossier still for Oceania / Pacific",
+      "notes": "Continents faint; arm mirrored versus americas."
+    },
+    {
+      "id": "CL-24",
+      "slug": "globe",
+      "state": "cloth",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-cloth.png",
+      "used_for": "Globe offline page (holds cloth)",
+      "notes": ""
+    },
+    {
+      "id": "CL-25",
+      "slug": "podium",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-25-podium-rest-v2.png",
+      "used_for": "/leaderboard header, board snippet head in R4, empty Countries today state (still only)",
+      "notes": "v1 cutout clipped the base slab and left grey specks; v2 chosen. v2 base slab is dark grey instead of light grey. v1 kept on disk."
+    },
+    {
+      "id": "CL-26",
+      "slug": "stamp",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-26-stamp-rest.png",
+      "used_for": "Practice stamp overlay at 40/56 px on practice cards and beside 'Practice' in the practice frame header",
+      "notes": ""
+    },
+    {
+      "id": "CL-26",
+      "slug": "stamp",
+      "state": "press",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-26-stamp-press.png",
+      "used_for": "Stamp press, plays once when a practice board is dealt",
+      "notes": ""
+    },
+    {
+      "id": "CL-27",
+      "slug": "nameplate",
+      "state": "rest",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-27-nameplate-rest.png",
+      "used_for": "Stand-in for a missing portrait on practice and reference pages; name set over it in Erode (wave 2)",
+      "notes": ""
+    }
+  ],
+  "legacy": [
+    {
+      "name": "cv-globe",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-globe.png"
+    },
+    {
+      "name": "cv-draft",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-draft.png"
+    },
+    {
+      "name": "cv-blindpick",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-blindpick.png"
+    },
+    {
+      "name": "cv-higherlower",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-higherlower.png"
+    },
+    {
+      "name": "cv-geowordle",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-geowordle.png"
+    },
+    {
+      "name": "cv-statguesser",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-statguesser.png"
+    },
+    {
+      "name": "cv-flagquiz2",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-flagquiz2.png"
+    },
+    {
+      "name": "cv-trophy",
+      "file": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cv-trophy.png"
+    }
+  ]
+}

@@ -1,0 +1,426 @@
+[
+  {
+    "id": "CL-01",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-rest.png",
+    "output": "public/clay/cl-01/rest.webp",
+    "sourceSha256": "8a1985819a3f6bfa290e05ba08c74ef8a141eaec05e9dcbef4893b1eb947934e",
+    "outputSha256": "e014f7ae98f73aa1bc625a308f135351f55edac0be577cc66130791d23f3fafc"
+  },
+  {
+    "id": "CL-01",
+    "state": "out",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-out.png",
+    "output": "public/clay/cl-01/out.webp",
+    "sourceSha256": "791a47b3530a24773313d76c06fd2edbe0947f2029acf672a3b534d24208d485",
+    "outputSha256": "8399e20928d415ce7c5c706c35bca4cf50211e452d407cb05889157d995c0c1e"
+  },
+  {
+    "id": "CL-01",
+    "state": "coins",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-01-table-coins.png",
+    "output": "public/clay/cl-01/coins.webp",
+    "sourceSha256": "b4ec684105b416b5499d29d95aa8572bd52664dd36ddbc23fffc27db2cec9f59",
+    "outputSha256": "b6a5894268b9fb21d1be75cec9fdfee8971298dd96ea9d086b70ffab034516e9"
+  },
+  {
+    "id": "CL-02",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-rest.png",
+    "output": "public/clay/cl-02/rest.webp",
+    "sourceSha256": "74a20dee14460011fe6098614fc506b36b13e345a6761cc6023e0f2cbefb09d6",
+    "outputSha256": "9a74aa0cbd55e87132b653160f3d3a791fa6991259988537a852424c6ec14058"
+  },
+  {
+    "id": "CL-02",
+    "state": "tilt",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-tilt.png",
+    "output": "public/clay/cl-02/tilt.webp",
+    "sourceSha256": "65ab8be09fc94bb8cd620394aa8394166dda1690cc8a2815f2aa3bc95a4a8ae4",
+    "outputSha256": "403fba7b595735a08758eb983344be09483799bb1e47b94e574217869c018159"
+  },
+  {
+    "id": "CL-02",
+    "state": "pressed",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-02-pin-magnifier-pressed-v2.png",
+    "output": "public/clay/cl-02/pressed.webp",
+    "sourceSha256": "c9227ee99b3235b4be35d582f7068907df61a9dc8017acc963075aa0724a5760",
+    "outputSha256": "866d44d3c4eb1362a0a772b0cc910385b019d39a3098cade155cfa6d9378e4a6"
+  },
+  {
+    "id": "CL-03",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-rest.png",
+    "output": "public/clay/cl-03/rest.webp",
+    "sourceSha256": "34947e504f4d7116c7e4adeca57923076d310b1b90f1972b52850229bd4d0752",
+    "outputSha256": "9a5ce5acdb73016043c401df523b560382d8392dfbc7403249f701eef94c4b31"
+  },
+  {
+    "id": "CL-03",
+    "state": "lean",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-lean.png",
+    "output": "public/clay/cl-03/lean.webp",
+    "sourceSha256": "68b7c4680650d52e3a1bb9d3d2a8e70ab5de94a10896ad103608a317905764bc",
+    "outputSha256": "9acf19643c4453b06ebba3d96417f379511d5ffb96c501a4abe1745e02c5bfec"
+  },
+  {
+    "id": "CL-03",
+    "state": "deep",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-03-pin-disc-deep.png",
+    "output": "public/clay/cl-03/deep.webp",
+    "sourceSha256": "a04266471dd69bebe879e8bce867d5dd6b144c2384f2b6753d465243e8b5bf25",
+    "outputSha256": "fd548b820ce8ee1f85e5c5a7216895f26257ae52e045fa628c537fcd010e1d27"
+  },
+  {
+    "id": "CL-04",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-rest.png",
+    "output": "public/clay/cl-04/rest.webp",
+    "sourceSha256": "df7658dca181b38d41f6af4ca72a5f01ba2258f1fcd508466a8ac9910cbcb000",
+    "outputSha256": "0fe439cba82e33d49f41bc280250d68d907a9f7b107c7a1b59d998e4221a4a10"
+  },
+  {
+    "id": "CL-04",
+    "state": "level",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-level-v2.png",
+    "output": "public/clay/cl-04/level.webp",
+    "sourceSha256": "565ecdf6d0c03d9e5a6d9867845e034b8adb1c21733a13b66d3406c7bb04b557",
+    "outputSha256": "f986177164bd11a0470dc3a1a5db6007b34f904ace2bde358838eb8affebc71f"
+  },
+  {
+    "id": "CL-04",
+    "state": "lean",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-04-blocks-lean.png",
+    "output": "public/clay/cl-04/lean.webp",
+    "sourceSha256": "8463e9b181616c00d5971fd76f37da96a3da2b223050bb8e61a1cc1c4906380c",
+    "outputSha256": "60d01e2e6a6efd6fbb1765c25373fdad5dd45f5a8e3f83c7422127f19fc88296"
+  },
+  {
+    "id": "CL-05",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-rest.png",
+    "output": "public/clay/cl-05/rest.webp",
+    "sourceSha256": "87967a587b0b3c86c2c7bdf1da5baa091df988c030a6f339791025553b48b971",
+    "outputSha256": "b791a8825de45fd4550356b827e5c875c17b48d5d330baf1c67e8e1a1a46a6e6"
+  },
+  {
+    "id": "CL-05",
+    "state": "wave1",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-wave1.png",
+    "output": "public/clay/cl-05/wave1.webp",
+    "sourceSha256": "3bc10e99d8d0646bb315b4890567e804a65de4a8fd570679cdf7664c1c895379",
+    "outputSha256": "2240aca8f1eb8d6cbef2ef59f684f39135de8baecafcb0c10a7be2dcac57a47f"
+  },
+  {
+    "id": "CL-05",
+    "state": "wave2",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-wave2.png",
+    "output": "public/clay/cl-05/wave2.webp",
+    "sourceSha256": "c1e652652b1f8b5b4417602c84475d5e367d756c49e042e81095dbeaf863e9e9",
+    "outputSha256": "e009ec32d8c34ff9328124eec72f2e28ceecd09dc5e686285695d28ad645601b"
+  },
+  {
+    "id": "CL-05",
+    "state": "droop",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-droop-v2.png",
+    "output": "public/clay/cl-05/droop.webp",
+    "sourceSha256": "20a94c39400d8cfa175fb3bc8d04f5e1c6dbcce6dbd72a670a84db9d5ef8a82a",
+    "outputSha256": "5e738091df818b88f04706f7a836eaa6c81ab06b700d2435bab8a46cb0c861f2"
+  },
+  {
+    "id": "CL-05",
+    "state": "rosette",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-rosette.png",
+    "output": "public/clay/cl-05/rosette.webp",
+    "sourceSha256": "7cb6a04c6823724b657a0eff40afe408a65425a31f9d71deb85c64970ace3864",
+    "outputSha256": "0824da0ee329ae13c77d107f6c76a0ebb55a00c2d31225e0d2e5453f4f1a97c7"
+  },
+  {
+    "id": "CL-05",
+    "state": "furled",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-05-flag-furled-v2.png",
+    "output": "public/clay/cl-05/furled.webp",
+    "sourceSha256": "0a541425fa046e9dc50752f69fe948d0481880792924235e95d87429ed34ad74",
+    "outputSha256": "413748049ceecc3f31a2013b9dbe070540d02af6b629a56f1536bf136f70483a"
+  },
+  {
+    "id": "CL-06",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-06-ruler-rest.png",
+    "output": "public/clay/cl-06/rest.webp",
+    "sourceSha256": "dc6af1d04e41405d756cfc81e7bef88b3d6432b06539199cd043fd8adfb50e7f",
+    "outputSha256": "5a2498e6fe8099065f448e1c2ff5a8ac0b03364295c63b8d3d5f3b617970baad"
+  },
+  {
+    "id": "CL-06",
+    "state": "slide",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-06-ruler-slide.png",
+    "output": "public/clay/cl-06/slide.webp",
+    "sourceSha256": "8557e2ec477039f58ab8f4cd756256b2bafd40b6f5e692924d655daa090761f6",
+    "outputSha256": "37368ae7bb972d68e019235c8a9257f49183b93f7bc186fa1a29bb9c6d54b4b9"
+  },
+  {
+    "id": "CL-07",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-rest.png",
+    "output": "public/clay/cl-07/rest.webp",
+    "sourceSha256": "7a7332d05f792ec537b7ce7c77c39f5fef35dec50e62fdb2406ef15111f9374b",
+    "outputSha256": "53612e721d7a46c8ebe73950123986813cdf7bd9a4c7bcbd385b7789dbc4f1a2"
+  },
+  {
+    "id": "CL-07",
+    "state": "lift",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-lift-v2.png",
+    "output": "public/clay/cl-07/lift.webp",
+    "sourceSha256": "e16027bdce9c0941e6ff1f0e219168c8269ba9c5ce51b2e1786ec7dc7d72150d",
+    "outputSha256": "16e215bcf98b8be737ef94e2c76565115c8fec55a7a0be0c1e185c4bd8e9e559"
+  },
+  {
+    "id": "CL-07",
+    "state": "flip",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-07-cards-flip.png",
+    "output": "public/clay/cl-07/flip.webp",
+    "sourceSha256": "8aa79d258d1236391111698c086b059318709b04f0c9a65ca80977cd7f8eb888",
+    "outputSha256": "f65333e9464063d554d73940e1ba3d1a2dc1a4e6a4eafc5649cf59d90229d6e2"
+  },
+  {
+    "id": "CL-08",
+    "state": "full",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-full.png",
+    "output": "public/clay/cl-08/full.webp",
+    "sourceSha256": "0ddc4bc4490066e714c80b489a0844be61656c090ac15a2532a9b2475dd219bb",
+    "outputSha256": "c17b3f45344b21e627038ba6329ae10cd175f8e27d4ea2f6e86f9b33d1ee42c1"
+  },
+  {
+    "id": "CL-08",
+    "state": "t2",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-t2.png",
+    "output": "public/clay/cl-08/t2.webp",
+    "sourceSha256": "1a8d49774df852dcb6a7638fa4213257baf0c13a5728c5f0daf9fa353911d16b",
+    "outputSha256": "d8dcda521c806ddafa9c513c465aa96c9ed9fd335f847be1ee5499590645c734"
+  },
+  {
+    "id": "CL-08",
+    "state": "t1",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-t1.png",
+    "output": "public/clay/cl-08/t1.webp",
+    "sourceSha256": "087e85d7bdd1405104a4947e467e817418636646d94b8a52f0fdc62b9014a8f7",
+    "outputSha256": "fc22b63f90301c6610edfd047f00521b31d5630a92fec2eb25021544a1b45571"
+  },
+  {
+    "id": "CL-08",
+    "state": "empty",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-08-hourglass-empty.png",
+    "output": "public/clay/cl-08/empty.webp",
+    "sourceSha256": "a1b555427abf9b473196bf625249f784f4e9bf599c64183e9be076a62f6bf12d",
+    "outputSha256": "e8056e9e3c3552d6b39e806e98e5e89a6c38258664710b4214a69f59468be713"
+  },
+  {
+    "id": "CL-10",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-10-chair-rest.png",
+    "output": "public/clay/cl-10/rest.webp",
+    "sourceSha256": "a4fbf6658d7f5225294e5b041513fc00d24c1fd1fbf213915966ac939688229a",
+    "outputSha256": "09b43f4b6125c7e639bcbc374ea7dbeb3ffa51e9aea03ed5eba46556e664b17c"
+  },
+  {
+    "id": "CL-10",
+    "state": "squash",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-10-chair-squash.png",
+    "output": "public/clay/cl-10/squash.webp",
+    "sourceSha256": "5dca2c07c6a5b14eb2439660603a4745fcb000fc0f8f2d937cf5e8e1be7c3658",
+    "outputSha256": "44d66d7e32fbec10d7b1a3e8c8be460563c13e78c783dbff5550abbd7071117a"
+  },
+  {
+    "id": "CL-11",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-11-helmet-rest.png",
+    "output": "public/clay/cl-11/rest.webp",
+    "sourceSha256": "f62227e53cf2de9552c714ae5c2f9e5bef957d819a92f209423a04eb1da2c714",
+    "outputSha256": "9f613e59cb9ec56c5430e6cfb3efe42b629fe45e9f9df2c7f86c0f1421cff469"
+  },
+  {
+    "id": "CL-11",
+    "state": "squash",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-11-helmet-squash.png",
+    "output": "public/clay/cl-11/squash.webp",
+    "sourceSha256": "bed530b2417a5cc9dd67d94183f832efb3a4559db1ba1f3ac850e13ade9f8616",
+    "outputSha256": "96cbce337a031c8c279a441a951f35ade47ade1155ddafb42c5a46dea5da1f43"
+  },
+  {
+    "id": "CL-12",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-12-purse-rest.png",
+    "output": "public/clay/cl-12/rest.webp",
+    "sourceSha256": "7c57c43e4759aa8afe0d82904497e9fb7103cd5f88dd04e90e5b9120c0ac6ede",
+    "outputSha256": "78d8b1c57bb3615f64491b61addd8e692fa2d8de20e710e394bc12172de562b7"
+  },
+  {
+    "id": "CL-12",
+    "state": "squash",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-12-purse-squash.png",
+    "output": "public/clay/cl-12/squash.webp",
+    "sourceSha256": "0f2f55cd74d443ccbec8679aca97d8f6a188f95a7e9e38f0e0c34c76542fb411",
+    "outputSha256": "07957ad37f7900e68aa4b24a24a8ad4094b45c824fb3f58c53f7ad1a9e98a27e"
+  },
+  {
+    "id": "CL-13",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-13-megaphone-rest.png",
+    "output": "public/clay/cl-13/rest.webp",
+    "sourceSha256": "d2022bd1f8978bce137530cd90847961524044113ee961386f2a2060e91da775",
+    "outputSha256": "10302dbc9e3e1e94c1454e94499cb617e0124007998ccd352a3c007e8b021dd5"
+  },
+  {
+    "id": "CL-13",
+    "state": "squash",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-13-megaphone-squash.png",
+    "output": "public/clay/cl-13/squash.webp",
+    "sourceSha256": "1ab65e5f8fc81e67e6f3155d74b7872f0292fe433907a69273e055d075802d90",
+    "outputSha256": "2a23661015d832d116705c5e9cc80e8dc9cf50421a648311a35a9d16fb800e9d"
+  },
+  {
+    "id": "CL-14",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-14-cog-rest.png",
+    "output": "public/clay/cl-14/rest.webp",
+    "sourceSha256": "fcf958c9f565cf3d1aca4282061e215aa0465d42bb0b1244ad085070545c4f61",
+    "outputSha256": "bec06a56a677ab451a7a2cad66282538a4c3756032151f10d1b7cf0c595d8d9a"
+  },
+  {
+    "id": "CL-14",
+    "state": "squash",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-14-cog-squash.png",
+    "output": "public/clay/cl-14/squash.webp",
+    "sourceSha256": "9f490dc762382826433dcfb35c2252e86d0009af4c38c87f3ed2f71ce952361b",
+    "outputSha256": "d1e5c6430622e51e7a370d4e46e7428b635327961130742bce975585b75d6ed6"
+  },
+  {
+    "id": "CL-20",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-20-trophy-rest.png",
+    "output": "public/clay/cl-20/rest.webp",
+    "sourceSha256": "9c7aedaef1ed5f1e05097363722f02f07a6979c95ef6fb7ac9c0124e89ee52ba",
+    "outputSha256": "2233af93b92d72172c71bc43ea6d684155ee4b9d01bd80808340c656bf09bc48"
+  },
+  {
+    "id": "CL-20",
+    "state": "tip",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-20-trophy-tip.png",
+    "output": "public/clay/cl-20/tip.webp",
+    "sourceSha256": "2e94bc49838bc18cf5a773a6b9c8d6f3bec04765aa63cbcbcabd6385f9ffdbbc",
+    "outputSha256": "726f8932178e16a653f8f85d1fffafac3c5ec4a741343ff71c2f698a3820a8a5"
+  },
+  {
+    "id": "CL-21",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-21-rosette-rest.png",
+    "output": "public/clay/cl-21/rest.webp",
+    "sourceSha256": "eb4f4f7e6eaa10783d83005390e6f6c305675f2c250ce6c56094ee6f10d0c56a",
+    "outputSha256": "bec3f1d036f662fba4e438f030a568d63452cb703bcb3979eea5281bebcdfb29"
+  },
+  {
+    "id": "CL-22",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-22-hill-rest.png",
+    "output": "public/clay/cl-22/rest.webp",
+    "sourceSha256": "83a6be4c4d887208525fdab91df69c7f786a08bf85c1fe276916be6bdaff0bf5",
+    "outputSha256": "f260e73aaf0eed25c4456feb90201d0dcdb930d9b766524b3c7721ba96a98f56"
+  },
+  {
+    "id": "CL-23",
+    "state": "covered",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-covered.png",
+    "output": "public/clay/cl-23/covered.webp",
+    "sourceSha256": "e6d206502ed2bb6613ace09c7b94530865311691889a57f2366c54e0c08d5544",
+    "outputSha256": "9495b55b65489025cd6541d7494118e579f2ce35f596002953807358105a8043"
+  },
+  {
+    "id": "CL-23",
+    "state": "peek",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-peek.png",
+    "output": "public/clay/cl-23/peek.webp",
+    "sourceSha256": "05e54626583c176cf45d67045283f3d9b90353673a91b206c16a0439ad49ad87",
+    "outputSha256": "2ad0876ebf0363618f6fc871dcf997081e092aaea13f3ade07ae12dc5fd4b226"
+  },
+  {
+    "id": "CL-23",
+    "state": "open",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-23-crate-open.png",
+    "output": "public/clay/cl-23/open.webp",
+    "sourceSha256": "88e49d6b41c02ba10635a0d27dd64cf7acb3291c6a9df5b37c2895190ccd7c3a",
+    "outputSha256": "106febe0b67ec41107f5114c8c4071d154a9396205de00268eee28e9e90778e4"
+  },
+  {
+    "id": "CL-24",
+    "state": "americas",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-americas.png",
+    "output": "public/clay/cl-24/americas.webp",
+    "sourceSha256": "9278826a2265a15544745dc033d3742c75270ad69b8abd51f7c7e5f4a918fa11",
+    "outputSha256": "b74f51da5808637962ef205d44f1c13738ead9f67e5f8867d175007619231a60"
+  },
+  {
+    "id": "CL-24",
+    "state": "afreu",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-afreu.png",
+    "output": "public/clay/cl-24/afreu.webp",
+    "sourceSha256": "b264d9a2c18928acbb0a48f7ef8ab5f44bf0fb8b6e5b09664bf84dc13b8b0c49",
+    "outputSha256": "3eeef4e9a3297385d8f13d8238462e882b1e32b9e8de9dd3a8f3e4af9721a5f9"
+  },
+  {
+    "id": "CL-24",
+    "state": "asia",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-asia.png",
+    "output": "public/clay/cl-24/asia.webp",
+    "sourceSha256": "c1c5fc73b25499129096b75ba2dc4bde61b7ab83d9a2acc172771d137a1bc2f7",
+    "outputSha256": "c67419c684261bee760ba80bad6354ffd5b76218bc25d9e73b421d388ebbb931"
+  },
+  {
+    "id": "CL-24",
+    "state": "pacific",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-pacific.png",
+    "output": "public/clay/cl-24/pacific.webp",
+    "sourceSha256": "7c7f7b652f25c4138752a0b3642079da9f4ef1c4a81373880c6191db6ce9c671",
+    "outputSha256": "ca9fb60540bf6866ab546bc7ae7495a233a9657d57a1373b80e8f9edaa44a27e"
+  },
+  {
+    "id": "CL-24",
+    "state": "cloth",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-24-globe-cloth.png",
+    "output": "public/clay/cl-24/cloth.webp",
+    "sourceSha256": "d8fee2a282ef1482c1778e247dac76f680b19940d77f815e53e434044a7bfa44",
+    "outputSha256": "8742665867c95142d4855b11ad27377d9929135f3ce558e2595db2b152117cd2"
+  },
+  {
+    "id": "CL-25",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-25-podium-rest-v2.png",
+    "output": "public/clay/cl-25/rest.webp",
+    "sourceSha256": "e533b7af78f5e01c9363f9fca5bb7a7d17e86b893f59be8f9a8d2aecd456a3c4",
+    "outputSha256": "a1978d3035da336750ce05398ba10b8ee2863a019e1c9ae888c28ca1a92a5b6c"
+  },
+  {
+    "id": "CL-26",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-26-stamp-rest.png",
+    "output": "public/clay/cl-26/rest.webp",
+    "sourceSha256": "67804dd8c91269c450efe252e3d1be0d6027ec11843387a35e9d8dcf0da19a7a",
+    "outputSha256": "fb79a87208e62d24514a3efedcb35f5c84d59e8733cfcb940db19722a480580e"
+  },
+  {
+    "id": "CL-26",
+    "state": "press",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-26-stamp-press.png",
+    "output": "public/clay/cl-26/press.webp",
+    "sourceSha256": "1e01615a889eff09dd9c424a40e6d87bdcfa6b4cb69bbfa31d0fcc0bdd9b82bb",
+    "outputSha256": "54ab212304bcc6e168643bf01b1567e731c5c80543e82b299fb2b41f1759df39"
+  },
+  {
+    "id": "CL-27",
+    "state": "rest",
+    "source": "/Users/adamkahirov/Desktop/code/clay_image_generation/out/icons/cl-27-nameplate-rest.png",
+    "output": "public/clay/cl-27/rest.webp",
+    "sourceSha256": "388c2c2a7c9c5384715db4ba8c0ecce682f1f5e1cbf46a9a7252cceddbf4d0bf",
+    "outputSha256": "fa7b44fc3cbc72ab81155ebe84325ff1958228855a54b6c7d3ae3d3c7e83867b"
+  }
+]
