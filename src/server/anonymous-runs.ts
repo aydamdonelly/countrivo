@@ -186,9 +186,10 @@ export async function anonymousRunDetail(runId: number): Promise<RunDetail | nul
   const { data: row } = await gameDatabase().from("countrivo_runs").select("*").eq("id", runId).eq("mode", "daily")
     .eq("status", "complete").maybeSingle<AnonymousRunRow>();
   if (!row || ((!row.display_name || row.moderation_hidden) && row.device_id !== device)) return null;
+  if (row.device_id !== device && (await blockedLeaderboardRuns(row.game_slug, row.date_key, row.edition)).ids.includes(row.id)) return null;
   const run = await mapAnonymousRun(row);
   const maySeeAnswers = row.device_id === device || row.date_key < getTodayDateKey();
-  return {runId:row.id,userId:`run-${row.id}`,username:row.display_name??"Anonymous",displayName:row.display_name??"Anonymous",avatarUrl:null,
+  return {runId:row.id,isOwn:row.device_id===device,userId:`run-${row.id}`,username:row.display_name??"Anonymous",displayName:row.display_name??"Anonymous",avatarUrl:null,
     gameSlug:row.game_slug,dailyDate:row.date_key,scoreRaw:run.scoreRaw,scoreMax:run.scoreMax,scoreDisplay:run.scoreDisplay,scoreSortValue:run.scoreSortValue,
     rankDaily:run.rankDaily,percentile:run.percentile,resultJson:maySeeAnswers?run.resultJson:null,seed:null,completedAt:run.completedAt};
 }

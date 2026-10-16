@@ -7,7 +7,8 @@ const require=createRequire(import.meta.url),load=Module._load;
 Module._load=function(name,parent,main){return name==='server-only'?{}:load.call(this,name,parent,main);};
 function stub(name,exports){const id=require.resolve(name);require.cache[id]={id,filename:id,loaded:true,exports};}
 const cookieValues=new Map(),snapshots=new Map();
-let databaseCalls=0,detailRow=null,allowDetailReads=false;
+let databaseCalls=0,detailRow=null,allowDetailReads=false,blockedReads=0,blockedError=false;
+let blockedIds=[];
 stub('next/cache',{unstable_cache:callback=>callback,updateTag:()=>{}});
 stub('@supabase/supabase-js',{createClient:()=>{
   databaseCalls++;
@@ -19,7 +20,13 @@ stub('@supabase/supabase-js',{createClient:()=>{
       return {select(){return this;},eq(key,value){filters.push([key,value]);return this;},
         async maybeSingle(){return {data:detailRow&&filters.every(([key,value])=>detailRow[key]===value)?detailRow:null,error:null};}};
     },
-    rpc:name=>{
+    rpc:(name,args)=>{
+      if(name==='countrivo_blocked_names'){
+        blockedReads++;
+        assert.equal(args.p_viewer,device);assert.equal(args.p_slug,detailRow.game_slug);
+        assert.equal(args.p_day,detailRow.date_key);assert.equal(args.p_edition,detailRow.edition);
+        return {abortSignal(){return this;},async returns(){return {data:blockedIds.map(run_id=>({run_id})),error:blockedError?{message:'unavailable'}:null};}};
+      }
       assert.equal(name,'countrivo_ranked_board');
       return {abortSignal(){return this;},async returns(){return {data:{count:0,average:0,entries:[],countries:[]},error:null};}};
     },
@@ -102,7 +109,7 @@ assert.equal(await anonymousRunDetail(1),null,'hidden publisher names are unavai
 detailRow={...row,moderation_hidden:true};
 const hiddenOwner=await anonymousRunDetail(1);
 assert.ok(hiddenOwner,'the owner can still open their hidden result');
-assert.equal(hiddenOwner.displayName,row.display_name);assert.deepEqual(hiddenOwner.resultJson,row.result_json);
+assert.equal(hiddenOwner.isOwn,true);assert.equal(hiddenOwner.displayName,row.display_name);assert.deepEqual(hiddenOwner.resultJson,row.result_json);
 detailRow={...row,moderation_hidden:false,display_name:null,device_id:randomUUID()};
 assert.equal(await anonymousRunDetail(1),null,'an unpublished result stays private even through its direct URL');
 detailRow={...row,moderation_hidden:false,display_name:null};
@@ -110,6 +117,28 @@ const unnamedOwner=await anonymousRunDetail(1);
 assert.ok(unnamedOwner);assert.equal(unnamedOwner.displayName,'Anonymous');
 detailRow={...row,moderation_hidden:false,device_id:randomUUID()};
 const publishedGuest=await anonymousRunDetail(1);
-assert.ok(publishedGuest);assert.equal(publishedGuest.resultJson,null,'public current-day results never reveal answers');assert.equal(publishedGuest.seed,null);
+assert.ok(publishedGuest);assert.equal(publishedGuest.isOwn,false);assert.equal(publishedGuest.resultJson,null,'public current-day results never reveal answers');assert.equal(publishedGuest.seed,null);
+const beforeBlocks=blockedReads;
+assert.equal(beforeBlocks,0,'browsers without blocks need no additional block lookup');
+cookieValues.set('cv_blocks',signValue('enabled'));blockedIds=[1];
+const beforeDenied=databaseCalls;
+assert.equal(await anonymousRunDetail(1),null,'a viewer-blocked publisher cannot appear through a public direct link');
+assert.equal(databaseCalls-beforeDenied,2,'blocked detail is denied before leaderboard or challenge projection');
+detailRow={...detailRow,id:2,game_slug:'geo-wordle',date_key:yesterday};blockedIds=[2];
+assert.equal(await anonymousRunDetail(2),null,'block covers another game and an archived day from that publisher');
+detailRow={...row,moderation_hidden:false,device_id:randomUUID()};blockedIds=[];
+assert.ok(await anonymousRunDetail(1),'blocking another publisher does not hide an unrelated result');
+blockedError=true;
+await assert.rejects(()=>anonymousRunDetail(1),/blocked-player settings/,'failed block checks never reveal a publisher');
+blockedError=false;blockedIds=[1];detailRow={...row,moderation_hidden:false};
+const ownBeforeBlocks=blockedReads;
+assert.equal((await anonymousRunDetail(1)).isOwn,true,'the owner can open their own result');
+assert.equal(blockedReads,ownBeforeBlocks,'own results never require a publisher-block lookup');
+detailRow={...row,moderation_hidden:false,device_id:randomUUID()};
+cookieValues.delete('cv_blocks');
+const anotherBrowser=await anonymousRunDetail(1);
+assert.ok(anotherBrowser,'a viewer without that block can still open the public result');
+assert.ok(!JSON.stringify(anotherBrowser).includes(detailRow.device_id),'ownership flag exposes no publisher device identifier');
+console.log('Run-detail blocking regression: direct links, cross-game/archive blocks, ownership, per-viewer isolation, fail-closed errors and no extra unblocked lookup passed.');
 console.log('Run-detail regression: hidden non-owner denied, hidden owner allowed, unpublished non-owner denied, unpublished owner allowed, public answers withheld.');
 console.log('Challenge regression: signatures, tampering, ownership, future dates, editions, archive availability, private-field exclusion, score outcomes, share URLs and zero extra signing reads passed.');

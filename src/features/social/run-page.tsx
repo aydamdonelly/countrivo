@@ -4,8 +4,10 @@ import { getGameBySlug } from "@/lib/data/registry";
 import { compactScore } from "@/server/boards";
 import { RUN_DETAILS, isPlayable } from "@/games/registry";
 import { Button, Crest, ResultPanel } from "@/ui";
+import { ReportName } from "./report-name";
 import "@/features/play/play.css";
 import "./social.css";
+import "./leaderboard.css";
 
 export interface RunPageProps {
   slug: string;
@@ -46,14 +48,15 @@ export async function RunPage({ slug, runId }: RunPageProps) {
     <div className="col-640">
       <div className="run-by">
         <Crest path={crest} size={40} label={run.displayName || run.username} />
-        <span className="who t-row">
+        <div className="who t-row">
           <span className="nm">
             {run.displayName || run.username}
           </span>
           <span className="when t-meta">
             {title} · {date}
           </span>
-        </span>
+          {!run.isOwn ? <ReportName runId={run.runId} name={run.displayName || run.username} /> : null}
+        </div>
       </div>
       <ResultPanel
         mode="shared"

@@ -36,6 +36,7 @@ export interface LeaderboardEntry {
 
 export interface RunDetail {
   runId: number;
+  isOwn?: boolean;
   userId: string;
   username: string;
   displayName: string;

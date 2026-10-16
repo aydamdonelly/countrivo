@@ -61,7 +61,7 @@ const WB_INDICATORS: Record<string, { slug: string; year?: number }> = {
   "EN.ATM.CO2E.PC": { slug: "co2-per-capita" },
   "AG.LND.FRST.ZS": { slug: "forest-coverage-pct" },
   "SL.UEM.TOTL.ZS": { slug: "unemployment-rate" },
-  "MS.MIL.XPND.GD.ZS": { slug: "military-spending-pct" },
+  // SIPRI military expenditure requires source-specific permission; do not republish it.
   "EG.FEC.RNEW.ZS": { slug: "renewable-energy-pct" },
   "AG.LND.ARBL.ZS": { slug: "arable-land-pct" },
   "ST.INT.ARVL": { slug: "tourism-arrivals" },

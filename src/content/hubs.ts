@@ -45,7 +45,7 @@ export const COUNTRIES_HUB = {
 
 /** Two paragraphs; the page adds the sentence with the three game links after them. */
 export const COUNTRIES_INTRO: readonly string[] = [
-  "Every profile carries the flag, the capital, the continent and the same 21 world rankings, from population and land area to coffee, forest cover and time spent online. Where a number is missing the row says so instead of guessing.",
+  "Every profile carries the flag, the capital, the continent and world rankings, from population and total area to forest cover and time spent online. Rankings include only countries with data.",
   "The figures come from the World Bank, the WHO, the UNWTO and REST Countries, and each one is dated on the page it sits on.",
 ];
 
@@ -62,7 +62,7 @@ export const COUNTRY_FACTS: readonly { iso3: string; stat: string; label: string
 export const CATEGORIES_HUB = {
   title: "World Rankings by Statistic | Population, GDP, Area & More",
   description:
-    "Every country ranked on 21 statistics: population, GDP, area, life expectancy, tourism, forest cover and more. Sources: World Bank, WHO, UNWTO. Then test yourself in Higher or Lower.",
+    "Compare country statistics: population, GDP, area, life expectancy, tourism, forest cover and more. Sources and reference years appear with each ranking. Then test yourself in Higher or Lower.",
   h1: "Rankings",
 } as const;
 

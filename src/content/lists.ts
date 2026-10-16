@@ -1,5 +1,5 @@
 /**
- * The 15 curated lists (blueprint 7.13). Titles, descriptions, canonicals, intro prose
+ * The curated lists (blueprint 7.13). Titles, descriptions, canonicals, intro prose
  * and FAQ wording are carried verbatim from the 15 hand-written page files deleted in
  * section 12; `{n}` in an intro paragraph is the entry count, exactly as the old
  * continent pages interpolated `countries.length`. Every number on a page comes from the
@@ -51,7 +51,7 @@ export interface ListContent {
   seeAlso: readonly string[];
 }
 
-export const LISTS: readonly ListContent[] = [
+const LIST_CONTENT: readonly ListContent[] = [
   {slug:"doubly-landlocked",metaTitle:"Which countries are doubly landlocked?",description:"Liechtenstein and Uzbekistan, with their neighbours and the definition of double landlocking.",shortName:"Doubly landlocked",h1:"Which countries are doubly landlocked?",hubTitle:"Which countries are doubly landlocked?",hubDescription:"Two countries whose neighbours are landlocked too.",listName:"Doubly landlocked countries",listDescription:"The two doubly landlocked countries, verified against a UNECE source.",numberCaption:"countries",intro:["Reaching the open ocean from a doubly landlocked country means crossing at least two national borders. Neither the country nor any of its neighbours has an ocean coast."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["longest-land-routes","countries-in-asia","countries-in-europe"]},
   {slug:"longest-land-routes",metaTitle:"Which country pairs take the most border steps?",description:"The longest minimum border chains in Countrivo’s sovereign-country graph, with an explicit method and caveats.",shortName:"Longest border chains",h1:"How many borders separate distant countries?",hubTitle:"Which places are furthest apart in border steps?",hubDescription:"Longest minimum paths through the country-border graph.",listName:"Longest minimum country-border chains",listDescription:"Ten country pairs requiring the most border transitions in the available graph.",numberCaption:"border steps",intro:["Distance on a political map can be measured in borders as well as kilometres. These pairs sit far apart in the country-border network, even along a shortest chain."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["doubly-landlocked","countries-in-africa","countries-in-asia"]},
   {slug:"more-than-one-capital",metaTitle:"Which countries split capital functions?",description:"Verified examples of administrative, legislative, commercial and constitutional roles shared between cities.",shortName:"Capital functions",h1:"Which countries split capital functions between cities?",hubTitle:"Can a country have more than one capital?",hubDescription:"Three verified examples, with each city’s exact role.",listName:"Countries with split capital functions",listDescription:"Primary-source examples distinguishing legal capitals from seats of government and commercial capitals.",numberCaption:"verified examples",intro:["The word capital can describe different jobs. A constitutional capital, a seat of government and a commercial capital do not always mean the same thing. Here are three examples with the roles stated explicitly."],quickFacts:[],faq:[],source:{kind:"editorial"},seeAlso:["countries-in-africa","countries-in-asia","countries-in-europe"]},
@@ -683,6 +683,9 @@ export const LISTS: readonly ListContent[] = [
     seeAlso: ["most-forested-countries", "most-connected-countries", "highest-life-expectancy", "richest-countries"],
   },
 ];
+
+// Source-specific permission is unresolved; omit this list from pages and sitemaps.
+export const LISTS: readonly ListContent[] = LIST_CONTENT.filter(list => list.slug !== 'biggest-military-spenders');
 
 /** Sitemap and generateStaticParams read this (blueprint 7.12). */
 export const LIST_SLUGS: readonly string[] = LISTS.map((l) => l.slug);
