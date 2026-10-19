@@ -17,6 +17,8 @@ export interface ServerGameRun {
   placeCountry?: string | null;
   moderationHidden?: boolean;
   dailyNameCount?: number;
+  /** Hypothetical standing among real published scores, including this private result once. */
+  rankPreview?: { rank: number; playerCount: number };
 }
 
 export interface LeaderboardEntry {

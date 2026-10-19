@@ -1,8 +1,10 @@
 /* The play route (blueprint 7.5, 8.7): one column, 640 wide on phones and tablets, 720 at
    1024. Board furniture shared by the boards lives here too; colours are tokens only. */
 @layer components {
-  .play-frame { width: 100%; max-width: 640px; margin: 0 auto; padding: 0 var(--gutter) 40px; }
-  @media (min-width: 1024px) { .play-frame { max-width: 720px; padding: 0 20px 48px; } }
+  .play-frame { width: 100%; min-width: 0; max-width: 640px; margin: 0 auto; padding: 0 var(--gutter) calc(40px + env(safe-area-inset-bottom)); padding-left: max(var(--gutter), env(safe-area-inset-left)); padding-right: max(var(--gutter), env(safe-area-inset-right)); }
+  .play-frame > .pb { height: auto; min-height: 56px; gap: clamp(8px, 2vw, 12px); padding-block: 6px; }
+  .play-frame > .pb h1 { white-space: normal; overflow-wrap: anywhere; line-height: 1.15; }
+  @media (min-width: 1024px) { .play-frame { max-width: 720px; padding-bottom: calc(48px + env(safe-area-inset-bottom)); } }
 
   /* the counting number: a hidden sizer holds the final value, the live copy sits on it */
   .cu { position: relative; display: inline-block; }
@@ -11,7 +13,8 @@
   .cu.num-pop { animation: num-pop 140ms var(--ease-out); }
 
   /* stacks and rows */
-  .play-stack { display: flex; flex-direction: column; gap: 12px; }
+  .play-stack { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .play-stack > * { min-width: 0; }
   .play-stack > .subj, .play-stack > .subj-pair { margin: 4px 0 8px; }
   .play-actions { display: flex; align-items: center; gap: 16px; }
   .play-actions.end { justify-content: flex-end; }
@@ -118,7 +121,8 @@
   .reveal-name.bad { color: var(--color-ember); }
 
   /* the field row (typed games): a field and its button */
-  .typed { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start; }
+  .typed { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: start; }
+  .typed > * { min-width: 0; }
 
   /* the real-time timer (Speed Flags): the bar runs linearly, the numeral burns under 5 s */
   .prog.timer .bar i { transition: width 1s linear; }

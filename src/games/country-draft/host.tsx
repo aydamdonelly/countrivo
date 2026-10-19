@@ -38,6 +38,8 @@ export function CountryDraftHost(p: HostProps) {
 
 function DraftSession(p: HostProps & { initialView: DraftView; initialToken: string }) {
   const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
+  const resultRef = useRef<HTMLDivElement>(null);
+  const previousPhase = useRef(p.initialView.phase);
   const [challenge, setChallenge] = useState(p.challenge);
   const [state, setState] = useState(p.initialView);
   const [preview, setPreview] = useState<DraftView | null>(null);
@@ -152,10 +154,19 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     finally { busyRef.current = false; setBusy(false); }
   }
 
+  useEffect(() => {
+    const before = previousPhase.current;
+    previousPhase.current = state.phase;
+    if (before !== "done" && state.phase === "done") {
+      resultRef.current?.focus({ preventScroll: true });
+      resultRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  }, [state.phase]);
+
   const nextGame = p.dailies.find((game) => game.slug !== "country-draft" && !p.shotToday.includes(game.slug));
   const filled = state.seats.filter((seat) => seat !== null).length;
   const shareText = buildCountryDraftShareText({ score: state.score, band: bandOf(state.score).word, fits: state.seats.flatMap((seat) => seat ? [seat.fit] : []), rank: run?.rankDaily ?? null, practice: p.mode === "practice" }, p.dateKey);
-  return <div className="dr-game" aria-busy={busy}>
+  return <div className="dr-game">
     <header className="dr-play-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
       <span className={cn("dr-header-clay", state.phase === "done" && "finished")} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size clay object */}
@@ -173,11 +184,10 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     </header>
     {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
     <ChallengeResult challenge={challenge} run={run} />
-    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final">
-      <Result state={state} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
+    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final" ref={resultRef} tabIndex={-1} role="region" aria-label="Country Draft result">
+      <Result state={state} primaryAction={run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : undefined} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
         {p.mode === "daily" ? <><DailyNext next={nextGame} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
       </Result>
-      {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
       {!run && p.mode === "daily" ? <p className="t-meta">Your score is saved on this device. Reload to restore the leaderboard option.</p> : null}
       <DraftResultDetails state={state} />
     </div>}

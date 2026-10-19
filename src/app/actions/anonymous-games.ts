@@ -86,14 +86,14 @@ export async function getLeaderboardPlaces():Promise<{iso3:string;name:string}[]
   return countries.filter(c=>sovereignIso3.includes(c.iso3)).map(c=>({iso3:c.iso3,name:c.displayName})).sort((a,b)=>a.name.localeCompare(b.name));
 }
 
-export async function withdrawLeaderboardName(runId: number): Promise<{ success: boolean; error?: string }> {
+export async function withdrawLeaderboardName(runId: number): Promise<{ success: boolean; run?: ServerGameRun; error?: string }> {
   try {
     const device = await readDeviceId();
     if (!device || !Number.isSafeInteger(runId)) return { success: false, error: "This result belongs to a different browser." };
     const { data, error } = await gameDatabase().from("countrivo_runs").update({ display_name: null, published_at: null })
-      .eq("id", runId).eq("device_id", device).eq("date_key", getTodayDateKey()).eq("edition", await getEdition()).eq("mode", "daily").select("id").maybeSingle();
+      .eq("id", runId).eq("device_id", device).eq("date_key", getTodayDateKey()).eq("edition", await getEdition()).eq("mode", "daily").select("*").maybeSingle<AnonymousRunRow>();
     if(!error&&data)invalidateAnonymousLeaderboards();
-    return !error && data ? { success: true } : { success: false, error: "Could not remove your name. Try again." };
+    return !error && data ? { success: true, run: await mapAnonymousRun(data) } : { success: false, error: "Could not remove your name. Try again." };
   } catch { return { success: false, error: "Could not remove your name. Try again." }; }
 }
 

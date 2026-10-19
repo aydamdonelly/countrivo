@@ -43,6 +43,16 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
   const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
   const [challenge, setChallenge] = useState(p.challenge);
   const [view, setView] = useState(p.initialView);
+  const resultRef = useRef<HTMLDivElement>(null);
+  const previousPhase = useRef(p.initialView.phase);
+  useEffect(() => {
+    const before = previousPhase.current;
+    previousPhase.current = view.phase;
+    if (before !== "finished" && view.phase === "finished") {
+      resultRef.current?.focus({ preventScroll: true });
+      resultRef.current?.scrollIntoView({ block: "start", behavior: "instant" });
+    }
+  }, [view.phase]);
   const [preview, setPreview] = useState<QuickView | null>(null);
   const [token, setToken] = useState(p.initialToken);
   const [revision, setRevision] = useState(p.sessionRevision ?? 0);
@@ -122,19 +132,18 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
 
   const next = p.dailies.find((daily) => daily.slug !== view.kind && !p.shotToday.includes(daily.slug));
   const stage = preview ?? view;
-  return <div className="quick-remote" aria-busy={busy}>
+  return <div className="quick-remote">
     <header className="qr-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games"><ChevronLeftIcon size={24} /></Link>
       {/* eslint-disable-next-line @next/next/no-img-element -- local clay frame changes only after commit */}
       <img src={clayFor(stage)} width={40} height={40} alt="" className={animate && stage.phase !== "playing" ? "qr-clay-reveal" : undefined} /><h1 className="t-h3">{p.displayTitle ?? p.title}</h1><small className="t-meta">{p.mode === "daily" ? "Daily" : "Practice"}</small><GameHelp slug={view.kind} title={p.title} />
     </header>
     <ChallengeResult challenge={challenge} run={run} />
-    {view.phase === "finished" ? <>
-      <ResultPanel mode={p.mode} game={p.title} score={view.score} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : <Button variant="text" href={`/games/${view.kind}/leaderboard`}>Leaderboard</Button>}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
+    {view.phase === "finished" ? <div ref={resultRef} className="qr-result" tabIndex={-1} role="region" aria-label={`${p.title} result`}>
+      <ResultPanel mode={p.mode} game={p.title} score={view.score} primaryAction={run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun} /> : undefined} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : <Button variant="text" href={`/games/${view.kind}/leaderboard`}>Leaderboard</Button>}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
         {p.mode === "daily" ? <><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
-        {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun} /> : null}
         <details className="qr-history"><summary className="t-body">Answers</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
       </ResultPanel>
-    </> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}
-    <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next round…" : "Confirming your choice…"} onRetry={failedAction ? () => void send(failedAction) : undefined} />
+    </div> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}
+    <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? view.round + 1 >= view.total ? "Opening your result…" : "Opening the next round…" : "Confirming your choice…"} onRetry={failedAction ? () => void send(failedAction) : undefined} />
   </div>;
 }

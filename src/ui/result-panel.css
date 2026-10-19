@@ -1,35 +1,34 @@
 @layer components {
-  .rp-wrap { width: 100%; padding-top: 40px; }
-  .rp-wrap .rp { position: relative; background: var(--color-card); color: var(--color-ink); border-radius: var(--radius-card); padding: 56px 24px 24px; text-align: center; }
-  .rp-wrap .rp .result-clay { position: absolute; width: 108px; height: 108px; left: calc(50% - 54px); top: -54px; object-fit: contain; }
-  .rp-wrap .rp .k { color: var(--color-mute); justify-content: center; flex-wrap: wrap; font-size: 12px;  }
-  .rp-wrap .rp .score { margin-top: 12px; color: var(--color-ink); }
+  .rp-wrap { width: 100%; min-width: 0; }
+  .rp-wrap .rp { background: var(--color-card); color: var(--color-ink); border-radius: var(--radius-card); padding: 20px; text-align: center; }
+  .rp-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; text-align: left; }
+  .rp-wrap .rp .k { min-width: 0; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; color: var(--color-mute); line-height: 1.4; overflow-wrap: anywhere; }
+  .rp-wrap .rp .result-clay { flex: none; width: 64px; height: 64px; }
+  .rp-outcome { margin-top: 4px; line-height: 1.2; overflow-wrap: anywhere; }
+  .rp-wrap .rp .score { margin-top: 8px; color: var(--color-ink); }
+  .rp-score-content { display: inline-flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 0.12em; max-width: 100%; font-size: clamp(2rem, 12vw, 4.5rem); line-height: 1.1; }
+  .rp-wrap .rp .score .t-score-xl { min-width: 0; max-width: 100%; font-size: inherit; line-height: inherit; overflow-wrap: anywhere; }
+  .rp-wrap .rp .score-unit { min-width: 0; max-width: 100%; font-size: 0.4em; line-height: 1.25; color: var(--color-mute); overflow-wrap: anywhere; }
+  .rp-wrap .rp .score-fraction { white-space: nowrap; }
   .rp-wrap .rp .ranks, .rp-wrap .rp .note, .rp-wrap .rp .next { color: var(--color-mute); }
   .rp-wrap .rp .ranks b, .rp-wrap .rp .pb-line, .rp-wrap .rp .note a { color: var(--color-ink); }
-  .result-benchmarks { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--color-mute); }
-  .result-benchmarks > span { padding: 6px 12px; border-radius: var(--radius-ctl); background: var(--color-paper); }
+  .result-benchmarks { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 16px; margin-top: 12px; color: var(--color-mute); line-height: 1.4; }
   .result-benchmarks b { color: var(--color-ink); }
-  .result-practice { display: inline-flex; align-items: center; min-height: 44px; margin-top: 4px; color: var(--color-mute); text-decoration: underline; text-underline-offset: 3px; }
-  .rp-wrap .rp-actions { flex-wrap: wrap; justify-content: center; }
-  .name-entry > .btn { width: 100%; min-height: 56px; }
-  .name-entry, .name-published { margin-bottom: 24px; }
-  .name-entry form { display: flex; flex-direction: column; gap: 12px; padding: 20px; background: var(--color-card); border-radius: var(--radius-card); }
-  .name-controls { display: flex; gap: 12px; }
-  .name-controls input { width: 100%; min-width: 0; height: 52px; border: 1px solid var(--color-line); border-radius: var(--radius-ctl); padding: 0 14px; background: var(--color-bar); color: var(--color-ink); font-size: 16px; }
-  .name-controls .btn { flex: none; }
-  .name-entry select { min-height: 48px; padding: 0 12px; background: var(--color-bar); color: var(--color-ink); border-radius: var(--radius-ctl); border: 1px solid var(--color-line); font-size: 16px; }
-  .name-small-actions { display: flex; gap: 16px; margin-top: 8px; }
-  .name-small-actions button, .name-cancel { color: var(--color-mute); text-decoration: underline; text-underline-offset: 3px; text-align: left; min-height: 44px; cursor: pointer; }
-  @media (max-width: 480px) { .name-controls { flex-direction: column; } .name-controls .btn { min-height: 52px; } }
-  @media (prefers-reduced-motion: reduce) { .rp-wrap .result-clay { animation: none; } }
-}
-
-@layer components { .rp .score { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 8px; } .rp .score-unit { color: var(--color-mute); } }
-
-@layer components {
-  .name-board-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
-  .name-small-actions { flex-wrap: wrap; }
-  .name-country summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-  .name-country select { width: 100%; }
-  .name-entry form[aria-busy="true"] { cursor: progress; }
+  .rp-wrap .rp-primary { width: 100%; min-width: 0; margin-top: 16px; }
+  .rp-primary > .btn { width: 100%; min-height: 52px; white-space: normal; text-align: center; line-height: 1.35; }
+  .rp-wrap .rp-rows { display: grid; gap: 16px; min-width: 0; margin-top: 24px; }
+  .rp-wrap .rp-actions { flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 16px; }
+  .rp-wrap .rp-actions > .btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.35; }
+  .result-practice { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-mute); line-height: 1.4; text-decoration: underline; text-underline-offset: 3px; }
+  .rp-wrap .rp-fail { overflow-wrap: anywhere; }
+  .rp-wrap :is(.rp-primary, .rp-actions) :focus-visible { outline: 2px solid var(--color-ember); outline-offset: 4px; }
+  @media (min-width: 768px) { .rp-wrap .rp { padding: 24px 32px; } }
+  @media (max-width: 360px), (max-height: 480px) {
+    .rp-wrap .rp { padding: 16px; }
+    .rp-wrap .rp .result-clay { width: 48px; height: 48px; }
+    .rp-wrap .rp-rows { margin-top: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rp-wrap .result-clay, .rp-wrap .result-clay img { animation: none; transition: none; }
+  }
 }

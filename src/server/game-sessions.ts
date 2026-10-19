@@ -58,13 +58,13 @@ function sessionMetadata(ticket: RunTicket): AnonymousRunRow['state_json'] {
     ? {contentVersion:ticket.contentVersion,practiceCountry:ticket.practiceCountry,practiceStat:ticket.practiceStat,practiceRegion:ticket.practiceRegion} : null;
 }
 
-export async function prepareGameSession<S, A extends Action, V>(module: GameModule<S, A>, view: (state: S) => V, input: SessionSeed, knownRun?:AnonymousRunRow|null): Promise<SessionResponse<V>> {
+export async function prepareGameSession<S, A extends Action, V>(module: GameModule<S, A>, view: (state: S) => V, input: SessionSeed, knownRun?:AnonymousRunRow|null|Promise<AnonymousRunRow|null>): Promise<SessionResponse<V>> {
   if(input.archived&&input.dateKey>=getTodayDateKey())throw new Error('Archived board not found');
   const resumed=input.mode==='practice'&&input.resumeToken?readRunTicket(input.resumeToken):null;
   const expiredResume=!input.archived&&resumed?.slug===input.slug&&!currentContent(module.contentVersion,resumed);
   const prior = async ():Promise<AnonymousRunRow|null> => {
     if(expiredResume)return null;
-    if(knownRun!==undefined)return knownRun;
+    if(knownRun!==undefined)return await knownRun;
     const device = await readDeviceId();
     if(!device)return null;
     if(input.mode==='practice'&&resumed?.slug===input.slug&&resumed.mode==='practice'&&!!resumed.archived===!!input.archived) {

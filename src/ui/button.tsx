@@ -1,5 +1,5 @@
 import type { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
-import Link from "next/link";
+import { NavigationLink } from "./navigation-link";
 import { cn } from "@/lib/utils";
 import { ArrowUpRightIcon } from "@/ui/icons/arrow-up-right";
 import { UndoIcon } from "@/ui/icons/undo";
@@ -52,10 +52,10 @@ export function Button({
   const glyph = icon === "arrow-up-right" ? <ArrowUpRightIcon size={16} /> : icon === "undo" ? <UndoIcon size={16} /> : null;
   if (href) {
     return (
-      <Link href={href} prefetch={prefetch} className={cls} aria-disabled={disabled || undefined} onClick={onClick}>
+      <NavigationLink href={href} pendingLabel={pendingLabel} prefetch={prefetch} className={cls} aria-disabled={disabled || undefined} onClick={onClick}>
         {label}
         {glyph}
-      </Link>
+      </NavigationLink>
     );
   }
   return (

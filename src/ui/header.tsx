@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { NavigationLink as Link } from '@/ui/navigation-link';
 import { Wordmark } from '@/ui/wordmark';
 import { Streak } from '@/ui/streak';
 import type { Clock, Viewer } from '@/ui/types';

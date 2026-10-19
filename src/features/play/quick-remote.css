@@ -2,10 +2,11 @@
   .play-root[data-game="higher-or-lower"], .play-root[data-game="flag-quiz"], .play-root[data-game="stat-guesser"] { max-width: 1000px; }
   .play-root[data-game="higher-or-lower"] > .pb, .play-root[data-game="flag-quiz"] > .pb, .play-root[data-game="stat-guesser"] > .pb { display: none; }
   .quick-remote { display: flex; flex-direction: column; gap: 16px; }
-  .qr-header { display: flex; align-items: center; gap: 12px; height: 56px; }
+  .quick-remote .qr-result { width: 100%; max-width: 720px; margin-inline: auto; scroll-margin-block: 16px; }
+  .qr-header { display: flex; align-items: center; gap: 12px; min-height: 56px; padding-block: 6px; }
   .qr-header > a { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 44px; min-height: 44px; margin-left: -12px; }
   .qr-header > img { flex: none; object-fit: contain; }
-  .qr-header h1 { min-width: 0; }
+  .qr-header h1 { min-width: 0; overflow-wrap: anywhere; }
   .qr-header small { margin-left: auto; color: var(--color-mute); flex: none; }
   .qr-clay-reveal { animation: qr-plop 660ms steps(4, end); }
   .quick-remote > .prog { max-width: 720px; width: 100%; margin: 0 auto; }
@@ -60,7 +61,9 @@
   .qr-play { background: var(--color-ink); color: var(--color-on-ink); padding: 10px 16px; border-radius: var(--radius-ctl); }
   .qr-error { margin-top: 12px; }
   @media (hover: hover) { .qr-call:enabled:hover { background: var(--color-line); } }
-  @media (min-width: 1024px) { .qr-header { height: 64px; } .qr-pair { gap: 40px; } .qr-country { min-height: 220px; padding: 24px; } .qr-value { font-size: 64px; } .qr-higher { padding-bottom: 0; } .qr-call-controls { position: static; width: calc(50% - 20px); margin-left: auto; padding: 0; } .qr-stat-game .t-big { font-size: 56px; } }
+  @media (min-width: 1024px) { .qr-header { min-height: 64px; } .qr-pair { gap: 40px; } .qr-country { min-height: 220px; padding: 24px; } .qr-value { font-size: 64px; } .qr-higher { padding-bottom: 0; } .qr-call-controls { position: static; width: calc(50% - 20px); margin-left: auto; padding: 0; } .qr-stat-game .t-big { font-size: 56px; } }
+  /* A fixed bottom bar covers the comparison values on short landscape screens. */
+  @media (max-width: 1023px) and (max-height: 500px) { .qr-higher { padding-bottom: 0; } .qr-call-controls { position: static; padding: 0; } }
   @media (max-width: 359px) { .qr-header { gap: 8px; } .qr-header > img { width: 32px; height: 32px; } .qr-header h1 { font-size: 18px; } .qr-country { padding: 12px; } .qr-country > div > .t-h3 { font-size: 18px; } .qr-value { font-size: 30px; } .qr-stat-game .t-big { font-size: 36px; } .qr-ref-label { font-size: 11px; } }
   @keyframes qr-plop { 0% { transform: scale(1.05, 0.86); } 32% { transform: scale(0.94, 1.08); } 68% { transform: scale(1.03, 0.98); } 100% { transform: none; } }
   @keyframes qr-stamp { from { transform: translateY(6px); } to { transform: none; } }

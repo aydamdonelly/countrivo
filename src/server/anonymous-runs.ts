@@ -129,20 +129,42 @@ export const blockedLeaderboardRuns = cache(async (slug: string, dateKey: string
 
 export interface RunProjectionOptions { includeLeaderboard?: boolean; includeChallenge?: boolean }
 
+async function privateRankPreview(row: AnonymousRunRow, board: AnonymousBoard): Promise<ServerGameRun["rankPreview"]> {
+  if (!board.available || row.status !== "complete" || row.display_name || row.moderation_hidden
+    || row.archived || row.date_key !== getTodayDateKey() || row.score_sort_value === null) return undefined;
+  const others = board.entries.filter(entry => entry.runId !== row.id);
+  const namedCount = board.playerCount - (others.length < board.entries.length ? 1 : 0);
+  if (others.length >= namedCount || others.some(entry => entry.scoreSortValue <= Number(row.score_sort_value))) {
+    return { rank: 1 + others.filter(entry => entry.scoreSortValue > Number(row.score_sort_value)).length, playerCount: namedCount + 1 };
+  }
+  // The public page is capped at 500 rows. Count strictly better scores rather than inventing a lower rank.
+  try {
+    const { count, error } = await gameDatabase().from("countrivo_leaderboard").select("id", { count: "exact", head: true })
+      .eq("game_slug", row.game_slug).eq("date_key", row.date_key).eq("edition", row.edition)
+      .neq("id", row.id).gt("score_sort_value", row.score_sort_value).abortSignal(AbortSignal.timeout(6000));
+    return !error && count !== null && count <= namedCount ? { rank: count + 1, playerCount: namedCount + 1 } : undefined;
+  } catch { return undefined; }
+}
+
 export async function mapAnonymousRun(row: AnonymousRunRow, options: RunProjectionOptions = {}): Promise<ServerGameRun> {
-  let board = options.includeLeaderboard !== false && row.mode === "daily" ? await anonymousBoard(row.game_slug, row.date_key, { edition: row.edition }) : null;
+  const [initialBoard, challengeUrl] = await Promise.all([
+    options.includeLeaderboard !== false && row.mode === "daily" ? anonymousBoard(row.game_slug, row.date_key, { edition: row.edition }) : null,
+    options.includeChallenge === false ? undefined : challengeUrlForRun(row),
+  ]);
+  let board = initialBoard;
   if (board && row.display_name && !row.moderation_hidden && !board.entries.some(entry => entry.runId === row.id)) {
     board = await anonymousBoard(row.game_slug, row.date_key, { edition: row.edition, ownRunId: row.id });
   }
   const mine = board?.entries.find(entry => entry.runId === row.id);
   return {
-    challengeUrl: options.includeChallenge === false ? undefined : await challengeUrlForRun(row),
+    challengeUrl,
     id: row.id, gameSlug: row.game_slug, mode: row.mode, dailyDate: row.mode === "daily" ? row.date_key : null,
     scoreRaw: Number(row.score_raw ?? 0), scoreMax: Number(row.score_max ?? 0), scoreDisplay: row.score_display ?? "",
     scoreSortValue: Number(row.score_sort_value ?? 0), scoreNormalized: row.score_max ? Number(row.score_raw) / Number(row.score_max) : 0,
     rankDaily: mine?.rankDaily ?? null, percentile: board && board.playerCount >= 20 ? mine?.percentile ?? null : null, isPersonalBest: false,
     resultJson: row.result_json ?? {}, completedAt: row.completed_at ?? row.started_at,
     placeCountry: row.place_country_code, moderationHidden: row.moderation_hidden, dailyNameCount: board?.available ? board.playerCount : undefined,
+    rankPreview: board ? await privateRankPreview(row, board) : undefined,
   };
 }
 

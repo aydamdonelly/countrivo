@@ -275,6 +275,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
             failReason={fail}
             practiceHref={`/games/${slug}/play?mode=practice`}
             animateScore
+            primaryAction={run && mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : undefined}
             actions={
               <>
                 {mode === "daily" ? (
@@ -290,7 +291,6 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
               </>
             }
           >
-            {run && mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : null}
             {fail && payload ? <Button variant="quiet" onClick={() => void submit(payload)}>Try saving again</Button> : null}
             <Result state={state} mode={mode} run={run} />
           </ResultPanel>

@@ -70,8 +70,11 @@ stub('../src/server/anonymous-runs.ts', { mapAnonymousRun: async row => {
   return { id: row.id, scoreRaw: row.score_raw };
 } });
 stub('../src/server/edition.ts', { getEdition: async () => 'isolated-edition' });
-let preservedState = null;
-stub('../src/server/daily-board-state.ts', { resolveDailyBoard: async (module, _view, input) => ({ seed: input.seed, state: preservedState ?? module.create(input.seed, 'daily', input.dateKey) }) });
+let preservedState = null, dailyResolutionStarted = false;
+stub('../src/server/daily-board-state.ts', { resolveDailyBoard: async (module, _view, input) => {
+  dailyResolutionStarted = true;
+  return { seed: input.seed, state: preservedState ?? module.create(input.seed, 'daily', input.dateKey) };
+} });
 stub('../src/server/board-snapshots.ts', { archivedState: async () => preservedState, frozenBoardState: async () => preservedState,
   frozenBoardSnapshot: async () => preservedState ? {seed:4321,solution:preservedState} : null });
 stub('../src/server/leaderboard-bots.ts', { seedRivalsForGame: async () => {} });
@@ -203,6 +206,18 @@ const frozenArchive=await commitGameSession(contentModule,contentView,{sessionTo
 check(frozenArchive.success&&!frozenArchive.reset&&frozenArchive.view.pool===1,'archived practice uses the immutable historical roster, not a fresh current one');
 const archivedPrepared=await prepareGameSession(contentModule,contentView,{...oldContent,dateKey:yesterday,archived:true,resumeToken:encodeRunTicket(oldContent)});
 check(archivedPrepared.success&&!archivedPrepared.reset&&archivedPrepared.view.pool===1,'opening an archive ignores an unrelated old non-archived resume cookie');
+queries.length=0;dailyResolutionStarted=false;
+let releaseKnownRun, entrySettled=false;
+const pendingKnownRun=new Promise(resolve=>{releaseKnownRun=resolve;});
+const pendingEntry=prepareGameSession(contentModule,contentView,{...oldContent,mode:'daily'},pendingKnownRun).then(value=>{entrySettled=true;return value;});
+await Promise.resolve();
+check(dailyResolutionStarted&&!entrySettled,'immutable board resolution starts while the private own-run read is still pending');
+releaseKnownRun(null);
+const parallelEntry=await pendingEntry;
+check(parallelEntry.success&&parallelEntry.view.pool===1&&queries.length===0,'promised explicit null preserves the frozen daily and never repeats the private lookup');
+const knownVersioned=rows.get(firstVersionedTicket.id);
+const resumedKnown=await prepareGameSession(contentModule,contentView,{...oldContent,contentVersion:2},Promise.resolve(knownVersioned));
+check(resumedKnown.revision===knownVersioned.revision&&resumedKnown.view.picks.length===3&&queries.length===0,'promised saved state resumes its canonical revision without a second database query');
 preservedState=null;
 check(readRunTicket(encodeRunTicket({...oldContent,contentVersion:-1}))===null,'invalid content-version metadata is rejected');
 console.log(`Session fast-path: ${passed} checks passed. First move: 3 → 1 database calls; normal move: 2 → 1; conflict and legacy fallback remain authoritative.`);

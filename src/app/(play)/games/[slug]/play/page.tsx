@@ -66,45 +66,50 @@ export default async function PlayPage({ params, searchParams }: Props) {
   const practiceStat = query.stat && /^[a-z0-9-]{1,48}$/.test(query.stat) ? query.stat : resumed?.practiceStat;
   const practiceRegion = mode === 'practice' && !archived && (query.region === 'europe' || resumed?.practiceRegion === 'europe') ? 'europe' : undefined;
   const dailies = dailyRefs();
-  const todayRows = mode === "daily" ? await deviceDailySessionRows(dateKey, edition) : [];
-  const knownRun = mode==='daily'?todayRows.find(row=>row.game_slug===slug)??null:undefined;
-  const completed = todayRows.filter(row=>row.status==='complete');
-  const shotToday = completed.map((r) => r.game_slug);
-  const saved = completed.find((r) => r.game_slug === slug);
   const startedAt = new Date(clock.now).toISOString();
-  const challenge = await readPlayChallenge(query.challenge, { slug, dateKey, edition, mode, archived });
-  const common = { slug, title: game.title, displayTitle: practiceRegion ? 'Europe flags' : undefined, dateKey, edition, mode, seed, startedAt,
-    activity: readActivity(jar.get('cv_activity')?.value, clock.dateKey),
-    challenge,
-    viewer: { signedIn: false, name: null, crest: null, streak: GUEST_VIEWER.streak }, resetAt: clock.resetAt, serverNow: clock.now,
-    streakBefore: 0, dailies, shotToday, friendsToday: null, friendCount: 0, friendScores: [], shots: null, practiceBest: null };
   const sessionSeed = { slug, seed, mode, dateKey, edition, startedAt, archived, practiceCountry, practiceStat, practiceRegion, resumeToken };
+  const todayRowsPromise = mode === "daily" ? deviceDailySessionRows(dateKey, edition) : Promise.resolve([]);
+  const knownRun = mode === "daily" ? todayRowsPromise.then(rows => rows.find(row => row.game_slug === slug) ?? null) : undefined;
+  // Resolve the immutable board while this browser's saved state and challenge are read.
+  const commonPromise = Promise.all([todayRowsPromise, readPlayChallenge(query.challenge, { slug, dateKey, edition, mode, archived })]).then(([todayRows, challenge]) => ({
+    slug, title: game.title, displayTitle: practiceRegion ? 'Europe flags' : undefined, dateKey, edition, mode, seed, startedAt,
+    activity: readActivity(jar.get('cv_activity')?.value, clock.dateKey), challenge,
+    viewer: { signedIn: false, name: null, crest: null, streak: GUEST_VIEWER.streak }, resetAt: clock.resetAt, serverNow: clock.now,
+    streakBefore: 0, dailies, shotToday: todayRows.filter(row => row.status === 'complete').map(row => row.game_slug),
+    friendsToday: null, friendCount: 0, friendScores: [], shots: null, practiceBest: null,
+  }));
   const Host = HOSTS[slug];
   if (slug === "country-draft" || slug === "geo-wordle" || slug === "pinpoint") {
-    const props = { ...common, seed: 0, log: "" };
     if (slug === "country-draft") {
-      const specific = await prepareGameSession(await draftSessionModule(mode,dateKey,edition,practiceCountry), (state) => draftReviewView(state,{mode,dateKey,today:clock.dateKey}), sessionSeed, knownRun);
+      const [specific, common] = await Promise.all([draftSessionModule(mode,dateKey,edition,practiceCountry).then(module => prepareGameSession(module, (state) => draftReviewView(state,{mode,dateKey,today:clock.dateKey}), sessionSeed, knownRun)), commonPromise]);
+      const props = { ...common, seed: 0, log: "" };
       return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} showDraftRules={!jar.get("cv_draft_rules_seen")} draftView={specific.view} /></div>{specific.reset && specific.error ? <p className="t-meta text-mute" role="status">{specific.error}</p> : null}{mode==="practice"&&practiceCountry&&!archived&&await draftCountryUnavailable(practiceCountry,dateKey,edition)?<p className="t-meta text-mute">This country is in today’s daily Draft. Practice uses other countries until tomorrow.</p>:null}<NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} draft={specific.view} run={specific.run}/></PlayFrame>;
     }
     if (slug === "geo-wordle") {
-      const specific = await prepareGameSession(geo, geoWordleView, sessionSeed, knownRun);
+      const [specific, common] = await Promise.all([prepareGameSession(geo, geoWordleView, sessionSeed, knownRun), commonPromise]);
+      const props = { ...common, seed: 0, log: "" };
       return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} geoWordleView={specific.view} /></div><NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} geo={specific.view} run={specific.run}/></PlayFrame>;
     }
-    const specific = await prepareGameSession(pinpoint, pinpointView, sessionSeed, knownRun);
+    const [specific, common] = await Promise.all([prepareGameSession(pinpoint, pinpointView, sessionSeed, knownRun), commonPromise]);
+    const props = { ...common, seed: 0, log: "" };
     return <PlayFrame slug={slug} title={game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...props} sessionToken={specific.sessionToken} sessionRevision={specific.revision} savedRun={specific.run} publishedName={specific.publishedName} pinpointView={specific.view} /></div><NoScriptGame slug={slug} token={specific.sessionToken} revision={specific.revision} run={specific.run}/></PlayFrame>;
   }
   if (slug === "higher-or-lower" || slug === "flag-quiz" || slug === "stat-guesser") {
     const requestedStatBlocked = slug === "higher-or-lower" && mode === "practice" && practiceStat && higherCore.create(dailyBoardSeed(slug,dateKey,edition),"daily",dateKey).g.stat === practiceStat;
-    const session = slug === "higher-or-lower" ? await prepareGameSession(await higherSessionModule(mode,dateKey,edition,practiceStat), quickProject(higherView,mode,dateKey), sessionSeed, knownRun)
-      : slug === "flag-quiz" ? await prepareGameSession(await flagSessionModule(mode,dateKey,edition,practiceRegion), quickProject(flagView,mode,dateKey), sessionSeed, knownRun)
-      : await prepareGameSession(await statSessionModule(mode,dateKey,edition,practiceCountry,practiceStat), quickProject(statView,mode,dateKey), sessionSeed, knownRun);
+    const sessionPromise = slug === "higher-or-lower" ? higherSessionModule(mode,dateKey,edition,practiceStat).then(module => prepareGameSession(module, quickProject(higherView,mode,dateKey), sessionSeed, knownRun))
+      : slug === "flag-quiz" ? flagSessionModule(mode,dateKey,edition,practiceRegion).then(module => prepareGameSession(module, quickProject(flagView,mode,dateKey), sessionSeed, knownRun))
+      : statSessionModule(mode,dateKey,edition,practiceCountry,practiceStat).then(module => prepareGameSession(module, quickProject(statView,mode,dateKey), sessionSeed, knownRun));
+    const [session, common] = await Promise.all([sessionPromise, commonPromise]);
     return <PlayFrame slug={slug} title={slug==='flag-quiz'&&practiceRegion==='europe'?'Europe flags':game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...common} seed={0} log="" quickView={session.view} sessionToken={session.sessionToken}
       sessionRevision={session.revision} savedRun={session.run} publishedName={session.publishedName} /></div>{requestedStatBlocked?<p className="t-meta text-mute">That statistic is on today’s daily board. Practice uses another statistic until tomorrow.</p>:null}<NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} quick={session.view} run={session.run}/></PlayFrame>;
   }
   if (slug === "blind-pick") {
-    const session=await prepareGameSession(blindRemote,blindView,sessionSeed);
+    const [session, common] = await Promise.all([prepareGameSession(blindRemote,blindView,sessionSeed), commonPromise]);
     return <PlayFrame slug={slug} title={game.title} mode={mode}><div className="cv-js-game"><Host {...common} seed={0} log="" blindPickView={session.view} sessionToken={session.sessionToken} sessionRevision={session.revision} savedRun={session.run}/></div><NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} blind={session.view} run={session.run}/></PlayFrame>;
   }
+  const [common, todayRows] = await Promise.all([commonPromise, todayRowsPromise]);
+  const shotToday = common.shotToday;
+  const saved = todayRows.find(row => row.status === "complete" && row.game_slug === slug);
   const oldDone = mode === "daily" ? readDone(jar, dateKey, edition)[slug] : null;
   if (saved || oldDone) {
     const [run, metas, summary] = await Promise.all([saved ? mapAnonymousRun(saved) : null, dailyMetas(dateKey), anonymousSummary(slug, dateKey)]);
@@ -113,9 +118,9 @@ export default async function PlayPage({ params, searchParams }: Props) {
     return <PlayFrame slug={slug} title={game.title} mode="daily">
       <ResultPanel mode="lockout" game={game.title} score={run?.scoreDisplay ?? oldDone ?? "Finished"}
         ranks={run?.rankDaily ? {globalRank:run.rankDaily,globalShots:summary.playerCount,friendRank:null,friendCount:0} : undefined}
+        primaryAction={run ? <LeaderboardEntryForm run={run} publishedName={saved?.display_name} /> : undefined}
         practiceHref={`/games/${slug}/play?mode=practice`} clock={{ resetAt: clock.resetAt, serverNow: clock.now }}
         actions={<><Button variant="ink" href={`/games/${slug}/leaderboard`}>Today’s leaderboard</Button><Button variant="text" href={`/games/${slug}/play?mode=practice`}>Practice another board</Button></>}>
-        {run ? <LeaderboardEntryForm run={run} publishedName={saved?.display_name} /> : null}
       </ResultPanel>
       <NextDailies rows={rows} shot={done.size} total={dailies.length} />
     </PlayFrame>;

@@ -53,7 +53,8 @@ const sign=value=>signValue(Buffer.from(JSON.stringify(value)).toString('base64u
 const token=sign(payload),challenge=readChallengeToken(token);
 assert.ok(challenge);
 assert.equal(challenge.scoreDisplay,'145 of 195');
-assert.equal(readChallengeToken(token.slice(0,-1)+(token.endsWith('a')?'b':'a')),null);
+const signatureAt=token.lastIndexOf('.')+1;
+assert.equal(readChallengeToken(token.slice(0,signatureAt)+(token[signatureAt]==='a'?'b':'a')+token.slice(signatureAt+1)),null);
 assert.equal(readChallengeToken(sign({...payload,slug:'speed-flags'})),null);
 assert.equal(readChallengeToken(sign({...payload,dateKey:'2026-02-30'})),null);
 assert.equal(readChallengeToken(sign({...payload,scoreMax:0})),null);

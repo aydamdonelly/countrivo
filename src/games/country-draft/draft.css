@@ -118,12 +118,14 @@
   .dr-rules-jobs > div { display: flex; flex-direction: column; }
   .dr-rules-jobs .t-meta { color: var(--color-mute); }
   .dr-error { color: var(--color-ember); margin: 12px 0; }
-  .dr-final { display: flex; flex-direction: column; gap: 20px; padding: 16px 0 0; max-width: 740px; margin: 0 auto; }
+  .dr-result-primary { min-width: 0; width: 100%; }
+  .dr-result-body .dr-conquest-panel { margin-top: 0; }
+  .dr-final { display: flex; flex-direction: column; gap: 20px; padding: 16px 0 0; max-width: 720px; margin: 0 auto; scroll-margin-block: 16px; }
   .dr-result-card { position: relative; background: var(--color-card); border-radius: var(--radius-card); padding: 24px 16px 16px; }
-  .dr-result-heading { position: relative; padding-right: 76px; }
-  .dr-result-art { position: absolute; right: -8px; top: 12px; width: 80px; height: 96px; display: flex; justify-content: center; align-items: center; }
-  .dr-result-art img { width: 80px; height: 96px; object-fit: contain; }
-  .dr-result-kicker { margin: 0 0 12px; color: var(--color-mute); }
+  .dr-result-heading { position: relative; padding-top: 8px; text-align: center; }
+  .dr-result-art { position: absolute; right: 0; top: -8px; width: 56px; height: 56px; display: flex; justify-content: center; align-items: center; }
+  .dr-result-art img { width: 56px; height: 56px; object-fit: contain; }
+  .dr-result-kicker { margin: 0 56px 16px; min-height: 24px; color: var(--color-mute); }
   .dr-result-number { font-family: var(--font-display); font-weight: 600; font-size: 64px; line-height: 1; margin: 0 0 12px; }
   .dr-result-number > span:not(.cu) { font-size: 21px; white-space: nowrap; }
   .dr-result-card h2 { margin: 0 0 6px; }
@@ -146,9 +148,8 @@
   .dr-campaign-pick > div { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
   .dr-campaign-pick .t-meta { color: var(--color-mute); font-size: 12px; line-height: 16px; }
   .dr-campaign-pick b { font-size: 14px; line-height: 18px; overflow-wrap: anywhere; }
-  .dr-result-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 16px; margin: 16px 0; }
-  .dr-result-actions > .btn { flex: 1; min-width: 120px; }
-  .dr-result-actions > .btn:only-of-type { background: var(--color-ink); color: var(--color-on-ink); }
+  .dr-result-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 8px 16px; }
+  .dr-result-actions > .btn { min-width: 120px; max-width: 100%; white-space: normal; text-align: center; }
   .dr-result-followup { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
   .dr-result-card > .t-body { margin: 0; }
   .dr-result-card > .dr-cabinet-strip { margin-top: 24px; }
@@ -220,9 +221,9 @@
     .dr-job-sheet { width: 400px; max-height: calc(100vh - 280px); max-height: calc(100svh - 280px); margin-right: max(var(--gutter), calc((100vw - 960px) / 2)); pointer-events: auto; border-radius: var(--radius-card); border: 1px solid var(--color-line); padding: 20px; }
     .dr-sheet-handle { display: none; }
     .dr-result-card { padding: 32px 28px 24px; }
-    .dr-result-heading { padding-right: 116px; }
-    .dr-result-art { right: 0; width: 112px; height: 128px; }
-    .dr-result-art img { width: 112px; height: 128px; }
+    .dr-result-heading { padding-top: 0; }
+    .dr-result-art { right: 0; width: 64px; height: 64px; }
+    .dr-result-art img { width: 64px; height: 64px; }
     .dr-conquest-panel { padding: 20px 24px 12px; }
     .dr-conquest-caption > b { font-size: 22px; line-height: 26px; }
     .dr-campaign-pick b { font-size: 16px; line-height: 20px; }

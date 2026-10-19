@@ -39,7 +39,7 @@ export function GeoWordleHost(p:HostProps){
  const next=p.dailies.find(d=>d.slug!==p.slug&&!p.shotToday.includes(d.slug));
  async function commit(action:GeoCommitAction){if(lock.current)return;lock.current=true;setBusy(true);setPendingGuess(action.t==='guess'?action.iso3:null);setFailedAction(null);setError(null);try{const response=await commitGeoWordleSession({sessionToken:token,revision,action});setView(response.view);setToken(response.sessionToken);setRevision(response.revision);if(response.success){if(!started.current){trackPlay('play_start',p.slug,p.mode);started.current=true;}if(response.run){setRun(response.run);setName(response.publishedName??null);if(p.mode==='daily')writeDone(p.dateKey,p.edition,p.slug,response.run.scoreDisplay,Math.max(60,(p.resetAt-Date.now())/1000));trackCompletedRun(p.slug,p.mode,response.run.id);}}else {setError(response.error??'Could not save this guess.');setFailedAction(action);}}catch{setError('Your guess was not confirmed. Check your connection.');setFailedAction(action);}finally{setBusy(false);setPendingGuess(null);lock.current=false;}}
  async function newBoard(){if(lock.current)return;lock.current=true;setBusy(true);setFailedAction(null);setError(null);try{const response=await startGeoWordlePractice();setView(response.view);setToken(response.sessionToken);setRevision(response.revision);setRun(null);setName(null);setError(null);setGeneration(n=>n+1);setChallenge(undefined);started.current=false;}catch{setError('Could not open a new board. Try again.');}finally{setBusy(false);lock.current=false;}}
- return <div ref={playRef} className="play-stack" data-phase={finished?'settled':'live'} aria-busy={busy}>
+ return <div ref={playRef} className="play-stack" data-phase={finished?'settled':'live'}>
   <ChallengeResult challenge={challenge} run={run}/>
   <Progress done={used} total={6} label="" value={finished?score:`${used}/6`} current={finished?null:used}/>
   {!finished?<Board key={generation} state={view} dispatch={action=>void commit(action)} busy={busy} pendingGuess={pendingGuess}/>:null}
@@ -47,13 +47,12 @@ export function GeoWordleHost(p:HostProps){
   {finished?<>
    <div ref={resultRef} className="gw-result" tabIndex={-1} role="region" aria-label={`${view.phase==='won'?'Found':'Answer'}: ${view.answer?.name??'GeoWordle'}`}>
     <h2 className="gw-result-title t-h2">{view.answer?.name}</h2>
-    <ResultPanel className="gw-result-panel" mode={p.mode} game="GeoWordle" score={score} kicker={p.mode==='daily'?'Today · GeoWordle':'Practice · GeoWordle'} counter="Par 4" actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton challengeUrl={run?.challengeUrl} text={buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey)} onShare={()=>trackPlay('share',p.slug,p.mode)}/></>}>
+    <ResultPanel className="gw-result-panel" mode={p.mode} game="GeoWordle" score={score} primaryAction={run&&p.mode==='daily'?<LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun}/>:undefined} kicker={p.mode==='daily'?'Today · GeoWordle':'Practice · GeoWordle'} counter="Par 4" actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton challengeUrl={run?.challengeUrl} text={buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey)} onShare={()=>trackPlay('share',p.slug,p.mode)}/></>}>
      {p.mode==='daily'?<><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow}/><DailyHabit dateKey={p.dateKey} activity={p.activity}/></>:null}
     </ResultPanel>
    </div>
    <GeoBonus key={generation} state={view}/>
    <Board key={`route-${generation}`} state={view} dispatch={action=>void commit(action)} busy={busy}/>
-   {run&&p.mode==='daily'?<LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun}/>:null}
   </>:null}
  </div>;
 }

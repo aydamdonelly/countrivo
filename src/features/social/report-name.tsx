@@ -11,7 +11,7 @@ export function ReportName({ runId, name }: { runId: number; name: string }) {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<"report" | "block" | null>(null);
-  if (!open) return <button type="button" className="lb-report" aria-label={`Report or block ${name}`} onClick={() => setOpen(true)}>Report / block</button>;
+  if (!open) return <button type="button" className="lb-report" aria-label={`Report or block ${name}`} onClick={() => setOpen(true)}><span aria-hidden="true">⋯</span></button>;
   return <form className="lb-report-form" aria-busy={!!pending || undefined} onSubmit={async event => {
     event.preventDefault();
     if (pending || reported) return;
@@ -24,6 +24,7 @@ export function ReportName({ runId, name }: { runId: number; name: string }) {
     } catch { setError("Connection lost. Try sending your report again."); }
     finally { setPending(null); }
   }}>
+    <p className="lb-report-name t-meta">Report or block <b>{name}</b></p>
     {!reported ? <><label className="sr-only" htmlFor={`report-${runId}`}>Reason for reporting {name}</label>
       <select name="reason" id={`report-${runId}`} disabled={!!pending}><option>Inappropriate name</option><option>Impersonation</option><option>Advertising</option></select>
       <button type="submit" disabled={!!pending}>{pending === "report" ? "Sending…" : "Send report"}</button></> : null}
