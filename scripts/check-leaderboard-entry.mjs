@@ -19,6 +19,7 @@ try {
     const page = await context.newPage(), errors = [];
     page.on('pageerror', error => errors.push(error.message));
     let posts = 0, publishes = 0, removals = 0, countryReads = 0, rank = 3, count = 11, empty = false;
+    let initialName = null;
     const dateKey = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Berlin' }).format(new Date());
     const run = { id: 991234, gameSlug: 'flag-quiz', mode: 'daily', dailyDate: dateKey, scoreRaw: 10, scoreMax: 13, scoreSortValue: 10, scoreNormalized: 10 / 13, scoreDisplay: '10 of 13', rankDaily: null, percentile: null, isPersonalBest: false, resultJson: {}, completedAt: new Date().toISOString(), dailyNameCount: count - 1, rankPreview: { rank, playerCount: count } };
     const view = { kind: 'flag-quiz', mode: 'daily', phase: 'finished', round: 10, total: 10, score: '10 of 13', progress: { done: 10, total: 10, value: '10' }, shareText: 'Flag Quiz result', history: [], flagSrc: '', options: [], picked: null, correctIndex: null, fact: null, source: null, doubled: false };
@@ -27,7 +28,7 @@ try {
       if (request.method() !== 'POST' || !request.headers()['next-action']) return route.continue();
       posts++;
       const args = JSON.parse(request.postData() ?? '[]'); let response;
-      if (args[0] && typeof args[0] === 'object') response = { success: true, view, run: { ...run, rankPreview: { rank: empty ? 1 : rank, playerCount: empty ? 1 : count } }, publishedName: null, sessionToken: 'synthetic-complete', revision: 1 };
+      if (args[0] && typeof args[0] === 'object') response = { success: true, view, run: { ...run, rankPreview: { rank: empty ? 1 : rank, playerCount: empty ? 1 : count } }, publishedName: initialName, sessionToken: 'synthetic-complete', revision: 1 };
       else if (args.length === 3) {
         publishes++;
         await new Promise(resolve => setTimeout(resolve, 250));
@@ -43,7 +44,7 @@ try {
       catch (error) { if (!String(error).includes('ERR_ABORTED')) throw error; await page.goto(href, { waitUntil: 'domcontentloaded' }); }
       await page.waitForFunction(() => { const button = document.querySelector('.opt'); return button && Object.keys(button).some(key => key.startsWith('__reactProps')); });
       await page.locator('.opt').first().click();
-      await page.getByRole('heading', { name: 'Join today’s leaderboard', exact: true }).waitFor();
+      await page.getByRole('heading', { name: initialName ? 'Leaderboard' : 'Join today’s leaderboard', exact: true }).waitFor();
     }
     await finish();
     const input = page.getByRole('textbox', { name: 'Your name on the board', exact: true });
@@ -88,6 +89,17 @@ try {
     empty = true; await finish();
     check(await page.getByText('Be the first today', { exact: true }).isVisible(), 'Empty boards invite the first player without inventing an existing crowd');
     check(await input.inputValue() === 'New Name', 'Next game reuses the last successfully published name');
+    initialName = 'Existing Name';
+    await page.evaluate(() => localStorage.removeItem('countrivo_leaderboard_name'));
+    await finish();
+    await page.waitForFunction(() => localStorage.getItem('countrivo_leaderboard_name') === '"Existing Name"');
+    check(await page.getByText('Existing Name', { exact: true }).isVisible(), 'An already-published own name seeds an empty preference');
+    check(publishes === 2, 'Seeding a confirmed existing name never publishes again');
+    await page.evaluate(() => localStorage.setItem('countrivo_leaderboard_name', '"More Recent Name"'));
+    await finish();
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    check(await page.evaluate(() => localStorage.getItem('countrivo_leaderboard_name')) === '"More Recent Name"', 'An older published name never overwrites an existing remembered preference');
+    check(publishes === 2, 'Preserving a remembered name adds no publication');
     await page.goto(`${base}/privacy`, { waitUntil: 'networkidle' });
     await page.waitForFunction(() => Array.from(document.querySelectorAll('button')).some(button => button.textContent === 'Forget this device' && Object.keys(button).some(key => key.startsWith('__reactProps'))));
     await page.getByRole('button', { name: 'Forget this device', exact: true }).click();

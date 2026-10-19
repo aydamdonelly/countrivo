@@ -42,7 +42,9 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
   const boardLink = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    if (!publishedName && !touched.current) setName(previous => previous || rememberedLeaderboardName());
+    const remembered = rememberedLeaderboardName();
+    if (publishedName && !remembered) rememberLeaderboardName(publishedName);
+    else if (!publishedName && !touched.current) setName(previous => previous || remembered);
   }, [publishedName, run.id]);
 
   const id = `leaderboard-name-${run.id}`;
