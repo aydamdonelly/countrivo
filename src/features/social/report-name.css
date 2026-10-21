@@ -1,0 +1,10 @@
+@layer components {
+  .lb-report { display: inline-flex; justify-content: center; align-items: center; min-width: 44px; min-height: 44px; color: var(--color-mute); font-size: 24px; cursor: pointer; border-radius: var(--radius-ctl); }
+  .lb-report-form { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 12px; font-size: 13px; background: var(--color-card); border-radius: var(--radius-ctl); }
+  .lb-report-name { width: 100%; overflow-wrap: anywhere; }
+  .lb-report-form select { width: 100%; min-height: 44px; padding: 0 8px; border-radius: var(--radius-ctl); background: var(--color-paper); }
+  .lb-report-form button { min-height: 44px; text-decoration: underline; text-underline-offset: 3px; }
+  .lb-report-message { width: 100%; font-size: 12px; }
+  .lb-report:focus-visible { outline:2px solid var(--color-ember); outline-offset:3px; }
+  @media(hover:hover) { .lb-report:hover { background:var(--color-card); color:var(--color-ink); } }
+}

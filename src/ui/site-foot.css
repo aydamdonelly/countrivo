@@ -1,6 +1,7 @@
 @layer components {
   .table-foot.site-foot-compact { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px 24px; margin-top: 48px; padding: 16px 0 0; border-top: 1px solid var(--color-line); border-radius: 0; }
   .table-foot.site-foot-compact::before { content: none; }
+  .site-foot-compact > .site-feedback { width:100%; }
   .site-foot-links, .site-foot-legal { display: flex; align-items: center; flex-wrap: wrap; gap: 0 20px; }
   .site-foot-links { font-size: 14px; }
   .site-foot-links a, .site-foot-legal a, .site-foot-more summary { display: inline-flex; align-items: center; min-height: 44px; }

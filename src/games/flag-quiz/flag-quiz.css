@@ -11,7 +11,8 @@
   .fq-box .flag { width: 88.889%; aspect-ratio: 4 / 3; }   /* 4:3 art at the full height of a 3:2 box */
 
   .fq-opts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .fq-opt.opt { height: 56px; padding: 0 16px; font-weight: 400; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  .fq-opt.opt { height: auto; min-height: 56px; padding: 12px 16px; font-weight: 400; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  .fq-opt.opt .lbl { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
   .fq-opt .fq-ic { flex: none; margin-left: auto; }
   .fq-opt[data-state="right"] { background: var(--color-ink); color: var(--color-paper); }
   .fq-opt[data-state="wrong"] { background: var(--color-ember); color: var(--color-paper); }
@@ -21,6 +22,17 @@
   }
 
   .fq .qr-flag-next { margin-top: 16px; }
+  @media(prefers-reduced-motion:no-preference) {
+    .fq-opt.opt { transition:transform 140ms var(--ease-out), background-color var(--dur-fast), color var(--dur-fast); }
+    .fq-opt:enabled:active { transform:translateY(2px) scale(0.985); }
+    .fq-opt[aria-pressed="true"][data-state="idle"] { transform:translateY(1px) scale(0.99); }
+    .fq[data-phase="reveal"] .fq-box .flag { animation:flag-settle 420ms var(--ease-out); }
+    .fq-opt[data-state="right"], .fq-opt[data-state="answer"] { animation:answer-settle 360ms var(--ease-out); }
+    .fq-opt[data-state="wrong"] { animation:answer-correct 300ms var(--ease-out); }
+  }
+  @keyframes flag-settle { 0% {transform:translate3d(0, -5px, 0) rotate(-1.5deg);} 65% {transform:rotate(0.5deg);} 100% {transform:none;} }
+  @keyframes answer-settle { 0% {transform:scale(0.985);} 60% {transform:scale(1.012);} 100% {transform:none;} }
+  @keyframes answer-correct { 0%,100% {transform:none;} 30% {transform:translateX(-3px);} 65% {transform:translateX(2px);} }
 
   /* phones and tablets: the flag centred in the space above, the options at the bottom */
   @media (max-width: 1023px) {
@@ -37,7 +49,7 @@
     .fq-top { padding: 32px 0 20px; }
     .fq-box { max-width: 400px; }
     .fq-opts { grid-template-columns: repeat(2, minmax(0, 352px)); justify-content: center; column-gap: 16px; row-gap: 8px; }
-    .fq-opt.opt { height: 48px; }
+    .fq-opt.opt { min-height: 48px; }
     .fq-family { width: 100%; max-width: 720px; margin: 0 auto; }
   }
 }

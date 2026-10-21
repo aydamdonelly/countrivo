@@ -1,0 +1,19 @@
+@layer components {
+  @media(prefers-reduced-motion:no-preference) {
+    .game-tile-main { transition:transform 180ms var(--ease-out); }
+    .game-tile-main .clay-object { transition:transform 380ms var(--ease-out); transform-origin:center bottom; }
+    .game-tile-main .tile-play-mark, .game-tile-actions svg { transition:transform 220ms var(--ease-out); }
+    .game-tile-main:active { transform:translateY(1px) scale(0.985); }
+    .game-tile-main:active .clay-object { transform:translateY(2px) rotate(2deg) scale(1.04, 0.96); }
+    .game-tile-actions > a { transition:transform 140ms var(--ease-out); }
+    .game-tile-actions > a:active { transform:translateY(1px) scale(0.98); }
+    @media(hover:hover) and (pointer:fine) {
+      .game-tile-main:is(:hover,:focus-visible) { transform:translateY(-3px); }
+      .game-tile-main:is(:hover,:focus-visible) .clay-object { transform:translateY(-5px) rotate(-5deg) scale(1.035); }
+      .game-tile-main:is(:hover,:focus-visible) .tile-play-mark { transform:translateX(2px) rotate(-8deg); }
+      .game-tile-main:active { transform:translateY(1px) scale(0.985); }
+      .game-tile-main:active .clay-object { transform:translateY(2px) rotate(2deg) scale(1.04, 0.96); }
+      .game-tile-actions > a:is(:hover,:focus-visible) svg { transform:rotate(-8deg); }
+    }
+  }
+}

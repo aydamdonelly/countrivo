@@ -1,8 +1,14 @@
+import { safeCareerLine } from "@/lib/game-logic/country-draft/career-ratings";
 import type { DraftAppointmentView } from "@/lib/game-logic/country-draft/public-view";
 import { SEAT_NAMES, SEAT_WANTS } from "@/lib/game-logic/country-draft/tables";
 
 export const JOB_NAMES = SEAT_NAMES;
 export const JOB_HINTS = SEAT_WANTS;
+
+/** Also protects a previously saved public view without rewriting its score. */
+export function safeDraftWhy(pick: Pick<DraftAppointmentView, "why" | "seat">): string {
+  return safeCareerLine(pick.why, pick.seat);
+}
 
 export function cabinetStory(seats: readonly (DraftAppointmentView | null)[]) {
   const picks = seats.filter((pick): pick is DraftAppointmentView => pick !== null);

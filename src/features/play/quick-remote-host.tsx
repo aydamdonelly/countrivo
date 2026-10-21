@@ -19,10 +19,9 @@ import { CheckIcon } from "@/ui/icons/check";
 import { CrossIcon } from "@/ui/icons/cross";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
-import { LeaderboardEntryForm } from "./leaderboard-entry";
+import { ResultFollowup, ResultFeedback } from "./result-followup";
 import { SessionNotice } from "./session-notice";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt } from "./persist";
-import { isGameHelpOpen } from "./keys";
 import "./quick-remote.css";
 import { Board as HigherBoard } from "@/games/higher-or-lower/board";
 import { Board as FlagBoard } from "@/games/flag-quiz/board";
@@ -110,26 +109,6 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
     finally { busyRef.current = false; setBusy(false); }
   }
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (isGameHelpOpen() || busy || event.repeat || event.metaKey || event.ctrlKey || event.altKey || view.phase === "finished") return;
-      if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select,[role=slider]"))) return;
-      if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
-      let action: QuickAction | null = null;
-      if (view.phase === "reveal" && ["Enter", "n", "N"].includes(event.key)) action = { t: "next" };
-      else if (view.phase === "playing" && view.kind === "higher-or-lower") {
-        if (["h", "H", "ArrowUp"].includes(event.key)) action = { t: "guess", c: "higher" };
-        else if (["l", "L", "ArrowDown"].includes(event.key)) action = { t: "guess", c: "lower" };
-      } else if (view.phase === "playing" && view.kind === "flag-quiz") {
-        const i = Number(event.key) - 1;
-        if (Number.isInteger(i) && i >= 0 && i < view.options.length) action = { t: "answer", i };
-      }
-      if (action) { event.preventDefault(); void send(action); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [view, busy, send]);
-
   const next = p.dailies.find((daily) => daily.slug !== view.kind && !p.shotToday.includes(daily.slug));
   const stage = preview ?? view;
   return <div className="quick-remote">
@@ -139,8 +118,8 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
     </header>
     <ChallengeResult challenge={challenge} run={run} />
     {view.phase === "finished" ? <div ref={resultRef} className="qr-result" tabIndex={-1} role="region" aria-label={`${p.title} result`}>
-      <ResultPanel mode={p.mode} game={p.title} score={view.score} primaryAction={run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun} /> : undefined} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : <Button variant="text" href={`/games/${view.kind}/leaderboard`}>Leaderboard</Button>}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
-        {p.mode === "daily" ? <><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><DailyHabit dateKey={p.dateKey} activity={p.activity} /></> : null}
+      <ResultPanel feedback={<ResultFeedback slug={view.kind}/>} mode={p.mode} game={p.title} outcome={view.kind !== "stat-guesser" && view.history.length > 0 ? `${view.history.filter(row => row.correct).length} of ${view.history.length} correct` : undefined} score={view.score} primaryAction={<ResultFollowup slug={view.kind} mode={p.mode} score={view.score} run={run} publishedName={name} onPublished={setRun} />} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : null}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
+        {p.mode === "daily" ? <><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} /></details></> : null}
         <details className="qr-history"><summary className="t-body">Answers</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small></span><b className="t-score num">+{row.points}</b></div>)}</details>
       </ResultPanel>
     </div> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}

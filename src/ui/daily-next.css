@@ -3,4 +3,13 @@
   .daily-result-next .next-game-link .t-meta { color: var(--color-on-ink); opacity: 0.75; }
   .next-game-link:has(.tile-pending:not(:empty)) > .ic { visibility: hidden; }
   .next-game-link .tile-pending:not(:empty) { top: 50%; right: 0; transform: translateY(-50%); }
+  @media(prefers-reduced-motion:no-preference) {
+    .daily-result-next .next-game-link { transition:transform 180ms var(--ease-out); }
+    .next-game-link > .ic, .next-game-link > .clay-object { transition:transform 300ms var(--ease-out); }
+    .daily-result-next .next-game-link:active { transform:translateY(1px) scale(0.99); }
+    @media(hover:hover) and (pointer:fine) {
+      .next-game-link:is(:hover,:focus-visible) > .ic { transform:translateX(4px); }
+      .next-game-link:is(:hover,:focus-visible) > .clay-object { transform:rotate(-5deg) scale(1.04); }
+    }
+  }
 }

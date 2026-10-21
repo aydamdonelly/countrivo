@@ -19,6 +19,16 @@ export interface ServerGameRun {
   dailyNameCount?: number;
   /** Hypothetical standing among real published scores, including this private result once. */
   rankPreview?: { rank: number; playerCount: number };
+  /** Small, public score window. Private names and game answers never enter these rows. */
+  leaderboard?: { available: boolean; entries: ResultLeaderboardEntry[]; playerCount: number; gameSlug?: string; dateKey?: string; gapBeforeYou?: boolean };
+}
+
+export interface ResultLeaderboardEntry {
+  runId: number;
+  displayName: string;
+  scoreDisplay: string;
+  scoreSortValue: number;
+  rank: number;
 }
 
 export interface LeaderboardEntry {

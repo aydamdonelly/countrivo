@@ -42,7 +42,7 @@ const results = [];
 let checks = 0;
 function check(value, label) { assert(value, label); checks++; }
 function runFor(scenario, id) {
-  return {id, gameSlug: scenario.slug, mode: 'daily', dailyDate: day, scoreRaw: scenario.raw, scoreMax: scenario.max, scoreDisplay: scenario.score, scoreSortValue: scenario.raw, scoreNormalized: 50, rankDaily: null, percentile: null, isPersonalBest: false, resultJson: {qaFixture: true}, completedAt: new Date().toISOString(), rankPreview: {rank: 3, playerCount: 7}};
+  return {id, gameSlug: scenario.slug, mode: 'daily', dailyDate: day, scoreRaw: scenario.raw, scoreMax: scenario.max, scoreDisplay: scenario.score, scoreSortValue: scenario.raw, scoreNormalized: 50, rankDaily: null, percentile: null, isPersonalBest: false, resultJson: {qaFixture: true}, completedAt: new Date().toISOString(), dailyNameCount: 6, rankPreview: {rank: 3, playerCount: 7}, leaderboard: {available: true, playerCount: 6, entries: [{runId: 111, displayName: 'Atlas Player', scoreDisplay: 'Ahead', scoreSortValue: scenario.raw + 2, rank: 1}, {runId: 112, displayName: 'River Player', scoreDisplay: 'Ahead', scoreSortValue: scenario.raw + 1, rank: 2}, {runId: 113, displayName: 'Coast Player', scoreDisplay: 'Behind', scoreSortValue: scenario.raw - 1, rank: 4}]}};
 }
 function respond(route, value) { return route.fulfill({status: 200, contentType: 'text/x-component', body: `0:{"a":"$@1","f":""}\n1:${JSON.stringify(value)}\n`}); }
 async function fits(page, label) { check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${label}: no horizontal overflow`); }
@@ -77,6 +77,8 @@ try {
       });
       check(!Object.values(preceding).some(Boolean), `${scenario.slug}: no next game, bonus or result map precedes naming`);
       const input = entry.getByRole('textbox', {name: 'Your name on the board', exact: true});
+      check(await input.evaluate(node => !!node.closest('.standing-you form')), 'The editable name is inside the own score row');
+      check(await entry.locator('.standing-you').evaluate(node => Array.from(node.parentElement.children).indexOf(node) === 2), 'The own score row sits between better and lower scores');
       await input.fill(longName);
       check(await input.inputValue() === longName, 'A20-character nickname remains editable');
       check(await input.getAttribute('maxlength') === '20', 'Nickname length matches the public limit');
@@ -88,11 +90,12 @@ try {
       await page.screenshot({path: `${out}/${scenario.slug}-${viewport.width}x${viewport.height}.png`, fullPage: true});
       if (scenario.slug === 'higher-or-lower') {
         await submit.click();
-        await entry.getByRole('link', {name: 'See your place', exact: true}).waitFor();
-        const published = entry.locator('.name-standing .t-body');
+        await entry.locator('.standing-you > .standing-name').waitFor();
+        const published = entry.locator('.standing-you > .standing-name > b');
         check(await published.textContent() === longName, 'Synthetic publish displays the full long nickname');
         check(await published.evaluate(node => node.scrollWidth <= node.clientWidth + 1), 'Published nickname wraps without clipping');
         await fits(page, `Published name ${viewport.width}x${viewport.height}`);
+        await entry.locator('.name-management > summary').click();
         await entry.getByRole('button', {name: 'Remove my name', exact: true}).click();
         check(await entry.locator('.name-remove-confirm').isVisible(), 'Removal asks for confirmation');
         await entry.getByRole('button', {name: 'Keep it', exact: true}).click();

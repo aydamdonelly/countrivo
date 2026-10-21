@@ -82,6 +82,16 @@ export async function getAnonymousLeaderboard(slug: string, dateKey: string) {
   return anonymousLeaderboard(slug, dateKey);
 }
 
+export async function refreshResultStanding(runId: number): Promise<ServerGameRun | null> {
+  if (!Number.isSafeInteger(runId) || runId < 1) return null;
+  const device = await readDeviceId();
+  if (!device) return null;
+  const { data, error } = await gameDatabase().from("countrivo_runs").select("*")
+    .eq("id", runId).eq("device_id", device).eq("status", "complete")
+    .abortSignal(AbortSignal.timeout(6000)).maybeSingle<AnonymousRunRow>();
+  return !error && data ? mapAnonymousRun(data) : null;
+}
+
 export async function getLeaderboardPlaces():Promise<{iso3:string;name:string}[]> {
   return countries.filter(c=>sovereignIso3.includes(c.iso3)).map(c=>({iso3:c.iso3,name:c.displayName})).sort((a,b)=>a.name.localeCompare(b.name));
 }

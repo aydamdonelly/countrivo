@@ -30,7 +30,7 @@ try{
   });
   await page.goto(`${base}/games/geo-wordle/play?mode=practice`,{waitUntil:'networkidle'});
   await page.waitForFunction(()=>{const input=document.getElementById('geo-guess');return input&&Object.keys(input).some(key=>key.startsWith('__reactProps'));});
-  check(await page.locator('.gw-start').textContent()==='Start anywhere. Tap a country or type its name.','First move explains map and text input in one line');
+  check(await page.locator('.gw-start').textContent()==='Find the hidden country in 6 guesses. Tap the map or type a country.','First move explains the goal and both input methods in one line');
   check(await page.locator('.gw-result').count()===0,'No result or answer before completion');
   await page.screenshot({path:`${out}/start-${width}.png`});
   for(const [index,name] of ['France','Japan','Russia'].entries()){
@@ -63,8 +63,16 @@ try{
   check(!(await page.locator('.gw-history').getAttribute('open')),'Full route is collapsed after completion');
   check(await page.locator('.gw-result-title').textContent()==='North Korea','Completed answer is revealed in result heading');
   const bonus=page.getByRole('button',{name:'Bonus quiz, just for fun. Your score stays the same.',exact:true});
-  check((await bonus.boundingBox()).y<844,'Bonus action fits in the completed phone viewport');
-  check((await page.getByRole('button',{name:'One more',exact:true}).boundingBox()).y<844,'Replay action fits in completed viewport');
+  const resultOrder=await bonus.evaluate(node=>{
+   const before=selector=>Array.from(document.querySelectorAll(selector)).some(other=>!!(other.compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING));
+   const after=selector=>Array.from(document.querySelectorAll(selector)).every(other=>!!(node.compareDocumentPosition(other)&Node.DOCUMENT_POSITION_FOLLOWING));
+   return {standingBefore:before('.practice-standing'),weeklyAfter:after('.daily-habit'),feedbackAfter:after('.site-feedback-result'),feedbackCount:document.querySelectorAll('.site-feedback-result').length};
+  });
+  check(resultOrder.standingBefore,'Daily standings appear before the optional bonus');
+  check(resultOrder.weeklyAfter&&resultOrder.feedbackAfter&&resultOrder.feedbackCount===1,'Bonus precedes weekly progress when present and the single result feedback form');
+  await bonus.scrollIntoViewIfNeeded();
+  check(await bonus.isVisible(),'Bonus remains accessible after the standings');
+  check(await bonus.evaluate(node=>{const box=node.getBoundingClientRect();return document.elementFromPoint(box.x+box.width/2,box.y+box.height/2)?.closest('button')===node;}),'Bonus control is not covered by another element');
   await page.screenshot({path:`${out}/result-${width}.png`});
   await bonus.click();
   for(const country of ['South Korea','Russia','China'])await page.getByRole('button',{name:country,exact:true}).click();

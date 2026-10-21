@@ -40,6 +40,7 @@ export interface ResultPanelProps {
   actions?: ReactNode;
   /** The main follow-up, immediately after the score and before result details. */
   primaryAction?: ReactNode;
+  feedback?: ReactNode;
   /** Counts the leading number of `score` from 0 over 600 ms once (blueprint 6.3.6); the HTML holds the final value. */
   animateScore?: boolean;
   /** The game's result rows (and the join row for guests), under the card. */
@@ -68,7 +69,7 @@ function splitScore(score: string): { n: number; digits: string; rest: string } 
   return { n, digits, rest: m[2] };
 }
 
-export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, primaryAction, children, animateScore, className }: ResultPanelProps) {
+export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, primaryAction, feedback, children, animateScore, className }: ResultPanelProps) {
   const k = kicker ?? (mode === "practice" ? "Practice" : "Today’s result");
   const parts = splitScore(score);
   const unit = parts?.rest.replace(/^\s*of\s+/i, "/").trim();
@@ -81,8 +82,10 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
   const c = counter && (delta === null || !/^par\b/i.test(counter)) ? counter : undefined;
   const parLabel = par === undefined ? undefined : `${game === "Blind Pick" ? "+" : ""}${par}`;
   const deltaLabel = delta === null ? undefined : delta === 0 ? "On par" : `${Math.abs(delta)} ${delta > 0 ? "better than" : "off"} par`;
+  const scoreLabels: Record<string, string> = { "Flag Quiz": "points", "Higher or Lower": mode === "practice" ? "correct calls" : "points", "Stat Guesser": "points", Pinpoint: "points", GeoWordle: "guesses used", "Blind Pick": "rank places over perfect", "Speed Flags": "flags named in 30 seconds" };
+  const verdict = outcome ?? (game === "Speed Flags" ? "Time’s up" : game === "Blind Pick" ? score === "Perfect" ? "Best possible match" : "Board complete" : game === "Stat Guesser" ? "Five estimates complete" : "Round complete");
   return (
-    <div className={cn("rp-wrap", className)}>
+    <div className={cn("rp-wrap", animateScore && "rp-arrived", className)}>
       <section className="rp" aria-label={`${game} result`}>
         <div className="rp-heading">
           <div className="k t-meta">
@@ -91,7 +94,7 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
           </div>
           <Clay object={clay} className="result-clay" sizes="64px" />
         </div>
-        {outcome ? <h2 className="rp-outcome t-h2">{outcome}</h2> : null}
+        <h2 className="rp-outcome t-h2">{verdict}</h2>
         <p className="score num">
           <span className="sr-only">{game} result: {score}</span>
           <span className="rp-score-content" aria-hidden="true">
@@ -99,7 +102,8 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
             {unit ? <span className={cn("score-unit", unit.startsWith("/") && "score-fraction")}>{unit}</span> : null}
           </span>
         </p>
-        {delta !== null ? <p className="result-benchmarks t-meta"><span>Par <b className="num">{parLabel}</b></span><span aria-label={deltaLabel}>{delta === 0 ? "On par" : <><b className="num">{Math.abs(delta)}</b> {lowerIsBetter ? delta > 0 ? "under par" : "over par" : delta > 0 ? "above par" : "below par"}</>}</span></p> : null}
+        {scoreLabels[game] ? <p className="rp-score-label t-meta">{scoreLabels[game]}</p> : null}
+        {delta !== null ? <p className="result-benchmarks t-meta"><span>Daily target <b className="num">{parLabel}</b></span><span aria-label={deltaLabel}>{delta === 0 ? "Target reached" : <><b className="num">{Math.abs(delta)}</b> {delta > 0 ? "better than target" : "from target"}</>}</span></p> : null}
         {ranks && (mode === "practice" || ranks.globalRank !== null) ? (
           <p className="ranks t-body">
             {mode === "practice" ? (
@@ -130,8 +134,9 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
       </section>
       {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}
       {primaryAction ? <div className="rp-primary">{primaryAction}</div> : null}
-      {children ? <div className="rp-rows">{children}</div> : null}
       {actions || mode === "daily" || mode === "lockout" ? <div className="rp-actions">{actions}{mode === "daily" || mode === "lockout" ? <Link className="result-practice t-meta" href={practiceHref ?? "?mode=practice"}>Practice</Link> : null}</div> : null}
+      {children ? <div className="rp-rows">{children}</div> : null}
+      {feedback ? <div className="rp-feedback">{feedback}</div> : null}
     </div>
   );
 }

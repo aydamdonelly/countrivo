@@ -1,7 +1,7 @@
 import { dateSeed } from "../src/lib/daily-seed";
 import { createGame, appoint, openCountry, nextRound, scoreState, appointmentsOf, countryAt } from "../src/lib/game-logic/country-draft/engine";
 import { draftReviewView, draftView } from "../src/lib/game-logic/country-draft/public-view";
-import { fameOf, figureFit } from "../src/lib/game-logic/country-draft/scoring";
+import { whyLine, fameOf, figureFit } from "../src/lib/game-logic/country-draft/scoring";
 import { validateCountryDraftResult } from "../src/lib/game-logic/country-draft/server-validate";
 import { gameModule, type CountryDraftAction } from "../src/games/country-draft/module";
 import { codec } from "../src/games/country-draft/codec";
@@ -10,7 +10,7 @@ import { fillOrder } from "../src/lib/game-logic/country-draft/fill-order";
 import { POOL } from "../src/lib/game-logic/country-draft/roster";
 import { MAX_SCORE } from "../src/lib/game-logic/country-draft/tables";
 import { draftCareerRecord } from "../src/lib/data/loader";
-import { careerRatings } from "../src/lib/game-logic/country-draft/career-ratings";
+import { careerRatings, safeCareerLine } from "../src/lib/game-logic/country-draft/career-ratings";
 import { applyCareerEvidence } from "../src/lib/game-logic/country-draft/career-evidence";
 
 let checks = 0;
@@ -131,6 +131,20 @@ check(bySlug("cristiano-ronaldo")?.fitEvidence?.[3].line.includes("football play
 check(bySlug("zinedine-zidane")?.fits?.[0] === 6 && bySlug("zinedine-zidane")?.fits?.[3] === 12, "a goodwill appointment is not a government office or a full diplomatic career");
 for (const slug of ["sigmund-freud", "chris-hadfield"]) check(bySlug(slug)?.fits?.[4] === 25, `${slug} science career is recognised alongside writing or music credits`);
 for (const slug of ["juan-sebastian-elcano", "ferdinand-magellan", "vasco-da-gama"]) check(bySlug(slug)?.fits?.[4] === 18, `${slug} exploration provides a plausible discovery connection`);
+for (const slug of ["john-candy", "shakira", "catherine-deneuve", "david-bowie", "rowan-atkinson", "walt-disney"]) {
+  const person = bySlug(slug);
+  check(Boolean(person) && person?.fitEvidence?.every(evidence => !/worked as (?:a|an) manufacturer/i.test(evidence.line)) === true, `${slug} broad producer entry never becomes a factual industrial career`);
+}
+const broadProducer = bySlug("shakira");
+if (broadProducer) {
+  const frozenEvidence = broadProducer.fitEvidence?.map((evidence, seat) => seat === 2 ? { ...evidence, line: "Worked as a manufacturer. That experience connects to finance." } : evidence);
+  const frozen = { ...broadProducer, fitEvidence: frozenEvidence };
+  const originalFits = [...(frozen.fits ?? [])];
+  check(whyLine(frozen, 2, figureFit(frozen, 2)).includes("editorial rating"), "a previously frozen manufacturer explanation is neutralised when projected");
+  check(JSON.stringify(frozen.fits) === JSON.stringify(originalFits) && figureFit(frozen, 2) === 25, "correcting a historical explanation does not rewrite its fit or score");
+  check(safeCareerLine("Worked as a manufacturer. That experience connects to leadership.", 0).includes("does not establish"), "stored public-view explanations have the same safe render fallback");
+}
+check(safeCareerLine("Served as Chancellor of the Exchequer. That experience connects to finance.", 2).includes("Chancellor of the Exchequer"), "specific documented career evidence stays specific");
 const shaka = bySlug("shaka");
 if (shaka) {
   const frozen = { ...shaka, fits: [25, 6, 12, 18, 6], fitEvidence: shaka.fitEvidence?.map(evidence => ({ ...evidence, line: "Old board evidence" })) };

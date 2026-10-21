@@ -42,11 +42,12 @@
   .dr-cabinet-place > .t-meta { font-size: 12px; line-height: 14px; text-transform: capitalize; color: var(--color-mute); }
   .dr-seat-empty { min-height: 20px; }
   .dr-meters { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; color: var(--color-mute); }
-  .dr-bonus-progress { display: inline-flex; align-items: center; gap: 8px; min-height: 28px; }
+  .dr-bonus-progress { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 28px; }
+  .dr-bonus-progress > b { font-weight: 600; white-space: nowrap; }
   .dr-bonus-dots { display: inline-flex; gap: 4px; }
   .dr-bonus-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--color-wait); }
   .dr-bonus-dots i.earned { background: var(--color-ink); animation: dr-stamp 320ms steps(2, end); }
-  .dr-era { border-bottom: 2px solid var(--color-wait); }
+  .dr-era { display: inline-flex; align-items: center; gap: 3px; border-bottom: 2px solid var(--color-wait); }
   .dr-era.earned { color: var(--color-ink); border-bottom-color: var(--color-ink); }
   .dr-stage-title { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
   .dr-stage-title .t-meta { color: var(--color-mute); }
@@ -80,18 +81,27 @@
   .dr-person-copy .t-h3 { overflow-wrap: anywhere; }
   .dr-info { display: inline-flex; align-items: center; justify-content: center; position: absolute; top: 12px; right: 0; width: 40px; height: 44px; font-size: 14px; font-weight: 700; font-family: var(--font-display); color: var(--color-ink); }
   .dr-info::before { position: absolute; content: ""; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--color-ink); }
-  .dr-reveal { padding: 2px 0 4px; animation: dr-stamp 300ms steps(2, end); }
+  .dr-reveal { display: flex; flex-direction: column; gap: 12px; padding: 20px; background: var(--color-card); border-radius: var(--radius-card); animation: dr-stamp 300ms steps(2, end); scroll-margin-block: 20px; }
+  .dr-reveal:focus { outline: none; }
   .dr-reveal p { margin: 0; }
-  .dr-reveal p + p { margin-top: 6px; }
-  .dr-reveal-score { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
-  .dr-reveal-score small { color: var(--color-mute); }
-  .dr-score-details > summary { min-height: 44px; padding: 12px 0; color: var(--color-mute); cursor: pointer; }
-  .dr-score-details[open] > summary { color: var(--color-ink); }
-  .dr-score-details > p { margin: 4px 0 12px; }
-  .dr-reveal .t-score { font-size: 24px; line-height: 28px; }
-  .dr-reveal.previous { color: var(--color-mute); }
-  .dr-reveal.previous .t-score { font-size: inherit; }
-  .dr-source { font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+  .dr-reveal-person { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .dr-reveal-person > .fig { flex: none; border-radius: 50%; }
+  .dr-reveal-person > div { flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .dr-reveal-person h2 { overflow-wrap: anywhere; }
+  .dr-reveal-person .t-meta { color: var(--color-mute); }
+  .dr-reveal-score { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .dr-reveal-score > .t-meta { color: var(--color-mute); }
+  .dr-reveal-score .t-score { font-size: 48px; line-height: 1; }
+  .dr-reveal-score .t-meta::first-letter { text-transform: uppercase; }
+  .dr-reveal-why { max-width: 56ch; }
+  .dr-reveal.previous { border: 1px solid var(--color-line); }
+  .dr-source { width: fit-content; min-height: 32px; display: inline-flex; align-items: center; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; color: var(--color-mute); }
+  .dr-passed-pool > summary { cursor: pointer; min-height: 44px; padding: 12px 0; color: var(--color-mute); }
+  .dr-passed-pool > summary:focus-visible, .dr-source:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; }
+  .dr-passed-pool .dr-pool { animation: none; margin-top: 8px; }
+  .dr-passed-pool .dr-person-card { min-height: 80px; }
+  .dr-passed-pool .dr-person-select { min-height: 76px; padding-block: 12px; }
+  .dr-passed-pool .dr-person-select .fig { width: 48px !important; height: 48px !important; }
   .dr-job-sheet, .dr-detail-sheet { padding: 24px 20px max(20px, env(safe-area-inset-bottom)); gap: 12px; max-height: 88vh; max-height: 88svh; overflow-y: auto; }
   .dr-sheet-handle { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 36px; height: 4px; border-radius: 2px; background: var(--color-faint); }
   .dr-sheet-top { display: flex; align-items: center; gap: 12px; }
@@ -209,6 +219,10 @@
     .dr-pinned-action { position: static; padding: 0; align-items: flex-end; }
     .dr-pinned-action .btn { width: auto; min-width: 240px; }
     .dr-pool { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; }
+    .dr-passed-pool .dr-pool { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .dr-passed-pool .dr-person-select { flex-direction: row; align-items: center; }
+    .dr-reveal { padding: 24px; }
+    .dr-reveal-score .t-score { font-size: 64px; }
     .dr-person-card { min-height: 220px; }
     .dr-person-select { align-items: flex-start; padding: 20px 34px 20px 20px; flex-direction: column; min-height: 216px; }
     .dr-person-copy .t-h3 { font-size: 22px; }

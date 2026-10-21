@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { SiteFeedback } from './site-feedback';
 import './site-foot.css';
 export function SiteFoot({ className }: { className?: string }) {
   return <footer className={cn('table-foot', 'site-foot-compact', className)}>
+    <SiteFeedback context="site" />
     <nav className="site-foot-links" aria-label="Footer">
       <Link href="/practice">Practice</Link><Link href="/archive">Archive</Link><Link href="/countries">Countries</Link>
       <details className="site-foot-more"><summary>More</summary><div><Link href="/categories">Stats</Link><Link href="/lists">Lists</Link><Link href="/sources">Sources</Link><Link href="/about">About</Link><Link href="/credits">Credits</Link><Link href="/terms">Terms</Link><Link href="/support">Support</Link></div></details>

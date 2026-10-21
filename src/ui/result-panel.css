@@ -5,6 +5,7 @@
   .rp-wrap .rp .k { min-width: 0; flex-direction: column; align-items: flex-start; justify-content: center; gap: 4px; color: var(--color-mute); line-height: 1.4; overflow-wrap: anywhere; }
   .rp-wrap .rp .result-clay { flex: none; width: 64px; height: 64px; }
   .rp-outcome { margin-top: 4px; line-height: 1.2; overflow-wrap: anywhere; }
+  .rp-score-label { margin-top:4px; color:var(--color-mute); }
   .rp-wrap .rp .score { margin-top: 8px; color: var(--color-ink); }
   .rp-score-content { display: inline-flex; align-items: baseline; justify-content: center; flex-wrap: wrap; gap: 0.12em; max-width: 100%; font-size: clamp(2rem, 12vw, 4.5rem); line-height: 1.1; }
   .rp-wrap .rp .score .t-score-xl { min-width: 0; max-width: 100%; font-size: inherit; line-height: inherit; overflow-wrap: anywhere; }
@@ -17,6 +18,11 @@
   .rp-wrap .rp-primary { width: 100%; min-width: 0; margin-top: 16px; }
   .rp-primary > .btn { width: 100%; min-height: 52px; white-space: normal; text-align: center; line-height: 1.35; }
   .rp-wrap .rp-rows { display: grid; gap: 16px; min-width: 0; margin-top: 24px; }
+  .result-week > summary { display:flex; align-items:center; min-height:44px; cursor:pointer; color:var(--color-mute); }
+  .result-week > summary::after { content:"+"; margin-left:auto; }
+  .result-week[open] > summary::after { content:"−"; }
+  .result-week > summary::marker { content:""; }
+  .rp-wrap .rp-feedback { margin-top:24px; text-align:left; }
   .rp-wrap .rp-actions { flex-wrap: wrap; justify-content: center; gap: 8px 20px; margin-top: 16px; }
   .rp-wrap .rp-actions > .btn { max-width: 100%; white-space: normal; text-align: center; line-height: 1.35; }
   .result-practice { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-mute); line-height: 1.4; text-decoration: underline; text-underline-offset: 3px; }
@@ -30,5 +36,20 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .rp-wrap .result-clay, .rp-wrap .result-clay img { animation: none; transition: none; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .rp-arrived .rp-score-content { animation: result-score-settle 440ms var(--ease-out); transform-origin: center bottom; }
+    .rp-arrived .result-clay { animation: result-clay-settle 560ms var(--ease-out); transform-origin: center bottom; }
+  }
+  @keyframes result-score-settle {
+    0% { transform: translate3d(0, 10px, 0) scale(0.9); }
+    60% { transform: translate3d(0, -2px, 0) scale(1.035); }
+    100% { transform: none; }
+  }
+  @keyframes result-clay-settle {
+    0% { transform: translate3d(0, -8px, 0) rotate(-9deg) scale(0.92); }
+    48% { transform: translate3d(0, 2px, 0) rotate(4deg) scale(1.06, 0.94); }
+    76% { transform: rotate(-2deg) scale(0.98, 1.02); }
+    100% { transform: none; }
   }
 }

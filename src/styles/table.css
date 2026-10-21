@@ -184,3 +184,10 @@
   .daily-result-next .table-next-row { grid-template-columns:48px minmax(0,1fr) auto; }
   @media (max-width:359px) { .daily-result-next .table-next-row { grid-template-columns:40px minmax(0,1fr) auto; } }
 }
+
+@layer components {
+ .game-tile-main { height:auto; min-height:160px; padding:12px 8px; gap:2px; }
+ .game-tile-main .clay-object { width:72px; height:72px; }
+ .game-tile-action { font-size:12px; line-height:1.4; text-align:center; overflow-wrap:anywhere; }
+ @media(min-width:768px) { .game-tile-main { min-height:232px; padding:20px; gap:6px; } .game-tile-main .clay-object { width:112px; height:112px; } .game-tile-action { font-size:14px; } }
+}

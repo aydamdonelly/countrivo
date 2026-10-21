@@ -34,6 +34,12 @@ const RANKS: readonly CareerRule[] = [
 ];
 const JOBS = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
 
+/** A broad producer/maker record cannot establish an industrial career. Scores stay frozen. */
+export function safeCareerLine(line: string, seat: number): string {
+  if (!/\bworked as (?:a|an) manufacturer\b/i.test(line)) return line;
+  return `Fit is an editorial rating. The source's broad producer label does not establish experience in ${JOBS[seat] ?? "this role"}.`;
+}
+
 export function careerRatings(record: DraftCareerRecord, context?: CareerContext) {
   const fits = [6, 0, 6, 6, 6];
   const fitEvidence = fits.map((points, seat) => ({ line: `The source record does not establish a career in ${JOBS[seat]}. This game rates the connection ${points === 0 ? "as no fit" : "as thin"}.`, source: record.source }));
@@ -56,7 +62,7 @@ export function careerRatings(record: DraftCareerRecord, context?: CareerContext
         const connection = secondary ? `This is a secondary credit alongside their main career, so it counts as supporting experience in ${JOBS[seat]}.`
           : kind === "office" && /goodwill ambassador/i.test(claim.label) ? "This is a public advocacy role, rather than a diplomatic or government appointment."
           : `That experience connects to ${JOBS[seat]}.`;
-        fitEvidence[seat] = { line: `${career}. ${connection}`, source: claim.source };
+        fitEvidence[seat] = { line: safeCareerLine(`${career}. ${connection}`, seat), source: claim.source };
       });
     }
   }

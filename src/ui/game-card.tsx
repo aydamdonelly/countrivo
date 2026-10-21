@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { GamePlayLink } from '@/ui/game-play-link';
 import { CheckIcon } from '@/ui/icons/check';
 import { PlayIcon } from '@/ui/icons/play';
+import './game-card.css';
 
 export interface GameCardProps {
   game: GamePresentation;
@@ -24,6 +25,7 @@ export function GameCard({ game, practice, score, progress, heading = 'h2', acti
     <GamePlayLink slug={game.slug} href={href} prefetch={active} className="game-tile-main" pendingLabel="Opening…" preserveContent ariaLabel={`${score ? 'See result for' : progress ? 'Continue' : 'Play'} ${game.title}${score ? `, ${score}` : ''}`}>
       <Clay object={game.clay} state={state} alternate={active && !score && !progress ? game.idle : undefined} sizes="(min-width: 768px) 128px, 88px" loading={active ? 'eager' : 'lazy'} />
       <Heading className="game-tile-title">{game.title}</Heading>
+      {game.action ? <span className="game-tile-action">{game.action}</span> : null}
       {score ? <span className="tile-score"><CheckIcon size={14} /><b>{score}</b></span> : progress ? <span className="tile-score">Continue</span> : <span className="tile-play-mark" aria-hidden="true"><PlayIcon size={18} /></span>}
     </GamePlayLink>
     {!practice ? <nav className="game-tile-actions" aria-label={`${game.title} modes`}>

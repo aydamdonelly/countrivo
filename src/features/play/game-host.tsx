@@ -19,10 +19,9 @@ import type { Action, BoardComponent, GameModule, HostProps, ResultComponent, Su
 import { persistsByDefault } from "@/games/types";
 import { fetchDailyMetas } from "./actions";
 import { juiceFor, planFor } from "./feedback";
-import { usePlayKeys } from "./keys";
 import { clearProgress, secondsUntilReset, writeDone, writeLockoutBelt, writeProgress } from "./persist";
 import { replay } from "./replay";
-import { LeaderboardEntryForm } from "./leaderboard-entry";
+import { ResultFollowup, ResultFeedback } from "./result-followup";
 import type { DailyMeta } from "./server";
 
 export interface GameHostProps<S, A extends Action> extends HostProps {
@@ -213,9 +212,6 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
     return () => window.clearTimeout(id);
   }, [plan, dispatchInternal]);
 
-  const keymap = useMemo(() => (phase === "live" && !busy && module.keys ? module.keys(state, dispatch) : {}), [module, state, dispatch, phase, busy]);
-  usePlayKeys(keymap, phase === "live" && !busy);
-
 
   const shareText = useMemo(() => {
     if (phase === "live") return "";
@@ -267,6 +263,7 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
       ) : (
         <>
           <ResultPanel
+            feedback={<ResultFeedback slug={slug}/>}
             mode={mode}
             game={title}
             score={module.scoreLabel(state)}
@@ -275,14 +272,10 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
             failReason={fail}
             practiceHref={`/games/${slug}/play?mode=practice`}
             animateScore
-            primaryAction={run && mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={setRun} /> : undefined}
+            primaryAction={<ResultFollowup slug={slug} mode={mode} score={module.scoreLabel(state)} run={run} publishedName={publishedName} onPublished={setRun} />}
             actions={
               <>
-                {mode === "daily" ? (
-                  <Button variant="ink" href={`/games/${slug}/leaderboard`} prefetch>
-                    Today&apos;s board
-                  </Button>
-                ) : (
+                {mode === "daily" ? null : (
                   <Button variant="ink" onClick={p.onNewBoard}>
                     New board
                   </Button>

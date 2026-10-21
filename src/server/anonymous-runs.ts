@@ -11,6 +11,9 @@ import { getCountryByIso3 } from "@/lib/data/countries";
 import { getArchivedBoard } from "./board-snapshots";
 import { getEdition } from "./edition";
 import { challengeUrlForRun } from "./challenges";
+import { resultLeaderboardWindow } from "@/lib/result-leaderboard";
+import { getGameBySlug } from "@/lib/data/games";
+import { optionalResultContext, type ResultContextBudget } from "@/lib/optional-result-context";
 
 export interface AnonymousRunRow {
   id: number;
@@ -64,8 +67,9 @@ export interface AnonymousBoard {
 const LEADERBOARD_TAG = "anonymous-leaderboards";
 export function invalidateAnonymousLeaderboards(): void { updateTag(LEADERBOARD_TAG); }
 const emptyBoard = (): RankedBoard => ({ count: 0, average: 0, entries: [], countries: [] });
+const unavailableBoard = (): AnonymousBoard => ({ entries: [], playerCount: 0, averageScore: 0, countries: [], available: false });
 
-const readLeaderboardRows = cache(unstable_cache(async (slug: string, dateKey: string, edition: string, ownRunId: number | null): Promise<RankedBoard> => {
+const readLeaderboardRows = cache(unstable_cache(async (slug: string, dateKey: string, edition: string, ownRunId: number | null): Promise<RankedBoard | null> => {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) throw new Error("Leaderboard unavailable");
@@ -74,6 +78,14 @@ const readLeaderboardRows = cache(unstable_cache(async (slug: string, dateKey: s
     .abortSignal(AbortSignal.timeout(6000)).returns<RankedBoard>();
   if (!error && data && "entries" in data) return data;
   if (error?.code !== "PGRST202" && error?.code !== "42883") throw error ?? new Error("Leaderboard unavailable");
+  return null;
+}, ["anonymous-ranked-board-v2"], { revalidate: 10, tags: [LEADERBOARD_TAG] }));
+
+const readLegacyLeaderboardRows = cache(unstable_cache(async (slug: string, dateKey: string, edition: string): Promise<RankedBoard> => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) throw new Error("Leaderboard unavailable");
+  const db = createClient(url, key, { auth: { persistSession: false } });
   // A deployment may briefly overlap a schema rollout. Keep real scores visible, scoped to one edition.
   const fallback = await db.from("countrivo_leaderboard").select("*", { count: "exact" })
     .eq("game_slug", slug).eq("date_key", dateKey).eq("edition", edition)
@@ -86,15 +98,21 @@ const readLeaderboardRows = cache(unstable_cache(async (slug: string, dateKey: s
       ? 1 + rows.findIndex(other => other.score_sort_value === row.score_sort_value) : index + 1,
     percentile: total === rows.length ? Math.round(100 * rows.filter(other => other.score_sort_value < row.score_sort_value).length / total) : 0,
   })) };
-}, ["anonymous-ranked-board-v2"], { revalidate: 10, tags: [LEADERBOARD_TAG] }));
+}, ["anonymous-legacy-board-v1"], { revalidate: 10, tags: [LEADERBOARD_TAG] }));
 
 const leaderboardEdition = cache(async (slug: string, dateKey: string): Promise<string | null> =>
   dateKey === getTodayDateKey() ? getEdition() : (await getArchivedBoard(slug, dateKey))?.edition ?? null);
 
-export async function anonymousBoard(slug: string, dateKey: string, options: { edition?: string; ownRunId?: number } = {}): Promise<AnonymousBoard> {
+export async function anonymousBoard(slug: string, dateKey: string, options: { edition?: string; ownRunId?: number; budget?: ResultContextBudget } = {}): Promise<AnonymousBoard> {
   try {
+    if (options.budget && !options.budget.active()) return unavailableBoard();
     const edition = options.edition ?? await leaderboardEdition(slug, dateKey);
-    const board = edition ? await readLeaderboardRows(slug, dateKey, edition, options.ownRunId ?? null) : emptyBoard();
+    if (options.budget && !options.budget.active()) return unavailableBoard();
+    let board = edition ? await readLeaderboardRows(slug, dateKey, edition, options.ownRunId ?? null) : emptyBoard();
+    if (board === null) {
+      if (!edition || (options.budget && !options.budget.active())) return unavailableBoard();
+      board = await readLegacyLeaderboardRows(slug, dateKey, edition);
+    }
     return { available: true, playerCount: Number(board.count), averageScore: Number(board.average), countries: board.countries,
       entries: board.entries.map(row => ({
         runId: row.id, userId: `run-${row.id}`, username: row.display_name, displayName: row.display_name, avatarUrl: null,
@@ -102,7 +120,7 @@ export async function anonymousBoard(slug: string, dateKey: string, options: { e
         countryCode: row.place_country_code ? getCountryByIso3(row.place_country_code)?.iso2 ?? null : null,
         rankDaily: Number(row.rank_daily), percentile: Number(board.count) >= 20 ? Number(row.percentile) : 0,
       })) };
-  } catch { return { entries: [], playerCount: 0, averageScore: 0, countries: [], available: false }; }
+  } catch { return unavailableBoard(); }
 }
 
 export async function anonymousLeaderboard(slug: string, dateKey: string, limit = 50): Promise<LeaderboardEntry[]> {
@@ -116,10 +134,12 @@ export async function anonymousSummary(slug: string, dateKey: string): Promise<D
 }
 
 /** The public scores share a cache; device-specific hidden publishers never do. */
-export const blockedLeaderboardRuns = cache(async (slug: string, dateKey: string, edition: string): Promise<{ ids: number[]; enabled: boolean }> => {
+export const blockedLeaderboardRuns = cache(async (slug: string, dateKey: string, edition: string, budget?: ResultContextBudget): Promise<{ ids: number[]; enabled: boolean }> => {
   const flag = (await cookies()).get("cv_blocks")?.value;
+  if (budget && !budget.active()) throw new Error("Leaderboard context expired");
   if (!flag || verifyValue(flag) !== "enabled") return { ids: [], enabled: false };
   const device = await readDeviceId();
+  if (budget && !budget.active()) throw new Error("Leaderboard context expired");
   if (!device) return { ids: [], enabled: false };
   const { data, error } = await gameDatabase().rpc("countrivo_blocked_names", { p_viewer: device, p_slug: slug, p_day: dateKey, p_edition: edition })
     .abortSignal(AbortSignal.timeout(6000)).returns<{ run_id: number }[]>();
@@ -129,8 +149,8 @@ export const blockedLeaderboardRuns = cache(async (slug: string, dateKey: string
 
 export interface RunProjectionOptions { includeLeaderboard?: boolean; includeChallenge?: boolean }
 
-async function privateRankPreview(row: AnonymousRunRow, board: AnonymousBoard): Promise<ServerGameRun["rankPreview"]> {
-  if (!board.available || row.status !== "complete" || row.display_name || row.moderation_hidden
+async function privateRankPreview(row: AnonymousRunRow, board: AnonymousBoard, budget: ResultContextBudget): Promise<ServerGameRun["rankPreview"]> {
+  if (!budget.active() || !board.available || row.mode !== "daily" || row.status !== "complete" || row.display_name || row.moderation_hidden
     || row.archived || row.date_key !== getTodayDateKey() || row.score_sort_value === null) return undefined;
   const others = board.entries.filter(entry => entry.runId !== row.id);
   const namedCount = board.playerCount - (others.length < board.entries.length ? 1 : 0);
@@ -146,16 +166,54 @@ async function privateRankPreview(row: AnonymousRunRow, board: AnonymousBoard): 
   } catch { return undefined; }
 }
 
-export async function mapAnonymousRun(row: AnonymousRunRow, options: RunProjectionOptions = {}): Promise<ServerGameRun> {
-  const [initialBoard, challengeUrl] = await Promise.all([
-    options.includeLeaderboard !== false && row.mode === "daily" ? anonymousBoard(row.game_slug, row.date_key, { edition: row.edition }) : null,
-    options.includeChallenge === false ? undefined : challengeUrlForRun(row),
+interface RunResultContext {
+  board: AnonymousBoard | null;
+  mine?: LeaderboardEntry;
+  rankPreview?: ServerGameRun["rankPreview"];
+  leaderboard?: ServerGameRun["leaderboard"];
+  challengeUrl?: string;
+}
+
+async function resultStanding(row: AnonymousRunRow, slug: string, day: string, budget: ResultContextBudget, fallback: RunResultContext): Promise<RunResultContext> {
+  const edition = row.mode === "practice" ? await getEdition() : row.edition;
+  if (!budget.active()) return fallback;
+  const [loaded, blocked] = await Promise.all([
+    (async () => {
+      let board = await anonymousBoard(slug, day, { edition, budget });
+      if (!budget.active() || !board.available) return null;
+      if (row.mode === "daily" && row.display_name && !row.moderation_hidden && !board.entries.some(entry => entry.runId === row.id)) {
+        board = await anonymousBoard(row.game_slug, row.date_key, { edition: row.edition, ownRunId: row.id, budget });
+      }
+      if (!budget.active() || !board.available) return null;
+      const rankPreview = await privateRankPreview(row, board, budget);
+      return { board, rankPreview };
+    })(),
+    blockedLeaderboardRuns(slug, day, edition, budget),
   ]);
-  let board = initialBoard;
-  if (board && row.display_name && !row.moderation_hidden && !board.entries.some(entry => entry.runId === row.id)) {
-    board = await anonymousBoard(row.game_slug, row.date_key, { edition: row.edition, ownRunId: row.id });
-  }
-  const mine = board?.entries.find(entry => entry.runId === row.id);
+  if (!loaded || !budget.active()) return fallback;
+  const board = loaded.board;
+  const visible = board.entries.filter(entry => !blocked.ids.includes(entry.runId));
+  const window = row.mode === "daily" ? resultLeaderboardWindow(visible, row.id, Number(row.score_sort_value ?? 0), board.playerCount) : {
+    entries: visible.slice(0, 3).map(entry => ({ runId: entry.runId, displayName: entry.displayName, scoreDisplay: entry.scoreDisplay, scoreSortValue: entry.scoreSortValue, rank: entry.rankDaily })), gapBeforeYou: false,
+  };
+  return { board, mine: board.entries.find(entry => entry.runId === row.id), rankPreview: loaded.rankPreview,
+    leaderboard: { available: true, entries: window.entries, playerCount: board.playerCount, gameSlug: slug, dateKey: day, gapBeforeYou: window.gapBeforeYou } };
+}
+
+export async function mapAnonymousRun(row: AnonymousRunRow, options: RunProjectionOptions = {}): Promise<ServerGameRun> {
+  const standingSlug = getGameBySlug(row.game_slug)?.availableModes.includes("daily") ? row.game_slug : "country-draft";
+  const standingDay = row.mode === "practice" ? getTodayDateKey() : row.date_key;
+  const fallback: RunResultContext = { board: null, leaderboard: options.includeLeaderboard === false ? undefined : {
+    available: false, entries: [], playerCount: 0, gameSlug: standingSlug, dateKey: standingDay,
+  } };
+  const context = await optionalResultContext(async budget => {
+    const [standing, challengeUrl] = await Promise.all([
+      options.includeLeaderboard === false ? Promise.resolve(fallback) : resultStanding(row, standingSlug, standingDay, budget, fallback),
+      options.includeChallenge === false ? undefined : challengeUrlForRun(row).catch(() => undefined),
+    ]);
+    return { ...standing, challengeUrl };
+  }, fallback);
+  const { board, mine, rankPreview, challengeUrl } = context;
   return {
     challengeUrl,
     id: row.id, gameSlug: row.game_slug, mode: row.mode, dailyDate: row.mode === "daily" ? row.date_key : null,
@@ -164,7 +222,8 @@ export async function mapAnonymousRun(row: AnonymousRunRow, options: RunProjecti
     rankDaily: mine?.rankDaily ?? null, percentile: board && board.playerCount >= 20 ? mine?.percentile ?? null : null, isPersonalBest: false,
     resultJson: row.result_json ?? {}, completedAt: row.completed_at ?? row.started_at,
     placeCountry: row.place_country_code, moderationHidden: row.moderation_hidden, dailyNameCount: board?.available ? board.playerCount : undefined,
-    rankPreview: board ? await privateRankPreview(row, board) : undefined,
+    rankPreview,
+    leaderboard: context.leaderboard,
   };
 }
 

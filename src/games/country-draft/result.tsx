@@ -11,7 +11,7 @@ import { formatNumber } from "@/lib/utils";
 import { Cabinet, JOB_NAMES } from "./board";
 import { DraftMap } from "./draft-map";
 import { DraftReviewDetails } from "./review";
-import { cabinetStory } from "./presentation";
+import { cabinetStory, safeDraftWhy } from "./presentation";
 import "./draft.css";
 
 interface ResultProps {
@@ -39,7 +39,7 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
         <p className="dr-result-kicker t-meta">Cabinet complete</p>
         <p className="dr-result-number"><CountUp key={reveal ? "reveal" : "final"} value={state.score} animate={reveal} duration={600} /> <span>/ {MAX_SCORE}</span></p>
         <h2 className="t-h2" id="draft-result-title">{bandOf(state.score).word.replace(/\.$/, "")}</h2>
-        <p className="t-meta">Par 140 · {state.score > 140 ? `+${state.score - 140} above` : state.score === 140 ? "on par" : `${140 - state.score} to go`}</p>
+        <p className="t-meta">Daily target 140 · {state.score > 140 ? `+${state.score - 140} above` : state.score === 140 ? "on par" : `${140 - state.score} to go`}</p>
         <div className="dr-result-art" aria-hidden="true">
           {/* eslint-disable-next-line @next/next/no-img-element -- finished clay trophy */}
           <img src="/clay/cl-20/rest.webp" alt="" width={128} height={128} />
@@ -67,7 +67,7 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
 
 export function DraftResultDetails({ state }: { state: DraftView }) {
   return <>
-    <details className="dr-result-detail"><summary className="t-body">Your picks explained</summary><p className="t-meta text-mute">Fit ratings reflect recorded careers.</p><div className="dr-rows">{state.seats.map((pick) => pick ? <div className="dr-appointment" key={pick.seat}><Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={44} /><div><b className="t-h3">{pick.person.name}</b><p className="t-meta"><Flag iso2={pick.country.iso2} size="xs" alt="" /> {pick.country.name} · {JOB_NAMES[pick.seat]}</p><p className="t-body">{fitWord(pick.fit)} fit {pick.fit} + fame {pick.fame} = {pick.points}.</p><p className="t-body">{pick.why} <a href={pick.source} target="_blank" rel="noreferrer">Source</a></p></div></div> : null)}</div></details>
+    <details className="dr-result-detail"><summary className="t-body">Your picks explained</summary><p className="t-meta text-mute">Fit ratings reflect recorded careers.</p><div className="dr-rows">{state.seats.map((pick) => pick ? <div className="dr-appointment" key={pick.seat}><Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={44} /><div><b className="t-h3">{pick.person.name}</b><p className="t-meta"><Flag iso2={pick.country.iso2} size="xs" alt="" /> {pick.country.name} · {JOB_NAMES[pick.seat]}</p><p className="t-body">{fitWord(pick.fit)} fit {pick.fit} + fame {pick.fame} = {pick.points}.</p><p className="t-body">{safeDraftWhy(pick)} <a href={pick.source} target="_blank" rel="noreferrer">Source</a></p></div></div> : null)}</div></details>
     <details className="dr-result-detail"><summary className="t-body">Your countries</summary><p className="t-body">{formatNumber(state.geography.population)} people · {state.geography.areaPercent.toFixed(1)}% of the world&apos;s country area · {state.regions.length} regions.</p><p className="t-meta text-mute">{state.regions.join(", ")} · {formatNumber(state.geography.area)} km². Countrivo 2023 dataset.</p><div className="dr-homeland-links">{state.seats.map((pick) => pick ? <Link key={pick.country.iso3} href={`/countries/${pick.country.slug}`} className="t-body">{pick.country.name}</Link> : null)}</div></details>
     <DraftReviewDetails review={state.review} />
   </>;

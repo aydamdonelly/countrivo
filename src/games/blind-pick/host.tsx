@@ -11,8 +11,7 @@ import { Button } from "@/ui/button";
 import { Progress } from "@/ui/progress";
 import { ResultPanel } from "@/ui/result-panel";
 import { ShareButton } from "@/ui/share-button";
-import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
-import { isGameHelpOpen } from "@/features/play/keys";
+import { ResultFollowup, ResultFeedback } from "@/features/play/result-followup";
 import type { HostProps } from "@/games/types";
 import type { ServerGameRun } from "@/types/server";
 import type { BlindPickAction, BlindPickState } from "./module";
@@ -57,21 +56,6 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
     void send({ t: "seen" });
   }, [complete, finished, busy, error, send]);
 
-  useEffect(() => {
-    if (busy || finished) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (isGameHelpOpen()) return;
-      if (event.key === "Enter" && event.target instanceof HTMLElement && event.target.closest("button,a,summary")) return;
-      if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
-      if (event.target instanceof HTMLElement && (event.target.isContentEditable || event.target.closest("input,textarea,select"))) return;
-      const slot = Number(event.key) - 1;
-      if (!complete && Number.isInteger(slot) && slot >= 0 && slot < PICK_COUNT && !state.g.placements.includes(slot)) { event.preventDefault(); void send({ t: "place", s: slot }); }
-      else if (complete && event.key === "Enter") { event.preventDefault(); void send({ t: "seen" }); }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [busy, finished, complete, state.g.placements, send]);
-
   async function practice() {
     if (busyRef.current) return;
     busyRef.current = true; setBusy(true); setError(null);
@@ -83,8 +67,7 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
   const result = finished ? computeResult(state.g) : null;
   const shareText = result ? buildBlindPickShareText({ over: result.over, marks: result.placements.map((slot, country) => placementMark(slot, result.ranks[country], result.perfect[country], result.perfectRanks[country])), practice: p.mode === "practice" }, p.dateKey) : "";
   return <div className="play-stack blind-remote" aria-busy={busy}>
-    {finished && result ? <ResultPanel mode={p.mode} game="Blind Pick" score={overLabel(result.over)} animateScore={animate} actions={<><Button variant="ink" onClick={() => void practice()} disabled={busy}>One more</Button><ShareButton text={shareText} onShare={() => trackPlay("share", "blind-pick", p.mode)} /></>}>
-      {run && p.mode === "daily" ? <LeaderboardEntryForm run={run} publishedName={p.publishedName} onPublished={setRun} /> : null}
+    {finished && result ? <ResultPanel feedback={<ResultFeedback slug="blind-pick"/>} mode={p.mode} game="Blind Pick" score={overLabel(result.over)} animateScore={animate} primaryAction={<ResultFollowup slug="blind-pick" mode={p.mode} score={overLabel(result.over)} run={run} publishedName={p.publishedName} onPublished={setRun} />} actions={<><Button variant="ink" onClick={() => void practice()} disabled={busy}>One more</Button><ShareButton text={shareText} onShare={() => trackPlay("share", "blind-pick", p.mode)} /></>}>
       <Result state={state} mode={p.mode} run={run} />
     </ResultPanel> : <><Progress done={state.g.placements.length} total={PICK_COUNT} label="placed" value={`${state.g.placements.length} of ${PICK_COUNT}`} /><Board state={state} dispatch={(action) => void send(action)} busy={busy} pendingSlot={pendingSlot} mode={p.mode} viewer={p.viewer} seed={0} />{complete && error ? <Button variant="ink" onClick={() => void send({ t: "seen" })} disabled={busy}>See result</Button> : null}</>}
     <span className="sr-only" role="status">{pendingSlot !== null ? "Placement selected. Waiting for confirmation." : busy ? "Opening result." : ""}</span>

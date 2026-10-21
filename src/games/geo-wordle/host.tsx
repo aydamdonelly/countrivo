@@ -12,7 +12,7 @@ import {Button} from '@/ui/button';
 import {Progress} from '@/ui/progress';
 import {ResultPanel} from '@/ui/result-panel';
 import {ShareButton} from '@/ui/share-button';
-import {LeaderboardEntryForm} from '@/features/play/leaderboard-entry';
+import {ResultFollowup,ResultFeedback} from '@/features/play/result-followup';
 import {writeDone} from '@/features/play/persist';
 import {trackCompletedRun,trackPlay} from '@/lib/play-events';
 import {buildGeoWordleShareText} from '@/lib/share/geo-wordle';
@@ -47,11 +47,11 @@ export function GeoWordleHost(p:HostProps){
   {finished?<>
    <div ref={resultRef} className="gw-result" tabIndex={-1} role="region" aria-label={`${view.phase==='won'?'Found':'Answer'}: ${view.answer?.name??'GeoWordle'}`}>
     <h2 className="gw-result-title t-h2">{view.answer?.name}</h2>
-    <ResultPanel className="gw-result-panel" mode={p.mode} game="GeoWordle" score={score} primaryAction={run&&p.mode==='daily'?<LeaderboardEntryForm run={run} publishedName={name} onPublished={setRun}/>:undefined} kicker={p.mode==='daily'?'Today · GeoWordle':'Practice · GeoWordle'} counter="Par 4" actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton challengeUrl={run?.challengeUrl} text={buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey)} onShare={()=>trackPlay('share',p.slug,p.mode)}/></>}>
-     {p.mode==='daily'?<><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow}/><DailyHabit dateKey={p.dateKey} activity={p.activity}/></>:null}
+    <ResultPanel className="gw-result-panel" feedback={<ResultFeedback slug="geo-wordle"/>} mode={p.mode} game="GeoWordle" outcome={view.phase==='won'?'Country found':'Out of guesses'} score={score} primaryAction={<ResultFollowup slug="geo-wordle" mode={p.mode} score={score} run={run} publishedName={name} onPublished={setRun}/>} kicker={p.mode==='daily'?'Today · GeoWordle':'Practice · GeoWordle'} counter="Par 4" actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton challengeUrl={run?.challengeUrl} text={buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey)} onShare={()=>trackPlay('share',p.slug,p.mode)}/></>}>
+     <GeoBonus key={generation} state={view}/>
+     {p.mode==='daily'?<><DailyNext next={next} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow}/><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity}/></details></>:null}
     </ResultPanel>
    </div>
-   <GeoBonus key={generation} state={view}/>
    <Board key={`route-${generation}`} state={view} dispatch={action=>void commit(action)} busy={busy}/>
   </>:null}
  </div>;

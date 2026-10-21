@@ -1,3 +1,4 @@
+import { safeCareerLine } from "./career-ratings";
 import { BONUS_POINTS, FIT, ROUNDS, STANDING_POINTS, bandOf } from "./tables";
 import type { DraftBonuses, DraftFigure, DraftPick, DraftRound, DraftScore, PoolIdx, SeatIdx } from "./types";
 
@@ -136,7 +137,7 @@ export function greedyLine(rounds: readonly DraftRound[]): DraftLine {
 }
 
 export function whyLine(figure: DraftFigure, seat: SeatIdx, fit: number): string {
-  if (figure.fitEvidence?.[seat]) return figure.fitEvidence[seat].line;
+  if (figure.fitEvidence?.[seat]) return safeCareerLine(figure.fitEvidence[seat].line, seat);
   const career = `${figure.note.charAt(0).toUpperCase()}${figure.note.slice(1)}`;
   const reasons = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
   if (fit === 0) return `${career}. That career does not match ${reasons[seat]}.`;

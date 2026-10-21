@@ -34,7 +34,7 @@ export interface SuggestProps extends Pick<InputHTMLAttributes<HTMLInputElement>
  * A Field with a listbox (blueprint 3.33) that opens above the field on phones and
  * below at >= 768: bar fill, radius 6, rows 44 tall with a Flag xs, the active row card
  * fill. ArrowUp/Down cycle, Enter submits the active suggestion (or the raw text),
- * Tab fills, Escape closes; mousedown on the list keeps the focus.
+ * Tab moves on, Escape closes; mousedown on the list keeps the focus.
  */
 export function Suggest({ id, label, hideLabel, placeholder, value, onChange, items, onSelect, onSubmit, autoSelectFirst = true, max = 5, error, tall, className, ...input }: SuggestProps) {
   const listId = useId();
@@ -68,8 +68,6 @@ export function Suggest({ id, label, hideLabel, placeholder, value, onChange, it
       if (expanded && shown[activeIdx]) choose(shown[activeIdx]);
       else onSubmit?.(value);
     } else if (e.key === "Tab" && expanded) {
-      e.preventDefault();
-      onChange(shown[Math.max(0, activeIdx)].name);
       setOpen(false);
       setActive(initialActive);
     } else if (e.key === "Escape") {

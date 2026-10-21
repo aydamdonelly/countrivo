@@ -1,118 +1,72 @@
-COUNTRIVO — CURRENT APP REVIEW RESPONSE DRAFT
-Updated 2026-10-15 | Version 1.0 (2) | com.countrivo.app
+COUNTRIVO — UNSENT APP REVIEW RESPONSE DRAFT
+Checked 2026-10-21 | Version 1.0 (2) | com.countrivo.app
 
-STATUS: Rejected — Guideline 2.1, Information Needed.
-This is an UNSENT working draft. No new physical-device test, recording,
-resubmission or approval is claimed. Complete point 1 and the release checks before using
-this as a complete response. Recording/build checklist: APP-STORE-MASTER.md.
-The account holder must also address the pending Apple Developer agreement;
-no agent should accept that legal agreement on their behalf.
+Last verified ASC state: 16 October, Rejected / 2.1 Information Needed.
+Current ASC login is unavailable; physical iPhone unavailable; no required
+physical recording exists. No resubmission or approval is claimed.
+Complete the checklist in APP-STORE-MASTER.md before sending.
 
-Apple source:
-reports/2026-10-15/app-review/evidence/apple-2-1-information-needed.jpg
+PROPOSED RESPONSE — REPLACE POINT 1 ONLY WITH VERIFIED EVIDENCE
 
-1. PHYSICAL-DEVICE RECORDING
+1. Recording
+PENDING: actual physical-device recording, latest released compatible OS,
+starting at Home Screen by launching the selected build. Add real device,
+OS, version/build, accessible file/link and timestamps. Simulator footage is
+supplemental QA only and does not fulfil this requirement. Registration,
+login and paid-access screens are absent.
 
-PENDING. Apple requested a recording on a real device running the latest OS,
-starting with app launch and showing typical use. The paired iPhone 13 is
-currently unavailable; its cached OS is not evidence of the current OS.
-There is no verified recording to attach yet. Do not substitute a simulator
-or browser capture, or insert invented device details/timestamps.
+2. Purpose and audience
+Countrivo is a free geography/history puzzle collection for people who enjoy
+short daily games and learning through play. Daily games: Country Draft,
+GeoWordle, Pinpoint, Flag Quiz, Higher or Lower and Stat Guesser. Blind Pick
+and Speed Flags are practice-only; daily games also offer practice. No
+accounts, ads, subscriptions, purchases or paid features.
 
-The recording should show launch, Country Draft choices/feedback/result,
-GeoWordle clues, optional leaderboard naming, report/block/unblock and device
-data deletion. Account registration/login and paid access are absent, so
-there are no such flows to demonstrate. Before sending, identify the actual
-device, OS, app build and recording link/file with timestamps.
+3. Setup and features
+Internet required; no credentials or sample files. Choose a game and play.
+Country Draft has five country/person/unused-role choices with points and
+explanations after appointment. GeoWordle gives six guesses with map,
+distance/direction clues and optional neighbours/capital rounds. Daily
+boards reset at midnight Europe/Berlin; practice is unranked.
+Results show leaderboard context; publishing a name/optional country is
+voluntary. Public publishers can be reported/blocked from standings/shared
+results. Server checks filter names; the owner moderates reports. Blocking
+also prevents that viewer opening the blocked publisher's shared result.
+Private Feedback forms accept 5–1,500 characters without requesting an email
+or name. Messages are stored with pseudonymous device ID and context, never
+published to players. Privacy > Forget this device removes saved results,
+public names and private feedback. Abuse-prevention records may remain as
+described in /privacy. Support: countrivo@gmail.com.
 
-2. PURPOSE, AUDIENCE AND VALUE
+4. Services, data and AI
+Capacitor 8/WKWebView loads https://countrivo.com. Vercel hosts Next.js and web
+analytics/performance measurements; Supabase stores authoritative game moves,
+results, optional names, moderation and private feedback. Signed anonymous
+device identity replaces account login. Native bootstrap integrates haptics,
+splash/status bar, network recovery and game links; gameplay needs internet.
+No payment provider, ad SDK or runtime generative-AI service is used. Static
+clay art was AI-generated during production; player input is not sent to AI.
+Sources: https://countrivo.com/sources; credits/licences:
+https://countrivo.com/credits; privacy: https://countrivo.com/privacy.
 
-Countrivo is a free geography and history game collection for people who
-enjoy short daily puzzles and learning about the world through play. Six
-games have daily boards: Country Draft, GeoWordle, Pinpoint, Flag Quiz,
-Higher or Lower and Stat Guesser. Blind Pick and Speed Flags are additional
-practice-only games; the daily games also offer practice. Choices receive
-immediate feedback and explanations. Daily results can be shared, and
-publishing a leaderboard name is optional. There are no accounts, ads,
-subscriptions, in-app purchases or paid features.
+5. Regions
+Implemented English features are consistent across distributed regions;
+country/region filters are player choices. Last saved distribution was 173
+regions excluding China mainland/Vietnam; reconfirm in ASC before sending.
 
-3. SETUP AND ACCESS TO FEATURES
+6. Protected material
+This is a general-interest game, not regulated advice. Portrait authors,
+sources and individual licences are on /credits; datasets/years on /sources.
+Erode uses the retained official ITF Free Font License. Restricted SIPRI
+values/rankings are withheld. We do not claim ownership or endorsement of
+third-party material; provide the relevant source/licence evidence if asked.
 
-An internet connection is required. No credentials, registration, purchases
-or sample files are needed. Open the app, choose a game, and select Play.
-For Country Draft, choose a country, then a person and a free cabinet role;
-complete five rounds to reach the result. GeoWordle accepts country guesses
-and shows distance, direction and map feedback. Solving opens optional
-neighbours and capital rounds. Practice offers fresh boards without changing
-the daily leaderboard.
-
-At a completed daily result, publishing a name is optional. Other players'
-public names have Report / block controls on the leaderboard and shared
-result pages. Names are filtered on the server. Reports reach the owner's
-moderation interface; blocking hides the publisher on that browser/device.
-Privacy > Forget this device removes its saved results/public names and
-clears its Countrivo cookies. It is device-data deletion, not account deletion.
-Support and deletion questions: countrivo@gmail.com.
-
-Deployment/device verification of the moderation fixes is still a release
-check; do not describe them as physically demonstrated until recorded.
-
-4. EXTERNAL SERVICES, DATA, AUTHENTICATION, PAYMENTS AND AI
-
-The Capacitor 8 iOS shell uses WKWebView to load https://countrivo.com.
-Vercel hosts the Next.js website and provides aggregate web analytics and
-performance measurements. Supabase stores game sessions/results, optional
-leaderboard names and moderation data. Signed device identity supports saved
-moves and daily limits. There is no current account-authentication flow,
-payment provider or advertising SDK.
-
-The native bootstrap integrates haptics, splash/status-bar behaviour, network
-status/offline handling and game links. Gameplay requires a connection; the
-offline screen does not provide offline gameplay. The current app does not
-offer Apple sign-in or APNs reminders. Optional calendar reminders are files
-that a user chooses to import into their own calendar.
-
-Some clay illustrations are static AI-generated assets produced before
-publication. There is no runtime generative-AI service in the game, and
-player input is not sent to a generative-AI service by the game. Statistics,
-providers and reference years are listed at https://countrivo.com/sources.
-Portrait licences/attribution, flag-icon MIT notice and generated-art
-disclosure are at https://countrivo.com/credits. Privacy details are at
-https://countrivo.com/privacy.
-
-5. REGIONAL CONSISTENCY
-
-The app is selected for 173 App Store countries/regions. China mainland and
-Vietnam are excluded because the local game approvals have not been supplied.
-The same English gameplay features are implemented across regions where the
-app is distributed. There are no regional login, payment or feature variants.
-All daily boards use midnight Europe/Berlin as the reset time. Country/region
-filters are player-selected options. Storefront distribution settings are
-separate from the app's functionality.
-
-6. PROTECTED MATERIAL / AUTHORISATION
-
-Countrivo is a general-interest game, not a regulated advice service. It uses
-third-party portraits and datasets as well as its own interface/art assets.
-Individual portrait sources, authors and licences are published on /credits;
-Source information and reference years are on /sources. Creative Commons,
-public-domain, source-specific permissions and attribution requirements must
-be verified individually. Do not say all third-party content belongs to us.
-
-Erode is used under the official ITF Free Font License, saved at
-src/fonts/LICENSE-Erode.txt. Its bytes match the official distribution. SIPRI
-military-expenditure values and the associated ranking are withheld pending
-source-specific permission; active game generators do not use that metric.
-Individual portrait licence/source entries and modifications remain publicly
-available on /credits; data sources and reference years are on /sources.
-These permissions are not endorsements by the depicted people or providers.
-
-INTERNAL FINAL CHECK BEFORE SENDING
-
-- Actual physical-device recording watched and accessible to Apple.
-- Latest compatible OS, correct submitted binary and timestamps documented.
-- Current moderation behaviour deployed and verified; no fake user activity.
-- Rights issues resolved and supporting documents/links available.
-- Account holder handles the outstanding Developer agreement.
-- Review Notes describe only verified current features.
-- Save the reply/submission evidence; report the actual resulting status.
+INTERNAL GATES — DO NOT SEND AS COMPLETED
+Current Apple feedback/build/regions require login. Real video remains absent.
+Developer agreement acceptance was pending when last checked 16 Oct, not
+reverified today. Update App Privacy: Other User Content for device-linked
+private feedback, no tracking; support/improvement purposes as actually used.
+Gameplay Content alone is insufficient. Reconcile manifest at next archive.
+Verify deployed report/block/deletion/feedback and screenshot accuracy.
+Send the completed six answers in BOTH Review Notes and review conversation,
+attach genuine evidence, then capture actual resulting submission status.

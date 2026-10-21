@@ -20,6 +20,9 @@
   .sg-ruler { position: relative; width: 100%; max-width: 640px; margin: 24px auto 0; padding: 0 14px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
   .sg-ruler.done { cursor: default; touch-action: auto; }
   .sg-box { position: relative; height: 104px; }
+  .sg-box[data-scale="magnitude"] { height: 128px; }
+  .sg-mark.sg-scale-mark { top: 98px; bottom: auto; width: max-content; transform: translateX(-50%); color: var(--color-mute); font-size: 12px; white-space: nowrap; }
+  .sg-scale-mark::before { content: ''; position: absolute; top: -45px; left: 50%; width: 1px; height: 12px; background: var(--color-mute); }
 
   .sg-line { position: absolute; left: 0; right: 0; top: 57px; height: 12px; border-radius: var(--radius-ctl); background: var(--color-wait); }
   .sg-end { position: absolute; top: 72px; color: var(--color-mute); white-space: nowrap; }

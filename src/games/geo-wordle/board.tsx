@@ -68,10 +68,10 @@ export function Board({state,dispatch,busy,pendingGuess}:GeoBoardProps){
  </>;
  if(!live)return <details className="gw-history"><summary className="t-body">Your route <span className="t-meta text-mute">{state.guesses.length} {state.guesses.length===1?'guess':'guesses'}</span></summary><div className="gw-board">{history}{source}</div></details>;
  return <div className="gw-board">
-  {state.guesses.length===0?<p className="gw-start t-body">Start anywhere. Tap a country or type its name.</p>:null}
+  {state.guesses.length===0?<p className="gw-start t-body">Find the hidden country in 6 guesses. Tap the map or type a country.</p>:null}
   {history}
   {state.guesses.length>=2&&state.clueAt===null?<div className="gw-clue-control">{confirmClue?<div className="gw-confirm"><p className="t-body">Outline costs 1 guess.</p><div><Button variant="ink" onClick={e=>{if(e.detail<2){dispatch({t:'clue'});setConfirmClue(false);}}} disabled={busy} pending={busy} pendingLabel="Opening the clue…">Show outline</Button><Button variant="text" onClick={()=>setConfirmClue(false)}>Not now</Button></div></div>:<Button variant="text" onClick={()=>setConfirmClue(true)} disabled={busy}><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3 5 2 4-1 3 5-2 4 1 5-6 3-5-2-4-5 2-4Z" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="3 2"/></svg>Outline · −1 guess</Button>}</div>:null}
-  <div className="gw-input" ref={field}><Suggest id="geo-guess" label="Country" hideLabel placeholder="Type a country" value={text} onChange={v=>{setText(v);setError(null);}} items={items} onSelect={item=>busy?setText(item.name):guess(item.key)} onSubmit={submit} autoSelectFirst={false} max={6} error={error} autoComplete="off" autoCapitalize="words" enterKeyHint="go"/><Button variant="ink" onClick={e=>{if(e.detail<2)submit(text);}} disabled={busy||!text.trim()} pending={busy} pendingLabel="Checking…">Guess</Button></div>
+  <div className="gw-input" ref={field}><Suggest id="geo-guess" label="Country" hideLabel placeholder="Type a country" value={text} onChange={v=>{setText(v);setMapChoice(null);setError(null);}} items={items} onSelect={item=>{setText(item.name);setMapChoice(null);setError(null);}} onSubmit={submit} autoSelectFirst={false} max={6} error={error} autoComplete="off" autoCapitalize="words" enterKeyHint="go"/><Button variant="ink" onClick={e=>{if(e.detail<2)submit(text);}} disabled={busy||!text.trim()} pending={busy} pendingLabel="Checking…">Guess</Button></div>
   {source}
  </div>;
 }

@@ -49,13 +49,7 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
     }
   }, [queue, currentIdx]);
 
-  if (state.phase === "results") {
-    return (
-      <div className="sf done">
-        <h2 className="sf-time t-h2">Time.</h2>
-      </div>
-    );
-  }
+  if (state.phase === "results") return null;
 
   const count = (
     <p className="sf-count">
@@ -94,7 +88,7 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
         <div className="sf-box">
           <span className="flag">
             {/* eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted */}
-            <img src={flagSrc(q.country.iso2)} alt="" decoding="sync" loading="eager" />
+            <img src={flagSrc(q.country.iso2)} alt="Flag to identify" decoding="sync" loading="eager" />
           </span>
         </div>
       </div>
