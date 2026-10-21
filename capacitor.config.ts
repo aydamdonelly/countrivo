@@ -25,7 +25,8 @@ const config: CapacitorConfig = {
     limitsNavigationsToAppBoundDomains: true, // pairs w/ WKAppBoundDomains → exempts from ITP 7-day purge
   },
   plugins: {
-    StatusBar: { style: "DEFAULT", overlaysWebView: false }, // follows the system scheme, like the site
+    // LIGHT means dark text; an explicit paper fill prevents the native default black bar.
+    StatusBar: { style: "LIGHT", backgroundColor: "#fbfaf6", overlaysWebView: false },
     SplashScreen: {
       launchAutoHide: false, // hidden manually once the remote site is interactive
       backgroundColor: "#fbfaf6",

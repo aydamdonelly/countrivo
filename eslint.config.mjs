@@ -11,6 +11,7 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "**/*.xcarchive/**",
     "next-env.d.ts",
     // Agent worktrees (stale copies, lint runs against main src/)
     ".claude/worktrees/**",

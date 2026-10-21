@@ -1,8 +1,9 @@
 COUNTRIVO — UNSENT APP REVIEW RESPONSE DRAFT
-Checked 2026-10-21 | Version 1.0 (2) | com.countrivo.app
+Checked 2026-10-21 | submitted 1.0(2), local native fix 1.0(3) | com.countrivo.app
 
-Last verified ASC state: 16 October, Rejected / 2.1 Information Needed.
-Current ASC login is unavailable; physical iPhone unavailable; no required
+ASC checked 21 October: still Rejected / same 2.1 Information Needed; selected 2.
+Revised 3,556-character Review Notes saved/reloaded; no review reply sent.
+ASC login was restored on 21 Oct; physical iPhone unavailable; no required
 physical recording exists. No resubmission or approval is claimed.
 Complete the checklist in APP-STORE-MASTER.md before sending.
 
@@ -51,8 +52,8 @@ https://countrivo.com/credits; privacy: https://countrivo.com/privacy.
 
 5. Regions
 Implemented English features are consistent across distributed regions;
-country/region filters are player choices. Last saved distribution was 173
-regions excluding China mainland/Vietnam; reconfirm in ASC before sending.
+country/region filters are player choices. On 21 October ASC availability was
+verified as 173 regions, excluding China mainland and Vietnam.
 
 6. Protected material
 This is a general-interest game, not regulated advice. Portrait authors,
@@ -62,11 +63,15 @@ values/rankings are withheld. We do not claim ownership or endorsement of
 third-party material; provide the relevant source/licence evidence if asked.
 
 INTERNAL GATES — DO NOT SEND AS COMPLETED
-Current Apple feedback/build/regions require login. Real video remains absent.
-Developer agreement acceptance was pending when last checked 16 Oct, not
-reverified today. Update App Privacy: Other User Content for device-linked
-private feedback, no tracking; support/improvement purposes as actually used.
-Gameplay Content alone is insufficient. Reconcile manifest at next archive.
-Verify deployed report/block/deletion/feedback and screenshot accuracy.
-Send the completed six answers in BOTH Review Notes and review conversation,
-attach genuine evidence, then capture actual resulting submission status.
+Current review/build/regions checked; real physical-device video absent.
+Developer agreement still pending per 21 Oct banner; owner action required.
+Other User Content is now published in ASC: linked, no tracking, Analytics+
+App Functionality; eight types verified and mirrored in local build3 manifest.
+Review Notes saved/reloaded explicitly say selected 2, local 3, physical pending.
+Build2 crashes on iOS27 without UIScene; local 3 fixes it. Local distribution
+export FAILED exit70: no iOS Distribution signing certificate/private key;
+Xcode also reports cached credentials missing Xcode-Username. No IPA/upload.
+Restore legitimate signing access, validate/upload/select 3, record that actual
+build on physical/current OS and verify app flows/screenshots. Then send the
+completed six answers in BOTH Review Notes and review conversation, attach
+real evidence, resubmit and capture the resulting status. No approval claimed.
