@@ -112,6 +112,11 @@ Separate cold-start controls: unchanged binary/config on the 1179-wide iPhone
 recovered after simulator OS reboot, WebKit paint 4.661s, with data preserved.
 The 2048-wide iPad remained white at 20s; cause unresolved, no clean-install
 reliability claim. Evidence: listing-alternate-size-controls/cold-start-isolation.json.
+Later single iPad2048 boot/launch recovered: actual Home visible before/after
+LLDB, native Countrivo URL/title, isLoading=false, progress1. Observation36.09s;
+then shutdown. DOM expression failed to compile, no retry. No source/settings/
+data/permission changes; one recovered load does not establish root cause.
+Evidence: ipad-single-lldb-diagnostic/outcome.json.
 Read-only Vercel check: Bot Protection Logging; Custom Rules 0;
 system mitigation active;
 four anonymous WK-UA challenge events. No exact causal link to this iPad
