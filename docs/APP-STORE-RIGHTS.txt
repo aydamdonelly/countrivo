@@ -1,0 +1,65 @@
+COUNTRIVO — CONTENT AND LICENCE EVIDENCE
+Checked 21 October 2026. Prepared evidence; not an Apple submission receipt.
+
+Public source index: https://countrivo.com/sources
+Picture credits: https://countrivo.com/credits
+Support: https://countrivo.com/support | countrivo@gmail.com
+
+PORTRAITS
+The public credits index contains 575 portrait records with individual
+authors, source links and licence notices. These include public-domain,
+Creative Commons and source-specific permissions. Portraits are cropped,
+resized and compressed; the public notice explains these changes and
+retains ShareAlike where applicable. A directory entry is not a blanket
+licence for every third-party image or an endorsement by the person shown.
+This readiness check did not independently re-audit all 575 source files.
+
+FLAGS
+Artwork: https://github.com/lipis/flag-icons
+Upstream licence: https://github.com/lipis/flag-icons/blob/main/LICENSE
+Public retained copyright/MIT notice:
+https://countrivo.com/flags/LICENSE.txt
+The public notice was retrieved successfully and matches the local copy at
+public/flags/LICENSE.txt byte for byte.
+
+MAPS
+Natural Earth explicitly places its map data in the public domain:
+https://www.naturalearthdata.com/about/terms-of-use/
+Countrivo's source page identifies the maps and their simplification limits.
+
+FONT
+Erode: https://www.fontshare.com/fonts/erode
+Official ITF Free Font License: https://www.fontshare.com/licenses/itf-ffl
+The official Erode download contains Erode_Complete/License/FFL.txt,
+Version 2.0, 17 August 2026. A fresh 21 October download matched the retained
+src/fonts/LICENSE-Erode.txt exactly. That licence expressly covers websites,
+apps and games, including application embedding and own-site self-hosting.
+Attach the retained full licence if Apple needs an accessible text copy;
+the Fontshare web page itself requires JavaScript. Modification and general
+font redistribution have separate restrictions. This evidence does not
+certify unrestricted redistribution of raw font files in a public repo.
+
+STATISTICS AND FACTS
+https://countrivo.com/sources names the providers and reference years.
+https://data.worldbank.org/summary-terms-of-use permits reuse under CC BY 4.0
+unless indicator metadata states different terms, with attribution and the
+other applicable conditions. The World Bank's general licence does not
+automatically clear every original third-party provider. Countrivo publishes
+attribution and has withheld SIPRI military expenditure and coffee/beer/wine
+comparisons pending permission or source verification. No direct SIPRI
+authorisation is claimed. Career/year records cite their factual sources;
+job-fit points are Countrivo's editorial game judgements, not official ratings.
+
+GENERATED ILLUSTRATIONS
+Clay objects are static generated illustrations, disclosed on /credits.
+They are not represented as photographs or authentic historical artefacts.
+Gameplay does not send player input to a runtime generative-AI service.
+
+LOCAL SUPPORTING FILES
+src/fonts/LICENSE-Erode.txt — full official font licence
+public/flags/LICENSE.txt — retained flag artwork notice
+reports/2026-10-15/app-review/rights-evidence.json — earlier detailed checks
+reports/2026-10-21/app-review/public-readiness.json — current URL/hash checks
+
+These source-specific records support the review response. They are not a
+universal legal clearance, a private permission letter or an Apple approval.

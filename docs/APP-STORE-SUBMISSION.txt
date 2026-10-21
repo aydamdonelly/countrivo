@@ -1,20 +1,30 @@
 COUNTRIVO — UNSENT APP REVIEW RESPONSE DRAFT
-Checked 2026-10-21 | submitted 1.0(2), local native fix 1.0(3) | com.countrivo.app
+Checked 2026-10-21 | current saved selection 1.0 (3) | com.countrivo.app
 
-ASC checked 21 October: still Rejected / same 2.1 Information Needed; selected 2.
-Revised 3,556-character Review Notes saved/reloaded; no review reply sent.
-ASC login was restored on 21 Oct; physical iPhone unavailable; no required
-physical recording exists. No resubmission or approval is claimed.
-Complete the checklist in APP-STORE-MASTER.md before sending.
+Historical submission 1.0 (2) remains Rejected / Guideline 2.1 Information
+Needed. Replacement 1.0 (3) uploaded, processed Ready to Submit, selected for
+the version and saved. Build UUID: bd23badf-1210-4df1-857f-cb1643629b12.
+Existing Owner device review TestFlight group (one tester) has build 3;
+What to Test is saved. Installation on a physical device is not yet verified.
+Current 3,721-character Review Notes are saved/verified and explicitly keep
+physical evidence pending. The rights ZIP is uploaded and persisted.
+No new review reply, resubmission or approval is claimed.
 
-PROPOSED RESPONSE — REPLACE POINT 1 ONLY WITH VERIFIED EVIDENCE
+FINAL RESPONSE TEMPLATE — PHYSICAL RECORDING STILL REQUIRED
+The text between the markers is prepared for selected build 1.0 (3). Replace
+every square-bracket field only after actual latest-OS physical-device use
+and accessible recording. The saved pending Review Notes are a separate
+status update, not this completed response. Complete APP-STORE-MASTER.md.
+
+BEGIN REVIEW RESPONSE
 
 1. Recording
-PENDING: actual physical-device recording, latest released compatible OS,
-starting at Home Screen by launching the selected build. Add real device,
-OS, version/build, accessible file/link and timestamps. Simulator footage is
-supplemental QA only and does not fulfil this requirement. Registration,
-login and paid-access screens are absent.
+[VIDEO ATTACHMENT OR ACCESSIBLE URL]. Recorded on [PHYSICAL DEVICE MODEL],
+iOS [ACTUAL LATEST COMPATIBLE OS], Countrivo 1.0(3), on [RECORDING DATE].
+The video starts by launching the app. Timestamps: [LAUNCH; GAMEPLAY AND
+RESULT; OPTIONAL NAME; REPORT/BLOCK; PRIVATE FEEDBACK; FORGET THIS DEVICE].
+Registration/login and paid features are absent. This is physical-device
+footage of the uploaded, selected build, not a simulator recording.
 
 2. Purpose and audience
 Countrivo is a free geography/history puzzle collection for people who enjoy
@@ -56,22 +66,45 @@ country/region filters are player choices. On 21 October ASC availability was
 verified as 173 regions, excluding China mainland and Vietnam.
 
 6. Protected material
-This is a general-interest game, not regulated advice. Portrait authors,
-sources and individual licences are on /credits; datasets/years on /sources.
-Erode uses the retained official ITF Free Font License. Restricted SIPRI
-values/rankings are withheld. We do not claim ownership or endorsement of
-third-party material; provide the relevant source/licence evidence if asked.
+General-interest games, not regulated services. Portrait authors, individual
+licences and modification notices: https://countrivo.com/credits. Maps:
+https://www.naturalearthdata.com/about/terms-of-use/ (public domain). Flags:
+https://countrivo.com/flags/LICENSE.txt (MIT notice). Erode font:
+https://www.fontshare.com/licenses/itf-ffl (official FFL, retained locally).
+Statistics/providers: https://countrivo.com/sources and
+https://data.worldbank.org/summary-terms-of-use (indicator exceptions apply).
+SIPRI, coffee, beer and wine figures are withheld pending permission/source
+verification. No third-party endorsement or blanket ownership is claimed.
+
+END REVIEW RESPONSE
 
 INTERNAL GATES — DO NOT SEND AS COMPLETED
-Current review/build/regions checked; real physical-device video absent.
-Developer agreement still pending per 21 Oct banner; owner action required.
-Other User Content is now published in ASC: linked, no tracking, Analytics+
-App Functionality; eight types verified and mirrored in local build3 manifest.
-Review Notes saved/reloaded explicitly say selected 2, local 3, physical pending.
-Build2 crashes on iOS27 without UIScene; local 3 fixes it. Local distribution
-export FAILED exit70: no iOS Distribution signing certificate/private key;
-Xcode also reports cached credentials missing Xcode-Username. No IPA/upload.
-Restore legitimate signing access, validate/upload/select 3, record that actual
-build on physical/current OS and verify app flows/screenshots. Then send the
-completed six answers in BOTH Review Notes and review conversation, attach
-real evidence, resubmit and capture the resulting status. No approval claimed.
+DONE: Build 3 uploaded, App-Store-eligible export (internal-only=false),
+processed Ready to Submit, selected/saved; existing TestFlight group assigned
+and What to Test saved. Signing access recovered; the earlier CLI export
+failure and reviewed build 2 are history, not current upload blockers.
+DONE: LYL260 agreement accepted 21 October after explicit owner approval;
+server verification complete. Current Notes are 3,721 characters and state
+selected 3, with physical recording pending. No review reply/resubmission.
+DONE: Other User Content published: linked, no tracking, Analytics + App
+Functionality; eight types verified and mirrored in build-3 manifests.
+DONE: Countrivo-Licences-2026-10-21.zip uploaded and persisted in ASC.
+SCREENSHOTS:14 current native JPEGs prepared/uploaded, but Apple marks the
+initial records FAILED / INVALID_ASSET_FILE_FORMAT. Original PNG also failed;
+minimal RGB8 PNG failed visibly through both selection methods as well.
+Known-good/alternate-resolution controls remain pending; no accepted previews claimed.
+SOURCE: reports/2026-10-21/app-review/listing-upload-ready/manifest-complete.json.
+QA: A real 75.308-second simulator/native UI recording exists, with earned
+practice result and GeoWordle feedback, no injected state or public mutation.
+It is supplemental QA, NOT the physical-device evidence Apple requested.
+The iPad Home-to-map repair 3865012 is deployed and verified in four native
+cold-start checks on the existing iPad simulator. Separately, two newly
+created alternate-size simulators show a white initial WebView; its cause
+is still being isolated and no successful fresh-install test is claimed.
+BLOCKER:Fresh USB checks found no physical iPhone/iPad. Reconnect a data USB
+cable, unlock/trust, install actual TestFlight build 3, verify latest compatible
+OS and complete the genuine recording, including appropriate UGC controls.
+Then replace all video fields, recheck final app/storefront/build/rights facts,
+save the complete six answers in BOTH Review Notes and review conversation,
+attach accessible physical evidence and resubmit if the actual state permits.
+Capture the resulting status. No approval is claimed.
