@@ -119,9 +119,11 @@ failure is established, and no security settings were changed.
 Browser actions: Chrome ChatGPT extension only, following user correction.
 Stale tabs may be unattached; a fresh browser.tabs.new() tab works. The old
 stale Remove-dialog cancellation question remains pending; no deletion claim.
-BLOCKER:Fresh USB checks found no physical iPhone/iPad. Reconnect a data USB
-cable, unlock/trust, install actual TestFlight build 3, verify latest compatible
-OS and complete the genuine recording, including appropriate UGC controls.
+DEVICE:Owner connected the physical iPhone13 over USB. Read-only devicectl
+confirms wired/paired, iOS26.6.1, Countrivo1.0(2) and installed TestFlight4.4.0.
+Passcode required. Owner was asked to unlock, update iOS and install actual
+TestFlight build3. No physical recording yet; complete and verify the genuine
+recording on the updated device, including appropriate UGC controls.
 Then replace all video fields, recheck final app/storefront/build/rights facts,
 save the complete six answers in BOTH Review Notes and review conversation,
 attach accessible physical evidence and resubmit if the actual state permits.
