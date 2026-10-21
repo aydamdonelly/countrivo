@@ -28,7 +28,8 @@ const config: CapacitorConfig = {
     // LIGHT means dark text; an explicit paper fill prevents the native default black bar.
     StatusBar: { style: "LIGHT", backgroundColor: "#fbfaf6", overlaysWebView: false },
     SplashScreen: {
-      launchAutoHide: false, // hidden manually once the remote site is interactive
+      launchAutoHide: true,
+      launchShowDuration: 500, // native fallback if the remote page or bridge cannot initialize
       backgroundColor: "#fbfaf6",
       launchFadeOutDuration: 200,
       showSpinner: false,

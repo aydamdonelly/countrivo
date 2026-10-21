@@ -26,15 +26,17 @@ export function nativeLinkTarget(value: string): string | null {
  * (Capacitor.isNativePlatform() === false), so the same code ships to web
  * and the iOS shell. Run once from <NativeBootstrap/>.
  */
-export async function bootstrapNative(
+export function bootstrapNative(
   onOffline?: (offline: boolean) => void,
-): Promise<void> {
+): void {
   if (!Capacitor.isNativePlatform() || started) return;
   started = true;
 
+  // Reveal the interactive page even if another native service never answers.
+  void import("@capacitor/splash-screen").then(({ SplashScreen }) => SplashScreen.hide({ fadeOutDuration: 0 })).catch(() => {});
+
   // Haptics → route the existing use-juice seam to the Taptic Engine (no game-board call-site changes).
-  try {
-    const { Haptics, ImpactStyle, NotificationType } = await import("@capacitor/haptics");
+  void import("@capacitor/haptics").then(({ Haptics, ImpactStyle, NotificationType }) => {
     const map: Record<HapticType, () => Promise<void>> = {
       light: () => Haptics.impact({ style: ImpactStyle.Light }),
       medium: () => Haptics.impact({ style: ImpactStyle.Medium }),
@@ -47,48 +49,25 @@ export async function bootstrapNative(
     registerHapticDriver((t) => {
       void map[t]().catch(() => {});
     });
-  } catch {
-    // A missing native plugin must not hold the splashscreen open.
-  }
+  }).catch(() => {});
 
   // Status bar: one theme, so one style. Style.Light = dark text over the paper ground.
   // Set once; there is no colour-scheme listener because the page never changes scheme.
-  try {
-    const { StatusBar, Style } = await import("@capacitor/status-bar");
-    await StatusBar.setStyle({ style: Style.Light });
-  } catch {
-    /* simulator / unsupported: ignore */
-  }
+  void import("@capacitor/status-bar").then(({ StatusBar, Style }) => StatusBar.setStyle({ style: Style.Light })).catch(() => {});
 
   // Native services are independent of accounts and Supabase sessions.
-  try {
-    const { App } = await import("@capacitor/app");
+  void import("@capacitor/app").then(({ App }) => {
     const openLink = (value: string) => {
       const target = nativeLinkTarget(value);
       if (target && new URL(target, window.location.href).href !== window.location.href) window.location.assign(target);
     };
-    await App.addListener("appUrlOpen", ({ url }) => openLink(url));
-    const launch = await App.getLaunchUrl();
-    if (launch?.url) openLink(launch.url);
-  } catch {
-    // The app remains playable when native link delivery is unavailable.
-  }
+    void App.addListener("appUrlOpen", ({ url }) => openLink(url)).catch(() => {});
+    void App.getLaunchUrl().then(launch => { if (launch?.url) openLink(launch.url); }).catch(() => {});
+  }).catch(() => {});
 
   // Offline detection (a remote-URL WebView blanks with no network).
-  try {
-    const { Network } = await import("@capacitor/network");
-    const status = await Network.getStatus();
-    onOffline?.(!status.connected);
-    await Network.addListener("networkStatusChange", (st) => onOffline?.(!st.connected));
-  } catch {
-    onOffline?.(!navigator.onLine);
-  }
-
-  // Hide the splash once the remote site is interactive (launchAutoHide:false).
-  try {
-    const { SplashScreen } = await import("@capacitor/splash-screen");
-    await SplashScreen.hide({ fadeOutDuration: 200 });
-  } catch {
-    // No splash plugin on an unsupported shell.
-  }
+  void import("@capacitor/network").then(({ Network }) => {
+    void Network.addListener("networkStatusChange", status => onOffline?.(!status.connected)).catch(() => {});
+    return Network.getStatus().then(status => onOffline?.(!status.connected));
+  }).catch(() => onOffline?.(!navigator.onLine));
 }
