@@ -89,18 +89,36 @@ selected 3, with physical recording pending. No review reply/resubmission.
 DONE: Other User Content published: linked, no tracking, Analytics + App
 Functionality; eight types verified and mirrored in build-3 manifests.
 DONE: Countrivo-Licences-2026-10-21.zip uploaded and persisted in ASC.
-SCREENSHOTS:14 current native JPEGs prepared/uploaded, but Apple marks the
-initial records FAILED / INVALID_ASSET_FILE_FORMAT. Original PNG also failed;
-minimal RGB8 PNG failed visibly through both selection methods as well.
-Known-good/alternate-resolution controls remain pending; no accepted previews claimed.
+SCREENSHOTS:All 14 new JPEG uploads failed processing with
+UPLOAD_COMPLETE -> FAILED / INVALID_ASSET_FILE_FORMAT. Three PNG controls
+also failed through the tested chooser paths, including normal macOS picker
+selection and byte-identical previously accepted iphone-home.png. Independent
+file checks found no proved format violation; the cause is not established.
+FALLBACK:Fresh Chrome-extension tab restored six accepted large-iPhone and
+three iPad13 assets from Asset Library with real visible thumbnails. Smaller
+iPhone shows Using Existing Assets with six images. Fresh page loads confirmed all six iPhone and all three
+iPad images persisted. No assets permanently deleted. These are earlier
+accepted assets, not acceptance of the 14 new screenshots. Suitability against the
+current app still needs checking. One further minimal-PNG
+upload completed in the fresh tab. Its placement was detached recoverably;
+the separate Asset Library processing outcome remains unconfirmed.
 SOURCE: reports/2026-10-21/app-review/listing-upload-ready/manifest-complete.json.
 QA: A real 75.308-second simulator/native UI recording exists, with earned
 practice result and GeoWordle feedback, no injected state or public mutation.
 It is supplemental QA, NOT the physical-device evidence Apple requested.
 The iPad Home-to-map repair 3865012 is deployed and verified in four native
-cold-start checks on the existing iPad simulator. Separately, two newly
-created alternate-size simulators show a white initial WebView; its cause
-is still being isolated and no successful fresh-install test is claimed.
+cold-start checks on the existing M5 iPad simulator (4 passed, 0 failed).
+Separate cold-start controls: unchanged binary/config on the 1179-wide iPhone
+recovered after simulator OS reboot, WebKit paint 4.661s, with data preserved.
+The 2048-wide iPad remained white at 20s; cause unresolved, no clean-install
+reliability claim. Evidence: listing-alternate-size-controls/cold-start-isolation.json.
+Read-only Vercel check: Bot Protection Logging; Custom Rules 0;
+system mitigation active;
+four anonymous WK-UA challenge events. No exact causal link to this iPad
+failure is established, and no security settings were changed.
+Browser actions: Chrome ChatGPT extension only, following user correction.
+Stale tabs may be unattached; a fresh browser.tabs.new() tab works. The old
+stale Remove-dialog cancellation question remains pending; no deletion claim.
 BLOCKER:Fresh USB checks found no physical iPhone/iPad. Reconnect a data USB
 cable, unlock/trust, install actual TestFlight build 3, verify latest compatible
 OS and complete the genuine recording, including appropriate UGC controls.
