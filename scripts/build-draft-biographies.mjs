@@ -1,14 +1,20 @@
 // Frozen public biography facts. Scores never depend on a request-time Wikipedia lookup.
+// A figure's `wiki` title in figures.json is looked up in place of an ambiguous display name.
+// Facts added for a pool version are stamped `since`, so a board dealt from an older pool
+// never sees them. Existing facts are never refetched.
 // Run: node scripts/build-draft-biographies.mjs
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const pool = JSON.parse(readFileSync(new URL("../src/data/draft-pool.json", import.meta.url), "utf8"));
+const roster = JSON.parse(readFileSync(new URL("../src/data/figures.json", import.meta.url), "utf8"));
+const wikiTitle = new Map(roster.figures.filter((f) => f.wiki).map((f) => [f.name, f.wiki]));
+const lookup = (name) => wikiTitle.get(name) ?? name;
 const portraits = new Set(JSON.parse(readFileSync(new URL("../src/data/portrait-slugs.json", import.meta.url), "utf8")));
 const slugOf = (name) => name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const target = new URL("../src/data/draft-biographies.json", import.meta.url);
 const facts = existsSync(target) ? JSON.parse(readFileSync(target, "utf8")) : {};
 const names = [...new Set(pool.p.flatMap((c) => c.g.flatMap(([, people]) => people.map(([name]) => name))))].filter((name) => portraits.has(slugOf(name)) && !facts[slugOf(name)]);
-const headers = { "User-Agent": "CountrivoBiographyBuilder/3.0 (https://countrivo.com; countrivo@gmail.com)" };
+const headers = { "User-Agent": "CountrivoBiographyBuilder/3.1 (https://countrivo.com)" };
 const skipped = [];
 async function request(url) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -36,7 +42,7 @@ function claimYear(entity, property, order) {
 }
 for (let i = 0; i < names.length; i += 40) {
   const batch = names.slice(i, i + 40);
-  const params = new URLSearchParams({ action: "query", format: "json", formatversion: "2", titles: batch.join("|"), prop: "pageprops", redirects: "1" });
+  const params = new URLSearchParams({ action: "query", format: "json", formatversion: "2", titles: batch.map(lookup).join("|"), prop: "pageprops", redirects: "1" });
   const wiki = await request(`https://en.wikipedia.org/w/api.php?${params}`);
   if (!Array.isArray(wiki.query?.pages)) throw new Error("Wikipedia omitted its pages; existing facts were preserved.");
   const pages = wiki.query?.pages ?? [];
@@ -46,7 +52,7 @@ for (let i = 0; i < names.length; i += 40) {
   const wd = await request(`https://www.wikidata.org/w/api.php?${wdParams}`);
   if (!wd.entities || typeof wd.entities !== "object") throw new Error("Wikidata omitted entities; existing facts were preserved.");
   for (const name of batch) {
-    let redirected = wiki.query?.normalized?.find((r) => r.from === name)?.to ?? name;
+    let redirected = wiki.query?.normalized?.find((r) => r.from === lookup(name))?.to ?? lookup(name);
     for (let depth = 0; depth < 10; depth += 1) {
       const next = wiki.query?.redirects?.find((r) => r.from === redirected)?.to;
       if (!next) break;
@@ -64,7 +70,7 @@ for (let i = 0; i < names.length; i += 40) {
     const ends = offices.flatMap((c) => c.qualifiers?.P582 ?? []).map((s) => yearOf(s.datavalue?.value)).filter((y) => y !== null);
     if (starts.length) activeFrom = Math.min(...starts, ...(activeFrom === null ? [] : [activeFrom]));
     if (ends.length) activeUntil = Math.max(...ends, ...(activeUntil === null ? [] : [activeUntil]));
-    facts[slugOf(name)] = { born, died, activeFrom, activeUntil, source: `https://www.wikidata.org/wiki/${entity.id}`, biography: `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}` };
+    facts[slugOf(name)] = { born, died, activeFrom, activeUntil, source: `https://www.wikidata.org/wiki/${entity.id}`, biography: `https://en.wikipedia.org/wiki/${encodeURIComponent(page.title.replaceAll(" ", "_"))}`, since: pool.v };
   }
   console.log(`Biographies: ${Math.min(i + 40, names.length)} / ${names.length}`);
 }

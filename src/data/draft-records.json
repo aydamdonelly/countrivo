@@ -36401,5 +36401,4582 @@
     ],
     "offices": [],
     "militaryRanks": []
+  },
+  "ricardo-darin": {
+    "name": "Ricardo Darín",
+    "source": "https://www.wikidata.org/wiki/Q463860",
+    "biography": "https://en.wikipedia.org/wiki/Ricardo_Dar%C3%ADn",
+    "sitelinks": 31,
+    "occupations": [
+      {
+        "id": "Q33999",
+        "claim": "q463860$0336CD0C-9F2E-437F-A1E0-97AD59763EC9",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q463860$C11B888E-9519-4D72-83D9-D470AC9F3E47",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q463860$9A5D440B-C5E8-43F4-8B34-B0B158DE16D7",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q463860$F43A9CA4-76EF-45D7-973A-DBBF7D1227AB",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q10798782",
+        "claim": "Q463860$8ED9BC5F-ECC7-46AC-B446-0AE94533309A",
+        "referenced": false,
+        "label": "television actor",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q2259451",
+        "claim": "Q463860$f9d3204c-442e-431c-5f8b-aa50b1bff6c8",
+        "referenced": false,
+        "label": "stage actor",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q463860$4ab87a73-559b-462f-ac40-9e25725d6615",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q463860#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "jorge-luis-borges": {
+    "name": "Jorge Luis Borges",
+    "source": "https://www.wikidata.org/wiki/Q909",
+    "biography": "https://en.wikipedia.org/wiki/Jorge_Luis_Borges",
+    "sitelinks": 195,
+    "occupations": [
+      {
+        "id": "Q333634",
+        "claim": "Q909$c54543cd-44d2-50ed-04c9-f3470e641a81",
+        "referenced": true,
+        "label": "translator",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q182436",
+        "claim": "Q909$3dc1384d-4853-6be9-b9de-e37845fd2c9c",
+        "referenced": true,
+        "label": "librarian",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q4263842",
+        "claim": "Q909$5939353a-45b1-915b-bef2-9b91248ed887",
+        "referenced": false,
+        "label": "literary critic",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q909$B8CC4B99-7225-4212-95C6-575358556332",
+        "referenced": false,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q909$BFD8A6B2-47BD-4E37-A610-4F4772BDEF97",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q909$B7AED5AD-ACD1-42D7-9AF6-403BFE647189",
+        "referenced": true,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q6051619",
+        "claim": "Q909$c5d8dd7e-49b8-a3f9-e6bc-3b24977fd719",
+        "referenced": true,
+        "label": "publicist",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q11774202",
+        "claim": "Q909$8acbfeb2-4c05-59bd-932f-7ee4f90452f9",
+        "referenced": true,
+        "label": "essayist",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q15949613",
+        "claim": "Q909$2F103CAC-2F7D-4B49-8245-7108069709B0",
+        "referenced": true,
+        "label": "short story writer",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q755070",
+        "claim": "Q909$3F2D2991-B031-4D13-8F8E-6B230572E8BD",
+        "referenced": true,
+        "label": "narrator",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      },
+      {
+        "id": "Q8178443",
+        "claim": "Q909$7BCEB337-74CF-4ECB-B259-E3D582FC5555",
+        "referenced": true,
+        "label": "librettist",
+        "source": "https://www.wikidata.org/wiki/Q909#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "lionel-messi": {
+    "name": "Lionel Messi",
+    "source": "https://www.wikidata.org/wiki/Q615",
+    "biography": "https://en.wikipedia.org/wiki/Lionel_Messi",
+    "sitelinks": 228,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q615$681AB15F-655A-4555-BA6C-6F6FEA74156C",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q615#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q19969187",
+        "claim": "Q615$1B819260-C742-4B0B-B82B-A641D3F444B0",
+        "referenced": false,
+        "label": "UNICEF Goodwill Ambassador",
+        "source": "https://www.wikidata.org/wiki/Q615#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "manu-ginobili": {
+    "name": "Manu Ginóbili",
+    "source": "https://www.wikidata.org/wiki/Q213132",
+    "biography": "https://en.wikipedia.org/wiki/Manu_Gin%C3%B3bili",
+    "sitelinks": 47,
+    "occupations": [
+      {
+        "id": "Q3665646",
+        "claim": "q213132$EAB8004D-4779-49DE-9F6A-C273721EBB37",
+        "referenced": true,
+        "label": "basketball player",
+        "source": "https://www.wikidata.org/wiki/Q213132#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q19969187",
+        "claim": "Q213132$935e2138-00e4-4c81-a017-c8f9b4913be8",
+        "referenced": true,
+        "label": "UNICEF Goodwill Ambassador",
+        "source": "https://www.wikidata.org/wiki/Q213132#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "stromae": {
+    "name": "Stromae",
+    "source": "https://www.wikidata.org/wiki/Q313453",
+    "biography": "https://en.wikipedia.org/wiki/Stromae",
+    "sitelinks": 67,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "q313453$E0362584-FB5A-4EDF-9593-9B8964C48E7D",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q2252262",
+        "claim": "Q313453$A869F1B1-079A-4560-91BA-190F089AACF9",
+        "referenced": true,
+        "label": "rapper",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q183945",
+        "claim": "Q313453$4AAD069E-DB85-43A1-ADBF-B4039DF0FA93",
+        "referenced": true,
+        "label": "record producer",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q313453$f9c6d513-4a80-d491-8faf-693f8e99b7b9",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q3501317",
+        "claim": "Q313453$09699AC4-BB13-44DC-99FB-B0C6ABF3F3E9",
+        "referenced": true,
+        "label": "fashion designer",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q313453$F6FA7AB6-5FE3-4B21-AE8B-9CBCEC173244",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q313453$E946BD67-3F42-424C-BA6C-685BAB0B5A46",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      },
+      {
+        "id": "Q3610436",
+        "claim": "Q313453$064c4e92-4006-2087-c584-e1a0333a7b9a",
+        "referenced": false,
+        "label": "personal stylist",
+        "source": "https://www.wikidata.org/wiki/Q313453#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "jean-claude-van-damme": {
+    "name": "Jean-Claude Van Damme",
+    "source": "https://www.wikidata.org/wiki/Q308840",
+    "biography": "https://en.wikipedia.org/wiki/Jean-Claude_Van_Damme",
+    "sitelinks": 95,
+    "occupations": [
+      {
+        "id": "Q11338576",
+        "claim": "q308840$34F8FEE3-35CE-44E0-B1CD-8407C76C3494",
+        "referenced": true,
+        "label": "boxer",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "Q308840$e7c8d719-425a-3ed8-9017-827c194c9227",
+        "referenced": false,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q308840$FD06D2D8-6F1F-4657-8C3C-A9E8269FD1AA",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q308840$1A9F4D2F-3983-40C1-BB7E-3322AF151388",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q308840$2B88A3BA-2A56-4CC7-905A-1C4747672BB7",
+        "referenced": false,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q7042855",
+        "claim": "Q308840$D3F8BBA1-8970-4DBB-8A50-F591E1A7D38D",
+        "referenced": false,
+        "label": "film editor",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q11296761",
+        "claim": "Q308840$ADDA7212-686E-4583-9C20-FA7DD00474D2",
+        "referenced": true,
+        "label": "kickboxer",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q9017214",
+        "claim": "Q308840$D2A4A080-E5DF-4007-BE9C-19C9005A18DE",
+        "referenced": true,
+        "label": "karateka",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q2707485",
+        "claim": "Q308840$13FA35F2-ADCB-4CB5-9E7C-DF0DCF4E4DDD",
+        "referenced": false,
+        "label": "scenographer",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q11124885",
+        "claim": "Q308840$86e23d6e-4456-0b59-5c41-f71bb7de4a3c",
+        "referenced": true,
+        "label": "martial artist",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q2405480",
+        "claim": "Q308840$0705FB43-E4B6-4B11-B5D0-3843E597E7A0",
+        "referenced": true,
+        "label": "voice actor",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q308840$b1727534-4e74-bb9e-0db0-30428a1aa4cd",
+        "referenced": false,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q308840$8187bb92-4211-8dc9-910d-a9b48a2831c0",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q308840#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "georges-lemaitre": {
+    "name": "Georges Lemaître",
+    "source": "https://www.wikidata.org/wiki/Q12998",
+    "biography": "https://en.wikipedia.org/wiki/Georges_Lema%C3%AEtre",
+    "sitelinks": 82,
+    "occupations": [
+      {
+        "id": "Q2998308",
+        "claim": "q12998$240C603D-965F-409B-AE00-1F6F7F9D45A8",
+        "referenced": true,
+        "label": "cosmologist",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q170790",
+        "claim": "q12998$192D8DBA-6407-45AA-8812-E955B601566E",
+        "referenced": true,
+        "label": "mathematician",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q250867",
+        "claim": "Q12998$a09d4cfd-4bab-3c9e-60ee-62f3bffb3dc2",
+        "referenced": true,
+        "label": "Catholic priest",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "q12998$BB01F40F-AA47-4345-AB21-955248039C08",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q169470",
+        "claim": "Q12998$98743F23-CAB1-40AC-99A6-E8ED4EF7AA97",
+        "referenced": true,
+        "label": "physicist",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q752129",
+        "claim": "Q12998$09a71232-4255-948b-acc3-41f252a41a00",
+        "referenced": true,
+        "label": "astrophysicist",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q11063",
+        "claim": "Q12998$1C59295D-0592-4CF1-9842-A33EAE192487",
+        "referenced": true,
+        "label": "astronomer",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      },
+      {
+        "id": "Q98833890",
+        "claim": "Q12998$40588D36-58B8-4331-8E2F-DDD9E04EEF07",
+        "referenced": true,
+        "label": "Catholic theologian",
+        "source": "https://www.wikidata.org/wiki/Q12998#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "adolphe-sax": {
+    "name": "Adolphe Sax",
+    "source": "https://www.wikidata.org/wiki/Q181995",
+    "biography": "https://en.wikipedia.org/wiki/Adolphe_Sax",
+    "sitelinks": 67,
+    "occupations": [
+      {
+        "id": "Q1955150",
+        "claim": "Q181995$a71c864e-47ea-0609-ce90-2570c6c45584",
+        "referenced": true,
+        "label": "musical instrument maker",
+        "source": "https://www.wikidata.org/wiki/Q181995#P106"
+      },
+      {
+        "id": "Q205375",
+        "claim": "Q181995$A94062A0-C4AD-4903-9CB1-4ED452260D47",
+        "referenced": true,
+        "label": "inventor",
+        "source": "https://www.wikidata.org/wiki/Q181995#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q181995$E5E0D1E3-3DA8-4A33-B399-FF01D696FAAB",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q181995#P106"
+      },
+      {
+        "id": "Q16145150",
+        "claim": "Q181995$2B476276-13CA-41C6-B693-DBB78BF109DE",
+        "referenced": false,
+        "label": "music educator",
+        "source": "https://www.wikidata.org/wiki/Q181995#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q181995$A8694CAE-14D7-43CA-B5C2-C188E6C9C144",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q181995#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "eddy-merckx": {
+    "name": "Eddy Merckx",
+    "source": "https://www.wikidata.org/wiki/Q103756",
+    "biography": "https://en.wikipedia.org/wiki/Eddy_Merckx",
+    "sitelinks": 69,
+    "occupations": [
+      {
+        "id": "Q2309784",
+        "claim": "Q103756$B1C607FE-7F6E-43BA-A0D1-1735E4D251D9",
+        "referenced": false,
+        "label": "sport cyclist",
+        "source": "https://www.wikidata.org/wiki/Q103756#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kevin-de-bruyne": {
+    "name": "Kevin De Bruyne",
+    "source": "https://www.wikidata.org/wiki/Q357984",
+    "biography": "https://en.wikipedia.org/wiki/Kevin_De_Bruyne",
+    "sitelinks": 94,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q357984$0FE23DF3-5C79-48AE-9EB0-BF9EE4D260BB",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q357984#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "gilberto-gil": {
+    "name": "Gilberto Gil",
+    "source": "https://www.wikidata.org/wiki/Q221479",
+    "biography": "https://en.wikipedia.org/wiki/Gilberto_Gil",
+    "sitelinks": 49,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "q221479$E0BD95B5-5C56-4455-BC80-EFD6F70ACFC9",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q855091",
+        "claim": "q221479$5de8901d-45f3-861d-d9bd-1695b4d6ba2f",
+        "referenced": true,
+        "label": "guitarist",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "q221479$3554cf8b-4621-b835-db8d-36fa91703be6",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q221479$2309E0EC-3375-4AD1-92ED-25388A66E924",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q6168364",
+        "claim": "Q221479$91499B82-8605-4848-BB27-FA10B7586F6C",
+        "referenced": false,
+        "label": "jazz guitarist",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q82955",
+        "claim": "Q221479$80BA3AFA-72C4-4966-B55B-6877B8398EA3",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q221479$C91A1EEA-3F5E-4DB0-B866-79BD1881F724",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      },
+      {
+        "id": "Q806349",
+        "claim": "Q221479$CABF2849-22E3-4ADF-A2DD-36B753345121",
+        "referenced": true,
+        "label": "bandleader",
+        "source": "https://www.wikidata.org/wiki/Q221479#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q59346257",
+        "claim": "Q221479$4ADE258B-8CCB-41D1-AF22-3E0F7527B74F",
+        "referenced": true,
+        "label": "Minister of Culture of Brazil",
+        "source": "https://www.wikidata.org/wiki/Q221479#P39"
+      },
+      {
+        "id": "Q53934982",
+        "claim": "Q221479$9f38ba40-4a07-a455-d713-b65b864cc7ce",
+        "referenced": false,
+        "label": "councillor of Salvador",
+        "source": "https://www.wikidata.org/wiki/Q221479#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "anitta": {
+    "name": "Anitta",
+    "source": "https://www.wikidata.org/wiki/Q13476301",
+    "biography": "https://en.wikipedia.org/wiki/Anitta_(singer)",
+    "sitelinks": 43,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "Q13476301$3C374DAB-AE8F-490A-B2B4-93AC681609E7",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q13476301#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q13476301$98B26315-77E2-438A-A61A-20A4A429B838",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q13476301#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q13476301$f78ee449-4bb0-2d05-fb05-cd4c6b5f44af",
+        "referenced": false,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q13476301#P106"
+      },
+      {
+        "id": "Q947873",
+        "claim": "Q13476301$b7f1c3b3-4126-b412-0c8e-1f2a256deb20",
+        "referenced": false,
+        "label": "television presenter",
+        "source": "https://www.wikidata.org/wiki/Q13476301#P106"
+      },
+      {
+        "id": "Q5716684",
+        "claim": "Q13476301$06d09505-41ff-c9f9-e916-c16ba962bd94",
+        "referenced": false,
+        "label": "dancer",
+        "source": "https://www.wikidata.org/wiki/Q13476301#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "paulo-coelho": {
+    "name": "Paulo Coelho",
+    "source": "https://www.wikidata.org/wiki/Q12881",
+    "biography": "https://en.wikipedia.org/wiki/Paulo_Coelho",
+    "sitelinks": 134,
+    "occupations": [
+      {
+        "id": "Q36180",
+        "claim": "Q12881$D1639337-2FE2-44FF-A06A-4FA3C3AA9CBA",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q6625963",
+        "claim": "Q12881$5E6CB9B9-1807-400C-94FF-70DFF8DBF2FE",
+        "referenced": true,
+        "label": "novelist",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q12881$7DE2FCCD-8F56-424A-AA60-1E0E4E709E95",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q1209498",
+        "claim": "Q12881$8321C996-2007-4680-9774-D753A35876D2",
+        "referenced": false,
+        "label": "poet lawyer",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q18844224",
+        "claim": "Q12881$7D89D0A2-9C39-47A6-A069-7C1723FD7265",
+        "referenced": false,
+        "label": "science fiction writer",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q822146",
+        "claim": "Q12881$8CA66F1C-DF55-49F0-8C61-68264F1653AF",
+        "referenced": false,
+        "label": "lyricist",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q12881$41F9D7DD-9D95-4179-9939-EAFCDC364EAF",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      },
+      {
+        "id": "Q1930187",
+        "claim": "Q12881$533E2720-37EF-4F45-87D3-EF141327DE90",
+        "referenced": true,
+        "label": "journalist",
+        "source": "https://www.wikidata.org/wiki/Q12881#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "ronaldo": {
+    "name": "Ronaldo",
+    "source": "https://www.wikidata.org/wiki/Q529207",
+    "biography": "https://en.wikipedia.org/wiki/Ronaldo_(Brazilian_footballer)",
+    "sitelinks": 125,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q529207$2E387D63-F4B5-40A1-AB62-C2639EF5C204",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q529207#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "marta": {
+    "name": "Marta",
+    "source": "https://www.wikidata.org/wiki/Q228616",
+    "biography": "https://en.wikipedia.org/wiki/Marta_(footballer)",
+    "sitelinks": 65,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q228616$7734E6A6-AB70-409E-9507-601E0216E904",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q228616#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "henry-dunant": {
+    "name": "Henry Dunant",
+    "source": "https://www.wikidata.org/wiki/Q12091",
+    "biography": "https://en.wikipedia.org/wiki/Henry_Dunant",
+    "sitelinks": 107,
+    "occupations": [
+      {
+        "id": "Q131524",
+        "claim": "Q12091$394EDC7E-304C-45E7-B98D-4A3CE2487EC2",
+        "referenced": true,
+        "label": "entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q12091#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q12091$88D4D8ED-623F-4154-86D8-B01818CC60C8",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q12091#P106"
+      },
+      {
+        "id": "Q4479442",
+        "claim": "Q12091$f8ee1a12-4d95-9158-1d88-05f1f9672403",
+        "referenced": false,
+        "label": "founder",
+        "source": "https://www.wikidata.org/wiki/Q12091#P106"
+      },
+      {
+        "id": "Q215536",
+        "claim": "Q12091$69F74E36-2B6F-49D0-8344-38F618EF768B",
+        "referenced": true,
+        "label": "merchant",
+        "source": "https://www.wikidata.org/wiki/Q12091#P106"
+      },
+      {
+        "id": "Q12362622",
+        "claim": "Q12091$39F2315C-C2EC-4131-8214-5ABED52A9883",
+        "referenced": true,
+        "label": "philanthropist",
+        "source": "https://www.wikidata.org/wiki/Q12091#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "leonhard-euler": {
+    "name": "Leonhard Euler",
+    "source": "https://www.wikidata.org/wiki/Q7604",
+    "biography": "https://en.wikipedia.org/wiki/Leonhard_Euler",
+    "sitelinks": 192,
+    "occupations": [
+      {
+        "id": "Q170790",
+        "claim": "q7604$9FC07FDC-E4FE-4160-8D1C-EE8836A3EB5B",
+        "referenced": true,
+        "label": "mathematician",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q169470",
+        "claim": "q7604$050F7BA0-6504-46B6-AE09-B3698DF1FD82",
+        "referenced": true,
+        "label": "physicist",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q7604$6CECCECE-0C1B-4217-B1E3-C38A0506333B",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q7604$A5228ED3-8C3E-467F-B3B0-9E44014C4998",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q16031530",
+        "claim": "Q7604$1E58562C-26F3-4FF9-B242-8CA90416BF47",
+        "referenced": true,
+        "label": "music theorist",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q11063",
+        "claim": "Q7604$73C3D427-CB0D-4C85-9027-E6A633FE345A",
+        "referenced": true,
+        "label": "astronomer",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q901",
+        "claim": "Q7604$27dcd757-1d37-4c64-9a2b-d88ab377bfcc",
+        "referenced": true,
+        "label": "scientist",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q205375",
+        "claim": "Q7604$2c70fc14-809b-4432-b25f-958cf03608f7",
+        "referenced": true,
+        "label": "inventor",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q978044",
+        "claim": "Q7604$e7a97d05-f410-44f6-ad25-d9e80ec931ef",
+        "referenced": true,
+        "label": "executive",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q901402",
+        "claim": "Q7604$862B63DA-7888-4443-98CB-403EC817D754",
+        "referenced": true,
+        "label": "geographer",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      },
+      {
+        "id": "Q39631",
+        "claim": "Q7604$66C9D679-C3DB-4343-80A3-5F8727FA9C4D",
+        "referenced": true,
+        "label": "physician",
+        "source": "https://www.wikidata.org/wiki/Q7604#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q107540029",
+        "claim": "Q7604$B13D0800-2EF2-4173-A4CA-A098F43094F3",
+        "referenced": true,
+        "label": "adjunct",
+        "source": "https://www.wikidata.org/wiki/Q7604#P39"
+      },
+      {
+        "id": "Q121594",
+        "claim": "Q7604$FAD50BE8-54C6-41FB-BCE1-8F50D5D1B9A2",
+        "referenced": true,
+        "label": "professor",
+        "source": "https://www.wikidata.org/wiki/Q7604#P39"
+      },
+      {
+        "id": "Q121594",
+        "claim": "Q7604$E2BE3353-1381-4C50-8FBA-1C47AEC0E5A9",
+        "referenced": true,
+        "label": "professor",
+        "source": "https://www.wikidata.org/wiki/Q7604#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "carl-jung": {
+    "name": "Carl Jung",
+    "source": "https://www.wikidata.org/wiki/Q41532",
+    "biography": "https://en.wikipedia.org/wiki/Carl_Jung",
+    "sitelinks": 154,
+    "occupations": [
+      {
+        "id": "Q1900167",
+        "claim": "Q41532$f0f7b95e-4623-0023-0d0d-04fb53eba1b1",
+        "referenced": true,
+        "label": "psychotherapist",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      },
+      {
+        "id": "Q212980",
+        "claim": "Q41532$792B5DD7-0CDD-4AED-B3CD-88BB624ADC28",
+        "referenced": true,
+        "label": "psychologist",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      },
+      {
+        "id": "Q211346",
+        "claim": "Q41532$3CE2A155-E0CB-492A-9F97-A56D76C7CD96",
+        "referenced": true,
+        "label": "psychiatrist",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      },
+      {
+        "id": "Q11774202",
+        "claim": "Q41532$b9415572-47e5-dfd5-1295-03869511045d",
+        "referenced": false,
+        "label": "essayist",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      },
+      {
+        "id": "Q1028181",
+        "claim": "Q41532$42352764-0D66-472B-93A0-546B54DDD26C",
+        "referenced": true,
+        "label": "painter",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q41532$B81DA417-1CD7-4C5F-BD6E-1584DB99848C",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q41532#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "roger-federer": {
+    "name": "Roger Federer",
+    "source": "https://www.wikidata.org/wiki/Q1426",
+    "biography": "https://en.wikipedia.org/wiki/Roger_Federer",
+    "sitelinks": 164,
+    "occupations": [
+      {
+        "id": "Q10833314",
+        "claim": "q1426$966835B3-B3B7-4B84-9E61-57EC95440DA5",
+        "referenced": true,
+        "label": "tennis player",
+        "source": "https://www.wikidata.org/wiki/Q1426#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q19969187",
+        "claim": "Q1426$A4EC3914-0F46-41F2-9B94-903BCBA4F2C7",
+        "referenced": false,
+        "label": "UNICEF Goodwill Ambassador",
+        "source": "https://www.wikidata.org/wiki/Q1426#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "margrethe-ii": {
+    "name": "Margrethe II",
+    "source": "https://www.wikidata.org/wiki/Q102139",
+    "biography": "https://en.wikipedia.org/wiki/Margrethe_II",
+    "sitelinks": 111,
+    "occupations": [
+      {
+        "id": "Q116",
+        "claim": "Q102139$a247fee7-44d7-b43d-c768-35ed6fd89fce",
+        "referenced": false,
+        "label": "monarch",
+        "source": "https://www.wikidata.org/wiki/Q102139#P106"
+      },
+      {
+        "id": "Q1028181",
+        "claim": "Q102139$9f743c24-4904-df89-efdf-023617dec760",
+        "referenced": true,
+        "label": "painter",
+        "source": "https://www.wikidata.org/wiki/Q102139#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q102139$22BC43CF-1E1F-4320-8954-5E9CC89A5179",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q102139#P106"
+      },
+      {
+        "id": "Q10694573",
+        "claim": "Q102139$904D9433-2339-4AA4-BFCD-94DD5249A023",
+        "referenced": true,
+        "label": "textile artist",
+        "source": "https://www.wikidata.org/wiki/Q102139#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q18341329",
+        "claim": "q102139$1927119c-44b7-02bd-ca00-df83332d1497",
+        "referenced": false,
+        "label": "Monarch of Denmark",
+        "source": "https://www.wikidata.org/wiki/Q102139#P39"
+      }
+    ],
+    "militaryRanks": [
+      {
+        "id": "Q380782",
+        "claim": "Q102139$3392d51e-4913-fa1a-ff5c-7d0c3716fe48",
+        "referenced": false,
+        "label": "commander-in-chief",
+        "source": "https://www.wikidata.org/wiki/Q102139#P410"
+      }
+    ],
+    "since": 4
+  },
+  "ole-kirk-christiansen": {
+    "name": "Ole Kirk Christiansen",
+    "source": "https://www.wikidata.org/wiki/Q364571",
+    "biography": "https://en.wikipedia.org/wiki/Ole_Kirk_Christiansen",
+    "sitelinks": 36,
+    "occupations": [
+      {
+        "id": "Q154549",
+        "claim": "Q364571$1549E99C-4283-4664-889C-5AE8EA8457B4",
+        "referenced": true,
+        "label": "carpenter",
+        "source": "https://www.wikidata.org/wiki/Q364571#P106"
+      },
+      {
+        "id": "Q131524",
+        "claim": "Q364571$7BE6C87E-9A41-4A41-8A3B-74E63F693FFE",
+        "referenced": true,
+        "label": "entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q364571#P106"
+      },
+      {
+        "id": "Q4479442",
+        "claim": "Q364571$492775e5-43b4-ebd8-8057-5d7b39abd9c9",
+        "referenced": false,
+        "label": "founder",
+        "source": "https://www.wikidata.org/wiki/Q364571#P106"
+      },
+      {
+        "id": "Q5322166",
+        "claim": "Q364571$F7674B5D-4396-43B8-A781-23989D60C193",
+        "referenced": true,
+        "label": "designer",
+        "source": "https://www.wikidata.org/wiki/Q364571#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "mads-mikkelsen": {
+    "name": "Mads Mikkelsen",
+    "source": "https://www.wikidata.org/wiki/Q294647",
+    "biography": "https://en.wikipedia.org/wiki/Mads_Mikkelsen",
+    "sitelinks": 73,
+    "occupations": [
+      {
+        "id": "Q33999",
+        "claim": "q294647$4BFC500D-F852-479B-8A69-3A333CBE2EFE",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q294647$66F9CE79-F3F2-477C-9BAA-85D78A0EF8DE",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      },
+      {
+        "id": "Q10798782",
+        "claim": "Q294647$AC015ABB-0013-4C6A-9F3F-3A3C0D74564B",
+        "referenced": false,
+        "label": "television actor",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      },
+      {
+        "id": "Q2405480",
+        "claim": "Q294647$8164088D-64A2-44F2-9469-E72B3C713E8C",
+        "referenced": true,
+        "label": "voice actor",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      },
+      {
+        "id": "Q16947675",
+        "claim": "Q294647$0b17045d-433b-ba47-8279-5b5049a7ad04",
+        "referenced": false,
+        "label": "gymnast",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      },
+      {
+        "id": "Q5716684",
+        "claim": "Q294647$57fa7acc-4993-7210-cfa6-3ebe3f8a8b81",
+        "referenced": false,
+        "label": "dancer",
+        "source": "https://www.wikidata.org/wiki/Q294647#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "caroline-wozniacki": {
+    "name": "Caroline Wozniacki",
+    "source": "https://www.wikidata.org/wiki/Q30767",
+    "biography": "https://en.wikipedia.org/wiki/Caroline_Wozniacki",
+    "sitelinks": 72,
+    "occupations": [
+      {
+        "id": "Q10833314",
+        "claim": "q30767$6F436DA5-1ACA-43F2-9DE2-1756D2A50A91",
+        "referenced": true,
+        "label": "tennis player",
+        "source": "https://www.wikidata.org/wiki/Q30767#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "rosalia": {
+    "name": "Rosalia",
+    "source": "https://www.wikidata.org/wiki/Q28843759",
+    "biography": "https://en.wikipedia.org/wiki/Rosal%C3%ADa",
+    "sitelinks": 58,
+    "occupations": [
+      {
+        "id": "Q488205",
+        "claim": "Q28843759$8b8e282a-442f-582d-54f9-084e7e163848",
+        "referenced": false,
+        "label": "singer-songwriter",
+        "source": "https://www.wikidata.org/wiki/Q28843759#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q28843759$7DF09BF4-1688-437C-BC6E-76423E9F02DF",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q28843759#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q28843759$BC286CF6-499D-4AF3-BAC9-57E88624EFFD",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q28843759#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q28843759$8BEC9D4B-63D1-446C-AEFE-323FB6812DC8",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q28843759#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "pedro-almodovar": {
+    "name": "Pedro Almodóvar",
+    "source": "https://www.wikidata.org/wiki/Q55171",
+    "biography": "https://en.wikipedia.org/wiki/Pedro_Almod%C3%B3var",
+    "sitelinks": 96,
+    "occupations": [
+      {
+        "id": "Q2526255",
+        "claim": "q55171$D50DABF0-C6F7-44B1-B3B5-D6B6F422A945",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q2259451",
+        "claim": "q55171$5FEAAAD6-11CE-44B6-8651-89836370464A",
+        "referenced": true,
+        "label": "stage actor",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "q55171$042A9CF9-0B73-47EB-B9F9-DA7691C361CB",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q55171$38F0AA07-595A-44E6-8626-9615A0371D66",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q55171$3BFC0797-DF2E-45EB-B596-245A09C09E07",
+        "referenced": false,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q55171$2966826B-B489-4252-AFB0-DFF14344405F",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q55171$A54449F5-BEFD-48E1-8025-7443A7E02B4B",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q69423232",
+        "claim": "Q55171$0873D0CF-EDAC-46EE-AA7A-54DBEDBD92C7",
+        "referenced": true,
+        "label": "film screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q55171$9044D5DB-3DD7-49AD-AD88-8F8C3E78B3C5",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q55171#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q23958341",
+        "claim": "Q55171$2a7918d8-47d9-3a89-2c14-d859bdec9c1f",
+        "referenced": false,
+        "label": "President of the Jury at the Cannes Festival",
+        "source": "https://www.wikidata.org/wiki/Q55171#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "antonio-banderas": {
+    "name": "Antonio Banderas",
+    "source": "https://www.wikidata.org/wiki/Q41548",
+    "biography": "https://en.wikipedia.org/wiki/Antonio_Banderas",
+    "sitelinks": 102,
+    "occupations": [
+      {
+        "id": "Q3282637",
+        "claim": "Q41548$6ce2ff2a-407d-04aa-6260-46a5f28df320",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q41548$823B2BE3-94AD-4340-AEB2-C0C198D133F3",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q41548$bc651445-4822-ed2f-cedc-e6c4db17fff1",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q41548$52AC4D6F-E5E5-4B7A-94E4-73FB5BD9B73A",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q41548$9B3E831D-845A-425E-849B-5C867F1C8D4F",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q41548$4E7A8B66-7027-4927-9A43-02CC4AFFE9E3",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q41548$1FCEBC27-1FD1-4AD2-8CB3-1919E37D0A7E",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q41548#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "rafael-nadal": {
+    "name": "Rafael Nadal",
+    "source": "https://www.wikidata.org/wiki/Q10132",
+    "biography": "https://en.wikipedia.org/wiki/Rafael_Nadal",
+    "sitelinks": 156,
+    "occupations": [
+      {
+        "id": "Q10833314",
+        "claim": "q10132$50FD3136-0F92-40B6-8C8B-8BAD0B38AD4A",
+        "referenced": true,
+        "label": "tennis player",
+        "source": "https://www.wikidata.org/wiki/Q10132#P106"
+      },
+      {
+        "id": "Q4610556",
+        "claim": "Q10132$38A2E3DF-E75F-4E19-BA12-EEB58CB4116A",
+        "referenced": false,
+        "label": "model",
+        "source": "https://www.wikidata.org/wiki/Q10132#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "carlos-alcaraz": {
+    "name": "Carlos Alcaraz",
+    "source": "https://www.wikidata.org/wiki/Q85518537",
+    "biography": "https://en.wikipedia.org/wiki/Carlos_Alcaraz",
+    "sitelinks": 68,
+    "occupations": [
+      {
+        "id": "Q10833314",
+        "claim": "Q85518537$d66bf615-4668-769b-2ce6-68e3e4535f30",
+        "referenced": true,
+        "label": "tennis player",
+        "source": "https://www.wikidata.org/wiki/Q85518537#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "bernard-arnault": {
+    "name": "Bernard Arnault",
+    "source": "https://www.wikidata.org/wiki/Q32055",
+    "biography": "https://en.wikipedia.org/wiki/Bernard_Arnault",
+    "sitelinks": 70,
+    "occupations": [
+      {
+        "id": "Q10732476",
+        "claim": "q32055$8A30127B-D92F-49E3-AED6-A1D826EA853D",
+        "referenced": true,
+        "label": "art collector",
+        "source": "https://www.wikidata.org/wiki/Q32055#P106"
+      },
+      {
+        "id": "Q43845",
+        "claim": "Q32055$93238D82-B6F2-46CF-882D-5CA42D8081DE",
+        "referenced": true,
+        "label": "businessperson",
+        "source": "https://www.wikidata.org/wiki/Q32055#P106"
+      },
+      {
+        "id": "Q81096",
+        "claim": "Q32055$E1D57E77-5D46-4277-8DA3-1937FD830835",
+        "referenced": true,
+        "label": "engineer",
+        "source": "https://www.wikidata.org/wiki/Q32055#P106"
+      },
+      {
+        "id": "Q131524",
+        "claim": "Q32055$B288AA45-1B65-4AE8-A97B-98DB6884ADF2",
+        "referenced": true,
+        "label": "entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q32055#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q428322",
+        "claim": "Q32055$a54cf07e-4826-b526-fe0f-e03d6c3ed7ae",
+        "referenced": false,
+        "label": "président-directeur général",
+        "source": "https://www.wikidata.org/wiki/Q32055#P39"
+      },
+      {
+        "id": "Q428322",
+        "claim": "Q32055$d5436d00-4033-1f79-a6d0-08c4659dde49",
+        "referenced": false,
+        "label": "président-directeur général",
+        "source": "https://www.wikidata.org/wiki/Q32055#P39"
+      },
+      {
+        "id": "Q140686",
+        "claim": "Q32055$a2bf0f72-4e62-51f1-32fe-6d4e09a8c308",
+        "referenced": false,
+        "label": "chairperson",
+        "source": "https://www.wikidata.org/wiki/Q32055#P39"
+      },
+      {
+        "id": "Q705996",
+        "claim": "Q32055$d99c685c-416f-df33-f60f-fc597d8e2372",
+        "referenced": false,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q32055#P39"
+      },
+      {
+        "id": "Q428322",
+        "claim": "Q32055$9229375b-4ea7-4cfd-2f09-ae2ce191acb3",
+        "referenced": true,
+        "label": "président-directeur général",
+        "source": "https://www.wikidata.org/wiki/Q32055#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "omar-sy": {
+    "name": "Omar Sy",
+    "source": "https://www.wikidata.org/wiki/Q357387",
+    "biography": "https://en.wikipedia.org/wiki/Omar_Sy",
+    "sitelinks": 56,
+    "occupations": [
+      {
+        "id": "Q33999",
+        "claim": "q357387$798254E9-F31D-4B55-AF3F-B8692E46F015",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q357387#P106"
+      },
+      {
+        "id": "Q245068",
+        "claim": "Q357387$578f2bd9-4557-3454-fa25-561e10203e34",
+        "referenced": false,
+        "label": "comedian",
+        "source": "https://www.wikidata.org/wiki/Q357387#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q357387$7AFFC408-002A-41F0-8531-B440560ABD2E",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q357387#P106"
+      },
+      {
+        "id": "Q10798782",
+        "claim": "Q357387$B6C439F1-FC84-49D0-BE4E-95791B6A620B",
+        "referenced": false,
+        "label": "television actor",
+        "source": "https://www.wikidata.org/wiki/Q357387#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q357387$c070ef1e-549b-467d-9d5a-11c2f881e2ba",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q357387#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "marion-cotillard": {
+    "name": "Marion Cotillard",
+    "source": "https://www.wikidata.org/wiki/Q8927",
+    "biography": "https://en.wikipedia.org/wiki/Marion_Cotillard",
+    "sitelinks": 94,
+    "occupations": [
+      {
+        "id": "Q33999",
+        "claim": "q8927$02B57A79-4350-441C-BD22-8CD008786CA8",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q8927#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q8927$2C37BFE1-784A-4A33-B735-145A656A8537",
+        "referenced": false,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q8927#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q8927$89035E09-A851-4C29-9814-57C04C88A184",
+        "referenced": false,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q8927#P106"
+      },
+      {
+        "id": "Q2259451",
+        "claim": "Q8927$71B6B011-26FE-4456-9393-A24CF0DA4DE7",
+        "referenced": true,
+        "label": "stage actor",
+        "source": "https://www.wikidata.org/wiki/Q8927#P106"
+      },
+      {
+        "id": "Q3578589",
+        "claim": "Q8927$92DFA06B-F20A-4E7B-BE3D-E71DFD9C1F48",
+        "referenced": false,
+        "label": "environmentalist",
+        "source": "https://www.wikidata.org/wiki/Q8927#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "thomas-pesquet": {
+    "name": "Thomas Pesquet",
+    "source": "https://www.wikidata.org/wiki/Q512266",
+    "biography": "https://en.wikipedia.org/wiki/Thomas_Pesquet",
+    "sitelinks": 37,
+    "occupations": [
+      {
+        "id": "Q10497074",
+        "claim": "Q512266$A5A59E01-03C1-4B52-9CF6-82520F7D81E0",
+        "referenced": false,
+        "label": "military flight engineer",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      },
+      {
+        "id": "Q11631",
+        "claim": "Q512266$9AF499C3-F0E5-41A1-B185-34636F03EB83",
+        "referenced": true,
+        "label": "astronaut",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      },
+      {
+        "id": "Q81096",
+        "claim": "Q512266$98C3CB0E-BA8A-4F26-91AB-80AEAB6D8BC3",
+        "referenced": false,
+        "label": "engineer",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      },
+      {
+        "id": "Q2095549",
+        "claim": "Q512266$A5453E13-237B-4A9D-AAD9-760EFEB427D7",
+        "referenced": true,
+        "label": "aircraft pilot",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      },
+      {
+        "id": "Q1939892",
+        "claim": "Q512266$088ab7b9-4e92-985b-9157-b9348df376c1",
+        "referenced": true,
+        "label": "amateur radio operator",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      },
+      {
+        "id": "Q33231",
+        "claim": "Q512266$D97C5E5B-6970-4953-A947-CCBEF067506A",
+        "referenced": true,
+        "label": "photographer",
+        "source": "https://www.wikidata.org/wiki/Q512266#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q20113740",
+        "claim": "Q512266$dee98289-4f87-0a30-36e3-5e09f57f92b9",
+        "referenced": true,
+        "label": "ISS Expedition commander",
+        "source": "https://www.wikidata.org/wiki/Q512266#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kylian-mbappe": {
+    "name": "Kylian Mbappé",
+    "source": "https://www.wikidata.org/wiki/Q21621995",
+    "biography": "https://en.wikipedia.org/wiki/Kylian_Mbapp%C3%A9",
+    "sitelinks": 134,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "Q21621995$8F1DF2E4-1B27-4568-B8BC-37FD9AC0C489",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q21621995#P106"
+      },
+      {
+        "id": "Q2066131",
+        "claim": "Q21621995$47BCA7F4-268B-471E-93B5-FEA66E874C6F",
+        "referenced": true,
+        "label": "athlete",
+        "source": "https://www.wikidata.org/wiki/Q21621995#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "david-attenborough": {
+    "name": "David Attenborough",
+    "source": "https://www.wikidata.org/wiki/Q183337",
+    "biography": "https://en.wikipedia.org/wiki/David_Attenborough",
+    "sitelinks": 94,
+    "occupations": [
+      {
+        "id": "Q864503",
+        "claim": "Q183337$3d3bcc77-4415-e0e3-6d64-431101c55ab8",
+        "referenced": true,
+        "label": "biologist",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q578109",
+        "claim": "Q183337$747A7ACD-65FD-4D94-8D4F-6D9B36E09C65",
+        "referenced": false,
+        "label": "television producer",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q947873",
+        "claim": "Q183337$EEAC3645-1B6C-4DA7-9780-3073908DD2EB",
+        "referenced": true,
+        "label": "television presenter",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q3578589",
+        "claim": "Q183337$A82D11B9-85A9-4EC6-92BE-6510C19E071D",
+        "referenced": true,
+        "label": "environmentalist",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q18805",
+        "claim": "Q183337$fefc361f-a51f-445b-b76a-c5ea3b1e916f",
+        "referenced": true,
+        "label": "naturalist",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q12368980",
+        "claim": "Q183337$45db3d6a-43b5-28b4-dee2-645c78603dc3",
+        "referenced": false,
+        "label": "nature photographer",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q183337$C5B10D5C-590C-4B2B-B666-72546E6FB13B",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q15143191",
+        "claim": "Q183337$97D98659-A5C1-4FB5-B72C-326F0AD4BA3B",
+        "referenced": true,
+        "label": "science communicator",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q73306227",
+        "claim": "Q183337$A6599E79-4795-4651-8480-7E87BBB6A420",
+        "referenced": true,
+        "label": "television writer",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q69423232",
+        "claim": "Q183337$61762983-BD10-4B43-AB13-911A1CF6B9DE",
+        "referenced": true,
+        "label": "film screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q10798782",
+        "claim": "Q183337$1902EF07-F98A-4069-829F-0C6FAC4C4AB5",
+        "referenced": true,
+        "label": "television actor",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q183337$A8F63A87-2E10-40DB-B666-6D965F7238B7",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "Q183337$5407EF62-D950-47B8-9964-D26AAD61CA86",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q2059704",
+        "claim": "Q183337$C4BD9230-379C-4C9A-BE50-659394BF053E",
+        "referenced": true,
+        "label": "television director",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q755070",
+        "claim": "Q183337$9fee1089-46e8-2b63-1f9d-b5fd8bd5bf8b",
+        "referenced": false,
+        "label": "narrator",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q183337$176E22F3-98AF-4827-8959-D4DBCFC693F4",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q183337#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "ed-sheeran": {
+    "name": "Ed Sheeran",
+    "source": "https://www.wikidata.org/wiki/Q47447",
+    "biography": "https://en.wikipedia.org/wiki/Ed_Sheeran",
+    "sitelinks": 96,
+    "occupations": [
+      {
+        "id": "Q488205",
+        "claim": "Q47447$a169d96e-4518-567f-8a10-3bbfe7dd6f83",
+        "referenced": false,
+        "label": "singer-songwriter",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q47447$648BAE83-8F9E-4E59-A8BD-727A569E5D17",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q183945",
+        "claim": "Q47447$8e8abe2b-465d-303f-426c-ba26c8eb690c",
+        "referenced": false,
+        "label": "record producer",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q47447$e8efaaec-4161-96aa-d406-f910a0ae27c8",
+        "referenced": false,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q47447$bcaccb87-41bc-733d-157b-195bf052973a",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q47447$2317f5b3-44fd-6383-23c9-940e627c3f45",
+        "referenced": true,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q47447$6B7F381E-D4BF-4320-9099-9C4B45BCB812",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q47447#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "dua-lipa": {
+    "name": "Dua Lipa",
+    "source": "https://www.wikidata.org/wiki/Q21914464",
+    "biography": "https://en.wikipedia.org/wiki/Dua_Lipa",
+    "sitelinks": 115,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "Q21914464$bfb78d65-4a24-c103-366e-2dc97f346c94",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q21914464$801e88bd-4fb1-4c1f-560e-f8e9c0981902",
+        "referenced": true,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q4610556",
+        "claim": "Q21914464$7055363e-4a42-b58b-db38-647b2874fe01",
+        "referenced": true,
+        "label": "model",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q3501317",
+        "claim": "Q21914464$ac0c17a2-479c-5c85-2c5c-0d01df047246",
+        "referenced": true,
+        "label": "fashion designer",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q21914464$4874aee4-46f5-7595-17d4-65d52d019382",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q15077007",
+        "claim": "Q21914464$b707885a-44e4-c01d-a8a7-02a87b415d4a",
+        "referenced": true,
+        "label": "podcaster",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q60723829",
+        "claim": "Q21914464$87ff8901-e3de-4537-bf60-910cb746bc1f",
+        "referenced": true,
+        "label": "pop singer",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q21914464$575ee5ff-7576-43c9-a6df-de5d294e159a",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "Q21914464$1b2df0f9-4e7e-66d7-d826-86e414b501c0",
+        "referenced": false,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q21914464#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "emma-watson": {
+    "name": "Emma Watson",
+    "source": "https://www.wikidata.org/wiki/Q39476",
+    "biography": "https://en.wikipedia.org/wiki/Emma_Watson",
+    "sitelinks": 146,
+    "occupations": [
+      {
+        "id": "Q4610556",
+        "claim": "q39476$6DF11838-06B5-4F3E-AB55-F2C6B2D401BE",
+        "referenced": true,
+        "label": "model",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q39476$BFDF36A4-1838-4987-9548-2C43A5645493",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q2259451",
+        "claim": "Q39476$268A2622-3934-419F-AA7A-2B9FB54252BF",
+        "referenced": true,
+        "label": "stage actor",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q15253558",
+        "claim": "Q39476$67575b7b-44d3-b88c-8290-35afa0765c9a",
+        "referenced": true,
+        "label": "activist",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q970153",
+        "claim": "Q39476$40a2d3bf-4ae3-a3c9-5e74-054abfe88e19",
+        "referenced": false,
+        "label": "child actor",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q2405480",
+        "claim": "Q39476$2171d781-4f9a-1a6a-58cb-4134d5ab1200",
+        "referenced": true,
+        "label": "voice actor",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q39476$5b2fd771-4c53-68d2-763d-ed727787b2a3",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q3357567",
+        "claim": "Q39476$e9cadbc0-486f-79d3-8882-e5da6f784489",
+        "referenced": true,
+        "label": "fashion model",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q39476$54D70624-D321-441D-976A-001EA0521E66",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q39476#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "tim-berners-lee": {
+    "name": "Tim Berners-Lee",
+    "source": "https://www.wikidata.org/wiki/Q80",
+    "biography": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+    "sitelinks": 165,
+    "occupations": [
+      {
+        "id": "Q82594",
+        "claim": "q80$94C92CCF-8283-4D2F-AA68-9DEA94EEDA59",
+        "referenced": true,
+        "label": "computer scientist",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q169470",
+        "claim": "q80$a6be48bb-4ccb-7247-40c7-db771bf7ebfe",
+        "referenced": true,
+        "label": "physicist",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q5482740",
+        "claim": "Q80$F50CFB99-EDD2-445D-BDB3-E37F68F64B5E",
+        "referenced": false,
+        "label": "programmer",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q80$A223EDDE-6DC6-46B1-BEA3-C0A6171163B1",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q6859454",
+        "claim": "Q80$b1da1612-412e-4eb4-64c0-080c0d2edfb0",
+        "referenced": true,
+        "label": "web developer",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q81096",
+        "claim": "Q80$376aef45-2aa2-4539-b75d-a563d225f186",
+        "referenced": true,
+        "label": "engineer",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q205375",
+        "claim": "Q80$EED50227-F342-4E24-877F-A4179A99CF96",
+        "referenced": true,
+        "label": "inventor",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      },
+      {
+        "id": "Q482980",
+        "claim": "Q80$27b09970-febc-4bd6-8dd4-fd64395f2d80",
+        "referenced": false,
+        "label": "author",
+        "source": "https://www.wikidata.org/wiki/Q80#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "lewis-hamilton": {
+    "name": "Lewis Hamilton",
+    "source": "https://www.wikidata.org/wiki/Q9673",
+    "biography": "https://en.wikipedia.org/wiki/Lewis_Hamilton",
+    "sitelinks": 117,
+    "occupations": [
+      {
+        "id": "Q10841764",
+        "claim": "q9673$A5E33095-59B3-4F31-B1E2-FD8933C6FEDF",
+        "referenced": true,
+        "label": "Formula One driver",
+        "source": "https://www.wikidata.org/wiki/Q9673#P106"
+      },
+      {
+        "id": "Q10349745",
+        "claim": "Q9673$ae562d8d-4981-054e-44f5-9db71a4ff0f8",
+        "referenced": true,
+        "label": "racing automobile driver",
+        "source": "https://www.wikidata.org/wiki/Q9673#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q11105296",
+        "claim": "Q9673$778a77c9-428b-9e5f-ef0d-cd55bfe3880b",
+        "referenced": false,
+        "label": "Formula One World Champion",
+        "source": "https://www.wikidata.org/wiki/Q9673#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kwame-nkrumah": {
+    "name": "Kwame Nkrumah",
+    "source": "https://www.wikidata.org/wiki/Q8620",
+    "biography": "https://en.wikipedia.org/wiki/Kwame_Nkrumah",
+    "sitelinks": 160,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "Q8620$90D494E4-4FEF-4497-B6F3-0449A9F6C185",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q8620$1054F31D-6AD7-43EE-A481-214088D94708",
+        "referenced": false,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q193391",
+        "claim": "Q8620$C154A370-AA30-48D6-88BE-A79F6ED4BAB8",
+        "referenced": false,
+        "label": "diplomat",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q1569495",
+        "claim": "Q8620$f0ef445e-40c8-db93-7d32-88a0269fe33f",
+        "referenced": false,
+        "label": "lecturer",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q8620$bd320321-4976-8353-0a8b-2f6a71244aec",
+        "referenced": false,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q1231865",
+        "claim": "Q8620$DC0856AF-5A07-4785-BD05-B5D3FCA53AD4",
+        "referenced": true,
+        "label": "pedagogue",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q1234713",
+        "claim": "Q8620$2C30E3A5-B899-4194-AE58-24ADD37204DC",
+        "referenced": true,
+        "label": "theologian",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q188094",
+        "claim": "Q8620$12F615A7-7065-4E71-8D50-C78A46CDCB66",
+        "referenced": true,
+        "label": "economist",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      },
+      {
+        "id": "Q4964182",
+        "claim": "Q8620$DD76DE73-D844-458F-AB4D-E39A46970F45",
+        "referenced": true,
+        "label": "philosopher",
+        "source": "https://www.wikidata.org/wiki/Q8620#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q2672728",
+        "claim": "Q8620$33401CD9-2AC1-4071-A7F3-BBDBF6498D28",
+        "referenced": true,
+        "label": "President of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q19161632",
+        "claim": "Q8620$D00D6DEE-C5BF-4D2C-B5D9-25ECD6637AC8",
+        "referenced": true,
+        "label": "chairperson of the Organisation of African Unity",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q3657870",
+        "claim": "Q8620$698F17C3-BE1D-4279-B2E6-AF3F53754FA3",
+        "referenced": true,
+        "label": "Prime Minister of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q1829500",
+        "claim": "Q8620$1DD251B8-3154-4FED-97C0-F4EDA694381A",
+        "referenced": false,
+        "label": "Minister for Foreign Affairs",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q28841847",
+        "claim": "Q8620$D9F5EE6B-5F50-4EA0-9890-00102D4A059A",
+        "referenced": false,
+        "label": "Member of the Privy Council of the United Kingdom",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q21290881",
+        "claim": "Q8620$B3D96D54-10F8-47F1-9046-4792B97349A0",
+        "referenced": false,
+        "label": "Member of the Parliament of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q107280864",
+        "claim": "Q8620$D04C9004-1120-499B-A5EB-A1960146C2C2",
+        "referenced": false,
+        "label": "Member of the 1st Parliament of the Gold Coast",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q107400457",
+        "claim": "Q8620$1EE08CBB-48B6-4E9A-865D-85B9946665BD",
+        "referenced": false,
+        "label": "Member of the 2nd Parliament of the Gold Coast",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q107392874",
+        "claim": "Q8620$3794106F-95B9-4A1C-AD61-F3E5D2908FF8",
+        "referenced": false,
+        "label": "Member of the 1st Parliament of the 1st Republic of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      },
+      {
+        "id": "Q6865779",
+        "claim": "Q8620$4CC8E279-74B9-4645-8A16-BEABCE3C7A99",
+        "referenced": true,
+        "label": "Minister for Defence",
+        "source": "https://www.wikidata.org/wiki/Q8620#P39"
+      }
+    ],
+    "militaryRanks": [
+      {
+        "id": "Q7821620",
+        "claim": "Q8620$9c380aa2-b334-4614-a375-2ca9fea3b052",
+        "referenced": true,
+        "label": "field marshal",
+        "source": "https://www.wikidata.org/wiki/Q8620#P410"
+      }
+    ],
+    "since": 4
+  },
+  "john-kufuor": {
+    "name": "John Kufuor",
+    "source": "https://www.wikidata.org/wiki/Q51005",
+    "biography": "https://en.wikipedia.org/wiki/John_Kufuor",
+    "sitelinks": 64,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "Q51005$A9E8473A-9D02-4235-BCF6-467FF554DEEE",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q51005#P106"
+      },
+      {
+        "id": "Q40348",
+        "claim": "Q51005$46014D0E-EEBB-442F-9C7B-0BAB68498BE7",
+        "referenced": false,
+        "label": "lawyer",
+        "source": "https://www.wikidata.org/wiki/Q51005#P106"
+      },
+      {
+        "id": "Q43845",
+        "claim": "Q51005$DE4BDCA7-5DAC-4CFE-BED6-5BB5C3A97EFE",
+        "referenced": false,
+        "label": "businessperson",
+        "source": "https://www.wikidata.org/wiki/Q51005#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q946339",
+        "claim": "Q51005$3B2A3BFD-BF18-44D4-9410-E45FA8BB28B7",
+        "referenced": true,
+        "label": "Chairperson of the African Union",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      },
+      {
+        "id": "Q2672728",
+        "claim": "Q51005$b005227b-4a34-9bfe-a80f-7b5c57c47028",
+        "referenced": true,
+        "label": "President of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      },
+      {
+        "id": "Q105712041",
+        "claim": "Q51005$F7CCD373-1AE2-4C4A-A43E-5A31111CC3CA",
+        "referenced": false,
+        "label": "Member of the 1st Parliament of the 2nd Republic of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      },
+      {
+        "id": "Q107277739",
+        "claim": "Q51005$2163DB57-0D9E-43D5-87B6-50950F838DEE",
+        "referenced": false,
+        "label": "Member of the 1st Parliament of the 3rd Republic of Ghana",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      },
+      {
+        "id": "Q137757782",
+        "claim": "Q51005$48a2fb2d-40ac-eb6b-3085-c991d9a7df19",
+        "referenced": false,
+        "label": "Chairperson of ECOWAS",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      },
+      {
+        "id": "Q1255921",
+        "claim": "Q51005$0BF1D0E7-7403-442D-947B-18A71CE584AE",
+        "referenced": true,
+        "label": "president",
+        "source": "https://www.wikidata.org/wiki/Q51005#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "sarkodie": {
+    "name": "Sarkodie",
+    "source": "https://www.wikidata.org/wiki/Q7424230",
+    "biography": "https://en.wikipedia.org/wiki/Sarkodie_(rapper)",
+    "sitelinks": 19,
+    "occupations": [
+      {
+        "id": "Q2252262",
+        "claim": "Q7424230$da7afee8-4df4-0911-93dd-d1c751c03809",
+        "referenced": false,
+        "label": "rapper",
+        "source": "https://www.wikidata.org/wiki/Q7424230#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q7424230$2edd1dcd-4058-71e8-b2a8-9c90304816d6",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q7424230#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q7424230$cd946c4e-43d2-9c65-ef3f-e9ee17413ce7",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q7424230#P106"
+      },
+      {
+        "id": "Q131524",
+        "claim": "Q7424230$bc7744f2-48bb-b23c-42e4-7c9932859baa",
+        "referenced": false,
+        "label": "entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q7424230#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "michael-essien": {
+    "name": "Michael Essien",
+    "source": "https://www.wikidata.org/wiki/Q969520",
+    "biography": "https://en.wikipedia.org/wiki/Michael_Essien",
+    "sitelinks": 66,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q969520$6763A553-E0C7-4AEC-997E-7D28B4527BD5",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q969520#P106"
+      },
+      {
+        "id": "Q628099",
+        "claim": "Q969520$2556aa24-42e4-c121-1a90-4f4b6ce885d6",
+        "referenced": false,
+        "label": "association football coach",
+        "source": "https://www.wikidata.org/wiki/Q969520#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "michael-manley": {
+    "name": "Michael Manley",
+    "source": "https://www.wikidata.org/wiki/Q365395",
+    "biography": "https://en.wikipedia.org/wiki/Michael_Manley",
+    "sitelinks": 34,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "Q365395$DC8A6744-FA98-4DF7-8C3D-C087F8BDA6BC",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q365395#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q6508542",
+        "claim": "Q365395$D7C94A81-A687-4330-94FC-411F7C903932",
+        "referenced": true,
+        "label": "Leader of the Opposition",
+        "source": "https://www.wikidata.org/wiki/Q365395#P39"
+      },
+      {
+        "id": "Q1430943",
+        "claim": "Q365395$E8437759-998D-4BBD-ACFD-A5294AAD7D31",
+        "referenced": true,
+        "label": "Prime Minister of Jamaica",
+        "source": "https://www.wikidata.org/wiki/Q365395#P39"
+      },
+      {
+        "id": "Q24296480",
+        "claim": "Q365395$12738a6b-4cce-c060-0ad6-11cdefe8a03d",
+        "referenced": false,
+        "label": "Minister of Foreign Affairs and Foreign Trade",
+        "source": "https://www.wikidata.org/wiki/Q365395#P39"
+      },
+      {
+        "id": "Q28841847",
+        "claim": "Q365395$BA914F9A-D427-4ADE-B538-89A67898E693",
+        "referenced": false,
+        "label": "Member of the Privy Council of the United Kingdom",
+        "source": "https://www.wikidata.org/wiki/Q365395#P39"
+      }
+    ],
+    "militaryRanks": [
+      {
+        "id": "Q7194476",
+        "claim": "Q365395$743215BC-1631-4212-8FDF-814D21718055",
+        "referenced": true,
+        "label": "pilot officer",
+        "source": "https://www.wikidata.org/wiki/Q365395#P410"
+      }
+    ],
+    "since": 4
+  },
+  "bob-marley": {
+    "name": "Bob Marley",
+    "source": "https://www.wikidata.org/wiki/Q409",
+    "biography": "https://en.wikipedia.org/wiki/Bob_Marley",
+    "sitelinks": 166,
+    "occupations": [
+      {
+        "id": "Q488205",
+        "claim": "Q409$A1B1AD41-2A20-4AF4-BF2F-E9B40DE55190",
+        "referenced": true,
+        "label": "singer-songwriter",
+        "source": "https://www.wikidata.org/wiki/Q409#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q409$C624750D-4626-40C7-8AFA-C08209804F45",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q409#P106"
+      },
+      {
+        "id": "Q855091",
+        "claim": "Q409$9C14A4C7-9A7F-4266-B515-28668ACF89D8",
+        "referenced": true,
+        "label": "guitarist",
+        "source": "https://www.wikidata.org/wiki/Q409#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q409$4738916C-CC90-4672-883F-A73AB8CB3016",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q409#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "sean-paul": {
+    "name": "Sean Paul",
+    "source": "https://www.wikidata.org/wiki/Q200577",
+    "biography": "https://en.wikipedia.org/wiki/Sean_Paul",
+    "sitelinks": 56,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "Q200577$ea186a3a-4b8b-ae6e-7ca6-3922bc6f0b00",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q200577#P106"
+      },
+      {
+        "id": "Q2252262",
+        "claim": "Q200577$4be5ebb5-4c09-f0d9-1739-69148e717e0d",
+        "referenced": true,
+        "label": "rapper",
+        "source": "https://www.wikidata.org/wiki/Q200577#P106"
+      },
+      {
+        "id": "Q98528252",
+        "claim": "Q200577$e4a280e8-4cf1-9d31-ceae-f6b46606807c",
+        "referenced": false,
+        "label": "deejay",
+        "source": "https://www.wikidata.org/wiki/Q200577#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q200577$099F2549-7746-4712-AA76-81BC7F33FDC1",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q200577#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q200577$FA5D1460-FF3F-4756-B685-95A7F9622844",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q200577#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "usain-bolt": {
+    "name": "Usain Bolt",
+    "source": "https://www.wikidata.org/wiki/Q1189",
+    "biography": "https://en.wikipedia.org/wiki/Usain_Bolt",
+    "sitelinks": 137,
+    "occupations": [
+      {
+        "id": "Q11513337",
+        "claim": "q1189$7ddd9ed3-4562-b8c4-50d4-56d0038fbaed",
+        "referenced": true,
+        "label": "athletics competitor",
+        "source": "https://www.wikidata.org/wiki/Q1189#P106"
+      },
+      {
+        "id": "Q4009406",
+        "claim": "Q1189$db8fd27b-4fcc-45f9-eb7f-0958f2a3ffcd",
+        "referenced": true,
+        "label": "sprinter",
+        "source": "https://www.wikidata.org/wiki/Q1189#P106"
+      },
+      {
+        "id": "Q937857",
+        "claim": "Q1189$a120caf7-4163-8d64-cb12-2316d1ace884",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q1189#P106"
+      },
+      {
+        "id": "Q2066131",
+        "claim": "Q1189$3dab331c-4f15-c196-464d-4b0cc496e264",
+        "referenced": true,
+        "label": "athlete",
+        "source": "https://www.wikidata.org/wiki/Q1189#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kim-dae-jung": {
+    "name": "Kim Dae-jung",
+    "source": "https://www.wikidata.org/wiki/Q45785",
+    "biography": "https://en.wikipedia.org/wiki/Kim_Dae-jung",
+    "sitelinks": 95,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "Q45785$26D6ADDC-523A-4087-8A6B-BE56A1C56986",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q45785#P106"
+      },
+      {
+        "id": "Q1930187",
+        "claim": "Q45785$E73E1A7A-EDE9-48E7-B12D-D16FCF33BAA5",
+        "referenced": false,
+        "label": "journalist",
+        "source": "https://www.wikidata.org/wiki/Q45785#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q6296418",
+        "claim": "Q45785$5EF039A8-5093-4356-B4C1-7619CC586A4A",
+        "referenced": false,
+        "label": "President of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$F4BC5EE1-72CE-40C1-8720-4ABC0EEC2EB6",
+        "referenced": false,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$85afc392-4a88-3553-8bb7-2cd96e2f2712",
+        "referenced": false,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$c60d5389-490a-e3d4-fffe-a6a42046e32c",
+        "referenced": false,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$bcd5dec4-45d4-7752-d619-6abd66e93c21",
+        "referenced": false,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q30461",
+        "claim": "Q45785$FEE819D9-7217-4755-AB36-5AECF9A2B86E",
+        "referenced": true,
+        "label": "president",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$14C484B8-6737-4474-8AD2-0AFE0505C333",
+        "referenced": true,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$8F1FAF0E-1C0D-49AA-98C2-524DED6C05C8",
+        "referenced": true,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$7CE21472-D9A9-452D-B04C-00678931F5BF",
+        "referenced": true,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$4CF8D637-8924-4FDB-83D7-6046D5156327",
+        "referenced": true,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      },
+      {
+        "id": "Q14850694",
+        "claim": "Q45785$0529A918-2F0D-4CA1-B0FE-9F7D446ADD87",
+        "referenced": true,
+        "label": "Member of the National Assembly of South Korea",
+        "source": "https://www.wikidata.org/wiki/Q45785#P39"
+      }
+    ],
+    "militaryRanks": [
+      {
+        "id": "Q6867301",
+        "claim": "Q45785$C7F3A996-6BDC-42C9-AA79-7ECC230CC0BB",
+        "referenced": true,
+        "label": "sub-lieutenant",
+        "source": "https://www.wikidata.org/wiki/Q45785#P410"
+      }
+    ],
+    "since": 4
+  },
+  "park-chan-wook": {
+    "name": "Park Chan-wook",
+    "source": "https://www.wikidata.org/wiki/Q315484",
+    "biography": "https://en.wikipedia.org/wiki/Park_Chan-wook",
+    "sitelinks": 50,
+    "occupations": [
+      {
+        "id": "Q28389",
+        "claim": "Q315484$8292C9FC-A0E2-4771-907B-298A3A12C0E8",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q315484#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q315484$7A7A105D-B1FD-4566-B326-2FC3E816CB39",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q315484#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "Q315484$5360D493-DA59-476D-B6DC-829DDE07F0F7",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q315484#P106"
+      },
+      {
+        "id": "Q4220892",
+        "claim": "Q315484$E193A8FE-7523-49AB-AF7A-3CA7BBF7E69A",
+        "referenced": true,
+        "label": "film critic",
+        "source": "https://www.wikidata.org/wiki/Q315484#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q315484$A2B2702B-B815-49C6-8DD7-69ABA3150630",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q315484#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "psy": {
+    "name": "Psy",
+    "source": "https://www.wikidata.org/wiki/Q20150",
+    "biography": "https://en.wikipedia.org/wiki/Psy",
+    "sitelinks": 99,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "q20150$3fceebb1-42f6-d9c3-4156-04f8cbb97717",
+        "referenced": false,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "q20150$b094ca8f-4f60-8e70-7312-ff707db4a0cc",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q2252262",
+        "claim": "q20150$7e481ac0-42c4-050b-d829-13bfe8aabc26",
+        "referenced": true,
+        "label": "rapper",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q2490358",
+        "claim": "Q20150$C19B0524-6F67-41EB-A33D-8B422E452E12",
+        "referenced": false,
+        "label": "choreographer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q183945",
+        "claim": "Q20150$B85AAAD7-4F39-4592-A283-57B3F3483741",
+        "referenced": false,
+        "label": "record producer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q20150$6FBC8E9D-98CA-4E1F-9479-46FDF049F75C",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q578109",
+        "claim": "Q20150$C1940BDF-A82A-42DC-9DB1-A26C24F6F7FE",
+        "referenced": true,
+        "label": "television producer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q5716684",
+        "claim": "Q20150$63b684a1-46b4-dbd6-46a9-44db1150e729",
+        "referenced": false,
+        "label": "dancer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q20150$DF6487EF-34E4-4E4A-B85B-14BB5A22D805",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q20150#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "han-kang": {
+    "name": "Han Kang",
+    "source": "https://www.wikidata.org/wiki/Q5646626",
+    "biography": "https://en.wikipedia.org/wiki/Han_Kang",
+    "sitelinks": 100,
+    "occupations": [
+      {
+        "id": "Q36180",
+        "claim": "Q5646626$fbd5f477-40ee-47f2-13d5-a2340f6c9751",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q5646626#P106"
+      },
+      {
+        "id": "Q6625963",
+        "claim": "Q5646626$770A6707-9FB3-43CF-9685-3D1035604ABF",
+        "referenced": false,
+        "label": "novelist",
+        "source": "https://www.wikidata.org/wiki/Q5646626#P106"
+      },
+      {
+        "id": "Q15949613",
+        "claim": "Q5646626$a6fa5239-447e-5110-4b0a-72f42a899f35",
+        "referenced": false,
+        "label": "short story writer",
+        "source": "https://www.wikidata.org/wiki/Q5646626#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q5646626$4eb1299b-454d-ecdf-df39-b2ba0ea90530",
+        "referenced": false,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q5646626#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kim-yuna": {
+    "name": "Kim Yuna",
+    "source": "https://www.wikidata.org/wiki/Q229124",
+    "biography": "https://en.wikipedia.org/wiki/Yuna_Kim",
+    "sitelinks": 49,
+    "occupations": [
+      {
+        "id": "Q13219587",
+        "claim": "Q229124$EE72257F-511C-44B1-990C-A10402B93111",
+        "referenced": true,
+        "label": "figure skater",
+        "source": "https://www.wikidata.org/wiki/Q229124#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q229124$E3C028CF-9405-4C85-8216-271F0D3C2A97",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q229124#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q19969187",
+        "claim": "Q229124$3233C9C9-61DB-4319-9F90-C9CC41DD3F48",
+        "referenced": false,
+        "label": "UNICEF Goodwill Ambassador",
+        "source": "https://www.wikidata.org/wiki/Q229124#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "ngozi-okonjo-iweala": {
+    "name": "Ngozi Okonjo-Iweala",
+    "source": "https://www.wikidata.org/wiki/Q289350",
+    "biography": "https://en.wikipedia.org/wiki/Ngozi_Okonjo-Iweala",
+    "sitelinks": 68,
+    "occupations": [
+      {
+        "id": "Q193391",
+        "claim": "Q289350$143B983E-C55A-4B7C-AE0F-A63C462DD4AA",
+        "referenced": true,
+        "label": "diplomat",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q188094",
+        "claim": "Q289350$08CA31B0-74F0-4D2A-B290-C09CCE7AD0D5",
+        "referenced": true,
+        "label": "economist",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q82955",
+        "claim": "Q289350$9597705E-7F94-44F4-831F-0CC0A778F339",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q83307",
+        "claim": "Q289350$3196b691-728a-47aa-af1c-c8823cf3539e",
+        "referenced": true,
+        "label": "minister",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q32947888",
+        "claim": "Q289350$6426fb0e-4c63-2c0f-5ba2-0e6b9b6c56f5",
+        "referenced": false,
+        "label": "bank manager",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q2217507",
+        "claim": "Q289350$fb462099-4156-ccba-e137-e70b8ef89bb1",
+        "referenced": false,
+        "label": "financial manager",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      },
+      {
+        "id": "Q7614320",
+        "claim": "Q289350$efa85170-4222-ffe7-5578-55d6f174dcc1",
+        "referenced": false,
+        "label": "finance minister",
+        "source": "https://www.wikidata.org/wiki/Q289350#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q5449550",
+        "claim": "Q289350$4E97CD3F-84B2-4058-8F67-5B0515608650",
+        "referenced": true,
+        "label": "Minister of Finance of Nigeria",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q3354633",
+        "claim": "Q289350$7941A99B-2078-4C87-A33D-F28F8A73ADC2",
+        "referenced": true,
+        "label": "Minister of Foreign Affairs of Nigeria",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q19940089",
+        "claim": "Q289350$072cfafe-48e3-1618-2ec1-444a7313f23d",
+        "referenced": false,
+        "label": "managing director",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q5449550",
+        "claim": "Q289350$6d6cfe02-4eb3-4234-093d-c92ad4eecbcb",
+        "referenced": true,
+        "label": "Minister of Finance of Nigeria",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q5280514",
+        "claim": "Q289350$ea1a8485-4653-de88-c6e5-2140049f73b5",
+        "referenced": true,
+        "label": "Director-General of the World Trade Organization",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q137120311",
+        "claim": "Q289350$d88f3d8d-444c-5c03-3fef-346385ef02f9",
+        "referenced": false,
+        "label": "UN board member",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      },
+      {
+        "id": "Q112187535",
+        "claim": "Q289350$5c96cfbc-423a-d3e5-2a06-9b393b08f4d4",
+        "referenced": true,
+        "label": "Director General",
+        "source": "https://www.wikidata.org/wiki/Q289350#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "burna-boy": {
+    "name": "Burna Boy",
+    "source": "https://www.wikidata.org/wiki/Q17305712",
+    "biography": "https://en.wikipedia.org/wiki/Burna_Boy",
+    "sitelinks": 44,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "Q17305712$3370CDDB-0FFA-4D55-82E4-56ABE1978871",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q17305712#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q17305712$7B91AD62-AC0C-4D84-A784-2E51CB6E97AE",
+        "referenced": true,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q17305712#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q17305712$a7e67e63-4332-59d5-333f-97c1e0fcc8ee",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q17305712#P106"
+      },
+      {
+        "id": "Q183945",
+        "claim": "Q17305712$e5deacc6-4240-bcaa-00ee-53889ce6b8f3",
+        "referenced": true,
+        "label": "record producer",
+        "source": "https://www.wikidata.org/wiki/Q17305712#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "wizkid": {
+    "name": "Wizkid",
+    "source": "https://www.wikidata.org/wiki/Q16233663",
+    "biography": "https://en.wikipedia.org/wiki/Wizkid",
+    "sitelinks": 36,
+    "occupations": [
+      {
+        "id": "Q177220",
+        "claim": "Q16233663$7F4302CC-DD14-40C7-86D3-3A9923700A96",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q16233663#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q16233663$0DDC124B-1D48-458A-9E00-CDCF49B86311",
+        "referenced": true,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q16233663#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q16233663$6084a559-4cb2-5507-8099-0ce5dd795377",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q16233663#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "chinua-achebe": {
+    "name": "Chinua Achebe",
+    "source": "https://www.wikidata.org/wiki/Q155845",
+    "biography": "https://en.wikipedia.org/wiki/Chinua_Achebe",
+    "sitelinks": 106,
+    "occupations": [
+      {
+        "id": "Q6625963",
+        "claim": "Q155845$948bd7ff-408a-627b-2f3b-85c25f3a8cbb",
+        "referenced": true,
+        "label": "novelist",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q155845$a575afbc-4672-fdd9-fadd-d4c2adaba6fb",
+        "referenced": true,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q4263842",
+        "claim": "Q155845$1d4f61a7-4f94-3085-2456-f36333d73344",
+        "referenced": true,
+        "label": "literary critic",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q11774202",
+        "claim": "Q155845$83A7BF91-384E-4E61-B651-4E961E39CA45",
+        "referenced": true,
+        "label": "essayist",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q155845$6C587F52-D537-4DC7-9294-F5633E07A129",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q4964182",
+        "claim": "Q155845$965B2912-BDB5-4FC5-8275-83485933C2EA",
+        "referenced": true,
+        "label": "philosopher",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q155845$0FB3FEEB-B113-4BA5-BABA-D0A52E1C2DEE",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q1930187",
+        "claim": "Q155845$F6030788-6946-4881-B539-12D51195DAF2",
+        "referenced": true,
+        "label": "journalist",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q155845$EBBE23CA-9560-41F9-A853-04DDE98A5E9F",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      },
+      {
+        "id": "Q140197632",
+        "claim": "Q155845$d130a4e0-483b-222a-079a-e42c07dea0b3",
+        "referenced": false,
+        "label": "satirical novelist",
+        "source": "https://www.wikidata.org/wiki/Q155845#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "wole-soyinka": {
+    "name": "Wole Soyinka",
+    "source": "https://www.wikidata.org/wiki/Q41488",
+    "biography": "https://en.wikipedia.org/wiki/Wole_Soyinka",
+    "sitelinks": 114,
+    "occupations": [
+      {
+        "id": "Q214917",
+        "claim": "Q41488$2C25BD41-725D-4777-86FD-F520149E3BD6",
+        "referenced": true,
+        "label": "playwright",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q41488$2B690193-D0A5-4790-897D-EF81B6B47109",
+        "referenced": true,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q333634",
+        "claim": "Q41488$5E005321-65B5-468D-B61B-8F8676FD6219",
+        "referenced": true,
+        "label": "translator",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q6625963",
+        "claim": "Q41488$D8B4F8D3-2E3B-4B99-8A56-3656BE1AFB13",
+        "referenced": true,
+        "label": "novelist",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q4964182",
+        "claim": "Q41488$BA00852C-AB7A-46E5-8CF9-4B7945C6CACD",
+        "referenced": true,
+        "label": "philosopher",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q11774202",
+        "claim": "Q41488$A779038F-D1BF-48C4-A7E6-77E11D68EA7C",
+        "referenced": true,
+        "label": "essayist",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q121594",
+        "claim": "Q41488$B14CCEE4-F8A5-47F2-9E5B-BCE55A41FD63",
+        "referenced": true,
+        "label": "professor",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q41488$50937071-447A-4403-86CD-FB6AC0676C9D",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q140197632",
+        "claim": "Q41488$38b7a2b8-411d-fc18-76c5-c51f45988eb1",
+        "referenced": false,
+        "label": "satirical novelist",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q482980",
+        "claim": "Q41488$b8585da7-446c-5ed3-ec9a-fe1f56b1cf4b",
+        "referenced": true,
+        "label": "author",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q41488$4BDF4FFA-9594-464C-8A4A-21131DBDBD2B",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q41488$4E482252-E376-4035-A2F0-23108B278F6B",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      },
+      {
+        "id": "Q1776724",
+        "claim": "Q41488$E7B1562B-D541-4C5E-9C71-3C123936853D",
+        "referenced": true,
+        "label": "theatre manager",
+        "source": "https://www.wikidata.org/wiki/Q41488#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q378422",
+        "claim": "Q41488$1231bc4f-a5e1-4808-bc62-d3b863cd5144",
+        "referenced": true,
+        "label": "UNESCO Goodwill Ambassador",
+        "source": "https://www.wikidata.org/wiki/Q41488#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "gro-harlem-brundtland": {
+    "name": "Gro Harlem Brundtland",
+    "source": "https://www.wikidata.org/wiki/Q133009",
+    "biography": "https://en.wikipedia.org/wiki/Gro_Harlem_Brundtland",
+    "sitelinks": 96,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "Q133009$8022F59C-EBF3-468E-9784-B7DA84543006",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q133009#P106"
+      },
+      {
+        "id": "Q193391",
+        "claim": "Q133009$F6D9446D-ED4E-4C7A-ACF3-7B87416C54ED",
+        "referenced": true,
+        "label": "diplomat",
+        "source": "https://www.wikidata.org/wiki/Q133009#P106"
+      },
+      {
+        "id": "Q39631",
+        "claim": "Q133009$9ea518f6-4ab9-57c5-183e-4c155ea9b971",
+        "referenced": true,
+        "label": "physician",
+        "source": "https://www.wikidata.org/wiki/Q133009#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q2334076",
+        "claim": "Q133009$F468B89C-2315-490A-9CFE-8E0B06420398",
+        "referenced": true,
+        "label": "Prime Minister of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q2334076",
+        "claim": "Q133009$36c4eb01-4b38-80bf-55e7-5dbe38d1d409",
+        "referenced": true,
+        "label": "Prime Minister of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q2334076",
+        "claim": "Q133009$0290b8a1-4110-c780-7447-16ed202af453",
+        "referenced": true,
+        "label": "Prime Minister of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q9045502",
+        "claim": "Q133009$1695E25F-75CB-4015-8885-8B288252D906",
+        "referenced": true,
+        "label": "member of the Parliament of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q3356730",
+        "claim": "Q133009$57594e64-454d-2a77-ff37-1e0c0d695f26",
+        "referenced": false,
+        "label": "Minister of Climate and the Environment",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q62070236",
+        "claim": "Q133009$c820b969-4893-59ae-5496-8946a82be5de",
+        "referenced": false,
+        "label": "Director-General of the World Health Organization",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q9045502",
+        "claim": "Q133009$347d4ccd-4d49-2344-b1e2-66669bdfcabb",
+        "referenced": true,
+        "label": "member of the Parliament of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q9045502",
+        "claim": "Q133009$ae24b21a-4799-f181-dd86-58284e5068d5",
+        "referenced": true,
+        "label": "member of the Parliament of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q9045502",
+        "claim": "Q133009$1c14affd-494c-c4d3-81e7-a9c0f075f334",
+        "referenced": true,
+        "label": "member of the Parliament of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q9045502",
+        "claim": "Q133009$b07e13e5-495a-5169-d084-dca521333b8a",
+        "referenced": true,
+        "label": "member of the Parliament of Norway",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q1553195",
+        "claim": "Q133009$c9eac646-49bc-af37-da67-2d8349ec99e8",
+        "referenced": false,
+        "label": "party leader",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      },
+      {
+        "id": "Q11981531",
+        "claim": "Q133009$53d034a8-445e-2d53-4c85-96f498acc0a3",
+        "referenced": true,
+        "label": "Norwegian municipal councillor",
+        "source": "https://www.wikidata.org/wiki/Q133009#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "edvard-grieg": {
+    "name": "Edvard Grieg",
+    "source": "https://www.wikidata.org/wiki/Q80621",
+    "biography": "https://en.wikipedia.org/wiki/Edvard_Grieg",
+    "sitelinks": 112,
+    "occupations": [
+      {
+        "id": "Q36834",
+        "claim": "Q80621$E9DDF8BA-CBCE-4525-BB3A-B938097B5119",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q80621#P106"
+      },
+      {
+        "id": "Q486748",
+        "claim": "Q80621$74640582-D26D-4743-A068-BED52BAC2296",
+        "referenced": true,
+        "label": "pianist",
+        "source": "https://www.wikidata.org/wiki/Q80621#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "kygo": {
+    "name": "Kygo",
+    "source": "https://www.wikidata.org/wiki/Q16845512",
+    "biography": "https://en.wikipedia.org/wiki/Kygo",
+    "sitelinks": 43,
+    "occupations": [
+      {
+        "id": "Q486748",
+        "claim": "Q16845512$0C4358E1-34C1-4E95-A774-A0B71E6A2BF6",
+        "referenced": false,
+        "label": "pianist",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q183945",
+        "claim": "Q16845512$854CC735-17D2-460E-BA6A-4F8899664555",
+        "referenced": false,
+        "label": "record producer",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q753110",
+        "claim": "Q16845512$2ddf28e2-4d0d-deb1-df8f-3e2087765bb1",
+        "referenced": false,
+        "label": "songwriter",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q130857",
+        "claim": "Q16845512$f44e6b22-4f2e-3fde-a11c-cb776eeed61a",
+        "referenced": true,
+        "label": "disc jockey",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q55960555",
+        "claim": "Q16845512$228b15f5-4c3c-8674-6a69-b7f958018fe4",
+        "referenced": false,
+        "label": "recording artist",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q16845512$838d5055-e078-4578-a521-fe1c05f0f121",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q822146",
+        "claim": "Q16845512$970a75e4-424c-41bc-a520-af243e63098d",
+        "referenced": true,
+        "label": "lyricist",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q16845512$2BDD183B-C49C-4D29-AD13-648308381869",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q16845512$7AE13E69-84C3-4590-944B-0989A39227E4",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q16845512#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "roald-amundsen": {
+    "name": "Roald Amundsen",
+    "source": "https://www.wikidata.org/wiki/Q926",
+    "biography": "https://en.wikipedia.org/wiki/Roald_Amundsen",
+    "sitelinks": 191,
+    "occupations": [
+      {
+        "id": "Q11900058",
+        "claim": "q926$F1AAC702-A471-46D9-839D-0F087250BF79",
+        "referenced": true,
+        "label": "explorer",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q926$9f66f8dc-466b-a1c8-3e9c-782126eff0d1",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q45199",
+        "claim": "Q926$935ba128-4def-46ab-ad7f-ffa247331984",
+        "referenced": true,
+        "label": "sailor",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q1650915",
+        "claim": "Q926$1d3af2fd-4bc6-6646-09a1-2dacb2e9aa77",
+        "referenced": true,
+        "label": "researcher",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q13382749",
+        "claim": "Q926$91656027-4502-edac-b712-800ef780e05b",
+        "referenced": true,
+        "label": "polar explorer",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q2095549",
+        "claim": "Q926$F9A4AE31-BC8F-4472-8A78-402C3A2BC308",
+        "referenced": true,
+        "label": "aircraft pilot",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q108114975",
+        "claim": "Q926$80229f78-46c7-1cc5-1d15-d8f3b1d2c3c4",
+        "referenced": false,
+        "label": "naval aviator",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q926$b98bafbe-4bbf-c3b4-ea0a-8412b84d04fe",
+        "referenced": false,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      },
+      {
+        "id": "Q901402",
+        "claim": "Q926$ED16DF77-084C-4B2C-84DE-515DAC0DD56B",
+        "referenced": true,
+        "label": "geographer",
+        "source": "https://www.wikidata.org/wiki/Q926#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "thor-heyerdahl": {
+    "name": "Thor Heyerdahl",
+    "source": "https://www.wikidata.org/wiki/Q133622",
+    "biography": "https://en.wikipedia.org/wiki/Thor_Heyerdahl",
+    "sitelinks": 89,
+    "occupations": [
+      {
+        "id": "Q11900058",
+        "claim": "q133622$C5DBF2C2-CF56-42DB-BEFE-CCE8E27056BB",
+        "referenced": true,
+        "label": "explorer",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q4773904",
+        "claim": "Q133622$53C2275A-1AE3-4DB1-BEA9-4E182B708379",
+        "referenced": true,
+        "label": "anthropologist",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q3621491",
+        "claim": "Q133622$1A923882-36E7-4C35-BB8A-7022951C603C",
+        "referenced": true,
+        "label": "archaeologist",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q201788",
+        "claim": "Q133622$BC887706-9C8D-48F5-B51B-8ECC1A83263B",
+        "referenced": false,
+        "label": "historian",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q133622$3DBD27FB-2E14-429B-A265-7412BDD0664A",
+        "referenced": false,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q3640160",
+        "claim": "Q133622$0F8EAEC4-D24D-44C7-90B0-761262CF5723",
+        "referenced": true,
+        "label": "marine biologist",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q2873500",
+        "claim": "Q133622$C52E6D09-0422-4A50-A977-DB94A8CBFDB0",
+        "referenced": true,
+        "label": "adventurer",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q133622$b3d20e39-4835-9d3f-0d56-43407c695a27",
+        "referenced": false,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q45199",
+        "claim": "Q133622$63190992-421b-61b9-17db-10b89f71e5ee",
+        "referenced": false,
+        "label": "sailor",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q12347522",
+        "claim": "Q133622$5E492CC7-F78C-4E85-A8F5-50B0F6FCB337",
+        "referenced": true,
+        "label": "ethnographer",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q1937330",
+        "claim": "Q133622$78AE5699-8087-4965-B918-A346AD0B50EF",
+        "referenced": true,
+        "label": "world traveler",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q133622$CB654EE0-7789-41DF-8B02-B28307D42C42",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q12356615",
+        "claim": "Q133622$C9FC2064-2298-45EE-AB60-AF1EC191F43F",
+        "referenced": true,
+        "label": "traveler",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q1650915",
+        "claim": "Q133622$3577F5E4-CA14-4044-AC28-25A6BD3FC8C3",
+        "referenced": true,
+        "label": "researcher",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q1371378",
+        "claim": "Q133622$1A0FA9F5-D01B-42D4-BB68-637AC588DACA",
+        "referenced": true,
+        "label": "ethnologist",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q350979",
+        "claim": "Q133622$C9E30C98-DF70-479E-80A3-22267A4AC858",
+        "referenced": true,
+        "label": "zoologist",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      },
+      {
+        "id": "Q482980",
+        "claim": "Q133622$AC5F6AA5-D948-407E-AFCF-FEED1542D897",
+        "referenced": true,
+        "label": "author",
+        "source": "https://www.wikidata.org/wiki/Q133622#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "magnus-carlsen": {
+    "name": "Magnus Carlsen",
+    "source": "https://www.wikidata.org/wiki/Q106807",
+    "biography": "https://en.wikipedia.org/wiki/Magnus_Carlsen",
+    "sitelinks": 113,
+    "occupations": [
+      {
+        "id": "Q10873124",
+        "claim": "Q106807$81da007b-4f6c-4b5f-c9c1-c1a4755c736d",
+        "referenced": true,
+        "label": "chess player",
+        "source": "https://www.wikidata.org/wiki/Q106807#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "erling-haaland": {
+    "name": "Erling Haaland",
+    "source": "https://www.wikidata.org/wiki/Q28967995",
+    "biography": "https://en.wikipedia.org/wiki/Erling_Haaland",
+    "sitelinks": 99,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "Q28967995$76263A09-A845-4D8D-9A59-ACACA6B54103",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q28967995#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "lorde": {
+    "name": "Lorde",
+    "source": "https://www.wikidata.org/wiki/Q13476175",
+    "biography": "https://en.wikipedia.org/wiki/Lorde",
+    "sitelinks": 76,
+    "occupations": [
+      {
+        "id": "Q488205",
+        "claim": "Q13476175$cb671bfa-4430-62a1-45d4-41afaec81593",
+        "referenced": false,
+        "label": "singer-songwriter",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q13476175$f8b4a037-a1df-4919-adef-5a5eb7a34e20",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      },
+      {
+        "id": "Q822146",
+        "claim": "Q13476175$51f0c9cd-0748-4382-bcd5-727d5f94d613",
+        "referenced": true,
+        "label": "lyricist",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q13476175$c44c2721-68ef-4c6f-b747-8975ec447d14",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      },
+      {
+        "id": "Q482980",
+        "claim": "Q13476175$3BBFAAD3-F1FC-4759-BFC5-A12BB3FB4C31",
+        "referenced": true,
+        "label": "author",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q13476175$543EC1C1-3714-4877-85E6-D17949ACEA43",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q13476175#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "peter-jackson": {
+    "name": "Peter Jackson",
+    "source": "https://www.wikidata.org/wiki/Q4465",
+    "biography": "https://en.wikipedia.org/wiki/Peter_Jackson",
+    "sitelinks": 101,
+    "occupations": [
+      {
+        "id": "Q2526255",
+        "claim": "q4465$7df7e130-4269-9ff4-c7b2-d2f2db5d052f",
+        "referenced": true,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "q4465$a4709e6e-45d6-569b-a9ce-870aceeca991",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "q4465$d53b4169-401b-41d5-5487-ca86aa97e392",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q4465$3D89C030-D303-407D-8384-5B399B440E56",
+        "referenced": false,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q7042855",
+        "claim": "Q4465$34D64BCB-0E6A-41A0-B452-C9B568AEB0B3",
+        "referenced": false,
+        "label": "film editor",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q4465$3fd296b5-48d0-d3c5-de89-8d1de41d8687",
+        "referenced": false,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q4465$859C78A4-99A5-4410-AD8D-11BAB1901A86",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q4465#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "taika-waititi": {
+    "name": "Taika Waititi",
+    "source": "https://www.wikidata.org/wiki/Q2388576",
+    "biography": "https://en.wikipedia.org/wiki/Taika_Waititi",
+    "sitelinks": 54,
+    "occupations": [
+      {
+        "id": "Q33999",
+        "claim": "q2388576$253395C9-697D-4635-BD4E-E4817F11FE2C",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q2526255",
+        "claim": "Q2388576$661C80E2-7E7D-4720-BEC8-A5819914598E",
+        "referenced": false,
+        "label": "film director",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q2388576$AB99AA91-58C4-41E0-86C2-DD7FCFF1A9A7",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q3455803",
+        "claim": "Q2388576$25d3dd7a-40af-82d3-f22c-f5b6a84447d1",
+        "referenced": true,
+        "label": "director",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q1053574",
+        "claim": "Q2388576$0c22ed67-4946-7b55-739e-698b47e07b56",
+        "referenced": false,
+        "label": "executive producer",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q10800557",
+        "claim": "Q2388576$184C9147-EC63-4E9A-9D15-F0CBAA202E63",
+        "referenced": true,
+        "label": "film actor",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q3282637",
+        "claim": "Q2388576$0A1C0373-2FFE-42A9-BB92-2EC5601C86A5",
+        "referenced": true,
+        "label": "film producer",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q245068",
+        "claim": "Q2388576$57E4954F-FE19-4D7E-823F-A8E3D8D8771D",
+        "referenced": false,
+        "label": "comedian",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q2405480",
+        "claim": "Q2388576$60f3ea66-48df-fa0e-19ee-cb5ea3b95040",
+        "referenced": true,
+        "label": "voice actor",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q2388576$fd07b1a9-4340-d474-bf20-cf0f301e97cf",
+        "referenced": false,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q1414443",
+        "claim": "Q2388576$88e008c1-4a2b-2549-6e9b-59935745b1d5",
+        "referenced": false,
+        "label": "filmmaker",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      },
+      {
+        "id": "Q47541952",
+        "claim": "Q2388576$8aeb5580-4774-eaf6-5f94-d936e7c3d58c",
+        "referenced": false,
+        "label": "producer",
+        "source": "https://www.wikidata.org/wiki/Q2388576#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "ernest-rutherford": {
+    "name": "Ernest Rutherford",
+    "source": "https://www.wikidata.org/wiki/Q9123",
+    "biography": "https://en.wikipedia.org/wiki/Ernest_Rutherford",
+    "sitelinks": 175,
+    "occupations": [
+      {
+        "id": "Q16742096",
+        "claim": "q9123$54BE8030-757B-4577-9559-0B62282BA4C4",
+        "referenced": true,
+        "label": "nuclear physicist",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      },
+      {
+        "id": "Q593644",
+        "claim": "q9123$C26BC35D-60EF-42EB-A747-384E74D43BF4",
+        "referenced": true,
+        "label": "chemist",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      },
+      {
+        "id": "Q169470",
+        "claim": "Q9123$02091B54-86BF-4B07-B468-8B07F28EB841",
+        "referenced": true,
+        "label": "physicist",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      },
+      {
+        "id": "Q121594",
+        "claim": "Q9123$C019B97C-0C60-4C4F-8363-00BA813DC1E3",
+        "referenced": true,
+        "label": "professor",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      },
+      {
+        "id": "Q82955",
+        "claim": "Q9123$27e3c0b2-4313-2296-d64a-b37207b3edd8",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q9123$e2e64677-e9db-4e63-ac70-1d029442a5e6",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q9123#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q55713110",
+        "claim": "Q9123$C00891AC-0BF1-4580-A1E2-CA7F6553B87C",
+        "referenced": true,
+        "label": "President of the Royal Society",
+        "source": "https://www.wikidata.org/wiki/Q9123#P39"
+      },
+      {
+        "id": "Q18952564",
+        "claim": "Q9123$B912B87C-C62B-48CD-A9C7-5D4C75D1BDA0",
+        "referenced": true,
+        "label": "member of the House of Lords",
+        "source": "https://www.wikidata.org/wiki/Q9123#P39"
+      },
+      {
+        "id": "Q6487001",
+        "claim": "Q9123$303c301f-4ad6-c711-2083-0573a224b757",
+        "referenced": false,
+        "label": "Langworthy Professor",
+        "source": "https://www.wikidata.org/wiki/Q9123#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "edmund-hillary": {
+    "name": "Edmund Hillary",
+    "source": "https://www.wikidata.org/wiki/Q33817",
+    "biography": "https://en.wikipedia.org/wiki/Edmund_Hillary",
+    "sitelinks": 135,
+    "occupations": [
+      {
+        "id": "Q11900058",
+        "claim": "q33817$AECBB9D5-CE04-4DC7-8845-E2A1AA93693D",
+        "referenced": true,
+        "label": "explorer",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q12362622",
+        "claim": "q33817$027f0105-45b2-3a7a-d8df-fec15699e6dc",
+        "referenced": false,
+        "label": "philanthropist",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q852389",
+        "claim": "Q33817$2E0A0CD1-B6A6-4287-81A6-0A3A43EB445D",
+        "referenced": true,
+        "label": "beekeeper",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q193391",
+        "claim": "Q33817$25E5054A-0D91-46F2-89A8-DF6D83FAD5E1",
+        "referenced": false,
+        "label": "diplomat",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q18814623",
+        "claim": "Q33817$8A1D1FC2-00CA-48C4-9E66-74FD95A943FE",
+        "referenced": false,
+        "label": "autobiographer",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q9149093",
+        "claim": "Q33817$9C644ADA-F826-4C73-8A30-4ED69A74C6ED",
+        "referenced": true,
+        "label": "mountaineer",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      },
+      {
+        "id": "Q2405480",
+        "claim": "Q33817$628E3047-869B-4BCA-ACC1-F1595DF1DA8E",
+        "referenced": true,
+        "label": "voice actor",
+        "source": "https://www.wikidata.org/wiki/Q33817#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q30301456",
+        "claim": "Q33817$f32cb0ed-416b-5d75-2c87-25b891505ac0",
+        "referenced": false,
+        "label": "ambassador of New Zealand to Nepal",
+        "source": "https://www.wikidata.org/wiki/Q33817#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "leopold-sedar-senghor": {
+    "name": "Léopold Sédar Senghor",
+    "source": "https://www.wikidata.org/wiki/Q154545",
+    "biography": "https://en.wikipedia.org/wiki/L%C3%A9opold_S%C3%A9dar_Senghor",
+    "sitelinks": 91,
+    "occupations": [
+      {
+        "id": "Q82955",
+        "claim": "q154545$FD7723CC-2BD1-4791-AF93-677F25B30C6E",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q154545$94E65CD5-35A5-4584-8B33-81107DA4DC45",
+        "referenced": true,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q154545$25493A51-0F88-4426-94D3-1EE0E77EFF01",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      },
+      {
+        "id": "Q23833535",
+        "claim": "Q154545$4c8336c7-40f4-22bc-d692-5bd5f5f46a77",
+        "referenced": false,
+        "label": "French resistance fighter",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      },
+      {
+        "id": "Q4964182",
+        "claim": "Q154545$384600BD-21E0-45CE-AAAE-989C1B94466D",
+        "referenced": true,
+        "label": "philosopher",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      },
+      {
+        "id": "Q37226",
+        "claim": "Q154545$3E215826-D9C5-45E7-BB54-267A53C98609",
+        "referenced": true,
+        "label": "teacher",
+        "source": "https://www.wikidata.org/wiki/Q154545#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q19116034",
+        "claim": "Q154545$A9CF5C62-A65C-4891-92C7-EFAA0DA34EE7",
+        "referenced": true,
+        "label": "President of Senegal",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$7550B9C2-8678-44F3-9E91-B12B7BA42818",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q19161632",
+        "claim": "Q154545$a811e465-4efa-8271-347b-52bd49a62017",
+        "referenced": false,
+        "label": "chairperson of the Organisation of African Unity",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q20177062",
+        "claim": "Q154545$EE5E4EC2-E501-4A13-A051-111D865EF484",
+        "referenced": true,
+        "label": "senator of the Community",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q65494714",
+        "claim": "Q154545$0781e89d-f277-4769-a785-a895c76485d5",
+        "referenced": true,
+        "label": "Representative of the Parliamentary Assembly of the Council of Europe",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q18705668",
+        "claim": "Q154545$FED421B0-B4D2-43A3-99DE-197077437894",
+        "referenced": false,
+        "label": "Member of the Académie française",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q137757782",
+        "claim": "Q154545$c4ec9bdd-48e8-8ddb-21d5-94f83a09c6b2",
+        "referenced": false,
+        "label": "Chairperson of ECOWAS",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q109927221",
+        "claim": "Q154545$ad75f801-482c-f20e-f234-4f6aaa828424",
+        "referenced": false,
+        "label": "Minister of the Armed Forces of Senegal",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$30393096-A431-4BC2-95B3-2A822F46198E",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$F03DCE92-A28F-4F41-9425-5559593B6909",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$C99F2CF8-ADA5-4329-924D-C1D1BC7EA032",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$59339495-02D7-4AD2-B195-D550093567FE",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      },
+      {
+        "id": "Q3044918",
+        "claim": "Q154545$84901AEC-A7E3-4ADE-A0CD-5183645091C3",
+        "referenced": true,
+        "label": "member of the French National Assembly",
+        "source": "https://www.wikidata.org/wiki/Q154545#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "sadio-mane": {
+    "name": "Sadio Mané",
+    "source": "https://www.wikidata.org/wiki/Q209942",
+    "biography": "https://en.wikipedia.org/wiki/Sadio_Man%C3%A9",
+    "sitelinks": 92,
+    "occupations": [
+      {
+        "id": "Q937857",
+        "claim": "q209942$163DF812-F819-4B80-B644-0568841AAF66",
+        "referenced": true,
+        "label": "association football player",
+        "source": "https://www.wikidata.org/wiki/Q209942#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "bill-gates": {
+    "name": "Bill Gates",
+    "source": "https://www.wikidata.org/wiki/Q5284",
+    "biography": "https://en.wikipedia.org/wiki/Bill_Gates",
+    "sitelinks": 246,
+    "occupations": [
+      {
+        "id": "Q131524",
+        "claim": "q5284$E8C9A605-38E9-4282-B5A4-2B0A78388F42",
+        "referenced": true,
+        "label": "entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q5482740",
+        "claim": "Q5284$7eaad533-4601-0055-f5ff-0c7adad5c430",
+        "referenced": true,
+        "label": "programmer",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q82594",
+        "claim": "Q5284$04E9D2F8-0B27-43CD-BB6E-7B06715EEE4B",
+        "referenced": true,
+        "label": "computer scientist",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q18437198",
+        "claim": "Q5284$cc6d5a92-4347-efcf-392e-06f3c5177cf6",
+        "referenced": true,
+        "label": "bridge player",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q557880",
+        "claim": "Q5284$F4D1E1E8-C1CB-472A-B5AD-013341B5A293",
+        "referenced": true,
+        "label": "investor",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q12362622",
+        "claim": "Q5284$2cd18b81-434a-3129-2ce8-90b9d0850548",
+        "referenced": true,
+        "label": "philanthropist",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q5284$f7250f5c-41fe-92ea-0d26-e64433ef8f8e",
+        "referenced": false,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q911554",
+        "claim": "Q5284$3dbccea1-4839-744e-29d0-4f262f23ce87",
+        "referenced": false,
+        "label": "business magnate",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q133253419",
+        "claim": "Q5284$1ce67b55-421d-42a4-2094-aae0bcc24604",
+        "referenced": false,
+        "label": "technology entrepreneur",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q15472169",
+        "claim": "Q5284$87C2F865-6B0B-4E68-A2FE-2830646D89ED",
+        "referenced": true,
+        "label": "patron of the arts",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      },
+      {
+        "id": "Q4479442",
+        "claim": "Q5284$581E8466-07B9-498C-9368-1E5F4F346242",
+        "referenced": true,
+        "label": "founder",
+        "source": "https://www.wikidata.org/wiki/Q5284#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q484876",
+        "claim": "Q5284$face45ed-41ed-d731-e589-52112874306c",
+        "referenced": false,
+        "label": "chief executive officer",
+        "source": "https://www.wikidata.org/wiki/Q5284#P39"
+      },
+      {
+        "id": "Q4479442",
+        "claim": "Q5284$D965C69E-ACCC-4922-A7E6-9DF503EAFA95",
+        "referenced": true,
+        "label": "founder",
+        "source": "https://www.wikidata.org/wiki/Q5284#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "taylor-swift": {
+    "name": "Taylor Swift",
+    "source": "https://www.wikidata.org/wiki/Q26876",
+    "biography": "https://en.wikipedia.org/wiki/Taylor_Swift",
+    "sitelinks": 180,
+    "occupations": [
+      {
+        "id": "Q488205",
+        "claim": "Q26876$755f8b79-4f78-5054-7410-453f330c51fc",
+        "referenced": true,
+        "label": "singer-songwriter",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      },
+      {
+        "id": "Q177220",
+        "claim": "Q26876$AFDB5E48-F9E5-44F9-BA43-0DCD5EAD8D73",
+        "referenced": true,
+        "label": "singer",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      },
+      {
+        "id": "Q822146",
+        "claim": "Q26876$711F65C3-210C-40E3-8C10-34F0620CD565",
+        "referenced": true,
+        "label": "lyricist",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      },
+      {
+        "id": "Q639669",
+        "claim": "Q26876$B60DE7AD-4862-4326-BD65-F7AB4A8E6E99",
+        "referenced": true,
+        "label": "musician",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      },
+      {
+        "id": "Q36834",
+        "claim": "Q26876$95618DD5-3F3F-4885-900E-6FE3A127767D",
+        "referenced": true,
+        "label": "composer",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      },
+      {
+        "id": "Q33999",
+        "claim": "Q26876$CC5EB488-CFD2-4E74-B3DF-AEA31D486E09",
+        "referenced": true,
+        "label": "actor",
+        "source": "https://www.wikidata.org/wiki/Q26876#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "lebron-james": {
+    "name": "LeBron James",
+    "source": "https://www.wikidata.org/wiki/Q36159",
+    "biography": "https://en.wikipedia.org/wiki/LeBron_James",
+    "sitelinks": 114,
+    "occupations": [
+      {
+        "id": "Q3665646",
+        "claim": "q36159$1E9A4F07-349B-414A-8193-4C60FDBBDB92",
+        "referenced": true,
+        "label": "basketball player",
+        "source": "https://www.wikidata.org/wiki/Q36159#P106"
+      },
+      {
+        "id": "Q28389",
+        "claim": "Q36159$C679AA3B-6347-4761-AEE3-2B44B03A8D27",
+        "referenced": true,
+        "label": "screenwriter",
+        "source": "https://www.wikidata.org/wiki/Q36159#P106"
+      },
+      {
+        "id": "Q10798782",
+        "claim": "Q36159$717DCCDB-3EA4-4E77-A678-A50DEB3E69FC",
+        "referenced": false,
+        "label": "television actor",
+        "source": "https://www.wikidata.org/wiki/Q36159#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "andreas-vesalius": {
+    "name": "Andreas Vesalius",
+    "source": "https://www.wikidata.org/wiki/Q170267",
+    "biography": "https://en.wikipedia.org/wiki/Andreas_Vesalius",
+    "sitelinks": 84,
+    "occupations": [
+      {
+        "id": "Q10872101",
+        "claim": "q170267$E2F50151-6635-4A4A-8B1C-44F2EC87AA9A",
+        "referenced": true,
+        "label": "anatomist",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q39631",
+        "claim": "Q170267$522BAEAC-37CD-46E8-9D82-165F73AA33AE",
+        "referenced": true,
+        "label": "physician",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q774306",
+        "claim": "Q170267$84eb1415-4e64-0c3b-152a-9a6b0fdbde94",
+        "referenced": true,
+        "label": "surgeon",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q1622272",
+        "claim": "Q170267$1D9D7648-005F-42BA-866D-FDA2CB0937DD",
+        "referenced": true,
+        "label": "university teacher",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q2055046",
+        "claim": "Q170267$3F22E90A-FF0E-4941-B147-CE71003A63F5",
+        "referenced": true,
+        "label": "physiologist",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q170267$C46FED45-ABCB-4A46-A4C1-B24BB0992DA1",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      },
+      {
+        "id": "Q1251349",
+        "claim": "Q170267$5C12EB63-E184-4A28-BE3C-BF34EFB4A34C",
+        "referenced": true,
+        "label": "personal physician",
+        "source": "https://www.wikidata.org/wiki/Q170267#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "tycho-brahe": {
+    "name": "Tycho Brahe",
+    "source": "https://www.wikidata.org/wiki/Q36620",
+    "biography": "https://en.wikipedia.org/wiki/Tycho_Brahe",
+    "sitelinks": 123,
+    "occupations": [
+      {
+        "id": "Q11063",
+        "claim": "q36620$A9BFE0F8-EE8D-4AD0-A187-F368A6542B45",
+        "referenced": true,
+        "label": "astronomer",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q18814623",
+        "claim": "Q36620$0C6EC01C-81F3-4310-A924-F9169789486D",
+        "referenced": false,
+        "label": "autobiographer",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q49757",
+        "claim": "Q36620$87737912-49F5-44CC-B6CE-3CFBF0D1D412",
+        "referenced": false,
+        "label": "poet",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q155647",
+        "claim": "Q36620$FBCB7A44-43E3-405B-95C0-18D74300F58D",
+        "referenced": true,
+        "label": "astrologer",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q15954519",
+        "claim": "Q36620$70AEE2A4-FEF1-4A79-8DFD-82C17637B9C9",
+        "referenced": true,
+        "label": "alchemist",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q36620$A7F48C5A-E687-4177-AE6E-33AE4C3E20AE",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      },
+      {
+        "id": "Q175151",
+        "claim": "Q36620$9A446DDD-4860-4E3F-A9F2-6C5EE18252E2",
+        "referenced": true,
+        "label": "printer",
+        "source": "https://www.wikidata.org/wiki/Q36620#P106"
+      }
+    ],
+    "offices": [],
+    "militaryRanks": [],
+    "since": 4
+  },
+  "fridtjof-nansen": {
+    "name": "Fridtjof Nansen",
+    "source": "https://www.wikidata.org/wiki/Q72292",
+    "biography": "https://en.wikipedia.org/wiki/Fridtjof_Nansen",
+    "sitelinks": 113,
+    "occupations": [
+      {
+        "id": "Q350979",
+        "claim": "q72292$dadb4335-44bd-c56b-d780-51d92fde8877",
+        "referenced": true,
+        "label": "zoologist",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q13382749",
+        "claim": "q72292$e8626b1d-4424-e568-0520-bef176858f1b",
+        "referenced": true,
+        "label": "polar explorer",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q193391",
+        "claim": "q72292$fc4b08a9-42d5-4c93-fcdc-8964b3a64c68",
+        "referenced": true,
+        "label": "diplomat",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q121594",
+        "claim": "Q72292$B3F44C1E-A843-4FA4-99B1-5B465EEDA191",
+        "referenced": false,
+        "label": "professor",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q82955",
+        "claim": "Q72292$002C5108-B4A6-4E6F-B6C9-83404BA50C28",
+        "referenced": true,
+        "label": "politician",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q33231",
+        "claim": "Q72292$c691c105-4f9b-17ab-1c1d-2cac894a21b6",
+        "referenced": false,
+        "label": "photographer",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q10866633",
+        "claim": "Q72292$6C9649CC-425F-482D-BEB7-C045EBAB98B2",
+        "referenced": true,
+        "label": "speed skater",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q36180",
+        "claim": "Q72292$184ADA37-C020-48C6-A387-10B732245BC9",
+        "referenced": true,
+        "label": "writer",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      },
+      {
+        "id": "Q98544732",
+        "claim": "Q72292$2A50B3E7-8385-44B3-8D61-F612D8693EF6",
+        "referenced": true,
+        "label": "scientific collector",
+        "source": "https://www.wikidata.org/wiki/Q72292#P106"
+      }
+    ],
+    "offices": [
+      {
+        "id": "Q27832358",
+        "claim": "Q72292$193E90A4-CBBE-4547-81EC-B77927EEBB06",
+        "referenced": false,
+        "label": "United Nations High Commissioner for Refugees",
+        "source": "https://www.wikidata.org/wiki/Q72292#P39"
+      },
+      {
+        "id": "Q106297911",
+        "claim": "Q72292$E59D55A0-A824-4D76-AD74-052C6171F799",
+        "referenced": true,
+        "label": "ambassador of Norway to the United Kingdom",
+        "source": "https://www.wikidata.org/wiki/Q72292#P39"
+      },
+      {
+        "id": "Q1300660",
+        "claim": "Q72292$6f35b4a0-4971-4d4e-9ea2-91ee07e93bad",
+        "referenced": true,
+        "label": "honorary presidency",
+        "source": "https://www.wikidata.org/wiki/Q72292#P39"
+      }
+    ],
+    "militaryRanks": [],
+    "since": 4
   }
 }

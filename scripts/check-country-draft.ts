@@ -7,9 +7,9 @@ import { gameModule, type CountryDraftAction } from "../src/games/country-draft/
 import { codec } from "../src/games/country-draft/codec";
 import { poolIndex, seatIndex } from "../src/lib/game-logic/country-draft/types";
 import { fillOrder } from "../src/lib/game-logic/country-draft/fill-order";
-import { POOL } from "../src/lib/game-logic/country-draft/roster";
+import { POOL, POOL_CUTOVER_DATE, poolFor, poolVersionFor } from "../src/lib/game-logic/country-draft/roster";
 import { MAX_SCORE } from "../src/lib/game-logic/country-draft/tables";
-import { draftCareerRecord } from "../src/lib/data/loader";
+import { draftBiography, draftCareerRecord, draftPool, draftPoolV3, draftPortraitCredit } from "../src/lib/data/loader";
 import { careerRatings, safeCareerLine } from "../src/lib/game-logic/country-draft/career-ratings";
 import { applyCareerEvidence } from "../src/lib/game-logic/country-draft/career-evidence";
 
@@ -17,10 +17,11 @@ let checks = 0;
 let failures = 0;
 function check(condition: boolean, message: string) { checks += 1; if (!condition) { failures += 1; console.error(`FAIL ${message}`); } }
 const ceilings: number[] = [];
+const retiredCeilings: number[] = [];
 for (let day = 0; day < 120; day += 1) {
   const dateKey = new Date(Date.UTC(2026, 9, 13 + day)).toISOString().slice(0, 10);
   const seed = dateSeed(dateKey);
-  let state = createGame(seed);
+  let state = createGame(seed, { dateKey });
   const board = state.board;
   const countries = board.rounds.flatMap((round) => round.countries);
   check(board.rounds.length === 5, `${dateKey} five rounds`);
@@ -33,7 +34,7 @@ for (let day = 0; day < 120; day += 1) {
       check(new Set(country.pool.map((p) => p.archetype)).size === 3, `${dateKey} three different career types`);
     }
   }
-  check(JSON.stringify(createGame(seed)) === JSON.stringify(state), `${dateKey} same seed, same full board`);
+  check(JSON.stringify(createGame(seed, { dateKey })) === JSON.stringify(state), `${dateKey} same seed, same full board`);
   const initial = draftView(state);
   check(initial.people.length === 0 && initial.countries.length === 3, `${dateKey} unopened people absent`);
   check(initial.nextView === undefined, `${dateKey} country selection does not expose later rounds`);
@@ -85,7 +86,8 @@ for (let day = 0; day < 120; day += 1) {
   const encoded = codec.enc(log);
   check(encoded.length <= 32 && JSON.stringify(codec.dec(encoded)) === JSON.stringify(log), `${dateKey} complete log round-trips under cookie budget`);
   check(!('best' in payload.resultJson) && !('ceiling' in payload.resultJson) && !('poolNames' in payload.resultJson), `${dateKey} completed payload contains only chosen people`);
-  ceilings.push(board.ceiling);
+  (dateKey < POOL_CUTOVER_DATE ? retiredCeilings : ceilings).push(board.ceiling);
+  check(board.ceiling >= (dateKey < POOL_CUTOVER_DATE ? 165 : 170), `${dateKey} best possible score stays within the pool's floor`);
 }
 
 // Practice excludes today’s fifteen countries without seed rejection or private-pool clues.
@@ -100,7 +102,7 @@ for (let sample = 0; sample < 12; sample += 1) {
 
 const dateKey = "2026-10-13";
 const portraits = POOL.flatMap((country) => country.groups.flatMap((group) => group.people)).filter((person) => person.portrait);
-check(portraits.length >= 304 && portraits.every((person) => person.fits?.length === 5 && person.fitEvidence?.length === 5), "the portrait-backed roster never shrinks below the prior 304 people, and every person has five sourced ratings");
+check(portraits.length >= 570 && portraits.every((person) => person.fits?.length === 5 && person.fitEvidence?.length === 5), "the portrait-backed roster never shrinks below the 570 people of pool 4, and every person has five sourced ratings");
 check(new Set(portraits.map((person) => person.fits?.join(","))).size > 30, "actual individual careers create diverse fit vectors");
 for (const person of portraits) {
   check(person.fits?.every((value) => [0, 6, 12, 18, 25].includes(value)) === true, `${person.slug} five authored fit levels`);
@@ -159,5 +161,38 @@ for (const malformed of ["u", "a9z", "o4", "o", "a00u"]) {
   check(rejected, `malformed or retired undo log ${malformed} rejected`);
 }
 check(poolIndex(3) === null && seatIndex(5) === null, "invalid input indices rejected");
-console.log(`Country Draft: ${checks} checks, ${failures} failures. Ceiling range ${Math.min(...ceilings)} to ${Math.max(...ceilings)}.`);
+
+// Pool 4 cutover: today's and tomorrow's promised boards keep pool 3 exactly.
+const retiredPool = poolFor("2026-11-26");
+const retiredPeople = retiredPool.flatMap((country) => country.groups.flatMap((group) => group.people));
+check(draftPoolV3.v === 3 && draftPool.v === 4 && POOL_CUTOVER_DATE === "2026-11-27", "pool 3 is frozen and pool 4 starts on 27 November 2026, Berlin");
+check(poolFor("2026-11-25") === retiredPool && poolFor("2026-11-26") === retiredPool && poolFor("2026-11-27") === POOL && poolFor() === POOL, "dates before the cutover deal from pool 3, later dates and undated boards from pool 4");
+check(retiredPool.length === 41 && retiredPeople.length === 482, "pool 3 keeps its 41 countries and 482 people");
+check(retiredPeople.every((person) => draftCareerRecord(person.slug)?.since === undefined && draftBiography(person.slug)?.since === undefined), "pool 3 people are rated only from records that pool 3 had");
+check(poolVersionFor("2026-11-26") === 6 && poolVersionFor("2026-11-27") === 7, "saved results carry the version of the pool their board came from");
+for (const [dateKey, other] of [["2026-11-26", 7], ["2026-11-27", 6]] as const) {
+  let run = createGame(dateSeed(dateKey), { dateKey });
+  for (const best of run.board.best) run = nextRound(appoint(openCountry(run, best.countryIdx), best.poolIdx, best.seat));
+  const payload = gameModule.payload(run, { mode: "daily", dateKey, startedAt: "2026-11-25T00:00:00.000Z" });
+  check(validateCountryDraftResult(dateKey, payload.scoreRaw, payload.resultJson).valid, `${dateKey} result validates against its own pool`);
+  check(validateCountryDraftResult(dateKey, payload.scoreRaw, { ...payload.resultJson, poolVersion: other }).reason === "outdated_board", `${dateKey} result from the other pool is rejected`);
+}
+for (const country of POOL) {
+  check(country.groups.filter((group) => group.people.some((person) => person.portrait)).length >= 3, `${country.iso3} offers at least three dealable career types`);
+  for (const person of country.groups.flatMap((group) => group.people)) {
+    check(person.portrait, `${person.slug} has a portrait, biography and career record`);
+    check((person.born === null || person.born <= 2008) && (person.born === null || person.died === null || person.born <= person.died), `${person.slug} plausible life years and no minors`);
+    const credit = draftPortraitCredit(person.slug);
+    check(Boolean(credit?.licence && credit.author && credit.url.startsWith("https://commons.wikimedia.org/wiki/File:")), `${person.slug} portrait credits a Commons file, author and licence`);
+  }
+}
+check(!POOL.some((country) => country.groups.some((group) => group.people.some((person) => person.slug === "leopold-ii-of-belgium"))), "Leopold II is withheld when Belgium joins");
+for (const slug of ["kwame-nkrumah", "margrethe-ii", "dua-lipa", "eddy-merckx", "fridtjof-nansen", "andreas-vesalius"]) check(!retiredPeople.some((person) => person.slug === slug), `${slug} correction touches no pool 3 board`);
+const current = (slug: string) => POOL.flatMap((country) => country.groups.flatMap((group) => group.people)).find((person) => person.slug === slug);
+check(current("ronaldo")?.portrait === true && current("ronaldo")?.biography.endsWith("Ronaldo_(Brazilian_footballer)") === true, "an ambiguous display name resolves through its Wikipedia title");
+check(current("kwame-nkrumah")?.fits?.join(",") === "25,18,12,25,12", "a recorded rank without field command is not a command career");
+check(current("mary-read")?.born === null && retiredPeople.find((person) => person.slug === "mary-read")?.born === 2005, "Mary Read's impossible birth year is dropped from pool 4 only");
+check(current("margrethe-ii")?.fits?.[1] === 6 && current("dua-lipa")?.fits?.[4] === 12 && current("dua-lipa")?.fits?.[2] === 6, "ceremonial roles and side projects stay supporting experience");
+check(current("eddy-merckx")?.fits?.[3] === 12 && current("fridtjof-nansen")?.fits?.[4] === 25 && current("andreas-vesalius")?.fits?.[4] === 25, "careers the occupation rules do not name keep their documented fit");
+console.log(`Country Draft: ${checks} checks, ${failures} failures. Ceiling range ${Math.min(...ceilings)} to ${Math.max(...ceilings)} on pool 4, ${Math.min(...retiredCeilings)} to ${Math.max(...retiredCeilings)} on pool 3.`);
 process.exitCode = failures ? 1 : 0;

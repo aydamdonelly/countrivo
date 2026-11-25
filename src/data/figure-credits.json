@@ -4627,5 +4627,613 @@
   "licence": "CC BY 4.0",
   "author": "Office of the Clerk of the House of Representatives of New Zealand",
   "url": "https://commons.wikimedia.org/wiki/File:Ana_Guevara.jpg"
+ },
+ "kim-dae-jung": {
+  "slug": "kim-dae-jung",
+  "title": "Kim Dae-jung",
+  "file": "Kim_Dae-jung_(Cropped).png",
+  "licence": "CC BY 4.0",
+  "author": "Presidential Press and Information Office",
+  "url": "https://commons.wikimedia.org/wiki/File:Kim_Dae-jung_(Cropped).png"
+ },
+ "kwame-nkrumah": {
+  "slug": "kwame-nkrumah",
+  "title": "Kwame Nkrumah",
+  "file": "Kwame_Nkrumah_(JFKWHP-AR6409-A).jpg",
+  "licence": "Public domain",
+  "author": "Abbie Rowe",
+  "url": "https://commons.wikimedia.org/wiki/File:Kwame_Nkrumah_(JFKWHP-AR6409-A).jpg"
+ },
+ "leopold-sedar-senghor": {
+  "slug": "leopold-sedar-senghor",
+  "title": "Léopold Sédar Senghor",
+  "file": "UNESCO_History,_Visite_de_S._Exc._M._Léopold_Sedar_Senghor,_Président_de_la_République_du_Sénégal_-_UNESCO_-_PHOTO0000002688_0001_(cropped).tiff",
+  "licence": "CC BY-SA 3.0 igo",
+  "author": "Dominique Roger",
+  "url": "https://commons.wikimedia.org/wiki/File:UNESCO_History%2C_Visite_de_S._Exc._M._L%C3%A9opold_Sedar_Senghor%2C_Pr%C3%A9sident_de_la_R%C3%A9publique_du_S%C3%A9n%C3%A9gal_-_UNESCO_-_PHOTO0000002688_0001_(cropped).tiff"
+ },
+ "bernard-arnault": {
+  "slug": "bernard-arnault",
+  "title": "Bernard Arnault",
+  "file": "Bernard_Arnault_(3)_-_2017_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Jérémy Barande",
+  "url": "https://commons.wikimedia.org/wiki/File:Bernard_Arnault_(3)_-_2017_(cropped).jpg"
+ },
+ "henry-dunant": {
+  "slug": "henry-dunant",
+  "title": "Henry Dunant",
+  "file": "Henry_Dunant-young.jpg",
+  "licence": "Public domain",
+  "author": "Frédéric Boissonnas",
+  "url": "https://commons.wikimedia.org/wiki/File:Henry_Dunant-young.jpg"
+ },
+ "roald-amundsen": {
+  "slug": "roald-amundsen",
+  "title": "Roald Amundsen",
+  "file": "Amundsen_in_fur_skins.jpg",
+  "licence": "Public domain",
+  "author": "AnonymousUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Amundsen_in_fur_skins.jpg"
+ },
+ "leonhard-euler": {
+  "slug": "leonhard-euler",
+  "title": "Leonhard Euler",
+  "file": "Leonhard_Euler_-_Jakob_Emanuel_Handmann_(Kunstmuseum_Basel).jpg",
+  "licence": "Public domain",
+  "author": "Jakob Emanuel Handmann",
+  "url": "https://commons.wikimedia.org/wiki/File:Leonhard_Euler_-_Jakob_Emanuel_Handmann_(Kunstmuseum_Basel).jpg"
+ },
+ "carl-jung": {
+  "slug": "carl-jung",
+  "title": "Carl Jung",
+  "file": "CGJung.jpg",
+  "licence": "Public domain",
+  "author": "unknown, upload by Adrian Michael",
+  "url": "https://commons.wikimedia.org/wiki/File:CGJung.jpg"
+ },
+ "georges-lemaitre": {
+  "slug": "georges-lemaitre",
+  "title": "Georges Lemaître",
+  "file": "GLemaitre30.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:GLemaitre30.jpg"
+ },
+ "ernest-rutherford": {
+  "slug": "ernest-rutherford",
+  "title": "Ernest Rutherford",
+  "file": "Sir_Ernest_Rutherford_LCCN2014716719_-_restoration1.jpg",
+  "licence": "Public domain",
+  "author": "Bain News Service, publisher Restored by: Bammesk",
+  "url": "https://commons.wikimedia.org/wiki/File:Sir_Ernest_Rutherford_LCCN2014716719_-_restoration1.jpg"
+ },
+ "edmund-hillary": {
+  "slug": "edmund-hillary",
+  "title": "Edmund Hillary",
+  "file": "Edmund_Hillary,_c._1953,_autograph_removed.jpg",
+  "licence": "Public domain",
+  "author": "Photographer unidentified. Retouched by TimofKingsland.",
+  "url": "https://commons.wikimedia.org/wiki/File:Edmund_Hillary%2C_c._1953%2C_autograph_removed.jpg"
+ },
+ "chinua-achebe": {
+  "slug": "chinua-achebe",
+  "title": "Chinua Achebe",
+  "file": "Chinua_Achebe,_1966.jpg",
+  "licence": "Public domain",
+  "author": "Carlo Bavagnoli",
+  "url": "https://commons.wikimedia.org/wiki/File:Chinua_Achebe%2C_1966.jpg"
+ },
+ "wole-soyinka": {
+  "slug": "wole-soyinka",
+  "title": "Wole Soyinka",
+  "file": "Wole_Soyinka_in_2018_(3x4_cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Frankie Fouganthin",
+  "url": "https://commons.wikimedia.org/wiki/File:Wole_Soyinka_in_2018_(3x4_cropped).jpg"
+ },
+ "jorge-luis-borges": {
+  "slug": "jorge-luis-borges",
+  "title": "Jorge Luis Borges",
+  "file": "Jorge_Luis_Borges_1951,_by_Grete_Stern_(full).jpg",
+  "licence": "Public domain",
+  "author": "Grete Stern",
+  "url": "https://commons.wikimedia.org/wiki/File:Jorge_Luis_Borges_1951%2C_by_Grete_Stern_(full).jpg"
+ },
+ "paulo-coelho": {
+  "slug": "paulo-coelho",
+  "title": "Paulo Coelho",
+  "file": "Paulo_Coelho,_June_2024.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Lula Oficial",
+  "url": "https://commons.wikimedia.org/wiki/File:Paulo_Coelho%2C_June_2024.jpg"
+ },
+ "han-kang": {
+  "slug": "han-kang",
+  "title": "Han Kang",
+  "file": "Han_Kang,_2024_Nobel_Prize_Laureate_in_Literature_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "John Sears",
+  "url": "https://commons.wikimedia.org/wiki/File:Han_Kang%2C_2024_Nobel_Prize_Laureate_in_Literature_(cropped).jpg"
+ },
+ "edvard-grieg": {
+  "slug": "edvard-grieg",
+  "title": "Edvard Grieg",
+  "file": "Edvard_Grieg_portrait_(cropped).jpg",
+  "licence": "No restrictions",
+  "author": "Bergen Public Library Norway from Bergen, Norway",
+  "url": "https://commons.wikimedia.org/wiki/File:Edvard_Grieg_portrait_(cropped).jpg"
+ },
+ "rosalia": {
+  "slug": "rosalia",
+  "title": "Rosalia",
+  "file": "27th_Latin_GRAMMY_Awards_-_Red_Carpet_0278_Rosalía_Vila_Tobella_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Jorge Jaramillo",
+  "url": "https://commons.wikimedia.org/wiki/File:27th_Latin_GRAMMY_Awards_-_Red_Carpet_0278_Rosal%C3%ADa_Vila_Tobella_(cropped).jpg"
+ },
+ "gilberto-gil": {
+  "slug": "gilberto-gil",
+  "title": "Gilberto Gil",
+  "file": "22.05.2026_-_Gilberto_Gil_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Ricardo Stuckert / PR",
+  "url": "https://commons.wikimedia.org/wiki/File:22.05.2026_-_Gilberto_Gil_(cropped).jpg"
+ },
+ "bob-marley": {
+  "slug": "bob-marley",
+  "title": "Bob Marley",
+  "file": "Bob_Marley_circa_1976_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Not credited",
+  "url": "https://commons.wikimedia.org/wiki/File:Bob_Marley_circa_1976_(cropped).jpg"
+ },
+ "burna-boy": {
+  "slug": "burna-boy",
+  "title": "Burna Boy",
+  "file": "Untold_2024_-Burna_Boy_(53926047977)_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Nuță Lucian from Cluj-Napoca, Romania",
+  "url": "https://commons.wikimedia.org/wiki/File:Untold_2024_-Burna_Boy_(53926047977)_(cropped).jpg"
+ },
+ "lorde": {
+  "slug": "lorde",
+  "title": "Lorde",
+  "file": "Lorde_Glasto2025-9_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Raph_PH",
+  "url": "https://commons.wikimedia.org/wiki/File:Lorde_Glasto2025-9_(cropped).jpg"
+ },
+ "pedro-almodovar": {
+  "slug": "pedro-almodovar",
+  "title": "Pedro Almodóvar",
+  "file": "Pedro_Almodóvar-69720_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Harald Krichel",
+  "url": "https://commons.wikimedia.org/wiki/File:Pedro_Almod%C3%B3var-69720_(cropped).jpg"
+ },
+ "mads-mikkelsen": {
+  "slug": "mads-mikkelsen",
+  "title": "Mads Mikkelsen",
+  "file": "Mads_Mikkelsen_at_82nd_Venice_International_Film_Festival_(cropped2).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "LucaFazPhoto",
+  "url": "https://commons.wikimedia.org/wiki/File:Mads_Mikkelsen_at_82nd_Venice_International_Film_Festival_(cropped2).jpg"
+ },
+ "ricardo-darin": {
+  "slug": "ricardo-darin",
+  "title": "Ricardo Darín",
+  "file": "Alejandra_Darín_y_Ricardo_Darín_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Ministerio de Cultura de la Nación",
+  "url": "https://commons.wikimedia.org/wiki/File:Alejandra_Dar%C3%ADn_y_Ricardo_Dar%C3%ADn_(cropped).jpg"
+ },
+ "peter-jackson": {
+  "slug": "peter-jackson",
+  "title": "Peter Jackson",
+  "file": "Peter_Jackson_SDCC_2014.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Gage Skidmore",
+  "url": "https://commons.wikimedia.org/wiki/File:Peter_Jackson_SDCC_2014.jpg"
+ },
+ "lewis-hamilton": {
+  "slug": "lewis-hamilton",
+  "title": "Lewis Hamilton",
+  "file": "Lewis_Hamilton_Silverstone_2018_(cropped).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Jen_ross83",
+  "url": "https://commons.wikimedia.org/wiki/File:Lewis_Hamilton_Silverstone_2018_(cropped).jpg"
+ },
+ "ronaldo": {
+  "slug": "ronaldo",
+  "title": "Ronaldo",
+  "file": "12.12.2025_–_Cerimônia_de_lançamento_do_SBT_News_-_54980664160_(cropped2).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Lula Oficial",
+  "url": "https://commons.wikimedia.org/wiki/File:12.12.2025_%E2%80%93_Cerim%C3%B4nia_de_lan%C3%A7amento_do_SBT_News_-_54980664160_(cropped2).jpg"
+ },
+ "marta": {
+  "slug": "marta",
+  "title": "Marta",
+  "file": "NC_Courage_vs_Orlando_Pride_(Jun_2024)_073_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Hameltion",
+  "url": "https://commons.wikimedia.org/wiki/File:NC_Courage_vs_Orlando_Pride_(Jun_2024)_073_(cropped).jpg"
+ },
+ "lionel-messi": {
+  "slug": "lionel-messi",
+  "title": "Lionel Messi",
+  "file": "Leo_Messi_Argentina_v_Egypt_7_July_2026-1.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Leo_Messi_Argentina_v_Egypt_7_July_2026-1.jpg"
+ },
+ "rafael-nadal": {
+  "slug": "rafael-nadal",
+  "title": "Rafael Nadal",
+  "file": "Rafael_Nadal_en_2024_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Barcex",
+  "url": "https://commons.wikimedia.org/wiki/File:Rafael_Nadal_en_2024_(cropped).jpg"
+ },
+ "eddy-merckx": {
+  "slug": "eddy-merckx",
+  "title": "Eddy Merckx",
+  "file": "Eddy_Merckx_en_1971.jpg",
+  "licence": "Public domain",
+  "author": "Panini",
+  "url": "https://commons.wikimedia.org/wiki/File:Eddy_Merckx_en_1971.jpg"
+ },
+ "magnus-carlsen": {
+  "slug": "magnus-carlsen",
+  "title": "Magnus Carlsen",
+  "file": "Magnus_Carlsen_Tata_2023_-_71_(cropped_v4).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Frans Peeters Photography",
+  "url": "https://commons.wikimedia.org/wiki/File:Magnus_Carlsen_Tata_2023_-_71_(cropped_v4).jpg"
+ },
+ "roger-federer": {
+  "slug": "roger-federer",
+  "title": "Roger Federer",
+  "file": "Roger_Federer_2015_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Tatiana from Moscow, Russia",
+  "url": "https://commons.wikimedia.org/wiki/File:Roger_Federer_2015_(cropped).jpg"
+ },
+ "usain-bolt": {
+  "slug": "usain-bolt",
+  "title": "Usain Bolt",
+  "file": "Usain_Bolt_with_NX300-3.jpg",
+  "licence": "CC BY 2.0",
+  "author": "Samsung Belgium",
+  "url": "https://commons.wikimedia.org/wiki/File:Usain_Bolt_with_NX300-3.jpg"
+ },
+ "sadio-mane": {
+  "slug": "sadio-mane",
+  "title": "Sadio Mané",
+  "file": "Sadio_Mane_France_v_Senegal_16_June_2026-450.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Sadio_Mane_France_v_Senegal_16_June_2026-450.jpg"
+ },
+ "kim-yuna": {
+  "slug": "kim-yuna",
+  "title": "Kim Yuna",
+  "file": "Yuna_Kim_2024.jpg",
+  "licence": "CC BY 3.0",
+  "author": "K-POPIT 케이팝잇",
+  "url": "https://commons.wikimedia.org/wiki/File:Yuna_Kim_2024.jpg"
+ },
+ "david-attenborough": {
+  "slug": "david-attenborough",
+  "title": "David Attenborough",
+  "file": "David_Attenborough_2019.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Nick.Thirteen",
+  "url": "https://commons.wikimedia.org/wiki/File:David_Attenborough_2019.jpg"
+ },
+ "park-chan-wook": {
+  "slug": "park-chan-wook",
+  "title": "Park Chan-wook",
+  "file": "Park_Chan-wook,_2026_Cannes_Film_Festival.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "YantsImages",
+  "url": "https://commons.wikimedia.org/wiki/File:Park_Chan-wook%2C_2026_Cannes_Film_Festival.jpg"
+ },
+ "taika-waititi": {
+  "slug": "taika-waititi",
+  "title": "Taika Waititi",
+  "file": "Taika_Waititi_at_Venice_Film_Festival_2026-4.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "CaseyJNewell",
+  "url": "https://commons.wikimedia.org/wiki/File:Taika_Waititi_at_Venice_Film_Festival_2026-4.jpg"
+ },
+ "gro-harlem-brundtland": {
+  "slug": "gro-harlem-brundtland",
+  "title": "Gro Harlem Brundtland",
+  "file": "Gro_Harlem_Brundtland_in_2025_(cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Christophe Licoppe",
+  "url": "https://commons.wikimedia.org/wiki/File:Gro_Harlem_Brundtland_in_2025_(cropped).jpg"
+ },
+ "kygo": {
+  "slug": "kygo",
+  "title": "Kygo",
+  "file": "Wolfgang_Boss_presented_a_multi-platinum-gold_award_to_Kygo._(cropped)_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "CloudEleven567",
+  "url": "https://commons.wikimedia.org/wiki/File:Wolfgang_Boss_presented_a_multi-platinum-gold_award_to_Kygo._(cropped)_(cropped).jpg"
+ },
+ "erling-haaland": {
+  "slug": "erling-haaland",
+  "title": "Erling Haaland",
+  "file": "Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Erling_Haaland_Morocco_v_Norway_7_June_2026-51.jpg"
+ },
+ "stromae": {
+  "slug": "stromae",
+  "title": "Stromae",
+  "file": "Stromae_2011_cropped.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Georges Biard → Derivative work: Steffen Schmitz (Carschten)",
+  "url": "https://commons.wikimedia.org/wiki/File:Stromae_2011_cropped.jpg"
+ },
+ "jean-claude-van-damme": {
+  "slug": "jean-claude-van-damme",
+  "title": "Jean-Claude Van Damme",
+  "file": "Jean-Claude_Van_Damme_at_Brussels_Comic_Con_2023_DSC19480_Kiri_DxO.jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Miguel Discart & Kiri Karma (Photos Vrac)",
+  "url": "https://commons.wikimedia.org/wiki/File:Jean-Claude_Van_Damme_at_Brussels_Comic_Con_2023_DSC19480_Kiri_DxO.jpg"
+ },
+ "adolphe-sax": {
+  "slug": "adolphe-sax",
+  "title": "Adolphe Sax",
+  "file": "Adolphe_Sax_3.jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Adolphe_Sax_3.jpg"
+ },
+ "kevin-de-bruyne": {
+  "slug": "kevin-de-bruyne",
+  "title": "Kevin De Bruyne",
+  "file": "Kevin_De_Bruyne_USMNT_v_Belgium_Mar_28_2026-64_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Kevin_De_Bruyne_USMNT_v_Belgium_Mar_28_2026-64_(cropped).jpg"
+ },
+ "sean-paul": {
+  "slug": "sean-paul",
+  "title": "Sean Paul",
+  "file": "Sean_Paul_2024_(cropped).jpg",
+  "licence": "CC BY 3.0",
+  "author": "BOSS TALK 101",
+  "url": "https://commons.wikimedia.org/wiki/File:Sean_Paul_2024_(cropped).jpg"
+ },
+ "michael-manley": {
+  "slug": "michael-manley",
+  "title": "Michael Manley",
+  "file": "Michael_Manley_1977.jpg",
+  "licence": "Public domain",
+  "author": "White House Staff Photographer",
+  "url": "https://commons.wikimedia.org/wiki/File:Michael_Manley_1977.jpg"
+ },
+ "john-kufuor": {
+  "slug": "john-kufuor",
+  "title": "John Kufuor",
+  "file": "John_Kufuor_080915-A-8817J-090.JPG",
+  "licence": "Public domain",
+  "author": "U.S. Army photo by Gregory Jones/Released",
+  "url": "https://commons.wikimedia.org/wiki/File:John_Kufuor_080915-A-8817J-090.JPG"
+ },
+ "michael-essien": {
+  "slug": "michael-essien",
+  "title": "Michael Essien",
+  "file": "Chelsea_Legends_1_Inter_Forever_4_(28453496098)_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "@cfcunofficial (Chelsea Debs) London from London, UK",
+  "url": "https://commons.wikimedia.org/wiki/File:Chelsea_Legends_1_Inter_Forever_4_(28453496098)_(cropped).jpg"
+ },
+ "sarkodie": {
+  "slug": "sarkodie",
+  "title": "Sarkodie",
+  "file": "Sarkodie-1.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Owula kpakpo",
+  "url": "https://commons.wikimedia.org/wiki/File:Sarkodie-1.jpg"
+ },
+ "margrethe-ii": {
+  "slug": "margrethe-ii",
+  "title": "Margrethe II",
+  "file": "Dronning_Margrethe_II_(crop).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Aalborg Stift / Casper Tybjerg",
+  "url": "https://commons.wikimedia.org/wiki/File:Dronning_Margrethe_II_(crop).jpg"
+ },
+ "caroline-wozniacki": {
+  "slug": "caroline-wozniacki",
+  "title": "Caroline Wozniacki",
+  "file": "Caroline_Wozniacki_(35449695422).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Andrew Campbell",
+  "url": "https://commons.wikimedia.org/wiki/File:Caroline_Wozniacki_(35449695422).jpg"
+ },
+ "ole-kirk-christiansen": {
+  "slug": "ole-kirk-christiansen",
+  "title": "Ole Kirk Christiansen",
+  "file": "Ole_Kirk_Christiansen,_1957_(cropped).jpg",
+  "licence": "Public domain",
+  "author": "Unknown authorUnknown author",
+  "url": "https://commons.wikimedia.org/wiki/File:Ole_Kirk_Christiansen%2C_1957_(cropped).jpg"
+ },
+ "anitta": {
+  "slug": "anitta",
+  "title": "Anitta",
+  "file": "27th_Latin_GRAMMY_Awards_-_Red_Carpet_0163-_Anitta_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Jorge Jaramillo",
+  "url": "https://commons.wikimedia.org/wiki/File:27th_Latin_GRAMMY_Awards_-_Red_Carpet_0163-_Anitta_(cropped).jpg"
+ },
+ "manu-ginobili": {
+  "slug": "manu-ginobili",
+  "title": "Manu Ginóbili",
+  "file": "Manu_Ginobili_Spurs-Magic011_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Mike",
+  "url": "https://commons.wikimedia.org/wiki/File:Manu_Ginobili_Spurs-Magic011_(cropped).jpg"
+ },
+ "carlos-alcaraz": {
+  "slug": "carlos-alcaraz",
+  "title": "Carlos Alcaraz",
+  "file": "25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Carlos_Alcaraz_-_240422_192324_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Barcex",
+  "url": "https://commons.wikimedia.org/wiki/File:25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Carlos_Alcaraz_-_240422_192324_(cropped).jpg"
+ },
+ "antonio-banderas": {
+  "slug": "antonio-banderas",
+  "title": "Antonio Banderas",
+  "file": "Goyas_2025_-_Antonio_Banderas_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Pedro J Pacheco",
+  "url": "https://commons.wikimedia.org/wiki/File:Goyas_2025_-_Antonio_Banderas_(cropped).jpg"
+ },
+ "kylian-mbappe": {
+  "slug": "kylian-mbappe",
+  "title": "Kylian Mbappé",
+  "file": "Kylian_Mbappe_France_v_Senegal_16_June_2026-391_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Bryan Berlin",
+  "url": "https://commons.wikimedia.org/wiki/File:Kylian_Mbappe_France_v_Senegal_16_June_2026-391_(cropped).jpg"
+ },
+ "thomas-pesquet": {
+  "slug": "thomas-pesquet",
+  "title": "Thomas Pesquet",
+  "file": "Thomas_Pesquet,_official_portrait_in_EMU_(2020)_cropped.jpg",
+  "licence": "Public domain",
+  "author": "Josh Valcarcel",
+  "url": "https://commons.wikimedia.org/wiki/File:Thomas_Pesquet%2C_official_portrait_in_EMU_(2020)_cropped.jpg"
+ },
+ "omar-sy": {
+  "slug": "omar-sy",
+  "title": "Omar Sy",
+  "file": "Omar_Sy_(2020).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Harald Krichel",
+  "url": "https://commons.wikimedia.org/wiki/File:Omar_Sy_(2020).jpg"
+ },
+ "marion-cotillard": {
+  "slug": "marion-cotillard",
+  "title": "Marion Cotillard",
+  "file": "Marion_Cotillard-1061.jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Harald Krichel",
+  "url": "https://commons.wikimedia.org/wiki/File:Marion_Cotillard-1061.jpg"
+ },
+ "ed-sheeran": {
+  "slug": "ed-sheeran",
+  "title": "Ed Sheeran",
+  "file": "Ed_Sheeran_2022_(3x4_crop).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Number 10",
+  "url": "https://commons.wikimedia.org/wiki/File:Ed_Sheeran_2022_(3x4_crop).jpg"
+ },
+ "dua-lipa": {
+  "slug": "dua-lipa",
+  "title": "Dua Lipa",
+  "file": "Dua_Lipa-69798_(cropped).jpg",
+  "licence": "CC BY-SA 4.0",
+  "author": "Harald Krichel",
+  "url": "https://commons.wikimedia.org/wiki/File:Dua_Lipa-69798_(cropped).jpg"
+ },
+ "tim-berners-lee": {
+  "slug": "tim-berners-lee",
+  "title": "Tim Berners-Lee",
+  "file": "Tim_Berners-Lee_at_the_2025_Web_Summit_(Cropped).jpg",
+  "licence": "CC BY 4.0",
+  "author": "Summit",
+  "url": "https://commons.wikimedia.org/wiki/File:Tim_Berners-Lee_at_the_2025_Web_Summit_(Cropped).jpg"
+ },
+ "emma-watson": {
+  "slug": "emma-watson",
+  "title": "Emma Watson",
+  "file": "Emma_Watson_2013.jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "Georges Biard",
+  "url": "https://commons.wikimedia.org/wiki/File:Emma_Watson_2013.jpg"
+ },
+ "taylor-swift": {
+  "slug": "taylor-swift",
+  "title": "Taylor Swift",
+  "file": "Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_(3).png",
+  "licence": "CC BY 3.0",
+  "author": "iHeartRadioCA",
+  "url": "https://commons.wikimedia.org/wiki/File:Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_(3).png"
+ },
+ "bill-gates": {
+  "slug": "bill-gates",
+  "title": "Bill Gates",
+  "file": "Bill_Gates_at_the_European_Commission_-_P067383-987995_(cropped)_5.jpg",
+  "licence": "CC BY 4.0",
+  "author": "Bogdan Hoyaux / European Union",
+  "url": "https://commons.wikimedia.org/wiki/File:Bill_Gates_at_the_European_Commission_-_P067383-987995_(cropped)_5.jpg"
+ },
+ "lebron-james": {
+  "slug": "lebron-james",
+  "title": "LeBron James",
+  "file": "LeBron_James_(51959977144)_(cropped2).jpg",
+  "licence": "CC BY 2.0",
+  "author": "Erik Drost",
+  "url": "https://commons.wikimedia.org/wiki/File:LeBron_James_(51959977144)_(cropped2).jpg"
+ },
+ "psy": {
+  "slug": "psy",
+  "title": "Psy",
+  "file": "PSY_EMTV_logo_27_(8198008711).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "Korea.net / Korean Culture and Information Service (Jeon Han)",
+  "url": "https://commons.wikimedia.org/wiki/File:PSY_EMTV_logo_27_(8198008711).jpg"
+ },
+ "wizkid": {
+  "slug": "wizkid",
+  "title": "Wizkid",
+  "file": "Wizkid_at_Iyanya's_album_launch_concert,_2013_(cropped).jpg",
+  "licence": "CC BY-SA 3.0",
+  "author": "TCD PHOTOGRAPHY/The TCD Concept Ltd",
+  "url": "https://commons.wikimedia.org/wiki/File:Wizkid_at_Iyanya's_album_launch_concert%2C_2013_(cropped).jpg"
+ },
+ "ngozi-okonjo-iweala": {
+  "slug": "ngozi-okonjo-iweala",
+  "title": "Ngozi Okonjo-Iweala",
+  "file": "Ngozi_Okonjo-Iweala_takes_over_as_new_WTO_Director-General,_1_March_2021_(50993534756)_(cropped).jpg",
+  "licence": "CC BY-SA 2.0",
+  "author": "World Trade Organization",
+  "url": "https://commons.wikimedia.org/wiki/File:Ngozi_Okonjo-Iweala_takes_over_as_new_WTO_Director-General%2C_1_March_2021_(50993534756)_(cropped).jpg"
+ },
+ "tycho-brahe": {
+  "slug": "tycho-brahe",
+  "title": "Tycho Brahe",
+  "file": "Tycho_Brahe.JPG",
+  "licence": "Public domain",
+  "author": "Eduard Ender (1822-1883)",
+  "url": "https://commons.wikimedia.org/wiki/File:Tycho_Brahe.JPG"
+ },
+ "fridtjof-nansen": {
+  "slug": "fridtjof-nansen",
+  "title": "Fridtjof Nansen",
+  "file": "Fridtjof_Nansen_LOC_03377u-3.jpg",
+  "licence": "Public domain",
+  "author": "Henry Van der Weyde",
+  "url": "https://commons.wikimedia.org/wiki/File:Fridtjof_Nansen_LOC_03377u-3.jpg"
+ },
+ "andreas-vesalius": {
+  "slug": "andreas-vesalius",
+  "title": "Andreas Vesalius",
+  "file": "Vesalius_Fabrica_portrait.jpg",
+  "licence": "Public domain",
+  "author": "Attributed to Jan van Calcar",
+  "url": "https://commons.wikimedia.org/wiki/File:Vesalius_Fabrica_portrait.jpg"
  }
 }

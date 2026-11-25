@@ -5,8 +5,14 @@ import { writeFileSync, readFileSync, existsSync } from "node:fs";
 
 // Stamped into every payload and compared by the server validator. Bump it in the same
 // commit as any roster change; the build refuses to write a changed pool under an
-// unchanged version, so this cannot drift by accident.
-const POOL_VERSION = 3;
+// unchanged version, so this cannot drift by accident. When the version changes, the
+// previous pool is kept byte for byte as draft-pool-v{N}.json: daily boards dated before
+// the cutover in src/lib/game-logic/country-draft/roster.ts are still dealt from it.
+const POOL_VERSION = 4;
+
+// Authored people kept out of the draft. Leopold II would otherwise enter with Belgium in
+// pool 4; his rule over the Congo Free State is not something to draft for points.
+const WITHHELD = new Set(["Leopold II of Belgium"]);
 
 const CAP = 32;              // bounded future growth; retains every currently credited portrait in eligible countries
 const MIN_ARCHETYPES = 3;    // a round needs three different archetypes from one country
@@ -52,7 +58,7 @@ for (const [order, f] of roster.figures.entries()) {
   if (EMOJI.test(f.name) || EMOJI.test(f.note)) throw new Error(`emoji in the roster: ${f.name}`);
   if (f.name.length > 28) throw new Error(`name too long: ${f.name}`);
   if (f.note.length > 52) throw new Error(`note too long on ${f.name}`);
-  if (!sovereign.has(f.iso3)) continue;
+  if (!sovereign.has(f.iso3) || WITHHELD.has(f.name)) continue;
   const slug = slugOf(f.name);
   const credit = credits[slug];
   if (!portraits.has(slug) || !existsSync(new URL(`../public/figures/${slug}.jpg`, import.meta.url)) || !credit?.licence || !credit.author || !credit.url) continue;
@@ -97,8 +103,10 @@ const json = { v: POOL_VERSION, a: ARCHETYPES, t: CONTINENTS, p: out };
 const s = JSON.stringify(json);
 
 const target = new URL("../src/data/draft-pool.json", import.meta.url);
+let retired = null;
 if (existsSync(target)) {
-  const previous = JSON.parse(readFileSync(target, "utf8"));
+  const previousText = readFileSync(target, "utf8");
+  const previous = JSON.parse(previousText);
   const changed = JSON.stringify({ a: previous.a, t: previous.t, p: previous.p }) !== JSON.stringify({ a: ARCHETYPES, t: CONTINENTS, p: out });
   if (changed && previous.v === POOL_VERSION) {
     throw new Error(
@@ -106,12 +114,19 @@ if (existsSync(target)) {
         "and deploy right after 00:00 Europe/Berlin so no daily board changes under a player.",
     );
   }
+  if (previous.v !== POOL_VERSION) retired = { version: previous.v, text: previousText };
 }
 const total = out.reduce((n, c) => n + c.g.reduce((m, g) => m + g[1].length, 0), 0);
 const conts = new Set(out.map((c) => byIso.get(c.c).continent));
 if (out.length < 40) throw new Error(`only ${out.length} playable countries`);
 if (conts.size < 4) throw new Error(`only ${conts.size} continents`);
 if (s.length > 96 * 1024) throw new Error(`draft-pool.json is ${s.length} bytes`);
+if (retired) {
+  const archive = new URL(`../src/data/draft-pool-v${retired.version}.json`, import.meta.url);
+  if (existsSync(archive) && readFileSync(archive, "utf8") !== retired.text) throw new Error(`draft-pool-v${retired.version}.json already holds a different pool`);
+  writeFileSync(archive, retired.text);
+  console.log(`kept pool ${retired.version} unchanged as src/data/draft-pool-v${retired.version}.json`);
+}
 writeFileSync(target, s + "\n");
 console.log(`wrote src/data/draft-pool.json ${s.length} bytes: ${out.length} countries, ${total} people, ${conts.size} continents`);
 const perArch = {};

@@ -1,6 +1,6 @@
 import { dateSeed } from "@/lib/daily-seed";
 import { appoint, appointmentsOf, countryAt, createGame, figureAt, nextRound, openCountry, scoreState } from "./engine";
-import { POOL_VERSION } from "./roster";
+import { poolVersionFor } from "./roster";
 import { MAX_SCORE, ROUNDS, bandOf } from "./tables";
 import { poolIndex, seatIndex } from "./types";
 
@@ -10,9 +10,9 @@ function fail(reason: string): { valid: false; reason: string } { return { valid
 /** Recreate every country choice and appointment; none of the submitted arithmetic is trusted. */
 export function validateCountryDraftResult(dateKey: string, scoreRaw: number, resultJson: Record<string, unknown>, edition = "", serverSeed?: number): { valid: boolean; reason?: string } {
   if (!Number.isInteger(scoreRaw) || scoreRaw < 0 || scoreRaw > MAX_SCORE) return fail("score_out_of_range");
-  if (resultJson.poolVersion !== POOL_VERSION) return fail("outdated_board");
+  if (resultJson.poolVersion !== poolVersionFor(dateKey)) return fail("outdated_board");
   if (!Array.isArray(resultJson.appointments) || resultJson.appointments.length !== ROUNDS) return fail("appointments_missing");
-  let state = createGame(serverSeed ?? dateSeed(dateKey + edition));
+  let state = createGame(serverSeed ?? dateSeed(dateKey + edition), { dateKey });
   const ordered = resultJson.appointments.filter(record).sort((a, b) => Number(a.round) - Number(b.round));
   if (ordered.length !== ROUNDS) return fail("invalid_appointment");
   for (let round = 0; round < ROUNDS; round += 1) {

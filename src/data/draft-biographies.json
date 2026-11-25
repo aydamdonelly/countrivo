@@ -4062,5 +4062,698 @@
     "activeUntil": null,
     "source": "https://www.wikidata.org/wiki/Q120085",
     "biography": "https://en.wikipedia.org/wiki/Martha_Gellhorn"
+  },
+  "ricardo-darin": {
+    "born": 1957,
+    "died": null,
+    "activeFrom": 1979,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q463860",
+    "biography": "https://en.wikipedia.org/wiki/Ricardo_Dar%C3%ADn",
+    "since": 4
+  },
+  "jorge-luis-borges": {
+    "born": 1899,
+    "died": 1986,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q909",
+    "biography": "https://en.wikipedia.org/wiki/Jorge_Luis_Borges",
+    "since": 4
+  },
+  "lionel-messi": {
+    "born": 1987,
+    "died": null,
+    "activeFrom": 2004,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q615",
+    "biography": "https://en.wikipedia.org/wiki/Lionel_Messi",
+    "since": 4
+  },
+  "manu-ginobili": {
+    "born": 1977,
+    "died": null,
+    "activeFrom": 1995,
+    "activeUntil": 2018,
+    "source": "https://www.wikidata.org/wiki/Q213132",
+    "biography": "https://en.wikipedia.org/wiki/Manu_Gin%C3%B3bili",
+    "since": 4
+  },
+  "stromae": {
+    "born": 1985,
+    "died": null,
+    "activeFrom": 2010,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q313453",
+    "biography": "https://en.wikipedia.org/wiki/Stromae",
+    "since": 4
+  },
+  "jean-claude-van-damme": {
+    "born": 1960,
+    "died": null,
+    "activeFrom": 1983,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q308840",
+    "biography": "https://en.wikipedia.org/wiki/Jean-Claude_Van_Damme",
+    "since": 4
+  },
+  "georges-lemaitre": {
+    "born": 1894,
+    "died": 1966,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q12998",
+    "biography": "https://en.wikipedia.org/wiki/Georges_Lema%C3%AEtre",
+    "since": 4
+  },
+  "adolphe-sax": {
+    "born": 1814,
+    "died": 1894,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q181995",
+    "biography": "https://en.wikipedia.org/wiki/Adolphe_Sax",
+    "since": 4
+  },
+  "eddy-merckx": {
+    "born": 1945,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q103756",
+    "biography": "https://en.wikipedia.org/wiki/Eddy_Merckx",
+    "since": 4
+  },
+  "kevin-de-bruyne": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": 2008,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q357984",
+    "biography": "https://en.wikipedia.org/wiki/Kevin_De_Bruyne",
+    "since": 4
+  },
+  "gilberto-gil": {
+    "born": 1942,
+    "died": null,
+    "activeFrom": 1965,
+    "activeUntil": 2008,
+    "source": "https://www.wikidata.org/wiki/Q221479",
+    "biography": "https://en.wikipedia.org/wiki/Gilberto_Gil",
+    "since": 4
+  },
+  "anitta": {
+    "born": 1993,
+    "died": null,
+    "activeFrom": 2010,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q13476301",
+    "biography": "https://en.wikipedia.org/wiki/Anitta_(singer)",
+    "since": 4
+  },
+  "paulo-coelho": {
+    "born": 1947,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q12881",
+    "biography": "https://en.wikipedia.org/wiki/Paulo_Coelho",
+    "since": 4
+  },
+  "ronaldo": {
+    "born": 1976,
+    "died": null,
+    "activeFrom": 1992,
+    "activeUntil": 2011,
+    "source": "https://www.wikidata.org/wiki/Q529207",
+    "biography": "https://en.wikipedia.org/wiki/Ronaldo_(Brazilian_footballer)",
+    "since": 4
+  },
+  "marta": {
+    "born": 1986,
+    "died": null,
+    "activeFrom": 2000,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q228616",
+    "biography": "https://en.wikipedia.org/wiki/Marta_(footballer)",
+    "since": 4
+  },
+  "henry-dunant": {
+    "born": 1828,
+    "died": 1910,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q12091",
+    "biography": "https://en.wikipedia.org/wiki/Henry_Dunant",
+    "since": 4
+  },
+  "leonhard-euler": {
+    "born": 1707,
+    "died": 1783,
+    "activeFrom": 1727,
+    "activeUntil": 1741,
+    "source": "https://www.wikidata.org/wiki/Q7604",
+    "biography": "https://en.wikipedia.org/wiki/Leonhard_Euler",
+    "since": 4
+  },
+  "carl-jung": {
+    "born": 1875,
+    "died": 1961,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q41532",
+    "biography": "https://en.wikipedia.org/wiki/Carl_Jung",
+    "since": 4
+  },
+  "roger-federer": {
+    "born": 1981,
+    "died": null,
+    "activeFrom": 1998,
+    "activeUntil": 2022,
+    "source": "https://www.wikidata.org/wiki/Q1426",
+    "biography": "https://en.wikipedia.org/wiki/Roger_Federer",
+    "since": 4
+  },
+  "margrethe-ii": {
+    "born": 1940,
+    "died": null,
+    "activeFrom": 1960,
+    "activeUntil": 2024,
+    "source": "https://www.wikidata.org/wiki/Q102139",
+    "biography": "https://en.wikipedia.org/wiki/Margrethe_II",
+    "since": 4
+  },
+  "ole-kirk-christiansen": {
+    "born": 1891,
+    "died": 1958,
+    "activeFrom": 1916,
+    "activeUntil": 1958,
+    "source": "https://www.wikidata.org/wiki/Q364571",
+    "biography": "https://en.wikipedia.org/wiki/Ole_Kirk_Christiansen",
+    "since": 4
+  },
+  "mads-mikkelsen": {
+    "born": 1965,
+    "died": null,
+    "activeFrom": 1996,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q294647",
+    "biography": "https://en.wikipedia.org/wiki/Mads_Mikkelsen",
+    "since": 4
+  },
+  "caroline-wozniacki": {
+    "born": 1990,
+    "died": null,
+    "activeFrom": 2005,
+    "activeUntil": 2021,
+    "source": "https://www.wikidata.org/wiki/Q30767",
+    "biography": "https://en.wikipedia.org/wiki/Caroline_Wozniacki",
+    "since": 4
+  },
+  "rosalia": {
+    "born": 1992,
+    "died": null,
+    "activeFrom": 2013,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q28843759",
+    "biography": "https://en.wikipedia.org/wiki/Rosal%C3%ADa",
+    "since": 4
+  },
+  "pedro-almodovar": {
+    "born": 1949,
+    "died": null,
+    "activeFrom": 1974,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q55171",
+    "biography": "https://en.wikipedia.org/wiki/Pedro_Almod%C3%B3var",
+    "since": 4
+  },
+  "antonio-banderas": {
+    "born": 1960,
+    "died": null,
+    "activeFrom": 1979,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q41548",
+    "biography": "https://en.wikipedia.org/wiki/Antonio_Banderas",
+    "since": 4
+  },
+  "rafael-nadal": {
+    "born": 1986,
+    "died": null,
+    "activeFrom": 2001,
+    "activeUntil": 2024,
+    "source": "https://www.wikidata.org/wiki/Q10132",
+    "biography": "https://en.wikipedia.org/wiki/Rafael_Nadal",
+    "since": 4
+  },
+  "carlos-alcaraz": {
+    "born": 2003,
+    "died": null,
+    "activeFrom": 2018,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q85518537",
+    "biography": "https://en.wikipedia.org/wiki/Carlos_Alcaraz",
+    "since": 4
+  },
+  "bernard-arnault": {
+    "born": 1949,
+    "died": null,
+    "activeFrom": 1978,
+    "activeUntil": 1995,
+    "source": "https://www.wikidata.org/wiki/Q32055",
+    "biography": "https://en.wikipedia.org/wiki/Bernard_Arnault",
+    "since": 4
+  },
+  "omar-sy": {
+    "born": 1978,
+    "died": null,
+    "activeFrom": 2000,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q357387",
+    "biography": "https://en.wikipedia.org/wiki/Omar_Sy",
+    "since": 4
+  },
+  "marion-cotillard": {
+    "born": 1975,
+    "died": null,
+    "activeFrom": 1982,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q8927",
+    "biography": "https://en.wikipedia.org/wiki/Marion_Cotillard",
+    "since": 4
+  },
+  "thomas-pesquet": {
+    "born": 1978,
+    "died": null,
+    "activeFrom": 2021,
+    "activeUntil": 2021,
+    "source": "https://www.wikidata.org/wiki/Q512266",
+    "biography": "https://en.wikipedia.org/wiki/Thomas_Pesquet",
+    "since": 4
+  },
+  "kylian-mbappe": {
+    "born": 1998,
+    "died": null,
+    "activeFrom": 2015,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q21621995",
+    "biography": "https://en.wikipedia.org/wiki/Kylian_Mbapp%C3%A9",
+    "since": 4
+  },
+  "david-attenborough": {
+    "born": 1926,
+    "died": null,
+    "activeFrom": 1951,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q183337",
+    "biography": "https://en.wikipedia.org/wiki/David_Attenborough",
+    "since": 4
+  },
+  "ed-sheeran": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": 2004,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q47447",
+    "biography": "https://en.wikipedia.org/wiki/Ed_Sheeran",
+    "since": 4
+  },
+  "dua-lipa": {
+    "born": 1995,
+    "died": null,
+    "activeFrom": 2014,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q21914464",
+    "biography": "https://en.wikipedia.org/wiki/Dua_Lipa",
+    "since": 4
+  },
+  "emma-watson": {
+    "born": 1990,
+    "died": null,
+    "activeFrom": 1999,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q39476",
+    "biography": "https://en.wikipedia.org/wiki/Emma_Watson",
+    "since": 4
+  },
+  "tim-berners-lee": {
+    "born": 1955,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q80",
+    "biography": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+    "since": 4
+  },
+  "lewis-hamilton": {
+    "born": 1985,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q9673",
+    "biography": "https://en.wikipedia.org/wiki/Lewis_Hamilton",
+    "since": 4
+  },
+  "kwame-nkrumah": {
+    "born": 1909,
+    "died": 1972,
+    "activeFrom": 1951,
+    "activeUntil": 1966,
+    "source": "https://www.wikidata.org/wiki/Q8620",
+    "biography": "https://en.wikipedia.org/wiki/Kwame_Nkrumah",
+    "since": 4
+  },
+  "john-kufuor": {
+    "born": 1938,
+    "died": null,
+    "activeFrom": 1969,
+    "activeUntil": 2009,
+    "source": "https://www.wikidata.org/wiki/Q51005",
+    "biography": "https://en.wikipedia.org/wiki/John_Kufuor",
+    "since": 4
+  },
+  "sarkodie": {
+    "born": 1985,
+    "died": null,
+    "activeFrom": 2005,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q7424230",
+    "biography": "https://en.wikipedia.org/wiki/Sarkodie_(rapper)",
+    "since": 4
+  },
+  "michael-essien": {
+    "born": 1982,
+    "died": null,
+    "activeFrom": 2000,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q969520",
+    "biography": "https://en.wikipedia.org/wiki/Michael_Essien",
+    "since": 4
+  },
+  "michael-manley": {
+    "born": 1924,
+    "died": 1997,
+    "activeFrom": 1943,
+    "activeUntil": 1980,
+    "source": "https://www.wikidata.org/wiki/Q365395",
+    "biography": "https://en.wikipedia.org/wiki/Michael_Manley",
+    "since": 4
+  },
+  "bob-marley": {
+    "born": 1945,
+    "died": 1981,
+    "activeFrom": 1962,
+    "activeUntil": 1981,
+    "source": "https://www.wikidata.org/wiki/Q409",
+    "biography": "https://en.wikipedia.org/wiki/Bob_Marley",
+    "since": 4
+  },
+  "sean-paul": {
+    "born": 1973,
+    "died": null,
+    "activeFrom": 1994,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q200577",
+    "biography": "https://en.wikipedia.org/wiki/Sean_Paul",
+    "since": 4
+  },
+  "usain-bolt": {
+    "born": 1986,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q1189",
+    "biography": "https://en.wikipedia.org/wiki/Usain_Bolt",
+    "since": 4
+  },
+  "kim-dae-jung": {
+    "born": 1924,
+    "died": 2009,
+    "activeFrom": 1961,
+    "activeUntil": 2003,
+    "source": "https://www.wikidata.org/wiki/Q45785",
+    "biography": "https://en.wikipedia.org/wiki/Kim_Dae-jung",
+    "since": 4
+  },
+  "park-chan-wook": {
+    "born": 1963,
+    "died": null,
+    "activeFrom": 1992,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q315484",
+    "biography": "https://en.wikipedia.org/wiki/Park_Chan-wook",
+    "since": 4
+  },
+  "psy": {
+    "born": 1977,
+    "died": null,
+    "activeFrom": 2001,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q20150",
+    "biography": "https://en.wikipedia.org/wiki/Psy",
+    "since": 4
+  },
+  "han-kang": {
+    "born": 1970,
+    "died": null,
+    "activeFrom": 1990,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q5646626",
+    "biography": "https://en.wikipedia.org/wiki/Han_Kang",
+    "since": 4
+  },
+  "kim-yuna": {
+    "born": 1990,
+    "died": null,
+    "activeFrom": 2001,
+    "activeUntil": 2014,
+    "source": "https://www.wikidata.org/wiki/Q229124",
+    "biography": "https://en.wikipedia.org/wiki/Yuna_Kim",
+    "since": 4
+  },
+  "ngozi-okonjo-iweala": {
+    "born": 1954,
+    "died": null,
+    "activeFrom": 2003,
+    "activeUntil": 2015,
+    "source": "https://www.wikidata.org/wiki/Q289350",
+    "biography": "https://en.wikipedia.org/wiki/Ngozi_Okonjo-Iweala",
+    "since": 4
+  },
+  "burna-boy": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": 2010,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q17305712",
+    "biography": "https://en.wikipedia.org/wiki/Burna_Boy",
+    "since": 4
+  },
+  "wizkid": {
+    "born": 1990,
+    "died": null,
+    "activeFrom": 2001,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q16233663",
+    "biography": "https://en.wikipedia.org/wiki/Wizkid",
+    "since": 4
+  },
+  "chinua-achebe": {
+    "born": 1930,
+    "died": 2013,
+    "activeFrom": 1958,
+    "activeUntil": 2012,
+    "source": "https://www.wikidata.org/wiki/Q155845",
+    "biography": "https://en.wikipedia.org/wiki/Chinua_Achebe",
+    "since": 4
+  },
+  "wole-soyinka": {
+    "born": 1934,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q41488",
+    "biography": "https://en.wikipedia.org/wiki/Wole_Soyinka",
+    "since": 4
+  },
+  "gro-harlem-brundtland": {
+    "born": 1939,
+    "died": null,
+    "activeFrom": 1974,
+    "activeUntil": 2024,
+    "source": "https://www.wikidata.org/wiki/Q133009",
+    "biography": "https://en.wikipedia.org/wiki/Gro_Harlem_Brundtland",
+    "since": 4
+  },
+  "edvard-grieg": {
+    "born": 1843,
+    "died": 1907,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q80621",
+    "biography": "https://en.wikipedia.org/wiki/Edvard_Grieg",
+    "since": 4
+  },
+  "kygo": {
+    "born": 1991,
+    "died": null,
+    "activeFrom": 2009,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q16845512",
+    "biography": "https://en.wikipedia.org/wiki/Kygo",
+    "since": 4
+  },
+  "roald-amundsen": {
+    "born": 1872,
+    "died": 1928,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q926",
+    "biography": "https://en.wikipedia.org/wiki/Roald_Amundsen",
+    "since": 4
+  },
+  "thor-heyerdahl": {
+    "born": 1914,
+    "died": 2002,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q133622",
+    "biography": "https://en.wikipedia.org/wiki/Thor_Heyerdahl",
+    "since": 4
+  },
+  "magnus-carlsen": {
+    "born": 1990,
+    "died": null,
+    "activeFrom": 1999,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q106807",
+    "biography": "https://en.wikipedia.org/wiki/Magnus_Carlsen",
+    "since": 4
+  },
+  "erling-haaland": {
+    "born": 2000,
+    "died": null,
+    "activeFrom": 2015,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q28967995",
+    "biography": "https://en.wikipedia.org/wiki/Erling_Haaland",
+    "since": 4
+  },
+  "lorde": {
+    "born": 1996,
+    "died": null,
+    "activeFrom": 2009,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q13476175",
+    "biography": "https://en.wikipedia.org/wiki/Lorde",
+    "since": 4
+  },
+  "peter-jackson": {
+    "born": 1961,
+    "died": null,
+    "activeFrom": 1987,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q4465",
+    "biography": "https://en.wikipedia.org/wiki/Peter_Jackson",
+    "since": 4
+  },
+  "taika-waititi": {
+    "born": 1975,
+    "died": null,
+    "activeFrom": 1999,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q2388576",
+    "biography": "https://en.wikipedia.org/wiki/Taika_Waititi",
+    "since": 4
+  },
+  "ernest-rutherford": {
+    "born": 1871,
+    "died": 1937,
+    "activeFrom": 1907,
+    "activeUntil": 1937,
+    "source": "https://www.wikidata.org/wiki/Q9123",
+    "biography": "https://en.wikipedia.org/wiki/Ernest_Rutherford",
+    "since": 4
+  },
+  "edmund-hillary": {
+    "born": 1919,
+    "died": 2008,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q33817",
+    "biography": "https://en.wikipedia.org/wiki/Edmund_Hillary",
+    "since": 4
+  },
+  "leopold-sedar-senghor": {
+    "born": 1906,
+    "died": 2001,
+    "activeFrom": 1935,
+    "activeUntil": 2001,
+    "source": "https://www.wikidata.org/wiki/Q154545",
+    "biography": "https://en.wikipedia.org/wiki/L%C3%A9opold_S%C3%A9dar_Senghor",
+    "since": 4
+  },
+  "sadio-mane": {
+    "born": 1992,
+    "died": null,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q209942",
+    "biography": "https://en.wikipedia.org/wiki/Sadio_Man%C3%A9",
+    "since": 4
+  },
+  "bill-gates": {
+    "born": 1955,
+    "died": null,
+    "activeFrom": 1975,
+    "activeUntil": 2000,
+    "source": "https://www.wikidata.org/wiki/Q5284",
+    "biography": "https://en.wikipedia.org/wiki/Bill_Gates",
+    "since": 4
+  },
+  "taylor-swift": {
+    "born": 1989,
+    "died": null,
+    "activeFrom": 2003,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q26876",
+    "biography": "https://en.wikipedia.org/wiki/Taylor_Swift",
+    "since": 4
+  },
+  "lebron-james": {
+    "born": 1984,
+    "died": null,
+    "activeFrom": 2003,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q36159",
+    "biography": "https://en.wikipedia.org/wiki/LeBron_James",
+    "since": 4
+  },
+  "andreas-vesalius": {
+    "born": 1514,
+    "died": 1564,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q170267",
+    "biography": "https://en.wikipedia.org/wiki/Andreas_Vesalius",
+    "since": 4
+  },
+  "tycho-brahe": {
+    "born": 1546,
+    "died": 1601,
+    "activeFrom": null,
+    "activeUntil": null,
+    "source": "https://www.wikidata.org/wiki/Q36620",
+    "biography": "https://en.wikipedia.org/wiki/Tycho_Brahe",
+    "since": 4
+  },
+  "fridtjof-nansen": {
+    "born": 1861,
+    "died": 1930,
+    "activeFrom": 1906,
+    "activeUntil": 1927,
+    "source": "https://www.wikidata.org/wiki/Q72292",
+    "biography": "https://en.wikipedia.org/wiki/Fridtjof_Nansen",
+    "since": 4
   }
 }
