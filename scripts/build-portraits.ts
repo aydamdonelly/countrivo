@@ -5,13 +5,13 @@
  * it had just fetched. Nothing is removed here that was not written by this run, and a
  * failure leaves the previous file in place.
  *
- * Run: npx tsx scripts/build-portraits.ts [--force] [--only slug]
+ * Run: npx tsx scripts/build-portraits.ts [--force] [--only slug[,slug...]]
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, unlinkSync, readdirSync, statSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
-const UA = "CountrivoPortraits/1.0 (https://countrivo.com; countrivo@gmail.com)";
+const UA = "CountrivoPortraits/1.1 (https://countrivo.com)";
 const DIR = join(process.cwd(), "public", "figures");
 const SIZE = 200;
 
@@ -27,7 +27,7 @@ async function main() {
   const force = process.argv.includes("--force");
   const onlyAt = process.argv.indexOf("--only");
   let list = Object.values(credits);
-  if (onlyAt > -1) list = list.filter((c) => c.slug === process.argv[onlyAt + 1]);
+  if (onlyAt > -1) { const only = new Set((process.argv[onlyAt + 1] ?? "").split(",")); list = list.filter((c) => only.has(c.slug)); }
 
   let done = 0, kept = 0, failed = 0;
   for (const c of list) {

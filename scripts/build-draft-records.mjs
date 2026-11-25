@@ -1,4 +1,6 @@
 // Freeze each person's recorded occupations, offices and military ranks before assigning game ratings.
+// Records added for a pool version are stamped `since`: fame is ranked against every record,
+// so a board dealt from an older pool must rank against the records that pool had.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 const biographies = JSON.parse(readFileSync(new URL("../src/data/draft-biographies.json", import.meta.url), "utf8"));
@@ -47,7 +49,7 @@ for (const [slug, bio] of missing) {
   if (!person || person.missing !== undefined || !person.claims || !person.sitelinks) { skipped.push(slug); continue; }
   const listed = (property) => claimItems(person, property).map((item) => ({ ...item, label: jobs[item.id]?.labels?.en?.value ?? item.id, source: `${bio.source}#${property}` }));
   records[slug] = { name: names.get(slug) ?? slug, source: bio.source, biography: bio.biography, sitelinks: Object.keys(person.sitelinks ?? {}).length,
-    occupations: listed("P106"), offices: listed("P39"), militaryRanks: listed("P410") };
+    occupations: listed("P106"), offices: listed("P39"), militaryRanks: listed("P410"), since: pool.v };
 }
 for (const [slug, record] of Object.entries(records)) {
   if (!/^https:\/\/www\.wikidata\.org\/wiki\/Q\d+$/.test(record.source ?? "") || !record.name || !Number.isInteger(record.sitelinks) || ![record.occupations, record.offices, record.militaryRanks].every(Array.isArray)) throw new Error(`Invalid career record for ${slug}; existing file preserved.`);

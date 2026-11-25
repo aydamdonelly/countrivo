@@ -1,4 +1,5 @@
 import pool from "@/data/draft-pool.json";
+import poolV3 from "@/data/draft-pool-v3.json";
 import portraits from "@/data/portrait-slugs.json";
 import biographies from "@/data/draft-biographies.json";
 import records from "@/data/draft-records.json";
@@ -14,6 +15,8 @@ export interface DraftBiography {
   activeUntil: number | null;
   source: string;
   biography: string;
+  /** The pool version these facts were added for. Absent on facts that predate pool 4. */
+  since?: number;
 }
 
 export interface DraftPortraitCredit {
@@ -30,9 +33,13 @@ export interface DraftCareerRecord {
   occupations: readonly DraftCareerClaim[];
   offices: readonly DraftCareerClaim[];
   militaryRanks: readonly DraftCareerClaim[];
+  /** The pool version this record was added for. Absent on records that predate pool 4. */
+  since?: number;
 }
 
 export const draftPool = pool;
+/** Pool 3, frozen byte for byte. Daily boards dated before the pool 4 cutover are dealt from it. */
+export const draftPoolV3: typeof pool = poolV3;
 export const draftPortraits: readonly string[] = portraits;
 const biographyIndex: Readonly<Record<string, DraftBiography>> = biographies;
 const creditIndex: Readonly<Record<string, DraftPortraitCredit>> = credits;

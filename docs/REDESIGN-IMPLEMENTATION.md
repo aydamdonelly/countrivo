@@ -104,10 +104,15 @@ are queued for tomorrow rather than changing today's committed puzzle.
 
 Published geography facts carry sources and dates. Country Draft's biography dates
 are source-backed; its entire per-person scoring corpus is not independently
-fact-checked. The expanded playable roster contains 482 credited portraits across
-41 countries, each with biography and career records. Missing main military careers
-have source-linked corrections; secondary entertainment credits and honorary advocacy
-appointments cannot masquerade as full professional careers. Job fit is a game
+fact-checked. Pool 4, dealt from 27 November 2026 (Berlin), contains 574 credited
+portraits across 49 countries, each with biography and career records; daily boards
+dated earlier keep pool 3 (482 people, 41 countries), frozen as
+`src/data/draft-pool-v3.json` and rated only from the records that pool had. New people
+come from `scripts/data/draft-additions-2026-11.mjs` through
+`scripts/add-draft-figures.mjs`, then the portrait, biography and record scripts.
+Missing main military careers have source-linked corrections; secondary entertainment
+credits, honorary ranks and honorary advocacy appointments cannot masquerade as full
+professional careers. Job fit is a game
 judgement; fame compares frozen Wikidata language coverage across the configured
 record corpus and within each homeland,
 not a claim about a person's value. Existing curated beverage rows lack verified

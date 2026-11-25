@@ -1,5 +1,5 @@
 import { seededShuffle } from "@/lib/seeded-random";
-import { POOL, type PoolCountry } from "./roster";
+import { POOL, poolFor, type PoolCountry } from "./roster";
 import { bestLine } from "./scoring";
 import { ROUNDS } from "./tables";
 import type { DraftBoard, DraftCountry, DraftFigure, DraftRound } from "./types";
@@ -15,11 +15,20 @@ function drawCountry(country: PoolCountry, rng: () => number): DraftCountry | nu
 }
 
 /** Fifteen different homelands. Each set of three crosses at least two world regions. */
-export interface DraftBoardOptions { excludeCountries?: readonly string[]; firstCountry?: string; }
+export interface DraftBoardOptions {
+  excludeCountries?: readonly string[];
+  firstCountry?: string;
+  /** The Berlin day the board belongs to. It selects the roster that day was promised. */
+  dateKey?: string;
+}
 
 export function createBoard(rng: () => number, options: DraftBoardOptions = {}): DraftBoard {
   const excluded = new Set(options.excludeCountries ?? []);
-  const eligible = POOL.filter((c) => !excluded.has(c.iso3) && c.groups.filter((g) => g.people.some((p) => p.portrait)).length >= 3);
+  const pool = poolFor(options.dateKey);
+  // Pool 4 has more countries without a commander, so a low ceiling is redrawn from 170 rather
+  // than 165. The retired pool keeps its original bar so its boards stay exactly as dealt.
+  const minimumCeiling = pool === POOL ? 170 : 165;
+  const eligible = pool.filter((c) => !excluded.has(c.iso3) && c.groups.filter((g) => g.people.some((p) => p.portrait)).length >= 3);
   if (eligible.length < 15) throw new Error("Not enough countries remain for a practice draft.");
   let fallback: DraftBoard | null = null;
   for (let attempt = 0; attempt < 12; attempt += 1) {
@@ -45,7 +54,7 @@ export function createBoard(rng: () => number, options: DraftBoardOptions = {}):
     const board = { rounds, ceiling: best.score, best: best.picks };
     if (!fallback || board.ceiling > fallback.ceiling) fallback = board;
     const figures = rounds.flatMap((r) => r.countries.flatMap((c) => c.pool));
-    if (best.score >= 165 && figures.some((f) => f.era === "early") && figures.some((f) => f.era === "recent")) return board;
+    if (best.score >= minimumCeiling && figures.some((f) => f.era === "early") && figures.some((f) => f.era === "recent")) return board;
   }
   if (!fallback) throw new Error("Country Draft needs fifteen portrait-ready countries across multiple regions.");
   return fallback;

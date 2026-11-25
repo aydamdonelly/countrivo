@@ -30,7 +30,7 @@ export interface GeographyData { source: string; sourceUrl: string; viewBox: str
 export const geography: GeographyData = geographyData;
 export { coastline } from './coastline';
 
-export { draftPool, draftPortraits, draftBiography, draftPortraitCredit, draftCareerRecord, draftCareerRecords } from './draft';
+export { draftPool, draftPoolV3, draftPortraits, draftBiography, draftPortraitCredit, draftCareerRecord, draftCareerRecords } from './draft';
 export const countryBorders: Readonly<Record<string, readonly string[]>> = bordersData;
 export { worldAtlas } from './world-atlas';
 

@@ -1,6 +1,6 @@
 import { appoint, appointmentsOf, chooseCountry, chooseSeat, countryAt, createGame, drop, figureAt, filledSeats, hold, nextRound, openCountry, scoreState, seen } from "@/lib/game-logic/country-draft/engine";
 import { MAX_SCORE, ROUNDS, SEAT_NAMES, bandOf, fitWord } from "@/lib/game-logic/country-draft/tables";
-import { POOL_VERSION } from "@/lib/game-logic/country-draft/roster";
+import { POOL_VERSION, poolVersionFor } from "@/lib/game-logic/country-draft/roster";
 import { whyLine, whySource } from "@/lib/game-logic/country-draft/scoring";
 import type { DraftState, PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import { buildCountryDraftShareText } from "@/lib/share";
@@ -39,7 +39,7 @@ export function bestRows(s: DraftState) {
 export const gameModule: GameModule<DraftState, CountryDraftAction> = {
   slug: "country-draft",
   contentVersion: POOL_VERSION,
-  create: (seed) => createGame(seed),
+  create: (seed, _mode, dateKey) => createGame(seed, { dateKey }),
   reduce(s, a) {
     switch (a.t) {
       case "choose-country": return chooseCountry(s, a.c);
@@ -64,7 +64,7 @@ export const gameModule: GameModule<DraftState, CountryDraftAction> = {
   },
   payload(s, ctx) {
     const scored = scoreState(s);
-    return { gameSlug: "country-draft", mode: ctx.mode, dateKey: ctx.dateKey, scoreRaw: scored.score, scoreMax: MAX_SCORE, scoreSortValue: scored.score, scoreDisplay: String(scored.score), resultJson: { poolVersion: POOL_VERSION, score: scored.score, band: bandOf(scored.score).key, fitTotal: scored.fitTotal, standingTotal: scored.standingTotal, bonusTotal: scored.bonusTotal, bonuses: scored.bonuses, roundCountries: appointmentsOf(s).map((p) => countryAt(s.board, p).iso3), appointments: appointmentRows(s) }, startedAt: ctx.startedAt };
+    return { gameSlug: "country-draft", mode: ctx.mode, dateKey: ctx.dateKey, scoreRaw: scored.score, scoreMax: MAX_SCORE, scoreSortValue: scored.score, scoreDisplay: String(scored.score), resultJson: { poolVersion: poolVersionFor(ctx.dateKey), score: scored.score, band: bandOf(scored.score).key, fitTotal: scored.fitTotal, standingTotal: scored.standingTotal, bonusTotal: scored.bonusTotal, bonuses: scored.bonuses, roundCountries: appointmentsOf(s).map((p) => countryAt(s.board, p).iso3), appointments: appointmentRows(s) }, startedAt: ctx.startedAt };
   },
   scoreLabel: (s) => `${scoreState(s).score} of ${MAX_SCORE}`,
   share(s, ctx) { return buildCountryDraftShareText({ score: scoreState(s).score, band: bandOf(scoreState(s).score).word, fits: appointmentsOf(s).map((p) => p.fit), rank: ctx.rank, practice: ctx.mode === "practice" }, ctx.dateKey); },

@@ -614,7 +614,8 @@
       "iso3": "KOR",
       "category": "leaders",
       "era": "historical",
-      "note": "president and Nobel Peace laureate"
+      "note": "president and Nobel Peace laureate",
+      "portraitFile": "Kim Dae-jung (Cropped).png"
     },
     {
       "name": "Ban Ki-moon",
@@ -803,7 +804,8 @@
       "iso3": "GHA",
       "category": "leaders",
       "era": "historical",
-      "note": "first president of Ghana"
+      "note": "first president of Ghana",
+      "portraitFile": "Kwame Nkrumah (JFKWHP-AR6409-A).jpg"
     },
     {
       "name": "Kofi Annan",
@@ -2588,7 +2590,8 @@
       "iso3": "DNK",
       "category": "scientists",
       "era": "historical",
-      "note": "astronomer of precise naked-eye observation"
+      "note": "astronomer of precise naked-eye observation",
+      "portraitFile": "Tycho Brahe.JPG"
     },
     {
       "name": "Carl Linnaeus",
@@ -2672,7 +2675,8 @@
       "iso3": "CHE",
       "category": "scientists",
       "era": "historical",
-      "note": "founder of analytical psychology"
+      "note": "founder of analytical psychology",
+      "portraitFile": "CGJung.jpg"
     },
     {
       "name": "Georges Lemaître",
@@ -2686,7 +2690,8 @@
       "iso3": "BEL",
       "category": "scientists",
       "era": "historical",
-      "note": "founder of modern anatomy"
+      "note": "founder of modern anatomy",
+      "portraitFile": "Vesalius Fabrica portrait.jpg"
     },
     {
       "name": "John von Neumann",
@@ -3974,7 +3979,8 @@
       "iso3": "ESP",
       "category": "musicians",
       "era": "modern",
-      "note": "singer who reworked flamenco"
+      "note": "singer who reworked flamenco",
+      "wiki": "Rosalía"
     },
     {
       "name": "Amália Rodrigues",
@@ -5143,7 +5149,8 @@
       "iso3": "GBR",
       "category": "athletes",
       "era": "modern",
-      "note": "seven-time Formula One world champion"
+      "note": "seven-time Formula One world champion",
+      "portraitFile": "Lewis Hamilton Silverstone 2018 (cropped).jpg"
     },
     {
       "name": "Jessica Ennis-Hill",
@@ -5185,14 +5192,16 @@
       "iso3": "BRA",
       "category": "athletes",
       "era": "modern",
-      "note": "striker and two-time world player of the year"
+      "note": "striker and two-time world player of the year",
+      "wiki": "Ronaldo (Brazilian footballer)"
     },
     {
       "name": "Marta",
       "iso3": "BRA",
       "category": "athletes",
       "era": "modern",
-      "note": "footballer with six world player awards"
+      "note": "footballer with six world player awards",
+      "wiki": "Marta (footballer)"
     },
     {
       "name": "Diego Maradona",
@@ -5556,7 +5565,8 @@
       "iso3": "JAM",
       "category": "athletes",
       "era": "modern",
-      "note": "sprinter and world record holder"
+      "note": "sprinter and world record holder",
+      "portraitFile": "Usain Bolt with NX300-3.jpg"
     },
     {
       "name": "Shelly-Ann Fraser-Pryce",
@@ -5752,7 +5762,9 @@
       "iso3": "KOR",
       "category": "athletes",
       "era": "modern",
-      "note": "figure skater and Olympic champion"
+      "note": "figure skater and Olympic champion",
+      "wiki": "Yuna Kim",
+      "portraitFile": "Yuna Kim 2024.jpg"
     },
     {
       "name": "Sachin Tendulkar",
@@ -5969,7 +5981,8 @@
       "iso3": "GBR",
       "category": "broadcasters",
       "era": "modern",
-      "note": "natural history broadcaster"
+      "note": "natural history broadcaster",
+      "portraitFile": "David Attenborough 2019.jpg"
     },
     {
       "name": "Michael Parkinson",
@@ -6712,6 +6725,251 @@
       "category": "athletes",
       "era": "modern",
       "note": "sevens rugby player and coach"
+    },
+    {
+      "name": "Taika Waititi",
+      "iso3": "NZL",
+      "category": "screen",
+      "era": "modern",
+      "note": "director of Jojo Rabbit and Thor: Ragnarok"
+    },
+    {
+      "name": "Gro Harlem Brundtland",
+      "iso3": "NOR",
+      "category": "leaders",
+      "era": "modern",
+      "note": "prime minister of Norway and head of the WHO"
+    },
+    {
+      "name": "Kygo",
+      "iso3": "NOR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "DJ and producer of tropical house"
+    },
+    {
+      "name": "Erling Haaland",
+      "iso3": "NOR",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and record Premier League scorer"
+    },
+    {
+      "name": "Stromae",
+      "iso3": "BEL",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of Alors on danse and Papaoutai"
+    },
+    {
+      "name": "Jean-Claude Van Damme",
+      "iso3": "BEL",
+      "category": "screen",
+      "era": "modern",
+      "note": "martial arts film actor"
+    },
+    {
+      "name": "Adolphe Sax",
+      "iso3": "BEL",
+      "category": "scientists",
+      "era": "historical",
+      "note": "inventor of the saxophone",
+      "portraitFile": "Adolphe Sax 3.jpg"
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "iso3": "BEL",
+      "category": "athletes",
+      "era": "modern",
+      "note": "playmaker for Belgium and Manchester City"
+    },
+    {
+      "name": "Sean Paul",
+      "iso3": "JAM",
+      "category": "musicians",
+      "era": "modern",
+      "note": "dancehall singer of Temperature"
+    },
+    {
+      "name": "Michael Manley",
+      "iso3": "JAM",
+      "category": "leaders",
+      "era": "historical",
+      "note": "prime minister of Jamaica in the 1970s and 80s",
+      "portraitFile": "Michael Manley 1977.jpg"
+    },
+    {
+      "name": "John Kufuor",
+      "iso3": "GHA",
+      "category": "leaders",
+      "era": "modern",
+      "note": "president of Ghana from 2001 to 2009"
+    },
+    {
+      "name": "Michael Essien",
+      "iso3": "GHA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "midfielder for Chelsea and Ghana"
+    },
+    {
+      "name": "Sarkodie",
+      "iso3": "GHA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "rapper of Ghanaian hiplife",
+      "wiki": "Sarkodie (rapper)"
+    },
+    {
+      "name": "Margrethe II",
+      "iso3": "DNK",
+      "category": "leaders",
+      "era": "modern",
+      "note": "queen of Denmark from 1972 to 2024",
+      "portraitFile": "Dronning Margrethe II (crop).jpg"
+    },
+    {
+      "name": "Caroline Wozniacki",
+      "iso3": "DNK",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player and former world number one"
+    },
+    {
+      "name": "Ole Kirk Christiansen",
+      "iso3": "DNK",
+      "category": "founders",
+      "era": "historical",
+      "note": "founded the LEGO toy company"
+    },
+    {
+      "name": "Anitta",
+      "iso3": "BRA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "pop and funk singer of Envolver",
+      "wiki": "Anitta (singer)"
+    },
+    {
+      "name": "Manu Ginóbili",
+      "iso3": "ARG",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball guard with four NBA titles"
+    },
+    {
+      "name": "Carlos Alcaraz",
+      "iso3": "ESP",
+      "category": "athletes",
+      "era": "modern",
+      "note": "tennis player and Grand Slam champion"
+    },
+    {
+      "name": "Antonio Banderas",
+      "iso3": "ESP",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of Spanish and Hollywood film"
+    },
+    {
+      "name": "Kylian Mbappé",
+      "iso3": "FRA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "striker and World Cup winner in 2018"
+    },
+    {
+      "name": "Thomas Pesquet",
+      "iso3": "FRA",
+      "category": "scientists",
+      "era": "modern",
+      "note": "astronaut who flew to the space station"
+    },
+    {
+      "name": "Omar Sy",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor of The Intouchables and Lupin"
+    },
+    {
+      "name": "Marion Cotillard",
+      "iso3": "FRA",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor and Academy Award winner"
+    },
+    {
+      "name": "Ed Sheeran",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and songwriter of Shape of You"
+    },
+    {
+      "name": "Dua Lipa",
+      "iso3": "GBR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "pop singer of Levitating"
+    },
+    {
+      "name": "Tim Berners-Lee",
+      "iso3": "GBR",
+      "category": "scientists",
+      "era": "modern",
+      "note": "inventor of the World Wide Web"
+    },
+    {
+      "name": "Emma Watson",
+      "iso3": "GBR",
+      "category": "screen",
+      "era": "modern",
+      "note": "actor who played Hermione Granger"
+    },
+    {
+      "name": "Taylor Swift",
+      "iso3": "USA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer and songwriter of the Eras Tour"
+    },
+    {
+      "name": "Bill Gates",
+      "iso3": "USA",
+      "category": "founders",
+      "era": "modern",
+      "note": "co-founder of Microsoft"
+    },
+    {
+      "name": "LeBron James",
+      "iso3": "USA",
+      "category": "athletes",
+      "era": "modern",
+      "note": "basketball forward and NBA scoring leader"
+    },
+    {
+      "name": "Psy",
+      "iso3": "KOR",
+      "category": "musicians",
+      "era": "modern",
+      "note": "singer of Gangnam Style",
+      "wiki": "Psy (entertainer)"
+    },
+    {
+      "name": "Wizkid",
+      "iso3": "NGA",
+      "category": "musicians",
+      "era": "modern",
+      "note": "Afrobeats singer of Essence",
+      "portraitFile": "Wizkid at Iyanya's album launch concert, 2013 (cropped).jpg"
+    },
+    {
+      "name": "Ngozi Okonjo-Iweala",
+      "iso3": "NGA",
+      "category": "founders",
+      "era": "modern",
+      "note": "finance minister and head of the WTO"
     }
   ]
 }
