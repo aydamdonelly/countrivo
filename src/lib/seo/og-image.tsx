@@ -46,7 +46,7 @@ export interface GameOgProps {
 /** The light tray and clay object mirror the October game-card composition. */
 export async function renderGameOgImage({ kicker, counter, title, how, chips, cta }: GameOgProps): Promise<ImageResponse> {
   const presentation = TABLE_GAMES.find(game => game.title === title);
-  const object = clayOg[presentation?.slug ?? 'globe'];
+  const object = clayOg[presentation?.slug ?? 'globe'] ?? clayOg.globe;
   return new ImageResponse(
     <div style={{width:'100%',height:'100%',display:'flex',flexDirection:'column',background:PAPER,color:INK,fontFamily:'Erode',padding:'40px 64px'}}>
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}><div style={{fontSize:40}}>Countrivo</div><div style={{fontSize:24,color:INK_MUTED}}>countrivo.com</div></div>

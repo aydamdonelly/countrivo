@@ -13,6 +13,7 @@ function selectedGameHost(slug: string): Promise<unknown> {
     case 'stat-guesser': return import('@/games/stat-guesser/host');
     case 'flag-quiz': return import('@/games/flag-quiz/host');
     case 'speed-flags': return import('@/games/speed-flags/host');
+    case 'capital-quiz': return import('@/games/capital-quiz/host');
     default: return Promise.resolve();
   }
 }

@@ -7,6 +7,7 @@ import { gameModule as geoWordle } from "@/games/geo-wordle/module";
 import { gameModule as statGuesser } from "@/games/stat-guesser/module";
 import { legacyGameModule as flagQuiz } from "@/games/flag-quiz/legacy-module";
 import { gameModule as speedFlags, type SpeedAction } from "@/games/speed-flags/module";
+import { gameModule as capitalQuiz } from "@/games/capital-quiz/module";
 import { replay } from "@/features/play/replay";
 import type { Action, GameModule, SubmitGameRunInput } from "@/games/types";
 import type { RunTicket } from "./anonymous-identity";
@@ -39,6 +40,7 @@ export function replaySubmission(ticket: RunTicket, log: string, timed: unknown[
     case "geo-wordle": return replayModule(geoWordle, ticket, log);
     case "stat-guesser": return replayModule(statGuesser, ticket, log);
     case "flag-quiz": return replayModule(flagQuiz, ticket, log);
+    case "capital-quiz": return replayModule(capitalQuiz, ticket, log);
     case "speed-flags": {
       let state = speedFlags.create(ticket.seed, ticket.mode, ticket.dateKey);
       let lastTime = 0;

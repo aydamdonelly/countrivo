@@ -200,7 +200,7 @@ export function ResultPanel({ mode, game, slug: slugProp, score, outcome, kicker
   const flagSprint = game === "Flag Quiz" && /^flags?$/.test(rest);
   const parByGame: Record<string, number> = { "Country Draft": 140, GeoWordle: 4, Pinpoint: 720, "Flag Quiz": flagSprint ? 8 : 9, "Higher or Lower": 9, "Stat Guesser": 300, "Blind Pick": 10 };
   const par = mode === "practice" && game === "Higher or Lower" ? undefined : parByGame[game];
-  const unitByGame: Record<string, string> = { "Flag Quiz": "points", "Higher or Lower": mode === "practice" ? "correct calls" : "points", "Stat Guesser": "points", Pinpoint: "points", "Country Draft": "points", GeoWordle: "guesses", "Blind Pick": "rank places over the best fit" };
+  const unitByGame: Record<string, string> = { "Flag Quiz": "points", "Higher or Lower": mode === "practice" ? "correct calls" : "points", "Stat Guesser": "points", Pinpoint: "points", "Country Draft": "points", GeoWordle: "guesses", "Blind Pick": "rank places over the best fit", "Capital Quiz": "capitals" };
   // A GeoWordle loss (`X/6`) has no number to measure against the target.
   const lost = game === "GeoWordle" && !parts;
   const unit = lost ? "not found in 6 guesses" : !parts ? undefined : fraction || !rest ? unitByGame[game] : rest;

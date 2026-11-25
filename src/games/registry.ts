@@ -15,6 +15,7 @@ import { codec as geoWordleCodec } from "./geo-wordle/codec";
 import { codec as statGuesserCodec } from "./stat-guesser/codec";
 import { codec as flagQuizCodec } from "./flag-quiz/codec";
 import { codec as speedFlagsCodec } from "./speed-flags/codec";
+import { codec as capitalQuizCodec } from "./capital-quiz/codec";
 
 import { RunDetail as CountryDraftDetail } from "./country-draft/run-detail";
 import { RunDetail as BlindPickDetail } from "./blind-pick/run-detail";
@@ -24,6 +25,7 @@ import { RunDetail as GeoWordleDetail } from "./geo-wordle/run-detail";
 import { RunDetail as StatGuesserDetail } from "./stat-guesser/run-detail";
 import { RunDetail as FlagQuizDetail } from "./flag-quiz/run-detail";
 import { RunDetail as SpeedFlagsDetail } from "./speed-flags/run-detail";
+import { RunDetail as CapitalQuizDetail } from "./capital-quiz/run-detail";
 
 /** The client host of every playable game, keyed by slug. */
 export const HOSTS: Record<PlayableSlug, ComponentType<HostProps>> = {
@@ -35,6 +37,7 @@ export const HOSTS: Record<PlayableSlug, ComponentType<HostProps>> = {
   "stat-guesser": GameEntryHost,
   "flag-quiz": GameEntryHost,
   "speed-flags": GameEntryHost,
+  "capital-quiz": GameEntryHost,
 };
 
 /** Each game's log decoder, so the play page can discard a cookie the codec rejects (blueprint 8.6). */
@@ -47,6 +50,7 @@ export const CODECS: Record<PlayableSlug, { dec(s: string): unknown }> = {
   "stat-guesser": statGuesserCodec,
   "flag-quiz": flagQuizCodec,
   "speed-flags": speedFlagsCodec,
+  "capital-quiz": capitalQuizCodec,
 };
 
 /** The run page rows per game (blueprint 7.7): a module's own or the GenericDetail. Server components. */
@@ -59,6 +63,7 @@ export const RUN_DETAILS: Record<PlayableSlug, ComponentType<RunDetailProps>> = 
   "stat-guesser": StatGuesserDetail,
   "flag-quiz": FlagQuizDetail,
   "speed-flags": SpeedFlagsDetail,
+  "capital-quiz": CapitalQuizDetail,
 };
 
 export const PLAYABLE_SLUGS = Object.keys(HOSTS) as PlayableSlug[];

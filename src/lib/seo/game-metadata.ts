@@ -118,6 +118,20 @@ const GAME_SEO: Record<string, GameSeo> = {
       "Score equals the number of flags you get right",
     ],
   },
+  "capital-quiz": {
+    title: "Capital Quiz: World Capitals and Capital Cities Quiz | Countrivo",
+    description:
+      "A free world capitals quiz: a country is named, pick its capital from four nearby cities and see the answer after each pick. World or one continent, no signup.",
+    genre: "Geography Quiz",
+    playMode: "SinglePlayer",
+    rules: [
+      "A country is named with four cities to choose from",
+      "Pick the capital; the right answer is shown after every pick",
+      "The wrong cities are capitals of nearby countries",
+      "Ten countries make a round, one point each",
+      "Play the whole world or one continent",
+    ],
+  },
   "pinpoint": {
     title: "Pinpoint: Daily Map Game, Place Five Countries | Countrivo",
     description: "Place five countries on a world map. Closer pins score more and the last round counts double. Free daily geography game and unlimited practice.",

@@ -34,11 +34,22 @@ export function Clay({ object, state = "rest", alternate, className, sizes = '(m
 }
 
 /**
+ * Objects without a `rest` still, and the frame that stands in for it: the hourglass shows
+ * full, the globe (Capital Quiz, borrowed from the country pages) shows the Americas.
+ */
+const REST_FRAMES: Readonly<Record<string, string>> = { 'cl-08': 'full', 'cl-24': 'americas' };
+
+/** The still a game's object shows at rest. */
+export function restFrame(object: string): string {
+  return REST_FRAMES[object] ?? 'rest';
+}
+
+/**
  * A game's clay on its tiles and rows (25 November 2026): the generated colour frame wherever one
  * exists, so a game you have not played yet looks as inviting as one you finished. Games without
  * a colour frame show their own rest frame in its original tone, never a grayscale filter.
  */
 export function gameClayFrame(object: string, done: string): { state: string; tone: 'original' | 'color' } {
   if (COLOR_FRAMES.has(`${object}/${done}`)) return { state: done, tone: 'color' };
-  return { state: object === 'cl-08' ? 'full' : 'rest', tone: 'original' };
+  return { state: restFrame(object), tone: 'original' };
 }

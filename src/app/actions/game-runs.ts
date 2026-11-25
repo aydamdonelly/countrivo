@@ -99,6 +99,7 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
     case "country-draft":
     case "flag-quiz":
     case "speed-flags":
+    case "capital-quiz":
     case "stat-guesser":
     case "higher-or-lower":
     case "pinpoint":
@@ -525,6 +526,15 @@ function validateGameResult(
         // Practice: the sudden-death streak.
         if (typeof resultJson.streak !== "number") return "invalid_result";
         if (resultJson.streak !== scoreRaw) return "score_mismatch";
+        break;
+      }
+      case "capital-quiz": {
+        // Practice only: ten countries, one point per right capital.
+        const hits = resultJson.hits;
+        if (!Array.isArray(hits) || hits.length !== 10 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+        if (typeof resultJson.score !== "number" || resultJson.score !== scoreRaw) return "score_mismatch";
+        if (hits.filter((h) => h === true).length !== scoreRaw) return "score_mismatch";
+        if (scoreMax !== 10 || scoreRaw < 0 || scoreRaw > 10) return "score_exceeds_total";
         break;
       }
       case "speed-flags": {

@@ -32,13 +32,15 @@ const HTML_LIMITED_BOTS = new RegExp(
 
 // Retired published games keep a permanent home on the closest surviving game.
 // Trace, Caravan and Budget were removed in May 2026; the others in August.
+// Capital Match is not revived: since November 2026 its old URL points at Capital Quiz,
+// the new practice game for the same "world capitals quiz" searches.
 // Play, leaderboard, run and opengraph-image children follow the landing.
 const RETIRED_GAMES: Record<string, string> = {
   countryle: "/games/geo-wordle",
   trace: "/games/geo-wordle",
   caravan: "/games/blind-pick",
   budget: "/games/stat-guesser",
-  "capital-match": "/games/flag-quiz",
+  "capital-match": "/games/capital-quiz",
   blitz: "/games/flag-quiz",
   "population-sort": "/games/higher-or-lower",
   "risk-zone": "/games/higher-or-lower",

@@ -101,6 +101,17 @@ export const GAME_COPY: Record<string, GameCopy> = {
       { q: "Which statistics appear in Stat Guesser?", a: "Population, area, GDP, GDP per person, the share of people living in cities, the share of people online and forest cover, from public sources such as the World Bank." },
     ],
   },
+  "capital-quiz": {
+    about: [
+      "Capital Quiz is a free capital cities quiz. Each round names a sovereign country and offers four cities. The three wrong ones are capitals of countries in the same part of the world, so knowing the continent is not enough. After every pick the right capital is shown, with one line of explanation where a country splits the capital role.",
+      "A round is ten countries. Play the whole world, or keep to Africa, the Americas, Asia, Europe or Oceania. Capital names come from the same country dataset as the country pages.",
+    ],
+    faq: [
+      { q: "Which countries are in Capital Quiz?", a: "Sovereign states only: the 193 United Nations members, the Holy See and Palestine. Israel and Palestine are left out because the status of their capitals is disputed. Countries whose name gives the capital away, such as Monaco, Mexico or Tunisia, are not asked about either, which leaves 179 countries. Their capitals can still appear as wrong options." },
+      { q: "What about countries with more than one capital?", a: "South Africa and Bolivia split the capital role between cities. Only one of their capitals is offered among the four cities, so there is always exactly one right answer, and the answer line explains the split." },
+      { q: "Can I quiz one continent?", a: "Yes. Before the first pick, choose Africa, the Americas, Asia, Europe or Oceania. Each continent deals ten of its own countries." },
+    ],
+  },
   "speed-flags": {
     about: [
       "Speed Flags is the thirty-second flag quiz: two names per flag, as many right as you can before the timer ends. A wrong answer costs three seconds, so guessing fast does not pay. Practice only, built for repetition.",

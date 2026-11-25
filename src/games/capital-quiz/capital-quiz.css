@@ -1,0 +1,49 @@
+/* Capital Quiz board and review. Tokens only. The continent filter sits above the first
+   question and folds into one meta line after the first pick; the country and its flag sit
+   centred over four city rows, 2 x 2 on desktop. */
+@layer components {
+  .cq { display: flex; flex-direction: column; gap: 16px; }
+
+  /* the filter: wrapping buttons, 44 px tall, the chosen one in ink */
+  .cq-regions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cq-region { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px 0 8px; border-radius: var(--radius-ctl); background: var(--color-card); color: var(--color-ink); font-size: 15px; line-height: 20px; font-weight: 500; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  .cq-region .clay-object { width: 24px; height: 24px; }
+  .cq-region[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); }
+  @media (hover: hover) and (pointer: fine) { .cq-region[aria-pressed="false"]:hover { background: var(--color-line); } }
+  .cq-scope { color: var(--color-mute); }
+
+  /* the country */
+  .cq-ask { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 0 4px; text-align: center; }
+  .cq-globe { width: 72px; height: 72px; margin-bottom: 4px; }
+  .cq-lead, .cq-note { color: var(--color-mute); }
+  .cq-country { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 10px; max-width: 100%; overflow-wrap: anywhere; }
+
+  /* the four cities: names wrap instead of truncating */
+  .cq-opts .opt { height: auto; min-height: 56px; padding: 12px 14px; }
+  .cq-opts .opt .lbl { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+
+  .cq-reveal { display: flex; flex-direction: column; gap: 12px; }
+  .cq-explain { color: var(--color-ink); }
+
+  @media (min-width: 1024px) {
+    .cq-ask { padding-top: 16px; }
+    .cq-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cq[data-phase="reveal"] .cq-globe { animation: cq-turn 420ms var(--ease-out); }
+  }
+  @keyframes cq-turn { 0% { transform: rotate(-4deg); } 60% { transform: rotate(2deg); } 100% { transform: none; } }
+
+  /* the review under the result */
+  .cq-review { display: flex; flex-direction: column; gap: 8px; }
+  .cq-review-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+  .cq-review-row { display: grid; color: var(--color-ink); grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 6px 0; border-top: 1px solid var(--color-line); }
+  .cq-review-body { display: flex; flex-direction: column; min-width: 0; }
+  .cq-review-country { font-weight: 600; overflow-wrap: anywhere; }
+  .cq-review-city { color: var(--color-ink); overflow-wrap: anywhere; }
+  .cq-review-city small { display: block; color: var(--color-mute); }
+  .cq-review-mark { display: inline-flex; color: var(--color-ember); }
+  .cq-review-row[data-hit] .cq-review-mark { color: var(--color-ink); }
+  @media (hover: hover) and (pointer: fine) { .cq-review-row:hover .cq-review-country { text-decoration: underline; text-underline-offset: 3px; } }
+}

@@ -2,7 +2,7 @@ import { ChevronRightIcon } from "@/ui/icons/chevron-right";
 import { useState } from "react";
 import { ReportName } from "@/features/social/report-name";
 import type { ServerGameRun } from "@/types/server";
-import { isGameSlug } from "@/ui/types";
+import { isRecordedGameSlug } from "@/ui/types";
 import { gamePresentation } from "@/content/table";
 import { SiteFeedback } from "@/ui/site-feedback";
 import { GamePlayLink } from "@/ui/game-play-link";
@@ -24,7 +24,7 @@ interface ResultFollowupProps {
 export function ResultFollowup({ slug, mode, score, run, publishedName, onPublished }: ResultFollowupProps) {
   const [blockedRows, setBlockedRows] = useState<number[]>([]);
   const board = run?.leaderboard;
-  const dailySlug = board?.gameSlug ?? (slug === "speed-flags" ? "country-draft" : slug);
+  const dailySlug = board?.gameSlug ?? (slug === "speed-flags" || slug === "capital-quiz" ? "country-draft" : slug);
   const daily = gamePresentation(dailySlug);
   return <div className="result-followup">
     {mode === "daily" ? run ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={onPublished} /> : <p className="t-meta" role="status">Saving your result…</p> : <>{run ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={onPublished} /> : <p className="t-meta" role="status">Saving your result…</p>}<section className="practice-standing" aria-label="Daily leaderboard after practice">
@@ -38,5 +38,5 @@ export function ResultFollowup({ slug, mode, score, run, publishedName, onPublis
 }
 
 export function ResultFeedback({ slug }: { slug: string }) {
-  return <SiteFeedback gameSlug={isGameSlug(slug) ? slug : undefined} context="result" />;
+  return <SiteFeedback gameSlug={isRecordedGameSlug(slug) ? slug : undefined} context="result" />;
 }

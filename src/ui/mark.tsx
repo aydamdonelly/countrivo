@@ -93,6 +93,14 @@ function Drawing({ slug, c }: { slug: GameSlug; c: string }) {
           <path d="M2 9h3M1 13h3M2 17h3" opacity=".35" />
         </g>
       );
+    case "capital-quiz":
+      return (
+        <g fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="14" cy="14" r="10" />
+          <path d="M4 14h20M14 4c3 3 4.5 6.5 4.5 10S17 21 14 24c-3-3-4.5-6.5-4.5-10S11 7 14 4z" />
+          <circle cx="19" cy="9" r="2" fill={c} stroke="none" />
+        </g>
+      );
     case "country-draft":
       return null;
   }

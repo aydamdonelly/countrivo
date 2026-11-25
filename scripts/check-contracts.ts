@@ -44,6 +44,7 @@ import { legacyGameModule as legacyFlagQuiz, type QuizState } from "../src/games
 import { gameModule as pinpoint } from "../src/games/pinpoint/module";
 import type { PinpointState } from "../src/lib/game-logic/pinpoint/engine";
 import { gameModule as speedFlags } from "../src/games/speed-flags/module";
+import { gameModule as capitalQuiz, type CapitalState } from "../src/games/capital-quiz/module";
 
 import type { DraftState } from "../src/lib/game-logic/country-draft/types";
 import { guessableCountries, type GeoWordleState } from "../src/lib/game-logic/geo-wordle/engine";
@@ -145,6 +146,14 @@ const VALIDATORS: Record<string, Validator> = {
     if (total > 67 || wrong > 10) return "score_exceeds_total";
     return null;
   },
+  "capital-quiz": (scoreRaw, scoreMax, r) => {
+    const hits = r.hits;
+    if (!Array.isArray(hits) || hits.length !== 10 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+    if (typeof r.score !== "number" || r.score !== scoreRaw) return "score_mismatch";
+    if (hits.filter((h) => h === true).length !== scoreRaw) return "score_mismatch";
+    if (scoreMax !== 10 || scoreRaw < 0 || scoreRaw > 10) return "score_exceeds_total";
+    return null;
+  },
   "stat-guesser": (scoreRaw, max, r) => checkStatGuesserShape(scoreRaw, max, r),
   "blind-pick": (scoreRaw, max, r) => blindPickShapeError(scoreRaw, max, r),
   "geo-wordle": (scoreRaw, scoreMax, r) => {
@@ -195,6 +204,7 @@ const SORT: Record<string, (raw: number, max: number) => number> = {
   "country-draft": (raw) => raw,
   "flag-quiz": (raw) => raw,
   "speed-flags": (raw) => raw,
+  "capital-quiz": (raw) => raw,
   "stat-guesser": (raw) => raw,
   "higher-or-lower": (raw) => raw,
   "blind-pick": (raw) => 10000 - raw,
@@ -420,6 +430,29 @@ const speedFlagsDriver: Driver<SpeedFlagsState> = {
   },
 };
 
+const capitalQuizDriver: Driver<CapitalState> = {
+  // The Europe filter first (so the log carries a re-deal), then ten picks, right on the even
+  // rounds and wrong on the odd ones, each closed with an explicit next.
+  module: capitalQuiz as unknown as GameModule<CapitalState, Action>,
+  resultKeys: ["v", "region", "score", "total", "countries", "capitals", "picked", "hits"],
+  tamper: (p) => ({ ...p, scoreRaw: Math.min(10, p.scoreRaw + 1) }),
+  play(state, push) {
+    const m = this.module;
+    let s = step(m, state, { t: "region", r: "europe" } as Action, push);
+    check(s.g.region === "europe" && s.g.questions.every((q) => q.region === "Europe"), "the Europe filter deals ten European countries");
+    let n = 0;
+    while (!m.done(s) && n < 30) {
+      if (s.g.phase === "question") {
+        const q = s.g.questions[s.g.current];
+        const i = s.g.current % 2 === 0 ? q.correctIndex : (q.correctIndex + 1) % 4;
+        s = step(m, s, { t: "pick", i } as Action, push);
+      } else s = step(m, s, { t: "next" } as Action, push);
+      n += 1;
+    }
+    return s;
+  },
+};
+
 const pinpointDriver: Driver<PinpointState> = {
   module: pinpoint,
   resultKeys: ["score", "rounds"],
@@ -443,6 +476,7 @@ const drivers = {
   "stat-guesser": statGuesserDriver as unknown as Driver<never>,
   "flag-quiz": flagQuizDriver as unknown as Driver<never>,
   "speed-flags": speedFlagsDriver as unknown as Driver<never>,
+  "capital-quiz": capitalQuizDriver as unknown as Driver<never>,
 };
 
 // --- the run ------------------------------------------------------------------
@@ -632,12 +666,14 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick", "speed-flags"],
+    ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick", "speed-flags", "capital-quiz"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");
   const dailies = list.filter((g) => (g as { tier?: string; availableModes?: string[] }).tier === "main" && (g as { availableModes?: string[] }).availableModes?.includes("daily")).map((g) => g.slug);
   eq(dailies, ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick"], "seven daily games in order, Flag Quiz among them");
+  const practiceOnly = list.filter((g) => !(g as { availableModes?: string[] }).availableModes?.includes("daily")).map((g) => g.slug);
+  eq(practiceOnly, ["speed-flags", "capital-quiz"], "Speed Flags and Capital Quiz are the practice-only drills, never dailies");
 }
 
 console.log(`check-contracts: playing every board on ${DATE_KEY} (seed ${SEED})`);

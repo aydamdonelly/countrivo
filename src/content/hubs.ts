@@ -20,7 +20,7 @@ export function gamesHubFaq(games: number, dailies: number): { q: string; a: str
   return [
     {
       q: "What are the best free geography games online?",
-      a: `Countrivo has ${games} free geography games: Country Draft, GeoWordle, Pinpoint, Flag Quiz, Higher or Lower and Stat Guesser have daily boards. Blind Pick and the thirty-second Speed Flags are unlimited practice.`,
+      a: `Countrivo has ${games} free geography games: Country Draft, GeoWordle, Pinpoint, Flag Quiz, Higher or Lower and Stat Guesser have daily boards. Blind Pick has a daily board too. The thirty-second Speed Flags and the world capitals quiz Capital Quiz are unlimited practice.`,
     },
     {
       q: "Do I need an account to play?",

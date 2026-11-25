@@ -14,6 +14,7 @@ const SHORT: Record<GameSlug, string> = {
   "stat-guesser": "stats",
   "flag-quiz": "flags",
   "speed-flags": "speed",
+  "capital-quiz": "capitals",
 };
 
 export function shortGameLabel(slug: GameSlug): string {

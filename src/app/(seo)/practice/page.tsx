@@ -15,7 +15,7 @@ import '@/features/seo/urban-geography.css';
  */
 export const metadata: Metadata = {
   title: 'Unlimited Geography Games: Free Practice, No Account',
-  description: `Unlimited geography games: fresh practice boards for all ${TABLE_GAMES.length} Countrivo games, from GeoWordle and Pinpoint to flag quizzes. Free, no account, no leaderboard.`,
+  description: `Unlimited geography games: fresh practice boards for all ${TABLE_GAMES.length} Countrivo games, from GeoWordle and Pinpoint to flag and capital quizzes. Free, no account, no leaderboard.`,
   alternates: { canonical: 'https://countrivo.com/practice' },
 };
 
