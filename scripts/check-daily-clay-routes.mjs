@@ -19,7 +19,7 @@ const scores={'country-draft':'140 / 195','geo-wordle':'3 guesses','pinpoint':'9
 const registry=JSON.parse(readFileSync('src/data/game-registry.json','utf8'));
 const order=registry.map(game=>game.slug);
 const dailyOrder=registry.filter(game=>game.availableModes?.includes('daily')).map(game=>game.slug);
-const noColourFrame=new Set(['flag-quiz','speed-flags']);
+const noColourFrame=new Set(['flag-quiz','speed-flags','capital-quiz']);
 const colourTiles=slugs=>slugs.filter(slug=>!noColourFrame.has(slug)).length;
 const out='.check-render/daily-clay';mkdirSync(out,{recursive:true});
 let checks=0,blockedPosts=0;
@@ -50,7 +50,7 @@ try{
         check(finished===(path==='/practice'?0:fixture.expected),`${fixture.label} ${path}: daily completion state is correct in first HTML (${finished})`);
         const slugs=await page.locator('.game-tile').evaluateAll(tiles=>tiles.map(tile=>tile.dataset.game));
         const expectedOrder=path==='/'?dailyOrder:order;
-        check(path==='/'?JSON.stringify([...slugs].sort())===JSON.stringify([...expectedOrder].sort())&&JSON.stringify(slugs.slice(1))===JSON.stringify(expectedOrder.filter(slug=>slug!==slugs[0])):JSON.stringify(slugs)===JSON.stringify(expectedOrder),`${path}: cards follow the registry roster (the lead card first on home)`);
+        check(JSON.stringify(slugs)===JSON.stringify(expectedOrder),`${path}: cards follow the registry roster (the lead card stays in its own place on home)`);
         const colours=await page.locator('.game-tile [data-clay-tone="color"]').count();
         check(colours===colourTiles(slugs),`${fixture.label} ${path}: every tile with a colour frame shows it, played or not (${colours})`);
         check(await page.locator('.game-tile [data-clay-tone="monochrome"]').count()===0,`${path}: no tile is greyed out`);

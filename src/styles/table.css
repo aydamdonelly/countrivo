@@ -42,7 +42,7 @@
     .game-lead .game-tile-main > .clay-object { width:92px; height:92px; }
   }
 
-  .game-index { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .game-index { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-auto-flow:row dense; gap:12px; }
   .game-tile { min-width:0; --tile-color:var(--game-accent, var(--color-card)); }
   [data-game="country-draft"] { --game-accent:var(--color-game-draft); }
   [data-game="geo-wordle"] { --game-accent:var(--color-game-geo); }

@@ -40,7 +40,7 @@ function capitalised(word: string): string {
 /**
  * The home (25 November 2026 design pass). One heading, one line for a first visit or the streak
  * and today's progress for a returning player, the card to play next with the page's only
- * primary, the other games as tiles, then Practice and Archive once, quietly, below the grid.
+ * primary in its own place in the fixed order, the other games as tiles, then Practice and Archive once, quietly, below the grid.
  * After the last daily the lead card becomes the day-complete card with the one "Share your day".
  */
 export function TableHome({games, done, progress, opening, dateKey, resetAt, serverNow, practice, yesterday, atlas, activity}: TableHomeProps) {
@@ -65,7 +65,7 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
     <header className="games-heading">
       <h1 className="t-h1">{practice ? 'Unlimited geography games' : 'Daily games'}</h1>
       {practice ? <>
-        <p className="home-lead">Free practice boards for every game. No account, no leaderboard, play as often as you like.</p>
+        <p className="home-lead">Free practice boards for every game. Unlimited, no account, no leaderboard.</p>
         <div className="home-meta"><Link href="/" className="home-back">Today’s daily games<ChevronRightIcon size={16} /></Link></div>
       </> : fullSet ? null : returning ? <>
         <div className="home-meta">
@@ -86,8 +86,10 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
     </header>
     {fullSet && dayShare ? <div className="home-day-done"><DayComplete home next={undefined} done={finished} total={games.length} dayShare={dayShare} dateKey={dateKey} dailies={dailies} scores={done} activity={activity} resetAt={resetAt} serverNow={serverNow} /></div> : null}
     <div className="game-index daily-game-grid">
-      {leadGame ? <GameCard key={leadGame.slug} game={leadGame} progress={progress[leadGame.slug]} lead={returning ? 'next' : 'start'} /> : null}
-      {games.filter(game => game !== leadGame).map(game => <GameCard key={game.slug} game={game} practice={practice} score={done[game.slug]} progress={progress[game.slug]} active={false} isNew={!practice && Boolean(game.newUntil && dateKey <= game.newUntil)} />)}
+      {/* 25 November 2026: the games keep their fixed order; the next game grows in its own place instead of jumping to the front. */}
+      {games.map(game => game === leadGame
+        ? <GameCard key={game.slug} game={game} progress={progress[game.slug]} lead={returning ? 'next' : 'start'} />
+        : <GameCard key={game.slug} game={game} practice={practice} score={done[game.slug]} progress={progress[game.slug]} active={false} isNew={!practice && Boolean(game.newUntil && dateKey <= game.newUntil)} />)}
     </div>
     {practice ? null : <section className="home-more" aria-labelledby="home-more-title">
       <h2 id="home-more-title" className="t-h3">More ways to play</h2>
