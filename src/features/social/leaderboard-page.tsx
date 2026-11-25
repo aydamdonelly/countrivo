@@ -16,6 +16,7 @@ import { BLIND_PICK_PAR } from "@/lib/game-logic/blind-pick/scoring";
 import { Button } from "@/ui/button";
 import { Clay, gameClayFrame } from "@/ui/clay";
 import { gamePresentation } from "@/content/table";
+import { boardDate } from "@/ui/result-format";
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
 import { BlockedPlayersSettings, LeaderboardRetry, ReportName } from "./report-name";
 import "./leaderboard.css";
@@ -64,7 +65,7 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
       <img src={`/clay/${item.slug}.png`} width={40} height={40} alt="" /><span>{item.title}</span></Link>)}</nav></details>
     <div className="lb-board">
       <nav className="lb-date" aria-label="Pick a day"><Link href={href(shiftDateKey(day, -1))} aria-label="Previous day" pendingLabel={<><span aria-hidden="true">…</span><span className="sr-only">Opening…</span></>}><ChevronLeftIcon size={20} /></Link>
-        <div><h2 className="t-h3">{day === today ? "Today" : shortDate(day)}</h2><p className="t-meta text-mute">{board.available ? `${board.playerCount.toLocaleString("en-US")} published ${board.playerCount === 1 ? "player" : "players"}` : "Daily board"}</p></div>
+        <div><h2 className="t-h3">{boardDate(day)}</h2><p className="t-meta text-mute">{board.available ? `${board.playerCount.toLocaleString("en-US")} published ${board.playerCount === 1 ? "player" : "players"}` : "Daily board"}</p></div>
         {day < today ? <Link href={href(shiftDateKey(day, 1))} aria-label="Next day" pendingLabel={<><span aria-hidden="true">…</span><span className="sr-only">Opening…</span></>}><ChevronRightIcon size={20} /></Link> : <span aria-hidden="true" />}
       </nav>
       <nav className="lb-period" aria-label="Recent boards"><Link href={href(today)} aria-current={day === today ? "page" : undefined}>Today</Link><Link href={href(shiftDateKey(today, -1))} aria-current={day === shiftDateKey(today, -1) ? "page" : undefined}>Yesterday</Link>{past ? <Link href={`/games/${slug}/play?mode=practice&date=${day}`}>Play this board</Link> : null}</nav>

@@ -199,7 +199,7 @@ const VALIDATORS: Record<string, Validator> = {
 };
 
 /** The server's scoreSortValue override, mirrored from the same switch. */
-const SORT: Record<string, (raw: number, max: number) => number> = {
+const SORT: Record<string, (raw: number, max: number, won?: boolean) => number> = {
   "pinpoint": (raw) => raw,
   "country-draft": (raw) => raw,
   "flag-quiz": (raw) => raw,
@@ -208,7 +208,7 @@ const SORT: Record<string, (raw: number, max: number) => number> = {
   "stat-guesser": (raw) => raw,
   "higher-or-lower": (raw) => raw,
   "blind-pick": (raw) => 10000 - raw,
-  "geo-wordle": (raw, max) => (max > 0 ? max - raw : 0),
+  "geo-wordle": (raw, max, won) => (won === false ? 0 : max > 0 ? max + 1 - raw : 0),
 };
 
 const CUT_SLUGS = [
@@ -560,6 +560,11 @@ function runGame(slug: GameSlug): void {
   for (const key of d.resultKeys) check(key in p.resultJson, `resultJson carries ${key}`);
   check(JSON.stringify(p.resultJson).length < 40_000, "resultJson is small enough to store");
   check(typeof SORT[slug] === "function", "the slug has a scoreSortValue rule on the server");
+  if (slug === "geo-wordle") {
+    eq(p.scoreSortValue, SORT[slug](p.scoreRaw, p.scoreMax, p.resultJson.won === true), "GeoWordle payload sort matches the server rule");
+    check(SORT[slug](6, 6, true) > SORT[slug](6, 6, false), "GeoWordle: a win in six ranks above a miss");
+    check(SORT[slug](1, 6, true) === 6 && SORT[slug](6, 6, true) === 1, "GeoWordle: wins sort 6 (1/6) down to 1 (6/6), as the labelled rivals do");
+  }
 
   // 5. the structural validator that gates submitGameRun.
   eq(VALIDATORS[slug](p.scoreRaw, p.scoreMax, p.resultJson), null, "validateGameResult accepts an honest payload");

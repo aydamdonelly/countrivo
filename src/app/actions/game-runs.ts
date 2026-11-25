@@ -112,8 +112,8 @@ export async function submitGameRun(input: SubmitGameRunInput): Promise<SubmitGa
       scoreSortValue = 10000 - input.scoreRaw;
       break;
     case "geo-wordle":
-      // Fewer guesses = better, invert so higher sort = better
-      scoreSortValue = input.scoreMax > 0 ? input.scoreMax - input.scoreRaw : 0;
+      // Fewer guesses = better: a win in n sorts at 7 - n (6/6 = 1), a miss at 0 below every win.
+      scoreSortValue = input.resultJson.won === false ? 0 : input.scoreMax > 0 ? input.scoreMax + 1 - input.scoreRaw : 0;
       break;
   }
 

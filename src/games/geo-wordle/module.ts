@@ -118,7 +118,8 @@ export const gameModule: GameModule<GeoWordleState, GeoAction> = {
       dateKey: ctx.dateKey,
       scoreRaw: used,
       scoreMax: MAX_GUESSES,
-      scoreSortValue: MAX_GUESSES - used,
+      // A win in n guesses sorts at 7 - n (1/6 = 6 down to 6/6 = 1); a miss is 0, below every win.
+      scoreSortValue: won ? MAX_GUESSES + 1 - used : 0,
       scoreDisplay: won ? `${used}/${MAX_GUESSES}` : `X/${MAX_GUESSES}`,
       resultJson: {
         answerIso3: state.answerIso3,
