@@ -4,6 +4,7 @@ import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
 import { gamePresentation } from '@/content/table';
 import { GameHelp } from '@/ui/game-help';
+import { restFrame } from '@/ui/clay';
 
 export interface PlayBarProps {
   slug: GameSlug;
@@ -25,13 +26,13 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
       </Link>
       <span className="clay" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized local header still */}
-        <img src={`/clay/${gamePresentation(slug)?.clay ?? 'cl-01'}/${slug === 'speed-flags' ? 'full' : 'rest'}.128.webp`} width={32} height={32} alt="" decoding="async" />
+        <img src={`/clay/${gamePresentation(slug)?.clay ?? 'cl-01'}/${restFrame(gamePresentation(slug)?.clay ?? 'cl-01')}.128.webp`} width={32} height={32} alt="" decoding="async" />
       </span>
       <h1 className="t-h3">{title}</h1>
       <span className={cn("mode t-meta", mode)}>
         {mode === "daily" ? "Daily" : "Practice"}
       </span>
-      {["geo-wordle", "pinpoint", "blind-pick", "speed-flags"].includes(slug) ? <GameHelp slug={slug} title={title} /> : null}
+      {["geo-wordle", "pinpoint", "blind-pick", "speed-flags", "capital-quiz"].includes(slug) ? <GameHelp slug={slug} title={title} /> : null}
     </div>
   );
 }

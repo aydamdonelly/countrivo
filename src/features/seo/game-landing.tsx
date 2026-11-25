@@ -40,7 +40,17 @@ const stepIcons: Record<string, readonly [StepIcon, StepIcon, StepIcon]> = {
   'stat-guesser': [HashIcon, PinIcon, TargetIcon],
   'blind-pick': [GlobeIcon, HashIcon, TargetIcon],
   'speed-flags': [TimerIcon, CheckIcon, TrophyIcon],
+  'capital-quiz': [GlobeIcon, CheckIcon, TargetIcon],
 };
+
+/** The continent lists, each a table of countries with their capitals, linked from the Capital Quiz landing. */
+const CAPITAL_LISTS = [
+  { href: '/lists/countries-in-africa', label: 'Africa' },
+  { href: '/lists/countries-in-americas', label: 'the Americas' },
+  { href: '/lists/countries-in-asia', label: 'Asia' },
+  { href: '/lists/countries-in-europe', label: 'Europe' },
+  { href: '/lists/countries-in-oceania', label: 'Oceania' },
+] as const;
 
 export async function GameLanding({slug}: {slug:string}) {
   const game = getGameBySlug(slug);
@@ -80,6 +90,7 @@ export async function GameLanding({slug}: {slug:string}) {
       </details>
       {slug === 'geo-wordle' ? <details className="landing-details disclose"><summary>See an example</summary><GeoWordleGuide /></details> : null}
       {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details disclose"><summary>About {game.title}</summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p>}</div></details> : null}
+      {copy && slug === 'capital-quiz' ? <details className="landing-details disclose" open><summary>About {game.title}</summary><div className="landing-about t-body">{copy.about.map((paragraph)=><p key={paragraph}>{paragraph}</p>)}<p>Every <Link href="/countries">country page</Link> names its capital. The continent lists put them side by side: {CAPITAL_LISTS.map((list, i)=><span key={list.href}>{i ? (i === CAPITAL_LISTS.length - 1 ? ' and ' : ', ') : ''}<Link href={list.href}>{list.label}</Link></span>)}.</p><p><Link href="/countries/south-africa">South Africa</Link> and <Link href="/countries/bolivia">Bolivia</Link> share the capital role between cities. <Link href="/lists/more-than-one-capital">Read which countries split capital functions</Link>.</p></div></details> : null}
       <details className="landing-details disclose"><summary>Questions</summary><QaList open="details" items={faq} /></details>
       {daily ? <details className="landing-details disclose"><summary>Yesterday’s answers</summary><YesterdayAnswers slug={slug} /></details> : null}
       {slug === 'flag-quiz' ? <p className="landing-topic t-body"><Link href="/practice/europe-flags">Practise just the flags of Europe</Link></p> : null}

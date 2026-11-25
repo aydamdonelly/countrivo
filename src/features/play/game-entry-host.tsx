@@ -14,6 +14,7 @@ const hosts: Record<PlayableSlug, ComponentType<HostProps>> = {
   'stat-guesser': dynamic(() => import('@/games/stat-guesser/host').then(module => module.StatGuesserHost)),
   'flag-quiz': dynamic(() => import('@/games/flag-quiz/host').then(module => module.FlagQuizHost)),
   'speed-flags': dynamic(() => import('@/games/speed-flags/host').then(module => module.SpeedFlagsHost)),
+  'capital-quiz': dynamic(() => import('@/games/capital-quiz/host').then(module => module.CapitalQuizHost)),
 };
 
 export function GameEntryHost(props: HostProps) {

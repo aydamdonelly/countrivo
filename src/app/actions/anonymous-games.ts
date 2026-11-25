@@ -13,6 +13,9 @@ import type { ServerGameRun } from "@/types/server";
 import { dailyNetworkHash } from "@/server/abuse-identity";
 import { countries, sovereignIso3 } from "@/lib/data/loader";
 
+/** Practice games played wholly on this device; the finished log is replayed here before it is saved. */
+const LOCAL_PRACTICE_SLUGS: readonly string[] = ["speed-flags", "capital-quiz"];
+
 export async function beginPracticeRun(slug: string) {
   if (!getGameBySlug(slug)?.availableModes.includes("practice")) throw new Error("Unknown practice game");
   await ensureDeviceId();
@@ -34,7 +37,7 @@ export async function submitAnonymousRun(input: { ticket: string; log: string; t
   try {
     const ticket = readRunTicket(input.ticket);
     if (!ticket || !getGameBySlug(ticket.slug)) return { success: false, error: "invalid_session" };
-    if (ticket.slug !== "speed-flags" || ticket.mode !== "practice") return { success: false, error: "server_session_required" };
+    if (!LOCAL_PRACTICE_SLUGS.includes(ticket.slug) || ticket.mode !== "practice") return { success: false, error: "server_session_required" };
     if (Date.now() - Date.parse(ticket.startedAt) < 1500) return { success: false, error: "too_fast" };
     const deviceId = await ensureDeviceId();
     const db = gameDatabase();

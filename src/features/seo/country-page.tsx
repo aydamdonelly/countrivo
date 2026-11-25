@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getAllCountries, getCountryByIso3 } from '@/lib/data/countries';
-import { countryBorders, sovereignIso3, draftPortraitCredit } from '@/lib/data/loader';
+import { capitalsAccepted, countryBorders, sovereignIso3, draftPortraitCredit } from '@/lib/data/loader';
 import { worldStandings, type WorldStanding } from '@/lib/data/world';
 import { getStatValue, getRanksForCountry } from '@/lib/data/ranks';
 import { formatStat } from '@/lib/utils';
@@ -45,7 +45,7 @@ export function CountryPage({country}: {country: Country}) {
         {sizePeer && area!==null ? <div><p className="t-h3">About the size of {sizePeer.country.displayName}</p><p className="t-meta text-mute">{formatStat(area,'km²')} against {formatStat(sizePeer.area,'km²')}. Total area, REST Countries.</p></div> : null}
         {income!==null && median ? <div><p className="t-h3">{Math.round(income/median*100)}% of world median</p><p className="t-meta text-mute">GDP per person</p><details className="dossier-method t-meta"><summary>Method</summary><p>Median among {incomes.length} other countries with data. GDP per person is not household income.</p></details></div> : null}
       </div>
-      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Pinpoint" href="/games/pinpoint" /></section>
+      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Pinpoint" href="/games/pinpoint" />{sovereignIso3.includes(country.iso3) && (capitalsAccepted[country.iso3]?.length ?? 0) > 0 ? <GameRow slug="capital-quiz" title="Quiz world capitals" meta="Capital Quiz" href="/games/capital-quiz" /> : null}</section>
       <div className="dossier-grid">
         <div>
           <section className="dossier-section"><h2 className="t-h2">World rankings</h2><p className="t-meta text-mute mb-4">Sovereign states with data</p><p className="t-body">Highest rankings</p><StandingRows rows={nearTop} />{nearBottom.length ? <><p className="t-body mt-6">Lowest rankings</p><StandingRows rows={nearBottom} /></> : null}</section>

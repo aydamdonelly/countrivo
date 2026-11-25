@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { gamePresentation } from '@/content/table';
-import { Clay } from '@/ui/clay';
+import { Clay, restFrame } from '@/ui/clay';
 import { CloseIcon } from '@/ui/icons/close';
 import './game-help.css';
 
@@ -52,7 +52,7 @@ export function GameHelp({slug, title}: {slug: string; title: string}) {
       if (event.newState === 'closed' && (document.activeElement === document.body || event.currentTarget.contains(document.activeElement))) trigger.current?.focus({preventScroll: true});
     }}>
       <button ref={close} type="button" className="game-help-close" popoverTarget={fallback ? undefined : id} popoverTargetAction="hide" aria-label="Close help" onClick={() => { if (fallback) setOpen(false); }}><CloseIcon size={22} /></button>
-      <Clay object={game.clay} state={game.clay === 'cl-08' ? 'full' : 'rest'} sizes="64px" />
+      <Clay object={game.clay} state={restFrame(game.clay)} sizes="64px" />
       <h2 className="t-h2" id={`${id}-title`}>{title}</h2>
       <ol>{game.steps.map((step, index) => <li key={step}><span aria-hidden="true">{index + 1}</span>{step}</li>)}</ol>
     </div>

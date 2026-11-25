@@ -115,6 +115,19 @@ export const GAME_CONTENT: Record<string, GameContent> = {
       "Everyone gets the same flags each day. Equal scores share a rank",
     ],
   },
+  "capital-quiz": {
+    how: "A country is named. Pick its capital from four cities, then see the answer.",
+    steps: ["A country is named. Pick its capital from four cities.", "The right answer shows after every pick.", "Play the whole world or one continent."],
+    facts: ["10 countries", "4 cities each", "World or one continent"],
+    rules: [
+      "Each round names a sovereign country and offers four cities",
+      "The three wrong cities are capitals of nearby countries, so the region alone does not give it away",
+      "After every pick the right capital is shown with one line of explanation",
+      "Ten countries make a round; each right answer scores 1, so 10 is perfect",
+      "Before the first pick you can keep the whole world or choose Africa, the Americas, Asia, Europe or Oceania",
+    ],
+    related: ["flag-quiz", "geo-wordle", "pinpoint", "speed-flags"],
+  },
   "speed-flags": {
     how: "Thirty seconds. Two names per flag. A wrong one costs 3 seconds.",
     facts: ["30 s", "2 options", "1 min"],

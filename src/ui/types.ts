@@ -4,7 +4,7 @@ import type { Profile } from "@/types/server";
 /** The two modes. There is no third. */
 export type Mode = "daily" | "practice";
 
-/** The eight registry slugs (seven daily games plus Speed Flags, the practice-only drill). */
+/** The nine registry slugs (seven daily games plus Speed Flags and Capital Quiz, the practice-only drills). */
 export type GameSlug =
   | "country-draft"
   | "blind-pick"
@@ -13,7 +13,8 @@ export type GameSlug =
   | "geo-wordle"
   | "stat-guesser"
   | "flag-quiz"
-  | "speed-flags";
+  | "speed-flags"
+  | "capital-quiz";
 
 export const GAME_SLUGS: readonly GameSlug[] = [
   "country-draft",
@@ -24,10 +25,24 @@ export const GAME_SLUGS: readonly GameSlug[] = [
   "stat-guesser",
   "flag-quiz",
   "speed-flags",
+  "capital-quiz",
 ];
 
 export function isGameSlug(s: string): s is GameSlug {
   return (GAME_SLUGS as readonly string[]).includes(s);
+}
+
+/**
+ * The slugs the database check constraints on countrivo_usage_events (game, target_game) and
+ * countrivo_site_feedback (game_slug) accept. A slug outside this list would make the whole
+ * usage batch or the feedback insert fail, so its events travel without a game and its
+ * feedback is site-wide. Add "capital-quiz" here once
+ * supabase/migrations/20261125130000_countrivo_capital_quiz_slugs.sql has been applied.
+ */
+export const RECORDED_GAME_SLUGS: readonly GameSlug[] = GAME_SLUGS.filter((slug) => slug !== "capital-quiz");
+
+export function isRecordedGameSlug(s: string): s is GameSlug {
+  return (RECORDED_GAME_SLUGS as readonly string[]).includes(s);
 }
 
 /**

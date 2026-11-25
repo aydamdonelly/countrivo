@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T09:02:42.365Z",
+  "generatedAt": "2026-11-25T13:48:30.929Z",
   "entries": {
     "category:arable-land-pct": {
       "hash": "bc83258b793cac4f",
@@ -1069,17 +1069,21 @@
       "hash": "0b0208960f5dec68",
       "lastModified": "2026-11-25T09:02:42.365Z"
     },
+    "game:capital-quiz": {
+      "hash": "2cb7d3f682ce0381",
+      "lastModified": "2026-11-25T13:48:30.929Z"
+    },
     "game:country-draft": {
       "hash": "a699119318f3a78a",
       "lastModified": "2026-11-25T09:02:42.365Z"
     },
     "game:flag-quiz": {
-      "hash": "6ab7338f94ceb0d0",
-      "lastModified": "2026-11-25T09:02:42.365Z"
+      "hash": "fb3eb554868382bb",
+      "lastModified": "2026-11-25T13:42:24.812Z"
     },
     "game:geo-wordle": {
-      "hash": "3d417acba60a271f",
-      "lastModified": "2026-10-15T08:47:12.865Z"
+      "hash": "ba81734f8ad70d02",
+      "lastModified": "2026-11-25T13:42:24.812Z"
     },
     "game:higher-or-lower": {
       "hash": "806ab2a7ea669d52",
@@ -1170,16 +1174,16 @@
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "practice:europe-flags": {
-      "hash": "1a39db7263309e6a",
-      "lastModified": "2026-10-15T08:47:12.865Z"
+      "hash": "c2e6bf2664707d98",
+      "lastModified": "2026-11-25T13:42:24.812Z"
     },
     "practice:hub": {
-      "hash": "da2a752bd78a7e09",
-      "lastModified": "2026-11-25T09:02:42.365Z"
+      "hash": "888356eb0c073286",
+      "lastModified": "2026-11-25T13:42:24.812Z"
     },
     "practice:urban-geography": {
-      "hash": "edda53dbe71c4aa7",
-      "lastModified": "2026-10-15T08:47:57.624Z"
+      "hash": "5203603fef9464d5",
+      "lastModified": "2026-11-25T13:42:24.812Z"
     }
   }
 }

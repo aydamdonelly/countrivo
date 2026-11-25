@@ -133,5 +133,21 @@
       "practice"
     ],
     "route": "/games/speed-flags"
+  },
+  {
+    "slug": "capital-quiz",
+    "title": "Capital Quiz",
+    "shortDescription": "Ten countries. Pick each capital from four cities.",
+    "description": "A country is named. Pick its capital from four cities, the others capitals of nearby countries, and see the answer after every pick. Ten countries, the whole world or one continent.",
+    "difficulty": "medium",
+    "estimatedTime": "2 min",
+    "category": "knowledge",
+    "tier": "drill",
+    "isNew": true,
+    "isFlagship": false,
+    "availableModes": [
+      "practice"
+    ],
+    "route": "/games/capital-quiz"
   }
 ]

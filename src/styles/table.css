@@ -52,6 +52,8 @@
   [data-game="stat-guesser"] { --game-accent:var(--color-game-stat); }
   [data-game="blind-pick"] { --game-accent:var(--color-game-blind); }
   [data-game="speed-flags"] { --game-accent:var(--color-game-speed); }
+  /* Capital Quiz borrows the GeoWordle sea blue for its globe; on the practice grid the two sit rows apart. */
+  [data-game="capital-quiz"] { --game-accent:var(--color-game-geo); }
   .game-tile-main { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; height:100%; min-height:172px; padding:36px 12px 16px; background:var(--tile-color); color:var(--color-ink); border-radius:var(--radius-card); box-shadow:var(--lift); text-align:center; }
   .game-tile-main > .clay-object { width:84px; height:84px; margin-bottom:6px; }
   .game-tile-title { width:100%; font-family:var(--font-display); font-size:19px; font-weight:600; line-height:24px; overflow-wrap:anywhere; }
