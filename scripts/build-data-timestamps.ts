@@ -28,6 +28,7 @@ import { getGameContent } from "../src/content/games";
 import { getGameCopy } from "../src/lib/seo/game-copy";
 import { getGameSeo } from "../src/lib/seo/game-metadata";
 import { PRACTICE_PAGES } from '../src/lib/seo/practice-pages';
+import { TOPIC_PAGES } from '../src/lib/seo/topic-pages';
 import { TABLE_GAMES } from '../src/content/table';
 import { worldStandings } from '../src/lib/data/world';
 
@@ -116,6 +117,7 @@ const games: GameRecord[] = JSON.parse(
 );
 
 const stats: StatTable = JSON.parse(readFileSync(join(DATA_DIR, "stats.json"), "utf-8"));
+const sovereignIso3: string[] = JSON.parse(readFileSync(join(DATA_DIR, "sovereign.json"), "utf-8"));
 
 // --------------- hashing ---------------
 
@@ -220,6 +222,19 @@ for (const slug of PRACTICE_PAGES) {
     ...(slug === 'urban-geography' ? { values: Object.fromEntries(Object.entries(stats).map(([iso3, values]) => [iso3, { urban: values['urban-population-pct'], population: values.population }])), categories: categories.filter(category => ['urban-population-pct', 'population'].includes(category.slug)) } : {}),
   });
 }
+// Root-level topic pages (/world-map-quiz, /games-like-worldle): their copy lives in the view,
+// the map quiz also prints worked examples from Pinpoint's scoring and per-continent counts.
+for (const slug of TOPIC_PAGES) {
+  hashes[`topic:${slug}`] = hash({
+    page: readFileSync(join(REPO_ROOT, `src/app/(seo)/${slug}/page.tsx`), 'utf8'),
+    view: readFileSync(join(REPO_ROOT, `src/features/seo/${slug}.tsx`), 'utf8'),
+    styles: readFileSync(join(REPO_ROOT, `src/features/seo/${slug}.css`), 'utf8'),
+    ...(slug === 'world-map-quiz' ? {
+      scoring: readFileSync(join(REPO_ROOT, 'src/lib/game-logic/pinpoint/scoring.ts'), 'utf8'),
+      countries: countries.filter(country => sovereignIso3.includes(country.iso3)).map(country => [country.iso3, country.continent]),
+    } : {}),
+  });
+}
 hashes['practice:hub'] = hash({
   page: readFileSync(join(REPO_ROOT, 'src/app/(seo)/practice/page.tsx'), 'utf8'),
   games: TABLE_GAMES,
@@ -267,7 +282,7 @@ function sourceCommitDate(relPath: string): string {
 /** Which source file each key namespace derives from. */
 function seedDateFor(key: string): string {
   // These pages are introduced or materially revised with this namespace.
-  if (key.startsWith('practice:')) return now;
+  if (key.startsWith('practice:') || key.startsWith('topic:')) return now;
   if (key.startsWith("game:")) return sourceCommitDate("src/data/game-registry.json");
   if (key.startsWith("category:")) return sourceCommitDate("src/data/categories.json");
   // country: and list: are both driven by the stats/ranks pipeline; take the

@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { getDailyGames } from '@/lib/data/games';
 import { TABLE_GAMES } from '@/content/table';
 import { GameCard } from '@/ui/game-card';
+import { GameRow } from '@/ui/game-row';
+import { GlobeIcon } from '@/ui/icons/globe';
+import { PinIcon } from '@/ui/icons/pin';
 import { PageTitle } from "@/ui/page-title";
 import { SiteFoot } from "@/ui/site-foot";
 import { getClock } from '@/server/clock';
@@ -25,6 +28,9 @@ export async function GamesHub() {
       <div className="game-index">{daily.map((game, i)=><GameCard key={game.slug} game={game} score={done[game.slug]} active={i < 4} isNew={Boolean(game.newUntil && clock.dateKey <= game.newUntil && !done[game.slug])} />)}</div></section>
     <section className="hub-section" aria-labelledby="hub-practice"><h2 id="hub-practice" className="t-h2">Practice only</h2><p className="hub-lead">Fresh boards whenever you like. No leaderboard.</p>
       <div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} active={false} practice />)}</div></section>
+    <section className="hub-section ls" aria-labelledby="hub-more"><h2 id="hub-more" className="t-h2">More ways to play</h2>
+      <GameRow href="/world-map-quiz" title="World Map Quiz" meta="Find countries on a blank map, unlimited rounds" lead={<PinIcon size={24} />} />
+      <GameRow href="/games-like-worldle" title="Games like Worldle" meta="Worldle, Globle, Travle and Seterra next to ours" lead={<GlobeIcon size={24} />} /></section>
     <p className="hub-lead hub-teachers"><Link href="/about#teachers">Teaching geography? Countrivo works in class with no accounts</Link></p>
     <SiteFoot />
   </>;

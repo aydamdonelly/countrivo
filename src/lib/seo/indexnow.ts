@@ -1,5 +1,6 @@
 export type UrlStamps = Record<string, string>;
 import { PRACTICE_PAGES } from './practice-pages';
+import { TOPIC_PAGES } from './topic-pages';
 
 export interface PageTimestamps {
   generatedAt: string;
@@ -45,6 +46,7 @@ export function buildIndexNowStamps(
   for (const game of inventory.games) resolved[`${base}${game.route}`] = stamp(`game:${game.slug}`);
   for (const slug of inventory.listSlugs) resolved[`${base}/lists/${slug}`] = stamp(`list:${slug}`);
   for (const slug of PRACTICE_PAGES) resolved[`${base}/practice/${slug}`] = stamp(`practice:${slug}`);
+  for (const slug of TOPIC_PAGES) resolved[`${base}/${slug}`] = stamp(`topic:${slug}`);
   return resolved;
 }
 

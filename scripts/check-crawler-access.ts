@@ -39,6 +39,8 @@ const PAGES: PageCheck[] = [
   },
   { path: "/practice", minTextLength: 360, canaries: [/Blind Pick/, /Speed Flags/, /Flags of Europe/, /How urban is the world/] },
   { path: "/practice/europe-flags", minTextLength: 830, canaries: [/Flags of Europe/, /Play Europe flags/, /European/] },
+  { path: "/world-map-quiz", minTextLength: 4590, canaries: [/World Map Quiz/, /Start the map quiz/, /blank world map/i, /Pinpoint/] },
+  { path: "/games-like-worldle", minTextLength: 4220, canaries: [/Games like Worldle/, /Globle/, /Travle/, /Seterra/, /Checked 25 November 2026/] },
   { path: "/practice/urban-geography", minTextLength: 600, canaries: [/How urban is the world/, /2022/, /World Cities Day/, /national definition/i] },
   {
     path: "/countries/japan",
