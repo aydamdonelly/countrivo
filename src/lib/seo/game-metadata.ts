@@ -65,16 +65,16 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "flag-quiz": {
-    title: "Flag Quiz: Guess the Country by Its Flag, Free Daily Flag Game | Countrivo",
+    title: "Flag Quiz: Name Flags in 20 Seconds, Free Daily Flag Game | Countrivo",
     description:
-      "Name countries from their flags in ten rounds. The final three lookalikes count double. Free daily flag quiz and unlimited practice, no account.",
+      "How many flags can you name in 20 seconds? Four names per flag, a wrong answer costs 2 seconds. Same flags for everyone each day, a daily leaderboard and unlimited practice, no account.",
     genre: "Geography Quiz",
     playMode: "SinglePlayer",
     rules: [
-      "A flag is shown on screen",
-      "Pick the correct country from 4 options",
-      "10 questions per round",
-      "The first seven flags score one point each, the last three two: maximum 13",
+      "A flag is shown on screen with 4 country names",
+      "Name as many flags as you can in 20 seconds",
+      "A wrong answer takes 2 seconds off the clock",
+      "Your score is the number of flags you named",
     ],
   },
   "higher-or-lower": {

@@ -40,13 +40,14 @@ export const GAME_COPY: Record<string, GameCopy> = {
   },
   "flag-quiz": {
     about: [
-      "Flag Quiz is a free daily flag game: ten flags of sovereign states, four names each, easy to hard. Everyone gets the same ten flags that day, so your points compare directly with every other player's. Practice mode deals new flags every time and never repeats today's daily answers.",
-      "The last three flags are true lookalikes and count double, for a maximum of 13 points. After each one a single line tells the family apart, so you learn to tell Chad from Romania and Indonesia from Monaco instead of guessing.",
+      "Flag Quiz is a free daily flag sprint: twenty seconds to name as many flags of sovereign states as you can, four names per flag. Everyone gets the same flags in the same order that day, so the daily leaderboard shows who named the most in twenty seconds. Practice mode deals new flags every run and leaves out today's daily flags.",
+      "The first flags are widely known; after that any sovereign state can appear, and its wrong names come from its lookalike family or its neighbours. A wrong answer costs two seconds, so a quick guess is not free. When the clock runs out, the result lists every flag you saw with its country, so you learn the ones you missed.",
     ],
     faq: [
-      { q: "Which flags are in the flag quiz?", a: "The flags of the world's sovereign states: the 193 UN members plus the Holy See and Palestine. The first three flags of a run are widely known, the next four test a region, and the last three come from lookalike families." },
-      { q: "How is the flag quiz scored?", a: "Flags 1 to 7 score one point each and flags 8 to 10, the lookalikes, score two. The maximum is 13 and par is 9. There is no clock, and your first tap on each flag counts." },
-      { q: "Is there a daily flag quiz?", a: "Yes. The daily board shows the same ten flags to everyone and resets at midnight Berlin time. Practice mode is unlimited." },
+      { q: "Which flags are in the flag quiz?", a: "The flags of the world's sovereign states: the 193 UN members plus the Holy See and Palestine. The first six flags of a run are widely known. After that any sovereign state can appear, with lookalike flags among the wrong names." },
+      { q: "How is the flag quiz scored?", a: "One point for every flag you name in twenty seconds. A wrong answer scores nothing and takes two seconds off the clock. Par is 8. Equal scores share a rank on the daily leaderboard." },
+      { q: "When does the clock start?", a: "When you press Start. The clock runs on the server, so a slow phone or a reload does not stop it. Each answer counts when it reaches the server, with a short allowance for an answer already on its way when the time runs out." },
+      { q: "Is there a daily flag quiz?", a: "Yes. The daily sprint shows the same flags to everyone and resets at midnight Berlin time. You get one daily run. Practice mode is unlimited and never changes the leaderboard." },
     ],
   },
   "geo-wordle": {

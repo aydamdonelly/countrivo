@@ -2,6 +2,7 @@ import "server-only";
 
 import { simulatedRivals, type SimulatedRival } from "@/lib/leaderboard-bots";
 import { gameDatabase } from "./anonymous-identity";
+import { flagFormat } from "./quick-sessions";
 
 export async function seedRivalsForGame(slug:string,dateKey:string):Promise<void> {
   const {count}=await gameDatabase().from('countrivo_bot_runs').select('*',{count:'exact',head:true}).eq('game_slug',slug).eq('date_key',dateKey);
@@ -12,6 +13,8 @@ export async function seedRivalsForGame(slug:string,dateKey:string):Promise<void
 }
 
 /** Simulations are deterministic illustrations, so reading a database adds no value. */
-export async function getSimulatedRivals(slug:string,dateKey:string):Promise<SimulatedRival[]> {
+export async function getSimulatedRivals(slug:string,dateKey:string,edition?:string):Promise<SimulatedRival[]> {
+  // A Flag Quiz day frozen under the ten-flag quiz keeps rivals in its own points.
+  if(slug==='flag-quiz'&&edition!==undefined)return simulatedRivals(slug,dateKey,await flagFormat('daily',dateKey,edition));
   return simulatedRivals(slug,dateKey);
 }

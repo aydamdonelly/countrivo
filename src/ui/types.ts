@@ -4,7 +4,7 @@ import type { Profile } from "@/types/server";
 /** The two modes. There is no third. */
 export type Mode = "daily" | "practice";
 
-/** The seven registry slugs (six games plus Speed Flags, the practice-only drill). */
+/** The eight registry slugs (seven daily games plus Speed Flags, the practice-only drill). */
 export type GameSlug =
   | "country-draft"
   | "blind-pick"

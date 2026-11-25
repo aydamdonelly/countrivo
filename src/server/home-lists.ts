@@ -13,7 +13,7 @@ export interface PracticeMeta {
 }
 
 /** Games whose score reads as a count of a total (`7/10`, `4/6`, `3/4`). */
-const COUNT_OF_TOTAL = new Set(["flag-quiz", "geo-wordle"]);
+const COUNT_OF_TOTAL = new Set(["geo-wordle"]);
 
 function group(n: number): string {
   return Math.round(n).toLocaleString("en-US").replace(/,/g, " ");

@@ -1,6 +1,6 @@
 import { getAllGames, getDailyGames } from '@/lib/data/registry';
 import { ogContentType, ogSize, renderGameOgImage } from '@/lib/seo/og-image';
-export const alt = 'Countrivo · Six short geography games, new every day';
+export const alt = 'Countrivo · Seven short geography games, new every day';
 export const size = ogSize;
 export const contentType = ogContentType;
 export default function OGImage() {

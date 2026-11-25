@@ -27,6 +27,7 @@ import { validateCountryDraftResult } from "../src/lib/game-logic/country-draft/
 import { checkStatGuesserShape, validateStatGuesserResult } from "../src/lib/game-logic/stat-guesser/server-validate";
 import { validateHigherOrLowerResult } from "../src/lib/game-logic/higher-or-lower/server-validate";
 import { validateFlagQuizResult } from "../src/lib/game-logic/flag-quiz/server-validate";
+import { SPRINT_MS, PENALTY_MS, currentFlag, deadlineOf, type SprintState } from "../src/lib/game-logic/flag-quiz/sprint";
 import { LADDER, answerAt, farEnough } from "../src/lib/game-logic/higher-or-lower/engine";
 import { rulerFor } from "../src/lib/game-logic/stat-guesser/engine";
 import type { Action, GameModule, PayloadContext, SubmitGameRunInput } from "../src/games/types";
@@ -37,7 +38,8 @@ import { gameModule as blindPick, type BlindPickState } from "../src/games/blind
 import { gameModule as higherOrLower, currentAnswer, type HoLState } from "../src/games/higher-or-lower/module";
 import { gameModule as geoWordle } from "../src/games/geo-wordle/module";
 import { gameModule as statGuesser } from "../src/games/stat-guesser/module";
-import { gameModule as flagQuiz, type QuizState } from "../src/games/flag-quiz/module";
+import { gameModule as flagQuiz } from "../src/games/flag-quiz/module";
+import { legacyGameModule as legacyFlagQuiz, type QuizState } from "../src/games/flag-quiz/legacy-module";
 import { gameModule as pinpoint } from "../src/games/pinpoint/module";
 import type { PinpointState } from "../src/lib/game-logic/pinpoint/engine";
 import { gameModule as speedFlags } from "../src/games/speed-flags/module";
@@ -102,6 +104,14 @@ type Validator = (scoreRaw: number, scoreMax: number, r: ResultJson) => string |
 
 const VALIDATORS: Record<string, Validator> = {
   "flag-quiz": (scoreRaw, scoreMax, r) => {
+    if (r.v === 3) {
+      const hits = r.hits;
+      if (!Array.isArray(hits) || hits.length > 60 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+      if (typeof r.correct !== "number" || r.correct !== scoreRaw) return "score_mismatch";
+      if (hits.filter((h) => h === true).length !== scoreRaw) return "score_mismatch";
+      if (scoreMax !== 60 || scoreRaw > 60) return "score_exceeds_total";
+      return null;
+    }
     const answers = r.answers;
     const hits = r.hits;
     if (!Array.isArray(answers) || answers.length !== 10) return "invalid_result";
@@ -346,9 +356,32 @@ const statGuesserDriver: Driver<StatGuesserState> = {
   },
 };
 
-const flagQuizDriver: Driver<QuizState> = {
+const flagQuizDriver: Driver<SprintState> = {
+  // The sprint on explicit server times: an answer every 700 ms, every third one wrong, so
+  // the penalty shortens the clock, until an answer lands on the shortened deadline.
+  module: flagQuiz as unknown as GameModule<SprintState, Action>,
+  resultKeys: ["v", "correct", "wrong", "answered", "answers", "ms", "hits", "end"],
+  tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 1 }),
+  play(state, push) {
+    const m = this.module;
+    const t0 = 1_800_000_000_000;
+    let s = step(m, state, { t: "start", at: t0 } as Action, push);
+    let n = 0;
+    while (!m.done(s) && n < 80) {
+      const flag = currentFlag(s);
+      if (!flag) break;
+      n += 1;
+      const i = n % 3 === 0 ? (flag.correctIndex + 1) % 4 : flag.correctIndex;
+      s = step(m, s, { t: "answer", i, at: t0 + 700 * n } as Action, push);
+    }
+    check((deadlineOf(s) ?? 0) < t0 + SPRINT_MS && (deadlineOf(s) ?? 0) % PENALTY_MS === 0, "wrong answers shorten the sprint clock by whole penalties");
+    return s;
+  },
+};
+
+const legacyFlagQuizDriver: Driver<QuizState> = {
   // Ten flags, right then wrong alternating, so score, answers and the log all disagree usefully.
-  module: flagQuiz as unknown as GameModule<QuizState, Action>,
+  module: legacyFlagQuiz as unknown as GameModule<QuizState, Action>,
   resultKeys: ["score", "total", "answers", "hits"],
   tamper: (p) => ({ ...p, scoreRaw: 10 }),
   play(state, push) {
@@ -531,8 +564,20 @@ function runDailyValidators(): void {
 
   const fq = playOut("flag-quiz");
   const fqp = fq.m.payload(fq.end, CTX);
-  eq(validateFlagQuizResult(DATE_KEY, fqp.scoreRaw, fqp.resultJson, EDITION).valid, true, "validateFlagQuizResult accepts the honest run");
-  eq(validateFlagQuizResult(DATE_KEY, Math.min(13, fqp.scoreRaw + 2), fqp.resultJson, EDITION).valid, false, "validateFlagQuizResult refuses a lifted score");
+  eq(validateFlagQuizResult(DATE_KEY, fqp.scoreRaw, fqp.resultJson, EDITION).valid, true, "validateFlagQuizResult accepts the honest sprint");
+  eq(validateFlagQuizResult(DATE_KEY, fqp.scoreRaw + 1, fqp.resultJson, EDITION).valid, false, "validateFlagQuizResult refuses a lifted sprint count");
+  const ms = fqp.resultJson.ms;
+  const slow = Array.isArray(ms) ? { ...fqp.resultJson, ms: ms.map((t) => Number(t) + 30_000) } : fqp.resultJson;
+  eq(validateFlagQuizResult(DATE_KEY, fqp.scoreRaw, slow, EDITION).valid, false, "validateFlagQuizResult refuses answers after the clock ran out");
+
+  // The ten-flag quiz still validates the boards frozen under it.
+  const legacy = legacyFlagQuizDriver.module;
+  const legacyLog: Action[] = [];
+  const legacyEnd = legacyFlagQuizDriver.play(legacy.create(SEED, "daily", DATE_KEY), (a) => legacyLog.push(a));
+  const lqp = legacy.payload(legacyEnd, CTX);
+  eq(validateFlagQuizResult(DATE_KEY, lqp.scoreRaw, lqp.resultJson, EDITION).valid, true, "validateFlagQuizResult accepts the honest ten-flag run");
+  eq(validateFlagQuizResult(DATE_KEY, Math.min(13, lqp.scoreRaw + 2), lqp.resultJson, EDITION).valid, false, "validateFlagQuizResult refuses a lifted ten-flag score");
+  eq(VALIDATORS["flag-quiz"](lqp.scoreRaw, lqp.scoreMax, lqp.resultJson), null, "validateGameResult still accepts a ten-flag payload");
 }
 
 /** Concept 5.5: the rank-gap ladder, the direction balance and the 3% rule on 365 daily boards. */
@@ -570,10 +615,12 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "geo-wordle", "higher-or-lower", "pinpoint", "stat-guesser", "blind-pick", "flag-quiz", "speed-flags"],
+    ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick", "speed-flags"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");
+  const dailies = list.filter((g) => (g as { tier?: string; availableModes?: string[] }).tier === "main" && (g as { availableModes?: string[] }).availableModes?.includes("daily")).map((g) => g.slug);
+  eq(dailies, ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick"], "seven daily games in order, Flag Quiz among them");
 }
 
 console.log(`check-contracts: playing every board on ${DATE_KEY} (seed ${SEED})`);

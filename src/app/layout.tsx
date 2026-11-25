@@ -25,14 +25,14 @@ export const metadata: Metadata = {
   // Smart App Banner: Safari on iPhone offers the Countrivo app on every page.
   itunes: { appId: "6782594305" },
   title: {
-    default: "Countrivo | Free Geography Games, Six Short Games a Day",
+    default: "Countrivo | Free Geography Games, Seven Short Games a Day",
     template: "%s | Countrivo",
   },
   description: `Play ${GAME_COUNT} free geography games online: GeoWordle, Country Draft, flag quizzes and country stats puzzles. Daily boards and unlimited practice. No signup.`,
   openGraph: {
     type: "website",
     siteName: "Countrivo",
-    title: "Countrivo | Free Geography Games, Six Short Games a Day",
+    title: "Countrivo | Free Geography Games, Seven Short Games a Day",
     description: `${GAME_COUNT} free geography games. A new board every day, flag quizzes, country stats and strategy puzzles. 243 countries. No signup.`,
   },
   twitter: {

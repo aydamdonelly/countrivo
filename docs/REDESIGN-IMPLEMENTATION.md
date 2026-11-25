@@ -7,9 +7,9 @@ sample Figma counts, scores or country facts as live data.
 
 ## Delivered surfaces
 
-- Shared header, six-object daily strip, notched game trays, peeking next card,
+- Shared header, daily strip (seven objects since the Flag Quiz sprint), notched game trays, peeking next card,
   desktop controls, footer shelf, sheets, toasts and rollover/error/retry states.
-- Home first visit, returning/resumable, finished game, full six-game day with the
+- Home first visit, returning/resumable, finished game, full daily set with the
   map of encountered countries; practice room and eight-game index.
 - Eight landings with rules, real daily scores/Par, FAQ, related games and archive.
 - Country Draft explicit country-opening actions, credited portraits, person information,
@@ -26,7 +26,8 @@ sample Figma counts, scores or country facts as live data.
   continent Name Them All games, three sourced discovery lists and sources page.
 - About, privacy with device-data deletion, terms, credits, support and imprint.
 - 404, route/global error, embedded iOS offline fallback, reduced-motion variants,
-  native-form play without JavaScript for six games; Pinpoint/Speed explain their JS need.
+  native-form play without JavaScript for five games; Pinpoint, the Flag Quiz sprint and
+  Speed Flags explain their JS need.
 - Owner-only admin gate, report moderation and next-day board replacement queue.
 
 Native startup now runs haptics, status-bar styling, offline detection, the splashscreen
@@ -199,3 +200,46 @@ The ranked-board/block migration is applied to the existing Countrivo tables in 
 CLI-accessible project. Its 600-player regression runs in a transaction and rolls back.
 Build, lint, theme, 8,341 adapter assertions, regional-board, session retry, challenge,
 weekly-history and responsive-browser checks pass. Generated QA artifacts stay ignored.
+
+## November 25 Flag Quiz sprint
+
+Owner request: Flag Quiz becomes a daily game of twenty seconds in which you name as many
+flags as you can, with new flags every day and a leaderboard of who named the most. It is
+the fourth daily (Country Draft, GeoWordle, Higher or Lower, Flag Quiz, Pinpoint, Stat
+Guesser, Blind Pick); Speed Flags stays the practice-only two-option drill.
+
+- **Board.** `src/lib/game-logic/flag-quiz/sprint.ts`, pure with an injected RNG. Sixty
+  distinct sovereign flags from the HMAC daily seed (`dailyBoardSeed('flag-quiz', …)`), the
+  first six from the widely known pool. Each flag has four names: its lookalike family
+  first (core and kin), topped up with the nearest states of its subregion, then region.
+  The board is frozen as the day's immutable snapshot like every other daily.
+- **Clock.** `start` is stamped with the server's receipt time and reveals the first flag.
+  The deadline is start + 20 s minus 2 s per wrong answer. Every move is stamped by the
+  server action before anything else runs (`commitQuickSession`); the client never sends a
+  time. An answer stamped up to 1.5 s after the deadline was in flight and still counts, then
+  ends the run; a later one is not counted and ends the run. When the client countdown
+  (server deadline and server time from each view) reaches zero it sends `finish`. The
+  stamped times are the move log (`codec.ts`, about 5 characters per answer), so replay and
+  the revision compare-and-swap work as for the other dailies and a retried or stale request
+  returns the committed result.
+- **Views.** `sprintView` sends only the flag on screen (opaque asset) and its four names,
+  the counts, the deadline and the server time. No later flag, no answer index. The flags
+  seen, with the pick for each miss and the flag the clock ran out on, are listed only once
+  the run is over.
+- **Score.** Flags named; `score_sort_value` is the count, higher is better, equal counts
+  share a rank. `score_max` is the 60-flag board. Display `11 flags`, target 8.
+  resultJson v3 holds the picks and their ms since the start; the older submission path
+  replays it through the reducer (`validateFlagSprintResult`).
+- **Practice.** The same sprint on a random seed, unranked and unlimited, leaving out today's
+  daily flags. The Europe flags practice keeps the ten-flag quiz.
+- **Cut-over.** A day whose snapshot was frozen under the ten-flag quiz keeps those rules
+  (`flagFormat` reads the snapshot), so the deploy day and archived days replay unchanged and
+  the sprint starts with the first new day. The ten-flag module, codec and board stay as
+  `legacy-*` files. Practice sessions saved under the ten-flag rules restart as a sprint
+  (`contentVersion` 3).
+- **Without JavaScript** the sprint explains that it needs it, like Pinpoint.
+
+Checks: `npx tsx scripts/check-flag-sprint.ts` runs the engine and the real session code
+on an in-memory database (deterministic boards, view secrecy, deadline and grace, penalty,
+stale and duplicate moves, practice exclusion, cut-over). `scripts/check-flag-sprint-ui.mjs`
+walks the built app at 390 px with every action POST answered from the engine.

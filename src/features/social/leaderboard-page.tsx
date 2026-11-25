@@ -7,6 +7,7 @@ import { anonymousBoard, blockedLeaderboardRuns, deviceDailyRows, mapAnonymousRu
 import { getArchivedBoard } from "@/server/board-snapshots";
 import { getEdition } from "@/server/edition";
 import { getSimulatedRivals } from "@/server/leaderboard-bots";
+import { flagFormat } from "@/server/quick-sessions";
 import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
 import { Flag } from "@/ui/flag";
 import { podiumPlace, RankMarker } from "@/ui/rank-marker";
@@ -22,7 +23,7 @@ export function shiftDateKey(dateKey: string, days: number): string { const day 
 const PAR: Record<string, { label: string; score: number }> = {
   "blind-pick": { label: `+${BLIND_PICK_PAR} over best fit`, score: BLIND_PICK_PAR },
   "country-draft": { label: "140 / 195", score: 140 }, "geo-wordle": { label: "4 guesses", score: 4 },
-  pinpoint: { label: "720 / 1,200", score: 720 }, "flag-quiz": { label: "9 / 13", score: 9 },
+  pinpoint: { label: "720 / 1,200", score: 720 }, "flag-quiz": { label: "8 flags", score: 8 },
   "higher-or-lower": { label: "9 / 13", score: 9 }, "stat-guesser": { label: "300 / 600", score: 300 },
 };
 
@@ -36,14 +37,15 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
   const past = day < today ? await getArchivedBoard(slug, day) : null;
   const edition = day === today ? await getEdition() : past?.edition ?? "";
   const [board, owned, practice, blocked] = await Promise.all([
-    anonymousBoard(slug, day, { edition }), deviceDailyRows(day, edition), getSimulatedRivals(slug, day), blockedLeaderboardRuns(slug, day, edition),
+    anonymousBoard(slug, day, { edition }), deviceDailyRows(day, edition), getSimulatedRivals(slug, day, edition), blockedLeaderboardRuns(slug, day, edition),
   ]);
   const mine = owned.find(row => row.game_slug === slug);
   const ownRun = mine ? await mapAnonymousRun(mine) : null;
   const showOwn = day === today && !!mine && !!ownRun;
   const top = board.entries.slice(0, 50).filter(row => !blocked.ids.includes(row.runId) && !(showOwn && row.runId === mine?.id));
   const countriesTab = tab === "countries";
-  const target = PAR[slug];
+  // A Flag Quiz day frozen under the ten-flag quiz keeps its points par.
+  const target = slug === "flag-quiz" && await flagFormat("daily", day, edition) === "quiz" ? { label: "9 / 13", score: 9 } : PAR[slug];
   const href = (dateKey: string, choice = tab) => `/games/${slug}/leaderboard?date=${dateKey}${choice === "countries" ? "&tab=countries" : ""}`;
   const privatePreview = showOwn && !mine?.display_name && !!ownRun?.rankPreview;
   const hasNamedMine = mine?.display_name && !mine.moderation_hidden;

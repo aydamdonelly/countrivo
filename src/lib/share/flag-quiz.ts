@@ -38,3 +38,33 @@ export function buildFlagQuizShareText(input: FlagQuizShareInput): string {
     "countrivo.com/games/flag-quiz",
   ].join("\n");
 }
+
+export interface FlagSprintShareInput {
+  /** Right answers. */
+  correct: number;
+  /** Right or wrong per answered flag, in board order. */
+  hits: readonly boolean[];
+  seconds: number;
+  /** Berlin `YYYY-MM-DD`. */
+  dateKey: string;
+  practice: boolean;
+}
+
+/**
+ * The sprint share text: the count in the headline and one square per answered flag, ten to
+ * a line, never a country name.
+ *
+ *   Countrivo Flag Quiz 25 Nov: 11 flags in 20 s
+ *   🟩🟩🟥🟩🟩🟩🟩🟩🟩🟥
+ *   🟩🟩🟩
+ *   countrivo.com/games/flag-quiz
+ */
+export function buildFlagSprintShareText(input: FlagSprintShareInput): string {
+  const date = shortDate(input.dateKey);
+  const head = input.practice ? "Countrivo Flag Quiz practice" : `Countrivo Flag Quiz${date ? ` ${date}` : ""}`;
+  const count = `${input.correct} ${input.correct === 1 ? "flag" : "flags"} in ${input.seconds} s`;
+  const squares = input.hits.map((ok) => (ok ? "🟩" : "🟥"));
+  const lines: string[] = [];
+  for (let i = 0; i < squares.length; i += 10) lines.push(squares.slice(i, i + 10).join(""));
+  return [`${head}: ${count}`, ...lines, "countrivo.com/games/flag-quiz"].join("\n");
+}

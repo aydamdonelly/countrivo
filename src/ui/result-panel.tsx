@@ -76,7 +76,9 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
   const parts = splitScore(score);
   const unit = parts?.rest.replace(/^\s*of\s+/i, "/").trim();
   const clay = outcomeClay(game, score);
-  const parByGame: Record<string, number> = { "Country Draft": 140, GeoWordle: 4, Pinpoint: 720, "Flag Quiz": 9, "Higher or Lower": 9, "Stat Guesser": 300, "Blind Pick": 10 };
+  // A Flag Quiz score in flags is the twenty-second sprint; `9 of 13` is a ten-flag board.
+  const flagSprint = game === "Flag Quiz" && /^flags?$/.test(unit ?? "");
+  const parByGame: Record<string, number> = { "Country Draft": 140, GeoWordle: 4, Pinpoint: 720, "Flag Quiz": flagSprint ? 8 : 9, "Higher or Lower": 9, "Stat Guesser": 300, "Blind Pick": 10 };
   const par = mode === "practice" && game === "Higher or Lower" ? undefined : parByGame[game];
   const value = parts?.n;
   const lowerIsBetter = game === "GeoWordle" || game === "Blind Pick";
@@ -84,7 +86,7 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
   const c = counter && (delta === null || !/^par\b/i.test(counter)) ? counter : undefined;
   const parLabel = par === undefined ? undefined : `${game === "Blind Pick" ? "+" : ""}${par}`;
   const deltaLabel = delta === null ? undefined : delta === 0 ? "On par" : `${Math.abs(delta)} ${delta > 0 ? "better than" : "off"} par`;
-  const scoreLabels: Record<string, string> = { "Flag Quiz": "points", "Higher or Lower": mode === "practice" ? "correct calls" : "points", "Stat Guesser": "points", Pinpoint: "points", GeoWordle: "guesses used", "Blind Pick": "rank places over perfect", "Speed Flags": "flags named in 30 seconds" };
+  const scoreLabels: Record<string, string> = { "Flag Quiz": flagSprint ? "named in 20 seconds" : "points", "Higher or Lower": mode === "practice" ? "correct calls" : "points", "Stat Guesser": "points", Pinpoint: "points", GeoWordle: "guesses used", "Blind Pick": "rank places over perfect", "Speed Flags": "flags named in 30 seconds" };
   const verdict = outcome ?? (game === "Speed Flags" ? "Time’s up" : game === "Blind Pick" ? score === "Perfect" ? "Best possible match" : "Board complete" : game === "Stat Guesser" ? "Five estimates complete" : "Round complete");
   return (
     <div className={cn("rp-wrap", animateScore && "rp-arrived", className)}>

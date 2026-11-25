@@ -5,7 +5,7 @@ import { gameModule as countryDraft } from "@/games/country-draft/module";
 import { gameModule as higherOrLower } from "@/games/higher-or-lower/module";
 import { gameModule as geoWordle } from "@/games/geo-wordle/module";
 import { gameModule as statGuesser } from "@/games/stat-guesser/module";
-import { gameModule as flagQuiz } from "@/games/flag-quiz/module";
+import { legacyGameModule as flagQuiz } from "@/games/flag-quiz/legacy-module";
 import { gameModule as speedFlags, type SpeedAction } from "@/games/speed-flags/module";
 import { replay } from "@/features/play/replay";
 import type { Action, GameModule, SubmitGameRunInput } from "@/games/types";
@@ -64,7 +64,6 @@ export async function preserveGenericBoard(ticket: RunTicket): Promise<void> {
     case "blind-pick": state = (ticket.contentVersion === BLIND_PICK_VERSION ? blindPick : legacyBlindPick).create(ticket.seed, ticket.mode, ticket.dateKey); break;
     case "higher-or-lower": state = higherOrLower.create(ticket.seed, ticket.mode, ticket.dateKey); break;
     case "stat-guesser": state = statGuesser.create(ticket.seed, ticket.mode, ticket.dateKey); break;
-    case "flag-quiz": state = flagQuiz.create(ticket.seed, ticket.mode, ticket.dateKey); break;
     default: return;
   }
   await storeBoardSnapshot({slug:ticket.slug,dateKey:ticket.dateKey,edition:ticket.edition,seed:ticket.seed,

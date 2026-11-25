@@ -18,6 +18,7 @@ function answerSummary(slug:string,solution:unknown):string {
     const country=record(round.country)?round.country.name:null;
     return typeof country==='string'&&typeof round.actualValue==='number'?`${country}: ${round.actualValue.toLocaleString('en-US')}`:'';
   }).filter(Boolean).join(' · ');
+  if(slug==='flag-quiz'&&solution.kind==='sprint')return `First flags: ${rows(solution.flags).slice(0,10).flatMap(flag=>typeof flag.iso3==='string'?[getCountryByIso3(flag.iso3)?.displayName??flag.iso3]:[]).join(' · ')}`;
   if(record(solution.g)) {
     if(slug==='flag-quiz')return rows(solution.g.questions).flatMap(q=>record(q.country)&&typeof q.country.displayName==='string'?[q.country.displayName]:[]).join(' · ');
     if(slug==='higher-or-lower')return rows(solution.g.chain).map(c=>typeof c.name==='string'&&typeof c.value==='number'?`${c.name}: ${c.value.toLocaleString('en-US')}`:'').filter(Boolean).join(' · ');

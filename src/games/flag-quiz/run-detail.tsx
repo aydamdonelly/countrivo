@@ -4,7 +4,8 @@ const FLAGS = 10;
 const DOUBLE_FROM = 7;
 
 /**
- * The run rows behind a shared Flag Quiz run. The saved resultJson is
+ * The run rows behind a shared Flag Quiz run. A sprint run (`v: 3`) prints its counts.
+ * A ten-flag run: The saved resultJson is
  * `{ v: 2, score, total, answers, hits }`, total being the 13-point maximum. `hits` marks
  * each of the ten flags right or wrong, so the rows split the run into the seven single
  * flags and the three lookalikes that count double. The flags are not named back: a run page can be opened while the day's board is
@@ -12,6 +13,13 @@ const DOUBLE_FROM = 7;
  */
 export function RunDetail({ run }: RunDetailProps) {
   const json = run.resultJson ?? {};
+  if (json.v === 3) {
+    // The twenty-second sprint: counts only, never the flags (today's board may still be live).
+    const correct = typeof json.correct === "number" ? json.correct : run.scoreRaw;
+    const wrong = typeof json.wrong === "number" ? json.wrong : 0;
+    const penalty = typeof json.penalty === "number" ? json.penalty : 2;
+    return <Rows rows={[["named right", `${correct}`, false], ["wrong answers", `${wrong}`, wrong > 0], ["seconds lost to wrong answers", `${wrong * penalty}`, wrong > 0]]} />;
+  }
   const hits = isHits(json.hits) ? json.hits : null;
 
   if (!hits) {

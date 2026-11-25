@@ -1,6 +1,6 @@
 # Countrivo
 
-Six daily geography games and two practice games. The October 2026 Table redesign
+Seven daily geography games and one practice game. The October 2026 Table redesign
 replaces the August K3 interface and the account-based play flow.
 
 @AGENTS.md
@@ -23,7 +23,7 @@ No new dependencies without approval.
 | country-draft | yes | Five rounds: choose one of three countries, then a person and a free cabinet job. Points revealed only after seating. Maximum 195. |
 | geo-wordle | yes | Six country guesses with distance/bearing, an optional costed outline clue, then neighbour/capital discovery. |
 | pinpoint | yes | Place five countries on a map. Fifth round double, maximum 1,200. |
-| flag-quiz | yes | Ten flags, final three double, maximum 13. |
+| flag-quiz | yes | Twenty-second sprint: as many flags as you can name, four names each, a wrong answer costs 2 s. Server clock, score = flags named, target 8. Days frozen under the old ten-flag quiz keep it. |
 | higher-or-lower | yes | Ten calls, final three double, maximum 13. Practice remains a streak. |
 | stat-guesser | yes | Five rulers with reference countries. Final round double, maximum 600. |
 | blind-pick | no | Six countries into six statistics. Lower excess over the optimal assignment wins. |
@@ -37,7 +37,7 @@ Pure deterministic engines: `src/lib/game-logic/{slug}`. Inject RNG.
 Per-game UI: `src/games/{slug}`; host is the client boundary.
 Shared remote host orchestrates the three quick games; their renderers stay per slug.
 
-The six dailies and Blind Pick send decisions to server actions. The server owns the
+The seven dailies send decisions to server actions; Flag Quiz moves are stamped with the server receipt time. The server owns the
 full solution, commits an action exactly once at the expected revision, and returns
 only a sanitized view. Stale requests return the already committed result. Never
 serialize future countries, fits, answers, map targets or engine seeds to the client.

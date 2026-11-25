@@ -2,18 +2,24 @@ import "server-only";
 
 import { createHmac } from "node:crypto";
 import { gameModule as higher, pairInView, cardValue, callLog, comparisonLine, sourceLine, statLine as higherStat, unitLine, type HoLAction, type HoLState } from "@/games/higher-or-lower/module";
-import { gameModule as flags, currentQuestion, type QuizAction, type QuizState } from "@/games/flag-quiz/module";
+import { legacyGameModule as flags, currentQuestion, type QuizAction, type QuizState } from "@/games/flag-quiz/legacy-module";
+import { gameModule as sprint } from "@/games/flag-quiz/module";
+import { PENALTY_SECONDS, SPRINT_LENGTH, SPRINT_SECONDS, SPRINT_TARGET, createSprint, currentFlag, deadlineOf, flagLeftOnScreen, isSprintState, sprintHits, sprintName, type SprintMove, type SprintState } from "@/lib/game-logic/flag-quiz/sprint";
+import { countryOf } from "@/lib/game-logic/flag-quiz/engine";
 import { gameModule as stats, type GuesserAction } from "@/games/stat-guesser/module";
 import { isGuessStat, retargetStatForPractice, retargetStatPractice, rulerFor, type StatGuesserState } from "@/lib/game-logic/stat-guesser/engine";
 import { createPracticeOnStat } from "@/lib/game-logic/higher-or-lower/engine";
 import { isHoLStat } from "@/lib/game-logic/higher-or-lower/stats";
 import { createEuropeFlagQuiz } from '@/lib/game-logic/flag-quiz/engine';
+import { commitGameSession, prepareGameSession, type SessionSeed, type SessionResponse } from "./game-sessions";
+import type { AnonymousRunRow } from "./anonymous-runs";
+import type { RunTicket } from "./anonymous-identity";
 import { mulberry32 } from "@/lib/seeded-random";
 import { dailyBoardSeed } from "./anonymous-identity";
 import { frozenBoardState } from "./board-snapshots";
 import { contextLine, gapText, statLine as guessStat, valueText } from "@/games/stat-guesser/format";
 import type { Action, Codec, GameModule } from "@/games/types";
-import type { QuickAction, QuickView, HigherQuickView, FlagQuickView, StatQuickView } from "@/games/quick-views";
+import type { QuickAction, QuickView, HigherQuickView, FlagQuickView, FlagSprintView, StatQuickView } from "@/games/quick-views";
 import type { Mode } from "@/ui/types";
 
 function quickAction(value: unknown): QuickAction {
@@ -46,9 +52,64 @@ export const statRemote = remoteModule(stats,(a):GuesserAction|null=>a.t==='lock
 
 export async function flagSessionModule(mode:Mode,dateKey:string,edition:string,region?:string) {
   if(mode==='daily'||region!=='europe')return flagRemote;
-  const daily=await frozenBoardState<QuizState>('flag-quiz',dateKey,edition)??flagRemote.create(dailyBoardSeed('flag-quiz',dateKey,edition),'daily',dateKey);
-  const excluded=daily.g.questions.map(question=>question.country.iso3);
-  return {...flagRemote,create(seed:number){return {g:createEuropeFlagQuiz(mulberry32(seed),excluded),pending:null};}};
+  const excluded=[...await dailyFlagAnswers(dateKey,edition)];
+  return {...flagRemote,create(seed:number):QuizState{return {g:createEuropeFlagQuiz(mulberry32(seed),excluded),pending:null};}};
+}
+
+/** Which rules a Flag Quiz board runs under: the sprint, or the ten-flag quiz a board was frozen with. */
+export type FlagFormat = "sprint" | "quiz";
+
+/**
+ * Daily and archived boards keep the rules of their frozen snapshot, so a day that opened
+ * under the ten-flag quiz finishes under it; every new day is a sprint. Practice is a sprint,
+ * except the Europe flags practice, which stays a ten-flag quiz.
+ */
+export async function flagFormat(mode:Mode,dateKey:string,edition:string,region?:string,archived?:boolean):Promise<FlagFormat> {
+  if(mode==='practice'&&!archived)return region==='europe'?'quiz':'sprint';
+  const frozen=await frozenBoardState<unknown>('flag-quiz',dateKey,edition);
+  return frozen&&!isSprintState(frozen)?'quiz':'sprint';
+}
+
+/** The answers of a frozen ten-flag board, read defensively from its stored JSON. */
+function quizAnswers(value:unknown):string[] {
+  if(!value||typeof value!=='object'||!('g' in value)||!value.g||typeof value.g!=='object'||!('questions' in value.g)||!Array.isArray(value.g.questions))return [];
+  return value.g.questions.flatMap((q:unknown)=>q&&typeof q==='object'&&'country' in q&&q.country&&typeof q.country==='object'&&'iso3' in q.country&&typeof q.country.iso3==='string'?[q.country.iso3]:[]);
+}
+
+/** Today's daily flags, whichever rules the day runs under, so practice can leave them out. */
+async function dailyFlagAnswers(dateKey:string,edition:string):Promise<Set<string>> {
+  const frozen=await frozenBoardState<unknown>('flag-quiz',dateKey,edition);
+  if(isSprintState(frozen))return new Set(frozen.flags.map(flag=>flag.iso3));
+  if(frozen)return new Set(quizAnswers(frozen));
+  return new Set(sprint.create(dailyBoardSeed('flag-quiz',dateKey,edition),'daily',dateKey).flags.map(flag=>flag.iso3));
+}
+
+export async function sprintSessionModule(mode:Mode,dateKey:string,edition:string,archived?:boolean):Promise<GameModule<SprintState,SprintMove>> {
+  if(mode==='daily'||archived)return sprint;
+  const exclude=await dailyFlagAnswers(dateKey,edition);
+  return {...sprint,create(seed:number){return createSprint(mulberry32(seed),exclude);}};
+}
+
+/** The sprint's only client moves; the server stamps each with its receipt time. Anything else is refused. */
+export function sprintMove(action:QuickAction,at:number):SprintMove {
+  if(action.t==='start')return {t:'start',at};
+  if(action.t==='finish')return {t:'finish',at};
+  if(action.t==='answer'&&typeof action.i==='number'&&Number.isInteger(action.i)&&action.i>=0&&action.i<4)return {t:'answer',i:action.i,at};
+  throw new Error('Invalid move');
+}
+
+export async function prepareFlagSession(input:SessionSeed,knownRun?:AnonymousRunRow|null|Promise<AnonymousRunRow|null>):Promise<SessionResponse<QuickView>> {
+  const format=await flagFormat(input.mode,input.dateKey,input.edition,input.practiceRegion,input.archived);
+  if(format==='sprint')return prepareGameSession(await sprintSessionModule(input.mode,input.dateKey,input.edition,input.archived),quickProject(sprintView,input.mode,input.dateKey),input,knownRun);
+  return prepareGameSession(await flagSessionModule(input.mode,input.dateKey,input.edition,input.practiceRegion),quickProject(flagView,input.mode,input.dateKey),input,knownRun);
+}
+
+/** `at` is the server receipt time, taken before anything else in the action. */
+export async function commitFlagSession(ticket:RunTicket,input:{sessionToken:string;revision:number;action:QuickAction},at:number):Promise<SessionResponse<QuickView>> {
+  const format=await flagFormat(ticket.mode,ticket.dateKey,ticket.edition,ticket.practiceRegion,ticket.archived);
+  if(format==='sprint')return commitGameSession(await sprintSessionModule(ticket.mode,ticket.dateKey,ticket.edition,ticket.archived),quickProject(sprintView,ticket.mode,ticket.dateKey),
+    {sessionToken:input.sessionToken,revision:input.revision,action:sprintMove(input.action,at)});
+  return commitGameSession(await flagSessionModule(ticket.mode,ticket.dateKey,ticket.edition,ticket.practiceRegion),quickProject(flagView,ticket.mode,ticket.dateKey),input);
 }
 
 export async function statSessionModule(mode:Mode,dateKey:string,edition:string,country?:string,stat?:string) {
@@ -106,6 +167,28 @@ export function flagView(state:QuizState,mode:Mode,dateKey:string,preview=true):
     if(next.phase==='playing')view.nextView=next;
   }
   return view;
+}
+
+/**
+ * The sprint as the client may see it. While the clock runs: the flag on screen (an opaque
+ * asset name) and its four names, the counts, the server deadline and the server time now.
+ * No later flag, no right answer for the flag on screen. The flags seen are listed only once
+ * the run is over.
+ */
+export function sprintView(state:SprintState,mode:Mode,dateKey:string):FlagSprintView {
+  const finished=sprint.done(state),flag=currentFlag(state),hits=sprintHits(state);
+  const correct=hits.filter(Boolean).length,wrong=hits.length-correct;
+  const stage=finished?'finished':state.startedAt===null?'ready':'running';
+  const previous=state.answers.length?state.flags[state.answers.length-1]:null;
+  const left=flagLeftOnScreen(state);
+  const seen=finished?[...state.answers.map((answer,i)=>{const f=state.flags[i],c=countryOf(f.iso3);return {iso2:c.iso2,name:c.displayName,guess:sprintName(f.options[answer.i]),correct:hits[i]};}),
+    ...(left?[{iso2:countryOf(left.iso3).iso2,name:sprintName(left.iso3),guess:null,correct:false}]:[])]:[];
+  return {kind:'flag-quiz',format:'sprint',mode,stage,phase:finished?'finished':'playing',round:state.answers.length,total:SPRINT_LENGTH,
+    score:sprint.scoreLabel(state),progress:sprint.progress(state),shareText:finished?sprint.share?.(state,{mode,dateKey,title:'Flag Quiz',rank:null})??'':'',
+    history:seen.map(row=>({label:row.name,guess:row.guess??'No answer',answer:row.name,points:row.correct?1:0,correct:row.correct})),
+    flagSrc:flag?opaqueFlagSrc(countryOf(flag.iso3).iso2):null,options:flag?flag.options.map(sprintName):[],correct,wrong,
+    seconds:SPRINT_SECONDS,penaltySeconds:PENALTY_SECONDS,target:SPRINT_TARGET,deadline:stage==='running'?deadlineOf(state):null,serverNow:Date.now(),
+    last:previous?{correct:hits[hits.length-1],answer:sprintName(previous.iso3)}:null,seen};
 }
 
 export function statView(state:StatGuesserState,mode:Mode,dateKey:string,preview=true):StatQuickView {

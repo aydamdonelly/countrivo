@@ -1,5 +1,7 @@
 /*
- * Flag Quiz engine (concept 5.4). Pure: no React, no clock, the RNG is injected.
+ * The ten-flag Flag Quiz engine (concept 5.4), kept for boards frozen under it and for the
+ * Europe flags practice. The daily game is now the twenty-second sprint in sprint.ts, which
+ * reuses this file's pools and distractor ranking. Pure: no React, no clock, the RNG is injected.
  *
  * Ten flags of sovereign states, four names each, easy to hard:
  *   flags 1 to 3   a well-known flag (KNOWN). The three distractors are well-known too, every
@@ -83,6 +85,16 @@ export const REST: readonly string[] = SOVEREIGN.filter((iso3) => !KNOWN_SET.has
 const KNOWN_SPEC: RotationSpec = { salt: "known", size: KNOWN.length, perDay: KNOWN_PER_DAY, gapDays: 21 };
 const REST_SPEC: RotationSpec = { salt: "rest", size: REST.length, perDay: REGION_PER_DAY, gapDays: 21 };
 const LOOK_SPEC: RotationSpec = { salt: "look", size: LOOKALIKES.length, perDay: LOOKALIKE_PER_DAY, gapDays: 3 };
+
+/** Every sovereign state the quizzes may use, in data order. */
+export function sovereignPool(): readonly string[] {
+  return SOVEREIGN;
+}
+
+/** The country record of a sovereign iso3; throws on an unknown code. */
+export function countryOf(iso3: string): Country {
+  return country(iso3);
+}
 
 function country(iso3: string): Country {
   const c = BY_ISO3.get(iso3);
@@ -208,7 +220,7 @@ function regionDistractors(answer: string, rng: () => number, avoid: ReadonlySet
 }
 
 /** Every other sovereign state, nearest kind first: the subregion, then the region, then the world. */
-function regionRanked(answer: string, rng: () => number, avoid: ReadonlySet<string>): string[] {
+export function regionRanked(answer: string, rng: () => number, avoid: ReadonlySet<string>): string[] {
   const a = country(answer);
   const others = SOVEREIGN.filter((c) => c !== answer);
   const sameSub = others.filter((c) => country(c).subregion === a.subregion);

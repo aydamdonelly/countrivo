@@ -5,7 +5,7 @@ import { getGameBySlug } from "@/lib/data/games";
 import { createRunTicket, dailyBoardSeed, readRunTicket } from "@/server/anonymous-identity";
 import { deviceDailySessionRows, mapAnonymousRun, anonymousSummary } from "@/server/anonymous-runs";
 import { gameModule as higherCore } from "@/games/higher-or-lower/module";
-import { flagView, higherView, statView, quickProject, statSessionModule, higherSessionModule, flagSessionModule } from "@/server/quick-sessions";
+import { higherView, statView, quickProject, statSessionModule, higherSessionModule, prepareFlagSession } from "@/server/quick-sessions";
 import { preserveGenericBoard } from "@/server/replay-submission";
 import { prepareGameSession } from "@/server/game-sessions";
 import { getClock } from "@/server/clock";
@@ -61,7 +61,7 @@ export default async function PlayPage({ params, searchParams }: Props) {
     dateKey = board.date_key; edition = board.edition; seed = board.seed; mode = "practice"; archived = true;
   } else if (resumed?.slug === slug && resumed.mode === "practice") {
     dateKey = resumed.dateKey; edition = resumed.edition; seed = resumed.seed; mode = "practice";
-  } else seed = mode === "daily" ? dailyBoardSeed(slug, dateKey, edition) : await practiceSeedFor(slug, dateKey, edition, query.region === 'europe' ? query.region : undefined);
+  } else seed = mode === "daily" ? dailyBoardSeed(slug, dateKey, edition) : await practiceSeedFor(slug, dateKey, edition);
   const practiceCountry = query.country && /^[A-Z]{3}$/.test(query.country) ? query.country : resumed?.practiceCountry;
   const practiceStat = query.stat && /^[a-z0-9-]{1,48}$/.test(query.stat) ? query.stat : resumed?.practiceStat;
   const practiceRegion = mode === 'practice' && !archived && (query.region === 'europe' || resumed?.practiceRegion === 'europe') ? 'europe' : undefined;
@@ -98,7 +98,7 @@ export default async function PlayPage({ params, searchParams }: Props) {
   if (slug === "higher-or-lower" || slug === "flag-quiz" || slug === "stat-guesser") {
     const requestedStatBlocked = slug === "higher-or-lower" && mode === "practice" && practiceStat && higherCore.create(dailyBoardSeed(slug,dateKey,edition),"daily",dateKey).g.stat === practiceStat;
     const sessionPromise = slug === "higher-or-lower" ? higherSessionModule(mode,dateKey,edition,practiceStat).then(module => prepareGameSession(module, quickProject(higherView,mode,dateKey), sessionSeed, knownRun))
-      : slug === "flag-quiz" ? flagSessionModule(mode,dateKey,edition,practiceRegion).then(module => prepareGameSession(module, quickProject(flagView,mode,dateKey), sessionSeed, knownRun))
+      : slug === "flag-quiz" ? prepareFlagSession(sessionSeed, knownRun)
       : statSessionModule(mode,dateKey,edition,practiceCountry,practiceStat).then(module => prepareGameSession(module, quickProject(statView,mode,dateKey), sessionSeed, knownRun));
     const [session, common] = await Promise.all([sessionPromise, commonPromise]);
     return <PlayFrame slug={slug} title={slug==='flag-quiz'&&practiceRegion==='europe'?'Europe flags':game.title} mode={mode}>{archived?<p className="t-meta text-mute">{dateKey} board · practice</p>:null}<div className="cv-js-game"><Host {...common} seed={0} log="" quickView={session.view} sessionToken={session.sessionToken}

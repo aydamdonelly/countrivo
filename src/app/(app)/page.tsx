@@ -15,7 +15,7 @@ import { readActivity } from '@/lib/daily-activity';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: {absolute: 'Countrivo: Free Geography Games & Daily Country Puzzles'},
-  description: 'Six short geography games. New boards every day. Country Draft, GeoWordle, Blind Pick and more. Play without an account.',
+  description: 'Seven short geography games. New boards every day. Country Draft, GeoWordle, Flag Quiz, Blind Pick and more. Play without an account.',
   alternates: {canonical: 'https://countrivo.com'},
 };
 interface Props { searchParams: Promise<{game?: string; mode?: string}>; }

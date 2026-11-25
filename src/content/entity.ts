@@ -30,8 +30,8 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   },
   "flag-quiz": {
     mechanic:
-      "see a national flag and choose the country it belongs to from four options, over ten rounds with no second chances",
-    skill: "flag recognition across all 243 countries and territories",
+      "name as many national flags as they can in twenty seconds, choosing each country from four options, where a wrong answer costs two seconds",
+    skill: "fast flag recognition across the world's sovereign states",
   },
   "higher-or-lower": {
     mechanic:

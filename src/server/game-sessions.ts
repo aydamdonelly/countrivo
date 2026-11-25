@@ -143,7 +143,10 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
     run: r.status === "complete" ? await mapAnonymousRun(r) : undefined, publishedName: r.display_name });
   const committedResponse = async (r:AnonymousRunRow,state:S):Promise<SessionResponse<V>> => {
     // Invalidate warmed navigation only when the home card changes, not on every move.
-    if(r.mode==='daily'&&(r.revision===1||r.status==='complete'))revalidatePath('/');
+    // A revalidation makes this response re-render the whole play page. The Flag Quiz sprint
+    // clock is already running at its start, so the first flag must not wait for that render;
+    // its home card changes when the twenty seconds are over.
+    if(r.mode==='daily'&&(r.status==='complete'||r.revision===1&&r.game_slug!=='flag-quiz'))revalidatePath('/');
     if(r.status!=='complete'||r.mode!=='daily')return response(r,state);
     revalidatePath('/games');
     invalidateAnonymousLeaderboards();

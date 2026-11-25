@@ -53,3 +53,70 @@
     .fq-family { width: 100%; max-width: 720px; margin: 0 auto; }
   }
 }
+
+/* Flag Quiz sprint. Tokens only. The clock and count sit above a fixed 3:2 flag box, the four
+   names wait at the bottom of the screen on phones and sit 2 x 2 under the flag on desktop.
+   Nothing moves when the next flag arrives. */
+@layer components {
+  .fs { display: flex; flex-direction: column; gap: 12px; max-width: 720px; width: 100%; margin: 0 auto; }
+
+  /* ready */
+  .fs-ready { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 8px 0 16px; text-align: center; }
+  .fs-clay { width: 112px; height: 112px; }
+  .fs-seconds { display: flex; align-items: baseline; gap: 8px; }
+  .fs-rule { max-width: 30ch; }
+  .fs-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding: 0; margin: 4px 0 0; list-style: none; }
+  .fs-chips li { padding: 6px 10px; border-radius: var(--radius-chip); background: var(--color-card); color: var(--color-ink); }
+  .fs-start { display: flex; flex-direction: column; gap: 8px; text-align: center; }
+  .fs-start .fs-start-button { min-height: 56px; }
+
+  /* running */
+  .fs-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .fs-clock, .fs-count { display: flex; align-items: baseline; gap: 4px; }
+  .fs-clock .t-meta, .fs-count .t-meta { color: var(--color-mute); }
+  .fs[data-hot] .fs-clock b { color: var(--color-ember); }
+  .fs-bar { height: 4px; border-radius: 2px; background: var(--color-card); overflow: hidden; }
+  .fs-bar i { display: block; height: 100%; background: var(--color-ink); transform-origin: left center; }
+  .fs[data-hot] .fs-bar i { background: var(--color-ember); }
+  .fs-last { min-height: 20px; color: var(--color-mute); overflow-wrap: anywhere; }
+  .fs-penalty { color: var(--color-ember); }
+  .fs-penalty b { margin-right: 6px; }
+  .fs-box { width: 100%; max-width: 320px; aspect-ratio: 3 / 2; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+  .fs-box .flag { width: 88.889%; aspect-ratio: 4 / 3; }
+  .fs-opts { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .fs-opt.opt { height: auto; min-height: 56px; padding: 12px 16px; font-weight: 400; }
+  .fs-opt.opt .lbl { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; }
+  .fs-opt:disabled { cursor: default; color: var(--color-ink); }
+  .fs-opt[aria-pressed="true"], .fs-opt[aria-pressed="true"]:disabled { background: var(--color-ink); color: var(--color-paper); }
+  .fs-time { text-align: center; }
+  @media (hover: hover) and (pointer: fine) {
+    .fs-opt:enabled:hover { background: var(--color-line); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .fs-bar i { transition: transform 100ms linear; }
+    .fs-opt:enabled:active { transform: translateY(2px) scale(0.985); }
+    .fs-penalty { display: inline-block; animation: answer-correct 300ms var(--ease-out); }
+  }
+
+  /* the result rows */
+  .fs-result { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; text-align: left; }
+  .fs-result .fs-seen { margin-top: 8px; }
+
+  /* phones and tablets: the flag centred in the free height, the names at the bottom */
+  @media (max-width: 1023px) {
+    .fs { min-height: calc(100vh - 150px); min-height: calc(100svh - 150px); }
+    .fs[data-stage="ready"] .fs-ready { flex: 1; justify-content: center; }
+    .fs[data-stage="running"] .fs-box { margin-block: auto; }
+  }
+  @media (max-width: 1023px) and (max-height: 700px) {
+    .fs-box { max-width: 240px; }
+    .fs-clay { width: 80px; height: 80px; }
+  }
+
+  /* desktop: the flag at 400, the names 2 x 2 at 352 */
+  @media (min-width: 1024px) {
+    .fs-box { max-width: 400px; }
+    .fs-opts { grid-template-columns: repeat(2, minmax(0, 352px)); justify-content: center; column-gap: 16px; }
+    .fs-opt.opt { min-height: 48px; }
+  }
+}

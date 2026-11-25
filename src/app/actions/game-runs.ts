@@ -492,6 +492,15 @@ function validateGameResult(
         return total === scoreRaw ? null : "score_mismatch";
       }
       case "flag-quiz": {
+        // The twenty-second sprint (v3): one point per right answer, at most the 60-flag board.
+        if (resultJson.v === 3) {
+          const hits = resultJson.hits;
+          if (!Array.isArray(hits) || hits.length > 60 || hits.some((h) => typeof h !== "boolean")) return "invalid_result";
+          if (typeof resultJson.correct !== "number" || resultJson.correct !== scoreRaw) return "score_mismatch";
+          if (hits.filter((h) => h === true).length !== scoreRaw) return "score_mismatch";
+          if (scoreMax !== 60 || scoreRaw > 60) return "score_exceeds_total";
+          break;
+        }
         // Ten flags, flags 8 to 10 count double: points of 13 (concept 5.4).
         const answers = resultJson.answers;
         const hits = resultJson.hits;

@@ -104,14 +104,15 @@ export const GAME_CONTENT: Record<string, GameContent> = {
     ],
   },
   "flag-quiz": {
-    how: "Ten flags. Name them.",
-    steps: ["Four names per flag.", "It gets harder as you go.", "The last three count double."],
-    facts: ["10 flags", "Par 9", "About 90 seconds"],
+    how: "Twenty seconds. Name as many flags as you can.",
+    steps: ["Four names per flag. The clock starts when you press Start.", "A wrong answer costs two seconds.", "Everyone gets the same flags today. Most flags wins."],
+    facts: ["20 seconds", "Par 8 flags", "4 names per flag"],
     rules: [
-      "Ten flags of sovereign states, easy to hard",
-      "Tap one of four names. Your first tap counts",
-      "Flags 8 to 10 are lookalikes and count double",
-      "Points of 13. Par is 9",
+      "The clock starts when you press Start and runs for 20 seconds",
+      "A flag appears with four country names. Tap the right one",
+      "A wrong answer takes 2 seconds off the clock",
+      "Your score is the number of flags you named. Par is 8",
+      "Everyone gets the same flags each day. Equal scores share a rank",
     ],
   },
   "speed-flags": {
@@ -130,7 +131,7 @@ export const GAME_CONTENT: Record<string, GameContent> = {
 /**
  * Row metas that correct a registry `shortDescription` the rebuild contradicts (blueprint
  * 8.9). The JSON itself is only ever rewritten by the data scripts, so a correction lives
- * here until the next run. The six-game roster needs none right now.
+ * here until the next run. The current roster needs none right now.
  */
 const HUB_META: Record<string, string> = {
   "speed-flags": "30 seconds. How many flags can you name?",
@@ -145,7 +146,7 @@ export function getGameContent(slug: string): GameContent | null {
   return GAME_CONTENT[slug] ?? null;
 }
 
-/** The four related slugs for a landing: the game's own list, else the default six minus itself. */
+/** The four related slugs for a landing: the game's own list, else the default list minus itself. */
 export function relatedSlugs(slug: string): string[] {
   const own = GAME_CONTENT[slug]?.related;
   if (own && own.length > 0) return own.slice(0, 4);
