@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import {useEffect,useMemo,useRef,useState,type KeyboardEvent,type PointerEvent} from 'react';
 import {coastline} from '@/lib/data/coastline';
+import {mapBorders} from '@/lib/data/map-borders';
 import {projectPoint,unprojectPoint,type MapPoint} from '@/lib/game-logic/map-projection';
 import type {PinpointRoundResult,PinpointView} from '@/lib/game-logic/pinpoint/engine';
 import {pinpointBreakdown} from '@/lib/game-logic/pinpoint/scoring';
@@ -103,7 +104,7 @@ export function Board({state,dispatch,busy,commitBusy=busy}:BoardProps) {
   <div className="pp-map-wrap">
    <svg ref={svg} className="pp-map" viewBox={`${viewport.x-w/2} ${viewport.y-h/2} ${w} ${h}`} role={reveal?'img':'application'} aria-label={reveal?`Your pin and ${state.country.name} highlighted. ${pinpointExplanation(reveal)}`:'World map. Tap to place a pin. Arrow keys move the crosshair. Enter places, then drops. Plus and minus zoom.'} tabIndex={reveal?-1:0} onPointerDown={pointerDown} onPointerMove={pointerMove} onPointerUp={pointerUp} onPointerCancel={e=>{pointers.current.delete(e.pointerId);gesture.current=null;pinch.current=null;}} onDoubleClick={()=>zoom(2)} onKeyDown={keyboard} onWheel={e=>{e.preventDefault();zoom(e.deltaY<0?1.2:1/1.2);}}>
     <path className="pp-coast" d={coastline.land} vectorEffect="non-scaling-stroke"/>
-    {reveal?<g><path className="pp-answer-land" d={reveal.path} vectorEffect="non-scaling-stroke"/>
+    {reveal?<g><path className="pp-borders" d={mapBorders.borders} vectorEffect="non-scaling-stroke"/><path className="pp-answer-land" d={reveal.path} vectorEffect="non-scaling-stroke"/>
      {target&&source&&Math.abs(source.x-target.x)<360?<line className="pp-route" x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke="var(--color-ink)" strokeWidth={1.5/viewport.zoom} strokeDasharray={`${4/viewport.zoom} ${3/viewport.zoom}`}/>:null}
      {target&&!reveal.inside?<g className="pp-target" transform={`translate(${target.x} ${target.y})`}><circle r={6/viewport.zoom} fill="var(--color-paper)" stroke="var(--color-ember)" strokeWidth={2/viewport.zoom}/><circle r={2/viewport.zoom} fill="var(--color-ember)"/></g>:null}
      {(reveal.neighbours??[]).filter(visible).map(n=><text key={n.name} className="pp-neighbour" x={n.x} y={n.y} fontSize={labelSize} textAnchor="middle">{n.name}</text>)}

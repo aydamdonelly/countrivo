@@ -9,6 +9,8 @@
  .pp-map {display:block;width:100%;height:auto;aspect-ratio:2 / 1;touch-action:none;cursor:crosshair;}
  .pp-coast {fill:var(--color-paper);stroke:var(--color-mute);stroke-width:1.25px;}
  .pp-answer-land {fill:var(--color-game-pin);stroke:var(--color-ink);stroke-width:2px;}
+ /* Land borders appear only once the pin is committed: placing stays a blank coastline map. */
+ .pp-borders {fill:none;stroke:var(--color-faint);stroke-width:0.75px;stroke-linejoin:round;pointer-events:none;}
  .pp-map:focus-visible {outline:3px solid var(--color-ember);outline-offset:-3px;}
  .pp-crosshair {display:none;} .pp-map:focus-visible .pp-crosshair {display:block;}
  .pp-zoom {position:absolute;bottom:12px;right:12px;display:flex;flex-direction:row;gap:4px;}
@@ -27,7 +29,7 @@
  .pp-results {display:flex;flex-direction:column;gap:8px;} .pp-result {display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--color-line);}
  .pp-result small {display:block;margin-top:4px;}
  .pp-places-map {display:block;width:100%;height:auto;aspect-ratio:12 / 5;border-radius:var(--radius-ctl);background:var(--color-card);}
- .pp-places-map .pp-answer-land {stroke-width:1px;}
+ .pp-places-map .pp-answer-land {stroke-width:1px;} .pp-places-map .pp-borders {stroke-width:0.5px;}
  .pp-place-number {font-family:var(--font-display);font-weight:600;fill:var(--color-ink);stroke:var(--color-paper);stroke-width:3px;stroke-linejoin:round;paint-order:stroke;vector-effect:non-scaling-stroke;}
  .pp-dropped {animation:pp-drop 480ms steps(4,end);transform-box:fill-box;transform-origin:bottom;}
  @keyframes pp-drop {from {transform:translateY(-24px);opacity:0.4;} to {transform:none;opacity:1;}}

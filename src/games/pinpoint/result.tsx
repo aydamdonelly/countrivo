@@ -1,4 +1,5 @@
 import { coastline } from '@/lib/data/coastline';
+import { mapBorders } from '@/lib/data/map-borders';
 import { projectPoint } from '@/lib/game-logic/map-projection';
 import type { PinpointRoundResult, PinpointState, PinpointView } from '@/lib/game-logic/pinpoint/engine';
 import type { ResultProps } from '@/games/types';
@@ -20,10 +21,11 @@ function centreOf(path:string):{x:number;y:number}|null {
  return Number.isFinite(minX)?{x:(minX+maxX)/2,y:(minY+maxY)/2}:null;
 }
 
-/** The five places on one world map: each country filled and numbered, your pin and the way to its border. */
+/** The five places on one world map with its land borders: each country filled and numbered, your pin and the way to its border. */
 function PlacesMap({results}:{results:readonly PinpointRoundResult[]}) {
  return <svg className="pp-places-map" viewBox={coastline.viewBox} role="img" aria-label={`World map of the five places: ${results.map(r=>r.name).join(', ')}, with your pins`}>
   <path className="pp-coast" d={coastline.land} vectorEffect="non-scaling-stroke"/>
+  <path className="pp-borders" d={mapBorders.borders} vectorEffect="non-scaling-stroke"/>
   {results.map(r=><path key={`land-${r.iso3}`} className="pp-answer-land" d={r.path} vectorEffect="non-scaling-stroke"/>)}
   {results.map((r,i)=>{const pin=projectPoint(r),near=projectPoint(r.nearest),centre=centreOf(r.path)??near;return <g key={`pin-${r.iso3}`}>
    {!r.inside&&Math.abs(pin.x-near.x)<360?<line x1={pin.x} y1={pin.y} x2={near.x} y2={near.y} stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="3 2" vectorEffect="non-scaling-stroke"/>:null}
