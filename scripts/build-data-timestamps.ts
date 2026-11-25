@@ -29,6 +29,7 @@ import { getGameCopy } from "../src/lib/seo/game-copy";
 import { getGameSeo } from "../src/lib/seo/game-metadata";
 import { PRACTICE_PAGES } from '../src/lib/seo/practice-pages';
 import { TABLE_GAMES } from '../src/content/table';
+import { worldStandings } from '../src/lib/data/world';
 
 const REBASELINE = process.argv.includes("--rebaseline");
 
@@ -63,7 +64,6 @@ interface TimestampFile {
 }
 
 type StatTable = Record<string, Record<string, number | null>>;
-type RankTable = Record<string, Record<string, number>>;
 
 // Each list page is a deterministic view over stats.json, so its fingerprint
 // is the slice of data it actually renders, not the whole dataset.
@@ -116,7 +116,6 @@ const games: GameRecord[] = JSON.parse(
 );
 
 const stats: StatTable = JSON.parse(readFileSync(join(DATA_DIR, "stats.json"), "utf-8"));
-const ranks: RankTable = JSON.parse(readFileSync(join(DATA_DIR, "ranks.json"), "utf-8"));
 
 // --------------- hashing ---------------
 
@@ -162,7 +161,9 @@ for (const country of countries) {
   hashes[`country:${country.slug}`] = hash({
     country,
     stats: stats[country.iso3] ?? null,
-    ranks: ranks[country.iso3] ?? null,
+    // The page prints its sovereign-state standings (src/lib/data/world.ts), not the
+    // all-places ranks.json, so the fingerprint follows what is shown.
+    standings: worldStandings(country.iso3).map(({ category, rank, count, sovereign }) => [category.slug, rank, count, sovereign]),
   });
 }
 
@@ -177,8 +178,10 @@ for (const category of categories) {
 }
 
 for (const [slug, source] of Object.entries(LIST_SOURCES)) {
+  // The list's own copy (intro, FAQ, facts) renders on the page too.
+  const content = LISTS.find((list) => list.slug === slug);
   if (source.kind === "stat") {
-    hashes[`list:${slug}`] = hash(topForStat(source.stat, source.limit));
+    hashes[`list:${slug}`] = hash({ rows: topForStat(source.stat, source.limit), content });
   } else if(source.kind === "editorial") {
     hashes[`list:${slug}`] = hash({content:LISTS.find(list=>list.slug===slug),borders:JSON.parse(readFileSync(join(DATA_DIR,"borders.json"),"utf8")),primaryCopy:readFileSync(join(REPO_ROOT,"src/content/discovery.ts"),"utf8")});
   } else {
@@ -191,7 +194,7 @@ for (const [slug, source] of Object.entries(LIST_SOURCES)) {
         values: source.stats.map((stat) => stats[country.iso3]?.[stat] ?? null),
       }))
       .sort((a, b) => a.iso3.localeCompare(b.iso3));
-    hashes[`list:${slug}`] = hash(rows);
+    hashes[`list:${slug}`] = hash({ rows, content });
   }
 }
 

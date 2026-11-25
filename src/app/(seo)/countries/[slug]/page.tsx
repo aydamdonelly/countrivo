@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getAllCountries, getCountryBySlug } from "@/lib/data/countries";
-import { sovereignIso3 } from '@/lib/data/loader';
-import { worldStandings } from '@/lib/data/world';
-import { formatStat, ordinal } from "@/lib/utils";
+import { isSovereign, worldStandings } from '@/lib/data/world';
+import { countryDescription, countryTitle, titleText } from "@/lib/seo/country-metadata";
+import { dateModifiedFor } from "@/lib/seo/last-modified";
 import { CountryPage } from "@/features/seo/country-page";
-import { breadcrumbList, graph, jsonLdProps, SITE_URL } from "@/features/seo/breadcrumbs";
+import { breadcrumbList, graph, jsonLdProps, SITE_URL, webPage } from "@/features/seo/breadcrumbs";
 
 export const dynamicParams = false;
 
@@ -22,30 +22,18 @@ export async function generateMetadata({
   const country = getCountryBySlug(slug);
   if (!country) return {};
 
+  // One rank source for the whole page: the sovereign-state standings the spotlight, the
+  // rankings and the answer capsules show too (src/lib/data/world.ts).
   const rankings = worldStandings(country.iso3);
-  const highlights = [...rankings]
-    .sort((a, b) => a.rank / a.count - b.rank / b.count)
-    .slice(0, 3)
-    .map(({ category, rank }) => `${ordinal(rank)} in ${category.label}`)
-    .join(", ");
-  const capitalPart = country.capital ? ` Its capital is ${country.capital}.` : "";
-  // Most search impressions on country pages are "{country} population" queries, so the
-  // title and the first clause of the description name the population and its source.
-  const population = rankings.find(({ category }) => category.slug === "population");
-  const sovereign = sovereignIso3.includes(country.iso3);
-  const title = population
-    ? `${country.displayName} Population, Capital & World Rankings`
-    : `${country.displayName} | Stats, Rankings & Geography Facts`;
-  const populationPart = population
-    ? `${country.displayName} has a population of about ${formatStat(population.value, population.category.unit)} (${population.category.source} ${population.category.sourceYear})${sovereign ? `, ${ordinal(population.rank)} of ${population.count} countries` : ""}.`
-    : `${country.displayName} in ${country.subregion || country.continent}.`;
+  const has = (category: string) => rankings.some((row) => row.category.slug === category);
+  const title = countryTitle(country.displayName, { population: has("population"), area: has("area-km2"), capital: Boolean(country.capital) });
 
   return {
     title,
-    description: `${populationPart}${capitalPart}${highlights ? ` Rankings: ${highlights}.` : ''} Explore ${rankings.length} statistics and geography facts.`,
+    description: countryDescription(country, rankings, isSovereign(country.iso3)),
     alternates: { canonical: `${SITE_URL}/countries/${slug}` },
     openGraph: {
-      title,
+      title: titleText(title),
       description: `Explore detailed statistics and world rankings for ${country.displayName}.`,
       type: "website",
     },
@@ -57,15 +45,20 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   const country = getCountryBySlug(slug);
   if (!country) notFound();
 
+  const path = `/countries/${slug}`;
+  const placeId = `${SITE_URL}${path}#place`;
+  const sovereign = isSovereign(country.iso3);
   const capitalPart = country.capital ? ` Its capital is ${country.capital}.` : "";
   const jsonLd = graph([
     breadcrumbList([
       { name: "Home", path: "" },
       { name: "Countries", path: "/countries" },
-      { name: country.displayName, path: `/countries/${slug}` },
+      { name: country.displayName, path },
     ]),
+    webPage({ path, name: country.displayName, dateModified: dateModifiedFor(`country:${slug}`), about: placeId }),
     {
-      "@type": sovereignIso3.includes(country.iso3) ? 'Country' : 'Place',
+      "@type": sovereign ? 'Country' : 'Place',
+      "@id": placeId,
       name: country.displayName,
       alternateName: country.iso3,
       description: `${country.displayName} is located in ${country.subregion}, ${country.continent}.${capitalPart}`,

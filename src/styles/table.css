@@ -241,6 +241,8 @@
   .hub-section + .hub-section { margin-top:40px; }
   .hub-section > h2 { margin-bottom:4px; }
   .hub-lead { margin-bottom:16px; color:var(--color-mute); font-size:15px; line-height:22px; }
+  .hub-teachers { margin-top:32px; }
+  .hub-teachers a { display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; text-decoration-color:var(--color-wait); text-underline-offset:4px; }
   .pt + .hub-section { margin-top:-12px; }
   /* /practice: the topic rows sit on the same content width as the grid */
   .practice-topics { margin-top:32px; }

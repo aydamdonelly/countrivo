@@ -18,16 +18,42 @@ import { SectionHead } from "@/ui/section-head";
 import { SiteFoot } from "@/ui/site-foot";
 import { StatIcon } from "@/ui/icons/stat";
 import { type GameSlug } from "@/ui/types";
-import { breadcrumbList, faqPage, graph, jsonLdProps } from "./breadcrumbs";
+import { dateModifiedFor } from "@/lib/seo/last-modified";
+import { breadcrumbList, faqPage, graph, jsonLdProps, webPage } from "./breadcrumbs";
 import { ListItemJsonLd } from "./list-jsonld";
 import "./seo.css";
 
-const PLAY_ROWS: readonly { slug: GameSlug; title: string; meta: string }[] = [
+interface PlayRow { slug: GameSlug; title: string; meta: string }
+
+/** A ranking list is about numbers, so it offers the number games. */
+const STAT_PLAY_ROWS: readonly PlayRow[] = [
   { slug: "blind-pick", title: "Blind Pick", meta: "put eight countries on their best stat" },
   { slug: "higher-or-lower", title: "Higher or Lower", meta: "call which country ranks higher" },
   { slug: "stat-guesser", title: "Stat Guesser", meta: "guess the number, closest wins" },
   { slug: "country-draft", title: "Country Draft", meta: "five seats, five people, one map" },
 ];
+
+/** A continent list is about where countries are and what they look like: map, flags, distance. */
+const CONTINENT_PLAY_ROWS: readonly PlayRow[] = [
+  { slug: "pinpoint", title: "Pinpoint", meta: "place countries on a world map" },
+  { slug: "flag-quiz", title: "Flag Quiz", meta: "name as many flags as you can in twenty seconds" },
+  { slug: "geo-wordle", title: "GeoWordle", meta: "find a hidden country from distance and direction" },
+  { slug: "higher-or-lower", title: "Higher or Lower", meta: "call which country ranks higher" },
+];
+
+const UN_OBSERVERS: Record<string, string> = { VAT: "the Holy See (Vatican City)", PSE: "Palestine" };
+
+/**
+ * The direct answer to "how many (sovereign) countries are in X", computed from the same
+ * rows the table prints: `There are 45 sovereign countries in Europe: 44 UN member states
+ * plus the Holy See (Vatican City).`
+ */
+function sovereignAnswer(iso3s: readonly string[], place: string): string {
+  const observers = iso3s.filter((iso3) => UN_OBSERVERS[iso3]).map((iso3) => UN_OBSERVERS[iso3]);
+  const members = iso3s.length - observers.length;
+  const split = observers.length ? `: ${members} UN member states plus ${observers.join(" and ")}` : `, all of them UN member states`;
+  return `There are ${iso3s.length} sovereign countries in ${place}${split}.`;
+}
 
 const STAT_ROWS = 50;
 
@@ -162,11 +188,13 @@ function buildContinentList(list: ListContent, continent: string): Built {
     })
     .filter((f): f is Fact => f !== null);
 
+  const place = continent === "Americas" ? "the Americas" : continent;
+  const others = getCountriesByContinent(continent).length - countries.length;
   const faq = list.faq.map((item, i) =>
     i === 0
       ? {
           q: item.q,
-          a: `There are ${countries.length} sovereign countries in ${continent === "Americas" ? "the Americas" : continent}; territories and other places are listed separately.`,
+          a: `${sovereignAnswer(countries.map((entry) => entry.country.iso3), place)}${others ? ` The ${others} territories and other places in ${place} are not sovereign countries and are listed separately.` : ""}`,
         }
       : item,
   );
@@ -196,7 +224,9 @@ export function ListArticle({ list }: { list: ListContent }) {
 
   const sourceCategory = list.source.kind === "stat" ? getCategoryBySlug(list.source.category) : null;
   const territoryRows: RankRow[] = list.source.kind === "continent" ? getCountriesByContinent(list.source.continent).filter(c=>!sovereignIso3.includes(c.iso3)).map((c,i)=>({rank:i+1,iso2:c.iso2,name:c.displayName,href:`/countries/${c.slug}`,capital:c.capital,value:"",unit:"Other place"})) : [];
-  const intro = list.source.kind === "continent" ? [`The list includes ${built.rows.length} sovereign countries in ${list.source.continent === "Americas" ? "the Americas" : list.source.continent}, sorted by population. Territories and other places appear separately and do not count in the practice quiz. Population and area values use the source years shown with their datasets.`] : list.intro.map((p) => p.replace("{n}", String(built.rows.length)));
+  const continent = list.source.kind === "continent" ? list.source.continent : null;
+  const intro = continent ? [`${sovereignAnswer(getCountriesByContinent(continent).filter(c=>sovereignIso3.includes(c.iso3)).map(c=>c.iso3), continent === "Americas" ? "the Americas" : continent)} The list sorts them by population. Territories and other places appear separately and do not count in the practice quiz. Population and area values use the source years shown with their datasets.`] : list.intro.map((p) => p.replace("{n}", String(built.rows.length)));
+  const playRows = continent ? CONTINENT_PLAY_ROWS : STAT_PLAY_ROWS;
   const seeAlso = list.seeAlso
     .map((slug) => LISTS.find((l) => l.slug === slug))
     .filter((l): l is ListContent => Boolean(l));
@@ -207,6 +237,7 @@ export function ListArticle({ list }: { list: ListContent }) {
       { name: "Lists", path: "/lists" },
       { name: list.shortName, path: `/lists/${list.slug}` },
     ]),
+    webPage({ path: `/lists/${list.slug}`, name: list.h1, dateModified: dateModifiedFor(`list:${list.slug}`) }),
     faqPage(built.faq),
   ]);
 
@@ -275,8 +306,8 @@ export function ListArticle({ list }: { list: ListContent }) {
           </div>
 
           <section data-o="7" className="ls">
-            <SectionHead title="Play the ranking" fact={`${PLAY_ROWS.length} games`} />
-            {PLAY_ROWS.map((g) => (
+            <SectionHead title={continent ? "Play with these countries" : "Play the ranking"} fact={`${playRows.length} games`} />
+            {playRows.map((g) => (
               <GameRow key={g.slug} slug={g.slug} title={g.title} meta={g.meta} href={`/games/${g.slug}`} />
             ))}
           </section>

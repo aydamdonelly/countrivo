@@ -4,7 +4,8 @@ import { getAllCategories, getCategoryBySlug } from "@/lib/data/categories";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { CategoryPage } from "@/features/seo/category-page";
 import { sovereignRanking } from '@/features/seo/ranking-data';
-import { breadcrumbList, graph, jsonLdProps, SITE_URL } from "@/features/seo/breadcrumbs";
+import { breadcrumbList, graph, jsonLdProps, SITE_URL, webPage } from "@/features/seo/breadcrumbs";
+import { dateModifiedFor } from "@/lib/seo/last-modified";
 
 export const dynamicParams = false;
 
@@ -53,6 +54,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       { name: "Rankings", path: "/categories" },
       { name: category.label, path: `/categories/${slug}` },
     ]),
+    webPage({ path: `/categories/${slug}`, name: `${category.label}: World Ranking`, dateModified: dateModifiedFor(`category:${slug}`) }),
     {
       "@type": "ItemList",
       name: `${category.label}: World Ranking`,

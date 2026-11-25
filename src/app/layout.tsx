@@ -8,6 +8,7 @@ import { getAllGames } from "@/lib/data/games";
 import { NativeBootstrap } from "@/features/auth/native-bootstrap";
 import { ToastProvider } from "@/ui/toast";
 import { UsageObserver } from "@/ui/usage-observer";
+import { APP_STORE_ID, ORGANIZATION } from "@/lib/seo/site";
 
 /*
  * The root layout (blueprint 9.1 step 9): html, body, fonts, providers, metadata and the
@@ -23,7 +24,7 @@ const PAPER = "rgb(251, 250, 246)";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   // Smart App Banner: Safari on iPhone offers the Countrivo app on every page.
-  itunes: { appId: "6782594305" },
+  itunes: { appId: APP_STORE_ID },
   title: {
     default: "Countrivo | Free Geography Games, Seven Short Games a Day",
     template: "%s | Countrivo",
@@ -77,9 +78,7 @@ const SITE_JSON_LD = JSON.stringify({
       description: "Free geography games online. A new board every day, flag quizzes, country rankings, and strategy puzzles.",
     },
     {
-      "@type": "Organization",
-      name: "Countrivo",
-      url: SITE,
+      ...ORGANIZATION,
       logo: `${SITE}/branding/icon-512.png`,
       description: "Free online geography games and quizzes to learn flags, countries and statistics.",
     },

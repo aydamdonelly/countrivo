@@ -12,6 +12,8 @@ export function NativeBootstrap() {
     // The native shell injects its bridge before the remote page loads.
     const capacitor: unknown = Reflect.get(window, "Capacitor");
     if (!capacitor || typeof capacitor !== "object" || !("isNativePlatform" in capacitor) || typeof capacitor.isNativePlatform !== "function" || !capacitor.isNativePlatform()) return;
+    // Inside the app, website-only chrome such as the App Store link hides itself (ui.css).
+    document.documentElement.dataset.native = "true";
     void import("@/lib/native/bootstrap").then(({ bootstrapNative }) => bootstrapNative(setOffline)).catch(() => {});
   }, []);
   return offline ? <p className="native-offline t-meta" role="status">You&apos;re offline. Your next move needs a connection.</p> : null;

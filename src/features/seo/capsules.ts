@@ -1,12 +1,19 @@
 import { getCountriesByContinent } from "@/lib/data/countries";
 import { getStatValue } from "@/lib/data/ranks";
+import { isSovereign, notSovereignPhrase, type WorldStanding } from "@/lib/data/world";
+import { regionName } from "@/lib/seo/country-metadata";
 import { ordinal } from "@/lib/utils";
 import type { Country } from "@/types/country";
 
 /**
- * The six answer capsules of a country page, moved verbatim from
- * src/components/seo/answer-capsules.tsx (blueprint 12). Text is unchanged: these are
- * the strings Search Console already shows impressions for.
+ * The six answer capsules of a country page, moved from
+ * src/components/seo/answer-capsules.tsx (blueprint 12).
+ *
+ * Ranks come from the page's own world standings (src/lib/data/world.ts), the same
+ * sovereign-state ranking the description, the spotlight and the rankings show. They used
+ * to come from ranks.json, which also counts territories, so a page could say 171st in its
+ * description and 185th in its answer. A territory is never called a country or given a
+ * world rank: its answer says where it would place among the sovereign states.
  *
  * Deliberately capped at six questions. Google treats "separate content for every
  * possible variation of how people might search" as scaled content abuse, so this covers
@@ -35,42 +42,53 @@ function listNames(names: string[]): string {
   return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
 }
 
+/** `the 19th largest`, or `the largest` for first place. */
+function placed(rank: number, word: string): string {
+  return `the ${rank === 1 ? "" : `${ordinal(rank)} `}${word}`;
+}
+
+/** A territory's honest position: where it would place among the sovereign states. */
+function wouldPlace(country: Country, standing: WorldStanding, measure: string): string {
+  const name = country.displayName;
+  return ` ${name} ${notSovereignPhrase(country.iso3)}; ranked by ${measure} with the ${standing.count} sovereign states, ${name} would place ${ordinal(standing.rank)}.`;
+}
+
 export function buildCapsules(
   country: Country,
-  ranks: Record<string, number>,
+  standings: readonly WorldStanding[],
   neighbors: Country[],
 ): Capsule[] {
   const name = country.displayName;
   const capsules: Capsule[] = [];
+  const standing = (slug: string) => standings.find((row) => row.category.slug === slug);
+  const sovereign = isSovereign(country.iso3);
 
   if (country.capital) {
     capsules.push({
       question: `What is the capital of ${name}?`,
-      answer: `The capital of ${name} is ${country.capital}. ${country.capital} is the seat of national government for ${name}, a country in ${country.subregion}.`,
+      answer: sovereign
+        ? `The capital of ${name} is ${country.capital}. ${country.capital} is the seat of national government for ${name}, a country in ${regionName(country.subregion)}.`
+        : `The capital of ${name} is ${country.capital}. ${country.capital} is the main seat of government of ${name}, in ${regionName(country.subregion)}.`,
     });
   }
 
   const population = getStatValue(country.iso3, "population");
   if (population !== null) {
-    const rank = ranks["population"];
-    const rankClause = rank
-      ? `, the ${rank === 1 ? "" : `${ordinal(rank)} `}largest population in the world`
-      : "";
+    const row = standing("population");
+    const rankClause = row && row.sovereign ? `, ${placed(row.rank, "largest")} population in the world` : "";
     capsules.push({
       question: `What is the population of ${name}?`,
-      answer: `${name} has a population of about ${spellCount(population)} people${rankClause}. Population figures come from World Bank estimates.`,
+      answer: `${name} has a population of about ${spellCount(population)} people${rankClause}. Population figures come from World Bank estimates.${row && !row.sovereign ? wouldPlace(country, row, "population") : ""}`,
     });
   }
 
   const area = getStatValue(country.iso3, "area-km2");
   if (area !== null) {
-    const rank = ranks["area-km2"];
-    const rankClause = rank
-      ? `, making ${name} the ${rank === 1 ? "" : `${ordinal(rank)} `}largest country in the world by area`
-      : "";
+    const row = standing("area-km2");
+    const rankClause = row && row.sovereign ? `, making ${name} ${placed(row.rank, "largest")} country in the world by area` : "";
     capsules.push({
       question: `How big is ${name}?`,
-      answer: `${name} covers ${Math.round(area).toLocaleString("en-US")} square kilometers (${Math.round(area * 0.386102).toLocaleString("en-US")} square miles)${rankClause}.`,
+      answer: `${name} covers ${Math.round(area).toLocaleString("en-US")} square kilometers (${Math.round(area * 0.386102).toLocaleString("en-US")} square miles)${rankClause}.${row && !row.sovereign ? wouldPlace(country, row, "area") : ""}`,
     });
   }
 
@@ -93,10 +111,8 @@ export function buildCapsules(
 
   const lifeExpectancy = getStatValue(country.iso3, "life-expectancy");
   if (lifeExpectancy !== null) {
-    const rank = ranks["life-expectancy"];
-    const rankClause = rank
-      ? `, the ${rank === 1 ? "" : `${ordinal(rank)} `}highest of any country in the world`
-      : "";
+    const row = standing("life-expectancy");
+    const rankClause = row && row.sovereign ? `, ${placed(row.rank, "highest")} of any country in the world` : "";
     capsules.push({
       question: `What is the life expectancy in ${name}?`,
       answer: `Life expectancy at birth in ${name} is ${lifeExpectancy.toFixed(1)} years${rankClause}.`,

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { getAllCountries, getCountryByIso3 } from '@/lib/data/countries';
 import { countryBorders, sovereignIso3, draftPortraitCredit } from '@/lib/data/loader';
-import { worldStandings, type WorldStanding } from '@/lib/data/world';
-import { getStatValue, getRanksForCountry } from '@/lib/data/ranks';
+import { isSovereign, worldStandings, type WorldStanding } from '@/lib/data/world';
+import { getStatValue } from '@/lib/data/ranks';
 import { formatStat } from '@/lib/utils';
 import { getList } from '@/content/lists';
 import { POOL } from '@/lib/game-logic/country-draft/roster';
@@ -36,19 +36,20 @@ export function CountryPage({country}: {country: Country}) {
   const median=incomes[Math.floor(incomes.length/2)];
   const state=country.continent==='Americas'?'americas':country.continent==='Asia'?'asia':country.continent==='Oceania'?'pacific':'afreu';
   const continentList=getList(`countries-in-${country.continent.toLowerCase()}`);
-  const capsules=buildCapsules(country,getRanksForCountry(country.iso3),neighbours);
+  const sovereign=isSovereign(country.iso3);
+  const capsules=buildCapsules(country,standings,neighbours);
   return <>
     <div className="dossier">
       <div className="dossier-hero"><div className="identity"><Flag iso2={country.iso2} size="hero" alt={`Flag of ${name}`} eager /><div><h1 className="t-h1">{name}</h1><p className="t-meta text-mute">{country.subregion}, {continentList ? <Link href={`/lists/${continentList.slug}`}>{country.continent}</Link> : country.continent}</p>{!sovereignIso3.includes(country.iso3)?<p className="t-meta text-mute">Territory or other place</p>:null}</div></div><Clay object="cl-24" state={state} /></div>
-      {notable ? <div className="dossier-intro dossier-stat-spotlight"><span className="t-meta text-mute">{notable.category.shortLabel}</span><div><b className="t-score-l num">#{notable.rank}</b><span className="t-meta text-mute">of {notable.count} countries</span></div><p className="t-h3">{formatStat(notable.value,notable.category.unit)}</p><Link className="t-meta text-mute" href={`/sources#${notable.category.slug}`}>{notable.category.source} {notable.category.sourceYear}</Link></div> : null}
+      {notable ? <div className="dossier-intro dossier-stat-spotlight"><span className="t-meta text-mute">{notable.category.shortLabel}</span><div><b className="t-score-l num">#{notable.rank}</b><span className="t-meta text-mute">{sovereign ? `of ${notable.count} countries` : `if ranked with ${notable.count} countries`}</span></div><p className="t-h3">{formatStat(notable.value,notable.category.unit)}</p><Link className="t-meta text-mute" href={`/sources#${notable.category.slug}`}>{notable.category.source} {notable.category.sourceYear}</Link></div> : null}
       <div className="dossier-comparisons">
         {sizePeer && area!==null ? <div><p className="t-h3">About the size of {sizePeer.country.displayName}</p><p className="t-meta text-mute">{formatStat(area,'km²')} against {formatStat(sizePeer.area,'km²')}. Total area, REST Countries.</p></div> : null}
         {income!==null && median ? <div><p className="t-h3">{Math.round(income/median*100)}% of world median</p><p className="t-meta text-mute">GDP per person</p><details className="dossier-method t-meta"><summary>Method</summary><p>Median among {incomes.length} other countries with data. GDP per person is not household income.</p></details></div> : null}
       </div>
-      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Pinpoint" href="/games/pinpoint" /></section>
+      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Find countries on a world map" meta="Pinpoint" href="/games/pinpoint" /><GameRow slug="geo-wordle" title="Guess the hidden country from distance clues" meta="GeoWordle" href="/games/geo-wordle" />{sovereign ? <GameRow slug="flag-quiz" title="Name world flags against the clock" meta="Flag Quiz" href="/games/flag-quiz" /> : null}</section>
       <div className="dossier-grid">
         <div>
-          <section className="dossier-section"><h2 className="t-h2">World rankings</h2><p className="t-meta text-mute mb-4">Sovereign states with data</p><p className="t-body">Highest rankings</p><StandingRows rows={nearTop} />{nearBottom.length ? <><p className="t-body mt-6">Lowest rankings</p><StandingRows rows={nearBottom} /></> : null}</section>
+          <section className="dossier-section"><h2 className="t-h2">World rankings</h2><p className="t-meta text-mute mb-4">{sovereign ? 'Sovereign states with data' : `Where ${name} would place among sovereign states with data`}</p><p className="t-body">Highest rankings</p><StandingRows rows={nearTop} />{nearBottom.length ? <><p className="t-body mt-6">Lowest rankings</p><StandingRows rows={nearBottom} /></> : null}</section>
         </div>
         <div>
           {people.length ? <section className="dossier-section"><h2 className="t-h2">People from here</h2><div className="dossier-people">{people.map((person)=>{const credit=draftPortraitCredit(person.slug);return <div key={person.slug}><Portrait slug={person.slug} name={person.name} has={person.portrait} size={56} /><a className="t-body" href={person.biography} target="_blank" rel="noreferrer">{person.name}</a><p className="t-meta text-mute">{person.note}</p>{credit ? <small>Photo: {creditAuthor(credit.author)}, {credit.licence}</small> : null}</div>;})}</div></section>:null}

@@ -10,6 +10,7 @@ import { GamePlayLink } from '@/ui/game-play-link';
 import { Clay, gameClayFrame } from '@/ui/clay';
 import { QaList } from "@/ui/qa-list";
 import { SiteFoot } from "@/ui/site-foot";
+import { AppStoreLink } from "@/ui/app-store-link";
 import { YesterdayAnswers } from '@/features/home/yesterday-answers';
 import { GameJsonLd } from './game-jsonld';
 import { GeoWordleGuide } from './geo-wordle-guide';
@@ -59,13 +60,13 @@ export async function GameLanding({slug}: {slug:string}) {
     ...(copy?.faq ?? []).filter((item)=>!/(account|sign.in|leaderboard|reset|streak|practice)/i.test(item.q+' '+item.a)).slice(0,3),
   ];
   return <>
-    <GameJsonLd name={jsonLd.name} title={jsonLd.title} description={jsonLd.description} url={jsonLd.url} genre={jsonLd.genre} playMode={jsonLd.playMode} />
+    <GameJsonLd name={jsonLd.name} title={jsonLd.title} description={jsonLd.description} url={jsonLd.url} genre={jsonLd.genre} playMode={jsonLd.playMode} dateModified={jsonLd.dateModified} />
     <script {...jsonLdProps(node(faqPage(faq)))} />
     <div className="game-landing-compact">
       <header className="landing-hero">
         <span className="landing-plate" data-game={slug}><Clay object={presentation.clay} state={hero.state} tone={hero.tone} alternate={hero.tone === 'original' ? presentation.idle : undefined} sizes="160px" loading="eager" /></span>
-        <h1 className="t-h1">{game.title}</h1>
-        <p className="t-body text-mute">{presentation.promise}</p>
+        <h1 className="t-h1">{copy?.h1 ?? game.title}</h1>
+        <p className="t-body text-mute">{copy?.subline ?? presentation.promise}</p>
         <GamePlayLink slug={slug} href={`/games/${slug}/play?mode=${daily ? 'daily' : 'practice'}`} prefetch className="btn btn-primary t-cta landing-play" pendingLabel="Opening…">Play</GamePlayLink>
         <nav className="landing-links" aria-label={`${game.title} options`}>
           {daily ? <><Link href={`/games/${slug}/play?mode=practice`}>Practice</Link><Link href={`/games/${slug}/leaderboard`}>Leaderboard</Link><Link href={`/games/${slug}/archive`}>Archive</Link></> : <Link href="/practice">More practice games</Link>}
@@ -79,11 +80,12 @@ export async function GameLanding({slug}: {slug:string}) {
         </details>
       </details>
       {slug === 'geo-wordle' ? <details className="landing-details disclose"><summary>See an example</summary><GeoWordleGuide /></details> : null}
-      {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details disclose"><summary>About {game.title}</summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p>}</div></details> : null}
+      {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details disclose"><summary>About {game.title}</summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <><p>Looking for more games like Worldle? <Link href="/games-like-worldle">See how GeoWordle compares with other daily geography games</Link>.</p><p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p></>}</div></details> : null}
       <details className="landing-details disclose"><summary>Questions</summary><QaList open="details" items={faq} /></details>
       {daily ? <details className="landing-details disclose"><summary>Yesterday’s answers</summary><YesterdayAnswers slug={slug} /></details> : null}
       {slug === 'flag-quiz' ? <p className="landing-topic t-body"><Link href="/practice/europe-flags">Practise just the flags of Europe</Link></p> : null}
       <section className="landing-more ls"><h2 className="t-h2">More games</h2>{relatedSlugs(slug).map((other)=>{const g=gamePresentation(other);return g && isGameSlug(g.slug) ? <GameRow key={g.slug} slug={g.slug} title={g.title} meta={g.action} href={`/games/${g.slug}`} /> : null;})}</section>
+      <p className="landing-app"><AppStoreLink /></p>
     </div>
     <SiteFoot />
   </>;

@@ -63,9 +63,9 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
   return <div className={practice ? 'table-home visual-home practice-home' : 'table-home visual-home'}>
     {dayClosed && !practice ? <div className="rollover"><p>New games are ready.</p><Link href="/" className="btn btn-secondary">Open today</Link></div> : null}
     <header className="games-heading">
-      <h1 className="t-h1">{practice ? 'Practice' : 'Daily games'}</h1>
+      <h1 className="t-h1">{practice ? 'Unlimited geography games' : 'Daily games'}</h1>
       {practice ? <>
-        <p className="home-lead">Unlimited boards for every game. No leaderboard, play as often as you like.</p>
+        <p className="home-lead">Free practice boards for every game. No account, no leaderboard, play as often as you like.</p>
         <div className="home-meta"><Link href="/" className="home-back">Today’s daily games<ChevronRightIcon size={16} /></Link></div>
       </> : fullSet ? null : returning ? <>
         <div className="home-meta">

@@ -4,7 +4,28 @@
  * unchanged.
  */
 
-export const SITE_URL = "https://countrivo.com";
+import { ORGANIZATION, SITE_URL } from "@/lib/seo/site";
+
+export { SITE_URL };
+
+/**
+ * The page itself as a WebPage node, carrying the same `dateModified` as the sitemap's
+ * <lastmod> (src/lib/seo/last-modified.ts). Place, Country and ItemList nodes are not
+ * creative works, so the date lives here rather than on them.
+ */
+export function webPage({ path, name, dateModified, about }: { path: string; name: string; dateModified: string; about?: string }): object {
+  return {
+    "@type": "WebPage",
+    "@id": `${SITE_URL}${path}#page`,
+    url: `${SITE_URL}${path}`,
+    name,
+    inLanguage: "en",
+    dateModified,
+    isPartOf: { "@type": "WebSite", name: "Countrivo", url: SITE_URL },
+    publisher: ORGANIZATION,
+    ...(about ? { about: { "@id": about } } : {}),
+  };
+}
 
 export interface Crumb {
   name: string;

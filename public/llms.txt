@@ -1,0 +1,33 @@
+# Countrivo
+
+> Countrivo is a free geography games site with seven daily games and unlimited practice. No account is needed. New daily boards arrive at midnight Europe/Berlin time, and everyone gets the same boards that day. The same games are in the Countrivo iPhone app.
+
+## Daily games
+
+- [Country Draft](https://countrivo.com/games/country-draft): the daily world draft. Five rounds: choose one of three countries, pick one of its famous people and give them a cabinet job. Points appear after each appointment; the maximum is 195.
+- [GeoWordle](https://countrivo.com/games/geo-wordle): a Wordle-style geography game. Find the hidden country in six guesses using distance and direction clues. Daily puzzle plus unlimited practice.
+- [Pinpoint](https://countrivo.com/games/pinpoint): place five countries on a blank world map. Closer pins score more, the fifth round counts double, maximum 1,200.
+- [Flag Quiz](https://countrivo.com/games/flag-quiz): a twenty-second flag sprint. Four names per flag, a wrong answer costs two seconds, score is the number of flags named.
+- [Higher or Lower](https://countrivo.com/games/higher-or-lower): ten calls on one statistic a day, such as population or area. Is the next country higher or lower? The last three calls count double, maximum 13.
+- [Stat Guesser](https://countrivo.com/games/stat-guesser): guess five numbers about countries on a ruler with two reference countries. The last round counts double, maximum 600.
+- [Blind Pick](https://countrivo.com/games/blind-pick): eight countries arrive one at a time; place each on one of eight world rankings. The score is the gap to the best possible board, perfect is zero.
+
+## Practice
+
+- [Unlimited practice](https://countrivo.com/practice): fresh boards for every game, as often as you like, never on the leaderboard.
+- [Speed Flags](https://countrivo.com/games/speed-flags): thirty seconds, two names per flag, a wrong answer costs three seconds. Practice only.
+- [Flags of Europe](https://countrivo.com/practice/europe-flags): practise the flags of European countries.
+
+## Guides and reference
+
+- [Games like Worldle](https://countrivo.com/games-like-worldle): how GeoWordle and other daily geography games compare.
+- [World Map Quiz](https://countrivo.com/world-map-quiz): find countries on a world map.
+- [Capital Quiz](https://countrivo.com/games/capital-quiz): a quiz on world capitals.
+- [Countries](https://countrivo.com/countries): a page for each of 243 countries and territories with population, area, capital and world rankings among the 195 sovereign states.
+- [Country lists](https://countrivo.com/lists): countries by continent and by statistic.
+- [Sources](https://countrivo.com/sources): where every statistic comes from, with source years and caveats.
+- [About and teachers](https://countrivo.com/about#teachers): how the daily boards work, and using Countrivo in class with no accounts.
+
+## App
+
+- [Countrivo on the App Store](https://apps.apple.com/app/id6782594305): the iPhone app.

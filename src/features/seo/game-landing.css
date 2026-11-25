@@ -27,5 +27,6 @@
   .landing-details .prose { margin: 12px 0; }
   .landing-more { margin-top: 32px; }
   .landing-more h2 { margin-bottom: 12px; }
+  .landing-app { margin-top: 24px; text-align: center; }
   @media (max-width: 359px) { .landing-plate { width: 140px; height: 140px; } .landing-plate .clay-object { width: 108px; height: 108px; } .landing-hero { padding-top: 0; } .landing-steps { gap: 8px; } .landing-steps li { padding: 12px 6px; font-size: 13px; } }
 }

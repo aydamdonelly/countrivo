@@ -6,19 +6,25 @@
  * the game definitions.
  */
 export interface GameCopy {
+  /** The landing's h1 when it should say more than the game's name. */
+  h1?: string;
+  /** The landing's line under the h1; the game cards keep the short promise. */
+  subline?: string;
   about: string[];
   faq: { q: string; a: string }[];
 }
 
 export const GAME_COPY: Record<string, GameCopy> = {
   "country-draft": {
+    subline: "The daily world draft. Draft five famous people, conquer the world.",
     about: [
-      "Country Draft is a free daily strategy game about filling a cabinet. Each of five rounds offers three countries. Open one to meet three of its famous people, choose one person and give them a job: Leader, Army, Money, Voice or Science & ideas.",
+      "Country Draft is a free daily world draft game: draft five famous people, give each one a cabinet job and conquer the world. Each of five rounds offers three countries. Open one to meet three of its famous people, choose one person and give them a job: Leader, Army, Money, Voice or Science & ideas.",
       "Each person earns up to 25 points for how well the job fits their career and up to 10 for fame. Their points and the reason appear after you confirm the appointment. Each job can be used once. Bonuses reward a cabinet with no bad fits, people from three world regions and a mix of earlier and recent eras.",
       "Everyone gets the same country choices each day. The board resets at midnight Berlin time, and the maximum is 195 points. No account is needed. After finishing, you can add a name to the leaderboard or keep your result private.",
     ],
     faq: [
       { q: "Is this the game where you draft five people and conquer 195 countries?", a: "Yes. Choose a country, pick a person, give them a job. After five rounds, your cabinet earns a score out of 195 and paints that many countries on the map." },
+      { q: "Is Country Draft like the 195-0 game?", a: "Country Draft is its own game, made by Countrivo and not affiliated with 195-0. The idea is similar: draft famous people into the jobs of a cabinet and see how much of the world they conquer. Here a perfect cabinet scores 195 and paints all 195 countries on the map, and everyone gets the same new board each day." },
       { q: "How is the score out of 195 worked out?", a: "Each appointment earns up to 25 for the job and up to 10 for fame. Five appointments can reach 175. Three cabinet bonuses add up to 20 more: eight when every job has a fit of 12 or more, six for three regions and six for mixing eras." },
       { q: "When do I see the points?", a: "As soon as you choose a job for the person. Choosing a person is safe: closing the job list puts them back. Choosing a job is final, so the reveal cannot be used to try every person before deciding." },
       { q: "Can I choose the country?", a: "Yes. Every round offers three countries from at least two world regions. Tap one to open it. You cannot switch countries after opening it." },
@@ -51,8 +57,10 @@ export const GAME_COPY: Record<string, GameCopy> = {
     ],
   },
   "geo-wordle": {
+    h1: "GeoWordle: guess the country",
+    subline: "A Wordle-style geography game. Find the hidden country in six guesses.",
     about: [
-      "GeoWordle is a free geography Wordle where you guess a hidden country in six tries. Instead of matching letters, you follow distance and direction clues. A world map plots your guesses, and words such as warm or hot show how close they are. You can play in your browser on a phone, tablet or computer without an account or download.",
+      "GeoWordle is a free daily Wordle-style geography game: find the hidden country in six guesses using distance and direction clues. A world map plots your guesses, and words such as warm or hot show how close they are. Play the daily puzzle or unlimited practice in your browser on a phone, tablet or computer, without an account or download.",
       "Choose the daily puzzle to solve the same country as everyone else, or unlimited practice for a fresh puzzle after every round. The daily resets at midnight Europe/Berlin time. Share your result without revealing the answer, then compare guesses with friends.",
     ],
     faq: [

@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { getDailyGames } from '@/lib/data/games';
 import { TABLE_GAMES } from '@/content/table';
 import { GameCard } from '@/ui/game-card';
@@ -24,6 +25,7 @@ export async function GamesHub() {
       <div className="game-index">{daily.map((game, i)=><GameCard key={game.slug} game={game} score={done[game.slug]} active={i < 4} isNew={Boolean(game.newUntil && clock.dateKey <= game.newUntil && !done[game.slug])} />)}</div></section>
     <section className="hub-section" aria-labelledby="hub-practice"><h2 id="hub-practice" className="t-h2">Practice only</h2><p className="hub-lead">Fresh boards whenever you like. No leaderboard.</p>
       <div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} active={false} practice />)}</div></section>
+    <p className="hub-lead hub-teachers"><Link href="/about#teachers">Teaching geography? Countrivo works in class with no accounts</Link></p>
     <SiteFoot />
   </>;
 }

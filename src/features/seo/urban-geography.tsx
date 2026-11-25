@@ -6,7 +6,8 @@ import { Clay } from '@/ui/clay';
 import { Flag } from '@/ui/flag';
 import { GamePlayLink } from '@/ui/game-play-link';
 import { SiteFoot } from '@/ui/site-foot';
-import { breadcrumbList, graph, jsonLdProps } from './breadcrumbs';
+import { dateModifiedFor } from '@/lib/seo/last-modified';
+import { breadcrumbList, graph, jsonLdProps, webPage } from './breadcrumbs';
 import './urban-geography.css';
 
 const URBAN = 'urban-population-pct';
@@ -33,7 +34,7 @@ export function UrbanGeography() {
   const urban = getCategoryBySlug(URBAN);
   const population = getCategoryBySlug('population');
   return <>
-    <script {...jsonLdProps(graph([breadcrumbList([{ name: 'Home', path: '' }, { name: 'Practice', path: '/practice' }, { name: 'Urban geography', path: '/practice/urban-geography' }])]))} />
+    <script {...jsonLdProps(graph([breadcrumbList([{ name: 'Home', path: '' }, { name: 'Practice', path: '/practice' }, { name: 'Urban geography', path: '/practice/urban-geography' }]), webPage({ path: '/practice/urban-geography', name: 'How urban is the world?', dateModified: dateModifiedFor('practice:urban-geography') })]))} />
     <div className="urban-geography">
       <header className="urban-heading"><Clay object="cl-06" sizes="128px" loading="eager" /><h1 className="t-h1">How urban is the world?</h1><p className="t-body text-mute">Two comparisons. Then five questions on the ruler.</p><GamePlayLink slug="stat-guesser" href={`/games/stat-guesser/play?mode=practice&stat=${URBAN}`} prefetch className="btn btn-primary t-cta" pendingLabel="Opening…">Play urban population</GamePlayLink><p className="t-meta text-mute">Free practice · No account · {urban?.sourceYear} data</p></header>
       <div className="urban-comparisons">{COMPARISONS.map((pair, index) => <UrbanComparison key={pair[0]} pair={pair} index={index} />)}</div>

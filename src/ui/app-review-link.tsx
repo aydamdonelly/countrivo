@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { APP_STORE_URL } from "@/lib/seo/site";
 
-const REVIEW_URL = "https://apps.apple.com/app/id6782594305?action=write-review";
+const REVIEW_URL = `${APP_STORE_URL}?action=write-review`;
 
 /**
  * Inside the iOS app only: a plain link to the App Store review page (Apple allows this

@@ -92,7 +92,7 @@ for (const engine of ['chromium', ...(process.env.PLAYWRIGHT_WEBKIT ? ['webkit']
         if (native) {
           armed = false;
           await page.goBack({waitUntil: 'domcontentloaded'});
-          await page.getByRole('heading', {name: 'Practice', exact: true}).waitFor();
+          await page.getByRole('heading', {name: 'Unlimited geography games', exact: true}).waitFor();
           check(await page.getByText('Opening', {exact: true}).count() === 0, 'History return does not retain the pending label');
         }
         check(posts === 0, 'No move or other mutation is submitted');

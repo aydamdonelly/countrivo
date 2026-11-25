@@ -1,57 +1,13 @@
 import type { MetadataRoute } from "next";
 import { getAllCategories } from "@/lib/data/categories";
 import { PRACTICE_PAGES } from '@/lib/seo/practice-pages';
-import timestamps from "@/data/data-timestamps.json";
+import { lastModifiedFor, newestLastModified } from "@/lib/seo/last-modified";
 
 export const BASE_URL = "https://countrivo.com";
 
-interface TimestampEntry {
-  hash: string;
-  lastModified: string;
-}
-
-interface TimestampFile {
-  generatedAt: string;
-  entries: Record<string, TimestampEntry>;
-}
-
-const dataTimestamps: TimestampFile = timestamps;
-
-// Falls back to the day the fingerprint file itself was built, so a brand new
-// key never claims a date we can't back up.
-const FALLBACK_LAST_MODIFIED = new Date(dataTimestamps.generatedAt);
-
-/**
- * Real last-changed date for a page, keyed by "country:{slug}" /
- * "category:{slug}" / "list:{slug}" / "game:{slug}".
- *
- * Backed by scripts/build-data-timestamps.ts, which only moves a date when the
- * underlying data hash moves. Google discards <lastmod> that isn't verifiably
- * accurate, and it's the only freshness signal Google accepts for these pages.
- */
-export function lastModifiedFor(key: string): Date {
-  const entry: TimestampEntry | undefined = dataTimestamps.entries[key];
-  return entry ? new Date(entry.lastModified) : FALLBACK_LAST_MODIFIED;
-}
-
-/**
- * Newest lastModified across a set of keys: used for hub pages, which are only
- * as fresh as the freshest thing they link to.
- *
- * Seeded from `null`, NOT from the fallback: seeding with the fallback makes it
- * a floor rather than a fallback, so every hub would report the build date and
- * quietly reintroduce the "everything changed today" stamp this file exists to
- * remove. The fallback applies only when the prefix matches nothing at all.
- */
-export function newestLastModified(prefix: string): Date {
-  let newest: Date | null = null;
-  for (const [key, entry] of Object.entries(dataTimestamps.entries)) {
-    if (!key.startsWith(prefix)) continue;
-    const date = new Date(entry.lastModified);
-    if (newest === null || date > newest) newest = date;
-  }
-  return newest ?? FALLBACK_LAST_MODIFIED;
-}
+// The date helpers live in src/lib/seo/last-modified.ts so the pages' JSON-LD
+// `dateModified` reads the same source; re-exported for the sitemap shards.
+export { lastModifiedFor, newestLastModified };
 
 // changeFrequency and priority are deliberately absent everywhere: Google
 // ignores both, and they dilute the one hint it does read.

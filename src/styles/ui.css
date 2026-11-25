@@ -1,5 +1,9 @@
 /* Shared primitives. Colors and physical edges use the product theme tokens. */
 @layer components {
+  /* The quiet App Store link (src/ui/app-store-link.tsx): mute text, 44 px target, gone inside the app. */
+  .app-store-link { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--color-mute); text-decoration: underline; text-decoration-color: var(--color-wait); text-underline-offset: 4px; }
+  @media (hover: hover) { .app-store-link:hover { color: var(--color-ink); text-decoration-color: var(--color-ink); } }
+  :root[data-native] .app-store-link { display: none; }
   .native-offline { position: fixed; top: env(safe-area-inset-top, 0px); inset-inline: 0; z-index: 110; margin: 0; padding: 10px var(--gutter); background: var(--color-ink); color: var(--color-on-ink); text-align: center; pointer-events: none; }
   /* ── frames ─────────────────────────────────────────────────────────── */
   .frame { width: 100%; margin: 0 auto; padding: 0 var(--gutter); }

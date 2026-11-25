@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getGameBySlug } from "@/lib/data/registry";
+import { dateModifiedFor } from "@/lib/seo/last-modified";
 
 /**
  * Per-game SEO copy. Titles are kept keyword-rich but human and always end with
@@ -39,7 +40,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "country-draft": {
-    title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
+    title: "Country Draft: Daily World Draft Game, Conquer 195 Countries | Countrivo",
     description:
       "A free world draft game: draft 5 people and conquer the world. Choose countries, fill five cabinet jobs and score out of 195. New daily board, no account.",
     genre: "Geography Strategy",
@@ -78,9 +79,9 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "higher-or-lower": {
-    title: "Higher or Lower: Which Country Ranks Higher? Free Daily Game | Countrivo",
+    title: "Higher or Lower Geography Game: Which Country Ranks Higher? | Countrivo",
     description:
-      "Ten calls on one stat: is the next country higher or lower in population, GDP, area and more? A wrong call doesn't end it. Free daily geography game, no signup.",
+      "Is the next country higher or lower? Ten calls a day on one stat, from population to area and GDP. A wrong call doesn't end it. Free daily geography game, no signup.",
     genre: "Geography Ranking",
     playMode: "SinglePlayer",
     rules: [
@@ -140,6 +141,8 @@ export interface GameJsonLdData {
   genre: string;
   playMode: string;
   rules: string[];
+  /** Same instant as the sitemap <lastmod> for /games/{slug}. */
+  dateModified: string;
 }
 
 export function getGameSeo(slug: string): GameSeo {
@@ -163,10 +166,11 @@ export function getGameSeo(slug: string): GameSeo {
  * to /games/{slug} and mirrors title/description into Open Graph and Twitter.
  */
 export function buildGameMetadata(slug: string): Metadata {
-  const game = getGameBySlug(slug);
   const seo = getGameSeo(slug);
   const path = `/games/${slug}`;
-  const ogTitle = game?.title ? `${game.title} | Countrivo` : seo.title;
+  // Open Graph and Twitter share the search title, so a shared link and a search result
+  // describe the page in the same words (for Country Draft: "world draft").
+  const ogTitle = seo.title;
 
   return {
     // seo.title already includes "| Countrivo"; use `absolute` so the layout's
@@ -205,5 +209,6 @@ export function buildGameJsonLd(slug: string): GameJsonLdData {
     genre: seo.genre,
     playMode: seo.playMode,
     rules: seo.rules,
+    dateModified: dateModifiedFor(`game:${slug}`),
   };
 }
