@@ -14,6 +14,7 @@ if(!games.some(g=>g.slug==='pinpoint'))games.push({slug:'pinpoint',title:'Pinpoi
 const capitalQuiz={slug:'capital-quiz',title:'Capital Quiz',shortDescription:'Ten countries. Pick each capital from four cities.',description:'A country is named. Pick its capital from four cities, the others capitals of nearby countries, and see the answer after every pick. Ten countries, the whole world or one continent.',difficulty:'medium',estimatedTime:'2 min',category:'knowledge',tier:'drill',isNew:true,isFlagship:false,availableModes:['practice'],route:'/games/capital-quiz'};
 const existingCapitalQuiz=games.find(g=>g.slug==='capital-quiz');
 if(existingCapitalQuiz)Object.assign(existingCapitalQuiz,capitalQuiz);else games.push(capitalQuiz);
-const order=['country-draft','geo-wordle','higher-or-lower','flag-quiz','pinpoint','stat-guesser','blind-pick','speed-flags','capital-quiz'];
+// 25 November 2026: Flag Quiz sits last among the dailies, not near the front.
+const order=['country-draft','geo-wordle','higher-or-lower','pinpoint','stat-guesser','blind-pick','flag-quiz','speed-flags','capital-quiz'];
 games.sort((a,b)=>order.indexOf(a.slug)-order.indexOf(b.slug));
 writeFileSync(file,JSON.stringify(games,null,2)+'\n');

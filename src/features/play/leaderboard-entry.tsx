@@ -58,6 +58,7 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
   const joinButton = useRef<HTMLButtonElement>(null);
   const changeButton = useRef<HTMLButtonElement>(null);
   const removeButton = useRef<HTMLButtonElement>(null);
+  const list = useRef<HTMLOListElement>(null);
   const ownRow = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
@@ -65,6 +66,17 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
     if (publishedName && !guest && !remembered) rememberLeaderboardName(publishedName);
     else if (guest && !touched.current) setName(previous => previous || remembered);
   }, [publishedName, run.id, guest]);
+
+  // A long board opens scrolled to your row, inside the list only: the page itself never jumps.
+  const rowCount = currentRun.leaderboard?.entries.length ?? 0;
+  useEffect(() => {
+    const box = list.current, own = ownRow.current;
+    if (!box || !own || box.scrollHeight <= box.clientHeight) return;
+    // A pinned row reports its pinned offset, so measure from the row above it.
+    const above = own.previousElementSibling;
+    const top = above instanceof HTMLElement ? above.offsetTop + above.offsetHeight : 0;
+    box.scrollTop = Math.max(0, top - (box.clientHeight - own.offsetHeight) / 2);
+  }, [rowCount, currentRun.rankDaily, currentRun.rankPreview?.rank]);
 
   // The last explicit flag choice fills the button; the device region is only offered, never set.
   useEffect(() => {
@@ -115,13 +127,15 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
   const ownRank = currentRun.moderationHidden ? null : published ? currentRun.rankDaily : preview?.rank;
   const publicRow = (entry: NonNullable<ServerGameRun["leaderboard"]>["entries"][number]) => {
     const rank = entry.rank + (!published && preview && entry.scoreSortValue < currentRun.scoreSortValue ? 1 : 0);
-    return <li className="standing-row" key={entry.runId}>
+    const row = <li className="standing-row" key={entry.runId}>
       <RankMarker className="standing-rank" rank={rank} />
       <span className="standing-name"><PlayerFlag iso2={entry.countryCode} className="standing-flag" /><span className="standing-label">{entry.displayName}</span></span>
       <b className="standing-score num">{entry.scoreDisplay}</b>
       <ReportName runId={entry.runId} name={entry.displayName} onBlocked={() => setBlockedRows(previous => [...previous, entry.runId])} />
     </li>;
+    return entry.gapBefore ? [<li className="standing-gap" key={`gap-${entry.runId}`} aria-label="Other places omitted"><span aria-hidden="true">···</span></li>, row] : [row];
   };
+  const longList = neighbours.length >= 7;
   const privateNote = `${id}-note`;
   const shownFlag = published && !editing ? flagPlaceByIso3(currentRun.placeCountry)?.iso2 : chosen?.iso2;
   const onPublicBoard = !!published && !currentRun.moderationHidden;
@@ -133,8 +147,8 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
       <h2 id={`${id}-heading`} className="standing-title">{daily ? "Today’s leaderboard" : "Your saved result"}</h2>
       {daily && count !== undefined ? <span className="standing-count">{count.toLocaleString("en-US")} {count === 1 ? "player" : "players"}</span> : null}
     </div> : <h2 id={`${id}-heading`} className="sr-only">Your leaderboard entry</h2>}
-    <ol className="standing-list" aria-label={onBoard || !daily ? "Your score" : "Leaderboard around your result"}>
-      {before.map(publicRow)}
+    <ol ref={list} className={`standing-list${longList ? " standing-scroll" : ""}`} aria-label={onBoard || !daily ? "Your score" : "Today’s leaderboard with your result"} tabIndex={longList ? 0 : undefined}>
+      {before.flatMap(publicRow)}
       {currentRun.leaderboard?.gapBeforeYou && before.length ? <li className="standing-gap" aria-label="Other places omitted"><span aria-hidden="true">···</span></li> : null}
       <li ref={ownRow} className="standing-you" tabIndex={-1}>
         {confirmation > 0 && published && !editing && !currentRun.moderationHidden ? <span key={confirmation} className="standing-confirmation" aria-hidden="true" /> : null}
@@ -146,7 +160,7 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
         <b className="standing-score num">{currentRun.scoreDisplay}</b>
         <span aria-hidden="true" />
       </li>
-      {after.map(publicRow)}
+      {after.flatMap(publicRow)}
     </ol>
     {empty && !published ? <p className="standing-preview">Be the first on today’s board. Equal scores share a place.</p> : null}
     {daily && currentRun.leaderboard?.available === false ? <div className="standing-unavailable"><span>The leaderboard couldn’t be opened. Your score is saved.</span><button type="button" className="btn btn-secondary" disabled={busy} onClick={async () => {

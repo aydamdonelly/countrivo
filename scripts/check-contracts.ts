@@ -666,12 +666,12 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick", "speed-flags", "capital-quiz"],
+    ["country-draft", "geo-wordle", "higher-or-lower", "pinpoint", "stat-guesser", "blind-pick", "flag-quiz", "speed-flags", "capital-quiz"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");
   const dailies = list.filter((g) => (g as { tier?: string; availableModes?: string[] }).tier === "main" && (g as { availableModes?: string[] }).availableModes?.includes("daily")).map((g) => g.slug);
-  eq(dailies, ["country-draft", "geo-wordle", "higher-or-lower", "flag-quiz", "pinpoint", "stat-guesser", "blind-pick"], "seven daily games in order, Flag Quiz among them");
+  eq(dailies, ["country-draft", "geo-wordle", "higher-or-lower", "pinpoint", "stat-guesser", "blind-pick", "flag-quiz"], "seven daily games in order, Flag Quiz among them");
   const practiceOnly = list.filter((g) => !(g as { availableModes?: string[] }).availableModes?.includes("daily")).map((g) => g.slug);
   eq(practiceOnly, ["speed-flags", "capital-quiz"], "Speed Flags and Capital Quiz are the practice-only drills, never dailies");
 }

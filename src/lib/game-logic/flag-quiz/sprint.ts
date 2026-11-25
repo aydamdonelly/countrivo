@@ -34,6 +34,8 @@ export const SPRINT_OPENERS = 6;
 export const SPRINT_OPTIONS = 4;
 /** The daily target shown on the result: a good run, not a player. */
 export const SPRINT_TARGET = 8;
+/** The first Berlin day whose daily board is the sprint; earlier days are frozen ten-flag quizzes. */
+export const FLAG_SPRINT_FIRST_DAY = "2026-11-26";
 /** resultJson version of a sprint run (the ten-flag quiz saved v2). */
 export const SPRINT_RESULT_VERSION = 3;
 

@@ -32,6 +32,8 @@ export interface ResultLeaderboardEntry {
   rank: number;
   /** ISO 3166-1 alpha-2 of the flag the player chose to show, if any. */
   countryCode?: string | null;
+  /** Places between the previous listed row and this one are omitted. */
+  gapBefore?: boolean;
 }
 
 export interface LeaderboardEntry {

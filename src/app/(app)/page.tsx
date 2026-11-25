@@ -7,10 +7,11 @@ import { readDone, readProgress } from '@/server/progress';
 import { deviceOpenRows, getDeviceDailyRuns } from '@/server/anonymous-runs';
 import { DayAtlas, discoveredCountries } from "@/features/home/day-atlas";
 import { TableHome } from '@/features/home/table-home';
-import { TABLE_GAMES } from '@/content/table';
+import { TABLE_GAMES, type GamePresentation } from '@/content/table';
 import { SiteFoot } from '@/ui/site-foot';
 import { YesterdayAnswers } from '@/features/home/yesterday-answers';
 import { readActivity } from '@/lib/daily-activity';
+import { FLAG_SPRINT_FIRST_DAY } from '@/lib/game-logic/flag-quiz/sprint';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -25,7 +26,9 @@ export default async function Home({searchParams}: Props) {
   const done = readDone(store, clock.dateKey, edition);
   for (const run of runs) done[run.gameSlug] = run.scoreDisplay;
   const dailySlugs = new Set(getDailyGames().map((game) => game.slug));
-  const games = TABLE_GAMES.filter((game) => dailySlugs.has(game.slug));
+  // Until the first sprint day the Flag Quiz board is still the frozen ten-flag quiz, so the card says so.
+  const games = TABLE_GAMES.filter((game) => dailySlugs.has(game.slug)).map((game): GamePresentation => game.slug === 'flag-quiz' && clock.dateKey < FLAG_SPRINT_FIRST_DAY
+    ? { ...game, promise: 'Ten flags. Four names each. The twenty-second sprint starts tomorrow.', steps: ['A flag appears with four country names.', 'Ten flags today, everyone gets the same ones.', 'From tomorrow: as many flags as you can in twenty seconds.'], minutes: 'About a minute', length: '10 flags', par: '9' } : game);
   const progress: Record<string,string> = {};
   for (const run of openRuns) if (!done[run.game_slug]) progress[run.game_slug] = 'Board in progress';
   for(const game of games) if (!done[game.slug] && readProgress(store, game.slug, clock.dateKey, edition)?.log) progress[game.slug] = 'Board in progress';

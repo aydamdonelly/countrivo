@@ -173,7 +173,7 @@ try {
     check(/flags/.test(score), `daily: the result reads in flags (${score.replace(/\s+/g, ' ')})`);
     check((await page.locator('.rc-facts').innerText()).includes('8'), 'daily: the facts row shows the daily target of 8');
     check((await page.locator('.rp-score-label').innerText()).trim() === 'flags', 'daily: the unit line reads flags');
-    check(await page.locator('.rp-wrap > .a-card').evaluate(node => !!node.nextElementSibling?.matches('.a-next') && !!node.nextElementSibling.querySelector(':scope > .daily-result-next')), 'daily: the next daily follows the score card');
+    check(await page.locator('.rp-wrap > .a-card').evaluate(node => !!node.nextElementSibling?.matches('.a-lb') && !!node.nextElementSibling.nextElementSibling?.matches('.a-next') && !!node.nextElementSibling.nextElementSibling.querySelector(':scope > .daily-result-next')), 'daily: the leaderboard follows the score card, then the next daily');
     check(await page.evaluate(() => [...document.querySelectorAll('button, a')].filter(node => node.checkVisibility() && /^share/i.test(node.textContent.trim())).length) === 1, 'daily: exactly one share action');
     shots.push(await shot(page, 'daily-result'));
     await page.locator('.fs-seen').scrollIntoViewIfNeeded();

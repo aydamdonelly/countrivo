@@ -31,10 +31,10 @@ import { TimerIcon } from '@/ui/icons/timer';
 import { HashIcon } from '@/ui/icons/hash';
 import type { GlyphProps } from '@/ui/icons/glyph';
 import type { ReactNode } from 'react';
+import { FLAG_SPRINT_FIRST_DAY } from '@/lib/game-logic/flag-quiz/sprint';
 
 type StepIcon = (props: GlyphProps) => ReactNode;
 /** The first Berlin day whose Flag Quiz daily is the twenty-second sprint; earlier frozen days keep the ten-flag quiz. */
-const FLAG_SPRINT_FIRST_DAY = '2026-11-26';
 /** Topic pages that answer a neighbouring search, linked once from the game they reuse. */
 const topicLinks: Record<string, readonly { href: string; label: string }[]> = {
   'flag-quiz': [

@@ -51,23 +51,6 @@
     "route": "/games/higher-or-lower"
   },
   {
-    "slug": "flag-quiz",
-    "title": "Flag Quiz",
-    "shortDescription": "20 seconds. Name as many flags as you can.",
-    "description": "A flag appears with four names. Name as many as you can in 20 seconds. A wrong answer costs 2 seconds. Everyone gets the same flags each day, and the most flags wins.",
-    "difficulty": "easy",
-    "estimatedTime": "20 sec",
-    "category": "speed",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/flag-quiz"
-  },
-  {
     "slug": "pinpoint",
     "title": "Pinpoint",
     "shortDescription": "Five countries. Tap where they are.",
@@ -117,6 +100,23 @@
       "practice"
     ],
     "route": "/games/blind-pick"
+  },
+  {
+    "slug": "flag-quiz",
+    "title": "Flag Quiz",
+    "shortDescription": "20 seconds. Name as many flags as you can.",
+    "description": "A flag appears with four names. Name as many as you can in 20 seconds. A wrong answer costs 2 seconds. Everyone gets the same flags each day, and the most flags wins.",
+    "difficulty": "easy",
+    "estimatedTime": "20 sec",
+    "category": "speed",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/flag-quiz"
   },
   {
     "slug": "speed-flags",

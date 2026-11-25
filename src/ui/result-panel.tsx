@@ -185,8 +185,9 @@ export function targetFacts(game: string, value: number | undefined, par: number
 
 /**
  * The finished-game screen (25 November 2026 design pass). One DOM order for every size:
- * 1 result card, 2 primary block (next game or day complete), 3 the answers (`review`),
- * 4 leaderboard and name, 5 details, 6 tertiary links, 7 feedback line. At 1024 and wider the leaderboard moves to
+ * 1 result card, 2 leaderboard and name (moved up on 25 November 2026 so a phone sees it first),
+ * 3 primary block (next game or day complete), 4 the answers (`review`), 5 details,
+ * 6 tertiary links, 7 feedback line. At 1024 and wider the leaderboard moves to
  * a 440 px right column. Exactly one share per screen: the card's secondary "Share result",
  * or the day-complete card's primary "Share your day".
  */
@@ -225,13 +226,13 @@ export function ResultPanel({ mode, game, slug: slugProp, score, outcome, kicker
         share={share && !dayComplete ? share : undefined} compact={dayComplete ? { kicker: `${game} · today`, line: compactLine } : undefined}
         animate={animateScore} label={`${game} result`} srScore={`${game} result: ${score}`} />
       {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}
+      {primaryAction ? <div className="a-lb rp-primary">{primaryAction}</div> : null}
       {daily || actions || (mode === "lockout" && clock) ? <div className="a-next">
         {daily ? <DailyNext {...daily} onShareDay={daily.onShareDay ?? share?.onShare} /> : null}
         {actions ? <div className="rp-actions">{actions}</div> : null}
         {!daily && mode === "lockout" && clock ? <div className="daily-tomorrow"><Countdown label="New boards in" resetAt={clock.resetAt} serverNow={clock.serverNow} /></div> : null}
       </div> : null}
       {review ? <div className="a-review rp-rows">{review}</div> : null}
-      {primaryAction ? <div className="a-lb rp-primary">{primaryAction}</div> : null}
       {children ? <div className="a-more rp-rows">{children}</div> : null}
       {links}
       {feedback ? <div className="a-fb rp-feedback">{feedback}</div> : null}

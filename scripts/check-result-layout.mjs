@@ -70,7 +70,8 @@ try {
       await page.locator(scenario.control).first().click();
       const entry = page.locator('.leaderboard-entry');
       await entry.waitFor();
-      check(await page.locator('.rp-wrap > .a-card').first().evaluate(node => !!node.nextElementSibling?.matches('.a-next') && !!node.nextElementSibling.querySelector(':scope > .daily-result-next')), `${scenario.slug}: today's progress and the next daily are immediately after the score card`);
+      // 25 November 2026: the leaderboard sits right under the score card, then today's progress and the next daily.
+      check(await page.locator('.rp-wrap > .a-card').first().evaluate(node => !!node.nextElementSibling?.matches('.a-lb') && !!node.nextElementSibling.nextElementSibling?.matches('.a-next') && !!node.nextElementSibling.nextElementSibling.querySelector(':scope > .daily-result-next')), `${scenario.slug}: the leaderboard follows the score card, then the next daily`);
       // 25 November 2026 design pass: one share, one primary, no game colour on any action.
       const actions = await page.evaluate(() => {
         const visible = [...document.querySelectorAll('button, a')].filter(node => node.checkVisibility());
@@ -89,7 +90,7 @@ try {
         const before = selector => Array.from(document.querySelectorAll(selector)).some(other => !!(node.compareDocumentPosition(other) & Node.DOCUMENT_POSITION_PRECEDING));
         return {nextGame: before('.daily-result-next'), bonus: before('.gw-bonus'), map: before('.dr-conquest-panel'), answerMap: before('.a-card .gw-answer-map'), review: before('.a-review')};
       });
-      check(preceding.nextGame, `${scenario.slug}: the next daily precedes optional naming (build contract)`);
+      check(!preceding.nextGame, `${scenario.slug}: the leaderboard and naming precede the next daily`);
       check(!preceding.bonus && !preceding.map, `${scenario.slug}: no bonus or cabinet map precedes naming`);
       // Game clarity pass: the answer is in the card (GeoWordle: name, flag and map) and the per-round answers sit open between the next daily and the leaderboard.
       if (scenario.slug === 'geo-wordle') {
@@ -97,7 +98,7 @@ try {
         check((await page.locator('.a-card .gw-answer-kicker').textContent()) === 'You found' && (await page.locator('.a-card .gw-answer-name').textContent()).includes(scenario.view.answer.name), 'geo-wordle: the card names the answer with its flag');
       }
       if (scenario.slug !== 'geo-wordle') {
-        check(preceding.review, `${scenario.slug}: the answers precede the leaderboard`);
+        check(!preceding.review, `${scenario.slug}: the leaderboard precedes the answers`);
         check(await page.locator('.a-review > details[open]').count() === 1, `${scenario.slug}: the answers are open by default`);
         check(await page.locator('.a-next').evaluate(node => !!node.nextElementSibling?.matches('.a-review')), `${scenario.slug}: the answers follow the next daily directly`);
       }

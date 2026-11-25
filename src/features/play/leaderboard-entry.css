@@ -3,7 +3,7 @@
      neutral rows, medals for places 1 to 3 only, your row tinted ember. */
   .leaderboard-entry { width:100%; min-width:0; text-align:left; }
   .name-heading { display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:6px; }
-  .standing-title { min-width:0; color:var(--color-ink); font:400 20px/26px var(--font-display); overflow-wrap:anywhere; }
+  .standing-title { min-width:0; color:var(--color-ink); font:400 24px/30px var(--font-display); overflow-wrap:anywhere; }
   .standing-count { flex:none; color:var(--color-mute); font-size:13px; line-height:18px; }
   .standing-list { margin:0 -8px; padding:0; list-style:none; }
   .standing-row, .standing-you { position:relative; display:grid; grid-template-columns:58px minmax(0,1fr) auto 44px; align-items:center; min-height:56px; padding:6px 0 6px 8px; border-bottom:1px solid var(--color-line); background:transparent; color:var(--color-ink); }
@@ -25,6 +25,15 @@
   .standing-sub { flex-basis:100%; color:var(--color-mute); font-size:12px; line-height:16px; font-weight:400; }
   .standing-you:focus { outline:none; }
   .standing-you:focus-visible { outline:2px solid var(--color-focus); outline-offset:2px; }
+  /* A long board (25 November 2026): about seven rows tall, scrolls inside itself, opens at your
+     row, and your row stays pinned to the top or bottom edge while you scroll past it. */
+  .standing-scroll { position:relative; max-height:min(420px, 56vh); overflow-y:auto; overscroll-behavior:contain; border-top:1px solid var(--color-line); border-bottom:1px solid var(--color-line); scrollbar-width:thin; }
+  .standing-scroll > li:first-child { border-top:0; }
+  .standing-scroll > li:last-child { border-bottom:0; }
+  .standing-scroll .standing-you { position:sticky; top:0; bottom:0; z-index:1; }
+  @media (min-width:1024px) { .standing-scroll { max-height:min(616px, 68vh); } }
+  .standing-scroll:focus { outline:none; }
+  .standing-scroll:focus-visible { outline:2px solid var(--color-focus); outline-offset:2px; }
   .standing-gap { display:flex; align-items:center; min-height:24px; padding-left:28px; border-bottom:1px solid var(--color-line); color:var(--color-faint); font-size:13px; line-height:16px; }
   .standing-preview { margin-top:8px; color:var(--color-mute); font-size:13px; line-height:18px; }
   .standing-unavailable { display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-top:12px; color:var(--color-mute); font-size:13px; line-height:18px; }
