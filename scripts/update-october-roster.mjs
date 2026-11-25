@@ -8,6 +8,6 @@ Object.assign(blind,{shortDescription:'Eight countries. Eight categories. Find t
 // Keep historical daily links and results working while Flag Quiz moves to the practice shelf.
 Object.assign(games.find(g=>g.slug==='flag-quiz'),{tier:'drill'});
 if(!games.some(g=>g.slug==='pinpoint'))games.push({slug:'pinpoint',title:'Pinpoint',shortDescription:'Five countries. Tap where they are.',description:'Place a pin on a blank coastline map. Closer taps score more. Five countries, with the last round counting double.',difficulty:'medium',estimatedTime:'2 min',category:'knowledge',tier:'main',isNew:true,isFlagship:false,availableModes:['daily','practice'],route:'/games/pinpoint'});
-const order=['country-draft','geo-wordle','blind-pick','pinpoint','higher-or-lower','stat-guesser','flag-quiz','speed-flags'];
+const order=['country-draft','geo-wordle','higher-or-lower','pinpoint','stat-guesser','blind-pick','flag-quiz','speed-flags'];
 games.sort((a,b)=>order.indexOf(a.slug)-order.indexOf(b.slug));
 writeFileSync(file,JSON.stringify(games,null,2)+'\n');

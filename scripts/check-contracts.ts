@@ -570,7 +570,7 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "geo-wordle", "blind-pick", "pinpoint", "higher-or-lower", "stat-guesser", "flag-quiz", "speed-flags"],
+    ["country-draft", "geo-wordle", "higher-or-lower", "pinpoint", "stat-guesser", "blind-pick", "flag-quiz", "speed-flags"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");

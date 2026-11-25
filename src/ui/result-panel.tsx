@@ -137,9 +137,9 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
       {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}
       {next}
       {actions || mode === "daily" || mode === "lockout" ? <div className="rp-actions">{actions}{mode === "daily" || mode === "lockout" ? <Link className="result-practice t-meta" href={practiceHref ?? "?mode=practice"}>Practice</Link> : null}</div> : null}
-      {feedback ? <div className="rp-feedback">{feedback}</div> : null}
       {primaryAction ? <div className="rp-primary">{primaryAction}</div> : null}
       {children ? <div className="rp-rows">{children}</div> : null}
+      {feedback ? <div className="rp-feedback">{feedback}</div> : null}
     </div>
   );
 }

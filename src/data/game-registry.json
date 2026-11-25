@@ -34,13 +34,13 @@
     "route": "/games/geo-wordle"
   },
   {
-    "slug": "blind-pick",
-    "title": "Blind Pick",
-    "shortDescription": "Eight countries. Eight categories. Find their best fit.",
-    "description": "Eight countries arrive one at a time. Place each on an open category, with one undo. Your score is the gap from the best possible assignment of those same eight countries.",
-    "difficulty": "hard",
-    "estimatedTime": "2 min",
-    "category": "strategy",
+    "slug": "higher-or-lower",
+    "title": "Higher or Lower",
+    "shortDescription": "Ten calls on one number.",
+    "description": "Is the next country higher or lower? Ten calls on one stat, and a wrong call doesn't end it.",
+    "difficulty": "easy",
+    "estimatedTime": "1-2 min",
+    "category": "ranking",
     "tier": "main",
     "isNew": false,
     "isFlagship": false,
@@ -48,7 +48,7 @@
       "daily",
       "practice"
     ],
-    "route": "/games/blind-pick"
+    "route": "/games/higher-or-lower"
   },
   {
     "slug": "pinpoint",
@@ -68,23 +68,6 @@
     "route": "/games/pinpoint"
   },
   {
-    "slug": "higher-or-lower",
-    "title": "Higher or Lower",
-    "shortDescription": "Ten calls on one number.",
-    "description": "Is the next country higher or lower? Ten calls on one stat, and a wrong call doesn't end it.",
-    "difficulty": "easy",
-    "estimatedTime": "1-2 min",
-    "category": "ranking",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/higher-or-lower"
-  },
-  {
     "slug": "stat-guesser",
     "title": "Stat Guesser",
     "shortDescription": "Guess five numbers about the world.",
@@ -100,6 +83,23 @@
       "practice"
     ],
     "route": "/games/stat-guesser"
+  },
+  {
+    "slug": "blind-pick",
+    "title": "Blind Pick",
+    "shortDescription": "Eight countries. Eight categories. Find their best fit.",
+    "description": "Eight countries arrive one at a time. Place each on an open category, with one undo. Your score is the gap from the best possible assignment of those same eight countries.",
+    "difficulty": "hard",
+    "estimatedTime": "2 min",
+    "category": "strategy",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/blind-pick"
   },
   {
     "slug": "flag-quiz",

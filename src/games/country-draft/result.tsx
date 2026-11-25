@@ -51,7 +51,6 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
     </section>
     {next}
     <div className="dr-result-actions"><ShareButton text={shareText} challengeUrl={challengeUrl} onShare={onShare} label={challengeUrl ? "Challenge a friend" : "Share my cabinet"} />{onReplay ? <Button variant="ink" onClick={onReplay} disabled={replayBusy} pending={replayBusy} pendingLabel="Opening…">One more draft</Button> : null}</div>
-    {feedback}
     {primaryAction ? <div className="dr-result-primary">{primaryAction}</div> : null}
     <section className="dr-result-card dr-result-body" aria-label="Your cabinet">
       <div className="dr-conquest-panel">
@@ -67,6 +66,7 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
       <details className="dr-score-details"><summary className="t-meta">Score breakdown</summary><div className="dr-tally t-body"><p><span>Five seats</span><b className="num">{fiveSeats}</b></p>{BONUSES.map((bonus) => <p key={bonus.key}><span>{bonus.name}{bonus.key === "fullCabinet" && !state.bonuses.fullCabinet && thinJobs.length ? <small className="t-meta">{thinJobs.length > 1 ? `${thinJobs.slice(0, -1).join(", ")} and ${thinJobs[thinJobs.length - 1]}` : thinJobs[0]} needed a fit of 12 or more.</small> : null}</span><b className="num">{state.bonuses[bonus.key] ? `+${bonus.points}` : "0"}</b></p>)}</div></details>
     </section>
     {children ? <div className="dr-result-followup">{children}</div> : null}
+    {feedback}
   </>;
 }
 

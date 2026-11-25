@@ -11,7 +11,7 @@
   @keyframes clay-idle { 0%,84%,98%,100% {visibility:hidden;} 86%,96% {visibility:visible;} }
 
   .visual-home { margin:20px auto 0; max-width:1040px; }
-  .home-feedback { margin-bottom:28px; }
+  .home-feedback { margin-block:28px; }
   .games-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px; }
   .games-heading .cd { display:flex; flex-direction:column; align-items:flex-end; gap:2px; color:var(--color-mute); }
   .games-heading > a { display:inline-flex; align-items:center; gap:4px; min-height:44px; }

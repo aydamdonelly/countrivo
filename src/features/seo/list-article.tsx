@@ -23,7 +23,7 @@ import { ListItemJsonLd } from "./list-jsonld";
 import "./seo.css";
 
 const PLAY_ROWS: readonly { slug: GameSlug; title: string; meta: string }[] = [
-  { slug: "blind-pick", title: "Blind Pick", meta: "put six countries on their best stat" },
+  { slug: "blind-pick", title: "Blind Pick", meta: "put eight countries on their best stat" },
   { slug: "higher-or-lower", title: "Higher or Lower", meta: "call which country ranks higher" },
   { slug: "stat-guesser", title: "Stat Guesser", meta: "guess the number, closest wins" },
   { slug: "country-draft", title: "Country Draft", meta: "five seats, five people, one map" },
