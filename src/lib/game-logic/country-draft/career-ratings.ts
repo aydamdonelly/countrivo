@@ -32,12 +32,38 @@ const RANKS: readonly CareerRule[] = [
   { matches: /general|marshal|admiral/, ratings: [18, 25, 6, 12, 12] },
   { matches: /colonel|major|captain|lieutenant|commander/, ratings: [12, 18, 6, 6, 12] },
 ];
-const JOBS = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
+export const JOBS: readonly string[] = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
 
-/** A broad producer/maker record cannot establish an industrial career. Scores stay frozen. */
-export function safeCareerLine(line: string, seat: number): string {
-  if (!/\bworked as (?:a|an) manufacturer\b/i.test(line)) return line;
-  return `Fit is an editorial rating. The source's broad producer label does not establish experience in ${JOBS[seat] ?? "this role"}.`;
+/**
+ * The second sentence of a career line, worded by the fit it explains. A cited career only
+ * connects to a job when the fit is strong. A plausible fit is related experience, and a thin
+ * fit or no fit says plainly that the record is far from the job.
+ */
+export function fitConnection(seat: number, fit: number): string {
+  const job = JOBS[seat] ?? "this role";
+  if (fit <= 0) return `That record is far from ${job}, so this game rates it as no fit.`;
+  if (fit < 12) return `That record is far from ${job}, so this game rates the connection as thin.`;
+  if (fit < 18) return `That is not a career in ${job}, but this game counts it as some related experience.`;
+  if (fit < 25) return `That experience connects to ${job}.`;
+  return `That experience is a direct match for ${job}.`;
+}
+
+/**
+ * Every generic connection sentence this game has generated, current and from earlier releases.
+ * Boards and saved results keep the line they were dealt with, so a stored line is reworded at
+ * render time instead of being trusted.
+ */
+const GENERIC_CONNECTION = /^(.+?\.) (?:That experience connects to [^.]+|Their experience also connects to [^.]+|There is only a thin connection to [^.]+|That career does not match [^.]+|Their recorded career is a natural match for [^.]+|That record is far from [^.]+, so this game rates (?:it as no fit|the connection as thin)|That is not a career in [^.]+, but this game counts it as some related experience|That experience is a direct match for [^.]+)\.$/;
+
+/**
+ * Keeps a career line consistent with the fit it explains. Scores stay frozen, only the wording
+ * changes. A broad producer/maker record cannot establish an industrial career, and a generic
+ * connection sentence never claims more, or less, than the fit supports.
+ */
+export function safeCareerLine(line: string, seat: number, fit: number): string {
+  if (/\bworked as (?:a|an) manufacturer\b/i.test(line)) return `Fit is an editorial rating. The source's broad producer label does not establish experience in ${JOBS[seat] ?? "this role"}.`;
+  const generic = GENERIC_CONNECTION.exec(line);
+  return generic?.[1] ? `${generic[1]} ${fitConnection(seat, fit)}` : line;
 }
 
 export function careerRatings(record: DraftCareerRecord, context?: CareerContext) {
@@ -61,8 +87,8 @@ export function careerRatings(record: DraftCareerRecord, context?: CareerContext
         const career = kind === "office" ? `Served as ${claim.label}` : kind === "rank" ? `Held the military rank of ${claim.label}` : claim.label === "military personnel" ? "Worked in the military" : `Worked as ${article} ${claim.label}`;
         const connection = secondary ? `This is a secondary credit alongside their main career, so it counts as supporting experience in ${JOBS[seat]}.`
           : kind === "office" && /goodwill ambassador/i.test(claim.label) ? "This is a public advocacy role, rather than a diplomatic or government appointment."
-          : `That experience connects to ${JOBS[seat]}.`;
-        fitEvidence[seat] = { line: safeCareerLine(`${career}. ${connection}`, seat), source: claim.source };
+          : fitConnection(seat, rating);
+        fitEvidence[seat] = { line: safeCareerLine(`${career}. ${connection}`, seat, rating), source: claim.source };
       });
     }
   }
