@@ -13,27 +13,27 @@ export interface GameCopy {
 export const GAME_COPY: Record<string, GameCopy> = {
   "country-draft": {
     about: [
-      "Country Draft is a free daily strategy game about filling a cabinet. Each of five rounds offers three countries. Open one to meet three of its famous people, choose one person and give them a job: the Chair, the Field, the Purse, the Voice or the Desk.",
-      "The person earns points for their fit with the job and a fame bonus. Their points and the reason appear after you confirm the appointment. Each job can be used once. Bonuses reward a cabinet of plausible fits, people from three world regions and a mix of earlier and recent eras.",
+      "Country Draft is a free daily strategy game about filling a cabinet. Each of five rounds offers three countries. Open one to meet three of its famous people, choose one person and give them a job: Leader, Army, Money, Voice or Science & ideas.",
+      "Each person earns up to 25 points for how well the job fits their career and up to 10 for fame. Their points and the reason appear after you confirm the appointment. Each job can be used once. Bonuses reward a cabinet with no bad fits, people from three world regions and a mix of earlier and recent eras.",
       "Everyone gets the same country choices each day. The board resets at midnight Berlin time, and the maximum is 195 points. No account is needed. After finishing, you can add a name to the leaderboard or keep your result private.",
     ],
     faq: [
       { q: "Is this the game where you draft five people and conquer 195 countries?", a: "Yes. Choose a country, pick a person, give them a job. After five rounds, your cabinet earns a score out of 195 and paints that many countries on the map." },
-      { q: "How is the score out of 195 worked out?", a: "Each appointment earns up to 25 for the job and up to 10 for fame. Five appointments can reach 175. Three cabinet bonuses add up to 20 more: eight for every job being a plausible fit, six for three regions and six for mixing eras." },
-      { q: "When do I see the points?", a: "After you confirm Seat. Choosing a person or selecting a job is safe to change. A confirmed appointment is final, so the reveal cannot be used to try every person before deciding." },
-      { q: "Can I choose the country?", a: "Yes. Every round offers three countries from at least two world regions. Select one, then tap Open. You cannot switch countries after opening it." },
+      { q: "How is the score out of 195 worked out?", a: "Each appointment earns up to 25 for the job and up to 10 for fame. Five appointments can reach 175. Three cabinet bonuses add up to 20 more: eight when every job has a fit of 12 or more, six for three regions and six for mixing eras." },
+      { q: "When do I see the points?", a: "As soon as you choose a job for the person. Choosing a person is safe: closing the job list puts them back. Choosing a job is final, so the reveal cannot be used to try every person before deciding." },
+      { q: "Can I choose the country?", a: "Yes. Every round offers three countries from at least two world regions. Tap one to open it. You cannot switch countries after opening it." },
       { q: "Is there a random bonus?", a: "No. Identical appointments earn the same score. The daily board is shared, and the cabinet bonuses follow from the people you choose." },
       { q: "Can I play more than once a day?", a: "You get one daily run per device. Practice offers fresh boards without affecting the daily leaderboard." },
-      { q: "What happened to the game about placing countries on statistics?", a: "That game is now Blind Pick. Six countries arrive one at a time and you place them on six world rankings, trying to match the perfect board." },
+      { q: "What happened to the game about placing countries on statistics?", a: "That game is now Blind Pick. Eight countries arrive one at a time and you place them on eight world rankings, trying to match the perfect board." },
     ],
   },
   "blind-pick": {
     about: [
-      "Blind Pick is a daily geography strategy game. Six statistics are on the board, from most people and largest economy to most forest or most internet use. Six countries then arrive one at a time, and for each one you decide which open stat it should take. The catch: you do not know which countries are still to come, so every placement is a bet on what the rest of the board will look like.",
-      "Every rank is a rank among the 195 sovereign states, so a slot reads like #12 of 193. Blind Pick is scored like golf: the game finds the perfect board for the same six countries and counts how many ranks you finished over it. Perfect is zero, par is +10. Everyone gets the same six countries on the same day, one shot each, and the result sits on the global board until midnight in Berlin.",
+      "Blind Pick is a daily geography strategy game. Eight statistics are on the board, such as total population, economic output in USD, the percentage of land covered by forest or the percentage of people using the internet. Each category shows what it measures. Eight countries arrive one at a time, and for each one you decide which open stat it should take. You can undo your most recent placement once, including the last pick before choosing See result. You do not know which countries are still to come.",
+      "World rank #1 means the highest value. Rankings include sovereign states with available data for that statistic, so a slot can read #12 of 193. Blind Pick finds the arrangement with the lowest total rank using the same eight countries exactly once each. Your score is the extra rank points above that arrangement. Perfect is zero, par is +10. Everyone gets the same eight countries on the same day, one shot each, and the result sits on the global board until midnight in Berlin.",
     ],
     faq: [
-      { q: "How is Blind Pick scored?", a: "Each country scores the rank it holds on the stat you placed it on. Your six ranks are added up and compared with the lowest total the board allows. The difference is your score: Perfect, or +N over perfect. Par is +10." },
+      { q: "How is Blind Pick scored?", a: "Each country scores its world rank on the category you chose. #1 is the highest value among countries with available data. Your eight ranks are added up and compared with the lowest total possible using these same eight countries, each once. The difference is your score: Perfect, or +N over perfect. Par is +10." },
       { q: "Can I play Blind Pick more than once a day?", a: "The daily board is one shot. Practice mode gives you a fresh, random board as often as you like, and practice runs never touch the leaderboard." },
       { q: "Is Blind Pick the same as the game where you draft five people and conquer 195 countries?", a: "No. That one is Country Draft, the cabinet draft, at countrivo.com/games/country-draft. Blind Pick is about placing real countries on the statistics where they rank highest, and it carried the Country Draft name until August 2026." },
     ],

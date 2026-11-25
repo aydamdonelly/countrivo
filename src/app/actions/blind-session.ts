@@ -2,13 +2,13 @@
 
 import { randomInt } from "node:crypto";
 import type { BlindPickAction } from "@/games/blind-pick/module";
-import { blindRemote, blindView } from "@/server/blind-session";
+import { blindRemote, blindView, blindSessionModule } from "@/server/blind-session";
 import { commitGameSession, prepareGameSession } from "@/server/game-sessions";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getEdition } from "@/server/edition";
 
 export async function commitBlindSession(input:{sessionToken:string;revision:number;action:BlindPickAction}) {
-  return commitGameSession(blindRemote,blindView,input);
+  return commitGameSession(blindSessionModule(input.sessionToken),blindView,input);
 }
 
 export async function startBlindPractice() {

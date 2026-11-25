@@ -1,13 +1,14 @@
 import { countries, categories } from "@/lib/data/public";
 import { seededPick } from "@/lib/seeded-random";
-import { solveAssignment } from "@/lib/assignment-solver";
+import { closestPerfect } from "./scoring";
 import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
 import { SOVEREIGN_SET, sovereignCount, sovereignRank } from "./sovereign-ranks";
 import type { BlindPickConfig } from "./types";
 
-/** Six countries, six stats (concept 5.7). */
-export const BOARD_SIZE = 6;
+export const BOARD_SIZE = 8;
+export const LEGACY_BOARD_SIZE = 6;
+export type BlindPickBoardSize = typeof BOARD_SIZE | typeof LEGACY_BOARD_SIZE;
 
 /** A board is dealt only when the greedy line lands at least this far above the perfect one (concept 5.7). */
 export const MIN_GREEDY_GAP = 8;
@@ -70,13 +71,13 @@ interface Candidate {
 
 function candidate(stats: Category[], picked: Country[]): Candidate {
   const matrix = picked.map((c) => stats.map((s) => sovereignRank(c.iso3, s.slug) ?? sovereignCount(s.slug)));
-  const { optimalScore, assignment } = solveAssignment(matrix);
-  return { countries: picked, stats, matrix, optimalScore, optimalAssignment: assignment, greedy: greedyScore(matrix) };
+  const { sum, perfect } = closestPerfect(matrix, []);
+  return { countries: picked, stats, matrix, optimalScore: sum, optimalAssignment: perfect, greedy: greedyScore(matrix) };
 }
 
 /**
- * Deals one board from the RNG alone. Six stats are drawn from the eligible nine, then six
- * sovereign states with a number on all six (from at least three continents) are drawn in
+ * Deals one board from the RNG alone. Stats are drawn from the eligible nine, then unique
+ * sovereign states with a number on every stat (from at least three continents) are drawn in
  * arrival order, until the greedy line sits MIN_GREEDY_GAP to MAX_GREEDY_GAP above the perfect line.
  * Deterministic for one RNG stream: the daily board is the same on the server and the client.
  */
@@ -84,14 +85,15 @@ export function generateBlindPickConfig(
   rng: () => number,
   mode: "daily" | "practice",
   dateKey: string,
+  boardSize: BlindPickBoardSize = BOARD_SIZE,
 ): BlindPickConfig {
   let best: Candidate | null = null;
 
   for (let statRound = 0; statRound < 12; statRound += 1) {
-    const stats = seededPick(ELIGIBLE_STATS, BOARD_SIZE, rng);
+    const stats = seededPick(ELIGIBLE_STATS, boardSize, rng);
     const pool = SOVEREIGN_COUNTRIES.filter((c) => stats.every((s) => sovereignRank(c.iso3, s.slug) !== null));
     for (let attempt = 0; attempt < 60; attempt += 1) {
-      const picked = seededPick(pool, BOARD_SIZE, rng);
+      const picked = seededPick(pool, boardSize, rng);
       if (new Set(picked.map((c) => c.continent)).size < 3) continue;
       const cand = candidate(stats, picked);
       const miss = gapMiss(cand.greedy - cand.optimalScore);
@@ -106,6 +108,7 @@ export function generateBlindPickConfig(
 
 function toConfig(c: Candidate, mode: "daily" | "practice", dateKey: string): BlindPickConfig {
   return {
+    version: c.countries.length === LEGACY_BOARD_SIZE ? 2 : 3,
     countries: c.countries,
     categories: c.stats,
     costMatrix: c.matrix,

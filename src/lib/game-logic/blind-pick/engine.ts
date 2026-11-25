@@ -1,14 +1,16 @@
 /**
- * Blind Pick (concept 5.7): six countries arrive one at a time and each is placed on one of
- * six stat slots. The tap is the commit: there is no undo. Pure, no React, no clock, no
+ * Blind Pick: eight countries arrive one at a time, with one undo for the whole board.
+ * Pure, no React, no clock, no
  * Math.random; the RNG is injected.
  */
 import type { Country } from "@/types/country";
 import type { BlindPickGame } from "./types";
-import { generateBlindPickConfig } from "./generator";
+import { generateBlindPickConfig, type BlindPickBoardSize } from "./generator";
+import { canUndo } from "./display";
+export { canUndo } from "./display";
 
-export function createGame(rng: () => number, mode: "daily" | "practice", dateKey: string): BlindPickGame {
-  return { config: generateBlindPickConfig(rng, mode, dateKey), placements: [] };
+export function createGame(rng: () => number, mode: "daily" | "practice", dateKey: string, boardSize?: BlindPickBoardSize): BlindPickGame {
+  return { config: generateBlindPickConfig(rng, mode, dateKey, boardSize), placements: [], undoUsed: false };
 }
 
 export function isComplete(state: BlindPickGame): boolean {
@@ -20,7 +22,7 @@ export function currentIndex(state: BlindPickGame): number {
   return Math.min(state.placements.length, state.config.countries.length - 1);
 }
 
-/** The country waiting to be placed, or null once all six are placed. */
+/** The country waiting to be placed, or null once every country is placed. */
 export function getCurrentCountry(state: BlindPickGame): Country | null {
   return isComplete(state) ? null : state.config.countries[state.placements.length];
 }
@@ -44,6 +46,11 @@ export function canPlace(state: BlindPickGame, slot: number): boolean {
 export function place(state: BlindPickGame, slot: number): BlindPickGame {
   if (!canPlace(state, slot)) return state;
   return { ...state, placements: [...state.placements, slot] };
+}
+
+export function undo(state: BlindPickGame): BlindPickGame {
+  if (!canUndo(state)) return state;
+  return { ...state, placements: state.placements.slice(0, -1), undoUsed: true };
 }
 
 /** The running sum of ranks of the countries placed so far. */

@@ -1,9 +1,10 @@
 "use client";
 
 import { DailyNext } from '@/ui/daily-next';
+import { dailyProgress } from '@/features/play/daily-progress';
 import { ChallengeResult } from "@/ui/challenge-result";
 import { DailyHabit } from '@/ui/daily-habit';
-import Link from "next/link";
+import { NavigationLink as Link } from "@/ui/navigation-link";
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { commitDraftSession, startDraftPractice } from "@/app/actions/draft-session";
@@ -16,7 +17,7 @@ import { cn } from "@/lib/utils";
 import { Flag } from "@/ui/flag";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { UserIcon } from "@/ui/icons/user";
-import { BONUSES, MAX_SCORE, SEAT_WANTS, bandOf } from "@/lib/game-logic/country-draft/tables";
+import { BONUSES, MAX_FAME, MAX_FIT, MAX_SCORE, SEAT_WANTS, bandOf } from "@/lib/game-logic/country-draft/tables";
 import { seatIndex } from "@/lib/game-logic/country-draft/types";
 import type { DraftView } from "@/lib/game-logic/country-draft/public-view";
 import type { PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
@@ -24,12 +25,18 @@ import type { HostProps } from "@/games/types";
 import type { DraftCommitAction } from "./module";
 import type { ServerGameRun } from "@/types/server";
 import { Board, ClayJob, JOB_NAMES, type DraftSelection } from "./board";
+import { DRAFT_GUIDE } from "./presentation";
 import "./draft.css";
 
 const Result = dynamic(() => import("./result").then(module => module.Result));
 const DraftResultDetails = dynamic(() => import("./result").then(module => module.DraftResultDetails));
 
 const EMPTY_SELECTION: DraftSelection = { country: null, person: null, seat: null, detail: null, revealSeat: null };
+
+/** After one finished draft the first-game guidance stays away; the play page reads this cookie. */
+function rememberDraftRules() {
+  document.cookie = `cv_draft_rules_seen=1; Path=/; Max-Age=31536000; SameSite=Lax${location.protocol === "https:" ? "; Secure" : ""}`;
+}
 
 export function CountryDraftHost(p: HostProps) {
   if (!p.draftView || !p.sessionToken) return <p className="t-body">This draft could not be opened. <Link href="/games/country-draft/play">Try again</Link></p>;
@@ -55,6 +62,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const [reveal, setReveal] = useState(false);
   const [run, setRun] = useState<ServerGameRun | null>(p.savedRun ?? null);
   const [publishedName, setPublishedName] = useState<string | null>(p.publishedName ?? null);
+  const [guide, setGuide] = useState(p.showDraftRules === true && p.initialView.phase !== "done");
   const busyRef = useRef(false);
   const mountedAt = useRef(0);
   const moved = useRef(false);
@@ -69,6 +77,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   }, [state.seats]);
 
   useEffect(() => { mountedAt.current = Date.now(); }, []);
+  useEffect(() => { if (p.showDraftRules && p.initialView.phase === "done") rememberDraftRules(); }, [p.showDraftRules, p.initialView.phase]);
   useEffect(() => {
     if (state.seats.filter(seat => seat !== null).length >= 4) void import("./result").catch(() => {});
   }, [state.seats]);
@@ -103,6 +112,7 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
         if (response.run) setRun(response.run);
         setPublishedName(response.publishedName ?? null);
         if (response.view.phase === "done") {
+          rememberDraftRules(); setGuide(false);
           setReveal(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
           if (response.run) trackCompletedRun("country-draft", p.mode, response.run.id);
           if (p.mode === "daily") {
@@ -146,35 +156,40 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     }
   }, [state.phase]);
 
-  const nextGame = p.dailies.find((game) => game.slug !== "country-draft" && !p.shotToday.includes(game.slug));
   const filled = state.seats.filter((seat) => seat !== null).length;
   const shareText = buildCountryDraftShareText({ score: state.score, band: bandOf(state.score).word, fits: state.seats.flatMap((seat) => seat ? [seat.fit] : []), rank: run?.rankDaily ?? null, practice: p.mode === "practice" }, p.dateKey);
+  const notice = <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next country…" : pendingAction?.t === "open" ? "Opening your country…" : "Confirming your choice…"} onRetry={failedAction ? () => void commit(failedAction) : undefined} />;
   return <div className="dr-game" ref={playRef}>
-    <header className="dr-play-header"><Link href={p.mode === "daily" ? "/" : "/practice"} aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
+    <header className="dr-play-header"><Link href={p.mode === "daily" ? "/" : "/practice"} prefetch pendingLabel="Opening your games…" aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
       <span className={cn("dr-header-clay", state.phase === "done" && "finished")} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size clay object */}
         <img src={`/clay/cl-01/${state.phase === 'done' ? 'coins' : 'rest'}.128.webp`} width={32} height={32} alt="" />
       </span>
       <h1 className="t-h3">Country Draft</h1><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
       <b className="dr-header-score t-score"><span className="num">{state.score}</span> <small>/ 195</small></b>
-      <details className="dr-help-details"><summary className="dr-help" aria-label="How to play Country Draft"><span>?</span></summary><div className="dr-help-panel">
-        <h2 className="t-h3">How to play</h2>
+      <details className="dr-help-details" onKeyDown={(event) => { if (event.key === "Escape" && event.currentTarget.open) { event.currentTarget.open = false; event.currentTarget.querySelector("summary")?.focus(); } }}><summary className="dr-help" aria-label="How to play Country Draft"><span>?</span></summary><div className="dr-help-panel" role="group" aria-labelledby="draft-help-title">
+        <button type="button" className="dr-close dr-help-close" aria-label="Close how to play" onClick={(event) => { const details = event.currentTarget.closest("details"); if (details) { details.open = false; details.querySelector("summary")?.focus(); } }}>×</button>
+        <h2 className="t-h3" id="draft-help-title">How to play</h2>
         <ol className="dr-help-steps t-meta"><li><Flag iso2="fr" size="m" alt="" /><b>Country</b></li><li><UserIcon size={40} /><b>Person</b></li><li><ClayJob seat={0} /><b>Job</b></li></ol>
-        <p className="t-body">5 rounds. Each job once.</p>
-        <details className="dr-score-details"><summary className="t-meta">Jobs &amp; scoring</summary><div className="dr-rules-jobs">{JOB_NAMES.map((name, index) => <div key={name}><b className="t-body">{name}</b><small className="t-meta">{SEAT_WANTS[index]}</small></div>)}</div><p className="t-body">Up to 25 for job fit + 10 for fame. Points appear after seating.</p>{BONUSES.map(bonus => <p className="t-meta" key={bonus.key}>{bonus.name} +{bonus.points}: {bonus.needs}.</p>)}</details>
+        <p className="t-body">{DRAFT_GUIDE.goal}, one per round. Each job once.</p>
+        <h3 className="dr-help-head t-meta">Points per person</h3>
+        <dl className="dr-help-rules"><div><dt>Job fit <b>up to {MAX_FIT}</b></dt><dd>How well the job matches their career. {DRAFT_GUIDE.example}</dd></div><div><dt>Fame <b>up to {MAX_FAME}</b></dt><dd>How well known they are.</dd></div></dl>
+        <p className="t-meta">Points appear once a person is seated.</p>
+        <h3 className="dr-help-head t-meta">Bonuses for the whole cabinet</h3>
+        <dl className="dr-help-rules">{BONUSES.map(bonus => <div key={bonus.key}><dt>{bonus.name} <b>+{bonus.points}</b></dt><dd>{bonus.needs.charAt(0).toUpperCase()}{bonus.needs.slice(1)}.</dd></div>)}</dl>
+        <details className="dr-score-details"><summary className="t-meta">The five jobs</summary><div className="dr-rules-jobs">{JOB_NAMES.map((name, index) => <div key={name}><b className="t-body">{name}</b><small className="t-meta">{SEAT_WANTS[index]}</small></div>)}</div></details>
         <details className="dr-score-details"><summary className="t-meta">Keyboard</summary><p className="t-meta">Tab: move between choices. Enter or Space: choose. Esc: close a dialog.</p></details>
       </div></details>
     </header>
     {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
     <ChallengeResult challenge={challenge} run={run} />
-    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final" ref={resultRef} tabIndex={-1} role="region" aria-label="Country Draft result">
-      <Result state={state} primaryAction={<ResultFollowup slug="country-draft" mode={p.mode} score={`${state.score} / 195`} run={run} publishedName={publishedName} onPublished={setRun} />} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
-        {p.mode === "daily" ? <><DailyNext next={nextGame} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} /></details></> : null}
+    {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} guide={guide} notice={notice} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final" ref={resultRef} tabIndex={-1} role="region" aria-label="Country Draft result">
+      <Result state={state} feedback={<ResultFeedback slug="country-draft" />} next={p.mode === "daily" ? <DailyNext {...dailyProgress(p, "country-draft", run?.scoreDisplay ?? String(state.score))} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : undefined} primaryAction={<ResultFollowup slug="country-draft" mode={p.mode} score={`${state.score} / 195`} run={run} publishedName={publishedName} onPublished={setRun} />} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
+        {p.mode === "daily" ? <><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} /></details></> : null}
       </Result>
       {!run && p.mode === "daily" ? <p className="t-meta">Your score is saved on this device. Reload to restore the leaderboard option.</p> : null}
       <DraftResultDetails state={state} />
-      <ResultFeedback slug="country-draft" />
     </div>}
-    <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next country…" : pendingAction?.t === "open" ? "Opening your country…" : "Confirming your choice…"} onRetry={failedAction ? () => void commit(failedAction) : undefined} />
+    {state.phase === "done" ? notice : null}
   </div>;
 }

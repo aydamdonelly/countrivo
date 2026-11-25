@@ -2,13 +2,14 @@ import "server-only";
 
 import { randomInt, randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import type { Action, GameModule } from "@/games/types";
 import type { Mode } from "@/ui/types";
 import type { ServerGameRun } from "@/types/server";
 import { replay } from "@/features/play/replay";
 import { encodeRunTicket, ensureDeviceId, gameDatabase, readDeviceId, readRunTicket, type RunTicket } from "./anonymous-identity";
-import { mapAnonymousRun, type AnonymousRunRow } from "./anonymous-runs";
+import { invalidateAnonymousLeaderboards, mapAnonymousRun, type AnonymousRunRow } from "./anonymous-runs";
 import { getEdition } from "./edition";
 import { archivedState, frozenBoardSnapshot, frozenBoardState } from "./board-snapshots";
 import {resolveDailyBoard} from './daily-board-state';
@@ -141,7 +142,12 @@ export async function commitGameSession<S, A extends Action, V>(module: GameModu
     view: view(state??replay(activeModule, r.seed, r.mode, r.date_key, r.action_log).state), sessionToken: encodeRunTicket(rowTicket(r)), revision: r.revision,
     run: r.status === "complete" ? await mapAnonymousRun(r) : undefined, publishedName: r.display_name });
   const committedResponse = async (r:AnonymousRunRow,state:S):Promise<SessionResponse<V>> => {
+    // Invalidate warmed navigation only when the home card changes, not on every move.
+    if(r.mode==='daily'&&(r.revision===1||r.status==='complete'))revalidatePath('/');
     if(r.status!=='complete'||r.mode!=='daily')return response(r,state);
+    revalidatePath('/games');
+    invalidateAnonymousLeaderboards();
+    revalidatePath(`/games/${r.game_slug}/leaderboard`);
     const [result]=await Promise.all([response(r,state),updateDeviceStreak(deviceId,r.date_key)]);
     return result;
   };

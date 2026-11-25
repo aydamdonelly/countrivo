@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { NavigationLink as Link } from "@/ui/navigation-link";
 import { usePathname } from "next/navigation";
 import { Icon, type IconName } from "@/ui/icons";
 import { Crest } from "@/ui/crest";

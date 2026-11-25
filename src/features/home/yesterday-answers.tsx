@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames, getDailyGames } from "@/lib/data/games";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getArchivedBoard } from "@/server/board-snapshots";
@@ -38,7 +38,7 @@ function answerSummary(slug:string,solution:unknown):string {
 export async function YesterdayAnswers({dateKey=getTodayDateKey(),slug}:{dateKey?:string;slug?:string}) {
   const yesterday=new Date(`${dateKey}T12:00:00Z`);yesterday.setUTCDate(yesterday.getUTCDate()-1);
   const day=yesterday.toISOString().slice(0,10);
-  const games=getAllGames().filter(g=>g.availableModes.includes('daily')&&(!slug||g.slug===slug));
+  const games=(slug?getAllGames():getDailyGames()).filter(g=>g.availableModes.includes('daily')&&(!slug||g.slug===slug));
   const boards=await Promise.all(games.map(async game=>({game,board:await getArchivedBoard(game.slug,day)})));
   const available=boards.filter(({board})=>board!==null);
   return <section className="home-yesterday" aria-labelledby="yesterday-title">

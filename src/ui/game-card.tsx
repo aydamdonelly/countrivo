@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { NavigationLink as Link } from '@/ui/navigation-link';
 import type { GamePresentation } from '@/content/table';
 import { Clay } from '@/ui/clay';
 import { cn } from '@/lib/utils';
@@ -20,10 +20,11 @@ export interface GameCardProps {
 export function GameCard({ game, practice, score, progress, heading = 'h2', active = true, className }: GameCardProps) {
   const Heading = heading;
   const href = `/games/${game.slug}/play?mode=${practice ? 'practice' : 'daily'}`;
-  const state = game.clay === 'cl-08' ? 'full' : score ? game.done : 'rest';
+  const dailyComplete = !practice && Boolean(score);
+  const state = game.clay === 'cl-08' ? 'full' : dailyComplete ? game.done : 'rest';
   return <article className={cn('game-tile', className)} data-game={game.slug}>
-    <GamePlayLink slug={game.slug} href={href} prefetch={active} className="game-tile-main" pendingLabel="Opening…" preserveContent ariaLabel={`${score ? 'See result for' : progress ? 'Continue' : 'Play'} ${game.title}${score ? `, ${score}` : ''}`}>
-      <Clay object={game.clay} state={state} alternate={active && !score && !progress ? game.idle : undefined} sizes="(min-width: 768px) 128px, 88px" loading={active ? 'eager' : 'lazy'} />
+    <GamePlayLink slug={game.slug} href={href} prefetch className="game-tile-main" pendingLabel={score ? 'Opening result…' : 'Opening…'} ariaLabel={`${score ? 'See result for' : progress ? 'Continue' : 'Play'} ${game.title}${score ? `, ${score}` : ''}`}>
+      <Clay object={game.clay} state={state} tone={dailyComplete ? 'color' : 'monochrome'} alternate={active && !score && !progress ? game.idle : undefined} sizes="(min-width: 768px) 128px, 88px" loading={active ? 'eager' : 'lazy'} />
       <Heading className="game-tile-title">{game.title}</Heading>
       {game.action ? <span className="game-tile-action">{game.action}</span> : null}
       {score ? <span className="tile-score"><CheckIcon size={14} /><b>{score}</b></span> : progress ? <span className="tile-score">Continue</span> : <span className="tile-play-mark" aria-hidden="true"><PlayIcon size={18} /></span>}

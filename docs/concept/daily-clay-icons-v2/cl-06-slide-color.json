@@ -1,0 +1,137 @@
+{
+  "key": "cl-06-slide-color",
+  "object": "cl-06",
+  "state": "slide",
+  "reference": "/Users/adamkahirov/Desktop/code/countrivo/public/clay/cl-06/slide.webp",
+  "prompt": "Use case: precise-object-edit. Asset type: transparent raster clay icon for the Countrivo Stat Guesser estimation game. Input image 1 is the existing icon to redesign, preserving its long low diagonal ruler/slider silhouette, three chunky peg markers, framing and gentle elevated three-quarter camera. Render the object anew using distinct, strongly saturated modeling-clay materials: the elongated ruler body is rich cobalt blue; its central slider pin is coral orange; the two outer peg markers are golden yellow; the narrow recessed groove and a few small simple measurement notches are warm cream. The center pin should be the clear focal point, with a coral knob and stem; do not add extra pegs. These are separately molded physical colors with depth and contact shading, not a global tint. Preserve the reference's matte hand-kneaded clay texture, subtle fingerprints and irregular soft edges, upper-left soft studio lighting and simple coherent clay proportions. Keep all parts fully visible, centered, with generous transparent margin on all sides and similar occupied canvas proportions to the reference. Must read clearly when reduced to 64px. Actual transparent alpha background with a small natural contact shadow only. No floor plane, room, backdrop gradient, fake checkerboard, labels, text, letters, numerals, logos, border or extra objects. Output one square standalone image, never a sheet.",
+  "generator": "built-in image_gen",
+  "generationCalls": 1,
+  "generatedSource": "/Users/adamkahirov/.codex/generated_images/01a180ff-0e32-76b0-94a3-18f4d3116602/exec-c3280338-d3a0-4947-a550-6527be131fc3.png",
+  "figmaReference": "https://www.figma.com/design/ZKNzvFolKFKjU2EVzWpCBY?node-id=148-3",
+  "createdAt": "2026-10-28T18:24:16.250Z",
+  "original": {
+    "path": "docs/concept/daily-clay-icons-v2/cl-06-slide-color.original.png",
+    "sha256": "c91316d5b0ddc3eb7aeeac77c22606a5979db207400640ec77e082fbbb589fa4",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true
+  },
+  "referenceSha256": "37368ae7bb972d68e019235c8a9257f49183b93f7bc186fa1a29bb9c6d54b4b9",
+  "exports": [
+    {
+      "path": "public/clay/cl-06/slide-color.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 21784,
+      "sha256": "fb8dd44c8d9f44888e69f030ec1ae04ef46f0bb5a788eb19186158e375272333",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.22360677083333333,
+      "strongColorFraction": 0.9419825695374522,
+      "meanChroma": 159.7667074283274,
+      "hueBins30Degrees": [
+        2516,
+        5817,
+        0,
+        0,
+        0,
+        0,
+        1,
+        40120,
+        35,
+        5,
+        8,
+        28
+      ],
+      "visibleBounds": [
+        26,
+        139,
+        465,
+        369
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-06/slide-color.256.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 9990,
+      "sha256": "a212fa46899dd3f1edd6212aa06efcf06a8456bf2a4e9417c5fcebfcbcf4c9c2",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.2235260009765625,
+      "strongColorFraction": 0.9315311625366919,
+      "meanChroma": 157.1815823605707,
+      "hueBins30Degrees": [
+        701,
+        1510,
+        0,
+        0,
+        0,
+        0,
+        1,
+        11395,
+        18,
+        2,
+        5,
+        14
+      ],
+      "visibleBounds": [
+        14,
+        74,
+        248,
+        197
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-06/slide-color.128.webp",
+      "width": 128,
+      "height": 128,
+      "bytes": 4410,
+      "sha256": "cb4c6741ed2749543e7d437973bd363bf211092f3ee96ae4e941cdaad0afc60e",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.2236328125,
+      "strongColorFraction": 0.9219432314410481,
+      "meanChroma": 151.6048034934498,
+      "hueBins30Degrees": [
+        167,
+        338,
+        0,
+        0,
+        0,
+        0,
+        2,
+        2855,
+        3,
+        1,
+        1,
+        11
+      ],
+      "visibleBounds": [
+        7,
+        37,
+        124,
+        98
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    }
+  ],
+  "processing": {
+    "description": "Copied generated PNG unchanged. Export-only alpha1/255 noise set to0, then Sharp contain resize to square480/256/128, WebP quality90 alphaQuality100 effort6. No recoloring or filters.",
+    "alphaNoisePixelsCleared": 3970
+  }
+}

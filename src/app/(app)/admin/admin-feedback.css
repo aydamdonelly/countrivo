@@ -4,4 +4,5 @@
   .admin-feedback-list header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
   .admin-feedback-list time { color: var(--color-mute); }
   .admin-feedback-list .admin-feedback-message { white-space: pre-wrap; overflow-wrap: anywhere; word-break: normal; }
+  .admin-feedback-list form { margin-top:12px; }
 }

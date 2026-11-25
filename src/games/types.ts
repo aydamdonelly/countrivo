@@ -219,6 +219,8 @@ export interface HostProps {
   dailies: DailyRef[];
   /** Slugs the viewer already shot today. */
   shotToday: string[];
+  /** This device's finished daily scores today by slug, as displayed, for the day share. */
+  dayScores?: Record<string, string>;
 }
 
 export type HostComponent = ComponentType<HostProps>;

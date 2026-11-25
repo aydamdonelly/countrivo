@@ -41,7 +41,7 @@ const GAME_SEO: Record<string, GameSeo> = {
   "country-draft": {
     title: "Country Draft: Draft 5 People, Conquer 195 Countries | Countrivo",
     description:
-      "Draft 5 people and conquer the world. Choose countries, fill five cabinet jobs and reveal your score out of 195. Free daily game and practice, no account.",
+      "A free world draft game: draft 5 people and conquer the world. Choose countries, fill five cabinet jobs and score out of 195. New daily board, no account.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
@@ -52,15 +52,15 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "blind-pick": {
-    title: "Blind Pick: Which Country Ranks Highest? Stats Practice | Countrivo",
+    title: "Blind Pick: Eight Countries, One Best Board | Countrivo",
     description:
-      "Six countries, six world rankings. Place each country on a stat and compare with the perfect assignment. Unlimited practice, golf scoring, par +10.",
+      "Eight countries, eight categories and one undo. Find the best assignment of the whole board. New daily challenge and unlimited practice.",
     genre: "Geography Strategy",
     playMode: "SinglePlayer",
     rules: [
-      "6 stats are shown up front",
+      "8 categories are shown up front",
       "Countries arrive one at a time",
-      "Place each country on the stat where it ranks highest among sovereign states",
+      "Use each category once, with one chance to undo your last choice",
       "Your score is how far you finish over the perfect board",
     ],
   },

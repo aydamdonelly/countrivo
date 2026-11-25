@@ -19,6 +19,7 @@ const config: CapacitorConfig = {
     includePlugins: [
       "@capacitor/app", "@capacitor/haptics", "@capacitor/keyboard", "@capacitor/network",
       "@capacitor/preferences", "@capacitor/push-notifications", "@capacitor/splash-screen", "@capacitor/status-bar",
+      "@capacitor-community/in-app-review",
     ],
     contentInset: "always",
     backgroundColor: "#fbfaf6", // matches --color-bg (light); the site is light-first, dark follows the system

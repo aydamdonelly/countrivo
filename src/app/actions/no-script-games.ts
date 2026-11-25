@@ -27,9 +27,10 @@ export async function noScriptMove(token:string,revision:number,form:FormData):P
     if(country)await commitGeoWordleSession({sessionToken:token,revision,action:{t:'guess',iso3:country.iso3}});
     else if(kind==='clue')await commitGeoWordleSession({sessionToken:token,revision,action:{t:'clue'}});
   } else if(ticket.slug==='blind-pick') {
-    const slot=Number(form.get('slot'));
+    const slot=form.get('slot');
     if(kind==='seen')await commitBlindSession({sessionToken:token,revision,action:{t:'seen'}});
-    else if(Number.isInteger(slot)&&slot>=0&&slot<6)await commitBlindSession({sessionToken:token,revision,action:{t:'place',s:slot}});
+    else if(kind==='undo')await commitBlindSession({sessionToken:token,revision,action:{t:'undo'}});
+    else if(typeof slot==='string'&&/^[0-7]$/.test(slot))await commitBlindSession({sessionToken:token,revision,action:{t:'place',s:Number(slot)}});
   } else if(ticket.slug==='higher-or-lower'||ticket.slug==='flag-quiz'||ticket.slug==='stat-guesser') {
     const choice=form.get('choice');
     if(kind==='next')await commitQuickSession({sessionToken:token,revision,action:{t:'next'}});

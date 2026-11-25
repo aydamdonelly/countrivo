@@ -1,5 +1,7 @@
 # Supabase — fertig vorbereitetes Copy-Paste (Projekt: countrivo / reqvdyfzwkrtlvgapnyq)
 
+> **Projektwarnung · 28.10.2026:** Die aktuelle App verwendet **`iktrrzeewcgrhdzkhlvl`** (`NEXT_PUBLIC_SUPABASE_URL`). Die lokale CLI-Verknüpfung in `supabase/.temp/project-ref` zeigt noch auf **`reqvdyfzwkrtlvgapnyq`**; die Angaben darunter sind historisch. Vor jedem Eingriff das Zielprojekt prüfen und bei CLI-Abfragen ausdrücklich `--linked --project-ref iktrrzeewcgrhdzkhlvl` angeben, nie nur `--linked`. Beispiel für die geprüfte Rollback-Vorschau: `supabase db query --linked --project-ref iktrrzeewcgrhdzkhlvl --file /tmp/countrivo-feedback-moderation-preview.sql`. Kein `supabase db push` wegen der dokumentierten Migrationsdrift.
+
 Werte sind schon eingesetzt: Team **88J7VD74DB**, APNs-Key **J56G5XDVQT**, Bundle **com.countrivo.app**, Project-Ref **reqvdyfzwkrtlvgapnyq**.
 Platzhalter `<…>` sind nur Dinge, die ich nicht haben kann (deine `.p8`-Dateien + der NEUE Sign-in-with-Apple-Key).
 

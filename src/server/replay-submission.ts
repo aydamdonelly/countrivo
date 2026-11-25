@@ -1,6 +1,6 @@
 import "server-only";
 
-import { gameModule as blindPick } from "@/games/blind-pick/module";
+import { gameModule as blindPick, legacyGameModule as legacyBlindPick, BLIND_PICK_VERSION } from "@/games/blind-pick/module";
 import { gameModule as countryDraft } from "@/games/country-draft/module";
 import { gameModule as higherOrLower } from "@/games/higher-or-lower/module";
 import { gameModule as geoWordle } from "@/games/geo-wordle/module";
@@ -33,7 +33,7 @@ function timedAction(a: unknown): SpeedAction {
 export function replaySubmission(ticket: RunTicket, log: string, timed: unknown[] = []): SubmitGameRunInput {
   if (log.length > 16000 || timed.length > 1200) throw new Error("invalid_log");
   switch (ticket.slug) {
-    case "blind-pick": return replayModule(blindPick, ticket, log);
+    case "blind-pick": return replayModule(ticket.contentVersion === BLIND_PICK_VERSION ? blindPick : legacyBlindPick, ticket, log);
     case "country-draft": return replayModule(countryDraft, ticket, log);
     case "higher-or-lower": return replayModule(higherOrLower, ticket, log);
     case "geo-wordle": return replayModule(geoWordle, ticket, log);
@@ -61,7 +61,7 @@ export async function preserveGenericBoard(ticket: RunTicket): Promise<void> {
   if (ticket.mode !== "daily") return;
   let state: unknown;
   switch (ticket.slug) {
-    case "blind-pick": state = blindPick.create(ticket.seed, ticket.mode, ticket.dateKey); break;
+    case "blind-pick": state = (ticket.contentVersion === BLIND_PICK_VERSION ? blindPick : legacyBlindPick).create(ticket.seed, ticket.mode, ticket.dateKey); break;
     case "higher-or-lower": state = higherOrLower.create(ticket.seed, ticket.mode, ticket.dateKey); break;
     case "stat-guesser": state = statGuesser.create(ticket.seed, ticket.mode, ticket.dateKey); break;
     case "flag-quiz": state = flagQuiz.create(ticket.seed, ticket.mode, ticket.dateKey); break;

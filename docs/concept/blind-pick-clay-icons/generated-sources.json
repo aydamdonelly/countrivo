@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "population",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-395e338e-f9b3-4496-be76-7a19740210c1.png"
+  },
+  {
+    "slug": "forest-coverage-pct",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-aa485bae-7cf8-4c36-88a1-a3b982c266fb.png"
+  },
+  {
+    "slug": "area-km2",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-e163737d-22f5-4deb-b879-07b7313e1ad8.png"
+  },
+  {
+    "slug": "gdp",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-07c6ad6e-3d2d-418d-82b3-16b25c23b3bf.png"
+  },
+  {
+    "slug": "gdp-per-capita",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-9b99a41b-a897-4568-8659-7659416b51a8.png"
+  },
+  {
+    "slug": "urban-population-pct",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-d409025e-bab3-4ea4-9e5c-ae09a48137f7.png"
+  },
+  {
+    "slug": "internet-users-pct",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-15325f87-e555-4383-9bad-47d036484f4f.png"
+  },
+  {
+    "slug": "life-expectancy",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-97dfc2a5-e849-407a-9845-88526c112040.png"
+  },
+  {
+    "slug": "fertility-rate",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-d19dae5f-d2bd-4804-8fff-de11c6943ced.png"
+  }
+]

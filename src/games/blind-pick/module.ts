@@ -1,7 +1,7 @@
 /*
- * Blind Pick (concept 5.7, pane BP1). Six countries arrive one at a time and six stats wait;
+ * Blind Pick. Eight countries arrive one at a time and eight stats wait;
  * each country goes on the stat where it ranks highest among sovereign states, without
- * seeing who comes next. The tap is the commit (no undo). Scoring is golf: the sum of the six
+ * seeing who comes next, with one undo. Scoring is golf: the sum of the
  * ranks minus the perfect board's sum, "Perfect" or "+N", par +10.
  *
  * This adapter is pure and React-free: it wraps the engine under src/lib/game-logic/blind-pick,
@@ -9,7 +9,8 @@
  * board.
  */
 import { mulberry32 } from "@/lib/seeded-random";
-import { createGame, getCurrentCountry, isComplete, place } from "@/lib/game-logic/blind-pick/engine";
+import { createGame, getCurrentCountry, isComplete, place, undo, canUndo } from "@/lib/game-logic/blind-pick/engine";
+import { LEGACY_BOARD_SIZE } from "@/lib/game-logic/blind-pick/generator";
 import {
   BLIND_PICK_MAX_OVER,
   BLIND_PICK_PAR,
@@ -35,10 +36,10 @@ export interface BlindPickState {
   moves: number;
 }
 
-export type BlindPickAction = { t: "place"; s: number } | { t: "seen" };
+export type BlindPickAction = { t: "place"; s: number } | { t: "seen" } | { t: "undo" };
 
-/** Six countries, six stats. */
-export const PICK_COUNT = 6;
+export const PICK_COUNT = 8;
+export const BLIND_PICK_VERSION = 3;
 
 /** How long the last flip stays on the board before the result takes over. */
 export const LAST_FLIP_MS = 900;
@@ -50,6 +51,7 @@ function placedCount(g: BlindPickGame): number {
 
 export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   slug: "blind-pick",
+  contentVersion: BLIND_PICK_VERSION,
 
   create(seed, mode, dateKey) {
     return { g: createGame(mulberry32(seed), mode, dateKey), seen: false, moves: 0 };
@@ -61,6 +63,11 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
         const g = place(s.g, a.s);
         if (g === s.g) return s;
         return { g, seen: false, moves: s.moves + 1 };
+      }
+      case "undo": {
+        if (s.seen) return s;
+        const g = undo(s.g);
+        return g === s.g ? s : { g, seen: false, moves: s.moves + 1 };
       }
       case "seen":
         return isComplete(s.g) && !s.seen ? { ...s, seen: true } : s;
@@ -75,7 +82,8 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
 
   progress(s) {
     const n = placedCount(s.g);
-    return { done: n, total: PICK_COUNT, label: "placed", value: `${n} of ${PICK_COUNT}` };
+    const total = s.g.config.countries.length;
+    return { done: n, total, label: "placed", value: `${n} of ${total}` };
   },
 
   /*
@@ -94,7 +102,7 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   /** The last flip stays up for LAST_FLIP_MS, then the result takes the screen. */
   feedback: {
     ms: LAST_FLIP_MS,
-    inWindow: (s) => isComplete(s.g) && !s.seen,
+    inWindow: (s) => s.g.config.countries.length === LEGACY_BOARD_SIZE && isComplete(s.g) && !s.seen,
     advance: { t: "seen" },
   },
 
@@ -106,12 +114,13 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
       mode: ctx.mode,
       dateKey: ctx.dateKey,
       scoreRaw: r.over,
-      scoreMax: BLIND_PICK_MAX_OVER,
+      scoreMax: Math.min(BLIND_PICK_MAX_OVER, cfg.countries.length * 195),
       // Golf: lower is better, so the board sorts on minus the score (the server recomputes it).
       scoreSortValue: -r.over,
       scoreDisplay: overLabel(r.over),
       resultJson: {
-        v: 2,
+        v: cfg.countries.length === LEGACY_BOARD_SIZE ? 2 : BLIND_PICK_VERSION,
+        undoUsed: s.g.undoUsed === true,
         over: r.over,
         par: BLIND_PICK_PAR,
         playerScore: r.playerScore,
@@ -129,7 +138,7 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   },
 
   scoreLabel(s) {
-    if (!isComplete(s.g)) return `${placedCount(s.g)} of ${PICK_COUNT}`;
+    if (!isComplete(s.g)) return `${placedCount(s.g)} of ${s.g.config.countries.length}`;
     return overLabel(computeResult(s.g).over);
   },
 
@@ -139,9 +148,10 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
     return buildBlindPickShareText({ over: r.over, marks, practice: ctx.mode === "practice" }, ctx.dateKey);
   },
 
-  /** Digits 1 to 6 place the waiting country on the slot at that position. */
+  /** Digits place the waiting country; U spends the one undo. */
   keys(s, dispatch): Record<string, () => void> {
     const map: Record<string, () => void> = {};
+    if (!s.seen && canUndo(s.g)) map.u = () => dispatch({ t: "undo" });
     if (!getCurrentCountry(s.g)) return map;
     s.g.config.categories.forEach((_, i) => {
       if (!s.g.placements.includes(i)) map[String(i + 1)] = () => dispatch({ t: "place", s: i });
@@ -151,4 +161,13 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
 
   keepBoardOnResult: false,
   submits: true,
+};
+
+/** Existing signed practice sessions keep the original board for their seed. */
+export const legacyGameModule: GameModule<BlindPickState, BlindPickAction> = {
+  ...gameModule,
+  contentVersion: undefined,
+  create(seed, mode, dateKey) {
+    return { g: createGame(mulberry32(seed), mode, dateKey, LEGACY_BOARD_SIZE), seen: false, moves: 0 };
+  },
 };

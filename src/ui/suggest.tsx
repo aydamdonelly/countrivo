@@ -10,7 +10,7 @@ export interface SuggestItem {
   name: string;
 }
 
-export interface SuggestProps extends Pick<InputHTMLAttributes<HTMLInputElement>, "inputMode" | "autoCapitalize" | "enterKeyHint" | "autoComplete" | "autoFocus" | "disabled" | "maxLength"> {
+export interface SuggestProps extends Pick<InputHTMLAttributes<HTMLInputElement>, "inputMode" | "autoCapitalize" | "enterKeyHint" | "autoComplete" | "autoFocus" | "disabled" | "readOnly" | "maxLength"> {
   id: string;
   label?: string;
   hideLabel?: boolean;
@@ -43,7 +43,7 @@ export function Suggest({ id, label, hideLabel, placeholder, value, onChange, it
   const [active, setActive] = useState(initialActive);
   const inputRef = useRef<HTMLInputElement>(null);
   const shown = items.slice(0, max);
-  const expanded = open && value.length > 0 && shown.length > 0;
+  const expanded = open && !input.disabled && !input.readOnly && value.length > 0 && shown.length > 0;
   const activeIdx = Math.min(active, Math.max(0, shown.length - 1));
 
   function choose(item: SuggestItem) {

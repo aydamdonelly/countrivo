@@ -1,11 +1,12 @@
 import { Glyph, type GlyphProps } from "../glyph";
-/** A sprout with two leaves, seed at the base. */
+/** An adult beside a smaller child, seed in the adult's head. */
 export function FertilityIcon(p: GlyphProps) {
   return (
-    <Glyph {...p} seedAt={[12, 19.5, 1.3]}>
-      <path d="M12 21V11" />
-      <path d="M12 14c-4 0-6.5-2.5-6.5-6.5 4 0 6.5 2.5 6.5 6.5z" />
-      <path d="M12 11c4 0 6.5-2.5 6.5-6.5-4 0-6.5 2.5-6.5 6.5z" />
+    <Glyph {...p} seedAt={[7.5, 6, 1.3]}>
+      <circle cx="7.5" cy="6" r="3" />
+      <path d="M2.5 21v-5a5 5 0 0 1 10 0v5" />
+      <circle cx="17.5" cy="12" r="2.5" />
+      <path d="M14 21v-1a3.5 3.5 0 0 1 7 0v1" />
     </Glyph>
   );
 }

@@ -3,8 +3,8 @@ import { Flag } from "@/ui/flag";
 import { cn } from "@/lib/utils";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getCountryByIso3 } from "@/lib/data/countries";
-import { BONUSES, MAX_SCORE, bandOf, fitQuality, fitWord } from "@/lib/game-logic/country-draft/tables";
-import { JOB_NAMES } from "./presentation";
+import { BONUSES, MAX_SCORE, bandOf, fitQuality } from "@/lib/game-logic/country-draft/tables";
+import { JOB_NAMES, fitLabel } from "./presentation";
 import type { RunDetailProps } from "@/games/types";
 import { DraftMap } from "./draft-map";
 import { DraftReviewDetails } from "./review";
@@ -62,7 +62,7 @@ function AppointmentRows({ list, mute }: { list: Row[]; mute?: boolean }) {
             <span className="txt">
               <b>{row.name}</b>
               <small className="t-meta">
-                {JOB_NAMES[row.seat] ?? "Seat"} · {fitWord(row.fit)}
+                {JOB_NAMES[row.seat] ?? "Seat"} · {fitLabel(row.fit)}
               </small>
             </span>
             <b className={cn("t-score num val", mute ? "dr-q-fair" : `dr-q-${fitQuality(row.fit)}`)}>{row.points}</b>

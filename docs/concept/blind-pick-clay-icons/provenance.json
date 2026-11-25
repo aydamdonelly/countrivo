@@ -1,0 +1,338 @@
+{
+  "createdAt": "2026-10-28T16:57:38.768Z",
+  "encoding": {
+    "tool": "sharp",
+    "format": "webp",
+    "quality": 86,
+    "alphaQuality": 100,
+    "effort": 6,
+    "fit": "contain",
+    "background": "transparent"
+  },
+  "records": [
+    {
+      "slug": "population",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-395e338e-f9b3-4496-be76-7a19740210c1.png",
+      "original": "docs/concept/blind-pick-clay-icons/population.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "bd36748ff1eeab7568b695a714a315c72683387f3456e78df31d9c2aa22e50fc",
+      "outputs": [
+        {
+          "file": "public/clay/stat-population/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 31352,
+          "sha256": "2814af61c35940234572f900d1d934ba039997c2be69a99f09435ee86e070a69"
+        },
+        {
+          "file": "public/clay/stat-population/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 13268,
+          "sha256": "f4ff2682ddfa3d58f9cd80a7d45a0b46aa864c121c3545f0cd3e6b69f4b0c45b"
+        },
+        {
+          "file": "public/clay/stat-population/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 5896,
+          "sha256": "ef5e8d31c469120156f0637d82aa399d619b9931b7d74e3ce617bde6eca73203"
+        }
+      ]
+    },
+    {
+      "slug": "forest-coverage-pct",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-aa485bae-7cf8-4c36-88a1-a3b982c266fb.png",
+      "original": "docs/concept/blind-pick-clay-icons/forest-coverage-pct.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "d4d46c9fd567bd8c444d38abdd851269f937e88d3c6f2e31ff1146475ae593e0",
+      "outputs": [
+        {
+          "file": "public/clay/stat-forest-coverage-pct/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 29364,
+          "sha256": "9878a756acc8282f43ec390858334356713d006ee8687d905bd1d8f5d4a7277a"
+        },
+        {
+          "file": "public/clay/stat-forest-coverage-pct/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 12334,
+          "sha256": "d0594163d57e79680cc25183a0e74eb754faee650f2821448a9dc41433b8a1b9"
+        },
+        {
+          "file": "public/clay/stat-forest-coverage-pct/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 5410,
+          "sha256": "6614aac2c9be5e87ee3db1e0d488d55ffb2a7a40c87d9dba2e935b6f5d682435"
+        }
+      ]
+    },
+    {
+      "slug": "area-km2",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-e163737d-22f5-4deb-b879-07b7313e1ad8.png",
+      "original": "docs/concept/blind-pick-clay-icons/area-km2.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "f99cf4ca7213d1000f1c937db175b912ef9fa96b9a9ad05ba45156937b31142c",
+      "outputs": [
+        {
+          "file": "public/clay/stat-area-km2/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 28670,
+          "sha256": "5b5688609cad3bfbba7645a995fd6265e498108e623673a1cec53fee5ecd5fc7"
+        },
+        {
+          "file": "public/clay/stat-area-km2/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 11846,
+          "sha256": "511fdbf6ce6ded56f810c703b33d5446abfab7779fa08ce538d7a917a68aee83"
+        },
+        {
+          "file": "public/clay/stat-area-km2/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 5132,
+          "sha256": "60c9486452abd4bacc9593a4122d5aa4af69ce9d203ff4f39c0888daba96cdc0"
+        }
+      ]
+    },
+    {
+      "slug": "gdp",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-07c6ad6e-3d2d-418d-82b3-16b25c23b3bf.png",
+      "original": "docs/concept/blind-pick-clay-icons/gdp.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "1135d247cd03a254fe5b6fc8e8223d4c87a709de3b93391e4229299c670ebb55",
+      "outputs": [
+        {
+          "file": "public/clay/stat-gdp/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 26472,
+          "sha256": "794758cd9134dc90fcd4e0d2256da9657a2319a048d42942953a3e3392e2408d"
+        },
+        {
+          "file": "public/clay/stat-gdp/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 11444,
+          "sha256": "b503de4224a665d76b6259f691108674e734f98ea065f615d05760016d013db2"
+        },
+        {
+          "file": "public/clay/stat-gdp/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 5196,
+          "sha256": "fc344c6855f97e265074451a33062ff2ac1259b5e9bb687cf5d27282993ddb43"
+        }
+      ]
+    },
+    {
+      "slug": "gdp-per-capita",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-9b99a41b-a897-4568-8659-7659416b51a8.png",
+      "original": "docs/concept/blind-pick-clay-icons/gdp-per-capita.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "96bb7b3f0e4494fedd9dc2ff19c6d1566b127058cdc9f54a22fe0ab173bf62c2",
+      "outputs": [
+        {
+          "file": "public/clay/stat-gdp-per-capita/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 27956,
+          "sha256": "59d4f1c10f33571ee057d98c52a5f94a703276dc4ef4b38c5f4ff4665a63e14b"
+        },
+        {
+          "file": "public/clay/stat-gdp-per-capita/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 11192,
+          "sha256": "0c427a1bc370373c79a8e3e298a225fa3462da4ebf766e120021281b6a90188a"
+        },
+        {
+          "file": "public/clay/stat-gdp-per-capita/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 4908,
+          "sha256": "39cd07832c6a26e29fa4f7bc43f97f543ae655f7a8245c7009b2145ecda137e1"
+        }
+      ]
+    },
+    {
+      "slug": "urban-population-pct",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-d409025e-bab3-4ea4-9e5c-ae09a48137f7.png",
+      "original": "docs/concept/blind-pick-clay-icons/urban-population-pct.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "b03ac3411338c43ddfa27d56efc99c843b0702dfcd2aac17ab795c91ebd64bff",
+      "outputs": [
+        {
+          "file": "public/clay/stat-urban-population-pct/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 22946,
+          "sha256": "b2cef4f92bfa851082bfdf1b8d611280e876738c203122278d638d69951adf72"
+        },
+        {
+          "file": "public/clay/stat-urban-population-pct/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 10168,
+          "sha256": "e9b056d35c069237bbf297114eb790620267ddad93c086b47f16b114c65bb9a9"
+        },
+        {
+          "file": "public/clay/stat-urban-population-pct/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 4552,
+          "sha256": "99e55a3a9c89e49b3e73f1f514a290f2223afca8898a4071a6d758190d81d1fe"
+        }
+      ]
+    },
+    {
+      "slug": "internet-users-pct",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-15325f87-e555-4383-9bad-47d036484f4f.png",
+      "original": "docs/concept/blind-pick-clay-icons/internet-users-pct.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "5fb111e9f4c89357f274ea1a2b70871d51257c5c2e64fe68b6dc9430c2037a5b",
+      "outputs": [
+        {
+          "file": "public/clay/stat-internet-users-pct/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 31500,
+          "sha256": "7ca5babdba38c75a45204fd5e1d340906fade4da8a05af1bf284564a8d73b086"
+        },
+        {
+          "file": "public/clay/stat-internet-users-pct/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 13278,
+          "sha256": "932055a21deaee7a5d4a953b9da2c6ec4c462672af0e1ecfe616eddfb9a6fa08"
+        },
+        {
+          "file": "public/clay/stat-internet-users-pct/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 5902,
+          "sha256": "85835be50eb95ceaed2f9a4b9b92bbf3a466bc82a8dd7faaacde2a594e841770"
+        }
+      ]
+    },
+    {
+      "slug": "life-expectancy",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-97dfc2a5-e849-407a-9845-88526c112040.png",
+      "original": "docs/concept/blind-pick-clay-icons/life-expectancy.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "1c001840b8bf9778a403f6532e49fb5e4b3fdfb3cf2cab91d56eba268860f72d",
+      "outputs": [
+        {
+          "file": "public/clay/stat-life-expectancy/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 24592,
+          "sha256": "739c48c0abdda2621ee9110686f3eb0e323529b9543ad3ee2c2a3e4d926228cd"
+        },
+        {
+          "file": "public/clay/stat-life-expectancy/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 9344,
+          "sha256": "b7194b952ff26b7bd4f2733454f29aac38340e4d12169c773b7944d6192057ff"
+        },
+        {
+          "file": "public/clay/stat-life-expectancy/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 4074,
+          "sha256": "9d634cb76f1a712ab4d787eb7f961f2015898b864e257b6009fca35c105c8c78"
+        }
+      ]
+    },
+    {
+      "slug": "fertility-rate",
+      "tool": "built-in image_gen",
+      "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-d19dae5f-d2bd-4804-8fff-de11c6943ced.png",
+      "original": "docs/concept/blind-pick-clay-icons/fertility-rate.png",
+      "originalWidth": 1254,
+      "originalHeight": 1254,
+      "originalHasAlpha": true,
+      "originalSha256": "4ed231b3ca52b4ff3d86045a5584d31269581814cc618a14a957feba2d4ed700",
+      "outputs": [
+        {
+          "file": "public/clay/stat-fertility-rate/rest.webp",
+          "width": 480,
+          "height": 480,
+          "hasAlpha": true,
+          "bytes": 23666,
+          "sha256": "33bd55685d8655c85dde9aa1b6cc72666b828222bcb00620715e54782acca890"
+        },
+        {
+          "file": "public/clay/stat-fertility-rate/rest.256.webp",
+          "width": 256,
+          "height": 256,
+          "hasAlpha": true,
+          "bytes": 9440,
+          "sha256": "f6cb23efa4b87e32b862ab8c06ca6023ae9d536ee86f5d57e1237370effe1540"
+        },
+        {
+          "file": "public/clay/stat-fertility-rate/rest.128.webp",
+          "width": 128,
+          "height": 128,
+          "hasAlpha": true,
+          "bytes": 4094,
+          "sha256": "1b56e3853280f9841526c7c91b8a4b22422764da4b009de9546b7aa3b7b83dc0"
+        }
+      ]
+    }
+  ]
+}

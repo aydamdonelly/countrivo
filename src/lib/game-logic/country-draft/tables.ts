@@ -13,6 +13,9 @@ export const SEAT_COUNT = 5;
 /** People offered per round; they always carry three different archetypes. */
 export const POOL_SIZE = 3;
 
+/** One appointment: a natural job fit plus the highest fame. */
+export const MAX_FIT = 25;
+export const MAX_FAME = 10;
 /** Five appointments at a natural fit and standing 5. */
 export const MAX_BASE = 175;
 export const MAX_BONUS = 20;
@@ -98,9 +101,9 @@ export const STANDING_POINTS: readonly number[] = [0, 0, 2, 5, 7, 10];
 export const BONUS_POINTS = { fullCabinet: 8, threeRegions: 6, acrossAges: 6 } as const;
 
 export const BONUSES: readonly { key: keyof typeof BONUS_POINTS; name: string; needs: string; points: number }[] = [
-  { key: "fullCabinet", name: "Full cabinet", needs: "every seat took a fit of 12 or better", points: BONUS_POINTS.fullCabinet },
+  { key: "fullCabinet", name: "No bad fits", needs: "every job has a fit of 12 or more", points: BONUS_POINTS.fullCabinet },
   { key: "threeRegions", name: "Three regions", needs: "people from at least three world regions", points: BONUS_POINTS.threeRegions },
-  { key: "acrossAges", name: "Across the ages", needs: "a person from before 1900 and one active after 1950", points: BONUS_POINTS.acrossAges },
+  { key: "acrossAges", name: "Two eras", needs: "one person from before 1900 and one active after 1950", points: BONUS_POINTS.acrossAges },
 ];
 
 export type BandKey = "footnote" | "region" | "continent" | "most" | "whole";

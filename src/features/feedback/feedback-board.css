@@ -1,0 +1,49 @@
+@layer components {
+  .community-feedback { display:flex; flex-direction:column; gap:32px; padding-block:24px; }
+  .feedback-feed { display:flex; flex-direction:column; gap:20px; max-width:760px; width:100%; margin-inline:auto; }
+  .feedback-feed-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .feedback-feed-heading :is(h1,h2) { outline:none; scroll-margin-top:20px; }
+  .feedback-feed-heading p { margin-top:6px; color:var(--color-mute); }
+  .feedback-posts { list-style:none; display:flex; flex-direction:column; gap:16px; padding:0; margin:0; }
+  .feedback-post { min-width:0; padding:20px; border-radius:var(--radius-card); background:var(--color-card); }
+  .feedback-post header { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:12px; line-height:1.5; }
+  .feedback-post header time { color:var(--color-mute); }
+  .feedback-post-message { margin-block:12px; font-size:16px; line-height:1.5; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .feedback-votes { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; }
+  .feedback-votes button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-width:64px; min-height:48px; border:1px solid var(--color-wait); border-radius:var(--radius-ctl); background:var(--color-paper); color:var(--color-ink); font:inherit; font-size:15px; font-weight:650; cursor:pointer; }
+  .feedback-votes button[aria-pressed="true"] { background:var(--color-game-draft); border-color:var(--color-ink); }
+  .feedback-votes button:disabled { cursor:default; }
+  .feedback-votes button:focus-visible { outline:2px solid var(--color-ink); outline-offset:3px; }
+  .feedback-your-vote { color:var(--color-mute); font-size:12px; }
+  .feedback-moderation { margin-top:8px; font-size:14px; }
+  .feedback-report-toggle, .feedback-report-form button { display:inline-flex; align-items:center; justify-content:center; min-height:48px; min-width:48px; padding:10px 14px; border:1px solid var(--color-wait); border-radius:var(--radius-ctl); background:var(--color-paper); color:var(--color-ink); font-size:15px; font-weight:600; line-height:1.3; text-align:center; }
+  .feedback-report-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; padding-top:12px; }
+  .feedback-report-form :is(label,p,select), .feedback-report-form .feedback-report-primary { grid-column:1/-1; width:100%; }
+  .feedback-report-form label { font-weight:600; }
+  .feedback-report-form p { line-height:1.5; }
+  .feedback-report-form select { min-height:48px; min-width:0; padding:10px 12px; border:1px solid var(--color-wait); border-radius:var(--radius-ctl); background:var(--color-paper); color:var(--color-ink); font-size:16px; }
+  .feedback-report-form .feedback-report-primary { background:var(--color-ink); color:var(--color-paper); border-color:var(--color-ink); }
+  .feedback-report-form[data-confirm] .feedback-report-cancel { grid-column:1/-1; }
+  .feedback-moderation button:disabled { cursor:default; color:var(--color-mute); }
+  .feedback-report-form .feedback-report-primary:disabled { background:var(--color-ink-2); color:var(--color-on-ink-body); }
+  .feedback-moderation :is(button,select):focus-visible { outline:2px solid var(--color-ink); outline-offset:3px; }
+  .feedback-empty { padding:24px; border-radius:var(--radius-card); background:var(--color-card); }
+  .feedback-empty p { margin-top:10px; line-height:1.5; color:var(--color-mute); }
+  .feedback-board-note { color:var(--color-mute); line-height:1.5; }
+  .feedback-board-error { display:flex; flex-wrap:wrap; align-items:center; gap:12px; padding:16px; border:1px solid var(--color-ember); border-radius:var(--radius-card); font-size:14px; }
+  .feedback-pagination { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .feedback-pagination:empty { display:none; }
+  .feedback-board-opening { color:var(--color-mute); }
+  .feedback-feed-dialog { max-width:none; gap:12px; padding:12px 20px calc(24px + env(safe-area-inset-bottom)); }
+  .feedback-feed-dialog .feedback-feed-heading { align-items:flex-start; gap:8px; }
+  .feedback-feed-dialog .feedback-feed-heading h2 { font-family:var(--font-sans); font-size:20px; font-weight:650; line-height:1.3; }
+  .feedback-feed-dialog .feedback-feed-heading .t-meta { font-size:12px; line-height:1.4; }
+  .feedback-feed-dialog .feedback-feed-heading .btn-text { min-width:64px; font-size:13px; color:var(--color-ink); }
+  .feedback-feed-dialog .feedback-posts { gap:12px; }
+  .feedback-feed-dialog .feedback-post { padding:16px; }
+  .feedback-feed-dialog .feedback-post-message { font-size:15px; line-height:1.4; }
+  .feedback-feed-dialog .feedback-empty { padding:16px; font-size:14px; }
+  .feedback-feed-dialog .feedback-board-note { font-size:12px; }
+  @media(max-width:359px) { .feedback-post { padding:16px; } .feedback-feed-heading { align-items:flex-start; gap:8px; } .feedback-feed-heading h1 { font-size:24px; } .feedback-feed-dialog { padding-inline:16px; } }
+  @media(prefers-reduced-motion:no-preference) { .feedback-votes button { transition:transform 160ms var(--ease-out),background-color 160ms var(--ease-out); } .feedback-votes button:active { transform:translateY(2px); } }
+}

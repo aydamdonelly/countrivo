@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
-import Link from 'next/link';
+import { NavigationLink as Link } from '@/ui/navigation-link';
 import type { GamePresentation } from '@/content/table';
 import { GameCard } from '@/ui/game-card';
 import { CheckIcon } from '@/ui/icons/check';
@@ -10,7 +10,9 @@ import { Countdown } from '@/ui/countdown';
 import { ShareButton } from '@/ui/share-button';
 import { preloadGameHost } from '@/features/play/preload-game-host';
 import { DailyHabit } from '@/ui/daily-habit';
+import { SiteFeedback } from '@/ui/site-feedback';
 import type { DailyActivity } from '@/lib/daily-activity';
+import { buildDayShareText } from '@/lib/share';
 
 interface TableHomeProps {
   games: readonly GamePresentation[];
@@ -39,6 +41,7 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
   }, [opening, fullSet]);
   return <div className="table-home visual-home">
     {dayClosed && !practice ? <div className="rollover"><p>New games</p><Link href="/" className="btn btn-ink t-cta">Play</Link></div> : null}
+    <div className="home-feedback"><SiteFeedback /></div>
     <header className="games-heading">
       <h2 className="t-h2">{practice ? 'Practice' : 'Daily games'}</h2>
       {practice ? <Link href="/" className="t-meta">Today’s games <ChevronRightIcon size={16} /></Link> : <Countdown resetAt={resetAt} serverNow={serverNow} label="New boards in" />}
@@ -47,7 +50,7 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
     <div className="game-index daily-game-grid">
       {games.map(game => <GameCard key={game.slug} game={game} practice={practice} score={done[game.slug]} progress={progress[game.slug]} active={!fullSet && game.slug === opening} />)}
     </div>
-    {!practice ? <div className="full-set-actions"><DailyHabit dateKey={dateKey} activity={activity} completed={finished > 0} />{finished > 0 ? <ShareButton text={`Countrivo ${dateKey}\n${games.filter(game => done[game.slug]).map(game => `${game.title}: ${done[game.slug]}`).join('\n')}\nhttps://countrivo.com`} label="Share your day" /> : null}{atlas ? <details><summary>Your world today</summary>{atlas}</details> : null}</div> : null}
+    {!practice ? <div className="full-set-actions"><DailyHabit dateKey={dateKey} activity={activity} completed={finished > 0} />{finished > 0 ? <ShareButton text={buildDayShareText(dateKey, games.flatMap(game => done[game.slug] ? [{ title: game.title, score: done[game.slug] }] : []))} label="Share your day" /> : null}{atlas ? <details><summary>Your world today</summary>{atlas}</details> : null}</div> : null}
     {!practice && yesterday ? <details className="past-answers"><summary>Yesterday’s answers</summary>{yesterday}</details> : null}
   </div>;
 }

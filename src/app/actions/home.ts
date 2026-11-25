@@ -2,7 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getTodayDateKey, getDailyRng } from "@/lib/daily-seed";
-import { getAllGames } from "@/lib/data/games";
+import { getDailyGames } from "@/lib/data/games";
 import { getSilhouettePath, iso2ToIso3, toFlagCode } from "@/lib/silhouettes";
 import { generateBlindPickConfig } from "@/lib/game-logic/blind-pick/generator";
 import { compactScore, getPublicBoards, type ProfileRow, type RunRow } from "@/server/boards";
@@ -63,7 +63,7 @@ export async function getHomeData(): Promise<HomeData> {
   const t0 = Date.now();
   const lap = (l: string) => { if (process.env.HOME_TIMING) console.log(`[home] ${l} ${Date.now() - t0}ms`); };
   const dateKey = getTodayDateKey();
-  const dailySlugs = getAllGames().filter((g) => g.availableModes.includes("daily")).map((g) => g.slug);
+  const dailySlugs = getDailyGames().map((g) => g.slug);
 
   const supabase = await createClient();
   const [{ data: { user } }, pub] = await Promise.all([

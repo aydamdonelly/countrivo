@@ -11,6 +11,11 @@ export function getAllGames(): GameMeta[] {
   return gameRegistry;
 }
 
+/** Current daily offering; retired daily games keep their historical routes. */
+export function getDailyGames(): GameMeta[] {
+  return gameRegistry.filter((game) => game.tier === "main" && game.availableModes.includes("daily"));
+}
+
 export function getGameBySlug(slug: string): GameMeta | undefined {
   return bySlug.get(slug);
 }

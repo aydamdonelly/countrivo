@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { getAllGames, getGameBySlug } from '@/lib/data/games';
+import { getAllGames, getDailyGames } from '@/lib/data/games';
 import { getClock } from '@/server/clock';
 import { getEdition } from '@/server/edition';
 import { readDone, readProgress } from '@/server/progress';
@@ -15,7 +15,7 @@ import { readActivity } from '@/lib/daily-activity';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: {absolute: 'Countrivo: Free Geography Games & Daily Country Puzzles'},
-  description: 'Six short geography games. New boards every day. Country Draft, GeoWordle, Pinpoint and more. Play without an account.',
+  description: 'Six short geography games. New boards every day. Country Draft, GeoWordle, Blind Pick and more. Play without an account.',
   alternates: {canonical: 'https://countrivo.com'},
 };
 interface Props { searchParams: Promise<{game?: string; mode?: string}>; }
@@ -24,7 +24,8 @@ export default async function Home({searchParams}: Props) {
   const [runs, openRuns] = await Promise.all([getDeviceDailyRuns(clock.dateKey, edition, {includeLeaderboard:false,includeChallenge:false}), deviceOpenRows(clock.dateKey, edition)]);
   const done = readDone(store, clock.dateKey, edition);
   for (const run of runs) done[run.gameSlug] = run.scoreDisplay;
-  const games = TABLE_GAMES.filter((game) => getGameBySlug(game.slug)?.availableModes.includes('daily'));
+  const dailySlugs = new Set(getDailyGames().map((game) => game.slug));
+  const games = TABLE_GAMES.filter((game) => dailySlugs.has(game.slug));
   const progress: Record<string,string> = {};
   for (const run of openRuns) if (!done[run.game_slug]) progress[run.game_slug] = 'Board in progress';
   for(const game of games) if (!done[game.slug] && readProgress(store, game.slug, clock.dateKey, edition)?.log) progress[game.slug] = 'Board in progress';
@@ -36,6 +37,6 @@ export default async function Home({searchParams}: Props) {
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}} />
     <h1 className="sr-only">Countrivo: daily geography games</h1>
     <TableHome games={games} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} activity={readActivity(store.get('cv_activity')?.value, clock.dateKey)} atlas={discoveredCountries(runs).size ? <DayAtlas key="day-atlas" runs={runs} /> : null} yesterday={<YesterdayAnswers key="yesterday" />} />
-    <SiteFoot />
+    <SiteFoot feedback={false} />
   </>;
 }

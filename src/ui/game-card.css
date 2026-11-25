@@ -1,4 +1,10 @@
 @layer components {
+  @media(max-width:767px) {
+    .game-tile .game-tile-main { min-height:188px; padding-top:40px; }
+  }
+  @media(max-width:359px) {
+    .game-tile .game-tile-main { min-height:202px; }
+  }
   @media(prefers-reduced-motion:no-preference) {
     .game-tile-main { transition:transform 180ms var(--ease-out); }
     .game-tile-main .clay-object { transition:transform 380ms var(--ease-out); transform-origin:center bottom; }

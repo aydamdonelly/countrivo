@@ -226,7 +226,7 @@ const LIST_CONTENT: readonly ListContent[] = [
   },
   {
     slug: "countries-in-europe",
-    metaTitle: "Countries in Europe | Complete List with Stats",
+    metaTitle: "Countries in Europe: All {n}, with Capitals and Population",
     description:
       "Complete list of every country in Europe with flag, capital, population, and area. From tiny Vatican City to vast Russia's European territory.",
     shortName: "Countries in Europe",
@@ -268,7 +268,7 @@ const LIST_CONTENT: readonly ListContent[] = [
   },
   {
     slug: "countries-in-asia",
-    metaTitle: "Countries in Asia | Complete List with Stats",
+    metaTitle: "Countries in Asia: All {n}, with Capitals and Population",
     description:
       "Complete list of every country in Asia with flag, capital, population, and area. From China and India to Singapore and Maldives.",
     shortName: "Countries in Asia",
@@ -310,7 +310,7 @@ const LIST_CONTENT: readonly ListContent[] = [
   },
   {
     slug: "countries-in-africa",
-    metaTitle: "Countries in Africa | Complete List with Stats",
+    metaTitle: "African Countries: All {n}, with Capitals and Population",
     description:
       "Complete list of every country in Africa with flag, capital, population, and area. 54 nations from Nigeria to Seychelles.",
     shortName: "Countries in Africa",
@@ -352,7 +352,7 @@ const LIST_CONTENT: readonly ListContent[] = [
   },
   {
     slug: "countries-in-americas",
-    metaTitle: "Countries in the Americas | Complete List with Stats",
+    metaTitle: "Countries in the Americas: All {n}, with Capitals and Population",
     description:
       "Complete list of every country in North and South America with flag, capital, population, and area. From the US and Brazil to small Caribbean nations.",
     shortName: "Countries in the Americas",

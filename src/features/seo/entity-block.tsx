@@ -1,4 +1,4 @@
-import { gameRegistry, getGameBySlug } from "@/lib/data/registry";
+import { getDailyGames, getGameBySlug } from "@/lib/data/registry";
 import {
   dailyParagraph,
   ENTITY_COPY,
@@ -71,7 +71,7 @@ export function EntityBlock({ slug }: { slug: string }) {
 
       <p className="t-meta src-line">
         Countrivo is a free browser-based geography game platform with{" "}
-        {gameRegistry.filter((g) => g.availableModes.includes("daily")).length} daily games covering{" "}
+        {getDailyGames().length} daily games covering{" "}
         {TOTAL_COUNTRIES} countries.
       </p>
     </section>

@@ -1,0 +1,9 @@
+@layer components {
+  .rank-marker { display:inline-flex; flex-direction:column; align-items:center; justify-content:center; min-width:0; max-width:100%; font:600 14px/20px var(--font-sans); font-variant-numeric:tabular-nums; }
+  .rank-marker[data-podium] { color:var(--color-ink); }
+  .rank-marker img { display:block; flex:none; width:28px; height:28px; max-width:100%; object-fit:contain; }
+  .podium-row[data-podium="1"] { --podium-color:var(--color-game-draft); }
+  .podium-row[data-podium="2"] { --podium-color:var(--color-game-geo); }
+  .podium-row[data-podium="3"] { --podium-color:var(--color-game-pin); }
+  .podium-row[data-podium] { background:var(--podium-color); color:var(--color-ink); border-radius:var(--radius-ctl); }
+}

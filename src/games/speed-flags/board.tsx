@@ -15,7 +15,7 @@ import "./board.css";
 const PRELOAD_AHEAD = 3;
 
 function flagSrc(iso2: string): string {
-  return `/flags/${iso2.toLowerCase()}.svg`;
+  return `/clay-flags/${iso2.toLowerCase()}.webp`;
 }
 
 /**
@@ -87,7 +87,7 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
         {count}
         <div className="sf-box">
           <span className="flag">
-            {/* eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- pre-rendered clay flag */}
             <img src={flagSrc(q.country.iso2)} alt="Flag to identify" decoding="sync" loading="eager" />
           </span>
         </div>

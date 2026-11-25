@@ -1,8 +1,101 @@
 # Countrivo App Review working packet
 
+## Current status — 29 October 2026
+
+**Submitted — Waiting for Review.** Following the owner's explicit “ok go”, the six-answer review response was sent and version **1.0 (4)** resubmitted. The coordinator visually verified both **iOS Submission — Waiting for Review** and the **1.0 (4) — Waiting for Review** row in App Store Connect at **2026-10-29 07:15:11.688 UTC**. ASC displayed **Date Submitted: Oct 29, 2026 at 12:14 AM**, and **Submitted By / Last Updated By: Adam Kahirov**. The sent response appeared at **Today 12:10 AM**, with **Messages (2)** and the evidence ZIP attached. This is submission confirmation, **not Apple approval**. No code commit or push was performed for this step.
+
+Receipt: `reports/2026-10-29/app-review/submission-verification.json`; screenshot: `reports/2026-10-29/app-review/submission-waiting-for-review.png`; exact sent text: `reports/2026-10-29/app-review/review-reply-ready.txt`. Submission ID: `f4cab4b2-751c-4180-a735-7d7e5538bcbe`. Sent response and prior drafts: [APP-STORE-SUBMISSION.txt](APP-STORE-SUBMISSION.txt). Rights appendix: [APP-STORE-RIGHTS.txt](APP-STORE-RIGHTS.txt). The preparation and historical observations below are retained; their earlier Ready to Submit/unsent states are superseded by this verified status.
+
+- **App Store Connect:** version **1.0**, bundle **com.countrivo.app**, App ID **6782594305**. **Build 4 is now Waiting for Review with version 1.0**. Its earlier processing/selection check showed Ready to Submit and 90 days remaining; the disabled Save button was verified after saving. Build UUID: `800132d4-674c-48ec-ad82-0ea8c75cec5d`. It was assigned to the existing **Owner device review** TestFlight group with **one tester**, and **What to Test** was saved. That earlier selection check alone did not establish installation or review submission. Earlier on 28 October, build 3 displayed 1 install, 33 sessions and 83 days remaining; those are build-3 observations, not build-4 metrics. The historical build-2 rejection remains Guideline 2.1, Information Needed.
+- **Build 4:** version remains **1.0**. Both native PrivacyInfo manifests now declare **Device ID: App Functionality + Analytics**; User ID remains App Functionality only. Local archive and App Store export passed **28/28 checks**, including deep/strict signatures, actual distribution entitlements, eight privacy types, live origin and offline files. Receipt: `reports/2026-10-28/app-review/native-build-4-verification.json`.
+- **Build-4 upload:** CLI confirmed **Uploading App.ipa complete / Uploaded package is processing / Upload succeeded / EXPORT SUCCEEDED** at **20:17 UTC on 28 October**, followed by verified ASC processing and selection described above. Log: `reports/2026-10-28/app-review/upload-build-4.log`. The local artifact-verification receipt predates upload and correctly preserves `uploaded:false` for that earlier preparation step. That upload receipt predates the later verified review reply and resubmission; Apple approval is not claimed.
+- **Earlier main-video Notes and attachment:** the **3,852-character / 3,859-byte** Notes and **Countrivo-Review-Evidence-1.0-4.zip** were saved and verified after reloading App Store Connect at **2026-10-29 06:37:23 UTC** (28 October PDT). Verification found exact Notes text, the attachment visible and **Save disabled**. Saved text: `reports/2026-10-28/app-review/review-notes-video-saved.txt`; receipt: `reports/2026-10-28/app-review/video-asc-save-verification.json`; visually inspected screenshot: `reports/2026-10-28/app-review/review-video-and-notes-saved.png`. The approximately **11 MB** ZIP contains the physical video, `README-REVIEW.txt` and the three byte-identical existing licence files. Local bundle: `reports/2026-10-28/app-review/ready/Countrivo-Review-Evidence-1.0-4.zip`. This is saved App Review Information, **not a review-conversation reply, resubmission or approval**. Earlier Notes/capture attempts remain below as history.
+- **Physical device:** **iPhone 13, iOS 27.2 and the post-update installation of Countrivo 1.0 (4) are verified**. The owner's original recording was received and retained unchanged. The video shows app opening/resuming from its icon; it does **not prove a cold launch**. The earlier `devicectl` installation, locked-device and connection observations remain in `reports/2026-10-28/app-review/physical-device-update-status.json` and the history below.
+- **Physical video:** the original **106.9-second, 1170×2532** owner recording was visually sampled over its entire timeline at **2 fps**. The attached derivative, **Countrivo-Physical-iPhone13-1.0-4.mp4**, is approximately **98 seconds**, H.264 at the original resolution, covering source **7.000–105.000 seconds with no internal cuts**. Only the lead-in, trailing Control Center with private music information and digitally silent audio were removed; the original remains local. Approximate derivative timestamps: **00:04** opening/resume; **00:09.5** Blind Pick Practice; **00:29** Undo; **00:57–01:14** completed eight-country game, earned **+18** result and automatic guest save; **01:14.5** feedback; **01:18.5** report form and **Block author** button; **01:32** report confirmation. The clip establishes a successful report, **not a confirmed/completed block or device-data deletion**. The attachment's persistence was verified after ASC reload.
+- **Combined evidence and final Notes — saved and verified:** **Countrivo-Review-Evidence-1.0-4-with-blocking.zip** (**11,991,345 bytes**) and the updated **3,961-character / 3,973-byte** Notes were verified after ASC reload at **2026-10-29 06:58:09.946 UTC** (28 October PDT): exact Notes, attachment visible and **Save disabled**. The bundle includes the unchanged main video, **Countrivo-Block-Author-Supplement.mp4**, README and three unchanged licences; local CRC and contained-file hashes passed. The supplement is **16.0 seconds, 384×832 H.264**, retaining original 0–16s with no internal cuts, crop, resizing or speed change; trailing Control Center and digitally silent audio were removed. The unchanged 17.41-second owner WhatsApp original was reviewed in **35 samples at 2 fps** over its whole timeline. Visible flow: Home/opening at 0s, brief blank around 1–2s, Home at 2.5s, feedback at 3.5s, Report or block at 6s, confirmation prompt at 8.5s, Confirm block author around 9.5s, **Blocking** at 12–12.5s, and the post disappearing at 13s with the feed empty through 16s. This completes the missing **visible block-flow evidence**, without independent database/reload-persistence proof. Main-video-only limitations remain accurate for that first clip. Receipts: `reports/2026-10-28/app-review/block-supplement-asc-save-verification.json`, `physical-recording/block-supplement/verification.json` and `ready/bundle-with-blocking-verification.json`; screenshot: `reports/2026-10-28/app-review/review-block-supplement-saved.png`. Saved Notes: `reports/2026-10-28/app-review/review-notes-with-blocking-saved.txt`. This attachment/Notes save preceded the now-verified review reply and resubmission. No code push.
+
+- **App Privacy:** **Device ID → Analytics** was **published and verified in App Store Connect on 28 October**, in addition to App Functionality. User ID was not changed. Other User Content retains Analytics + App Functionality, linked to the device/user, not tracking. Eight types remain declared.
+- **Age rating:** the broad public feedback/voting feed is disclosed as **Social Media = Yes**. The saved global rating is **13+**. Apple displayed automatic age-related restrictions for **Afghanistan and Morocco**. These notices must not be subtracted from the separately displayed storefront availability count.
+- **Availability/pricing:** all **175 displayed regional price rows are 0.00**. Availability was verified as **173 Available / 2 Not Available**, excluding **China mainland and Vietnam**. The separate age-related notices for Afghanistan/Morocco do not establish a 171-storefront availability count.
+- **Store text:** English and German descriptions were corrected for Blind Pick as the third daily game, Flag Quiz/Speed Flags as practice games, automatically saved guest runs and public daily scores. This is listing localisation; it does not claim a German-language game interface.
+- **Public feedback safeguards:** SQL preview passed against the explicitly targeted Countrivo Supabase project `iktrrzeewcgrhdzkhlvl`; the migration was then applied successfully. Presence checks for the reports table, filtered feed, report action and block action all passed. The concurrent-report threshold race was corrected with a per-post transaction lock. Production deployment **`dpl_6p8LnJQ1ZJ5z2CoqE8zDBssxo5qe`** is Ready at `https://countrivo-acj00s9ge-fizz-ai.vercel.app`, aliased to **https://countrivo.com**. Public posts now offer **Report or block**, predefined report reasons and **Block author**, with owner moderation and updated device-data deletion. The coordinator visually verified the live Chrome feed and inline composer, and that self-report controls are absent on an own post. The native simulator showed report/block controls on another publisher's post; the final test verified that one Cancel tap closes the form, then closing feedback returns to Home. No reports, posts, votes or blocks were submitted during those agent-led checks. The first owner recording shows a real report confirmation and the Block author control only; the separate owner supplement now shows confirmation, Blocking and post disappearance.
+- **Follow-up UI correction:** a native Report-form focus issue was found: focusing the reason select immediately opens the native picker, so the first Cancel interaction closes that picker instead of the form. The form-container focus correction is deployed in the current production revision; its final native cancellation check passed (one test, 18.899 seconds, one Cancel tap, no picker workaround). Evidence: `reports/2026-10-28/app-review/native-feedback-focus-fixed/verification.json`. No review-note text or gameplay/privacy mechanism changes are required.
+- **Screenshots/listing:** **six current native build-4 assets were accepted**: three English medium-iPhone images and three iPad 13-inch images. German now inherits the same six current images. Older optional large-iPhone sets were removed **from the version only** and remain in Asset Library; no permanent asset deletion is claimed. These screenshots are simulator evidence, not the requested physical video.
+- **Native cold starts:** the first iPad M5 launch stayed blank after 35 seconds; subsequent Blind Pick and GeoWordle tests passed. Three additional bounded cold starts all showed complete Home: **17.08s after a simulator OS restart, then 3.89s and 3.92s after app-process restarts**, with data preserved. These passes do not diagnose or fix the original blank case. Evidence: `reports/2026-10-28/app-review/native-diagnostics/ipad-cold-start-followup.json` and `ipad-first-load-system.log`; three iPhone build-4 checks also passed.
+
+## Original owner recording guide — retained as history
+
+This guide predates receipt of the owner video. It is retained to distinguish the requested coverage from what was actually recorded; it is not a current missing-video blocker. The current evidence covers gameplay, guest saving, reporting and the separate visible block flow; database/reload persistence, deletion and cold-launch limits remain explicit.
+
+The iPhone OS 27.2 and post-update Countrivo 1.0 (4) installation are verified; a visible resume on an existing leaderboard is also confirmed. Record after the requested cable reconnection restores access. A cold launch, full physical walkthrough and video remain pending. Keep the original recording, hide personal notifications and do not manufacture game results or reports against unrelated players. On iPhone, swipe down from the top-right corner, tap Screen Recording, wait for the three-second countdown and close Control Center. Stop using the recording indicator or red Control Center button; the original is saved in Photos. Speaking is optional. [Apple recording instructions](https://support.apple.com/en-us/102653).
+
+1. Restore the requested cable connection and confirm the updated iPhone is available. Countrivo **1.0 (4)** and iOS **27.2** are already verified. Start recording on the Home Screen and visibly launch the app; distinguish a cold launch from a resume.
+2. Open **Blind Pick practice**. Show a country, category placement, its large world rank and the one-use Undo control; play normally to an earned result if practical.
+3. Show **GeoWordle practice** input and real clues. Open an existing completed daily result if available to show automatic guest saving and public daily-score context; identify practice as unranked.
+4. Open **Give feedback** and show the public-visibility wording, feed and votes. Open **Report or block** and its reasons, then cancel on ordinary posts. Demonstrate actual report/block only with designated controlled test content and permission; never falsely report another player.
+5. Show Privacy and **Forget this device**. Demonstrate deletion only on the designated test device after saving the necessary footage; explain that accounts and payments are absent.
+6. Stop and watch the original video end to end. Record model, OS, native build, live deployment, duration and timestamps. Provide it to the coordinator for review before any Apple attachment or submission.
+
+## Product facts — current live experience
+
+Countrivo is a free geography/history game collection for short daily puzzles and practice. The six daily games, in order, are **Country Draft, GeoWordle, Blind Pick, Pinpoint, Higher or Lower and Stat Guesser**. **Flag Quiz and Speed Flags are practice games**; the daily games also offer practice.
+
+- No account registration/login, subscription, in-app purchase, paid gameplay or advertising. No demo credentials or sample files are needed; gameplay requires internet.
+- **Blind Pick:** eight categories and eight countries drawn one at a time, with future countries hidden and one undo per run. Place each country in one category. World rank explains each placement; the result compares the total against the best assignment of those same countries to those same categories, not against eight unrelated world leaders.
+- Country Draft retains five country/person/unused-role choices with points and explanations after appointment. GeoWordle retains six guesses with distance/direction/map clues and optional bonus rounds. Pinpoint reveals the correct location after a committed pin.
+- **All completed games are saved automatically.** A chosen name is optional; without one the run is saved under a generated **guest-XYZ** identity. **Completed daily scores are public on the relevant daily leaderboard, including guest scores.** Practice remains unranked and does not publish a daily score. Do not repeat the earlier claim that an unnamed daily score is private or waits for optional publication.
+- Existing leaderboard moderation includes reporting/blocking publishers and hiding blocked publishers' standings/shared results. Verify actual controls and own-entry management on the recorded device.
+- **Feedback includes a public board with posts and up/down votes.** Composer visibility must be represented accurately. Public feedback is user-generated content, not merely a private support message or player chat. The deployed controls offer reporting and author blocking; owner moderation can hide posts or block further publication. The main owner video verifies the public feed and report confirmation; the supplement verifies the visible block flow and post disappearance, without database/reload proof.
+- Privacy → **Forget this device** removes its saved runs, names, feedback posts/private originals, votes, usage events, submitted reports and block relationships; deleting its feedback also cascades attached reports/votes. Retained moderation-ban identifiers and provider/historical account records are outside this device action, as the policy explains. This implemented scope is not a claim of a completed physical-device deletion test.
+- Daily boards reset at midnight Europe/Berlin. Optional reminders use calendar files; no active APNs reminder or Apple sign-in flow is part of current play.
+- The recent feedback prominence, navigation/placement feedback, Blind Pick refinements, daily-card artwork and third-position ordering are already live web features. They do not require a separate native bundle to appear.
+
+The native wrapper loads **https://countrivo.com**. Deployed website changes load in the app when the page loads; this does not update native entitlements, privacy resources, app icon or binary version. Capacitor provides haptics, splash/status bar, network recovery and game links. Vercel hosts Next.js and web analytics/performance measurement. Supabase stores authoritative runs, device-linked usage events, names, feedback/votes and moderation. No runtime generative-AI service receives player input; some static clay art was AI-generated during production. Support: **countrivo@gmail.com**; privacy: **https://countrivo.com/privacy**.
+
+## Build 4 artifacts and verification
+
+- Archive: `reports/2026-10-28/app-review/Countrivo-1.0-4.xcarchive`.
+- App Store IPA: `reports/2026-10-28/app-review/Countrivo-1.0-4-app-store/App.ipa`, **7,303,097 bytes**.
+- SHA-256: `3c843f2dea31567dad16712a99a46198ad7d2d0ef57e5057432372387c1a7089`.
+- Verification: `reports/2026-10-28/app-review/native-build-4-verification.json`; archive and exported IPA signatures pass; actual IPA uses production APNs and `get-task-allow=false`; App Store eligible, not internal-only. Existing profile is valid through **21 June 2027**. No signing account, provisioning permission or dependency change was required.
+- Local preparation logs: `device-archive-4.log` and `app-store-export-4.log` in the same dated folder. The preparation export used `destination=export`, with automatic build-number management disabled; the coordinator's later upload is a separate operation.
+- Source changes are limited to build number **4** in the Xcode project and Device ID Analytics in both privacy manifests. Version remains **1.0**. The scene-lifecycle fix, bounded 500ms splash fallback, config and native assets are retained. The known inactive `MainViewController.swift` and legacy capabilities were not altered.
+- Native bootstrap regression: **94 checks passed**. These are isolated code checks, not physical-device walkthroughs. Existing plugin warnings and three unassigned legacy splash images did not prevent archive/export success.
+
+## Submission record and remaining limitations
+
+- [x] Verify build 4 processed Ready to Submit, select/save it for version 1.0, assign the existing one-tester group and save What to Test.
+- [x] Correct English/German store descriptions and publish Device ID Analytics; save Social Media disclosure/global 13+ rating.
+- [x] Prepare and verify native build 4; confirm the coordinator's upload success.
+- [x] Verify pre-update installation, then physical iPhone 13 iOS 27.2 and post-update Countrivo 1.0 (4) installation. Preserve the earlier locked-device and unavailable-connection observations as history.
+- [x] Verify all 175 prices are 0.00 and availability is 173/2 excluding China mainland/Vietnam; retain the separate age notices.
+- [x] Apply the moderation migration to the verified project, check SQL functions and deploy the production web changes.
+- [x] Deploy and verify the Report-form focus correction; one Cancel tap closes the form without a picker workaround.
+- [x] Verify the six current native screenshot assets were accepted and placed for English, inherited by German; old optional large-iPhone placements removed only from the version.
+- [x] Receive and preserve the original physical owner recording; visually inspect the full timeline at 2 fps and document the gameplay/result/report evidence and limits.
+- [x] Prepare the approximately 98-second derivative and single video/README/three-licence bundle; upload **Countrivo-Review-Evidence-1.0-4.zip** and verify its persistence after ASC reload.
+- [x] Save the matching final six answers in **App Review Information Notes** and verify exact text, visible attachment and disabled Save after reload. Saved Notes: `reports/2026-10-28/app-review/review-notes-video-saved.txt`; receipt: `reports/2026-10-28/app-review/video-asc-save-verification.json`.
+- [x] Review the second owner clip: visible block confirmation, Blocking and post disappearance resolve the earlier missing block-flow evidence. Preserve the first clip’s narrower scope.
+- [x] Upload **Countrivo-Review-Evidence-1.0-4-with-blocking.zip**, save updated Notes and verify exact text, attachment visibility and disabled Save after reload. Current receipt: `reports/2026-10-28/app-review/block-supplement-asc-save-verification.json`; earlier main-video save remains historical evidence.
+- [x] Disclose remaining evidence limits: no cold launch, independent database/reload proof of the block, or Forget this device demonstration. No account/login or payment flows exist.
+- [ ] Keep the initial iPad simulator blank start unresolved; the three later passes do not establish a cause or fix.
+- [x] Send the six-answer response and resubmit following explicit owner authorization. App Store Connect now shows **Waiting for Review** for the iOS submission and **1.0 (4)**. Receipt: `reports/2026-10-29/app-review/submission-verification.json`. Await Apple’s review outcome; **approval is not claimed**. No code commit or push.
+
+## Earlier 28 October attempts — preserved history
+
+These observations preceded receipt of the owner's recording and the final verified Notes/attachment save. Their missing-video, unavailable-device and pending-login wording is historical, not current operational status. Original receipts and local drafts remain unchanged.
+
+- **Review Notes and rights attachment:** the last verified ASC save contains **3,823 characters**, with **Save disabled** and **177 characters remaining** visible in `reports/2026-10-28/app-review/browser-evidence/review-notes-ios-27-2-saved.jpg`. The earlier 3,848-character/152-remaining save remains preserved in `reports/2026-10-28/app-review/browser-evidence/store-notes-build-4-saved.jpg`. The existing rights ZIP was visibly attached. The local draft has since been updated to **3,933 characters** for the confirmed post-update installation, visible resume and failed capture attempts; **this revision has NOT been saved again in ASC**. The ASC login expired; passkey sign-in is open and awaiting the user. Save-state evidence and the prior saved text are preserved separately in `reports/2026-10-28/app-review/review-notes-local-status.json`. Local text: `reports/2026-10-28/app-review/review-notes-pending.txt`. No review-conversation reply, resubmission or approval is claimed.
+- **Physical device:** **iPhone 13 iOS 27.2 and the post-update installation of Countrivo 1.0 (4) are verified**. `devicectl device info apps` confirmed `com.countrivo.app`. Countrivo was visibly opened from Spotlight and showed an existing Country Draft leaderboard: this is a **resume, not evidence of a cold launch**. Later DeviceHub showed **Currently Unavailable** and `devicectl list devices` reported the physical device unavailable. Unavailability was reconfirmed at **06:03 and 06:05 UTC on 29 October** (still 28 October locally). A fresh cable connection has been requested from the user. Remote Keyboard Capture remains off. The full physical walkthrough remains pending. The earlier pre-update installation and locked-device check are preserved in `reports/2026-10-28/app-review/physical-device-update-status.json`.
+- **Physical video:** **no recording was started or created**. `devicectl device capture screen-record` exited 1 with CoreDeviceError 1001: Screen Recording unsupported. QuickTime Screen → Adam’s iPhone showed “The operation could not be completed”. The subsequent unavailable connection blocks further capture until reconnection. The opened historical simulator video window was closed; QuickTime’s window list is empty and no recording is running. Full walkthrough/video remain open; simulator captures do not meet this requirement. Attempt record: `reports/2026-10-28/app-review/physical-recording/capture-attempt-status.json`.
+
+## Historical packet — checked 21 October 2026
+
+The following record is retained as historical evidence. Its words “current”, “latest” and “pending” refer to **21 October**, not today's status. In particular, the old daily roster, private-feedback-only description, unnamed-score privacy claim, disconnected phone and build-3 “latest” wording are superseded above. Preserve historical artifacts and upload receipts; do not rewrite them as new tests or submissions.
+
 Checked locally on 2026-10-21. This is a preparation packet, not a claim that the app is currently ready, resubmitted or approved. Response draft: [APP-STORE-SUBMISSION.txt](APP-STORE-SUBMISSION.txt). Source-specific rights appendix: [APP-STORE-RIGHTS.txt](APP-STORE-RIGHTS.txt).
 
-## Verified history and present access
+### Verified history and present access
 
 - **21 October, current App Store Connect check by the coordinator:** the earlier submission remains **Rejected — Guideline 2.1, Information Needed**, with the same six-question request preserved in the 15 October screenshot. Replacement **1.0 (3)** has since processed as **Ready to Submit**, been selected for this version and saved. Build UUID: `bd23badf-1210-4df1-857f-cb1643629b12`. This does not mean a new review was submitted. The evidence does not establish a separate design/minimum-functionality rejection.
 - Historically submitted **1.0 (2)**; current saved replacement **1.0 (3)**; bundle **com.countrivo.app**; App ID **6782594305**; listing **Countrivo: Daily Geography**.
@@ -16,7 +109,7 @@ Checked locally on 2026-10-21. This is a preparation packet, not a claim that th
 - No genuine physical-device recording has been found or produced. No new review reply, resubmission or approval is claimed. **The latest native build 1.0 (3) has been uploaded, processed and selected**, as documented below; these steps are separate from review submission.
 - **21 October:** after the user explicitly approved the exact LYL260 agreement issued 13 October, the coordinator accepted it in the live Apple dialog and verified server-side status **Accepted 21 October** after reloading. The pending-agreement gate is resolved; no broader standing authority to accept future agreements is implied.
 
-## Apple's six requested items
+### Apple's six requested items
 
 1. A screen recording captured on a **physical device with the latest OS**, beginning with launch and showing typical use. Include account registration/login/deletion, UGC reporting/blocking and paid access **if present**.
 2. Purpose, target audience, problem solved and value.
@@ -27,7 +120,7 @@ Checked locally on 2026-10-21. This is a preparation packet, not a claim that th
 
 Apple asks for the answers in both the review conversation and App Review Information Notes. Keep the response consistent with the actual selected build and deployed website. [Official reply/attachment instructions](https://developer.apple.com/help/app-store-connect/manage-submissions-to-app-review/reply-to-app-review-messages/).
 
-## Current product facts to verify in the app
+### Current product facts to verify in the app
 
 Countrivo is a free geography and history game collection for short daily puzzles and practice. **Six daily games:** Country Draft, GeoWordle, Pinpoint, Flag Quiz, Higher or Lower and Stat Guesser. **Blind Pick and Speed Flags are practice-only**; daily games also offer practice.
 
@@ -43,7 +136,7 @@ Countrivo is a free geography and history game collection for short daily puzzle
 
 Support: **countrivo@gmail.com**. Privacy: `https://countrivo.com/privacy`.
 
-## Public links and response readiness — checked 21 October
+### Public links and response readiness — checked 21 October
 
 Read-only HTTP checks returned **200 without login** for [Support](https://countrivo.com/support), [Privacy](https://countrivo.com/privacy), [Picture credits](https://countrivo.com/credits), [Sources](https://countrivo.com/sources), [Imprint](https://countrivo.com/imprint) and the [flag copyright/MIT notice](https://countrivo.com/flags/LICENSE.txt). Support, privacy, sources and imprint use **countrivo@gmail.com**. Privacy and imprint identify Adam Kahirov at the same Berlin address. These are availability/content checks, not physical-app walkthroughs. ASC Support URL was verified as `https://countrivo.com/support`; the store preview privacy link is `https://countrivo.com/privacy`.
 
@@ -51,7 +144,7 @@ The public credits page lists **575 portrait records** with individual source/li
 
 The six-answer text between `BEGIN REVIEW RESPONSE` and `END REVIEW RESPONSE` in the submission file is **3,453 characters before replacing video fields**. It is a final-response template for the replacement **1.0 (3)**, not the already-saved pending notes. Upload, processing and selection of build 3 are now verified. Before use, replace all physical-device/video fields, check the final Notes character count and recheck region/build facts. The rights ZIP is already persisted in App Store Connect; attach the genuine physical recording when available. A local filename alone is not an attachment. Do not copy internal gates into the reply, describe local simulator QA as physical testing, or say that a template was sent.
 
-## Services, content and native capabilities
+### Services, content and native capabilities
 
 - **Vercel:** live Next.js hosting, web analytics and performance measurement.
 - **Supabase:** server-authoritative sessions/moves/results, optional names, moderation and private feedback. Current play uses signed anonymous device identity, not account login.
@@ -60,15 +153,15 @@ The six-answer text between `BEGIN REVIEW RESPONSE` and `END REVIEW RESPONSE` in
 - Data/source years: `/sources`. Individual portrait authors/licences, flag-icon MIT notice and generated-art disclosure: `/credits`. Erode's official ITF Free Font License is retained at `src/fonts/LICENSE-Erode.txt`. Restricted SIPRI values/rankings were withheld; evidence: `reports/2026-10-15/app-review/rights-evidence.json`. Do not claim blanket ownership or endorsement of third-party material.
 - Known inactive native code: `MainViewController.swift` is not in the App target's Sources and the storyboard uses `CAPBridgeViewController`. Its bounce/edge-swipe changes must not be advertised as functioning. Legacy Sign in with Apple/APNs entitlements remain. The necessary build3 lifecycle fix leaves this separate inactive subclass unchanged.
 
-## App Privacy updated for free-form feedback
+### App Privacy updated for free-form feedback
 
 The previous seven declarations predated private free-form feedback. **21 October:** the coordinator added and published **Other User Content**, linked to the user/device, not used for tracking, for **Analytics and App Functionality**. The live App Store Connect UI was checked and now shows eight types. Local build3 manifests contain the same new type and purposes.
 
 Generic free-text feedback is not covered by Gameplay Content alone. The optional-disclosure exception is not assumed for the stored device-linked form. This mapping follows [Apple's App Privacy guidance](https://developer.apple.com/app-store/app-privacy-details/). Future changes must keep the policy, native manifest and App Store answers aligned; add Customer Support if a distinct support workflow warrants it.
 
-## Recording plan and release checklist
+### Recording plan and release checklist
 
-### Required physical-device evidence — still blocked
+#### Required physical-device evidence — still blocked
 
 - [x] Verify actual physical installation: iPhone13, iOS27.0.1(24A446), app1.0(3), plus visible TestFlight build3 introduction and actual Home launch. USB later disconnected; reconnect/unlock before further recording. Apple's security-release page, checked **21 October**, lists iOS **27.0.1** for iPhone11 and later. Do not substitute cached device state for a fresh connection check. [Apple releases](https://support.apple.com/en-us/100100).
 - [x] Replacement **1.0(3)** was distribution-prepared and uploaded through Xcode Organizer. Its exported App Store IPA was inspected and retains build3, the scene fix, eight privacy types, readable status bar and bounded splash fallback.
@@ -83,7 +176,7 @@ Generic free-text feedback is not covered by Gameplay Content alone. The optiona
 - [ ] Check safe areas, scrolling, keyboard, native haptics, foreground/background and connection interruption/recovery. Silent video cannot establish haptic behaviour by itself.
 - [ ] Watch the original recording end to end. Save model/OS/build, live deployment, duration and timestamps beside the unaltered original. Confirm the Apple attachment or reviewer link is accessible.
 
-### Supplemental simulator evidence — not physical proof
+#### Supplemental simulator evidence — not physical proof
 
 The unchanged build 2 source compiled but **crashed on launch** under iOS27: UIKit requires the UIScene lifecycle for binaries linked against the latest SDK. This was reproduced, logged and corrected in local **build3** using a single storyboard-backed scene with Capacitor URL/activity forwarding. Official requirement: [UIKit scene migration](https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle).
 
@@ -105,7 +198,7 @@ A local copy of the successfully uploaded package is at `reports/2026-10-21/app-
 
 The coordinator has now verified processing as **Ready to Submit**, selected **build 3** and saved the version. This is App-Store-eligible distribution: exported options explicitly have `method=app-store-connect`, `destination=upload` and `testFlightInternalTestingOnly=false`. It is not a new review submission or approval. The real current-OS device walkthrough/recording remains required.
 
-### Store screenshots and remaining native/web QA
+#### Store screenshots and remaining native/web QA
 
 Fourteen current, visually inspected native screenshots were prepared as opaque RGB8/sRGB JPEGs, seven iPhone and seven iPad: `reports/2026-10-21/app-review/listing-upload-ready/manifest-complete.json`. **All fourteen new JPEG uploads failed processing**, with `UPLOAD_COMPLETE` followed by `FAILED / INVALID_ASSET_FILE_FORMAT`. Three PNG controls also failed, including normal macOS file-picker selection: an original RGB8 PNG, a minimal RGB8 PNG and a **byte-identical previously accepted `iphone-home.png`**. Independent file-signature, dimensions, colour and alpha checks did not identify a format violation. These observations do not establish the cause or prove an Apple-wide incident. One additional minimal-PNG upload completed in a fresh Chrome-extension tab. Its placement was removed recoverably so it does not replace the valid inherited listing images; the separate Asset Library processing outcome remains **unconfirmed**.
 
@@ -119,7 +212,7 @@ A read-only Vercel check found **Bot Protection in Logging mode, zero Custom Rul
 
 The iPad splash hang is fixed in uploaded build 3. The separate **iPad Home → GeoWordle/Pinpoint navigation issue** is resolved by web commit **3865012**, deployed at `https://countrivo-5ldch72bw-fizz-ai.vercel.app` and aliased to `https://countrivo.com`. Only those native map links use normal document navigation; browser SPA navigation remains intact. Build/lint/theme passed, along with 71 focused navigation checks. Actual native iPad Home → Practice was repeated twice per map game after cold launch: **4 tests, 0 failures**, with all four screenshots visually inspected. Evidence: `reports/2026-10-21/app-review/native-ipad-map-3865012-outcome.json`. These are simulator checks, not physical-device evidence or proof of every gameplay scenario.
 
-### Final submission gates
+#### Final submission gates
 
 - [x] iPad Home-to-map navigation repaired, web commit 3865012 deployed and native cold-launch route tests passed four times. Record this actual deployment alongside the future physical video.
 - [x] Current Apple review history and 173-region availability checked on 21 October; replacement build 3 processed, selected and saved. Recheck mutable fields before submission.
@@ -135,7 +228,7 @@ The iPad splash hang is fixed in uploaded build 3. The separate **iPad Home → 
 - [x] Exact LYL260 agreement accepted after explicit user approval; Accepted 21 October verified on the server.
 - [ ] Complete physical video, resolve the screenshot gate, replace the pending placeholders, save both Review Notes and the reply, attach accessible evidence and resubmit if the actual state permits it. Capture the resulting status; approval is not guaranteed.
 
-## Reproducible native build references
+### Reproducible native build references
 
 Project: `ios/App/App.xcodeproj`, scheme `App`; automatic signing; team `88J7VD74DB`; current uploaded/processed/selected version 1.0/build 3; historical reviewed build 2; iOS minimum 15.0; iPhone/iPad families. Xcode27.0 is installed. Use `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer` per command; do not alter global Xcode selection.
 
@@ -143,6 +236,6 @@ Existing device archive: `~/Library/Developer/Xcode/Archives/2026-10-14/App 14-1
 
 The reproduced launch crash requires the new native build3 before release on iOS27. Build 3 is uploaded, processed and selected; install and record that exact build on the physical device. Build2 must not be resubmitted as though the native fix were included. A web deploy does not upload a binary. Avoid the obsolete APNs/account instructions in `SHIP-CHECKLIST.md`, `PUBLISH-NOW.md` and `SUPABASE-DEPLOY.md` as current product guidance.
 
-## Current handoff record
+### Current handoff record
 
 The current machine-readable receipt is `reports/2026-10-21/app-review/ready/status.json`, updated after the restored iPhone and iPad listing checks. Apple screenshot support text is prepared locally in `ready/apple-screenshot-support-draft.txt` and has **not been sent**; its failed controls and restored fallback are documented. No authenticated HAR, session tokens or private signing material is part of that draft. Browser work must use **only the Chrome ChatGPT extension**, following the user's explicit correction; no further Orca browser/native-Chrome UI fallback is authorised. Old tabs can be unattached while a fresh `browser.tabs.new()` tab works. The user's question about cancelling the old stale Remove dialog is still pending; do not interpret that dialog as an authorised permanent deletion. The actual phone OS/build3 update and Home launch are verified. USB has since disconnected; reconnection is pending. QuickTime-window assistance is no longer required because the official direct recording command is available. Nothing has been resubmitted without the physical recording.

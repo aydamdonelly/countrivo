@@ -1,19 +1,22 @@
 import { Button } from "@/ui/button";
 import { Flag } from "@/ui/flag";
 import { Portrait } from "@/ui/portrait";
+import type { ReactNode } from "react";
 import { Sheet } from "@/ui/sheet";
 import { cn } from "@/lib/utils";
 import { CheckIcon } from "@/ui/icons/check";
 import { LockIcon } from "@/ui/icons/lock";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
-import { MAX_SCORE, SEAT_NAMES, fitWord } from "@/lib/game-logic/country-draft/tables";
-import type { DraftPersonView, DraftView } from "@/lib/game-logic/country-draft/public-view";
+import { BONUS_POINTS, MAX_FAME, MAX_FIT, MAX_SCORE, ROUNDS, SEAT_NAMES } from "@/lib/game-logic/country-draft/tables";
+import type { DraftAppointmentView, DraftPersonView, DraftView } from "@/lib/game-logic/country-draft/public-view";
 import type { PoolIdx, SeatIdx } from "@/lib/game-logic/country-draft/types";
 import { poolIndex, seatIndex } from "@/lib/game-logic/country-draft/types";
-import { JOB_HINTS, JOB_NAMES, safeDraftWhy } from "./presentation";
+import { DRAFT_GUIDE, JOB_HINTS, JOB_NAMES, fitLabel, safeDraftWhy } from "./presentation";
 import "./draft.css";
 
 const JOB_SLUGS = ["chair", "field", "purse", "voice", "desk"];
+/** The No bad fits bonus needs every job at this fit or more. */
+const GOOD_FIT = 12;
 export { JOB_NAMES } from "./presentation";
 
 export function ClayJob({ seat, animate = false }: { seat: number; animate?: boolean }) {
@@ -45,6 +48,49 @@ export function Cabinet({ state, animate, onInspect }: { state: DraftView; anima
   </div>;
 }
 
+/** Shown on the first screen of a device's first draft: the goal and how a person scores. */
+export function DraftIntro() {
+  return <section className="dr-intro" aria-labelledby="draft-intro-title">
+    <h2 id="draft-intro-title" className="t-h3">{DRAFT_GUIDE.goal}</h2>
+    <p className="dr-intro-rule">Each person scores <b>up to {MAX_FIT}</b> for job fit <span>+ <b>up to {MAX_FAME}</b> for fame</span></p>
+    <p className="t-meta">{DRAFT_GUIDE.example}</p>
+  </section>;
+}
+
+/** All three cabinet bonuses, tracked from revealed appointments only. */
+function BonusMeters({ state }: { state: DraftView }) {
+  const picks = state.seats.filter((seat): seat is DraftAppointmentView => seat !== null).sort((left, right) => left.round - right.round);
+  const badFit = picks.some(pick => pick.fit < GOOD_FIT);
+  const allFit = picks.length === ROUNDS && !badFit;
+  const regions = Math.min(3, state.regions.length);
+  const eras = state.early && state.recent;
+  return <div className="dr-meters t-meta" role="group" aria-labelledby="draft-bonus-label">
+    <span className="dr-meters-label" id="draft-bonus-label">Bonuses</span>
+    <div className="dr-bonus-progress">
+      <span aria-hidden="true">No bad fits</span>
+      <span className="dr-bonus-dots" aria-hidden="true">{Array.from({ length: ROUNDS }, (_, index) => {
+        const pick = index < picks.length ? picks[index] : null;
+        return <i key={index} className={pick ? pick.fit < GOOD_FIT ? "missed" : "earned" : undefined} />;
+      })}</span>
+      <b className={cn(badFit && "text-ember")} aria-hidden="true">{badFit ? "missed" : allFit ? `+${BONUS_POINTS.fullCabinet} earned` : `+${BONUS_POINTS.fullCabinet}`}</b>
+      <span className="sr-only">{badFit ? `No bad fits bonus missed: a job has a fit below ${GOOD_FIT}.` : allFit ? `No bad fits bonus: ${BONUS_POINTS.fullCabinet} points earned.` : `No bad fits bonus, worth ${BONUS_POINTS.fullCabinet} points: every job needs a fit of ${GOOD_FIT} or more. ${picks.length} of ${ROUNDS} so far.`}</span>
+    </div>
+    <div className="dr-bonus-progress">
+      <span aria-hidden="true">3 regions</span>
+      <span className="dr-bonus-dots" aria-hidden="true">{[0, 1, 2].map(index => <i key={index} className={index < regions ? "earned" : undefined} />)}</span>
+      <b aria-hidden="true">{regions >= 3 ? `+${BONUS_POINTS.threeRegions} earned` : `+${BONUS_POINTS.threeRegions}`}</b>
+      <span className="sr-only">{`Three regions bonus: ${regions} of 3, ${regions >= 3 ? `${BONUS_POINTS.threeRegions} points earned` : `worth ${BONUS_POINTS.threeRegions} points`}.`}</span>
+    </div>
+    <div className="dr-bonus-progress">
+      <span aria-hidden="true">Two eras</span>
+      <span className={cn("dr-era", state.early && "earned")} aria-hidden="true">{state.early ? <CheckIcon size={12} /> : null}Before 1900</span>
+      <span className={cn("dr-era", state.recent && "earned")} aria-hidden="true">{state.recent ? <CheckIcon size={12} /> : null}After 1950</span>
+      <b aria-hidden="true">{eras ? `+${BONUS_POINTS.acrossAges} earned` : `+${BONUS_POINTS.acrossAges}`}</b>
+      <span className="sr-only">{`Two eras bonus: before 1900 ${state.early ? "done" : "needed"}, after 1950 ${state.recent ? "done" : "needed"}, ${eras ? `${BONUS_POINTS.acrossAges} points earned` : `worth ${BONUS_POINTS.acrossAges} points`}.`}</span>
+    </div>
+  </div>;
+}
+
 function yearLabel(year: number): string { return year < 0 ? `${Math.abs(year)} BC` : String(year); }
 export function personYears(person: DraftPersonView): string {
   if (person.activeFrom !== null && person.activeUntil !== null) return `Active ${yearLabel(person.activeFrom)} to ${yearLabel(person.activeUntil)}`;
@@ -61,6 +107,10 @@ export interface DraftBoardProps {
   busy: boolean;
   commitBusy?: boolean;
   animate: boolean;
+  /** This device has not finished a draft yet: explain the goal and each step of round one. */
+  guide?: boolean;
+  /** The move status, placed above the space reserved for the fixed Next bar. */
+  notice?: ReactNode;
   onCountry: (index: PoolIdx) => void;
   onOpenCountry: (index: PoolIdx) => void;
   onOpen: () => void;
@@ -82,6 +132,8 @@ export function Board(p: DraftBoardProps) {
   const selectedCountry = selection.country === null ? null : state.countries[selection.country];
   const openJobs = state.seats.flatMap((pick, index) => pick === null ? [index] : []);
   const previousReveal = state.phase !== "seated" || revealIndex !== state.lastSeat;
+  const firstRound = p.guide === true && state.round === 0;
+  const intro = firstRound && state.phase === "country" && openJobs.length === ROUNDS;
   const people = state.phase === "seated" ? state.people.filter(person => person.slug !== state.seats[state.lastSeat ?? 0]?.person.slug) : state.people;
   const pool = <div className="dr-pool" key={`people-${state.round}`}>{people.map(person => {
     const i = poolIndex(state.people.indexOf(person));
@@ -93,18 +145,16 @@ export function Board(p: DraftBoardProps) {
     </div>;
   })}</div>;
   return <div className={cn("dr", held && "dr-holding")}>
+    {intro ? <DraftIntro /> : null}
     <Cabinet state={state} animate={p.animate && state.phase === "seated"} onInspect={p.onReveal} />
     {reveal ? <section className={cn("dr-reveal", previousReveal && "previous")} tabIndex={-1} aria-labelledby="draft-reveal-title" aria-live="polite">
       <div className="dr-reveal-person"><Portrait slug={reveal.person.slug} name={reveal.person.name} has={reveal.person.portrait} size={72} /><div><p className="t-meta">{previousReveal ? `Round ${reveal.round + 1}` : "Appointed"} · {reveal.country.name}</p><h2 id="draft-reveal-title" className="t-h2">{reveal.person.name}</h2><p className="t-body">Your {JOB_NAMES[reveal.seat]}</p></div></div>
-      <div className="dr-reveal-score"><b className={cn("t-score num", reveal.fit <= 6 && "text-ember")}>+{reveal.points}</b><span className="t-meta">{fitWord(reveal.fit)} fit <b>{reveal.fit}</b> + fame <b>{reveal.fame}</b></span></div>
+      <div className="dr-reveal-score"><b className={cn("t-score num", reveal.fit <= 6 && "text-ember")}>+{reveal.points}</b><span className="t-meta">{fitLabel(reveal.fit)} <b>{reveal.fit}</b> of {MAX_FIT} + fame <b>{reveal.fame}</b> of {MAX_FAME}</span></div>
       <p className="dr-reveal-why t-body">{safeDraftWhy(reveal)}</p><a href={reveal.source} target="_blank" rel="noreferrer" className="dr-source">Why this score · source</a>
     </section> : null}
-    <div className="dr-meters t-meta">
-      <div className="dr-bonus-progress" aria-label={`Three regions bonus: ${Math.min(3, state.regions.length)} of 3, ${state.regions.length >= 3 ? "6 points earned" : "worth 6 points"}`}><span>3 regions</span><span className="dr-bonus-dots" aria-hidden="true">{[0, 1, 2].map(index => <i key={index} className={index < state.regions.length ? "earned" : undefined} />)}</span><b>{state.regions.length >= 3 ? "+6 earned" : "+6 bonus"}</b></div>
-      <div className="dr-bonus-progress" aria-label={`Across the ages bonus: before 1900 ${state.early ? "done" : "needed"}, after 1950 ${state.recent ? "done" : "needed"}, ${state.early && state.recent ? "6 points earned" : "worth 6 points"}`}><span>Two eras</span><span className={cn("dr-era", state.early && "earned")} aria-hidden="true">{state.early ? <CheckIcon size={12} /> : null}Before 1900</span><span className={cn("dr-era", state.recent && "earned")} aria-hidden="true">{state.recent ? <CheckIcon size={12} /> : null}After 1950</span><b>{state.early && state.recent ? "+6 earned" : "+6 bonus"}</b></div>
-    </div>
+    <BonusMeters state={state} />
     {state.phase === "country" ? <>
-      <div className="dr-stage-title"><h2 className="t-h3 dr-instruction">Pick a country</h2><span className="t-meta">{state.round + 1} / 5</span></div>
+      <div className="dr-stage-title"><h2 className="t-h3 dr-instruction">Pick a country</h2><span className="t-meta">Round {state.round + 1} of {ROUNDS}</span>{firstRound ? <p className="dr-step-hint t-meta">{DRAFT_GUIDE.country}</p> : null}</div>
       <div className="dr-country-options" key={`countries-${state.round}`}>
         {state.countries.map((country, index) => {
           const i = poolIndex(index);
@@ -116,16 +166,18 @@ export function Board(p: DraftBoardProps) {
       </div>
       <small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small>{selectedCountry ? <div className="dr-pinned-action"><Button variant="ink" disabled={commitBusy} onClick={p.onOpen} pending={commitBusy} pendingLabel="Opening…" aria-describedby="draft-country-warning">Open {selectedCountry.name}</Button></div> : null}
     </> : <>
-      {state.country && state.phase === "people" ? <div className="dr-round"><Flag iso2={state.country.iso2} size="m" alt="" eager /><b className="t-h3">{state.country.name}</b><small className="t-meta">Round {state.round + 1} of 5</small></div> : null}
-      {state.phase === "people" ? <h2 className="t-h3 dr-person-prompt">Pick a person</h2> : null}
+      {state.country && state.phase === "people" ? <div className="dr-round"><Flag iso2={state.country.iso2} size="m" alt="" eager /><b className="t-h3">{state.country.name}</b><small className="t-meta">Round {state.round + 1} of {ROUNDS}</small></div> : null}
+      {state.phase === "people" ? <div className="dr-person-prompt"><h2 className="t-h3">Pick a person</h2>{firstRound ? <p className="dr-step-hint t-meta">{DRAFT_GUIDE.people}</p> : null}</div> : null}
       {state.phase === "people" ? pool : <details className="dr-passed-pool"><summary className="t-meta">Other people this round</summary>{pool}</details>}
       {state.phase === "seated" ? <div className="dr-pinned-action"><Button variant="ink" onClick={p.onNext} disabled={busy} pending={busy} pendingLabel="Continuing…">{state.round === 4 ? "Reveal my cabinet" : "Next country"}</Button></div> : null}
     </>}
+    {p.notice}
     <Sheet open={held !== null} onClose={p.onDrop} labelledBy="draft-job-title" className="dr-job-sheet" scrimClassName="dr-job-scrim">
       {held ? <>
         <div className="dr-sheet-handle" />
         <div className="dr-sheet-top"><Portrait slug={held.slug} name={held.name} has={held.portrait} size={40} /><b className="t-h3">{held.name}</b><button type="button" className="dr-close" aria-label="Put person back" onClick={p.onDrop}>×</button></div>
         <h2 id="draft-job-title" className="t-h2">{openJobs.length === 1 ? `Last job: ${JOB_NAMES[openJobs[0]]}` : "Pick a job"}</h2>
+        {openJobs.length > 1 ? <p className="dr-sheet-hint t-body">{DRAFT_GUIDE.job}</p> : null}
         <small className="dr-commit-note t-meta" id="draft-seat-warning"><LockIcon size={14} />Choose a job to make it final</small>
         <div className="dr-job-options">{SEAT_NAMES.map((name, index) => {
           const seat = seatIndex(index);
@@ -139,7 +191,7 @@ export function Board(p: DraftBoardProps) {
       </> : null}
     </Sheet>
     <Sheet open={detail !== null} onClose={() => p.onDetail(null)} labelledBy="draft-person-title" className="dr-detail-sheet">
-      {detail ? <><div className="dr-sheet-top"><Portrait slug={detail.slug} name={detail.name} has={detail.portrait} size={96} /><button type="button" className="dr-close" aria-label="Close person details" onClick={() => p.onDetail(null)}>×</button></div><h2 id="draft-person-title" className="t-h2">{detail.name}</h2><p className="t-meta">{personYears(detail)}</p><p className="t-body">{detail.identity}</p><p className="t-meta">{detail.era === "early" ? "Counts toward the before 1900 era." : detail.era === "recent" ? "Counts toward the after 1950 era." : "From the period between the two bonus eras."}</p><p className="t-meta">Image: <a href={detail.photoSource} target="_blank" rel="noreferrer">{detail.photoAuthor}</a>, {detail.photoLicence}.</p><Button block variant="ink" onClick={() => { if (selection.detail !== null) p.onPerson(selection.detail); p.onDetail(null); }} disabled={state.phase !== "people"}>Choose {detail.name.split(" ").slice(-1)[0]}</Button></> : null}
+      {detail ? <><div className="dr-sheet-top"><Portrait slug={detail.slug} name={detail.name} has={detail.portrait} size={96} /><button type="button" className="dr-close" aria-label="Close person details" onClick={() => p.onDetail(null)}>×</button></div><h2 id="draft-person-title" className="t-h2">{detail.name}</h2><p className="t-meta">{personYears(detail)}</p><p className="t-body">{detail.identity}</p><p className="t-meta">{detail.era === "early" ? "Counts toward the before 1900 era." : detail.era === "recent" ? "Counts toward the after 1950 era." : "From the period between the two bonus eras."}</p><p className="t-meta">Image: <a href={detail.photoSource} target="_blank" rel="noreferrer">{detail.photoAuthor}</a>, {detail.photoLicence}.</p><Button block variant="ink" className="dr-choose" onClick={() => { if (selection.detail !== null) p.onPerson(selection.detail); p.onDetail(null); }} disabled={state.phase !== "people"}>Choose {detail.name}</Button></> : null}
     </Sheet>
     <span className="sr-only">Maximum score {MAX_SCORE}.</span>
   </div>;

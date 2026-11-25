@@ -5,11 +5,12 @@
   .lb-title h1 { overflow-wrap: anywhere; }
   .lb-title img { flex: none; width: 56px; height: 56px; object-fit: contain; }
   .new-leaderboard .lb-games { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; margin-bottom: 24px; }
-  .lb-games a { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; min-width: 0; padding: 8px; background: var(--color-card); border-radius: var(--radius-ctl); font-size: 13px; font-weight: 500; text-align: center; overflow-wrap: anywhere; }
+  .lb-games a { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 48px; min-width: 0; padding: 8px; background: var(--color-card); border-radius: var(--radius-ctl); font-size: 14px; font-weight: 500; text-align: center; overflow-wrap: anywhere; }
   .lb-games a[aria-current] { background: var(--color-ink); color: var(--color-paper); }
   .lb-games img { flex: none; width: 24px; height: 24px; object-fit: contain; }
   .new-leaderboard .lb-date { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: center; }
   .lb-date a, .lb-date > span { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .lb-date a { border:1px solid var(--color-wait); border-radius:var(--radius-ctl); background:var(--color-card); color:var(--color-ink); }
   .lb-period { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; margin: 8px 0 20px; }
   .lb-period a { min-height: 44px; display: flex; align-items: center; padding: 0 14px; color: var(--color-mute); }
   .lb-period a[aria-current] { background: var(--color-card); color: var(--color-ink); border-radius: var(--radius-ctl); }
@@ -26,16 +27,18 @@
   .lb-column-head > :nth-child(3) { text-align: right; }
   .new-leaderboard .lb-row { min-height: 64px; border-bottom: 1px solid var(--color-line); }
   #leaderboard-your-score { scroll-margin-block: 24px; }
-  .lb-row.mine { background: var(--color-card); box-shadow: inset 3px 0 var(--color-ember); border-radius: var(--radius-ctl); }
+  .lb-row.mine:not([data-podium]) { background:var(--game-accent, var(--color-game-draft)); border-radius:var(--radius-ctl); }
+  .new-leaderboard .lb-row[data-podium] { margin:6px 0; border-bottom-color:transparent; }
   .lb-row .rank { color: var(--color-mute); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-  .lb-row.first .rank { color: var(--color-ink); font-weight: 700; }
+  .lb-row[data-podium] .rank { color:var(--color-ink); }
   .lb-person { min-width: 0; overflow-wrap: anywhere; }
   .lb-player-name { display: flex; min-width: 0; flex-wrap: wrap; align-items: center; gap: 6px; overflow-wrap: anywhere; }
   .lb-you { display: inline-flex; padding: 2px 6px; border-radius: var(--radius-chip); background: var(--color-paper); color: var(--color-mute); font: 12px/18px var(--font-sans); }
   .lb-row .score { max-width: 132px; min-width: 0; text-align: right; font-family: var(--font-display); font-size: 22px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
   .lb-row .score small { display: block; color: var(--color-mute); font: 12px/18px var(--font-sans); }
+  .lb-row:is([data-podium],.mine) :is(.rank,.score small) { color:var(--color-ink); }
   .lb-block-settings { display: flex; flex-direction: column; align-items: flex-start; margin-top: 20px; }
-  .lb-block-settings .lb-report { font-size: 13px; text-decoration: underline; }
+  .lb-block-settings .lb-report { width:auto; height:auto; min-height:48px; margin-top:8px; padding:10px 14px; font-size:14px; font-weight:600; }
   .lb-demo { margin-top: 24px; border-top: 1px solid var(--color-line); }
   .lb-demo summary { cursor: pointer; min-height: 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font-size: 16px; }
   .lb-empty { padding: 28px 16px; text-align: center; }
@@ -52,7 +55,7 @@
 
 @layer components {
  .lb-game-picker { margin-bottom:12px; }
- .lb-game-picker > summary { min-height:44px; display:flex; align-items:center; gap:8px; cursor:pointer; color:var(--color-mute); }
+ .lb-game-picker > summary { min-height:48px; width:fit-content; max-width:100%; display:flex; align-items:center; gap:8px; padding:10px 14px; border:1px solid var(--color-wait); border-radius:var(--radius-ctl); background:var(--color-card); cursor:pointer; color:var(--color-ink); font-size:14px; font-weight:600; }
  .lb-game-picker > summary::after { content:'+'; }
  .lb-game-picker[open] > summary::after { content:'−'; }
  .lb-game-picker > summary::marker { content:''; }

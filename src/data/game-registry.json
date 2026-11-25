@@ -34,6 +34,23 @@
     "route": "/games/geo-wordle"
   },
   {
+    "slug": "blind-pick",
+    "title": "Blind Pick",
+    "shortDescription": "Eight countries. Eight categories. Find their best fit.",
+    "description": "Eight countries arrive one at a time. Place each on an open category, with one undo. Your score is the gap from the best possible assignment of those same eight countries.",
+    "difficulty": "hard",
+    "estimatedTime": "2 min",
+    "category": "strategy",
+    "tier": "main",
+    "isNew": false,
+    "isFlagship": false,
+    "availableModes": [
+      "daily",
+      "practice"
+    ],
+    "route": "/games/blind-pick"
+  },
+  {
     "slug": "pinpoint",
     "title": "Pinpoint",
     "shortDescription": "Five countries. Tap where they are.",
@@ -49,23 +66,6 @@
       "practice"
     ],
     "route": "/games/pinpoint"
-  },
-  {
-    "slug": "flag-quiz",
-    "title": "Flag Quiz",
-    "shortDescription": "10 flags. Name the country or fail.",
-    "description": "A flag appears with four options. Pick the right country. 10 rounds, no second chances.",
-    "difficulty": "easy",
-    "estimatedTime": "2-3 min",
-    "category": "quiz",
-    "tier": "main",
-    "isNew": false,
-    "isFlagship": false,
-    "availableModes": [
-      "daily",
-      "practice"
-    ],
-    "route": "/games/flag-quiz"
   },
   {
     "slug": "higher-or-lower",
@@ -102,20 +102,21 @@
     "route": "/games/stat-guesser"
   },
   {
-    "slug": "blind-pick",
-    "title": "Blind Pick",
-    "shortDescription": "Six countries. Six stats. Beat the perfect board.",
-    "description": "Six countries arrive one at a time. Put each on the stat where it ranks highest. Your score is the gap from the perfect assignment.",
-    "difficulty": "hard",
-    "estimatedTime": "2 min",
-    "category": "strategy",
+    "slug": "flag-quiz",
+    "title": "Flag Quiz",
+    "shortDescription": "10 flags. Name the country or fail.",
+    "description": "A flag appears with four options. Pick the right country. 10 rounds, no second chances.",
+    "difficulty": "easy",
+    "estimatedTime": "2-3 min",
+    "category": "quiz",
     "tier": "drill",
     "isNew": false,
     "isFlagship": false,
     "availableModes": [
+      "daily",
       "practice"
     ],
-    "route": "/games/blind-pick"
+    "route": "/games/flag-quiz"
   },
   {
     "slug": "speed-flags",

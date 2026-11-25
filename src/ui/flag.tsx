@@ -29,18 +29,17 @@ export interface FlagProps {
 }
 
 /**
- * A real flag from /public/flags (the flag-icons 4x3 set), 3 px radius, with the
- * 1 px inset ring that keeps white-heavy flags legible on paper. Never an emoji,
- * never an empty placeholder.
+ * Locally rendered clay relief from the original national artwork. Contain
+ * sizing preserves every emblem when a game supplies a different box ratio.
  */
 export function Flag({ iso2, size = "xs", alt, className, eager }: FlagProps) {
   if (!iso2) return null;
   const { w, h } = FLAG_SIZES[size];
   const code = iso2.toLowerCase();
   return (
-    <span className={className ? `flag ${className}` : "flag"} style={{ width: w, height: h }}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- static SVG assets, no optimisation wanted */}
-      <img src={`/flags/${code}.svg`} width={w} height={h} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" />
+    <span className={className ? `flag ${className}` : "flag"} data-compact={w <= 32 || undefined} style={{ width: w, height: h }}>
+      {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized local material renders */}
+      <img src={`/clay-flags/${code}.webp`} srcSet={`/clay-flags/${code}.96.webp 96w, /clay-flags/${code}.240.webp 240w, /clay-flags/${code}.webp 640w`} sizes={`${w}px`} width={w} height={h} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" />
     </span>
   );
 }

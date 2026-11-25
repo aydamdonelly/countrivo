@@ -1,0 +1,32 @@
+@layer components {
+  .navigation-link { position:relative; }
+  .navigation-status { position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; }
+  .navigation-status-label { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  .navigation-status-mark { position:absolute; right:6px; bottom:1px; width:28px; height:12px; }
+  .navigation-status[data-pending] { opacity:1; }
+  .navigation-link:has(> .navigation-status[data-pending]) { outline:2px solid currentColor; outline-offset:3px; }
+  .navigation-link.wm:has(> .navigation-status[data-pending]) { background:var(--color-game-draft); border-radius:var(--radius-ctl); }
+  .navigation-link[aria-label="Back to games"] .navigation-status-mark, .lb-date .navigation-status-mark { display:none; }
+  .navigation-link.game-tile-main:has(> .navigation-status[data-pending]) { outline-color:var(--color-ink); box-shadow:0 1px 0 var(--color-edge); }
+  .game-tile-main:has(> .navigation-status[data-pending]) .game-tile-action { visibility:hidden; }
+  .game-tile-main .navigation-status[data-pending] .navigation-status-label { inset:auto 12px 12px; width:auto; height:auto; margin:0; overflow:visible; clip-path:none; text-align:center; white-space:normal; font-size:13px; font-weight:650; line-height:1.4; }
+  .game-tile-main .navigation-status-mark { top:12px; right:10px; bottom:auto; width:32px; height:16px; }
+  .game-tile-main:has(> .navigation-status[data-pending]) :is(.tile-play-mark,.tile-score) { visibility:hidden; }
+  .next-game-link .navigation-status-mark { top:50%; right:16px; bottom:auto; margin-top:-8px; }
+  .next-game-link:has(> .navigation-status[data-pending]) > .ic { visibility:hidden; }
+  @media(prefers-reduced-motion:no-preference) {
+    .game-tile-main > .clay-object { animation:navigation-art-arrive 480ms var(--ease-out); }
+    .navigation-link { transition:transform 160ms var(--ease-out), background-color 160ms var(--ease-out); }
+    .navigation-link:active, .navigation-link:has(> .navigation-status[data-pending]) { transform:translateY(1px) scale(0.985); }
+    .navigation-status[data-pending] .navigation-status-mark { animation:navigation-direction 900ms var(--ease-out) infinite; }
+    .game-tile-main:has(> .navigation-status[data-pending]) .clay-object { animation:navigation-clay 600ms var(--ease-out) both; }
+    .navigation-link[aria-label="Back to games"]:has(> .navigation-status[data-pending]) > .ic { animation:navigation-back 600ms var(--ease-out) both; }
+  }
+  @media(prefers-reduced-motion:reduce) {
+    .navigation-link, .navigation-link .clay-object, .navigation-status-mark { animation:none; transition:none; }
+  }
+}
+@keyframes navigation-direction { 0%,100% { transform:translateX(-3px); opacity:0.5; } 60% { transform:translateX(3px); opacity:1; } }
+@keyframes navigation-clay { 0% { transform:translateY(0) rotate(0); } 35% { transform:translateY(3px) rotate(-7deg) scale(1.04,0.96); } 70% { transform:translateY(-6px) rotate(4deg); } 100% { transform:translateY(-3px) rotate(2deg); } }
+@keyframes navigation-back { 0%,100% { transform:translateX(0); } 50% { transform:translateX(-5px); } }
+@keyframes navigation-art-arrive { 0% { transform:translateY(8px) rotate(-4deg) scale(0.96); opacity:0.7; } 70% { transform:translateY(-2px) rotate(1deg) scale(1.01); opacity:1; } 100% { transform:none; opacity:1; } }

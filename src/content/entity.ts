@@ -24,7 +24,7 @@ export const ENTITY_COPY: Record<string, GameEntityCopy> = {
   },
   "blind-pick": {
     mechanic:
-      "are shown six countries one at a time and must place each country on the one stat, out of six, where that country ranks highest among sovereign states, scored like golf against the perfect board",
+      "are shown eight countries one at a time and assign each to one of eight categories, with one undo, scored against the best possible assignment of those same countries",
     skill:
       "comparative ranking, knowing not just a country's statistics but where those statistics place the country against every other country",
   },

@@ -18,7 +18,7 @@ export function Header({ streak = 0 }: HeaderProps) {
       <Wordmark />
       <nav aria-label="Primary">
         <Link href="/countries" className="header-world">World</Link>
-        <Link href="/practice" className="header-practice">Practice</Link>
+        <Link href="/practice" prefetch className="header-practice">Practice</Link>
         <Link href="/leaderboard" prefetch className="header-board">
           {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size public SVG needs no image loader */}
           <img src="/design/leaderboard.svg" width={24} height={24} alt="" decoding="async" />

@@ -4,6 +4,7 @@ import { countryBorders, sovereignIso3, draftPortraitCredit } from '@/lib/data/l
 import { worldStandings, type WorldStanding } from '@/lib/data/world';
 import { getStatValue, getRanksForCountry } from '@/lib/data/ranks';
 import { formatStat } from '@/lib/utils';
+import { getList } from '@/content/lists';
 import { POOL } from '@/lib/game-logic/country-draft/roster';
 import { LOOKALIKES } from '@/lib/game-logic/flag-quiz/pools';
 import type { Country } from '@/types/country';
@@ -34,10 +35,11 @@ export function CountryPage({country}: {country: Country}) {
   const incomes=comparisons.map((c)=>getStatValue(c.iso3,'gdp-per-capita')).filter((value):value is number=>value!==null).sort((a,b)=>a-b);
   const median=incomes[Math.floor(incomes.length/2)];
   const state=country.continent==='Americas'?'americas':country.continent==='Asia'?'asia':country.continent==='Oceania'?'pacific':'afreu';
+  const continentList=getList(`countries-in-${country.continent.toLowerCase()}`);
   const capsules=buildCapsules(country,getRanksForCountry(country.iso3),neighbours);
   return <>
     <div className="dossier">
-      <div className="dossier-hero"><div className="identity"><Flag iso2={country.iso2} size="hero" alt={`Flag of ${name}`} eager /><div><h1 className="t-h1">{name}</h1><p className="t-meta text-mute">{country.subregion}, {country.continent}</p>{!sovereignIso3.includes(country.iso3)?<p className="t-meta text-mute">Territory or other place</p>:null}</div></div><Clay object="cl-24" state={state} /></div>
+      <div className="dossier-hero"><div className="identity"><Flag iso2={country.iso2} size="hero" alt={`Flag of ${name}`} eager /><div><h1 className="t-h1">{name}</h1><p className="t-meta text-mute">{country.subregion}, {continentList ? <Link href={`/lists/${continentList.slug}`}>{country.continent}</Link> : country.continent}</p>{!sovereignIso3.includes(country.iso3)?<p className="t-meta text-mute">Territory or other place</p>:null}</div></div><Clay object="cl-24" state={state} /></div>
       {notable ? <div className="dossier-intro dossier-stat-spotlight"><span className="t-meta text-mute">{notable.category.shortLabel}</span><div><b className="t-score-l num">#{notable.rank}</b><span className="t-meta text-mute">of {notable.count} countries</span></div><p className="t-h3">{formatStat(notable.value,notable.category.unit)}</p><Link className="t-meta text-mute" href={`/sources#${notable.category.slug}`}>{notable.category.source} {notable.category.sourceYear}</Link></div> : null}
       <div className="dossier-comparisons">
         {sizePeer && area!==null ? <div><p className="t-h3">About the size of {sizePeer.country.displayName}</p><p className="t-meta text-mute">{formatStat(area,'km²')} against {formatStat(sizePeer.area,'km²')}. Total area, REST Countries.</p></div> : null}

@@ -1,7 +1,7 @@
 import { outcomeClay } from "@/content/table";
 import { Clay } from "@/ui/clay";
 import type { ReactNode } from "react";
-import Link from "next/link";
+import { NavigationLink as Link } from "@/ui/navigation-link";
 import { cn } from "@/lib/utils";
 import { Countdown } from "@/ui/countdown";
 import { CountUp } from "@/ui/count-up";
@@ -38,7 +38,9 @@ export interface ResultPanelProps {
   clock?: { resetAt: number; serverNow: number };
   /** The action row: one ink button plus one text button. */
   actions?: ReactNode;
-  /** The main follow-up, immediately after the score and before result details. */
+  /** Daily only: today's progress and the next game, directly under the score card. */
+  next?: ReactNode;
+  /** The name and leaderboard follow-up, after the next game, sharing and feedback. */
   primaryAction?: ReactNode;
   feedback?: ReactNode;
   /** Counts the leading number of `score` from 0 over 600 ms once (blueprint 6.3.6); the HTML holds the final value. */
@@ -69,7 +71,7 @@ function splitScore(score: string): { n: number; digits: string; rest: string } 
   return { n, digits, rest: m[2] };
 }
 
-export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, primaryAction, feedback, children, animateScore, className }: ResultPanelProps) {
+export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks, personalBest, failReason, practiceHref, clock, actions, next, primaryAction, feedback, children, animateScore, className }: ResultPanelProps) {
   const k = kicker ?? (mode === "practice" ? "Practice" : "Today’s result");
   const parts = splitScore(score);
   const unit = parts?.rest.replace(/^\s*of\s+/i, "/").trim();
@@ -133,10 +135,11 @@ export function ResultPanel({ mode, game, score, outcome, kicker, counter, ranks
         ) : null}
       </section>
       {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}
-      {primaryAction ? <div className="rp-primary">{primaryAction}</div> : null}
+      {next}
       {actions || mode === "daily" || mode === "lockout" ? <div className="rp-actions">{actions}{mode === "daily" || mode === "lockout" ? <Link className="result-practice t-meta" href={practiceHref ?? "?mode=practice"}>Practice</Link> : null}</div> : null}
-      {children ? <div className="rp-rows">{children}</div> : null}
       {feedback ? <div className="rp-feedback">{feedback}</div> : null}
+      {primaryAction ? <div className="rp-primary">{primaryAction}</div> : null}
+      {children ? <div className="rp-rows">{children}</div> : null}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getAllCountries, getCountryBySlug } from "@/lib/data/countries";
 import { sovereignIso3 } from '@/lib/data/loader';
 import { worldStandings } from '@/lib/data/world';
-import { ordinal } from "@/lib/utils";
+import { formatStat, ordinal } from "@/lib/utils";
 import { CountryPage } from "@/features/seo/country-page";
 import { breadcrumbList, graph, jsonLdProps, SITE_URL } from "@/features/seo/breadcrumbs";
 
@@ -29,11 +29,20 @@ export async function generateMetadata({
     .map(({ category, rank }) => `${ordinal(rank)} in ${category.label}`)
     .join(", ");
   const capitalPart = country.capital ? ` Its capital is ${country.capital}.` : "";
-  const title = `${country.displayName} | Stats, Rankings & Geography Facts`;
+  // Most search impressions on country pages are "{country} population" queries, so the
+  // title and the first clause of the description name the population and its source.
+  const population = rankings.find(({ category }) => category.slug === "population");
+  const sovereign = sovereignIso3.includes(country.iso3);
+  const title = population
+    ? `${country.displayName} Population, Capital & World Rankings`
+    : `${country.displayName} | Stats, Rankings & Geography Facts`;
+  const populationPart = population
+    ? `${country.displayName} has a population of about ${formatStat(population.value, population.category.unit)} (${population.category.source} ${population.category.sourceYear})${sovereign ? `, ${ordinal(population.rank)} of ${population.count} countries` : ""}.`
+    : `${country.displayName} in ${country.subregion || country.continent}.`;
 
   return {
     title,
-    description: `${country.displayName} in ${country.subregion || country.continent}.${capitalPart}${highlights ? ` Rankings: ${highlights}.` : ''} Explore geography facts and ${rankings.length} available statistics.`,
+    description: `${populationPart}${capitalPart}${highlights ? ` Rankings: ${highlights}.` : ''} Explore ${rankings.length} statistics and geography facts.`,
     alternates: { canonical: `${SITE_URL}/countries/${slug}` },
     openGraph: {
       title,

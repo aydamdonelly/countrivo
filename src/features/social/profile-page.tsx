@@ -4,7 +4,7 @@ import { getHeadToHead, getProfileTodayRuns, getPublicProfile } from "@/app/acti
 import { dailyMetas } from "@/features/play/server";
 import { ADMIN_USER_ID } from "@/lib/admin";
 import { countries as ALL_COUNTRIES } from "@/lib/data/loader";
-import { getAllGames, getGameBySlug } from "@/lib/data/registry";
+import { getDailyGames, getGameBySlug } from "@/lib/data/registry";
 import { createClient } from "@/lib/supabase/server";
 import { getSilhouettePath, iso2ToIso3 } from "@/lib/silhouettes";
 import { bestLabel } from "@/server/home-lists";
@@ -194,7 +194,7 @@ function Games({ stats }: { stats: readonly GameStat[] }) {
   );
 }
 
-const DAILY_TOTAL = getAllGames().filter((g) => g.availableModes.includes("daily")).length;
+const DAILY_TOTAL = getDailyGames().length;
 
 /** iso3, iso2 and the display name of every country, for the profile select. */
 function countryOptions(): CountryOption[] {

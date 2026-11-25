@@ -5,13 +5,13 @@ import { Portrait } from "@/ui/portrait";
 import { CountUp } from "@/ui/count-up";
 import { ShareButton } from "@/ui/share-button";
 import { Button } from "@/ui/button";
-import { BONUSES, MAX_SCORE, bandOf, fitWord } from "@/lib/game-logic/country-draft/tables";
+import { BONUSES, MAX_SCORE, bandOf } from "@/lib/game-logic/country-draft/tables";
 import type { DraftView } from "@/lib/game-logic/country-draft/public-view";
 import { formatNumber } from "@/lib/utils";
 import { Cabinet, JOB_NAMES } from "./board";
 import { DraftMap } from "./draft-map";
 import { DraftReviewDetails } from "./review";
-import { cabinetStory, safeDraftWhy } from "./presentation";
+import { cabinetStory, pointsLine, safeDraftWhy } from "./presentation";
 import "./draft.css";
 
 interface ResultProps {
@@ -20,14 +20,17 @@ interface ResultProps {
   reveal?: boolean;
   onRevealEnd?: () => void;
   children?: ReactNode;
+  /** Daily only: today's progress and the next game, directly under the score card. */
+  next?: ReactNode;
   primaryAction?: ReactNode;
+  feedback?: ReactNode;
   onShare?: () => void;
   challengeUrl?: string;
   onReplay?: () => void;
   replayBusy?: boolean;
 }
 
-export function Result({ state, shareText, reveal = false, onRevealEnd, children, primaryAction, onShare, challengeUrl, onReplay, replayBusy = false }: ResultProps) {
+export function Result({ state, shareText, reveal = false, onRevealEnd, children, next, primaryAction, feedback, onShare, challengeUrl, onReplay, replayBusy = false }: ResultProps) {
   const fiveSeats = state.fitTotal + state.fameTotal;
   const thinJobs = state.seats.flatMap((pick) => pick && pick.fit < 12 ? [JOB_NAMES[pick.seat]] : []);
   const bonusTotal = state.score - fiveSeats;
@@ -46,8 +49,10 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
         </div>
       </div>
     </section>
-    {primaryAction ? <div className="dr-result-primary">{primaryAction}</div> : null}
+    {next}
     <div className="dr-result-actions"><ShareButton text={shareText} challengeUrl={challengeUrl} onShare={onShare} label={challengeUrl ? "Challenge a friend" : "Share my cabinet"} />{onReplay ? <Button variant="ink" onClick={onReplay} disabled={replayBusy} pending={replayBusy} pendingLabel="Opening…">One more draft</Button> : null}</div>
+    {feedback}
+    {primaryAction ? <div className="dr-result-primary">{primaryAction}</div> : null}
     <section className="dr-result-card dr-result-body" aria-label="Your cabinet">
       <div className="dr-conquest-panel">
         <div className="dr-conquest-caption"><b className="t-h3">{story.title}</b>{reveal ? <button className="t-meta dr-skip-reveal" type="button" onClick={onRevealEnd}>Skip animation</button> : <span className="t-meta">{state.regions.length} regions</span>}</div>
@@ -59,7 +64,7 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
       </div> : null)}</div>
       <Cabinet state={state} />
       <div className="dr-tally-inline t-meta"><span>Seats <b className="num">{fiveSeats}</b></span><span>Bonuses <b className="num">+{bonusTotal}</b></span></div>
-      <details className="dr-score-details"><summary className="t-meta">Score breakdown</summary><div className="dr-tally t-body"><p><span>Five seats</span><b className="num">{fiveSeats}</b></p>{BONUSES.map((bonus) => <p key={bonus.key}><span>{bonus.name}{bonus.key === "fullCabinet" && !state.bonuses.fullCabinet && thinJobs.length ? <small className="t-meta">{thinJobs.join(" and ")} needed a fit of 12 or more.</small> : null}</span><b className="num">{state.bonuses[bonus.key] ? `+${bonus.points}` : "0"}</b></p>)}</div></details>
+      <details className="dr-score-details"><summary className="t-meta">Score breakdown</summary><div className="dr-tally t-body"><p><span>Five seats</span><b className="num">{fiveSeats}</b></p>{BONUSES.map((bonus) => <p key={bonus.key}><span>{bonus.name}{bonus.key === "fullCabinet" && !state.bonuses.fullCabinet && thinJobs.length ? <small className="t-meta">{thinJobs.length > 1 ? `${thinJobs.slice(0, -1).join(", ")} and ${thinJobs[thinJobs.length - 1]}` : thinJobs[0]} needed a fit of 12 or more.</small> : null}</span><b className="num">{state.bonuses[bonus.key] ? `+${bonus.points}` : "0"}</b></p>)}</div></details>
     </section>
     {children ? <div className="dr-result-followup">{children}</div> : null}
   </>;
@@ -67,7 +72,7 @@ export function Result({ state, shareText, reveal = false, onRevealEnd, children
 
 export function DraftResultDetails({ state }: { state: DraftView }) {
   return <>
-    <details className="dr-result-detail"><summary className="t-body">Your picks explained</summary><p className="t-meta text-mute">Fit ratings reflect recorded careers.</p><div className="dr-rows">{state.seats.map((pick) => pick ? <div className="dr-appointment" key={pick.seat}><Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={44} /><div><b className="t-h3">{pick.person.name}</b><p className="t-meta"><Flag iso2={pick.country.iso2} size="xs" alt="" /> {pick.country.name} · {JOB_NAMES[pick.seat]}</p><p className="t-body">{fitWord(pick.fit)} fit {pick.fit} + fame {pick.fame} = {pick.points}.</p><p className="t-body">{safeDraftWhy(pick)} <a href={pick.source} target="_blank" rel="noreferrer">Source</a></p></div></div> : null)}</div></details>
+    <details className="dr-result-detail"><summary className="t-body">Your picks explained</summary><p className="t-meta text-mute">Fit ratings reflect recorded careers.</p><div className="dr-rows">{state.seats.map((pick) => pick ? <div className="dr-appointment" key={pick.seat}><Portrait slug={pick.person.slug} name={pick.person.name} has={pick.person.portrait} size={44} /><div><b className="t-h3">{pick.person.name}</b><p className="t-meta"><Flag iso2={pick.country.iso2} size="xs" alt="" /> {pick.country.name} · {JOB_NAMES[pick.seat]}</p><p className="t-body">{pointsLine(pick.fit, pick.fame)} = {pick.points}.</p><p className="t-body">{safeDraftWhy(pick)} <a href={pick.source} target="_blank" rel="noreferrer">Source</a></p></div></div> : null)}</div></details>
     <details className="dr-result-detail"><summary className="t-body">Your countries</summary><p className="t-body">{formatNumber(state.geography.population)} people · {state.geography.areaPercent.toFixed(1)}% of the world&apos;s country area · {state.regions.length} regions.</p><p className="t-meta text-mute">{state.regions.join(", ")} · {formatNumber(state.geography.area)} km². Countrivo 2023 dataset.</p><div className="dr-homeland-links">{state.seats.map((pick) => pick ? <Link key={pick.country.iso3} href={`/countries/${pick.country.slug}`} className="t-body">{pick.country.name}</Link> : null)}</div></details>
     <DraftReviewDetails review={state.review} />
   </>;

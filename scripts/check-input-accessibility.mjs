@@ -15,6 +15,7 @@ if (!['localhost', '127.0.0.1'].includes(new URL(base).hostname)) throw new Erro
 if (!process.env.PLAYWRIGHT_MODULE) throw new Error('Set PLAYWRIGHT_MODULE to an existing playwright-core/index.mjs');
 const {chromium} = await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
 const browser = await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
+const reportOnly = process.argv.includes('--report-only');
 const out = '.check-render/input-accessibility'; mkdirSync(out,{recursive:true});
 const context = await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'}), page = await context.newPage();
 page.setDefaultTimeout(20000);
@@ -33,10 +34,12 @@ async function open(path,selector) {
  await page.waitForFunction(selector=>{const element=document.querySelector(selector);return element&&Object.keys(element).some(key=>key.startsWith('__reactProps'));},selector);
 }
 try {
+ let before=posts;
+ if(!reportOnly) {
  await open('/games/geo-wordle/play?mode=practice','#geo-guess');
  const input=page.getByRole('combobox',{name:'Country',exact:true});
  check((await page.locator('.gw-start').textContent()).includes('hidden country in 6 guesses'),'GeoWordle names the goal and attempt limit');
- let before=posts;
+ before=posts;
  await input.fill('con'); await input.press('Shift+Tab');
  check(await input.inputValue()==='con','Shift+Tab preserves partial country text');
  check(await input.evaluate(element=>document.activeElement!==element),'Shift+Tab moves focus backwards');
@@ -102,30 +105,32 @@ try {
   check(posts===before,`${slug} ignores global character keys`);
  }
 
+ }
  await open('/games/flag-quiz/leaderboard?date=2026-10-19','.lb-report');
  const trigger=page.locator('.lb-report[aria-label^="Report or block"]').first();
  check(await trigger.count()===1,'Existing read-only board supplies a report-control fixture');
  await trigger.focus(); await page.keyboard.press('Enter');
  const panel=page.getByRole('form',{name:/Report or block/});
- await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form select'));
- check(await panel.locator('select').evaluate(element=>document.activeElement===element),'Report opens with focus in its reason select');
+ await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form'));
+ check(await panel.evaluate(element=>document.activeElement===element),'Report opens with focus on the labeled form without opening the native picker');
  check(await trigger.getAttribute('aria-expanded')==='true','Report trigger exposes expanded state');
- await panel.getByRole('button',{name:'Close',exact:true}).click();
- check(await trigger.evaluate(element=>document.activeElement===element),'Closing report restores the original trigger');
+ await panel.getByRole('button',{name:'Cancel',exact:true}).click();
+ check(await panel.count()===0&&await trigger.evaluate(element=>document.activeElement===element),'One Cancel closes the report form and restores the original trigger');
  await trigger.press('Enter');
- await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form select'));
+ await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form'));
  await page.keyboard.press('Escape');
  check(await trigger.evaluate(element=>document.activeElement===element),'Escape restores report trigger focus');
  before=posts; handler=route=>respond(route,{success:true});
  await trigger.press('Enter');
- await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form select'));
+ await page.waitForFunction(()=>document.activeElement?.matches('.lb-report-form'));
  await panel.getByRole('button',{name:'Send report',exact:true}).click();
  await panel.getByRole('status').waitFor();
  await page.waitForFunction(()=>document.activeElement?.textContent==='Block player');
  check(posts===before+1,'Report acknowledgement is mocked locally');
  check(await panel.getByRole('button',{name:'Block player',exact:true}).evaluate(element=>document.activeElement===element),'Successful report moves keyboard focus to Block player');
- await panel.getByRole('button',{name:'Close',exact:true}).click();
+ await panel.getByRole('button',{name:'Cancel',exact:true}).click();
 
+ if(!reportOnly) {
  const countries=JSON.parse(readFileSync('src/data/countries.json','utf8'));
  const longNames=['VCT','CAF','BIH','ATG'].map(iso3=>countries.find(country=>country.iso3===iso3).displayName);
  for(const slug of ['flag-quiz','speed-flags']) {
@@ -146,7 +151,8 @@ try {
    await page.screenshot({path:`${out}/${slug}-long-labels-${textPercent}pct.png`,fullPage:true});
   }
  }
+ }
  check(errors.length===0,`No browser errors: ${errors.join('; ')}`);
- writeFileSync(`${out}/report.json`,JSON.stringify({checks,posts,realMutationPosts:0,scope:'Local UI; every POST intercepted, report success and game acknowledgements synthetic. Country-label layout uses actual current component CSS with genuine pool names.',results},null,2)+'\n');
+ writeFileSync(`${out}/${reportOnly?'report-only-':''}report.json`,JSON.stringify({reportOnly,checks,posts,realMutationPosts:0,scope:'Local UI; every POST intercepted, report success and game acknowledgements synthetic. Country-label layout uses actual current component CSS with genuine pool names.',results},null,2)+'\n');
  console.log(`Input accessibility: ${checks} checks passed; ${posts} intercepted POSTs, zero persisted mutations.`);
 } finally {await context.close();await browser.close();}

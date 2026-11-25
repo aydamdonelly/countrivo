@@ -8,3 +8,4 @@ export { buildBlindPickShareText, type BlindPickShareInput } from "./blind-pick"
 export { buildCountryDraftShareText, type CountryDraftShareInput } from "./country-draft";
 export { buildGeoWordleShareText, type GeoWordleShareInput } from "./geo-wordle";
 export { buildStatGuesserShareText, type StatGuesserShareInput } from "./stat-guesser";
+export { buildDayShareText, type DayShareRow } from "./day";

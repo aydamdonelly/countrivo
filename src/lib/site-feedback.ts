@@ -1,4 +1,5 @@
 import { isGameSlug, type GameSlug } from "@/ui/types";
+import { isAllowedPublicFeedback } from './feedback-moderation';
 
 export type FeedbackContext = "result" | "game" | "site";
 export type FeedbackScope = "game" | "site";
@@ -10,6 +11,7 @@ export interface FeedbackInput {
   gameSlug?: GameSlug;
   website: string;
   submissionId: string;
+  visibility?: 'private' | 'public';
 }
 
 export interface ValidFeedback {
@@ -18,6 +20,7 @@ export interface ValidFeedback {
   context: FeedbackContext;
   gameSlug: GameSlug | null;
   submissionId: string;
+  visibility: 'private' | 'public';
 }
 
 export type FeedbackReply =
@@ -40,14 +43,16 @@ export function validateFeedback(input: unknown): FeedbackValidation {
   if (!("scope" in input) || (input.scope !== "game" && input.scope !== "site")) return invalid("Choose what your feedback is about.");
   if (!("context" in input) || (input.context !== "result" && input.context !== "game" && input.context !== "site")) return invalid("Check your feedback and try again.");
   if (!("submissionId" in input) || typeof input.submissionId !== "string" || !UUID.test(input.submissionId)) return invalid("Reopen the feedback form and try again.");
+  if ('visibility' in input && input.visibility !== undefined && input.visibility !== 'private' && input.visibility !== 'public') return invalid('Choose a valid feedback visibility.');
   const message = input.message.normalize("NFC").replace(/\r\n?/g, "\n").trim();
   const length = Array.from(message).length;
   if (length < FEEDBACK_MIN_LENGTH || length > FEEDBACK_MAX_LENGTH) return invalid("Write 5 to 1,500 characters.");
   if (/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(message)) return invalid("Remove unsupported characters and try again.");
+  if ('visibility' in input && input.visibility === 'public' && !isAllowedPublicFeedback(message)) return invalid('Please remove offensive language before posting. You can send a private concern to countrivo@gmail.com.');
   const slug = "gameSlug" in input ? input.gameSlug : undefined;
   if (slug !== undefined && (typeof slug !== "string" || !isGameSlug(slug))) return invalid("Choose a Countrivo game.");
   if (input.scope === "game" && (typeof slug !== "string" || !isGameSlug(slug))) return invalid("Choose a Countrivo game.");
-  return { valid: true, value: { message, scope: input.scope, context: input.context, gameSlug: input.scope === "game" && typeof slug === "string" && isGameSlug(slug) ? slug : null, submissionId: input.submissionId } };
+  return { valid: true, value: { message, scope: input.scope, context: input.context, gameSlug: input.scope === "game" && typeof slug === "string" && isGameSlug(slug) ? slug : null, submissionId: input.submissionId, visibility: 'visibility' in input && input.visibility === 'public' ? 'public' : 'private' } };
 }
 
 export interface FeedbackDatabase {
@@ -58,6 +63,7 @@ export interface FeedbackDatabase {
     p_context: FeedbackContext;
     p_game: GameSlug | null;
     p_message: string;
+    p_public?: boolean;
   }): PromiseLike<{ error: { message: string } | null }>;
 }
 
@@ -66,8 +72,11 @@ export async function saveFeedback(value: ValidFeedback, deviceId: string, datab
     const { error } = await database.rpc("countrivo_submit_feedback", {
       p_device: deviceId, p_submission: value.submissionId, p_scope: value.scope,
       p_context: value.context, p_game: value.gameSlug, p_message: value.message,
+      ...(value.visibility === 'public' ? { p_public: true } : {}),
     });
     if (!error) return { success: true };
+    if (error.message.includes('feedback_content_rejected')) return { success: false, code: 'invalid', error: 'Please remove offensive language before posting. You can send a private concern to countrivo@gmail.com.' };
+    if (error.message.includes('publisher_banned')) return { success: false, code: 'invalid', error: 'This device cannot publish feedback. Contact countrivo@gmail.com to ask for a review.' };
     if (error.message.includes("feedback_too_soon")) return { success: false, code: "rate_limited", error: "Please wait 5 seconds before sending more feedback. Your text is still here." };
     if (error.message.includes("feedback_rate_limited")) return { success: false, code: "rate_limited", error: "You’ve sent feedback recently. Try again in an hour; your text is still here." };
     return { success: false, code: "unavailable", error: "Could not save your feedback. Your text is still here. Try again." };

@@ -1,5 +1,7 @@
 # 🚀 Countrivo veröffentlichen — deine Klick-Anleitung
 
+> **Projektwarnung · 28.10.2026:** Die aktuelle App verwendet Supabase **`iktrrzeewcgrhdzkhlvl`**. `supabase/.temp/project-ref` enthält noch das alte **`reqvdyfzwkrtlvgapnyq`**. CLI-Abfragen deshalb immer mit **`--linked --project-ref iktrrzeewcgrhdzkhlvl`**, nie nur `--linked`; im SQL Editor das Projekt ebenfalls prüfen. Diese Anleitung enthält historische Schritte. Aktueller Vorschau-Befehl und Einordnung: [SUPABASE-DEPLOY.md](SUPABASE-DEPLOY.md). Kein `supabase db push`.
+
 Alles Technische ist fertig und live. Folge diesem Dokument von oben nach unten. Jeder Wert zum **Kopieren** steht direkt hier. Volle Referenz mit Begründungen: `docs/APP-STORE-MASTER.md`.
 
 Legende: **⛔ Pflicht** (sonst keine Freigabe) · 🟡 optional (App läuft auch ohne, Feature aktiviert sich später)

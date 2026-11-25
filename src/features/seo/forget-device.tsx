@@ -3,12 +3,14 @@ import { useState } from 'react';
 import { forgetThisDevice } from '@/app/actions/anonymous-games';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/ui/button';
+import { forgetUsage } from '@/lib/usage-events';
 export function ForgetDevice(){
   const [confirm,setConfirm]=useState(false);
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const router=useRouter();
   async function forget(){
+    forgetUsage();
     setBusy(true);setError('');
     try {
       await forgetThisDevice();

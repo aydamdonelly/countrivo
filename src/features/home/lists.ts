@@ -5,7 +5,7 @@
  * a client component.
  */
 import type { FriendRow, GameBoard } from "@/app/actions/home";
-import { getAllGames } from "@/lib/data/games";
+import { getAllGames, getDailyGames } from "@/lib/data/games";
 import { createClient } from "@/lib/supabase/server";
 import type { PracticeMeta } from "@/server/home-lists";
 import type { StripFriend } from "@/ui/friends-strip";
@@ -37,28 +37,14 @@ export function readMode(raw: string | undefined): Mode {
   return raw === "practice" ? "practice" : "daily";
 }
 
-/** K3's list order for the dailies (blueprint 7.1 item 5), Country Draft excluded: it is the card. */
-const MAIN_ORDER: readonly string[] = ["blind-pick", "higher-or-lower", "geo-wordle", "stat-guesser", "flag-quiz"];
-
-function byOrder(order: readonly string[]) {
-  return (a: { slug: string }, b: { slug: string }) => {
-    const ia = order.indexOf(a.slug);
-    const ib = order.indexOf(b.slug);
-    return (ia < 0 ? order.length : ia) - (ib < 0 ? order.length : ib);
-  };
-}
-
-/** Blind Pick, Higher or Lower, GeoWordle, Stat Guesser, Flag Quiz. */
+/** Registry order, excluding Country Draft because it has its own card. */
 export function mainDailies() {
-  return getAllGames()
-    .filter((g) => g.slug !== DRAFT && g.availableModes.includes("daily"))
-    .sort(byOrder(MAIN_ORDER));
+  return getDailyGames().filter((g) => g.slug !== DRAFT);
 }
 
 /** Every playable game except Country Draft: the dailies first, then the practice-only drills. */
 export function practiceGames() {
-  const all = getAllGames().filter((g) => g.slug !== DRAFT && g.availableModes.includes("practice"));
-  return [...all.filter((g) => g.tier === "main").sort(byOrder(MAIN_ORDER)), ...all.filter((g) => g.tier !== "main")];
+  return getAllGames().filter((g) => g.slug !== DRAFT && g.availableModes.includes("practice"));
 }
 
 /** `41 shots`, `1 shot`, `no shots yet` (the client Board owns the same wording for its own head). */
@@ -112,10 +98,12 @@ function dailyRow(
   boards: Record<string, GameBoard>,
   done: Record<string, string>,
 ): GameRowProps {
+  const shot = shotOf(game.slug, boards, done);
   return {
     slug: game.slug as GameSlug,
     title: game.title,
-    meta: dailyMeta(boards[game.slug], shotOf(game.slug, boards, done)),
+    dailyCompleted: Boolean(shot),
+    meta: dailyMeta(boards[game.slug], shot),
     href: `/games/${game.slug}/play?mode=daily`,
     prefetch: true,
   };

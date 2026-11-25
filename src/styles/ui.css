@@ -1,7 +1,4 @@
-/* Primitive styles (blueprint section 3), measured from K3. Class names follow the
-   K3 markup where the blueprint names them (.k .how .steps .res .me .nos .tabs .st
-   .r .n .week .flag .crest). Colours are tokens only; the only shadows are the flag
-   ring (tokens) and the focus ring (base); the only gradient is the fade bar. */
+/* Shared primitives. Colors and physical edges use the product theme tokens. */
 @layer components {
   .native-offline { position: fixed; top: env(safe-area-inset-top, 0px); inset-inline: 0; z-index: 110; margin: 0; padding: 10px var(--gutter); background: var(--color-ink); color: var(--color-on-ink); text-align: center; pointer-events: none; }
   /* ── frames ─────────────────────────────────────────────────────────── */
@@ -79,7 +76,7 @@
   button.chip { min-height: 44px; display: inline-flex; align-items: center; }
 
   /* ── button ──────────────────────────────────────────────────────────── */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 11px 16px; border-radius: var(--radius-ctl); cursor: pointer; white-space: nowrap; transition: background-color var(--dur-fast); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 11px 16px; border-radius: var(--radius-ctl); cursor: pointer; white-space: nowrap; transition: background-color var(--dur-fast); }
   .btn-shoot { background: var(--color-paper); color: var(--color-ink); }
   .btn-ink { background: var(--color-ink); color: var(--color-paper); }
   .btn-quiet { background: var(--color-card); color: var(--color-ink); font-weight: 500; }
@@ -96,9 +93,8 @@
   .btn-block { display: flex; width: 100%; }
 
   /* ── flag, crest, mark ───────────────────────────────────────────────── */
-  .flag { display: inline-block; flex: none; position: relative; border-radius: var(--radius-flag); overflow: hidden; }
-  .flag::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--color-edge); pointer-events: none; }
-  .flag img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .flag { display:inline-block; flex:none; position:relative; }
+  .flag img { display:block; width:100%; height:100%; object-fit:contain; }
   .flag:empty { background: var(--color-wait); }
   .crest { display: inline-flex; align-items: center; justify-content: center; flex: none; border-radius: 50%; background: var(--color-ink); }
   .crest.muted { background: var(--color-wait); }

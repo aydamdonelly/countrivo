@@ -17,6 +17,32 @@ export async function openAdmin(form:FormData):Promise<void>{
   redirect('/admin');
 }
 export async function closeAdmin():Promise<void>{(await cookies()).delete('cv_admin');redirect('/admin');}
+export async function setFeedbackVisibility(form:FormData):Promise<void>{
+  await requireAdminSession();
+  const id=Number(form.get('id')),visibility=form.get('hidden');
+  if(!Number.isSafeInteger(id)||id<1||(visibility!=='0'&&visibility!=='1'))return;
+  const hidden=visibility==='1';
+  const {error}=await gameDatabase().from('countrivo_site_feedback').update({moderation_hidden:hidden}).eq('id',id).not('public_message','is',null);
+  if(error)throw new Error(error.message.includes('publisher_banned')?'Unblock this author before restoring a post.':error.message.includes('feedback_content_rejected')?'This post contains language that cannot be published.':'Could not update this feedback');
+  revalidatePath('/admin');revalidatePath('/feedback');
+}
+export async function resolveFeedbackReports(form:FormData):Promise<void>{
+  await requireAdminSession();
+  const id=Number(form.get('id'));
+  if(!Number.isSafeInteger(id)||id<1)return;
+  const {error}=await gameDatabase().from('countrivo_feedback_reports').update({resolved_at:new Date().toISOString()}).eq('feedback_id',id).is('resolved_at',null);
+  if(error)throw new Error('Could not resolve these reports');
+  revalidatePath('/admin');
+}
+export async function setFeedbackAuthorBan(form:FormData):Promise<void>{
+  await requireAdminSession();
+  const id=Number(form.get('id')),banned=form.get('banned');
+  if(!Number.isSafeInteger(id)||id<1||(banned!=='0'&&banned!=='1'))return;
+  const {error}=await gameDatabase().rpc('countrivo_set_feedback_author_ban',{p_feedback:id,p_banned:banned==='1'});
+  if(error)throw new Error('Could not update this author');
+  invalidateAnonymousLeaderboards();
+  revalidatePath('/admin');revalidatePath('/feedback');revalidatePath('/leaderboard');
+}
 export async function setNameVisibility(form:FormData):Promise<void>{
   await requireAdminSession();
   const id=Number(form.get('id')),hidden=form.get('hidden')==='1';

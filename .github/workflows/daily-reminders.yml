@@ -1,0 +1,36 @@
+# Opt-in iOS daily reminder: every hour, tokens whose local time is 18:00 and whose device has
+# not finished a daily on today's Berlin board get one notification. Without the APNs secrets the
+# script prints "not configured" and exits successfully.
+name: Daily reminders
+
+on:
+  schedule:
+    - cron: "2 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-reminders
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Send due reminders
+        run: npx tsx scripts/send-daily-reminders.ts
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.COUNTRIVO_SUPABASE_URL }}
+          COUNTRIVO_SUPABASE_SERVICE_KEY: ${{ secrets.COUNTRIVO_SUPABASE_SERVICE_KEY }}
+          APNS_KEY_P8: ${{ secrets.APNS_KEY_P8 }}
+          APNS_KEY_ID: ${{ secrets.APNS_KEY_ID }}
+          APNS_TEAM_ID: ${{ secrets.APNS_TEAM_ID }}

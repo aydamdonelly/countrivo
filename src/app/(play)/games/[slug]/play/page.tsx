@@ -16,7 +16,7 @@ import { NextDailies } from "@/ui/next-dailies";
 import { ResultPanel } from "@/ui/result-panel";
 import { GUEST_VIEWER, type Mode } from "@/ui/types";
 import { CODECS, HOSTS, isPlayable } from "@/games/registry";
-import { blindRemote, blindView } from "@/server/blind-session";
+import { blindSessionModule, blindView } from "@/server/blind-session";
 import { draftSessionModule, draftCountryUnavailable } from "@/server/draft-module";
 import { getArchivedBoard } from "@/server/board-snapshots";
 import { practiceSeedFor } from "@/server/practice-seeds";
@@ -76,6 +76,7 @@ export default async function PlayPage({ params, searchParams }: Props) {
     activity: readActivity(jar.get('cv_activity')?.value, clock.dateKey), challenge,
     viewer: { signedIn: false, name: null, crest: null, streak: GUEST_VIEWER.streak }, resetAt: clock.resetAt, serverNow: clock.now,
     streakBefore: 0, dailies, shotToday: todayRows.filter(row => row.status === 'complete').map(row => row.game_slug),
+    dayScores: Object.fromEntries(todayRows.flatMap(row => row.status === 'complete' && row.score_display ? [[row.game_slug, row.score_display]] : [])),
     friendsToday: null, friendCount: 0, friendScores: [], shots: null, practiceBest: null,
   }));
   const Host = HOSTS[slug];
@@ -104,8 +105,8 @@ export default async function PlayPage({ params, searchParams }: Props) {
       sessionRevision={session.revision} savedRun={session.run} publishedName={session.publishedName} /></div>{requestedStatBlocked?<p className="t-meta text-mute">That statistic is on today’s daily board. Practice uses another statistic until tomorrow.</p>:null}<NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} quick={session.view} run={session.run}/></PlayFrame>;
   }
   if (slug === "blind-pick") {
-    const [session, common] = await Promise.all([prepareGameSession(blindRemote,blindView,sessionSeed), commonPromise]);
-    return <PlayFrame slug={slug} title={game.title} mode={mode}><div className="cv-js-game"><Host {...common} seed={0} log="" blindPickView={session.view} sessionToken={session.sessionToken} sessionRevision={session.revision} savedRun={session.run}/></div><NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} blind={session.view} run={session.run}/></PlayFrame>;
+    const [session, common] = await Promise.all([prepareGameSession(blindSessionModule(sessionSeed.resumeToken),blindView,sessionSeed,knownRun), commonPromise]);
+    return <PlayFrame slug={slug} title={game.title} mode={mode}><div className="cv-js-game"><Host {...common} seed={0} log="" blindPickView={session.view} sessionToken={session.sessionToken} sessionRevision={session.revision} savedRun={session.run} publishedName={session.publishedName}/></div><NoScriptGame slug={slug} token={session.sessionToken} revision={session.revision} blind={session.view} run={session.run}/></PlayFrame>;
   }
   const [common, todayRows] = await Promise.all([commonPromise, todayRowsPromise]);
   const shotToday = common.shotToday;

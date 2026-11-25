@@ -1,0 +1,137 @@
+{
+  "key": "cl-03-deep-color",
+  "object": "cl-03",
+  "state": "deep",
+  "reference": "/Users/adamkahirov/Desktop/code/countrivo/public/clay/cl-03/deep.webp",
+  "prompt": "Use case: precise-object-edit. Asset type: transparent raster clay icon for the Countrivo Pinpoint geography game. Input image 1 is the existing icon to redesign with freshly rendered colored clay materials, retaining its recognizable geometry, orientation and camera angle. Render ONE complete location pin planted deeply in its round low clay base, with the same thick handmade pin silhouette and open circular hole. Make the pin itself richly saturated vermilion red, the top of the circular base vivid ocean blue, with a few broad emerald-green continent-like land patches molded into that blue top; keep only the thin side edge of the base sandy beige. These must be separate physical clay colors with convincing contact shading, not a uniform tint or colored lighting. Preserve hand-kneaded matte modeling-clay texture, slight fingerprints, softly rounded imperfect edges, and the reference's gentle three-quarter camera and soft upper-left studio lighting. The object is centered, fully visible with generous transparent margin on all four sides, with nearly the same occupied canvas proportions as the reference. Re-render the entire object cleanly and in detail; use strong color separation that stays recognizable at 64px. Actual transparent alpha background, including the pin hole, with only a small natural contact shadow. No room, floor plane, backdrop, gradients, fake checkerboard, text, letters, numerals, logo, border or additional objects. Output a single square image, not a contact sheet.",
+  "generator": "built-in image_gen",
+  "generationCalls": 1,
+  "generatedSource": "/Users/adamkahirov/.codex/generated_images/01a180ff-0e32-76b0-94a3-18f4d3116602/exec-c9dce4f9-3174-425b-95bf-b4a07a672b55.png",
+  "figmaReference": "https://www.figma.com/design/ZKNzvFolKFKjU2EVzWpCBY?node-id=148-3",
+  "createdAt": "2026-10-28T18:24:16.112Z",
+  "original": {
+    "path": "docs/concept/daily-clay-icons-v2/cl-03-deep-color.original.png",
+    "sha256": "e453bec9588ba6effa958cfa2a0dc5de241d340e9651fe56fb44cf61d0220d51",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true
+  },
+  "referenceSha256": "fd548b820ce8ee1f85e5c5a7216895f26257ae52e045fa628c537fcd010e1d27",
+  "exports": [
+    {
+      "path": "public/clay/cl-03/deep-color.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 30696,
+      "sha256": "d73a6387514c21a72acd83068a07768b3477c144e10ca101cacc6956f10f3540",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.32753472222222224,
+      "strongColorFraction": 0.9905782889854765,
+      "meanChroma": 151.91246157108026,
+      "hueBins30Degrees": [
+        31299,
+        14524,
+        8,
+        7,
+        11985,
+        951,
+        13405,
+        1592,
+        16,
+        6,
+        25,
+        935
+      ],
+      "visibleBounds": [
+        78,
+        52,
+        401,
+        433
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-03/deep-color.256.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 13386,
+      "sha256": "7a43fc8ff21ef936d4b3c42e5dbd5e63b9b403f18a015a33f6689f70b4d73ae9",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.327545166015625,
+      "strongColorFraction": 0.9854653871238237,
+      "meanChroma": 149.99282586415728,
+      "hueBins30Degrees": [
+        8883,
+        4001,
+        6,
+        4,
+        3216,
+        480,
+        3856,
+        390,
+        10,
+        8,
+        11,
+        289
+      ],
+      "visibleBounds": [
+        41,
+        28,
+        214,
+        231
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-03/deep-color.128.webp",
+      "width": 128,
+      "height": 128,
+      "bytes": 5676,
+      "sha256": "9ab743f372ad978d2481565169c598cae0bdab2dd67c37b5d0dde5678dd4cfd3",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.32757568359375,
+      "strongColorFraction": 0.9767095211477548,
+      "meanChroma": 145.7147382150177,
+      "hueBins30Degrees": [
+        2215,
+        935,
+        3,
+        1,
+        695,
+        244,
+        941,
+        101,
+        6,
+        8,
+        4,
+        89
+      ],
+      "visibleBounds": [
+        20,
+        14,
+        107,
+        115
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    }
+  ],
+  "processing": {
+    "description": "Copied generated PNG unchanged. Export-only alpha1/255 noise set to0, then Sharp contain resize to square480/256/128, WebP quality90 alphaQuality100 effort6. No recoloring or filters.",
+    "alphaNoisePixelsCleared": 7395
+  }
+}

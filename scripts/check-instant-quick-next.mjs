@@ -10,7 +10,7 @@ if (!["localhost", "127.0.0.1"].includes(new URL(base).hostname)) throw new Erro
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" });
 const cases = [
   { slug: "higher-or-lower", answer: ".qr-call", next: "Next", stage: ".qr-country:nth-child(2) .t-h3", marker: "Spain", protected: ".qr-verdict", controls: ".qr-call" },
-  { slug: "flag-quiz", answer: ".fq-opt", next: "Next", stage: ".fq-box img", marker: "/quiz-flags/c588dbd85c7d9ff0694b689cf43bbfc4a22d8a92.svg", attribute: "src", protected: ".fq-opt[data-state=right],.fq-opt[data-state=wrong],.fq-opt[data-state=answer]", controls: ".fq-opt" },
+  { slug: "flag-quiz", answer: ".fq-opt", next: "Next", stage: ".fq-box img", marker: "/clay-flags/quiz/c588dbd85c7d9ff0694b689cf43bbfc4a22d8a92.webp", attribute: "src", protected: ".fq-opt[data-state=right],.fq-opt[data-state=wrong],.fq-opt[data-state=answer]", controls: ".fq-opt" },
   { slug: "stat-guesser", answer: ".sg-cta", next: "Next", stage: ".sg-name b", marker: "Spain", protected: ".sg-truth", controls: ".sg-cta" },
 ];
 
@@ -55,7 +55,7 @@ try {
       try { await button.waitFor({ timeout: 5000 }); }
       catch (error) { console.error({ requests, errors, body: await page.locator("body").innerText() }); throw error; }
       if (scenario.slug === "flag-quiz") {
-        await page.waitForFunction(src => performance.getEntriesByType("resource").some(entry => entry.name.endsWith(src)), next.flagSrc);
+        await page.waitForFunction(src => performance.getEntriesByType("resource").some(entry => entry.name.endsWith(src)), scenario.marker);
       }
       const score = await page.locator(".prog").textContent();
       await button.evaluate(element => element.addEventListener("click", () => { document.documentElement.dataset.nextClickedAt = String(performance.now()); }, { once: true }));
@@ -82,6 +82,7 @@ try {
         const slider = page.getByRole("slider");
         assert.equal(await slider.getAttribute("aria-disabled"), "false", "The neutral ruler remains editable"); checks++;
         const pin = await slider.getAttribute("aria-valuenow");
+        await slider.focus();
         await page.keyboard.press("End");
         assert.notEqual(await slider.getAttribute("aria-valuenow"), pin, "Local ruler edit responds during persistence"); checks++;
       }
@@ -123,7 +124,8 @@ try {
     await button.click();
     assert.equal(await page.locator(".fq-opt[data-state=right]").count(), 1, "Legacy/final reveal remains while saving"); checks++;
     assert.equal(await page.locator(".rp").count(), 0, "No result panel before server confirmation"); checks++;
-    await page.waitForFunction(() => document.querySelector('.quick-remote[aria-busy="false"]'));
+    if (final) await page.locator('.rp').waitFor();
+    else await page.waitForFunction(() => document.querySelector('.fq[data-phase="playing"] .fq-opt:not(:disabled)'));
     assert.equal(requests, 2, "Legacy/final Next commits once"); checks++;
     await context.close();
   }

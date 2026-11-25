@@ -7,6 +7,7 @@ import { erode } from "./fonts";
 import { getAllGames } from "@/lib/data/games";
 import { NativeBootstrap } from "@/features/auth/native-bootstrap";
 import { ToastProvider } from "@/ui/toast";
+import { UsageObserver } from "@/ui/usage-observer";
 
 /*
  * The root layout (blueprint 9.1 step 9): html, body, fonts, providers, metadata and the
@@ -21,6 +22,8 @@ const PAPER = "rgb(251, 250, 246)";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
+  // Smart App Banner: Safari on iPhone offers the Countrivo app on every page.
+  itunes: { appId: "6782594305" },
   title: {
     default: "Countrivo | Free Geography Games, Six Short Games a Day",
     template: "%s | Countrivo",
@@ -90,6 +93,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
           <NativeBootstrap />
           <ToastProvider>
+            <UsageObserver />
             <main>{children}</main>
             <Analytics />
             <SpeedInsights />

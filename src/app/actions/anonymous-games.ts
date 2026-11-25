@@ -1,7 +1,8 @@
 "use server";
 
-import { randomInt } from "node:crypto";
+import { createHash, randomInt } from "node:crypto";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { getGameBySlug } from "@/lib/data/games";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getEdition } from "@/server/edition";
@@ -49,21 +50,22 @@ export async function submitAnonymousRun(input: { ticket: string; log: string; t
     };
     const { data, error } = await db.from("countrivo_runs").insert(row).select("*").single<AnonymousRunRow>();
     if (error || !data) return { success: false, error: "save_unavailable" };
-    return { success: true, run: await mapAnonymousRun(data), publishedName: null };
+    return { success: true, run: await mapAnonymousRun(data), publishedName: data.display_name };
   } catch {
     return { success: false, error: "save_unavailable" };
   }
 }
 
 export async function publishAnonymousRun(runId: number, name: string, placeCountry?: string | null): Promise<AnonymousSubmitResult> {
-  const clean = name.normalize("NFKC").trim().replace(/\s+/g, " ");
+  if (typeof name !== "string") return { success: false, error: "Enter a name or leave it blank to use a guest name." };
+  const deviceId = await readDeviceId();
+  if (!deviceId || !Number.isSafeInteger(runId)) return { success: false, error: "This result belongs to a different browser." };
+  const clean = (name.trim() || `guest-${createHash("md5").update(deviceId).digest("hex").slice(0, 8)}`).normalize("NFKC").trim().replace(/\s+/g, " ");
   if (clean.length < 2 || clean.length > 20 || !/^[\p{L}\p{N} ._'’-]+$/u.test(clean)) return { success: false, error: "Use 2 to 20 letters, numbers or spaces." };
   const compact = clean.toLocaleLowerCase("en-US").replace(/[^\p{L}\p{N}]/gu, "");
   if (/https?|www|admin|moderator|countrivo|fuck|shit|nigger|nazi/i.test(compact)) return { success: false, error: "Choose a different name." };
   if (placeCountry && !sovereignIso3.includes(placeCountry)) return {success:false,error:"Choose a country from the list."};
   try {
-    const deviceId = await readDeviceId();
-    if (!deviceId || !Number.isSafeInteger(runId)) return { success: false, error: "This result belongs to a different browser." };
     const db = gameDatabase();
     const { data, error } = await db.rpc("countrivo_publish_name", {p_run_id:runId,p_device:deviceId,p_ip:await dailyNetworkHash(),p_day:getTodayDateKey(),p_edition:await getEdition(),p_name:clean,p_place:placeCountry||null}).returns<AnonymousRunRow[]>();
     if(error) {
@@ -71,7 +73,13 @@ export async function publishAnonymousRun(runId: number, name: string, placeCoun
       return {success:false,error:reason.includes("publisher_banned")?"This browser cannot publish names. Contact countrivo@gmail.com to appeal.":reason.includes("board_closed")?"This daily board has closed.":reason.includes("network_throttled")?"Too many names from this network today. Try again tomorrow.":reason.includes("name_throttled")?"You’ve changed your name often. Try again in an hour.":"Could not publish. Try again."};
     }
     const row=Array.isArray(data)?data[0]:undefined;
-    if(row)invalidateAnonymousLeaderboards();
+    if(row) {
+      invalidateAnonymousLeaderboards();
+      if(row.mode==='daily') {
+        revalidatePath('/');
+        revalidatePath(`/games/${row.game_slug}/leaderboard`);
+      }
+    }
     return row?{success:true,run:await mapAnonymousRun(row),publishedName:row.display_name}:{success:false,error:"Finish today’s game first."};
   } catch {
     return { success: false, error: "Could not publish. Try again." };
@@ -100,9 +108,20 @@ export async function withdrawLeaderboardName(runId: number): Promise<{ success:
   try {
     const device = await readDeviceId();
     if (!device || !Number.isSafeInteger(runId)) return { success: false, error: "This result belongs to a different browser." };
-    const { data, error } = await gameDatabase().from("countrivo_runs").update({ display_name: null, published_at: null })
-      .eq("id", runId).eq("device_id", device).eq("date_key", getTodayDateKey()).eq("edition", await getEdition()).eq("mode", "daily").select("*").maybeSingle<AnonymousRunRow>();
-    if(!error&&data)invalidateAnonymousLeaderboards();
+    const db = gameDatabase();
+    const { data: owned } = await db.from("countrivo_runs").select("mode").eq("id", runId).eq("device_id", device).maybeSingle<{ mode: string }>();
+    if (!owned) return { success: false, error: "This result belongs to a different browser." };
+    let update = db.from("countrivo_runs").update({ display_name: `guest-${createHash("md5").update(device).digest("hex").slice(0, 8)}`, place_country_code: null })
+      .eq("id", runId).eq("device_id", device).eq("status", "complete");
+    if (owned.mode === "daily") update = update.eq("date_key", getTodayDateKey()).eq("edition", await getEdition());
+    const { data, error } = await update.select("*").maybeSingle<AnonymousRunRow>();
+    if(!error&&data) {
+      invalidateAnonymousLeaderboards();
+      if(data.mode==='daily') {
+        revalidatePath('/');
+        revalidatePath(`/games/${data.game_slug}/leaderboard`);
+      }
+    }
     return !error && data ? { success: true, run: await mapAnonymousRun(data) } : { success: false, error: "Could not remove your name. Try again." };
   } catch { return { success: false, error: "Could not remove your name. Try again." }; }
 }
@@ -147,6 +166,8 @@ export async function forgetThisDevice(): Promise<void> {
   if (device) {
     const { error } = await gameDatabase().rpc("countrivo_forget_device", { p_device_id: device });
     if (error) throw new Error("Could not clear your saved results. Try again.");
+    const push = await gameDatabase().from("countrivo_push_tokens").delete().eq("device_id", device);
+    if (push.error) throw new Error("Could not clear your saved results. Try again.");
     invalidateAnonymousLeaderboards();
   }
   const jar = await cookies();

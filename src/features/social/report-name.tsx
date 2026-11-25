@@ -9,25 +9,29 @@ export function ReportName({ runId, name, onBlocked }: { runId: number; name: st
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [reported, setReported] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState<"report" | "block" | null>(null);
   const trigger = useRef<HTMLButtonElement>(null);
-  const reasonSelect = useRef<HTMLSelectElement>(null);
+  const form = useRef<HTMLFormElement>(null);
+  const confirmButton = useRef<HTMLButtonElement>(null);
   const blockButton = useRef<HTMLButtonElement>(null);
   const panelId = `player-options-${runId}`;
   useEffect(() => {
     if (!open) return;
-    (reported ? blockButton.current : reasonSelect.current)?.focus({ preventScroll: true });
-  }, [open, reported]);
+    (confirm ? confirmButton.current : reported ? blockButton.current : form.current)?.focus({ preventScroll: true });
+  }, [open, confirm, reported]);
   function close() {
     setOpen(false);
+    setConfirm(false);
+    setError(null);
     trigger.current?.focus({ preventScroll: true });
   }
-  return <><button ref={trigger} type="button" className="lb-report" aria-label={`Report or block ${name}`} aria-expanded={open} aria-controls={panelId} onClick={() => open ? close() : setOpen(true)}><span aria-hidden="true">⋯</span></button>
-  {open ? <form id={panelId} className="lb-report-form" aria-label={`Report or block ${name}`} aria-busy={!!pending || undefined} onKeyDown={event => { if (event.key === "Escape" && !pending) { event.preventDefault(); close(); } }} onSubmit={async event => {
+  return <><button ref={trigger} type="button" className="lb-report" disabled={!!pending} aria-label={`Report or block ${name}`} aria-expanded={open} aria-controls={panelId} onClick={() => open ? close() : setOpen(true)}><span aria-hidden="true">⋯</span></button>
+  {open ? <form ref={form} id={panelId} className="lb-report-form" data-confirm={confirm || undefined} tabIndex={-1} aria-label={`Report or block ${name}`} aria-busy={!!pending || undefined} onKeyDown={event => { if (event.key === "Escape" && !pending) { event.preventDefault(); event.stopPropagation(); close(); } }} onSubmit={async event => {
     event.preventDefault();
-    if (pending || reported) return;
+    if (pending || reported || confirm) return;
     const reason = new FormData(event.currentTarget).get("reason");
     setPending("report"); setError(null);
     try {
@@ -37,11 +41,11 @@ export function ReportName({ runId, name, onBlocked }: { runId: number; name: st
     } catch { setError("Connection lost. Try sending your report again."); }
     finally { setPending(null); }
   }}>
-    <p className="lb-report-name t-meta">Report or block <b>{name}</b></p>
-    {!reported ? <><label className="sr-only" htmlFor={`report-${runId}`}>Reason for reporting {name}</label>
-      <select ref={reasonSelect} name="reason" id={`report-${runId}`} disabled={!!pending}><option>Inappropriate name</option><option>Impersonation</option><option>Advertising</option></select>
-      <button type="submit" disabled={!!pending}>{pending === "report" ? "Sending…" : "Send report"}</button></> : null}
-    <button ref={blockButton} type="button" disabled={!!pending} onClick={async () => {
+    {confirm ? <p className="lb-report-name">Hide <b>{name}</b>’s feedback and leaderboard entries on this device?</p> : <p className="lb-report-name">Report or block <b>{name}</b></p>}
+    {!confirm && !reported ? <><label htmlFor={`report-${runId}`}>Reason for reporting</label>
+      <select name="reason" id={`report-${runId}`} disabled={!!pending}><option>Inappropriate name</option><option>Impersonation</option><option>Advertising</option></select>
+      <button className="lb-report-primary" type="submit" disabled={!!pending}>{pending === "report" ? "Sending…" : "Send report"}</button></> : null}
+    {confirm ? <button ref={confirmButton} className="lb-report-primary" type="button" disabled={!!pending} onClick={async () => {
       if (pending) return;
       setPending("block"); setError(null);
       try {
@@ -56,9 +60,9 @@ export function ReportName({ runId, name, onBlocked }: { runId: number; name: st
         else setError(result.error ?? "Could not block player. Try again.");
       } catch { setError("Connection lost. Try blocking this player again."); }
       finally { setPending(null); }
-    }}>{pending === "block" ? "Blocking…" : "Block player"}</button>
-    <button type="button" disabled={!!pending} onClick={close}>Close</button>
-    {message ? <span className="lb-report-message" role="status">{message}</span> : null}
+    }}>{pending === "block" ? "Blocking…" : "Confirm block player"}</button> : <button ref={blockButton} type="button" disabled={!!pending} onClick={() => { setError(null); setConfirm(true); }}>Block player</button>}
+    <button className="lb-report-cancel" type="button" disabled={!!pending} onClick={close}>Cancel</button>
+    {message && !confirm ? <span className="lb-report-message" role="status">{message}</span> : null}
     {error ? <span className="lb-report-message text-ember" role="alert">{error}</span> : null}
   </form> : null}</>;
 }

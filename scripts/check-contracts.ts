@@ -271,7 +271,7 @@ const countryDraftDriver: Driver<DraftState> = {
 };
 
 const blindPickDriver: Driver<BlindPickState> = {
-  // Six countries, one at a time, each into the leftmost free slot; the tap is final.
+  // Each country goes into the leftmost free slot, then the player reveals the result.
   module: blindPick as unknown as GameModule<BlindPickState, Action>,
   resultKeys: ["over", "playerScore", "optimalScore", "placements", "ranks", "perfect", "perfectRanks", "countryIso3s", "stats"],
   tamper: (p) => ({ ...p, scoreRaw: p.scoreRaw + 5 }),
@@ -279,12 +279,12 @@ const blindPickDriver: Driver<BlindPickState> = {
     const m = this.module;
     let s = state;
     let guard = 0;
-    while (s.g.placements.length < 6 && guard < 20) {
+    while (s.g.placements.length < s.g.config.countries.length && guard < 20) {
       guard += 1;
       const free = s.g.config.categories.findIndex((_c, i) => !s.g.placements.includes(i));
       s = step(m, s, { t: "place", s: free } as Action, push);
     }
-    return s;
+    return step(m, s, { t: "seen" }, push);
   },
 };
 
@@ -570,7 +570,7 @@ function checkRoster(): void {
   const slugs = list.map((g) => g.slug);
   eq(
     slugs,
-    ["country-draft", "geo-wordle", "pinpoint", "flag-quiz", "higher-or-lower", "stat-guesser", "blind-pick", "speed-flags"],
+    ["country-draft", "geo-wordle", "blind-pick", "pinpoint", "higher-or-lower", "stat-guesser", "flag-quiz", "speed-flags"],
     "game-registry.json holds the roster in order",
   );
   eq(Object.keys(drivers).slice().sort(), slugs.slice().sort(), "every registry slug has a contract driver");

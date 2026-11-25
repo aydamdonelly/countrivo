@@ -79,3 +79,7 @@ for visual walkthroughs. Inspect screenshots, not just HTTP/DOM assertions.
 Deploy with `vercel --prod --yes`, verify Ready and countrivo.com, then push main
 when authorized. Future board replacement is queued for the next Berlin day;
 never reset someone's committed current-day run as a routine deployment step.
+
+## Computer Use
+
+When computer use is needed, always use Claude's Google Chrome extension (skill `claude-in-chrome`, tools `mcp__claude-in-chrome__*`), not Orca Computer Use. Use Orca Computer Use only for native desktop apps that cannot be reached in the browser. Keep Playwright for repeatable regression tests. This applies across all projects, see `~/.claude/CLAUDE.md`. Always on the MacBook with the M1 Max, never the one with the M5: that file has the steps to select it.

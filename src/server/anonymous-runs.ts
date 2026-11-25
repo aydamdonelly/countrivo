@@ -215,7 +215,7 @@ export async function mapAnonymousRun(row: AnonymousRunRow, options: RunProjecti
   }, fallback);
   const { board, mine, rankPreview, challengeUrl } = context;
   return {
-    challengeUrl,
+    challengeUrl, displayName: row.display_name,
     id: row.id, gameSlug: row.game_slug, mode: row.mode, dailyDate: row.mode === "daily" ? row.date_key : null,
     scoreRaw: Number(row.score_raw ?? 0), scoreMax: Number(row.score_max ?? 0), scoreDisplay: row.score_display ?? "",
     scoreSortValue: Number(row.score_sort_value ?? 0), scoreNormalized: row.score_max ? Number(row.score_raw) / Number(row.score_max) : 0,

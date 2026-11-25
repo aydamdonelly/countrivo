@@ -4,6 +4,7 @@
 export {
   gameRegistry,
   getAllGames,
+  getDailyGames,
   getGameBySlug,
   getFlagshipGame,
   getMainGames,

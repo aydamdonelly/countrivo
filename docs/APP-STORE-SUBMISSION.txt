@@ -1,3 +1,264 @@
+COUNTRIVO — SENT APP REVIEW RESPONSE / WAITING FOR REVIEW
+Verified 2026-10-29 | submitted build 1.0 (4) | com.countrivo.app
+
+CURRENT STATUS — SUBMITTED, WAITING FOR REVIEW (NOT APPROVED)
+Following the owner's explicit “ok go”, the response was sent and version
+1.0 (4) resubmitted. At 2026-10-29T07:15:11.688Z the coordinator visually
+verified iOS Submission Waiting for Review and row 1.0 (4) Waiting for Review.
+ASC Date Submitted: Oct 29, 2026 at 12:14 AM. Submitted By and Last Updated
+By: Adam Kahirov. Sent response: Today 12:10 AM, Messages (2), evidence ZIP
+attached. Submission ID: f4cab4b2-751c-4180-a735-7d7e5538bcbe.
+Receipt: reports/2026-10-29/app-review/submission-verification.json
+Screenshot: reports/2026-10-29/app-review/submission-waiting-for-review.png
+Exact sent text: reports/2026-10-29/app-review/review-reply-ready.txt
+No Apple approval, code commit or push is claimed. Preparation observations
+below retain their original timing and are superseded where noted.
+
+PREPARATION AND ATTACHMENT HISTORY — 28 OCTOBER
+Build 1.0 (4) is processed Ready to Submit (90 days remaining), selected and
+saved for version1.0. Existing Owner device review group (one tester) has
+build4; What to Test is saved. Build UUID800132d4-674c-48ec-ad82-0ea8c75cec5d.
+CLI upload succeeded20:17UTC. Native artifact QA passed28/28. Earlier today,
+build3 showed1install/33sessions/83days; those are not build4 metrics.
+Physical iPhone 13 iOS 27.2 and post-update Countrivo 1.0 (4) installation
+are verified. The owner's original 106.9-second recording was received,
+retained unchanged and visually sampled across its entire timeline at 2 fps.
+The approximately 98-second H.264 derivative retains 1170×2532 resolution
+and source 7.000–105.000 seconds without internal cuts. Only the lead-in,
+trailing Control Center and digitally silent audio were removed.
+It shows a resume, Blind Pick Practice, Undo, an earned +18 result, automatic
+guest saving and a successful report. That first clip shows the Block author
+control only. A second owner clip now demonstrates the visible block flow:
+confirmation at about 8.5s, Blocking at 12s, post disappearance at 13s and
+empty feed through 16s. No database/reload persistence, device-data deletion
+or cold launch is proven.
+
+Countrivo-Review-Evidence-1.0-4.zip is uploaded and its attachment persisted
+after ASC reload. The approximately 11 MB bundle contains the derivative,
+README-REVIEW.txt and the three unchanged existing licence files.
+The earlier main-video Review Notes were saved and verified after reload at
+2026-10-29T06:37:23.024Z (28 October PDT): exact text, 3,852 characters /
+3,859 UTF-8 bytes, attachment visible and Save disabled.
+Saved text: reports/2026-10-28/app-review/review-notes-video-saved.txt.
+Receipt: reports/2026-10-28/app-review/video-asc-save-verification.json.
+Visually inspected proof: reports/2026-10-28/app-review/review-video-and-notes-saved.png.
+Combined supplement status: the 17.41-second owner WhatsApp clip was reviewed
+in 35 samples at 2 fps. The actual 16.0-second H.264, 384×832 supplement
+retains source 0–16s without internal cuts, crop, resizing or speed changes;
+trailing Control Center and digitally silent audio were removed.
+Countrivo-Review-Evidence-1.0-4-with-blocking.zip (11,991,345 bytes) contains
+the unchanged main video, supplement, README and three unchanged licences.
+Its upload and revised Notes save were verified after reload at
+2026-10-29T06:58:09.946Z: exact Notes (3,961 characters / 3,973 UTF-8 bytes),
+attachment visible and Save disabled. Local ZIP CRC and file hashes passed.
+Current receipt: reports/2026-10-28/app-review/block-supplement-asc-save-verification.json
+Screenshot: reports/2026-10-28/app-review/review-block-supplement-saved.png
+Saved Notes: reports/2026-10-28/app-review/review-notes-with-blocking-saved.txt
+The attachment/Notes save preceded the now-verified sent review response
+and resubmission. No approval or code push is claimed. Earlier unsuccessful
+capture/Notes attempts remain preserved below as history.
+
+Device ID Analytics is published/verified in ASC and both build4 manifests;
+User ID stays Functionality only. Social Media=Yes/global13+ saved. All175
+price rows0.00; availability173/2, China mainland/Vietnam excluded. Automatic
+Afghanistan/Morocco age notices are separate. English/German text corrected.
+Six current native screenshots accepted:three EN medium-iPhone +three iPad13;
+DE inherits those same six. Old large-iPhone placements removed only from the
+version, retained in Asset Library. Three iPhone checks passed. Initial iPad
+blank after35s remains unexplained; three additional cold starts passed in
+17.08/3.89/3.92s. This is limited simulator QA, not a physical walkthrough.
+UGC SQL preview and production apply passed on the explicitly intended project.
+Production deployment dpl_6p8LnJQ1ZJ5z2CoqE8zDBssxo5qe is Ready and aliased to
+countrivo.com; report/block/feed SQL checks passed. Read-only visual/native
+checks passed. The later owner video shows physical report confirmation.
+The native Report-form focus fix is deployed; its separate native check
+passed with one Cancel tap, no picker workaround and no report/block
+submission by the agent.
+
+SENT RESPONSE RECORD
+The answer block below is the exact text sent to Apple, copied from the
+standalone reply file. It corresponds to the saved Notes with an explicit
+geography-enthusiast learning/value sentence. It is not an unsent template.
+Previous drafts and historical evidence remain below.
+
+BEGIN REVIEW RESPONSE
+
+Countrivo — version 1.0 (4), com.countrivo.app
+
+1. Physical-device demonstrations
+Attached: Countrivo-Review-Evidence-1.0-4-with-blocking.zip: two owner-supplied physical-iPhone videos, timestamp guide and three licence files. iPhone 13, iOS 27.2 and installed Countrivo 1.0 (4) were verified after the OS update.
+Countrivo-Physical-iPhone13-1.0-4.mp4: ~98s, 1170×2532. Approximate times: 00:04 opens/resumes; 00:10 Blind Pick Practice; 00:29 Undo; 00:57–01:14 completed game, +18 result and guest save; 01:15 feedback; 01:19 report form; 01:32 Report received.
+Countrivo-Block-Author-Supplement.mp4: 16s, 384×832 (WhatsApp copy). 00:06 Report or block; 00:08.5 confirmation prompt; 00:09.5 Confirm block author; 00:12 Blocking…; 00:13 post disappears, showing completed blocking in the UI.
+Both are H.264 with no internal cuts. Retained source intervals: main 7–105s; supplement 0–16s. Only outer trims and digitally silent audio removal, documented in the README; originals retained. App entry is visible; cold process launch is not established.
+Separate limitation: one iPad simulator first start stayed blank for 35s; three later cold starts passed. The initial cause remains unresolved.
+
+2. Purpose and audience
+Free geography/history puzzles help geography enthusiasts learn through play. Six daily games: Country Draft, GeoWordle, Blind Pick, Pinpoint, Higher or Lower and Stat Guesser. Flag Quiz and Speed Flags offer practice; daily games also have practice. No accounts, ads, subscriptions, purchases or paid gameplay.
+
+3. Setup and features
+Internet is required; no login, credentials or sample files. Daily boards reset at midnight Europe/Berlin. Completed games save with an optional name or automatic guest-XYZ identity. Daily results, including guests, appear on public leaderboards; practice is unranked. Blind Pick assigns eight countries to eight categories with one undo; its score compares the chosen assignment with the best fit of those same countries/categories.
+Feedback is public and anonymous, with aggregate up/down votes. Open Report or block on another author's post to report a predefined reason or block the author; blocking hides their feedback and leaderboard entries on this device. Unblock all authors is available. Automated language checks and owner moderation support hiding posts and restricting abusive publishers. Forget this device removes device-associated runs, names, feedback, votes, usage, submitted reports and blocks; deletion also removes reports/votes attached to deleted posts. Moderation bans may remain. Support: countrivo@gmail.com. Privacy: https://countrivo.com/privacy.
+
+4. Services, data and AI
+Capacitor 8/WKWebView loads https://countrivo.com. Vercel provides hosting and analytics/performance measurement; Supabase stores games, device-linked usage and public-content/moderation data. Signed anonymous device identity replaces accounts. Native features include haptics, splash/status bar, network recovery and game links. No payment provider, ad SDK or runtime generative AI. Some static clay artwork was AI-generated; player input is not sent to AI. App Privacy includes linked Device ID Analytics and Other User Content, without cross-app tracking; build 4 includes the matching privacy update.
+
+5. Regions and price
+Free in all available regions: 173 storefronts, excluding China mainland and Vietnam. Global rating is 13+; some regions apply separate ratings. Gameplay is consistent across distributed regions. English/German store descriptions do not imply a German game interface.
+
+6. Protected material
+General-interest games, not regulated services. Portrait licences/modifications and static-art disclosure: https://countrivo.com/credits. Maps use Natural Earth public-domain data. Flag notice: https://countrivo.com/flags/LICENSE.txt. Erode uses the ITF Free Font License. Data providers and applicable terms: https://countrivo.com/sources. Restricted SIPRI, coffee, beer and wine comparisons remain withheld.
+
+END REVIEW RESPONSE
+
+SUBMISSION RECORD AND REMAINING LIMITATIONS — 29 OCTOBER
+1. Combined video/licence evidence and Notes are saved; the six-answer reply
+   was sent and version 1.0 (4) resubmitted. Current status: Waiting for Review.
+2. The supplement demonstrates visible block completion. No independent
+   database/reload-persistence, cold-launch or Forget this device proof is
+   claimed. The first clip’s block-button-only limit remains historical.
+3. The initial iPad simulator blank start remains unexplained; three later
+   successful starts do not diagnose or fix it.
+Await Apple's review outcome. Submission is confirmed; approval is not.
+No code commit or push was performed for this submission step.
+
+BUILD4 EVIDENCE
+reports/2026-10-28/app-review/native-build-4-verification.json
+reports/2026-10-28/app-review/Countrivo-1.0-4.xcarchive
+reports/2026-10-28/app-review/Countrivo-1.0-4-app-store/App.ipa
+Local IPA SHA256:
+3c843f2dea31567dad16712a99a46198ad7d2d0ef57e5057432372387c1a7089
+The verification receipt predates the coordinator's confirmed upload; its
+uploaded:false records that local preparation step, not today's later status.
+
+SUPERSEDED UNSENT RESPONSE DRAFT — BEFORE 29 OCTOBER SEND
+This longer working draft was not the exact sent text. It is retained as
+preparation history; the current response above and standalone reply file
+record what was sent.
+
+1. Recording
+Attached to App Review Information and verified after reload:
+Countrivo-Review-Evidence-1.0-4-with-blocking.zip. It contains the unchanged
+Countrivo-Physical-iPhone13-1.0-4.mp4, Countrivo-Block-Author-Supplement.mp4,
+README-REVIEW.txt and the three unchanged licence files. This is the owner's physical iPhone 13 footage;
+iOS 27.2 and Countrivo 1.0 (4) were verified after the OS update.
+The approximately 98-second H.264 video retains 1170×2532 resolution and
+source 7.000–105.000 seconds, with no internal cuts. Only the lead-in,
+trailing Control Center and digitally silent audio were removed; the
+original 106.9-second recording is preserved locally.
+Approximate timestamps: 00:04 opening/resume, not proof of a cold launch;
+00:09.5 Blind Pick Practice; 00:29 Undo; 00:57–01:14 completed game, earned
++18 result and automatic guest save; 01:14.5 feedback; 01:18.5 report form
+and Block author button; 01:32 Report received. A successful report is shown;
+that first clip does not execute blocking. The separate 16-second supplement
+shows feedback at 00:03.5, Report or block at 00:06, block confirmation at
+00:08.5, Blocking at 00:12 and post disappearance at 00:13. It retains source
+0–16s at 384×832 without internal cuts, crop or resizing; trailing Control
+Center and silent audio were removed. This demonstrates the visible block
+flow, not independent database/reload persistence. Device-data deletion is
+not shown.
+Registration/login and paid features are absent. Separately, one iPad
+simulator first start stayed blank for 35 seconds; three subsequent cold
+starts passed, but the initial cause remains unresolved.
+
+2. Purpose and audience
+Countrivo is a free geography/history puzzle collection for short daily
+challenges and practice. Six daily games: Country Draft, GeoWordle, Blind
+Pick, Pinpoint, Higher or Lower and Stat Guesser, in that order. Flag Quiz
+and Speed Flags are practice games; daily games also offer practice. No
+accounts, ads, subscriptions, purchases or paid gameplay.
+
+3. Setup and features
+Internet required; no credentials or sample files. Choose a game and play.
+Blind Pick deals eight countries one at a time into eight categories, with
+one undo. The result compares your assignment with the best combination of
+those same countries/categories. Draft offers five country/person/role
+choices; GeoWordle provides six guesses and distance/direction/map clues.
+Daily boards reset at midnight Europe/Berlin. All completed games save
+automatically under an optional name or generated guest-XYZ identity.
+Daily scores, including guests, appear publicly on daily leaderboards;
+practice remains unranked. Names are optional, not a condition of saving.
+The feedback board contains public posts and up/down votes. Report or block
+lets players report harmful posts or hide an author's feedback and leaderboard
+entries on their device. Owners can hide posts or block abusive publishers;
+an automated language check supplements review. Unblock all authors is available.
+Privacy > Forget this device removes its runs, names, feedback, votes, usage
+events, submitted reports and block relationships, plus reports/votes attached
+to its deleted posts. Retained moderation bans are explained in /privacy.
+Support: countrivo@gmail.com.
+
+4. Services, data and AI
+Capacitor 8/WKWebView loads https://countrivo.com. Vercel hosts Next.js and
+analytics/performance measurements; Supabase stores runs, device-linked
+usage, optional names, feedback/votes and moderation. Signed anonymous
+device identity replaces accounts. Native features include haptics,
+splash/status bar, network recovery and game links. No payment provider or ad SDK is used. No runtime generative-AI service
+receives player input. Some static
+clay artwork was AI-generated during production. Device ID Analytics and
+Other User Content are declared in App Privacy; no cross-app tracking.
+Sources: https://countrivo.com/sources; credits: https://countrivo.com/credits;
+privacy: https://countrivo.com/privacy.
+
+5. Regions
+Implemented game features are consistent across distributed regions;
+country/region filters are player choices. English and German store text
+does not imply separate regional gameplay. All175 displayed regional prices
+are0.00. Distribution shows173 available storefronts, excluding China mainland
+and Vietnam. Global age rating13+ includes Social Media; Apple displays
+separate automatic age-related restrictions for Afghanistan and Morocco.
+
+6. Protected material
+General-interest games, not regulated services. Portrait sources/licences
+and modification notices: https://countrivo.com/credits. Maps use Natural
+Earth public-domain data. Flag source notice: https://countrivo.com/flags/LICENSE.txt.
+Erode font: https://www.fontshare.com/licenses/itf-ffl. Statistics/providers:
+https://countrivo.com/sources; World Bank indicator-specific terms apply.
+SIPRI, coffee, beer and wine figures remain withheld pending permission/source
+verification. No third-party endorsement or blanket ownership is claimed.
+The three existing licence documents are included unchanged in the attached
+Countrivo-Review-Evidence-1.0-4-with-blocking.zip alongside both videos and README.
+
+EARLIER 28 OCTOBER ATTEMPTS — PRESERVED HISTORY
+The following observations predate the owner's video and final verified
+Notes/attachment save. Their missing-video, connection and pending-login
+wording is historical, not a current blocker. Receipts/drafts are retained.
+
+Physical iPhone 13 iOS 27.2 and post-update Countrivo 1.0 (4) installation
+are verified; devicectl device info apps confirmed com.countrivo.app. Opening
+from Spotlight visibly resumed an existing Country Draft leaderboard; this
+is not evidence of a cold launch. No recording was started or created.
+Devicectl capture exited 1, CoreDeviceError 1001, Screen Recording unsupported;
+QuickTime Screen → Adam’s iPhone showed “The operation could not be completed”.
+DeviceHub then showed Currently Unavailable and devicectl reported the physical
+device unavailable. This was reconfirmed at 06:03 and 06:05 UTC on 29 October
+(still 28 October locally). A fresh cable connection was requested; Remote Keyboard
+Capture remains off. Full physical walkthrough/video remain open; reply UNSENT.
+Earlier locked/pre-update observations remain in physical-device status history.
+The historical simulator video window was closed; QuickTime list-windows
+returned []. No recording is running and no new video file was created.
+
+
+The last verified ASC pending Notes save has 3,823 characters, Save disabled
+and 177 characters remaining, confirmed in:
+reports/2026-10-28/app-review/browser-evidence/review-notes-ios-27-2-saved.jpg.
+The rights ZIP was visibly attached. The earlier 3,848-character save remains:
+reports/2026-10-28/app-review/browser-evidence/store-notes-build-4-saved.jpg.
+The local Notes now have 3,933 characters and describe post-update installation,
+visible resume and failed capture. This revision has NOT been saved again in
+ASC. Login expired; passkey sign-in is open and awaiting the user.
+Local Notes: reports/2026-10-28/app-review/review-notes-pending.txt.
+Separate save status and prior saved text:
+reports/2026-10-28/app-review/review-notes-local-status.json.
+The native Report-form focus fix is deployed; its native check passed with one
+Cancel tap, no picker workaround and no report/block submission. Physical
+moderation footage and the full walkthrough/video remain pending.
+
+
+HISTORICAL RESPONSE AND HANDOFF — 21 OCTOBER 2026
+Everything below preserves the former draft/evidence. “Current” and “pending”
+refer to 21 October. Its old daily roster, private-feedback-only description,
+score-publication model, latest-OS/build wording and disconnected phone are
+superseded above. Do not copy this historical answer into the current review.
+
 COUNTRIVO — UNSENT APP REVIEW RESPONSE DRAFT
 Checked 2026-10-21 | current saved selection 1.0 (3) | com.countrivo.app
 
@@ -17,7 +278,7 @@ every square-bracket field only after actual latest-OS physical-device use
 and accessible recording. The saved pending Review Notes are a separate
 status update, not this completed response. Complete APP-STORE-MASTER.md.
 
-BEGIN REVIEW RESPONSE
+BEGIN HISTORICAL REVIEW RESPONSE — 21 OCTOBER
 
 1. Recording
 [VIDEO ATTACHMENT OR ACCESSIBLE URL]. Recorded on [PHYSICAL DEVICE MODEL],
@@ -77,7 +338,7 @@ https://data.worldbank.org/summary-terms-of-use (indicator exceptions apply).
 SIPRI, coffee, beer and wine figures are withheld pending permission/source
 verification. No third-party endorsement or blanket ownership is claimed.
 
-END REVIEW RESPONSE
+END HISTORICAL REVIEW RESPONSE — 21 OCTOBER
 
 INTERNAL GATES — DO NOT SEND AS COMPLETED
 DONE: Build 3 uploaded, App-Store-eligible export (internal-only=false),

@@ -70,19 +70,20 @@ try {
       const entry = page.locator('.leaderboard-entry');
       await entry.waitFor();
       const scoreSelector = scenario.slug === 'country-draft' ? '.dr-final > .dr-result-card' : '.rp-wrap > .rp';
-      check(await page.locator(scoreSelector).first().evaluate(node => !!node.nextElementSibling?.querySelector('.leaderboard-entry')), `${scenario.slug}: naming is immediately after the score card`);
+      check(await page.locator(scoreSelector).first().evaluate(node => !!node.nextElementSibling?.matches('.daily-result-next')), `${scenario.slug}: today's progress and the next daily are immediately after the score card`);
       const preceding = await entry.evaluate(node => {
         const before = selector => Array.from(document.querySelectorAll(selector)).some(other => !!(node.compareDocumentPosition(other) & Node.DOCUMENT_POSITION_PRECEDING));
-        return {nextGame: before('.daily-next, .table-next-row'), bonus: before('.gw-bonus'), map: before('.dr-conquest-panel, .gw-map')};
+        return {nextGame: before('.daily-result-next'), bonus: before('.gw-bonus'), map: before('.dr-conquest-panel, .gw-map')};
       });
-      check(!Object.values(preceding).some(Boolean), `${scenario.slug}: no next game, bonus or result map precedes naming`);
-      const input = entry.getByRole('textbox', {name: 'Your name on the board', exact: true});
+      check(preceding.nextGame, `${scenario.slug}: the next daily precedes optional naming (build contract)`);
+      check(!preceding.bonus && !preceding.map, `${scenario.slug}: no bonus or result map precedes naming`);
+      const input = entry.getByRole('textbox', {name: 'Your name on the board (optional)', exact: true});
       check(await input.evaluate(node => !!node.closest('.standing-you form')), 'The editable name is inside the own score row');
       check(await entry.locator('.standing-you').evaluate(node => Array.from(node.parentElement.children).indexOf(node) === 2), 'The own score row sits between better and lower scores');
       await input.fill(longName);
       check(await input.inputValue() === longName, 'A20-character nickname remains editable');
       check(await input.getAttribute('maxlength') === '20', 'Nickname length matches the public limit');
-      const submit = entry.getByRole('button', {name: 'Put me on the leaderboard', exact: true});
+      const submit = entry.getByRole('button', {name: 'Save name', exact: true});
       check(await submit.evaluate(node => node.scrollWidth <= node.clientWidth + 1), 'Publishing CTA remains fully readable');
       await fits(page, `${scenario.slug} ${viewport.width}x${viewport.height}`);
       check(posts === 1, 'Result fixture uses one intercepted action and sends no publish/report action');
@@ -102,7 +103,7 @@ try {
         check(posts === 2, 'Synthetic publish is intercepted; opening/cancelling removal sends no mutation');
         await page.screenshot({path: `${out}/published-name-${viewport.width}x${viewport.height}.png`, fullPage: true});
       }
-      results.push({game: scenario.slug, viewport, interceptedActions: posts, nameImmediatelyAfterScore: true});
+      results.push({game: scenario.slug, viewport, interceptedActions: posts, nextDailyImmediatelyAfterScore: true});
       console.log(`${scenario.slug} ${viewport.width}x${viewport.height}: result and name panel fit`);
       await context.close();
     }

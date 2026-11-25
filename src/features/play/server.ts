@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { createClient } from "@/lib/supabase/server";
-import { getAllGames } from "@/lib/data/games";
+import { getDailyGames } from "@/lib/data/games";
 import { anonymousLeaderboard } from "@/server/anonymous-runs";
 import type { DailyRef } from "@/games/types";
 import type { GameSlug } from "@/ui/types";
@@ -13,8 +13,7 @@ export interface DailyMeta {
 
 /** The shot count and top score of every daily today, keyed by slug. */
 export async function dailyMetas(dateKey: string): Promise<Record<string, DailyMeta>> {
-  const dailySlugs = getAllGames()
-    .filter((g) => g.availableModes.includes("daily"))
+  const dailySlugs = getDailyGames()
     .map((g) => g.slug);
   const out: Record<string, DailyMeta> = {};
   await Promise.all(dailySlugs.map(async (slug) => {
@@ -62,8 +61,7 @@ export const getFriendsToday = cache(async (userId: string, slug: string, dateKe
 
 /** The dailies in registry order, Country Draft first (it is the flagship and first in the registry). */
 export function dailyRefs(): DailyRef[] {
-  return getAllGames()
-    .filter((g) => g.availableModes.includes("daily"))
+  return getDailyGames()
     .map((g) => ({ slug: g.slug as GameSlug, title: g.title }));
 }
 

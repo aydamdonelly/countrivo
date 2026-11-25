@@ -1,5 +1,5 @@
 /**
- * Golf scoring for Blind Pick (concept 5.7): the score is the sum of the six ranks minus the
+ * Golf scoring for Blind Pick (concept 5.7): the score is the sum of the ranks minus the
  * perfect board's sum, "Perfect" at 0, "+N" otherwise. Par is a fixed +10.
  */
 import type { BlindPickGame, BlindPickResult, BlindPickSwap, BlindPickTier } from "./types";
@@ -7,8 +7,8 @@ import type { BlindPickGame, BlindPickResult, BlindPickSwap, BlindPickTier } fro
 /** Par for every board, daily and practice (concept 5.7, interim daily). */
 export const BLIND_PICK_PAR = 10;
 
-/** The worst possible golf score: six placements at the bottom of a 195-state ranking. */
-export const BLIND_PICK_MAX_OVER = 6 * 195;
+/** The worst possible golf score: eight placements at the bottom of a 195-state ranking. */
+export const BLIND_PICK_MAX_OVER = 8 * 195;
 
 /** "Top 10", "Top 50", "Middle" or "Bottom half" for a rank among `of` sovereign states. */
 export function tierFor(rank: number, of: number): BlindPickTier {
@@ -33,51 +33,32 @@ export function placementMark(slot: number, rank: number, perfectSlot: number, p
   return "off";
 }
 
-function permutations(n: number): number[][] {
-  const out: number[][] = [];
-  const cur: number[] = [];
-  const used = new Array<boolean>(n).fill(false);
-  const walk = () => {
-    if (cur.length === n) {
-      out.push([...cur]);
-      return;
-    }
-    for (let j = 0; j < n; j += 1) {
-      if (used[j]) continue;
-      used[j] = true;
-      cur.push(j);
-      walk();
-      cur.pop();
-      used[j] = false;
-    }
-  };
-  walk();
-  return out;
-}
-
 /**
- * The perfect board closest to the player's: of every assignment with the lowest sum, the one
- * that agrees with the most of the player's placements. A player who found a different but
- * equally low board is therefore shown as perfect, square for square.
+ * Finds the globally lowest rank sum, then prefers the equally optimal assignment closest
+ * to the player's board. One state per occupied-slot mask keeps eight-country boards fast.
  */
 export function closestPerfect(matrix: number[][], placements: readonly number[]): { perfect: number[]; sum: number } {
-  let bestSum = Infinity;
-  let bestMatches = -1;
-  let perfect: number[] = [];
-  for (const p of permutations(matrix.length)) {
-    let sum = 0;
-    let matches = 0;
-    for (let c = 0; c < p.length; c += 1) {
-      sum += matrix[c][p[c]];
-      if (placements[c] === p[c]) matches += 1;
+  interface Solution { sum: number; matches: number; perfect: number[] }
+  const memo = new Map<number, Solution>();
+  const solve = (country: number, used: number): Solution => {
+    if (country === matrix.length) return { sum: 0, matches: 0, perfect: [] };
+    const cached = memo.get(used);
+    if (cached) return cached;
+    let best: Solution = { sum: Infinity, matches: -1, perfect: [] };
+    for (let slot = 0; slot < matrix.length; slot += 1) {
+      if (used & (1 << slot)) continue;
+      const rest = solve(country + 1, used | (1 << slot));
+      const sum = matrix[country][slot] + rest.sum;
+      const matches = Number(placements[country] === slot) + rest.matches;
+      if (sum < best.sum || (sum === best.sum && matches > best.matches)) {
+        best = { sum, matches, perfect: [slot, ...rest.perfect] };
+      }
     }
-    if (sum < bestSum || (sum === bestSum && matches > bestMatches)) {
-      bestSum = sum;
-      bestMatches = matches;
-      perfect = p;
-    }
-  }
-  return { perfect, sum: bestSum };
+    memo.set(used, best);
+    return best;
+  };
+  const { sum, perfect } = solve(0, 0);
+  return { sum, perfect };
 }
 
 /**

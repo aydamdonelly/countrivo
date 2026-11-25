@@ -1,0 +1,3 @@
+.clay-object[data-clay-tone="monochrome"] > img {
+  filter: grayscale(1);
+}

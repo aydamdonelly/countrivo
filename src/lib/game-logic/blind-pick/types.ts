@@ -2,20 +2,22 @@ import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
 
 /**
- * One Blind Pick board (concept 5.7): six countries in arrival order and six stat slots in
+ * One Blind Pick board: eight countries in arrival order and eight stat slots in
  * display order. Every rank is a rank among sovereign states only, so "#12 of 193" means
  * twelfth of the 193 sovereign states that have the number.
  */
 export interface BlindPickConfig {
-  /** The six countries, in the order they arrive. */
+  /** Version 2 boards retain the historical six-country rules. */
+  version?: 2 | 3;
+  /** The countries, in the order they arrive. */
   countries: Country[];
-  /** The six stat slots, in display order (slot index = position on the board). */
+  /** The stat slots, in display order (slot index = position on the board). */
   categories: Category[];
   /** costMatrix[countryIdx][slotIdx] = the country's rank among sovereign states on that stat. */
   costMatrix: number[][];
   /** of[slotIdx] = how many sovereign states are ranked on that stat. */
   of: number[];
-  /** The lowest possible sum of ranks over the six placements. */
+  /** The lowest possible sum of ranks using these exact countries and slots once each. */
   optimalScore: number;
   /** One perfect placement: optimalAssignment[countryIdx] = slotIdx. */
   optimalAssignment: number[];
@@ -29,6 +31,8 @@ export interface BlindPickConfig {
 export interface BlindPickGame {
   config: BlindPickConfig;
   placements: number[];
+  /** Optional only because archived six-country states predate undo. */
+  undoUsed?: boolean;
 }
 
 /** The four tier words a placed slot shows under its rank. */

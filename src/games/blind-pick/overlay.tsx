@@ -1,8 +1,9 @@
-import { statWording } from "@/lib/game-logic/blind-pick/display";
+import { statLabel, statUnit, statWording } from "@/lib/game-logic/blind-pick/display";
 import { BLIND_PICK_PAR, overLabel, swapCycles } from "@/lib/game-logic/blind-pick/scoring";
 import { CheckIcon } from "@/ui/icons/check";
-import { StatIcon } from "@/ui/icons/stat";
 import { BpFlag } from "./bp-flag";
+import { CategoryArt } from "./category-art";
+import { ScoringHelp } from "./scoring-help";
 import "./blind-pick.css";
 
 /** A finished board in plain arrays: what the live result and the saved run both carry. */
@@ -56,7 +57,7 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
           <span />
           <span />
           <span className="t-meta">You</span>
-          <span className="t-meta">Perfect</span>
+          <span className="t-meta">Best fit</span>
         </div>
         {d.stats.map((slug, slot) => {
           const mine = d.placements.indexOf(slot);
@@ -66,13 +67,15 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
           const bestC = d.countries[best];
           return (
             <div key={slug} className="rrow bp-ovrow">
-              <StatIcon slug={slug} size={18} />
-              <span className="nm">{statWording(slug)}</span>
+              <CategoryArt slug={slug} size={32} />
+              <span className="nm">{statLabel(slug)}<span className="bp-unit">{statUnit(slug)}</span></span>
               <span className="bp-cell">
+                <span className="bp-cell-name">{mineC?.name}</span>
                 {mineC?.iso2 ? <BpFlag iso2={mineC.iso2} w={20} h={15} alt={mineC.name} /> : null}
                 <b className="t-num num">#{d.ranks[mine]}</b>
               </span>
               <span className="bp-cell mute">
+                <span className="bp-cell-name">{bestC?.name}</span>
                 {same ? (
                   <CheckIcon size={16} className="ic-ok" title="Same as perfect" />
                 ) : (
@@ -86,6 +89,7 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
           );
         })}
       </div>
+      <ScoringHelp stats={d.stats} />
 
       {swaps.length > 0 ? (
         <details className="bp-swaps">

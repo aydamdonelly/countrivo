@@ -1,0 +1,137 @@
+{
+  "key": "cl-04-level-color",
+  "object": "cl-04",
+  "state": "level",
+  "reference": "/Users/adamkahirov/Desktop/code/countrivo/public/clay/cl-04/level.webp",
+  "prompt": "Use case: precise-object-edit. Asset type: transparent raster clay icon for the Countrivo Higher or Lower comparison game. Input image 1 is the existing icon as the geometry, texture and camera reference. Create a freshly rendered multicolored handmade-clay icon of two chunky upright comparison blocks on one small low neutral cream base. Preserve the reference's simple paired-block composition and front three-quarter view, with an unmistakable raised upward-pointing arrow on the front of the right block. The left block is a slightly lower richly saturated golden-yellow clay block; the right block is a slightly taller richly saturated emerald-green clay block; the arrow is cobalt-blue clay, strongly separated from the green. Use distinct physical clay materials, not a monochromatic recolor, filter or colored illumination. Keep the silhouette simple and balanced: two blocks, one arrow, one base, no additional charts or numbers. Matte hand-kneaded modeling-clay texture, small fingerprints and soft irregular edges, gentle upper-left studio light and natural ambient contact shading matching the reference. Center the full object with generous transparent margin all around, reference-like occupied proportions, readable at 64px. Actual transparent alpha background with only a subtle short contact shadow; no floor plane, room, gradients, fake checkerboard, text, letters, numerals, logo, border or contact sheet. Output one square image.",
+  "generator": "built-in image_gen",
+  "generationCalls": 1,
+  "generatedSource": "/Users/adamkahirov/.codex/generated_images/01a180ff-0e32-76b0-94a3-18f4d3116602/exec-445dbdfd-0227-45e5-9514-750738f1bcab.png",
+  "figmaReference": "https://www.figma.com/design/ZKNzvFolKFKjU2EVzWpCBY?node-id=148-3",
+  "createdAt": "2026-10-28T18:24:16.183Z",
+  "original": {
+    "path": "docs/concept/daily-clay-icons-v2/cl-04-level-color.original.png",
+    "sha256": "2a4bf48e0431b7270c529e177fb81a201753aeacdebeb66b01a0c273a313965a",
+    "width": 1254,
+    "height": 1254,
+    "hasAlpha": true
+  },
+  "referenceSha256": "f986177164bd11a0470dc3a1a5db6007b34f904ace2bde358838eb8affebc71f",
+  "exports": [
+    {
+      "path": "public/clay/cl-04/level-color.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 27428,
+      "sha256": "9bde1ef06e02da7ceba8a31dcc796f216979306fea95d24f4ccb17e1ab18bfc4",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.3457074652777778,
+      "strongColorFraction": 0.82335438349801,
+      "meanChroma": 140.67691554406096,
+      "hueBins30Degrees": [
+        113,
+        29735,
+        1,
+        802,
+        22093,
+        4248,
+        392,
+        8197,
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBounds": [
+        84,
+        109,
+        401,
+        402
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-04/level-color.256.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 10510,
+      "sha256": "5cdcbafd2a16b3bb29221f5c867039813b3b45ff6ae21f0b44f668a0adf830c8",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.3456268310546875,
+      "strongColorFraction": 0.8252174296940532,
+      "meanChroma": 139.98578429208425,
+      "hueBins30Degrees": [
+        20,
+        8492,
+        5,
+        191,
+        6332,
+        1156,
+        196,
+        2300,
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBounds": [
+        44,
+        58,
+        214,
+        214
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    },
+    {
+      "path": "public/clay/cl-04/level-color.128.webp",
+      "width": 128,
+      "height": 128,
+      "bytes": 4220,
+      "sha256": "2bd1a6b39c643105461cd63cecbdd30772d2f478f0e041269a1cec119fbe238d",
+      "hasAlpha": true,
+      "alphaEdgePixels": 0,
+      "opaquePixelFraction": 0.34637451171875,
+      "strongColorFraction": 0.8343612334801762,
+      "meanChroma": 138.66273127753303,
+      "hueBins30Degrees": [
+        1,
+        2158,
+        3,
+        54,
+        1397,
+        472,
+        107,
+        543,
+        0,
+        0,
+        0,
+        0
+      ],
+      "visibleBounds": [
+        22,
+        29,
+        107,
+        107
+      ],
+      "metadata": {
+        "exif": false,
+        "icc": false,
+        "xmp": false
+      }
+    }
+  ],
+  "processing": {
+    "description": "Copied generated PNG unchanged. Export-only alpha1/255 noise set to0, then Sharp contain resize to square480/256/128, WebP quality90 alphaQuality100 effort6. No recoloring or filters.",
+    "alphaNoisePixelsCleared": 9766
+  }
+}

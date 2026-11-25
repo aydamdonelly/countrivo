@@ -60,6 +60,15 @@ GeoWordle keeps heat feedback on the map as well as in words, identifies a share
 border separately from a rounded zero distance, and brings the result and bonus
 into view while preserving the complete route in an expandable section.
 
+November 8 player feedback said a first Draft did not make the goal or the scoring
+clear. Until a device finishes its first Draft (`cv_draft_rules_seen`, read on the
+server so the first HTML is final), round one opens with the goal and the per-person
+rule (job fit up to 25 plus fame up to 10, with one general example), and the country
+and person steps each carry one line on what to look for. Every player sees all three
+bonus meters (No bad fits, 3 regions, Two eras), a general career-fit line in the job
+sheet and a reveal that states fit and fame against their maximums. None of this
+previews an individual fit, and the job buttons stay free of points.
+
 Each Draft offers fifteen distinct countries, grouped into five choices of three
 that cross world regions. Opening a country reveals three different career groups;
 the people within each group are drawn from its complete portrait-backed bench.

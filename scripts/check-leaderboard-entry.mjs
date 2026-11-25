@@ -59,16 +59,27 @@ try{
    await page.goto(`${base}/games/${slug}/play?mode=daily`,{waitUntil:'networkidle'});
    const selector=slug==='flag-quiz'?'.fq-opt':'.qr-call';
    await page.waitForFunction(selector=>{const button=document.querySelector(selector);return button&&Object.keys(button).some(key=>key.startsWith('__reactProps'));},selector);
+   if(slug==='flag-quiz'){
+    check(await page.locator('.flag img').first().evaluate(img=>getComputedStyle(img).objectFit==='contain'&&img.naturalWidth>0),'Flag artwork loads completely without cover cropping');
+    check(await page.locator('.flag img').first().evaluate(img=>new URL(img.currentSrc).pathname.startsWith('/clay-flags/')),'Quiz loads the shared locally rendered clay flag artwork');
+   }
    await page.locator(selector).first().click();
    await page.getByRole('heading',{name:'Today’s leaderboard',exact:true}).waitFor();
    await page.locator('.standing-you').waitFor();
   }
-  const entry=page.locator('.leaderboard-entry'),own=entry.locator('.standing-you'),input=entry.getByRole('textbox',{name:'Your name on the board',exact:true});
+  const entry=page.locator('.leaderboard-entry'),own=entry.locator('.standing-you'),input=entry.getByRole('textbox',{name:'Your name on the board (optional)',exact:true});
   const ownIndex=()=>own.evaluate(node=>Array.from(node.parentElement.children).indexOf(node));
   async function manage(){const details=entry.locator('.name-management');if(!(await details.getAttribute('open')))await details.locator('summary').click();}
   async function fits(label){
    check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${label}: no horizontal overflow`);
    check(await entry.locator('.standing-score,.standing-name,.standing-rank,.standing-join').evaluateAll(nodes=>nodes.every(node=>node.scrollWidth<=node.clientWidth+1)),`${label}: ranks, names, scores and CTA are not clipped`);
+  }
+  if(width===320){
+   const response=await page.goto(`${base}/games/blind-pick/leaderboard`,{waitUntil:'networkidle'});
+   check(response.status()===200,'Blind Pick leaderboard route renders successfully');
+   check(await page.getByText('Fewer extra rank points wins. Equal scores share a place.',{exact:true}).isVisible(),'Blind Pick explains the lower-is-better ranking');
+   check((await page.locator('.lb-target').textContent()).includes('+10 over best fit'),'Blind Pick leaderboard has its real par target');
+   check(await page.locator('.lb-demo .rank-marker img').count()===0,'Simulated opponents do not receive player podium artwork');
   }
   await finish();
   await page.waitForFunction(()=>document.querySelector('input[name=displayName]')?.value==='Previous Name');
@@ -79,9 +90,37 @@ try{
   check(await entry.locator('.standing-row').nth(2).locator('.standing-rank').textContent()==='3','Private preview preserves the equal-score neighbour rank');
   check(await entry.locator('.standing-row').nth(3).locator('.standing-rank').textContent()==='5','Private preview moves strictly lower scores down by one');
   check(await entry.getByRole('button',{name:/^Report or block /}).count()===4,'Every public neighbour has report/block controls');
+  const player=entry.locator('.standing-row').first(),options=player.getByRole('button',{name:/^Report or block /});
+  check(await options.evaluate(node=>{const r=node.getBoundingClientRect();return r.width>=44&&r.height>=44;}),'Player options retain a full square touch target');
+  await options.click();
+  const reportForm=player.getByRole('form'),reason=reportForm.getByRole('combobox');
+  check(await reportForm.evaluate(node=>document.activeElement===node),'Player form receives focus without opening the iOS picker');
+  check(await reason.evaluate(node=>node.getBoundingClientRect().height>=48&&parseFloat(getComputedStyle(node).fontSize)>=16),'Player reason has a 48px target and 16px text');
+  check(await reportForm.getByRole('button',{name:'Send report',exact:true}).evaluate(node=>node.getBoundingClientRect().height>=48&&node.getBoundingClientRect().width>=node.form.clientWidth-25),'Player report primary is full width and at least48px');
+  await page.screenshot({path:`${out}/report-${width}.png`,fullPage:true});
+  await reportForm.getByRole('button',{name:'Block player',exact:true}).click();
+  check(await reason.count()===0&&await reportForm.getByRole('button',{name:'Send report',exact:true}).count()===0,'Block confirmation excludes report fields and submit');
+  check(await reportForm.getByRole('button',{name:'Confirm block player',exact:true}).evaluate(node=>document.activeElement===node),'Block confirmation receives deliberate focus');
+  check(await reportForm.locator('button').evaluateAll(nodes=>nodes.every(node=>{const r=node.getBoundingClientRect();return r.width>=44&&r.height>=48;})),'Confirmation and cancel have clear 48px touch targets');
+  const mutationCount=publishes+removals+countryReads;
+  await reportForm.evaluate(node=>node.requestSubmit());await page.waitForTimeout(100);
+  check(publishes+removals+countryReads===mutationCount,'Submit during block confirmation never sends a report');
+  await page.screenshot({path:`${out}/block-confirm-${width}.png`,fullPage:true});
+  await reportForm.getByRole('button',{name:'Cancel',exact:true}).click();
+  check(await reportForm.count()===0&&await options.evaluate(node=>document.activeElement===node),'One cancel closes the player form and restores focus');
+  check(publishes+removals+countryReads===mutationCount,'Cancelling block confirmation does not mutate');
   check(await own.locator('.standing-rank').textContent()==='3','Ghost row shows the true hypothetical rank');
+  check(await own.getAttribute('data-podium')==='3','The true hypothetical rank selects the own podium tint');
+  check(await entry.locator('.standing-row').nth(2).getAttribute('data-podium')==='3','Equal scores share the third-place treatment');
+  check(await entry.locator('.standing-row').nth(3).getAttribute('data-podium')===null,'Lower rows do not inherit a podium treatment');
+  check((await entry.locator('.standing-row').first().locator('.rank-marker img').getAttribute('src')).includes('/cl-20/'),'First place uses the existing clay trophy');
+  check((await entry.locator('.standing-row').nth(1).locator('.rank-marker img').getAttribute('src')).includes('/cl-21/'),'Second place uses the existing clay rosette');
+  check(await entry.locator('.podium-row[data-podium]').evaluateAll(rows=>rows.every(row=>{
+   const sample=document.createElement('span');sample.style.backgroundColor=`var(--color-game-${({1:'draft',2:'geo',3:'pin'})[row.dataset.podium]})`;row.append(sample);
+   const matches=getComputedStyle(row).backgroundColor===getComputedStyle(sample).backgroundColor;sample.remove();return matches;
+  })),'All podium rows use full matching pastel surfaces');
   check(await entry.getByText('You’d be #3 of 5 · equal scores share a place.',{exact:true}).isVisible(),'Rank preview and tie rule are explicitly provisional');
-  check(await entry.getByText('4 published players · your place below',{exact:true}).isVisible(),'Existing published count does not include the private player');
+  check(await entry.getByText('4 players · your place below',{exact:true}).isVisible(),'Existing published count does not include the private player');
   check(await own.locator('.standing-score').textContent()==='10 / 13','Own score stays beside the editable name');
   check(!(await input.evaluate(node=>document.activeElement===node)),'Result does not autofocus the input');
   check(publishes===0,'Remembered name is never published automatically');
@@ -89,7 +128,7 @@ try{
   const full=entry.getByRole('link',{name:'Full leaderboard',exact:true});
   check((await full.getAttribute('href')).endsWith('#leaderboard-your-score'),'Full leaderboard targets the own score');
   await fits(`Private ${width}px`);await page.screenshot({path:`${out}/join-${width}.png`,fullPage:true});
-  await input.fill('New Name');const join=entry.getByRole('button',{name:'Put me on the leaderboard',exact:true});
+  await input.fill('New Name');const join=entry.getByRole('button',{name:'Save name',exact:true});
   await join.click();await entry.getByRole('button',{name:'Saving name…',exact:true}).waitFor();
   check(await entry.getByRole('button',{name:'Saving name…',exact:true}).isDisabled(),'Pending publication cannot be clicked twice');
   await input.evaluate(node=>node.form.requestSubmit());
@@ -102,6 +141,7 @@ try{
   check(await ownIndex()===2,'Publication keeps the same ordinal position between neighbours');
   check(await entry.locator('.standing-you').count()===1&&await own.locator('form').count()===0,'Publication replaces the form once without duplicating a player');
   check(await own.locator('.standing-name > b').textContent()==='New Name','Confirmed own name occupies the published row');
+  check((await own.locator('.standing-you-label').textContent()).includes('You'),'Own identity remains explicit inside a podium row');
   check(await entry.locator('.standing-row').count()===4,'Publication preserves neighbouring rows');
   check(await entry.locator('.standing-row').nth(2).locator('.standing-rank').textContent()==='3','Equal-score neighbour shares rank3');
   check(await entry.locator('.standing-row').nth(3).locator('.standing-rank').textContent()==='5','Publication does not shift a lower score twice');
@@ -122,8 +162,8 @@ try{
   check(removals===0,'Cancelling removal never unpublishes');
   await page.screenshot({path:`${out}/published-${width}.png`,fullPage:true});
   await entry.getByRole('button',{name:'Remove my name',exact:true}).click();await entry.getByRole('button',{name:'Remove name',exact:true}).click();
-  await entry.getByText('Name removed. Your result is private.',{exact:true}).waitFor();
-  check(await input.isVisible()&&await ownIndex()===2,'Removal restores the private row in the same score position');
+  await entry.getByText('Name removed. Your score is saved under a guest name.',{exact:true}).waitFor();
+  check(await input.isVisible()&&await ownIndex()===2,'Removal reopens the optional name form in the same score position');
   check(removals===1&&publishes===3,'Only explicit confirmations publish, rename or remove');
   await entry.locator('.name-country summary').click();await entry.getByRole('combobox',{name:'Country',exact:true}).waitFor();
   await page.waitForFunction(()=>document.querySelector('.name-country option[value=DEU]'));
@@ -140,7 +180,8 @@ try{
   variant='unavailable';await finish();
   check(await entry.getByText('The leaderboard couldn’t be opened. Your score is saved.',{exact:true}).isVisible(),'Unavailable leaderboard explains the state without hiding the saved result');
   check(await entry.locator('.standing-preview').count()===0,'Unavailable data never promises a rank');
-  check(await own.locator('.standing-rank').textContent()==='-'&&await own.locator('.standing-rank').getAttribute('aria-label')==='Rank unavailable','Unavailable rank is an accessible fallback, not a guessed rank');
+  check(await own.locator('.standing-rank').textContent()==='–'&&await own.locator('.standing-rank').getAttribute('aria-label')==='Rank unavailable','Unavailable rank is an accessible fallback, not a guessed rank');
+  check(await own.locator('.rank-marker img').count()===0&&await own.getAttribute('data-podium')===null,'Unavailable ranks receive no podium award');
   refreshing=true;await entry.getByRole('button',{name:'Try again',exact:true}).click();
   await entry.getByText('You’d be #3 of 5 · equal scores share a place.',{exact:true}).waitFor();
   check(refreshes===1&&publishes===3,'Standing retry refreshes data without publishing');
@@ -148,7 +189,8 @@ try{
 
   initialName='Hidden Name';variant='moderated';await finish();
   check(await own.getByText('You · name under review',{exact:true}).isVisible(),'Moderated own name is clearly under review');
-  check(await own.locator('.standing-rank').textContent()==='-'&&await own.locator('.standing-rank').getAttribute('aria-label')==='Rank unavailable','Moderated own name has no public rank');
+  check(await own.locator('.standing-rank').textContent()==='–'&&await own.locator('.standing-rank').getAttribute('aria-label')==='Rank unavailable','Moderated own name has no public rank');
+  check(await own.locator('.rank-marker img').count()===0,'Moderated own name receives no podium award');
   check(await entry.locator('.standing-preview').count()===0,'Moderated result does not advertise a hypothetical or public placing');
   initialName='Existing Name';variant='normal';await page.evaluate(()=>localStorage.removeItem('countrivo_leaderboard_name'));await finish();
   await page.waitForFunction(()=>localStorage.getItem('countrivo_leaderboard_name')==='"Existing Name"');

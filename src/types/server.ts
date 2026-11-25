@@ -1,5 +1,6 @@
 export interface ServerGameRun {
   challengeUrl?: string;
+  displayName?: string | null;
   id: number;
   gameSlug: string;
   mode: string;

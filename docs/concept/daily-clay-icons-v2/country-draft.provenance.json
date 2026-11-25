@@ -1,0 +1,78 @@
+{
+  "slug": "country-draft",
+  "createdAt": "2026-10-28T18:23:16.967Z",
+  "tool": "builtin image_gen.imagegen",
+  "intent": "Edit original clay geometry into distinct multicolored material parts",
+  "imagegenCalls": 1,
+  "transparentBackground": true,
+  "figmaProof": "https://www.figma.com/design/ZKNzvFolKFKjU2EVzWpCBY?node-id=148-3",
+  "reference": {
+    "path": "public/clay/cl-01/coins.webp",
+    "sha256": "b6a5894268b9fb21d1be75cec9fdfee8971298dd96ea9d086b70ffab034516e9"
+  },
+  "prompt": "docs/concept/daily-clay-icons-v2/country-draft.prompt.txt",
+  "original": {
+    "path": "docs/concept/daily-clay-icons-v2/country-draft.original.png",
+    "source": "/Users/adamkahirov/.codex/generated_images/01a180f6-86a5-7db3-8928-e7560ae4298d/exec-013278da-51b6-4afa-be54-55726daee9f4.png",
+    "sha256": "6fe27454b36a85afa4211ff6bbd02f3d624e6195292c97e1dce9bcd3454c1497",
+    "metadata": {
+      "format": "png",
+      "width": 1254,
+      "height": 1254,
+      "space": "srgb",
+      "channels": 4,
+      "depth": "uchar",
+      "density": 72,
+      "isProgressive": false,
+      "isPalette": false,
+      "bitsPerSample": 8,
+      "hasProfile": false,
+      "hasAlpha": true,
+      "autoOrient": {
+        "width": 1254,
+        "height": 1254
+      }
+    }
+  },
+  "outputs": [
+    {
+      "path": "public/clay/cl-01/coins-color.webp",
+      "width": 480,
+      "height": 480,
+      "bytes": 24596,
+      "sha256": "1b7dbde436c5b799bec21764c32877aebe1bc44b5490db6015fe36a074b93826",
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "transparentPixels": 153239,
+      "opaquePixels": 73555,
+      "opaqueMeanChroma": 115.66707905648835,
+      "cornersTransparent": true
+    },
+    {
+      "path": "public/clay/cl-01/coins-color.256.webp",
+      "width": 256,
+      "height": 256,
+      "bytes": 11416,
+      "sha256": "1e092a081623a5c35c0f926f24996f61240db1902e1bd836f9c31386af93f046",
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "transparentPixels": 43016,
+      "opaquePixels": 20715,
+      "opaqueMeanChroma": 115.1313058170408,
+      "cornersTransparent": true
+    },
+    {
+      "path": "public/clay/cl-01/coins-color.128.webp",
+      "width": 128,
+      "height": 128,
+      "bytes": 5074,
+      "sha256": "95af3de61f3e8194644a1743bf1c0366ab45f58e50c689bf5e0712b9cdc135a3",
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "transparentPixels": 10433,
+      "opaquePixels": 5065,
+      "opaqueMeanChroma": 113.69160908193484,
+      "cornersTransparent": true
+    }
+  ]
+}

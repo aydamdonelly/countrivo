@@ -35,8 +35,12 @@ try{
   await page.screenshot({path:`${out}/start-${width}.png`});
   for(const [index,name] of ['France','Japan','Russia'].entries()){
    await page.getByRole('combobox',{name:'Country',exact:true}).fill(name);
-   await page.getByRole('button',{name:'Guess',exact:true}).click();
+   if(index===0)await page.getByRole('option',{name:'France',exact:true}).click();
+   else await page.getByRole('button',{name:'Guess',exact:true}).click();
    await page.locator('.gw-pending').waitFor();
+   check(await page.locator('.gw-pending .clay-object').isVisible(),'Pending confirmation uses the existing clay graphic');
+   check(await page.getByRole('combobox',{name:'Country',exact:true}).getAttribute('readonly')!==null,'Pending input stays focused and cannot submit another guess');
+   if(index===0){check(posts===1,'Selecting a suggestion sends exactly one guess immediately');await page.screenshot({path:`${out}/pending-${width}.png`});}
    check(await page.locator('.gw-pending .gw-readout').count()===0,'Pending answers do not invent distance feedback');
    await page.waitForFunction(count=>document.querySelectorAll('.gw-row:not(.gw-pending)').length===count,index+1);
    await page.locator('.gw-pending').waitFor({state:'detached'});
@@ -66,10 +70,14 @@ try{
   const resultOrder=await bonus.evaluate(node=>{
    const before=selector=>Array.from(document.querySelectorAll(selector)).some(other=>!!(other.compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING));
    const after=selector=>Array.from(document.querySelectorAll(selector)).every(other=>!!(node.compareDocumentPosition(other)&Node.DOCUMENT_POSITION_FOLLOWING));
-   return {standingBefore:before('.practice-standing'),weeklyAfter:after('.daily-habit'),feedbackAfter:after('.site-feedback-result'),feedbackCount:document.querySelectorAll('.site-feedback-result').length};
+   const feedback=document.querySelector('.site-feedback-result');
+   const standings=document.querySelector('.practice-standing');
+   const score=document.querySelector('.gw-result-panel .rp');
+   return {standingBefore:before('.practice-standing'),weeklyAfter:after('.daily-habit'),feedbackBefore:before('.site-feedback-result'),feedbackCount:document.querySelectorAll('.site-feedback-result').length,feedbackAfterScore:Boolean(score&&feedback&&(score.compareDocumentPosition(feedback)&Node.DOCUMENT_POSITION_FOLLOWING)),feedbackBeforeStandings:Boolean(feedback&&standings&&(feedback.compareDocumentPosition(standings)&Node.DOCUMENT_POSITION_FOLLOWING))};
   });
   check(resultOrder.standingBefore,'Daily standings appear before the optional bonus');
-  check(resultOrder.weeklyAfter&&resultOrder.feedbackAfter&&resultOrder.feedbackCount===1,'Bonus precedes weekly progress when present and the single result feedback form');
+  check(resultOrder.weeklyAfter&&resultOrder.feedbackBefore&&resultOrder.feedbackCount===1,'The single feedback invitation precedes the bonus, and weekly progress follows it');
+  check(resultOrder.feedbackAfterScore&&resultOrder.feedbackBeforeStandings,'Feedback is offered immediately after the score, before the standings');
   await bonus.scrollIntoViewIfNeeded();
   check(await bonus.isVisible(),'Bonus remains accessible after the standings');
   check(await bonus.evaluate(node=>{const box=node.getBoundingClientRect();return document.elementFromPoint(box.x+box.width/2,box.y+box.height/2)?.closest('button')===node;}),'Bonus control is not covered by another element');

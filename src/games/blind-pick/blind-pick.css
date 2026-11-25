@@ -1,82 +1,164 @@
-/* Blind Pick (pane BP1, R6). Tokens only: no hex, no shadow, no gradient. Content is visible
-   by default; the slide-in and the flip only move things that are already on screen. */
 @layer components {
-  /* the board sits in the middle of the room, not under the header */
-  .bp { display: flex; flex-direction: column; justify-content: center; gap: 24px; min-height: calc(100vh - 220px); min-height: calc(100svh - 220px); }
-
-  /* the arriving country: "Country 4 of 6", then the plain card */
-  .bp-arrive { display: flex; flex-direction: column; gap: 8px; }
-  .bp-count { color: var(--color-mute); }
-  .bp-card { display: flex; align-items: center; gap: 16px; min-height: 76px; padding: 16px; background: var(--color-card); border-radius: var(--radius-card); }
-  .bp-who { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .bp-who .t-h3 { color: var(--color-ink); }
-  .bp-who .t-meta { color: var(--color-mute); }
-
-  /* the six slots: 2 x 3 at 167 x 72 on phones */
-  .bp-slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; row-gap: 12px; }
-  .bp-slot { position: relative; width: 100%; min-width: 0; min-height: 72px; padding: 10px 12px; background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink); text-align: left; }
-
-  .bp-slot.open { display: flex; align-items: center; gap: 10px; transition: background-color var(--dur-fast); }
-  .bp-slot.open svg { flex: none; }
-  .bp-lbl { min-width: 0; font-size: 16px; line-height: 1.25; font-weight: 400; overflow-wrap: anywhere; }
-  .bp-slot.open:disabled { cursor: default; }
-  .bp-slot.open[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); transition: none; }
-  @media (hover: hover) { .bp-slot.open:not(:disabled):hover { background: var(--color-line); } }
-  .bp-slot.open:not(:disabled):active { background: var(--color-ink-2); color: var(--color-paper); }
-
-  /* placed: "#2 of 195" and the tier word, then the flag at 20 and the stat */
-  .bp-slot.placed {
-    display: grid; grid-template-columns: 20px auto minmax(0, 1fr);
-    grid-template-areas: "rank rank tier" "flag lbl lbl";
-    align-content: center; align-items: center; column-gap: 8px; row-gap: 6px;
+  .bp { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"country country" "undo undo" "guide guide" "slots slots" "controls help"; gap:20px; width:100%; }
+  .bp-arrive { grid-area:country; min-width:0; }
+  .bp-undo { grid-area:undo; margin-top:-8px; }
+  .bp > .bp-scoring { grid-area:help; }
+  .bp-rank-guide { grid-area:guide; }
+  .bp-slots { grid-area:slots; }
+  .bp-controls { grid-area:controls; }
+  .bp-mobile-result, .bp-count-divider { display:none; }
+  .bp-count { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  .bp:has(> .bp-scoring[open]) { grid-template-areas:"country country" "undo undo" "guide guide" "slots slots" "controls controls" "help help"; }
+  .bp:not(:has(> .bp-undo)) { grid-template-areas:"country country" "guide guide" "slots slots" "controls help"; }
+  .bp:not(:has(> .bp-undo)):has(> .bp-scoring[open]) { grid-template-areas:"country country" "guide guide" "slots slots" "controls controls" "help help"; }
+  .bp-card { display:flex; align-items:center; gap:16px; height:136px; padding:20px; background:var(--color-game-blind); border-radius:var(--radius-card); box-shadow:0 3px 0 var(--color-edge); }
+  .bp-current-art { flex:none; }
+  .bp-who { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .bp-who > b { font-family:var(--font-sans); font-size:28px; font-weight:650; line-height:1.2; overflow-wrap:anywhere; }
+  .bp-who > span { font-size:14px; line-height:1.4; }
+  .bp-complete .clay-object { width:64px; height:64px; }
+  .bp-complete .bp-who > b { font-size:22px; }
+  .bp-rank-guide { font-size:13px; font-weight:600; line-height:1.4; }
+  .bp-slots { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .bp-slot { display:flex; flex-direction:column; justify-content:space-between; gap:12px; min-width:0; height:212px; padding:12px; background:var(--color-card); border-radius:var(--radius-card); color:var(--color-ink); text-align:left; }
+  .bp-category-heading { display:flex; align-items:center; gap:8px; min-width:0; min-height:64px; }
+  .bp-category-art { width:48px; height:48px; flex:none; transform-origin:center 80%; }
+  .bp-category-copy { display:flex; flex-direction:column; gap:4px; min-width:0; }
+  .bp-slbl { display:block; font-size:14px; font-weight:600; line-height:1.25; overflow-wrap:anywhere; }
+  .bp-unit { display:block; font-size:12px; font-weight:400; line-height:1.35; white-space:normal; overflow-wrap:anywhere; }
+  .bp-slot-foot { display:flex; flex-direction:column; justify-content:flex-end; gap:4px; height:108px; flex:none; min-width:0; }
+  .bp-slot-target { align-items:flex-start; }
+  .bp-slot.placed, .bp-slot-pending { background:var(--color-game-blind); box-shadow:0 3px 0 var(--color-edge); }
+  .bp-placed-country { display:block; font-size:13px; line-height:16px; min-width:0; overflow-wrap:anywhere; }
+  .bp-placed-country b { font-weight:600; }
+  .bp-placed-country > .flag { display:inline-block; margin-right:6px; vertical-align:-2px; }
+  .bp-rank { display:grid; grid-template-columns:max-content 1fr; align-items:baseline; gap:0 6px; min-height:36px; white-space:nowrap; }
+  .bp-rank-meta { display:contents; }
+  .bp-rank-number { font-size:32px; font-weight:700; line-height:36px; font-variant-numeric:tabular-nums; }
+  .bp-rank-of { font-size:12px; line-height:18px; }
+  .bp-rank-quality { grid-column:1/-1; min-height:18px; margin-top:4px; font-size:12px; font-weight:600; line-height:18px; }
+  .bp-controls { display:flex; align-items:center; flex-wrap:wrap; gap:8px 16px; }
+  .bp-controls { justify-content:space-between; }
+  .bp-undo .btn { justify-content:space-between; min-height:44px; }
+  .play-root[data-game="blind-pick"] .bp-undo .btn-ink:enabled { background:var(--color-ink); color:var(--color-paper); }
+  @media(hover:hover) { .play-root[data-game="blind-pick"] .bp-undo .btn-ink:enabled:hover { background:var(--color-ink-2); } }
+  .bp-undo-label { display:inline-flex; align-items:center; gap:8px; }
+  .bp-undo-allowance { font-size:13px; font-weight:400; }
+  .bp-scoring { margin-left:auto; font-size:12px; line-height:1.45; }
+  .bp-scoring > summary { display:flex; align-items:center; min-height:44px; width:fit-content; margin-left:auto; cursor:pointer; list-style:none; }
+  .bp-scoring > summary::-webkit-details-marker { display:none; }
+  .bp-scoring > summary:focus-visible { outline:2px solid var(--color-ink); outline-offset:2px; }
+  .bp-scoring[open] { flex-basis:100%; width:100%; }
+  .bp-scoring-copy { display:flex; flex-direction:column; gap:10px; margin-top:8px; padding:16px; background:var(--color-card); border-radius:var(--radius-card); font-size:13px; }
+  .bp-scoring dl { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .bp-scoring dt { font-weight:600; }
+  .bp-scoring dd { margin-top:2px; color:var(--color-mute); }
+  .bp-result:focus { outline:none; box-shadow:none; }
+  .bp-error { display:flex; flex-wrap:wrap; align-items:center; gap:12px; }
+  .bp-slot:focus-visible { outline:2px solid var(--color-ink); outline-offset:3px; box-shadow:none; }
+  @media(min-width:768px) {
+    .bp-slots { grid-template-columns:repeat(4,minmax(0,1fr)); }
+    .bp-card { justify-content:center; height:108px; }
   }
-  .bp-sflag { grid-area: flag; align-self: start; margin-top: 1px; }
-  .bp-rank { grid-area: rank; white-space: nowrap; color: var(--color-ink); }
-  .bp-tier { grid-area: tier; color: var(--color-ink); white-space: nowrap; }
-  /* the stat wraps to a second line rather than being cut ("Most GDP per person" at 167) */
-  .bp-slbl { grid-area: lbl; color: var(--color-mute); min-width: 0; line-height: 1.2; overflow-wrap: anywhere; }
-
-  /* the line under the slots */
-  .bp-line { color: var(--color-mute); text-align: center; min-height: 20px; }
-
-
-  /* desktop: the card centred, one row of six at 150 x 96 across the 960 column */
-  @media (min-width: 1024px) {
-    .bp { gap: 32px; }
-    .bp-arrive { align-items: center; }
-    .bp-card { width: 320px; min-height: 80px; }
-    .bp-slots {
-      grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px;
-      width: min(960px, calc(100vw - 48px));
-      margin-inline: calc((100% - min(960px, calc(100vw - 48px))) / 2);
+  @media(max-width:767px) {
+    .play-root[data-game="blind-pick"] { padding-inline:max(14px,env(safe-area-inset-left)) max(14px,env(safe-area-inset-right)); padding-bottom:calc(8px + env(safe-area-inset-bottom)); }
+    .play-root[data-game="blind-pick"] > .pb { min-height:44px; padding-block:0; margin-bottom:12px; }
+    .blind-remote > .bp-progress { display:none; }
+    .bp { --bp-slot-height:96px; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); grid-template-areas:"country country" "undo help" "guide guide" "slots slots"; gap:6px 8px; }
+    .bp:has(> .bp-scoring[open]) { grid-template-areas:"country country" "undo undo" "help help" "guide guide" "slots slots"; }
+    .bp:not(:has(> .bp-undo)), .bp:not(:has(> .bp-undo)):has(> .bp-scoring[open]) { grid-template-areas:"country country" "help help" "guide guide" "slots slots"; }
+    .bp-card { height:auto; min-height:64px; gap:12px; padding:7px 12px; box-shadow:none; }
+    .bp-who { flex:1; gap:0; }
+    .bp-who > b { font-size:23px; line-height:26px; }
+    .bp-who > b.bp-long-name { font-size:16px; line-height:18px; }
+    .bp-who > .bp-instruction { font-size:12px; line-height:14px; }
+    .bp-count { position:static; width:auto; height:auto; margin:0; padding:0; overflow:visible; clip-path:none; white-space:normal; }
+    .bp-count-divider { display:inline; }
+    .bp-current-art { width:56px; height:38px; }
+    .bp-undo { margin-top:0; }
+    .bp-undo .btn { min-height:44px; padding:10px 12px; gap:6px; font-size:13px; }
+    .bp-undo-label { gap:4px; }
+    .bp-undo-label > svg { display:none; }
+    .bp-undo-allowance { font-size:12px; }
+    .bp > .bp-scoring { width:100%; margin-left:0; }
+    .bp > .bp-scoring > summary { width:100%; min-height:44px; margin:0; padding:8px 10px; border-radius:var(--radius-ctl); background:var(--color-card); font-size:13px; font-weight:600; line-height:16px; }
+    .bp-rank-guide { font-size:12px; line-height:16px; }
+    .bp-slots { gap:6px 8px; grid-auto-rows:minmax(var(--bp-slot-height),auto); }
+    .bp-slot { display:grid; grid-template-rows:28px minmax(54px,1fr); align-content:stretch; gap:2px; height:auto; min-height:var(--bp-slot-height); padding:6px; box-shadow:none; }
+    .bp-category-heading { gap:6px; min-height:0; }
+    .bp-category-art { width:28px; height:28px; }
+    .bp-category-copy { gap:0; }
+    .bp-slbl { font-size:13px; line-height:14px; overflow-wrap:normal; }
+    .bp-slot .bp-unit { display:none; }
+    .bp-slot-foot { height:auto; min-height:54px; justify-content:flex-end; gap:0; }
+    .bp-slot-target { justify-content:flex-end; }
+    .bp-placed-country { font-size:12px; line-height:16px; }
+    .bp-placed-country.bp-country-long { line-height:12px; }
+    .bp-placed-country > .flag { display:none; }
+    .bp-rank { display:flex; align-items:center; gap:12px; min-height:30px; }
+    .bp-rank-number { min-width:63px; font-size:26px; line-height:30px; }
+    .bp-rank-meta { display:flex; flex-direction:column; min-width:0; }
+    .bp-rank-of, .bp-rank-quality { min-height:14px; margin:0; font-size:11px; font-weight:400; line-height:14px; }
+    .bp-rank-of { font-size:12px; }
+    .bp-controls { display:none; }
+    .bp-complete .clay-object { display:none; }
+    .bp-complete .bp-who > b { font-size:17px; line-height:20px; }
+    .bp-complete .bp-who > span { display:none; }
+    .bp-mobile-result { display:inline-flex; flex:none; font-size:13px; padding-inline:12px; }
+  }
+  @media(max-width:767px) and (min-height:740px) {
+    .bp { --bp-slot-height:112px; gap:8px; }
+  }
+  @media(max-width:359px) {
+    .bp { grid-template-columns:minmax(0,1.15fr) minmax(0,1fr); }
+    .bp-card { gap:8px; padding:7px 8px; }
+    .bp-current-art { width:40px; height:28px; }
+    .bp-who > b { font-size:21px; }
+    .bp-undo .btn { padding-inline:8px; font-size:12px; }
+    .bp-undo-allowance { font-size:11px; }
+    .bp > .bp-scoring > summary { font-size:12px; padding-inline:8px; }
+    .bp-slot { grid-template-rows:minmax(28px,auto) minmax(54px,1fr); }
+    .bp-category-heading { gap:4px; }
+    .bp-rank { gap:4px; }
+    .bp-rank-number { min-width:58px; }
+    .bp-rank-of, .bp-rank-quality { font-size:10px; }
+  }
+  @media(prefers-reduced-motion:no-preference) {
+    .bp-slot.open .bp-category-art { transition:transform 160ms var(--ease-out); }
+    .bp-slot.open:active .bp-category-art { transform:translateY(2px) scale(1.04,0.96); }
+    .bp-current-art.bp-arrived { animation:bp-arrival 260ms var(--ease-out); }
+    .bp-current-art.bp-dealing { animation:bp-deal 220ms var(--ease-out) forwards; }
+    .bp-current-art.bp-returned { animation:bp-return 280ms var(--ease-out); }
+    .bp-slot-pending .bp-category-art { animation:bp-clay-press 200ms var(--ease-out); }
+    .bp-slot[data-feedback="placed"] .bp-placed-country > .flag { animation:bp-place 260ms var(--ease-out); }
+    .bp-slot[data-feedback="undone"] .bp-category-art { animation:bp-release 200ms var(--ease-out); }
+    .bp-lifting .bp-placed-country > .flag { animation:bp-lift 220ms var(--ease-out) forwards; }
+    @media(max-width:767px) {
+      .bp-slot[data-feedback="placed"] .bp-category-art { animation:bp-place 260ms var(--ease-out); }
+      .bp-lifting .bp-category-art { animation:bp-lift 220ms var(--ease-out) forwards; }
     }
-    .bp-slot { min-height: 96px; padding: 12px; }
-    .bp-slot.open { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .bp-lbl { font-size: 14px; line-height: 1.3; }
-    .bp-slot.placed {
-      grid-template-columns: 20px minmax(0, 1fr);
-      grid-template-areas: "flag rank" "tier tier" "lbl lbl";
-      row-gap: 6px; align-content: start;
-    }
+    @media(hover:hover) { .bp-slot.open:enabled:hover .bp-category-art { transform:translateY(-3px) rotate(-3deg); } }
   }
-
-  /* motion: the next country slides in from the right, a placed slot flips once */
-  @media (prefers-reduced-motion: no-preference) {
-    .bp-in { animation: bp-in var(--dur-base) var(--ease-out); }
-    .bp-flip { animation: bp-flip 240ms var(--ease-out); }
-  }
-  @keyframes bp-in { from { transform: translateX(16px); } to { transform: none; } }
-  @keyframes bp-flip { from { transform: perspective(480px) rotateX(-75deg); } to { transform: none; } }
+  @keyframes bp-arrival { from { transform:translateX(8px) rotate(3deg); } to { transform:none; } }
+  @keyframes bp-place { 0% { transform:translateY(-6px) rotate(-4deg); } 60% { transform:translateY(1px) scale(1.05,0.95); } 100% { transform:none; } }
+  @keyframes bp-deal { to { transform:translateY(3px) rotate(-4deg) scale(0.96); } }
+  @keyframes bp-clay-press { 50% { transform:translateY(2px) scale(1.06,0.94); } }
+  @keyframes bp-lift { to { transform:translateY(-6px) rotate(5deg); } }
+  @keyframes bp-return { from { transform:translateX(-8px) rotate(-4deg); } to { transform:none; } }
+  @keyframes bp-release { 50% { transform:translateY(-3px) rotate(3deg); } }
 
   /* R6: your board over the perfect one, then the swaps */
   .bp-ov { display: flex; flex-direction: column; gap: 4px; }
   .bp-ov .rhead { flex-wrap: wrap; }
-  .rrow.bp-ovrow { grid-template-columns: 18px minmax(0, 1fr) 72px 72px; }
+  .rrow.bp-ovrow { grid-template-columns: 32px minmax(0, 1fr) 72px 72px; }
+  .bp-ov .bp-category-art { width:32px; height:32px; }
   .bp-ovrow svg { color: var(--color-ink); }
   .bp-ovhead { border-top: 0; min-height: 0; padding: 8px 0 4px; color: var(--color-mute); }
   .bp-ovhead .t-meta { text-align: right; }
   .bp-cell { display: inline-flex; align-items: center; justify-content: flex-end; gap: 6px; white-space: nowrap; }
   .bp-cell.mute { color: var(--color-mute); }
+  .bp-ov .bp-cell { flex-wrap:wrap; gap:4px; white-space:normal; }
+  .bp-cell-name { width:100%; text-align:right; font-size:11px; line-height:1.3; overflow-wrap:anywhere; }
   .bp-cell .ic-ok { color: var(--color-ink); }
   .bp-swaps { margin-top: 12px; }
   .bp-swaps-h { display:flex; align-items:center; gap:6px; min-height:44px; width:fit-content; color:var(--color-mute); cursor:pointer; list-style:none; }
@@ -93,9 +175,10 @@
 }
 
 @layer components {
-  .bp-ovrow .nm { white-space: normal; overflow: visible; text-overflow: clip; line-height: 20px; }
+  .bp-ov .rrow.bp-ovrow .nm { white-space: normal; overflow: visible; text-overflow: clip; line-height: 20px; }
+  .bp-ov .bp-unit { margin-top:4px; color:var(--color-mute); }
   @media (max-width: 359px) {
-    .rrow.bp-ovrow { grid-template-columns: 18px minmax(0, 1fr) 58px 58px; gap: 8px; }
+    .rrow.bp-ovrow { grid-template-columns: 32px minmax(0, 1fr) 58px 58px; gap: 8px; }
     .bp-cell { gap: 4px; font-size: 13px; }
   }
 }

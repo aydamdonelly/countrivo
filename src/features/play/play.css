@@ -4,6 +4,10 @@
   .play-frame { width: 100%; min-width: 0; max-width: 640px; margin: 0 auto; padding: 0 var(--gutter) calc(40px + env(safe-area-inset-bottom)); padding-left: max(var(--gutter), env(safe-area-inset-left)); padding-right: max(var(--gutter), env(safe-area-inset-right)); }
   .play-frame > .pb { height: auto; min-height: 56px; gap: clamp(8px, 2vw, 12px); padding-block: 6px; }
   .play-frame > .pb h1 { white-space: normal; overflow-wrap: anywhere; line-height: 1.15; }
+  @media (prefers-reduced-motion: no-preference) {
+    .play-frame :is(.pb .clay img, .dr-header-clay img, .qr-header > img, .dr-country-card > .flag) { animation:game-art-arrive 480ms var(--ease-out); }
+    .play-frame :is(.gw-map, .pp-map) { transform-origin:50% 55%; animation:game-map-arrive 440ms var(--ease-out); }
+  }
   @media (min-width: 1024px) { .play-frame { max-width: 720px; padding-bottom: calc(48px + env(safe-area-inset-bottom)); } }
 
   /* the counting number: a hidden sizer holds the final value, the live copy sits on it */
@@ -162,4 +166,7 @@
   /* the Borderline path chain */
   .path .path-step { display: inline-flex; align-items: center; gap: 4px; }
 }
+
+@keyframes game-art-arrive { 0% { transform:translateY(6px) rotate(-4deg) scale(0.96); opacity:0.7; } 70% { transform:translateY(-2px) rotate(1deg); opacity:1; } 100% { transform:none; opacity:1; } }
+@keyframes game-map-arrive { from { transform:scale(0.985); opacity:0.65; } to { transform:none; opacity:1; } }
 

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { NavigationLink as Link } from "@/ui/navigation-link";
 import { cn } from "@/lib/utils";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
@@ -20,7 +20,7 @@ export interface PlayBarProps {
 export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
   return (
     <div className={cn("pb", className)}>
-      <Link href={mode === "daily" ? "/" : "/practice"} aria-label="Back to games" className="back">
+      <Link href={mode === "daily" ? "/" : "/practice"} prefetch pendingLabel="Opening your games…" aria-label="Back to games" className="back">
         <ChevronLeftIcon size={24} />
       </Link>
       <span className="clay" aria-hidden="true">
