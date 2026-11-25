@@ -1,0 +1,13 @@
+@layer components {
+  .map-quiz .landing-hero > .map-quiz-meta { max-width: none; margin-top: 8px; }
+  .map-quiz-section { border-top: 1px solid var(--color-line); padding-top: 24px; margin-top: 24px; }
+  .map-quiz-section > h2 { margin-bottom: 12px; }
+  .map-quiz-note { max-width: 62ch; margin-bottom: 12px; line-height: 1.6; }
+  .map-quiz-note a { text-decoration: underline; text-underline-offset: 3px; display: inline-flex; align-items: center; min-height: 44px; }
+  .map-quiz-section .tbl-wrap { margin-bottom: 12px; }
+  .map-quiz-section .world-map { margin-block: 8px 16px; }
+  .map-quiz-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 4px; }
+  .map-quiz-links > a { display: flex; flex-direction: column; justify-content: center; gap: 2px; min-height: 56px; padding: 8px 12px; background: var(--color-card); border-radius: var(--radius-ctl); color: var(--color-ink); font-weight: 500; }
+  @media (hover: hover) { .map-quiz-links > a:hover { background: var(--color-line); } }
+  .map-quiz-again { display: flex; width: fit-content; margin: 24px auto 0; }
+}

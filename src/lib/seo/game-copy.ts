@@ -6,6 +6,10 @@
  * the game definitions.
  */
 export interface GameCopy {
+  /** The landing h1 when it should say more than the game title. */
+  heading?: string;
+  /** One visible answer paragraph under the hero, written to be quoted on its own. */
+  lead?: string;
   about: string[];
   faq: { q: string; a: string }[];
 }
@@ -39,14 +43,18 @@ export const GAME_COPY: Record<string, GameCopy> = {
     ],
   },
   "flag-quiz": {
+    heading: "Flag Quiz: guess the flag",
+    lead: "Flag Quiz is a free daily guess-the-flag game. You get twenty seconds to name as many flags as you can, choosing from four country names for each one, and a wrong answer takes two seconds off the clock. Everyone sees the same flags each day, and practice deals new flags as often as you like, without an account.",
     about: [
       "Flag Quiz is a free daily flag sprint: twenty seconds to name as many flags of sovereign states as you can, four names per flag. Everyone gets the same flags in the same order that day, so the daily leaderboard shows who named the most in twenty seconds. Practice mode deals new flags every run and leaves out today's daily flags.",
       "The first flags are widely known; after that any sovereign state can appear, and its wrong names come from its lookalike family or its neighbours. A wrong answer costs two seconds, so a quick guess is not free. When the clock runs out, the result lists every flag you saw with its country, so you learn the ones you missed.",
     ],
     faq: [
       { q: "Which flags are in the flag quiz?", a: "The flags of the world's sovereign states: the 193 UN members plus the Holy See and Palestine. The first six flags of a run are widely known. After that any sovereign state can appear, with lookalike flags among the wrong names." },
-      { q: "How is the flag quiz scored?", a: "One point for every flag you name in twenty seconds. A wrong answer scores nothing and takes two seconds off the clock. Par is 8. Equal scores share a rank on the daily leaderboard." },
+      { q: "How is the flag quiz scored?", a: "One point for every flag you name in twenty seconds. A wrong answer scores nothing and takes two seconds off the clock. Par is 8. Equal scores share a rank on the daily board." },
       { q: "When does the clock start?", a: "When you press Start. The clock runs on the server, so a slow phone or a reload does not stop it. Each answer counts when it reaches the server, with a short allowance for an answer already on its way when the time runs out." },
+      { q: "How is Flag Quiz different from Speed Flags?", a: "Flag Quiz is the daily one: twenty seconds, four names per flag and the same flags for everyone that day. Speed Flags gives you thirty seconds and two names per flag, a wrong answer costs three seconds, and there is no daily board, so you can run it again straight away." },
+      { q: "What is the best way to learn flags?", a: "Play short rounds and read the list at the end: it shows every flag you saw with its country, so the misses are easy to spot. Learn lookalikes in pairs, such as Chad and Romania or Indonesia and Monaco, because the wrong names in the quiz come from those families." },
       { q: "Is there a daily flag quiz?", a: "Yes. The daily sprint shows the same flags to everyone and resets at midnight Berlin time. You get one daily run. Practice mode is unlimited and never changes the leaderboard." },
     ],
   },

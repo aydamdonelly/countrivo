@@ -65,9 +65,9 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "flag-quiz": {
-    title: "Flag Quiz: Name Flags in 20 Seconds, Free Daily Flag Game | Countrivo",
+    title: "Flag Quiz: Guess the Flag in 20 Seconds, Free Daily Game | Countrivo",
     description:
-      "How many flags can you name in 20 seconds? Four names per flag, a wrong answer costs 2 seconds. Same flags for everyone each day, a daily leaderboard and unlimited practice, no account.",
+      "Guess the flag: how many can you name in 20 seconds? Four names per flag, a wrong answer costs 2 seconds. Same flags for everyone each day, plus unlimited practice. No account.",
     genre: "Geography Quiz",
     playMode: "SinglePlayer",
     rules: [
@@ -118,7 +118,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "pinpoint": {
-    title: "Pinpoint: Find Countries on a World Map | Countrivo",
+    title: "Pinpoint: Daily Map Game, Place Five Countries | Countrivo",
     description: "Place five countries on a world map. Closer pins score more and the last round counts double. Free daily geography game and unlimited practice.",
     genre: "Geography Map Game",
     playMode: "SinglePlayer",

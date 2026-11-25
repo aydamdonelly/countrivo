@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T09:02:42.365Z",
+  "generatedAt": "2026-11-25T13:44:06.219Z",
   "entries": {
     "category:arable-land-pct": {
       "hash": "bc83258b793cac4f",
@@ -1074,20 +1074,20 @@
       "lastModified": "2026-11-25T09:02:42.365Z"
     },
     "game:flag-quiz": {
-      "hash": "6ab7338f94ceb0d0",
-      "lastModified": "2026-11-25T09:02:42.365Z"
+      "hash": "2af4597dcd561140",
+      "lastModified": "2026-11-25T13:38:30.797Z"
     },
     "game:geo-wordle": {
-      "hash": "3d417acba60a271f",
-      "lastModified": "2026-10-15T08:47:12.865Z"
+      "hash": "ba81734f8ad70d02",
+      "lastModified": "2026-11-25T13:38:30.797Z"
     },
     "game:higher-or-lower": {
       "hash": "806ab2a7ea669d52",
       "lastModified": "2026-10-13T10:23:12.942Z"
     },
     "game:pinpoint": {
-      "hash": "e3a2bac24ce71975",
-      "lastModified": "2026-10-13T10:24:43.967Z"
+      "hash": "3c3762939e9b5a79",
+      "lastModified": "2026-11-25T13:38:30.797Z"
     },
     "game:speed-flags": {
       "hash": "b154e9ba97365020",
@@ -1170,16 +1170,24 @@
       "lastModified": "2026-04-01T10:13:06.000Z"
     },
     "practice:europe-flags": {
-      "hash": "1a39db7263309e6a",
-      "lastModified": "2026-10-15T08:47:12.865Z"
+      "hash": "c2e6bf2664707d98",
+      "lastModified": "2026-11-25T13:38:30.797Z"
     },
     "practice:hub": {
-      "hash": "da2a752bd78a7e09",
-      "lastModified": "2026-11-25T09:02:42.365Z"
+      "hash": "bc7940bb0b2b8f9d",
+      "lastModified": "2026-11-25T13:38:30.797Z"
     },
     "practice:urban-geography": {
-      "hash": "edda53dbe71c4aa7",
-      "lastModified": "2026-10-15T08:47:57.624Z"
+      "hash": "5203603fef9464d5",
+      "lastModified": "2026-11-25T13:38:30.797Z"
+    },
+    "topic:games-like-worldle": {
+      "hash": "18b7f8c2aaa50241",
+      "lastModified": "2026-11-25T13:38:30.797Z"
+    },
+    "topic:world-map-quiz": {
+      "hash": "23205c20c8f3c15c",
+      "lastModified": "2026-11-25T13:42:04.125Z"
     }
   }
 }

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getAllCategories } from "@/lib/data/categories";
 import { PRACTICE_PAGES } from '@/lib/seo/practice-pages';
+import { TOPIC_PAGES } from '@/lib/seo/topic-pages';
 import timestamps from "@/data/data-timestamps.json";
 
 export const BASE_URL = "https://countrivo.com";
@@ -72,6 +73,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/lists`, lastModified: listsUpdated },
     { url: `${BASE_URL}/practice`, lastModified: lastModifiedFor('practice:hub') },
     ...PRACTICE_PAGES.map(slug => ({ url: `${BASE_URL}/practice/${slug}`, lastModified: lastModifiedFor(`practice:${slug}`) })),
+    ...TOPIC_PAGES.map(slug => ({ url: `${BASE_URL}/${slug}`, lastModified: lastModifiedFor(`topic:${slug}`) })),
   ];
 
   // Category detail pages live here rather than in a shard: there are only 21
