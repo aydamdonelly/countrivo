@@ -144,9 +144,45 @@ if (broadProducer) {
   const originalFits = [...(frozen.fits ?? [])];
   check(whyLine(frozen, 2, figureFit(frozen, 2)).includes("editorial rating"), "a previously frozen manufacturer explanation is neutralised when projected");
   check(JSON.stringify(frozen.fits) === JSON.stringify(originalFits) && figureFit(frozen, 2) === 25, "correcting a historical explanation does not rewrite its fit or score");
-  check(safeCareerLine("Worked as a manufacturer. That experience connects to leadership.", 0).includes("does not establish"), "stored public-view explanations have the same safe render fallback");
+  check(safeCareerLine("Worked as a manufacturer. That experience connects to leadership.", 0, 12).includes("does not establish"), "stored public-view explanations have the same safe render fallback");
 }
-check(safeCareerLine("Served as Chancellor of the Exchequer. That experience connects to finance.", 2).includes("Chancellor of the Exchequer"), "specific documented career evidence stays specific");
+check(safeCareerLine("Served as Chancellor of the Exchequer. That experience connects to finance.", 2, 25).includes("Chancellor of the Exchequer"), "specific documented career evidence stays specific");
+
+// A reason line never claims a connection its fit does not support, on either pool.
+const OVERCLAIM = /connects to|direct match|natural match|related experience|supporting experience|main part of/i;
+const UNDERCLAIM = /far from|does not establish a career|rates the connection as thin|rates it as no fit|as no fit|does not match|only a thin connection/i;
+const SYSTEM_COPY = /[—!]|\p{Extended_Pictographic}/u;
+let reasonLines = 0;
+for (const [label, pool] of [["pool 4", POOL], ["pool 3", poolFor("2026-11-26")]] as const) {
+  for (const person of pool.flatMap((country) => country.groups.flatMap((group) => group.people))) {
+    for (const seat of [0, 1, 2, 3, 4] as const) {
+      const fit = figureFit(person, seat);
+      const line = whyLine(person, seat, fit);
+      const where = `${label} ${person.slug} seat ${seat} fit ${fit}: ${line}`;
+      reasonLines += 1;
+      check(!SYSTEM_COPY.test(line), `${where} has no em dash, exclamation mark or emoji`);
+      if (fit < 12) {
+        check(!OVERCLAIM.test(line), `${where} a thin or absent fit claims no connection`);
+        check(UNDERCLAIM.test(line) || /ceremonial role/.test(line), `${where} a thin or absent fit says plainly the record is far from the job`);
+        check(fit === 0 ? !/as thin/.test(line) : !/no fit/.test(line), `${where} the stated fit word matches the fit`);
+      } else {
+        check(!UNDERCLAIM.test(line), `${where} a plausible or stronger fit is not described as far from the job`);
+      }
+      if (fit < 18) check(!/connects to|direct match|natural match/i.test(line), `${where} only a strong fit is said to connect to the job`);
+      if (/That (?:experience|record|is not a career)/.test(line)) {
+        const expected = fit >= 25 ? "direct match" : fit >= 18 ? "connects to" : fit >= 12 ? "related experience" : "far from";
+        check(line.includes(expected), `${where} the generic connection sentence follows the fit band`);
+      }
+    }
+  }
+}
+check(reasonLines > 5000, `every person and job on both pools has a reason line (${reasonLines})`);
+// Lines already stored in a board snapshot or a saved result are reworded by their fit at render time.
+const storedKadare = "Served as Member of the Parliament of Albania. That experience connects to military command.";
+check(safeCareerLine(storedKadare, 1, 6) === "Served as Member of the Parliament of Albania. That record is far from military command, so this game rates the connection as thin.", "a stored parliament line no longer claims a link to military command at a thin fit");
+check(safeCareerLine("Worked as a poet. That experience connects to science, invention and exploration.", 4, 12).includes("not a career in science"), "a stored plausible line is reworded as related experience");
+check(safeCareerLine("Worked as a novelist. Their experience also connects to finance.", 2, 0).includes("rates it as no fit"), "a stored fallback line follows a fit of zero");
+check(safeCareerLine(storedKadare, 1, 18) === "Served as Member of the Parliament of Albania. That experience connects to military command.", "a strong fit keeps citing its matching career");
 const shaka = bySlug("shaka");
 if (shaka) {
   const frozen = { ...shaka, fits: [25, 6, 12, 18, 6], fitEvidence: shaka.fitEvidence?.map(evidence => ({ ...evidence, line: "Old board evidence" })) };

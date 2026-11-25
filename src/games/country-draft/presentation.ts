@@ -30,9 +30,9 @@ export function pointsLine(fit: number, fame: number): string {
   return `${fitLabel(fit)} ${fit} of ${MAX_FIT} + fame ${fame} of ${MAX_FAME}`;
 }
 
-/** Also protects a previously saved public view without rewriting its score. */
-export function safeDraftWhy(pick: Pick<DraftAppointmentView, "why" | "seat">): string {
-  return safeCareerLine(pick.why, pick.seat);
+/** Also protects a previously saved public view: its wording follows its fit, its score stays. */
+export function safeDraftWhy(pick: Pick<DraftAppointmentView, "why" | "seat" | "fit">): string {
+  return safeCareerLine(pick.why, pick.seat, pick.fit);
 }
 
 export function cabinetStory(seats: readonly (DraftAppointmentView | null)[]) {

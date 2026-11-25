@@ -1,4 +1,4 @@
-import { safeCareerLine } from "./career-ratings";
+import { fitConnection, safeCareerLine } from "./career-ratings";
 import { BONUS_POINTS, FIT, ROUNDS, STANDING_POINTS, bandOf } from "./tables";
 import type { DraftBonuses, DraftFigure, DraftPick, DraftRound, DraftScore, PoolIdx, SeatIdx } from "./types";
 
@@ -137,13 +137,9 @@ export function greedyLine(rounds: readonly DraftRound[]): DraftLine {
 }
 
 export function whyLine(figure: DraftFigure, seat: SeatIdx, fit: number): string {
-  if (figure.fitEvidence?.[seat]) return safeCareerLine(figure.fitEvidence[seat].line, seat);
+  if (figure.fitEvidence?.[seat]) return safeCareerLine(figure.fitEvidence[seat].line, seat, fit);
   const career = `${figure.note.charAt(0).toUpperCase()}${figure.note.slice(1)}`;
-  const reasons = ["leadership", "military command", "finance", "public communication", "science, invention and exploration"];
-  if (fit === 0) return `${career}. That career does not match ${reasons[seat]}.`;
-  if (fit <= 6) return `${career}. There is only a thin connection to ${reasons[seat]}.`;
-  if (fit === 25) return `${career}. Their recorded career is a natural match for ${reasons[seat]}.`;
-  return `${career}. Their experience also connects to ${reasons[seat]}.`;
+  return `${career}. ${fitConnection(seat, fit)}`;
 }
 
 export function whySource(figure: DraftFigure, seat: SeatIdx): string { return figure.fitEvidence?.[seat]?.source ?? figure.biography; }
