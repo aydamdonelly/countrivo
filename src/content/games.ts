@@ -55,7 +55,7 @@ export const GAME_CONTENT: Record<string, GameContent> = {
     steps: ["Countries arrive one by one", "#1 means the highest value", "use each category once for the lowest total rank"],
     facts: ["8 countries", "1 undo", "par +10"],
     rules: [
-      "Eight categories are shown up front and change each day",
+      "Eight categories are shown up front, and the mix changes each day",
       "Eight countries arrive one at a time. Future countries stay hidden",
       "Each category explains its measure and unit. World rank #1 means the highest value among countries with available data",
       "Place each country on an open category. You can undo your latest placement once, even after the eighth country",

@@ -299,7 +299,8 @@ try{
   await scenario({width:390,height:664},{finalUndo:true,mode:'daily'});
   await scenario({width:390,height:844},{legacy:true});
   await motionScenario();
-  check(Object.keys(STAT_DEFINITIONS).every(stat=>artworkSeen.has(stat)),'Deterministic fixtures load all nine statistic Clay artworks');
+  // Boards dated from the rotation on draw from twelve statistics, so the fixtures prove coverage, not one fixed set.
+  check(artworkSeen.size>=8&&[...artworkSeen].every(stat=>Object.hasOwn(STAT_DEFINITIONS,stat)),'Deterministic fixtures load Clay artwork for every dealt statistic');
   writeFileSync(`${out}/report.json`,JSON.stringify({checkedAt:new Date().toISOString(),checks,noDatabaseWrites:true,viewportChecks},null,2)+'\n');
   console.log(`Blind Pick UI: ${checks} checks passed; all POSTs intercepted, no writes. Screenshots: ${out}`);
 }finally{await browser.close();}

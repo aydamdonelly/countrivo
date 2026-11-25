@@ -24,6 +24,8 @@ export const CHIP_LABELS: Record<string, string> = {
   "education-spending-pct": "Education spend",
   "health-spending-pct": "Health spend",
   "fdi-inflow": "Foreign investment",
+  "population-density": "Density",
+  latitude: "Furthest north",
 };
 
 /** The chip label for a category slug; falls back to the slug so nothing renders empty. */

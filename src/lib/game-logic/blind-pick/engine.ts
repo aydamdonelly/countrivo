@@ -5,12 +5,12 @@
  */
 import type { Country } from "@/types/country";
 import type { BlindPickGame } from "./types";
-import { generateBlindPickConfig, type BlindPickBoardSize } from "./generator";
+import { generateBlindPickConfig, type BlindPickBoardSize, type BlindPickPool } from "./generator";
 import { canUndo } from "./display";
 export { canUndo } from "./display";
 
-export function createGame(rng: () => number, mode: "daily" | "practice", dateKey: string, boardSize?: BlindPickBoardSize): BlindPickGame {
-  return { config: generateBlindPickConfig(rng, mode, dateKey, boardSize), placements: [], undoUsed: false };
+export function createGame(rng: () => number, mode: "daily" | "practice", dateKey: string, boardSize?: BlindPickBoardSize, pool?: BlindPickPool): BlindPickGame {
+  return { config: generateBlindPickConfig(rng, mode, dateKey, boardSize, pool), placements: [], undoUsed: false };
 }
 
 export function isComplete(state: BlindPickGame): boolean {

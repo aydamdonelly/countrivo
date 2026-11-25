@@ -46,6 +46,8 @@ export function formatNumber(n: number): string {
 export function formatStat(value: number, unit: string): string {
   if (unit.startsWith("%")) return `${value.toFixed(1)}${unit}`;
   if (unit === "years") return `${value.toFixed(1)} ${unit}`;
+  // A latitude reads as a compass position, `64.1° N` or `33.9° S`, never as a signed number.
+  if (unit === "° latitude") return `${Math.abs(value).toFixed(1)}° ${value < 0 ? "S" : "N"}`;
   // A negative figure keeps its sign in front of the currency: `-$343.4B`, never `$-343.4B`.
   if (unit === "USD") return value < 0 ? `-$${formatNumber(-value)}` : `$${formatNumber(value)}`;
   return `${formatNumber(value)} ${unit}`;

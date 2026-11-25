@@ -1,10 +1,11 @@
 import { countries, categories } from "@/lib/data/public";
-import { seededPick } from "@/lib/seeded-random";
+import { seededPick, seededShuffle } from "@/lib/seeded-random";
 import { closestPerfect } from "./scoring";
 import type { Country } from "@/types/country";
 import type { Category } from "@/types/category";
 import { SOVEREIGN_SET, sovereignCount, sovereignRank } from "./sovereign-ranks";
 import type { BlindPickConfig } from "./types";
+import { ANCHOR_STATS, V3_STATS, rotatingStatsForDate, rotatingStatsForPractice, rotationActive } from "./rotation";
 
 export const BOARD_SIZE = 8;
 export const LEGACY_BOARD_SIZE = 6;
@@ -24,16 +25,33 @@ export const MAX_GREEDY_GAP = 24;
 export const MIN_SOVEREIGN_ENTRIES = 180;
 
 /**
- * The eligible stats and their slot wording (concept 5.7 and 5.5): at least 180 sovereign
- * entries, no caveat flag (renewables, unemployment and inflation carry one; tourism has 163
- * entries), and always "Most ..." or "Largest ...", never "best". Rank 1 is the highest value.
+ * The slot wording (concept 5.7 and 5.5): always "Most ..." or "Largest ...", never "best".
+ * Rank 1 is the highest value.
  */
 export { STAT_WORDING, statWording } from "./display";
-import { STAT_WORDING } from "./display";
 
-const ELIGIBLE_STATS: Category[] = categories.filter(
-  (c) => c.slug in STAT_WORDING && sovereignCount(c.slug) >= MIN_SOVEREIGN_ENTRIES,
-);
+/**
+ * Which statistics a board draws from. "v3" is the frozen nine-statistic draw that every
+ * eight-country board used before the rotation; "rotation" deals the four anchors plus four
+ * rotating statistics from BLIND_PICK_ROTATION_FROM on and falls back to the V3 draw before it.
+ */
+export type BlindPickPool = "v3" | "rotation";
+
+const CATEGORY_BY_SLUG: ReadonlyMap<string, Category> = new Map(categories.map((c) => [c.slug, c]));
+
+function statCategory(slug: string): Category {
+  const category = CATEGORY_BY_SLUG.get(slug);
+  if (!category) throw new Error(`blind-pick: unknown statistic ${slug}`);
+  return category;
+}
+
+/**
+ * The historical eligible nine (at least 180 sovereign entries, no caveat flag: renewables,
+ * unemployment and inflation carry one; tourism has 163 entries), frozen as an explicit list in
+ * the order they were drawn from, so new categories can never re-deal an old seed.
+ */
+const V3_POOL: Category[] = V3_STATS.map(statCategory).filter((c) => sovereignCount(c.slug) >= MIN_SOVEREIGN_ENTRIES);
+const ANCHORS: Category[] = ANCHOR_STATS.map(statCategory);
 
 const SOVEREIGN_COUNTRIES: Country[] = countries.filter((c) => SOVEREIGN_SET.has(c.iso3));
 
@@ -76,21 +94,27 @@ function candidate(stats: Category[], picked: Country[]): Candidate {
 }
 
 /**
- * Deals one board from the RNG alone. Stats are drawn from the eligible nine, then unique
- * sovereign states with a number on every stat (from at least three continents) are drawn in
- * arrival order, until the greedy line sits MIN_GREEDY_GAP to MAX_GREEDY_GAP above the perfect line.
- * Deterministic for one RNG stream: the daily board is the same on the server and the client.
+ * Deals one board from the RNG and the date alone. Stats are drawn first (see BlindPickPool),
+ * then unique sovereign states with a number on every stat (from at least three continents) are
+ * drawn in arrival order, until the greedy line sits MIN_GREEDY_GAP to MAX_GREEDY_GAP above the
+ * perfect line. Deterministic for one RNG stream: the daily board is the same on the server and
+ * the client. A rotation daily keeps its statistics for the date and only shuffles their slots.
  */
 export function generateBlindPickConfig(
   rng: () => number,
   mode: "daily" | "practice",
   dateKey: string,
   boardSize: BlindPickBoardSize = BOARD_SIZE,
+  pool: BlindPickPool = "rotation",
 ): BlindPickConfig {
   let best: Candidate | null = null;
+  const rotation = pool === "rotation" && boardSize === BOARD_SIZE && rotationActive(dateKey);
+  const dailyStats = rotation && mode === "daily" ? rotatingStatsForDate(dateKey) : null;
 
   for (let statRound = 0; statRound < 12; statRound += 1) {
-    const stats = seededPick(ELIGIBLE_STATS, boardSize, rng);
+    const stats = rotation
+      ? seededShuffle([...ANCHORS, ...(dailyStats ?? rotatingStatsForPractice(rng)).map(statCategory)], rng)
+      : seededPick(V3_POOL, boardSize, rng);
     const pool = SOVEREIGN_COUNTRIES.filter((c) => stats.every((s) => sovereignRank(c.iso3, s.slug) !== null));
     for (let attempt = 0; attempt < 60; attempt += 1) {
       const picked = seededPick(pool, boardSize, rng);

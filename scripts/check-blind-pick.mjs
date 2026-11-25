@@ -15,7 +15,8 @@ const { createGame, place, undo, canUndo } = require('../src/lib/game-logic/blin
 const { closestPerfect, computeResult, swapCycles } = require('../src/lib/game-logic/blind-pick/scoring.ts');
 const { sovereignRank } = require('../src/lib/game-logic/blind-pick/sovereign-ranks.ts');
 const { worldRankQuality } = require('../src/lib/game-logic/blind-pick/display.ts');
-const { gameModule, legacyGameModule } = require('../src/games/blind-pick/module.ts');
+const { gameModule, legacyGameModule, v3GameModule, blindPickModuleFor, BLIND_PICK_VERSION } = require('../src/games/blind-pick/module.ts');
+const { ANCHOR_STATS, BLIND_PICK_ROTATION_FROM, V3_STATS, rotatingStatsForDate } = require('../src/lib/game-logic/blind-pick/rotation.ts');
 const { codec } = require('../src/games/blind-pick/codec.ts');
 const { replay } = require('../src/features/play/replay.ts');
 const { blindPickShapeError, validateBlindPickResult } = require('../src/lib/game-logic/blind-pick/server-validate.ts');
@@ -51,6 +52,37 @@ for (const fixture of legacyFixtures) {
   const config=generateBlindPickConfig(mulberry32(fixture.seed),'daily',day,6);
   equal({seed:fixture.seed,countries:config.countries.map(c=>c.iso3),stats:config.categories.map(c=>c.slug),optimal:config.optimalScore,assignment:config.optimalAssignment,greedy:config.greedyScore},fixture,'Historical seeds retain the exact same six-country board');
 }
+// Frozen eight-country examples captured from the nine-statistic generator on 2026-11-25, before the rotation.
+const v3Fixtures = [
+  {seed:1,countries:['LBR','HUN','NZL','DOM','TTO','POL','PNG','MDG'],stats:['fertility-rate','gdp-per-capita','internet-users-pct','area-km2','life-expectancy','forest-coverage-pct','gdp','population'],optimal:300,assignment:[0,2,4,6,1,7,5,3],greedy:309},
+  {seed:7,countries:['ARM','IRN','NGA','STP','VNM','MEX','KNA','BOL'],stats:['urban-population-pct','fertility-rate','gdp','area-km2','gdp-per-capita','life-expectancy','internet-users-pct','forest-coverage-pct'],optimal:361,assignment:[5,0,1,7,6,2,4,3],greedy:381},
+  {seed:23,countries:['CHN','AGO','GRD','MUS','MHL','HND','HUN','MDV'],stats:['gdp','gdp-per-capita','internet-users-pct','fertility-rate','urban-population-pct','area-km2','life-expectancy','forest-coverage-pct'],optimal:349,assignment:[0,5,7,1,4,3,2,6],greedy:358},
+  {seed:71,countries:['CIV','AUT','OMN','TCD','RUS','TZA','ZAF','AUS'],stats:['urban-population-pct','fertility-rate','gdp','population','gdp-per-capita','forest-coverage-pct','life-expectancy','area-km2'],optimal:193,assignment:[1,4,0,7,2,5,3,6],greedy:216},
+];
+const shape = (seed, config) => ({seed,countries:config.countries.map(c=>c.iso3),stats:config.categories.map(c=>c.slug),optimal:config.optimalScore,assignment:config.optimalAssignment,greedy:config.greedyScore});
+const rotationDay = BLIND_PICK_ROTATION_FROM;
+const lastV3Day = '2026-11-26';
+for (const fixture of v3Fixtures) {
+  equal(shape(fixture.seed, generateBlindPickConfig(mulberry32(fixture.seed),'daily','2026-11-25')), fixture, 'Today keeps the exact nine-statistic eight-country board');
+  equal(shape(fixture.seed, generateBlindPickConfig(mulberry32(fixture.seed),'daily',lastV3Day)), fixture, 'The day before the rotation keeps the nine-statistic board');
+  equal(shape(fixture.seed, generateBlindPickConfig(mulberry32(fixture.seed),'practice',rotationDay,8,'v3')), fixture, 'The V3 pool ignores the rotation date');
+  equal(shape(fixture.seed, v3GameModule.create(fixture.seed,'practice',rotationDay).g.config), fixture, 'A version 3 session keeps its board after the rotation starts');
+}
+for (let seed = 1; seed <= 20; seed += 1) {
+  for (const date of ['2026-11-25', lastV3Day]) {
+    equal(generateBlindPickConfig(mulberry32(seed),'daily',date), generateBlindPickConfig(mulberry32(seed),'daily',date,8,'v3'), 'Boards dated before the rotation are deep-equal to V3');
+    equal(gameModule.create(seed,'practice',date), v3GameModule.create(seed,'practice',date), 'Practice dated before the rotation keeps the V3 draw');
+  }
+}
+for (let seed = 1; seed <= 20; seed += 1) {
+  const config = generateBlindPickConfig(mulberry32(seed),'daily',rotationDay);
+  const slugs = config.categories.map(c=>c.slug).sort();
+  equal(slugs, [...ANCHOR_STATS, ...rotatingStatsForDate(rotationDay)].sort(), 'Rotation dailies take the four anchors and the date’s four rotating statistics');
+  check(config.version === 3 && config.countries.length === 8, 'Rotation keeps the eight-country rules version');
+  const practice = gameModule.create(seed,'practice',rotationDay).g.config.categories.map(c=>c.slug);
+  check(ANCHOR_STATS.every(a=>practice.includes(a)) && new Set(practice).size === 8, 'Rotation practice keeps the anchors and eight distinct statistics');
+}
+check(rotatingStatsForDate(lastV3Day) === null && rotatingStatsForDate(rotationDay).length === 4, 'Rotation switches on at its first Berlin day');
 const observedStats = new Set();
 for (let seed = 1; seed <= 40; seed += 1) {
   const config = generateBlindPickConfig(mulberry32(seed), 'daily', day);
@@ -125,19 +157,26 @@ const ticket = {id:'test',slug:'blind-pick',mode:'practice',dateKey:day,edition:
 check(blindSessionModule(encodeRunTicket(ticket)).create(23,'practice',day).g.config.countries.length === 6, 'Old signed practice token keeps six-country board');
 check(blindSessionModule(encodeRunTicket({...ticket,contentVersion:3})).create(23,'practice',day).g.config.countries.length === 8, 'New signed practice token selects eight-country board');
 check(blindSessionModule().create(23,'practice',day).g.config.countries.length === 8, 'Fresh practice selects eight-country board');
+const v3Ticket = {...ticket,dateKey:rotationDay,contentVersion:3};
+equal(blindSessionModule(encodeRunTicket(v3Ticket)).create(23,'practice',rotationDay).g, v3GameModule.create(23,'practice',rotationDay).g, 'A version 3 practice token resumes on its nine-statistic board');
+check(blindSessionModule(encodeRunTicket(v3Ticket)).create(23,'practice',rotationDay).g.config.categories.every(c=>V3_STATS.includes(c.slug)), 'Version 3 boards never draw a rotation statistic');
+const v4Board = blindSessionModule(encodeRunTicket({...v3Ticket,contentVersion:BLIND_PICK_VERSION})).create(23,'practice',rotationDay).g;
+equal(v4Board, gameModule.create(23,'practice',rotationDay).g, 'A version 4 practice token gets the rotation board');
+check(ANCHOR_STATS.every(a=>v4Board.config.categories.some(c=>c.slug===a)), 'The rotation board carries the anchors');
+check(blindPickModuleFor(undefined) === legacyGameModule && blindPickModuleFor(3) === v3GameModule && blindPickModuleFor(BLIND_PICK_VERSION) === gameModule && blindPickModuleFor(99) === legacyGameModule, 'Replay and snapshots map every content version to its board');
 
-for (const adapter of [legacyGameModule, gameModule]) {
-  const seed = dateSeed(day + 'test');
-  let played = adapter.create(seed,'daily',day);
+for (const [adapter, date] of [[legacyGameModule, day], [gameModule, day], [v3GameModule, day], [gameModule, rotationDay]]) {
+  const seed = dateSeed(date + 'test');
+  let played = adapter.create(seed,'daily',date);
   for (let slot=0;slot<played.g.config.countries.length;slot+=1) played=adapter.reduce(played,{t:'place',s:slot});
   played=adapter.reduce(played,{t:'seen'});
-  const payload=adapter.payload(played,ctx);
-  check(validateBlindPickResult(day,payload.scoreRaw,payload.resultJson,'test').valid,'Current and historical daily replay validate');
-  check(!validateBlindPickResult(day,payload.scoreRaw+1,payload.resultJson,'test').valid,'Forged score rejected');
+  const payload=adapter.payload(played,{...ctx,dateKey:date});
+  check(validateBlindPickResult(date,payload.scoreRaw,payload.resultJson,'test').valid,'Current and historical daily replay validate');
+  check(!validateBlindPickResult(date,payload.scoreRaw+1,payload.resultJson,'test').valid,'Forged score rejected');
   check(blindPickShapeError(payload.scoreRaw,payload.scoreMax,{...payload.resultJson,placements:Array(played.g.config.countries.length).fill(0)}) !== null,'Duplicate placements rejected');
   check(blindPickShapeError(payload.scoreRaw,payload.scoreMax,{...payload.resultJson,v:99}) !== null,'Unknown rules version rejected');
   const result=computeResult(played.g);
   const swaps=swapCycles(result.placements,result.perfect,result.ranks,result.perfectRanks);
   check(swaps.every(s=>s.saved>0) && swaps.reduce((sum,s)=>sum+s.saved,0)===result.over,'Swap explanation accounts for every lost rank');
 }
-console.log(`Blind Pick: ${checks} checks passed; eight-country solver, one undo, hidden information and historical six-country compatibility.`);
+console.log(`Blind Pick: ${checks} checks passed; eight-country solver, one undo, hidden information, frozen V3 boards, the daily rotation and historical six-country compatibility.`);
