@@ -43,6 +43,9 @@ const updates: Record<string, { label?: string; description?: string; shortLabel
   "health-spending-pct": { label: "Health Spending", shortLabel: "Health % GDP", clarifier: "% of GDP" },
   "arable-land-pct": { label: "Arable Land", shortLabel: "Farmland %", clarifier: "% of land arable" },
   "fdi-inflow": { label: "Foreign Direct Investment", shortLabel: "Foreign Investment", clarifier: "USD inflow/year" },
+  // Added by scripts/build-blind-pick-stats.ts; kept here so a re-run leaves them unchanged.
+  "population-density": { label: "Population Density", shortLabel: "Density", clarifier: "people per km²" },
+  "latitude": { label: "Latitude", shortLabel: "Furthest North", clarifier: "latitude of centre" },
 };
 
 let changed = 0;

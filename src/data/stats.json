@@ -1,7 +1,9 @@
 {
   "COK": {
     "area-km2": 236,
-    "population": 15040
+    "population": 15040,
+    "population-density": 63.73,
+    "latitude": -21.223
   },
   "GIN": {
     "area-km2": 245857,
@@ -20,11 +22,15 @@
     "health-spending-pct": 3.69442987,
     "fdi-inflow": 1314930000,
     "inflation-rate": 7.80497591927973,
-    "surface-area": 245860
+    "surface-area": 245860,
+    "population-density": 58.59,
+    "latitude": 10.256
   },
   "CXR": {
     "area-km2": 135,
-    "population": 1692
+    "population": 1692,
+    "population-density": 12.53,
+    "latitude": -10.446
   },
   "TGO": {
     "area-km2": 56785,
@@ -44,11 +50,14 @@
     "health-spending-pct": 6.10829544,
     "fdi-inflow": 79736910,
     "inflation-rate": 5.48928568141131,
-    "surface-area": 56790
+    "surface-area": 56790,
+    "population-density": 163.85,
+    "latitude": 8.661
   },
   "TWN": {
     "area-km2": 36197,
-    "population": 23317031
+    "population": 23317031,
+    "population-density": 644.17
   },
   "KGZ": {
     "area-km2": 199951,
@@ -68,7 +77,9 @@
     "health-spending-pct": 4.50344467,
     "fdi-inflow": 159000000,
     "inflation-rate": 10.7532770416742,
-    "surface-area": 199950
+    "surface-area": 199950,
+    "population-density": 35.51,
+    "latitude": 41.357
   },
   "SUR": {
     "area-km2": 163820,
@@ -87,7 +98,9 @@
     "health-spending-pct": 5.40666008,
     "fdi-inflow": -53096300.2393143,
     "inflation-rate": 51.5873159600861,
-    "surface-area": 163820
+    "surface-area": 163820,
+    "population-density": 3.84,
+    "latitude": 4.099
   },
   "DOM": {
     "area-km2": 48671,
@@ -108,7 +121,9 @@
     "fdi-inflow": 4750500000,
     "inflation-rate": 4.78561281021135,
     "surface-area": 146839.463,
-    "beer-consumption-per-capita": 32
+    "beer-consumption-per-capita": 32,
+    "population-density": 232.81,
+    "latitude": 18.78
   },
   "GTM": {
     "area-km2": 108889,
@@ -129,7 +144,9 @@
     "fdi-inflow": 1650310370,
     "inflation-rate": 6.20657592272126,
     "surface-area": 108890,
-    "beer-consumption-per-capita": 18
+    "beer-consumption-per-capita": 18,
+    "population-density": 166.45,
+    "latitude": 15.821
   },
   "DZA": {
     "area-km2": 2381741,
@@ -149,7 +166,9 @@
     "health-spending-pct": 4.35082531,
     "fdi-inflow": 1214378660.66465,
     "inflation-rate": 9.32217375928322,
-    "surface-area": 2381740
+    "surface-area": 2381740,
+    "population-density": 19.38,
+    "latitude": 28.351
   },
   "UKR": {
     "area-km2": 603550,
@@ -172,7 +191,9 @@
     "surface-area": 603550,
     "beer-consumption-per-capita": 46,
     "coffee-consumption-per-capita": 1.5,
-    "wine-consumption-per-capita": 3
+    "wine-consumption-per-capita": 3,
+    "population-density": 62.52,
+    "latitude": 48.658
   },
   "KNA": {
     "area-km2": 261,
@@ -191,7 +212,9 @@
     "health-spending-pct": 5.73595428,
     "fdi-inflow": 29833142.5925925,
     "inflation-rate": 3.55711230848243,
-    "surface-area": 260
+    "surface-area": 260,
+    "population-density": 179.15,
+    "latitude": 17.315
   },
   "HRV": {
     "area-km2": 56594,
@@ -214,7 +237,9 @@
     "surface-area": 88070,
     "beer-consumption-per-capita": 85.5,
     "coffee-consumption-per-capita": 5.1,
-    "wine-consumption-per-capita": 22.5
+    "wine-consumption-per-capita": 22.5,
+    "population-density": 68.2,
+    "latitude": 44.912
   },
   "GNQ": {
     "area-km2": 28051,
@@ -232,7 +257,9 @@
     "health-spending-pct": 3.49941635,
     "fdi-inflow": 141780890,
     "inflation-rate": 2.85949506037322,
-    "surface-area": 28050
+    "surface-area": 28050,
+    "population-density": 65.86,
+    "latitude": 1.595
   },
   "PAN": {
     "area-km2": 75417,
@@ -254,7 +281,9 @@
     "inflation-rate": 1.48641355277038,
     "surface-area": 75320,
     "beer-consumption-per-capita": 40,
-    "coffee-consumption-per-capita": 2
+    "coffee-consumption-per-capita": 2,
+    "population-density": 59.12,
+    "latitude": 8.44
   },
   "BEL": {
     "area-km2": 30528,
@@ -277,7 +306,9 @@
     "surface-area": 30689,
     "beer-consumption-per-capita": 74.6,
     "coffee-consumption-per-capita": 6.8,
-    "wine-consumption-per-capita": 21
+    "wine-consumption-per-capita": 21,
+    "population-density": 385.87,
+    "latitude": 50.618
   },
   "RWA": {
     "area-km2": 26338,
@@ -297,7 +328,9 @@
     "health-spending-pct": 5.12708998,
     "fdi-inflow": 457644003.006828,
     "inflation-rate": 19.789546746467,
-    "surface-area": 26340
+    "surface-area": 26340,
+    "population-density": 529.82,
+    "latitude": -2.015
   },
   "CPV": {
     "area-km2": 4033,
@@ -317,7 +350,9 @@
     "health-spending-pct": 5.84791613,
     "fdi-inflow": 158735894.913156,
     "inflation-rate": 3.72437517668748,
-    "surface-area": 4030
+    "surface-area": 4030,
+    "population-density": 129.51,
+    "latitude": 15.076
   },
   "KOR": {
     "area-km2": 100210,
@@ -340,7 +375,9 @@
     "surface-area": 100440,
     "beer-consumption-per-capita": 41.8,
     "coffee-consumption-per-capita": 3.5,
-    "wine-consumption-per-capita": 2
+    "wine-consumption-per-capita": 2,
+    "population-density": 516.04,
+    "latitude": 36.402
   },
   "GUM": {
     "area-km2": 549,
@@ -355,7 +392,9 @@
     "renewable-energy-pct": 6.7,
     "arable-land-pct": 1.85185185185185,
     "tourism-arrivals": 328000,
-    "surface-area": 540
+    "surface-area": 540,
+    "population-density": 303.29,
+    "latitude": 13.445
   },
   "AND": {
     "area-km2": 468,
@@ -373,7 +412,9 @@
     "education-spending-pct": 1.89867997169495,
     "health-spending-pct": 7.69928026,
     "fdi-inflow": 275778939.21399,
-    "surface-area": 470
+    "surface-area": 470,
+    "population-density": 172.77,
+    "latitude": 42.549
   },
   "SEN": {
     "area-km2": 196722,
@@ -392,7 +433,9 @@
     "health-spending-pct": 4.32314825,
     "fdi-inflow": 4789996739.26742,
     "inflation-rate": 5.93947798773215,
-    "surface-area": 196710
+    "surface-area": 196710,
+    "population-density": 91.89,
+    "latitude": 14.229
   },
   "URY": {
     "area-km2": 181034,
@@ -414,7 +457,9 @@
     "inflation-rate": 5.86910359896119,
     "surface-area": 176220,
     "beer-consumption-per-capita": 30,
-    "wine-consumption-per-capita": 20
+    "wine-consumption-per-capita": 20,
+    "population-density": 18.72,
+    "latitude": -32.782
   },
   "COG": {
     "area-km2": 342000,
@@ -433,7 +478,9 @@
     "health-spending-pct": 3.29744148,
     "fdi-inflow": 626473710,
     "inflation-rate": 4.30174563591016,
-    "surface-area": 342000
+    "surface-area": 342000,
+    "population-density": 18.08,
+    "latitude": -0.729
   },
   "NAM": {
     "area-km2": 825615,
@@ -453,7 +500,9 @@
     "health-spending-pct": 9.48251629,
     "fdi-inflow": 2294376188.51043,
     "inflation-rate": 5.87993463284275,
-    "surface-area": 824290
+    "surface-area": 824290,
+    "population-density": 3.59,
+    "latitude": -21.909
   },
   "SGP": {
     "area-km2": 710,
@@ -473,7 +522,9 @@
     "health-spending-pct": 4.49163246,
     "fdi-inflow": 132496437703.249,
     "inflation-rate": 4.83372362825798,
-    "surface-area": 728
+    "surface-area": 728,
+    "population-density": 8334.72,
+    "latitude": 1.353
   },
   "FIN": {
     "area-km2": 338455,
@@ -496,7 +547,9 @@
     "surface-area": 338470,
     "beer-consumption-per-capita": 68.5,
     "coffee-consumption-per-capita": 12,
-    "wine-consumption-per-capita": 14
+    "wine-consumption-per-capita": 14,
+    "population-density": 16.5,
+    "latitude": 65.016
   },
   "EGY": {
     "area-km2": 1002450,
@@ -517,7 +570,9 @@
     "inflation-rate": 33.8847763115546,
     "surface-area": 1001450,
     "beer-consumption-per-capita": 1,
-    "coffee-consumption-per-capita": 0.4
+    "coffee-consumption-per-capita": 0.4,
+    "population-density": 114.26,
+    "latitude": 26.605
   },
   "PLW": {
     "area-km2": 459,
@@ -535,7 +590,9 @@
     "health-spending-pct": 10.85468197,
     "fdi-inflow": 79895000,
     "inflation-rate": 12.8199748216534,
-    "surface-area": 460
+    "surface-area": 460,
+    "population-density": 38.62,
+    "latitude": 7.535
   },
   "ASM": {
     "area-km2": 199,
@@ -549,7 +606,9 @@
     "renewable-energy-pct": 0.4,
     "arable-land-pct": 5.15,
     "tourism-arrivals": 899.999976158142,
-    "surface-area": 200
+    "surface-area": 200,
+    "population-density": 238.8,
+    "latitude": -14.306
   },
   "ATG": {
     "area-km2": 442,
@@ -568,7 +627,9 @@
     "health-spending-pct": 3.91348195,
     "fdi-inflow": 293031029.629629,
     "inflation-rate": 5.06713865364213,
-    "surface-area": 440
+    "surface-area": 440,
+    "population-density": 211.12,
+    "latitude": 17.071
   },
   "SYC": {
     "area-km2": 452,
@@ -587,7 +648,9 @@
     "health-spending-pct": 4.48238087,
     "fdi-inflow": 239706294.201897,
     "inflation-rate": -1.03530088431952,
-    "surface-area": 460
+    "surface-area": 460,
+    "population-density": 264.98,
+    "latitude": -4.66
   },
   "KWT": {
     "area-km2": 17818,
@@ -607,7 +670,9 @@
     "health-spending-pct": 4.96311998,
     "fdi-inflow": 2114603344.83449,
     "inflation-rate": 3.64216403030709,
-    "surface-area": 17820
+    "surface-area": 17820,
+    "population-density": 272.39,
+    "latitude": 29.281
   },
   "GRC": {
     "area-km2": 131990,
@@ -630,7 +695,9 @@
     "surface-area": 131960,
     "beer-consumption-per-capita": 38,
     "coffee-consumption-per-capita": 5.4,
-    "wine-consumption-per-capita": 23
+    "wine-consumption-per-capita": 23,
+    "population-density": 78.85,
+    "latitude": 39.42
   },
   "KIR": {
     "area-km2": 811,
@@ -649,7 +716,9 @@
     "health-spending-pct": 10.94525623,
     "fdi-inflow": 5110622.6979706,
     "inflation-rate": 9.28307374517721,
-    "surface-area": 810
+    "surface-area": 810,
+    "population-density": 163.42,
+    "latitude": 1.868
   },
   "CYP": {
     "area-km2": 9251,
@@ -669,7 +738,9 @@
     "health-spending-pct": 8.11912918,
     "fdi-inflow": -22151767932.8125,
     "inflation-rate": 3.54134188751663,
-    "surface-area": 9250
+    "surface-area": 9250,
+    "population-density": 145.39,
+    "latitude": 35.117
   },
   "MLI": {
     "area-km2": 1240192,
@@ -689,7 +760,9 @@
     "health-spending-pct": 3.81316996,
     "fdi-inflow": 702559730.160354,
     "inflation-rate": 2.05880228274223,
-    "surface-area": 1240190
+    "surface-area": 1240190,
+    "population-density": 19.17,
+    "latitude": 17.168
   },
   "BMU": {
     "area-km2": 54,
@@ -705,7 +778,9 @@
     "tourism-arrivals": 51400.0015258789,
     "education-spending-pct": 1.86510440752276,
     "fdi-inflow": 150807854.271384,
-    "surface-area": 4290
+    "surface-area": 4290,
+    "population-density": 1198.11,
+    "latitude": 32.315
   },
   "GRL": {
     "area-km2": 2166086,
@@ -717,7 +792,9 @@
     "fertility-rate": 1.769,
     "forest-coverage-pct": 0.000535997076379583,
     "renewable-energy-pct": 11.7,
-    "surface-area": 410450
+    "surface-area": 410450,
+    "population-density": 0.03,
+    "latitude": 74.168
   },
   "ERI": {
     "area-km2": 117600,
@@ -732,7 +809,9 @@
     "arable-land-pct": 5.69409349206375,
     "health-spending-pct": 3.6837678,
     "fdi-inflow": 2070380,
-    "surface-area": 121765.8
+    "surface-area": 121765.8,
+    "population-density": 29.51,
+    "latitude": 15.006
   },
   "TZA": {
     "area-km2": 947303,
@@ -753,7 +832,9 @@
     "fdi-inflow": 1648913856.30485,
     "inflation-rate": 3.79923291384916,
     "surface-area": 947300,
-    "beer-consumption-per-capita": 10
+    "beer-consumption-per-capita": 10,
+    "population-density": 70.32,
+    "latitude": -6.356
   },
   "VNM": {
     "area-km2": 331212,
@@ -775,7 +856,9 @@
     "inflation-rate": 3.25289282667662,
     "surface-area": 331340,
     "beer-consumption-per-capita": 48,
-    "coffee-consumption-per-capita": 1.8
+    "coffee-consumption-per-capita": 1.8,
+    "population-density": 302.98,
+    "latitude": 16.517
   },
   "TCD": {
     "area-km2": 1284000,
@@ -795,7 +878,9 @@
     "health-spending-pct": 4.99707747,
     "fdi-inflow": 913332720,
     "inflation-rate": 10.8363568399843,
-    "surface-area": 1284000
+    "surface-area": 1284000,
+    "population-density": 15.05,
+    "latitude": 15.283
   },
   "CIV": {
     "area-km2": 322463,
@@ -815,7 +900,9 @@
     "health-spending-pct": 3.43218303,
     "fdi-inflow": 2485137116.69214,
     "inflation-rate": 4.36972254867474,
-    "surface-area": 322460
+    "surface-area": 322460,
+    "population-density": 96.65,
+    "latitude": 7.537
   },
   "GEO": {
     "area-km2": 69700,
@@ -836,7 +923,9 @@
     "fdi-inflow": 2111981302.94,
     "inflation-rate": 2.48776056578715,
     "surface-area": 69700,
-    "wine-consumption-per-capita": 8
+    "wine-consumption-per-capita": 8,
+    "population-density": 53.31,
+    "latitude": 42.18
   },
   "IMN": {
     "area-km2": 572,
@@ -849,7 +938,9 @@
     "forest-coverage-pct": 6.07017543859649,
     "renewable-energy-pct": 2.7,
     "arable-land-pct": 41.1226315789474,
-    "surface-area": 570
+    "surface-area": 570,
+    "population-density": 147.14,
+    "latitude": 54.229
   },
   "BOL": {
     "area-km2": 1098581,
@@ -870,7 +961,9 @@
     "fdi-inflow": 240143401.66707,
     "inflation-rate": 2.57688800489192,
     "surface-area": 1098580,
-    "beer-consumption-per-capita": 25
+    "beer-consumption-per-capita": 25,
+    "population-density": 11.15,
+    "latitude": -16.731
   },
   "DNK": {
     "area-km2": 43094,
@@ -893,7 +986,9 @@
     "surface-area": 42920,
     "beer-consumption-per-capita": 59.8,
     "coffee-consumption-per-capita": 8.7,
-    "wine-consumption-per-capita": 22
+    "wine-consumption-per-capita": 22,
+    "population-density": 138,
+    "latitude": 56.001
   },
   "TKM": {
     "area-km2": 488100,
@@ -910,7 +1005,9 @@
     "education-spending-pct": 2.71291995048523,
     "health-spending-pct": 5.49789095,
     "fdi-inflow": 1378312080,
-    "surface-area": 491209
+    "surface-area": 491209,
+    "population-density": 15.09,
+    "latitude": 39.061
   },
   "NER": {
     "area-km2": 1267000,
@@ -930,7 +1027,9 @@
     "health-spending-pct": 4.04895782,
     "fdi-inflow": 1025552444.43008,
     "inflation-rate": 3.70097316425834,
-    "surface-area": 1267000
+    "surface-area": 1267000,
+    "population-density": 20.65,
+    "latitude": 17.081
   },
   "FSM": {
     "area-km2": 702,
@@ -948,11 +1047,15 @@
     "education-spending-pct": 11.5591397849462,
     "health-spending-pct": 12.88087559,
     "inflation-rate": 5.40874375479067,
-    "surface-area": 700
+    "surface-area": 700,
+    "population-density": 160.44,
+    "latitude": 6.879
   },
   "JEY": {
     "area-km2": 116,
-    "population": 103267
+    "population": 103267,
+    "population-density": 890.23,
+    "latitude": 49.215
   },
   "CYM": {
     "area-km2": 264,
@@ -968,7 +1071,9 @@
     "tourism-arrivals": 660000,
     "education-spending-pct": 1.57024002075195,
     "fdi-inflow": 6786752964.3089,
-    "surface-area": 264
+    "surface-area": 264,
+    "population-density": 276.66,
+    "latitude": 19.311
   },
   "LIE": {
     "area-km2": 160,
@@ -984,7 +1089,9 @@
     "arable-land-pct": 10.8125,
     "tourism-arrivals": 58400.0015258789,
     "health-spending-pct": 5.71460724,
-    "surface-area": 160
+    "surface-area": 160,
+    "population-density": 249.04,
+    "latitude": 47.146
   },
   "BIH": {
     "area-km2": 51209,
@@ -1005,7 +1112,9 @@
     "fdi-inflow": 1129086797.54319,
     "inflation-rate": 6.1059011284828,
     "surface-area": 51210,
-    "wine-consumption-per-capita": 4
+    "wine-consumption-per-capita": 4,
+    "population-density": 62.2,
+    "latitude": 44.144
   },
   "FRA": {
     "area-km2": 543908,
@@ -1028,7 +1137,9 @@
     "surface-area": 606410,
     "beer-consumption-per-capita": 33,
     "coffee-consumption-per-capita": 5.4,
-    "wine-consumption-per-capita": 46
+    "wine-consumption-per-capita": 46,
+    "population-density": 125.71,
+    "latitude": 46.642
   },
   "PYF": {
     "area-km2": 4167,
@@ -1044,7 +1155,9 @@
     "arable-land-pct": 0.720253529242293,
     "tourism-arrivals": 89400.0015258789,
     "fdi-inflow": -6496060,
-    "surface-area": 3471
+    "surface-area": 3471,
+    "population-density": 67.46,
+    "latitude": -17.675
   },
   "KAZ": {
     "area-km2": 2724900,
@@ -1064,7 +1177,9 @@
     "health-spending-pct": 3.76701546,
     "fdi-inflow": 5722500090.69169,
     "inflation-rate": 14.7249900200331,
-    "surface-area": 2724902
+    "surface-area": 2724902,
+    "population-density": 7.46,
+    "latitude": 47.641
   },
   "AGO": {
     "area-km2": 1246700,
@@ -1084,7 +1199,9 @@
     "health-spending-pct": 2.54692864,
     "fdi-inflow": -2119632185.51477,
     "inflation-rate": 13.6441017767715,
-    "surface-area": 1246700
+    "surface-area": 1246700,
+    "population-density": 29.48,
+    "latitude": -12.167
   },
   "NZL": {
     "area-km2": 268838,
@@ -1107,7 +1224,9 @@
     "surface-area": 267710,
     "beer-consumption-per-capita": 69.4,
     "coffee-consumption-per-capita": 2.8,
-    "wine-consumption-per-capita": 18
+    "wine-consumption-per-capita": 18,
+    "population-density": 19.34,
+    "latitude": -43.828
   },
   "PRI": {
     "area-km2": 8870,
@@ -1124,7 +1243,9 @@
     "arable-land-pct": 5.65952649379932,
     "tourism-arrivals": 3882000,
     "education-spending-pct": 4.26898753959873,
-    "surface-area": 8870
+    "surface-area": 8870,
+    "population-density": 361.19,
+    "latitude": 18.216
   },
   "SAU": {
     "area-km2": 2149690,
@@ -1145,7 +1266,9 @@
     "fdi-inflow": 22803498160.5828,
     "inflation-rate": 2.32708518362699,
     "surface-area": 2149690,
-    "coffee-consumption-per-capita": 1.5
+    "coffee-consumption-per-capita": 1.5,
+    "population-density": 15.68,
+    "latitude": 24.136
   },
   "MNE": {
     "area-km2": 13812,
@@ -1165,7 +1288,9 @@
     "fdi-inflow": 525868956.944273,
     "inflation-rate": 8.58476910455403,
     "surface-area": 13810,
-    "wine-consumption-per-capita": 12
+    "wine-consumption-per-capita": 12,
+    "population-density": 45.14,
+    "latitude": 42.737
   },
   "ZAF": {
     "area-km2": 1221037,
@@ -1188,7 +1313,9 @@
     "surface-area": 1219090,
     "beer-consumption-per-capita": 59.4,
     "coffee-consumption-per-capita": 0.6,
-    "wine-consumption-per-capita": 7.5
+    "wine-consumption-per-capita": 7.5,
+    "population-density": 51.77,
+    "latitude": -28.554
   },
   "PAK": {
     "area-km2": 796095,
@@ -1208,7 +1335,9 @@
     "fdi-inflow": 2048000000,
     "inflation-rate": 30.7681280657005,
     "surface-area": 796100,
-    "beer-consumption-per-capita": 0.1
+    "beer-consumption-per-capita": 0.1,
+    "population-density": 310.9,
+    "latitude": 30.116
   },
   "LKA": {
     "area-km2": 65610,
@@ -1228,7 +1357,9 @@
     "health-spending-pct": 3.68313766,
     "fdi-inflow": 713015364.59864,
     "inflation-rate": 16.5411742279832,
-    "surface-area": 65610
+    "surface-area": 65610,
+    "population-density": 335.88,
+    "latitude": 7.697
   },
   "CMR": {
     "area-km2": 475442,
@@ -1249,11 +1380,15 @@
     "fdi-inflow": 821546383.239812,
     "inflation-rate": 7.38281384280984,
     "surface-area": 475440,
-    "beer-consumption-per-capita": 7
+    "beer-consumption-per-capita": 7,
+    "population-density": 59.68,
+    "latitude": 6.294
   },
   "GGY": {
     "area-km2": 78,
-    "population": 64781
+    "population": 64781,
+    "population-density": 830.53,
+    "latitude": 49.459
   },
   "LBR": {
     "area-km2": 111369,
@@ -1272,7 +1407,9 @@
     "health-spending-pct": 13.00574875,
     "fdi-inflow": 312281351.862,
     "inflation-rate": 10.0944535665552,
-    "surface-area": 111370
+    "surface-area": 111370,
+    "population-density": 49.32,
+    "latitude": 6.52
   },
   "ARE": {
     "area-km2": 83600,
@@ -1292,7 +1429,9 @@
     "health-spending-pct": 4.97095108,
     "fdi-inflow": 30687542545.9496,
     "inflation-rate": 1.62670837213248,
-    "surface-area": 98647.9
+    "surface-area": 98647.9,
+    "population-density": 125.4,
+    "latitude": 24.183
   },
   "CHE": {
     "area-km2": 41284,
@@ -1315,7 +1454,9 @@
     "surface-area": 41290.7,
     "beer-consumption-per-capita": 54,
     "coffee-consumption-per-capita": 7.9,
-    "wine-consumption-per-capita": 33
+    "wine-consumption-per-capita": 33,
+    "population-density": 215.31,
+    "latitude": 46.737
   },
   "HUN": {
     "area-km2": 93028,
@@ -1338,7 +1479,9 @@
     "surface-area": 93030,
     "beer-consumption-per-capita": 73,
     "coffee-consumption-per-capita": 3.1,
-    "wine-consumption-per-capita": 19
+    "wine-consumption-per-capita": 19,
+    "population-density": 103.11,
+    "latitude": 47.225
   },
   "LBY": {
     "area-km2": 1759540,
@@ -1356,7 +1499,9 @@
     "health-spending-pct": 7.80515862,
     "fdi-inflow": 794700000,
     "inflation-rate": 2.37317531435169,
-    "surface-area": 1759540
+    "surface-area": 1759540,
+    "population-density": 4.15,
+    "latitude": 27.203
   },
   "VUT": {
     "area-km2": 12189,
@@ -1376,11 +1521,15 @@
     "health-spending-pct": 4.1186676,
     "fdi-inflow": 9268550,
     "inflation-rate": 11.1825017088175,
-    "surface-area": 12190
+    "surface-area": 12190,
+    "population-density": 26.29,
+    "latitude": -15.189
   },
   "WLF": {
     "area-km2": 142,
-    "population": 11620
+    "population": 11620,
+    "population-density": 81.83,
+    "latitude": -14.283
   },
   "LCA": {
     "area-km2": 616,
@@ -1400,7 +1549,9 @@
     "health-spending-pct": 4.7298274,
     "fdi-inflow": 203075681.111111,
     "inflation-rate": 4.07060821926204,
-    "surface-area": 620
+    "surface-area": 620,
+    "population-density": 291.05,
+    "latitude": 13.896
   },
   "CAF": {
     "area-km2": 622984,
@@ -1420,7 +1571,9 @@
     "health-spending-pct": 10.65553188,
     "fdi-inflow": 38742450,
     "inflation-rate": 2.97913852618937,
-    "surface-area": 622980
+    "surface-area": 622980,
+    "population-density": 8.27,
+    "latitude": 6.331
   },
   "TJK": {
     "area-km2": 143100,
@@ -1438,7 +1591,9 @@
     "education-spending-pct": 5.43682120015444,
     "health-spending-pct": 7.43789911,
     "fdi-inflow": 140579836.626079,
-    "surface-area": 141379
+    "surface-area": 141379,
+    "population-density": 72.61,
+    "latitude": 38.569
   },
   "IRL": {
     "area-km2": 70273,
@@ -1461,7 +1616,9 @@
     "surface-area": 70280,
     "beer-consumption-per-capita": 95.2,
     "coffee-consumption-per-capita": 3.5,
-    "wine-consumption-per-capita": 17
+    "wine-consumption-per-capita": 17,
+    "population-density": 75.58,
+    "latitude": 53.305
   },
   "NCL": {
     "area-km2": 18575,
@@ -1477,7 +1634,9 @@
     "arable-land-pct": 0.326586433260394,
     "tourism-arrivals": 31000,
     "fdi-inflow": 687249680,
-    "surface-area": 18580
+    "surface-area": 18580,
+    "population-density": 15.61,
+    "latitude": -21.33
   },
   "YEM": {
     "area-km2": 527968,
@@ -1492,7 +1651,9 @@
     "arable-land-pct": 2.19330643786579,
     "health-spending-pct": 9.69559193,
     "fdi-inflow": -370982780,
-    "surface-area": 527970
+    "surface-area": 527970,
+    "population-density": 74.61,
+    "latitude": 16.001
   },
   "FRO": {
     "area-km2": 1393,
@@ -1505,7 +1666,9 @@
     "forest-coverage-pct": 0.0583941605839416,
     "renewable-energy-pct": 7.9,
     "arable-land-pct": 0.0510948905109489,
-    "surface-area": 12960
+    "surface-area": 12960,
+    "population-density": 39.06,
+    "latitude": 62.131
   },
   "CUB": {
     "area-km2": 109884,
@@ -1524,7 +1687,9 @@
     "education-spending-pct": 8.44086351669284,
     "health-spending-pct": 9.38383102,
     "surface-area": 109880,
-    "beer-consumption-per-capita": 15
+    "beer-consumption-per-capita": 15,
+    "population-density": 100.29,
+    "latitude": 21.476
   },
   "AZE": {
     "area-km2": 86600,
@@ -1544,7 +1709,9 @@
     "health-spending-pct": 4.27113533,
     "fdi-inflow": 252836000,
     "inflation-rate": 8.78543049849081,
-    "surface-area": 86600
+    "surface-area": 86600,
+    "population-density": 117.25,
+    "latitude": 40.392
   },
   "SLB": {
     "area-km2": 28896,
@@ -1564,7 +1731,9 @@
     "health-spending-pct": 5.36366177,
     "fdi-inflow": 78895436.2399953,
     "inflation-rate": 5.88585897042164,
-    "surface-area": 28900
+    "surface-area": 28900,
+    "population-density": 27.69,
+    "latitude": -9.613
   },
   "JAM": {
     "area-km2": 10991,
@@ -1585,7 +1754,9 @@
     "fdi-inflow": 492412229.3,
     "inflation-rate": 6.47413734662063,
     "surface-area": 10990,
-    "beer-consumption-per-capita": 22
+    "beer-consumption-per-capita": 22,
+    "population-density": 258.37,
+    "latitude": 18.122
   },
   "MAR": {
     "area-km2": 446550,
@@ -1606,7 +1777,9 @@
     "fdi-inflow": 1060023610.0797,
     "inflation-rate": 6.09114152504141,
     "surface-area": 446550,
-    "beer-consumption-per-capita": 1.5
+    "beer-consumption-per-capita": 1.5,
+    "population-density": 84.45,
+    "latitude": 28.688
   },
   "TTO": {
     "area-km2": 5130,
@@ -1626,15 +1799,21 @@
     "health-spending-pct": 7.52568626,
     "fdi-inflow": -1498430153.06408,
     "inflation-rate": 4.62930242419968,
-    "surface-area": 5130
+    "surface-area": 5130,
+    "population-density": 266.57,
+    "latitude": 10.416
   },
   "MYT": {
     "area-km2": 374,
-    "population": 320901
+    "population": 320901,
+    "population-density": 858.02,
+    "latitude": -12.824
   },
   "NIU": {
     "area-km2": 260,
-    "population": 1681
+    "population": 1681,
+    "population-density": 6.47,
+    "latitude": -19.052
   },
   "BLZ": {
     "area-km2": 22966,
@@ -1654,7 +1833,9 @@
     "health-spending-pct": 4.14735794,
     "fdi-inflow": 16037530.526889,
     "inflation-rate": 4.38984017487675,
-    "surface-area": 22970
+    "surface-area": 22970,
+    "population-density": 17.9,
+    "latitude": 17.243
   },
   "CHN": {
     "area-km2": 9706961,
@@ -1677,7 +1858,9 @@
     "surface-area": 9562910,
     "beer-consumption-per-capita": 36.5,
     "coffee-consumption-per-capita": 0.4,
-    "wine-consumption-per-capita": 1.5
+    "wine-consumption-per-capita": 1.5,
+    "population-density": 145.33,
+    "latitude": 38.073
   },
   "WSM": {
     "area-km2": 2842,
@@ -1697,7 +1880,9 @@
     "health-spending-pct": 6.78103304,
     "fdi-inflow": 2395914.97600409,
     "inflation-rate": 7.92164684826777,
-    "surface-area": 2840
+    "surface-area": 2840,
+    "population-density": 76.24,
+    "latitude": -13.634
   },
   "VGB": {
     "area-km2": 151,
@@ -1711,7 +1896,9 @@
     "tourism-arrivals": 83000,
     "education-spending-pct": 3.1728401184082,
     "fdi-inflow": 39889381820,
-    "surface-area": 150
+    "surface-area": 150,
+    "population-density": 258.18,
+    "latitude": 18.422
   },
   "SDN": {
     "area-km2": 1886068,
@@ -1729,11 +1916,15 @@
     "health-spending-pct": 2.85165739,
     "fdi-inflow": 548200000,
     "inflation-rate": 138.80846024176,
-    "surface-area": 1878000
+    "surface-area": 1878000,
+    "population-density": 26.53,
+    "latitude": 15.671
   },
   "NFK": {
     "area-km2": 36,
-    "population": 2188
+    "population": 2188,
+    "population-density": 60.78,
+    "latitude": -29.038
   },
   "SVK": {
     "area-km2": 49037,
@@ -1755,7 +1946,9 @@
     "surface-area": 49030,
     "beer-consumption-per-capita": 67.5,
     "coffee-consumption-per-capita": 4,
-    "wine-consumption-per-capita": 15
+    "wine-consumption-per-capita": 15,
+    "population-density": 110.67,
+    "latitude": 48.698
   },
   "BDI": {
     "area-km2": 27834,
@@ -1774,7 +1967,9 @@
     "health-spending-pct": 9.09471226,
     "fdi-inflow": 33999317.765554,
     "inflation-rate": 26.9414835762453,
-    "surface-area": 27830
+    "surface-area": 27830,
+    "population-density": 491.82,
+    "latitude": -3.261
   },
   "MHL": {
     "area-km2": 181,
@@ -1792,7 +1987,9 @@
     "education-spending-pct": 7.70088005065918,
     "health-spending-pct": 13.40528965,
     "fdi-inflow": 2039470,
-    "surface-area": 180
+    "surface-area": 180,
+    "population-density": 214.51,
+    "latitude": 7.308
   },
   "AUT": {
     "area-km2": 83871,
@@ -1815,7 +2012,9 @@
     "surface-area": 83879,
     "beer-consumption-per-capita": 107.8,
     "coffee-consumption-per-capita": 6.1,
-    "wine-consumption-per-capita": 29.3
+    "wine-consumption-per-capita": 29.3,
+    "population-density": 108.88,
+    "latitude": 47.632
   },
   "MOZ": {
     "area-km2": 801590,
@@ -1835,7 +2034,9 @@
     "health-spending-pct": 8.50126553,
     "fdi-inflow": 2683506270.92075,
     "inflation-rate": 7.12697482131851,
-    "surface-area": 799380
+    "surface-area": 799380,
+    "population-density": 41.96,
+    "latitude": -17.525
   },
   "VCT": {
     "area-km2": 389,
@@ -1855,7 +2056,9 @@
     "health-spending-pct": 4.43696308,
     "fdi-inflow": 73835578.8888888,
     "inflation-rate": 4.56457719814894,
-    "surface-area": 390
+    "surface-area": 390,
+    "population-density": 260.47,
+    "latitude": 13.255
   },
   "PNG": {
     "area-km2": 462840,
@@ -1875,7 +2078,9 @@
     "health-spending-pct": 2.87081432,
     "fdi-inflow": 43303090.2099809,
     "inflation-rate": 2.29869991296791,
-    "surface-area": 462840
+    "surface-area": 462840,
+    "population-density": 22.45,
+    "latitude": -7.157
   },
   "TUR": {
     "area-km2": 783562,
@@ -1898,7 +2103,9 @@
     "surface-area": 785350,
     "beer-consumption-per-capita": 14,
     "coffee-consumption-per-capita": 1,
-    "wine-consumption-per-capita": 1.5
+    "wine-consumption-per-capita": 1.5,
+    "population-density": 108.89,
+    "latitude": 38.932
   },
   "UNK": {
     "area-km2": 10908,
@@ -1909,7 +2116,8 @@
     "urban-population-pct": 49.1105579101515,
     "fertility-rate": 1.545,
     "fdi-inflow": 908658506.572891,
-    "inflation-rate": 4.94432438791283
+    "inflation-rate": 4.94432438791283,
+    "population-density": 154.26
   },
   "GRD": {
     "area-km2": 344,
@@ -1928,7 +2136,9 @@
     "health-spending-pct": 4.65330839,
     "fdi-inflow": 220251551.111111,
     "inflation-rate": 2.69612269814564,
-    "surface-area": 340
+    "surface-area": 340,
+    "population-density": 340.35,
+    "latitude": 12.113
   },
   "KHM": {
     "area-km2": 181035,
@@ -1948,7 +2158,9 @@
     "health-spending-pct": 4.61706829,
     "fdi-inflow": 3958792378.8864,
     "inflation-rate": 2.12746796594194,
-    "surface-area": 181040
+    "surface-area": 181040,
+    "population-density": 96.25,
+    "latitude": 12.699
   },
   "PRT": {
     "area-km2": 92090,
@@ -1971,7 +2183,9 @@
     "surface-area": 92230,
     "beer-consumption-per-capita": 51,
     "coffee-consumption-per-capita": 4.3,
-    "wine-consumption-per-capita": 51.9
+    "wine-consumption-per-capita": 51.9,
+    "population-density": 114.87,
+    "latitude": 39.675
   },
   "GBR": {
     "area-km2": 244376,
@@ -1994,7 +2208,9 @@
     "surface-area": 243610,
     "beer-consumption-per-capita": 71.5,
     "coffee-consumption-per-capita": 3.3,
-    "wine-consumption-per-capita": 19.5
+    "wine-consumption-per-capita": 19.5,
+    "population-density": 280.27,
+    "latitude": 53.978
   },
   "NGA": {
     "area-km2": 923768,
@@ -2015,11 +2231,15 @@
     "inflation-rate": 24.659550203114,
     "surface-area": 923770,
     "beer-consumption-per-capita": 12.3,
-    "coffee-consumption-per-capita": 0.1
+    "coffee-consumption-per-capita": 0.1,
+    "population-density": 246.69,
+    "latitude": 9.61
   },
   "AIA": {
     "area-km2": 91,
-    "population": 16010
+    "population": 16010,
+    "population-density": 175.93,
+    "latitude": 18.223
   },
   "MNP": {
     "area-km2": 464,
@@ -2033,7 +2253,9 @@
     "renewable-energy-pct": 0.5,
     "arable-land-pct": 0.173913043478261,
     "tourism-arrivals": 487000,
-    "surface-area": 460
+    "surface-area": 460,
+    "population-density": 97.29,
+    "latitude": 15.178
   },
   "ISR": {
     "area-km2": 21937,
@@ -2055,11 +2277,15 @@
     "inflation-rate": 4.22522603168918,
     "surface-area": 22070,
     "coffee-consumption-per-capita": 5,
-    "wine-consumption-per-capita": 6.5
+    "wine-consumption-per-capita": 6.5,
+    "population-density": 448.97,
+    "latitude": 31.514
   },
   "GUF": {
     "area-km2": 83534,
-    "population": 292354
+    "population": 292354,
+    "population-density": 3.5,
+    "latitude": 3.857
   },
   "LBN": {
     "area-km2": 10452,
@@ -2081,7 +2307,9 @@
     "inflation-rate": 221.341644023365,
     "surface-area": 10450,
     "coffee-consumption-per-capita": 3.5,
-    "wine-consumption-per-capita": 5
+    "wine-consumption-per-capita": 5,
+    "population-density": 552.38,
+    "latitude": 33.912
   },
   "JPN": {
     "area-km2": 377930,
@@ -2104,7 +2332,9 @@
     "surface-area": 377969.27,
     "beer-consumption-per-capita": 42.6,
     "coffee-consumption-per-capita": 3.6,
-    "wine-consumption-per-capita": 3.5
+    "wine-consumption-per-capita": 3.5,
+    "population-density": 329.47,
+    "latitude": 36.767
   },
   "GMB": {
     "area-km2": 10689,
@@ -2124,7 +2354,9 @@
     "health-spending-pct": 2.89250112,
     "fdi-inflow": 205541473.783854,
     "inflation-rate": 16.9742129632327,
-    "surface-area": 11300
+    "surface-area": 11300,
+    "population-density": 252.39,
+    "latitude": 13.429
   },
   "MAF": {
     "area-km2": 53,
@@ -2135,7 +2367,9 @@
     "urban-population-pct": 100,
     "fertility-rate": 2.718,
     "forest-coverage-pct": 24.8,
-    "surface-area": 50
+    "surface-area": 50,
+    "population-density": 519.15,
+    "latitude": 18.078
   },
   "GNB": {
     "area-km2": 36125,
@@ -2154,7 +2388,9 @@
     "health-spending-pct": 8.82204819,
     "fdi-inflow": 25133300.8212657,
     "inflation-rate": 7.10220928557059,
-    "surface-area": 36130
+    "surface-area": 36130,
+    "population-density": 59.61,
+    "latitude": 11.98
   },
   "LAO": {
     "area-km2": 236800,
@@ -2174,7 +2410,9 @@
     "health-spending-pct": 1.32651615,
     "fdi-inflow": 1781176779.47452,
     "inflation-rate": 31.2301341732646,
-    "surface-area": 236800
+    "surface-area": 236800,
+    "population-density": 32.37,
+    "latitude": 18.117
   },
   "MKD": {
     "area-km2": 25713,
@@ -2194,7 +2432,9 @@
     "fdi-inflow": 641500343.167691,
     "inflation-rate": 9.36187249769016,
     "surface-area": 25710,
-    "wine-consumption-per-capita": 10
+    "wine-consumption-per-capita": 10,
+    "population-density": 71.09,
+    "latitude": 41.594
   },
   "QAT": {
     "area-km2": 11586,
@@ -2214,7 +2454,9 @@
     "health-spending-pct": 2.52358818,
     "fdi-inflow": -474175824.175824,
     "inflation-rate": 3.02764899198902,
-    "surface-area": 11490
+    "surface-area": 11490,
+    "population-density": 229.24,
+    "latitude": 25.319
   },
   "ZMB": {
     "area-km2": 752612,
@@ -2234,7 +2476,9 @@
     "health-spending-pct": 5.97841072,
     "fdi-inflow": 641091890.665879,
     "inflation-rate": 10.884531691282,
-    "surface-area": 752610
+    "surface-area": 752610,
+    "population-density": 27.54,
+    "latitude": -13.163
   },
   "BRB": {
     "area-km2": 430,
@@ -2254,11 +2498,15 @@
     "health-spending-pct": 5.40463829,
     "fdi-inflow": 224900000,
     "inflation-rate": 9.79207077126447,
-    "surface-area": 430
+    "surface-area": 430,
+    "population-density": 656.6,
+    "latitude": 13.183
   },
   "VAT": {
     "area-km2": 0.49,
-    "population": 882
+    "population": 882,
+    "population-density": 1800,
+    "latitude": 41.904
   },
   "ITA": {
     "area-km2": 301336,
@@ -2281,7 +2529,9 @@
     "surface-area": 302070,
     "beer-consumption-per-capita": 34,
     "coffee-consumption-per-capita": 5.9,
-    "wine-consumption-per-capita": 44
+    "wine-consumption-per-capita": 44,
+    "population-density": 195.74,
+    "latitude": 42.982
   },
   "COM": {
     "area-km2": 1862,
@@ -2301,7 +2551,9 @@
     "health-spending-pct": 6.55212021,
     "fdi-inflow": 5352754.89432873,
     "inflation-rate": 8.37373955490996,
-    "surface-area": 1861
+    "surface-area": 1861,
+    "population-density": 456.71,
+    "latitude": -11.659
   },
   "ALB": {
     "area-km2": 28748,
@@ -2322,7 +2574,9 @@
     "fdi-inflow": 1620982550.54309,
     "inflation-rate": 4.75834555150039,
     "surface-area": 28750,
-    "wine-consumption-per-capita": 5
+    "wine-consumption-per-capita": 5,
+    "population-density": 83.97,
+    "latitude": 41.142
   },
   "GIB": {
     "area-km2": 6,
@@ -2332,7 +2586,9 @@
     "fertility-rate": 1.888,
     "forest-coverage-pct": 0,
     "renewable-energy-pct": 0,
-    "surface-area": 10
+    "surface-area": 10,
+    "population-density": 6411.83,
+    "latitude": 36.14
   },
   "MNG": {
     "area-km2": 1564110,
@@ -2352,7 +2608,9 @@
     "health-spending-pct": 6.07207489,
     "fdi-inflow": 2247573669.88719,
     "inflation-rate": 10.347583131434,
-    "surface-area": 1564120
+    "surface-area": 1564120,
+    "population-density": 2.23,
+    "latitude": 47.086
   },
   "TON": {
     "area-km2": 747,
@@ -2372,7 +2630,9 @@
     "health-spending-pct": 7.36037779,
     "fdi-inflow": 2622141.7789236,
     "inflation-rate": 6.35112980255189,
-    "surface-area": 750
+    "surface-area": 750,
+    "population-density": 140.02,
+    "latitude": -21.159
   },
   "MDG": {
     "area-km2": 587041,
@@ -2392,15 +2652,21 @@
     "health-spending-pct": 3.42822957,
     "fdi-inflow": 519515232.451645,
     "inflation-rate": 9.87432675044888,
-    "surface-area": 587295
+    "surface-area": 587295,
+    "population-density": 53.14,
+    "latitude": -19.042
   },
   "SPM": {
     "area-km2": 242,
-    "population": 5819
+    "population": 5819,
+    "population-density": 24.05,
+    "latitude": 46.952
   },
   "SHN": {
     "area-km2": 394,
-    "population": 5651
+    "population": 5651,
+    "population-density": 14.34,
+    "latitude": -15.963
   },
   "MCO": {
     "area-km2": 2.02,
@@ -2415,7 +2681,9 @@
     "tourism-arrivals": 159000,
     "education-spending-pct": 1.73223996162415,
     "health-spending-pct": 3.11959291,
-    "surface-area": 74.9
+    "surface-area": 74.9,
+    "population-density": 19285.15,
+    "latitude": 43.748
   },
   "BRA": {
     "area-km2": 8515767,
@@ -2438,7 +2706,9 @@
     "surface-area": 8510420,
     "beer-consumption-per-capita": 63,
     "coffee-consumption-per-capita": 6.1,
-    "wine-consumption-per-capita": 2
+    "wine-consumption-per-capita": 2,
+    "population-density": 24.79,
+    "latitude": -11.525
   },
   "AUS": {
     "area-km2": 7692024,
@@ -2461,7 +2731,9 @@
     "surface-area": 7741220,
     "beer-consumption-per-capita": 74,
     "coffee-consumption-per-capita": 3,
-    "wine-consumption-per-capita": 25
+    "wine-consumption-per-capita": 25,
+    "population-density": 3.47,
+    "latitude": -25.697
   },
   "GUY": {
     "area-km2": 214969,
@@ -2480,7 +2752,9 @@
     "health-spending-pct": 2.46673751,
     "fdi-inflow": -1135036125.52568,
     "inflation-rate": 2.82110335099641,
-    "surface-area": 214970
+    "surface-area": 214970,
+    "population-density": 3.84,
+    "latitude": 4.682
   },
   "SVN": {
     "area-km2": 20273,
@@ -2503,7 +2777,9 @@
     "surface-area": 20480,
     "beer-consumption-per-capita": 80,
     "coffee-consumption-per-capita": 5,
-    "wine-consumption-per-capita": 30
+    "wine-consumption-per-capita": 30,
+    "population-density": 104.6,
+    "latitude": 46.138
   },
   "SMR": {
     "area-km2": 61,
@@ -2521,11 +2797,15 @@
     "health-spending-pct": 6.60829115,
     "fdi-inflow": -18112873.5752826,
     "inflation-rate": 5.93190858629403,
-    "surface-area": 60
+    "surface-area": 60,
+    "population-density": 555.08,
+    "latitude": 43.943
   },
   "TKL": {
     "area-km2": 12,
-    "population": 2608
+    "population": 2608,
+    "population-density": 217.33,
+    "latitude": -9.195
   },
   "PSE": {
     "area-km2": 6220,
@@ -2545,7 +2825,9 @@
     "health-spending-pct": 10.73343945,
     "fdi-inflow": 103535363.986695,
     "inflation-rate": 5.87110177678988,
-    "surface-area": 6025
+    "surface-area": 6025,
+    "population-density": 830.51,
+    "latitude": 31.931
   },
   "BTN": {
     "area-km2": 38394,
@@ -2565,7 +2847,9 @@
     "health-spending-pct": 4.41551638,
     "fdi-inflow": 10193821.9383847,
     "inflation-rate": 4.22934419929251,
-    "surface-area": 38390
+    "surface-area": 38390,
+    "population-density": 20.48,
+    "latitude": 27.422
   },
   "SXM": {
     "area-km2": 34,
@@ -2580,7 +2864,9 @@
     "tourism-arrivals": 1952000,
     "education-spending-pct": 3.92363832601723,
     "fdi-inflow": 45267218.4134078,
-    "surface-area": 34
+    "surface-area": 34,
+    "population-density": 1257.32,
+    "latitude": 18.039
   },
   "PHL": {
     "area-km2": 342353,
@@ -2601,7 +2887,9 @@
     "fdi-inflow": 8925128471.59541,
     "inflation-rate": 5.97802515541409,
     "surface-area": 300000,
-    "beer-consumption-per-capita": 23
+    "beer-consumption-per-capita": 23,
+    "population-density": 335.59,
+    "latitude": 15.587
   },
   "CHL": {
     "area-km2": 756102,
@@ -2624,11 +2912,15 @@
     "surface-area": 757244.88,
     "beer-consumption-per-capita": 35,
     "coffee-consumption-per-capita": 2,
-    "wine-consumption-per-capita": 16
+    "wine-consumption-per-capita": 16,
+    "population-density": 26,
+    "latitude": -37.829
   },
   "MTQ": {
     "area-km2": 1128,
-    "population": 349925
+    "population": 349925,
+    "population-density": 310.22,
+    "latitude": 14.643
   },
   "HTI": {
     "area-km2": 27750,
@@ -2648,7 +2940,9 @@
     "health-spending-pct": 3.19156528,
     "fdi-inflow": 23647920,
     "inflation-rate": 36.8135162780854,
-    "surface-area": 27750
+    "surface-area": 27750,
+    "population-density": 419.37,
+    "latitude": 18.884
   },
   "STP": {
     "area-km2": 964,
@@ -2667,7 +2961,9 @@
     "health-spending-pct": 5.77292156,
     "fdi-inflow": -25799601.0965511,
     "inflation-rate": 21.2589138473,
-    "surface-area": 960
+    "surface-area": 960,
+    "population-density": 239.49,
+    "latitude": 0.227
   },
   "MAC": {
     "area-km2": 30,
@@ -2684,7 +2980,8 @@
     "education-spending-pct": 3.50183010101318,
     "fdi-inflow": 1144351033.57612,
     "inflation-rate": 0.476384495788075,
-    "surface-area": 33
+    "surface-area": 33,
+    "population-density": 22626.67
   },
   "MUS": {
     "area-km2": 2040,
@@ -2704,7 +3001,9 @@
     "health-spending-pct": 5.56544495,
     "fdi-inflow": 759847580,
     "inflation-rate": 7.05298238454736,
-    "surface-area": 2010
+    "surface-area": 2010,
+    "population-density": 612.08,
+    "latitude": -20.281
   },
   "BHR": {
     "area-km2": 765,
@@ -2724,7 +3023,9 @@
     "health-spending-pct": 3.99562383,
     "fdi-inflow": 7225797872.34042,
     "inflation-rate": 0.0746206782192256,
-    "surface-area": 790
+    "surface-area": 790,
+    "population-density": 2061.52,
+    "latitude": 26.048
   },
   "MEX": {
     "area-km2": 1964375,
@@ -2747,11 +3048,15 @@
     "surface-area": 1959142.3,
     "beer-consumption-per-capita": 66,
     "coffee-consumption-per-capita": 1.5,
-    "wine-consumption-per-capita": 1
+    "wine-consumption-per-capita": 1,
+    "population-density": 66.05,
+    "latitude": 23.874
   },
   "PCN": {
     "area-km2": 47,
-    "population": 35
+    "population": 35,
+    "population-density": 0.74,
+    "latitude": -24.366
   },
   "ARG": {
     "area-km2": 2780400,
@@ -2774,7 +3079,9 @@
     "surface-area": 2780400,
     "beer-consumption-per-capita": 44,
     "coffee-consumption-per-capita": 1,
-    "wine-consumption-per-capita": 24
+    "wine-consumption-per-capita": 24,
+    "population-density": 16.38,
+    "latitude": -35.697
   },
   "NPL": {
     "area-km2": 147181,
@@ -2794,7 +3101,9 @@
     "health-spending-pct": 6.15843678,
     "fdi-inflow": 74821496.0370769,
     "inflation-rate": 7.11587261530826,
-    "surface-area": 147180
+    "surface-area": 147180,
+    "population-density": 201.76,
+    "latitude": 28.301
   },
   "SWE": {
     "area-km2": 450295,
@@ -2817,7 +3126,9 @@
     "surface-area": 528860,
     "beer-consumption-per-capita": 56.2,
     "coffee-consumption-per-capita": 8.2,
-    "wine-consumption-per-capita": 20.5
+    "wine-consumption-per-capita": 20.5,
+    "population-density": 23.4,
+    "latitude": 62.734
   },
   "SLE": {
     "area-km2": 71740,
@@ -2837,7 +3148,9 @@
     "health-spending-pct": 4.71883011,
     "fdi-inflow": 145910237.670517,
     "inflation-rate": 47.6428733253179,
-    "surface-area": 72300
+    "surface-area": 72300,
+    "population-density": 117.93,
+    "latitude": 8.561
   },
   "SWZ": {
     "area-km2": 17364,
@@ -2857,7 +3170,9 @@
     "health-spending-pct": 7.49763966,
     "fdi-inflow": 28132551.483073,
     "inflation-rate": 2.59801620311077,
-    "surface-area": 17360
+    "surface-area": 17360,
+    "population-density": 70.87,
+    "latitude": -26.563
   },
   "ESP": {
     "area-km2": 505992,
@@ -2880,7 +3195,9 @@
     "surface-area": 505978.281,
     "beer-consumption-per-capita": 88.8,
     "coffee-consumption-per-capita": 4.5,
-    "wine-consumption-per-capita": 21
+    "wine-consumption-per-capita": 21,
+    "population-density": 95.56,
+    "latitude": 28.298
   },
   "COL": {
     "area-km2": 1141748,
@@ -2903,7 +3220,9 @@
     "surface-area": 1140619.05,
     "beer-consumption-per-capita": 47,
     "coffee-consumption-per-capita": 2,
-    "wine-consumption-per-capita": 0.5
+    "wine-consumption-per-capita": 0.5,
+    "population-density": 45.83,
+    "latitude": 4.188
   },
   "TCA": {
     "area-km2": 948,
@@ -2919,7 +3238,9 @@
     "tourism-arrivals": 370399.993896484,
     "education-spending-pct": 2.68765461969981,
     "fdi-inflow": 32659570,
-    "surface-area": 950
+    "surface-area": 950,
+    "population-density": 48.73,
+    "latitude": 21.8
   },
   "DJI": {
     "area-km2": 23200,
@@ -2937,7 +3258,9 @@
     "health-spending-pct": 2.28316021,
     "fdi-inflow": 137009451,
     "inflation-rate": 1.49506816515088,
-    "surface-area": 23200
+    "surface-area": 23200,
+    "population-density": 49.7,
+    "latitude": 11.75
   },
   "NRU": {
     "area-km2": 21,
@@ -2953,7 +3276,9 @@
     "education-spending-pct": 5.67543983459473,
     "health-spending-pct": 18.21076012,
     "fdi-inflow": 1446294.792565,
-    "surface-area": 20
+    "surface-area": 20,
+    "population-density": 565.48,
+    "latitude": -0.522
   },
   "SLV": {
     "area-km2": 21041,
@@ -2973,15 +3298,20 @@
     "health-spending-pct": 9.28738594,
     "fdi-inflow": 642983912.959999,
     "inflation-rate": 4.04554694222477,
-    "surface-area": 21040
+    "surface-area": 21040,
+    "population-density": 299.87,
+    "latitude": 13.758
   },
   "ALA": {
     "area-km2": 1580,
-    "population": 30654
+    "population": 30654,
+    "population-density": 19.4
   },
   "GLP": {
     "area-km2": 1628,
-    "population": 378561
+    "population": 378561,
+    "population-density": 232.53,
+    "latitude": 16.244
   },
   "HND": {
     "area-km2": 112492,
@@ -3001,7 +3331,9 @@
     "health-spending-pct": 7.70976162,
     "fdi-inflow": 1086111945.15352,
     "inflation-rate": 6.66325180347457,
-    "surface-area": 112490
+    "surface-area": 112490,
+    "population-density": 94.63,
+    "latitude": 14.74
   },
   "KEN": {
     "area-km2": 580367,
@@ -3023,7 +3355,9 @@
     "inflation-rate": 7.67139634029402,
     "surface-area": 591969,
     "beer-consumption-per-capita": 13,
-    "coffee-consumption-per-capita": 0.2
+    "coffee-consumption-per-capita": 0.2,
+    "population-density": 95.35,
+    "latitude": 0.69
   },
   "MLT": {
     "area-km2": 316,
@@ -3043,7 +3377,9 @@
     "health-spending-pct": 8.84301376,
     "fdi-inflow": 24601713594.3614,
     "inflation-rate": 5.09396758978883,
-    "surface-area": 320
+    "surface-area": 320,
+    "population-density": 1749.2,
+    "latitude": 35.891
   },
   "LVA": {
     "area-km2": 64559,
@@ -3066,7 +3402,9 @@
     "surface-area": 64590,
     "beer-consumption-per-capita": 81.5,
     "coffee-consumption-per-capita": 4,
-    "wine-consumption-per-capita": 9
+    "wine-consumption-per-capita": 9,
+    "population-density": 29.18,
+    "latitude": 56.814
   },
   "GAB": {
     "area-km2": 267668,
@@ -3085,7 +3423,9 @@
     "health-spending-pct": 3.13430715,
     "fdi-inflow": 1150733280,
     "inflation-rate": 3.62901534185376,
-    "surface-area": 267670
+    "surface-area": 267670,
+    "population-density": 9.28,
+    "latitude": -0.628
   },
   "HKG": {
     "area-km2": 1104,
@@ -3103,11 +3443,14 @@
     "education-spending-pct": 3.80327010154724,
     "fdi-inflow": 121985594745.393,
     "inflation-rate": 2.09660511249089,
-    "surface-area": 1110
+    "surface-area": 1110,
+    "population-density": 6826.18
   },
   "SJM": {
     "area-km2": 61399,
-    "population": 2530
+    "population": 2530,
+    "population-density": 0.04,
+    "latitude": 78.573
   },
   "TUV": {
     "area-km2": 26,
@@ -3124,7 +3467,9 @@
     "education-spending-pct": 12.8456897735596,
     "health-spending-pct": 27.08968544,
     "fdi-inflow": 166290,
-    "surface-area": 30
+    "surface-area": 30,
+    "population-density": 377.54,
+    "latitude": -8.515
   },
   "TLS": {
     "area-km2": 14874,
@@ -3144,11 +3489,14 @@
     "health-spending-pct": 9.59779453,
     "fdi-inflow": 122186169.249457,
     "inflation-rate": 8.42035103310377,
-    "surface-area": 14870
+    "surface-area": 14870,
+    "population-density": 93.07,
+    "latitude": -8.81
   },
   "ESH": {
     "area-km2": 266000,
-    "population": 600904
+    "population": 600904,
+    "population-density": 2.26
   },
   "LSO": {
     "area-km2": 30355,
@@ -3168,7 +3516,9 @@
     "health-spending-pct": 12.61182117,
     "fdi-inflow": -25647817.1357354,
     "inflation-rate": 6.34221743124953,
-    "surface-area": 30360
+    "surface-area": 30360,
+    "population-density": 76.15,
+    "latitude": -29.602
   },
   "USA": {
     "area-km2": 9525067,
@@ -3191,7 +3541,9 @@
     "surface-area": 9831510,
     "beer-consumption-per-capita": 76,
     "coffee-consumption-per-capita": 4.2,
-    "wine-consumption-per-capita": 12.5
+    "wine-consumption-per-capita": 12.5,
+    "population-density": 35.36,
+    "latitude": 38.821
   },
   "THA": {
     "area-km2": 513120,
@@ -3212,7 +3564,9 @@
     "fdi-inflow": 10327587425.687,
     "inflation-rate": 8.47805174421543,
     "surface-area": 513115.021,
-    "beer-consumption-per-capita": 30
+    "beer-consumption-per-capita": 30,
+    "population-density": 139.74,
+    "latitude": 13.662
   },
   "IND": {
     "area-km2": 3287263,
@@ -3235,7 +3589,9 @@
     "surface-area": 3287260,
     "beer-consumption-per-capita": 2,
     "coffee-consumption-per-capita": 0.1,
-    "wine-consumption-per-capita": 0.1
+    "wine-consumption-per-capita": 0.1,
+    "population-density": 437.47,
+    "latitude": 23.586
   },
   "LTU": {
     "area-km2": 65300,
@@ -3258,11 +3614,15 @@
     "surface-area": 65286,
     "beer-consumption-per-capita": 88.2,
     "coffee-consumption-per-capita": 3.8,
-    "wine-consumption-per-capita": 10
+    "wine-consumption-per-capita": 10,
+    "population-density": 43.98,
+    "latitude": 55.294
   },
   "MSR": {
     "area-km2": 102,
-    "population": 4386
+    "population": 4386,
+    "population-density": 43,
+    "latitude": 16.735
   },
   "ZWE": {
     "area-km2": 390757,
@@ -3282,11 +3642,15 @@
     "health-spending-pct": 2.92601609,
     "fdi-inflow": 604196000,
     "inflation-rate": 104.705170628667,
-    "surface-area": 390760
+    "surface-area": 390760,
+    "population-density": 41.82,
+    "latitude": -18.927
   },
   "FLK": {
     "area-km2": 12173,
-    "population": 3662
+    "population": 3662,
+    "population-density": 0.3,
+    "latitude": -51.759
   },
   "MDV": {
     "area-km2": 300,
@@ -3306,7 +3670,9 @@
     "health-spending-pct": 9.24973583,
     "fdi-inflow": 766835023.508003,
     "inflation-rate": 2.92746542425035,
-    "surface-area": 300
+    "surface-area": 300,
+    "population-density": 1753.31,
+    "latitude": -0.607
   },
   "TUN": {
     "area-km2": 163610,
@@ -3326,7 +3692,9 @@
     "health-spending-pct": 7.98537874,
     "fdi-inflow": 705491409.559272,
     "inflation-rate": 9.32899597507865,
-    "surface-area": 163610
+    "surface-area": 163610,
+    "population-density": 74.57,
+    "latitude": 34.086
   },
   "EST": {
     "area-km2": 45227,
@@ -3349,7 +3717,9 @@
     "surface-area": 45340,
     "beer-consumption-per-capita": 69.3,
     "coffee-consumption-per-capita": 5,
-    "wine-consumption-per-capita": 10
+    "wine-consumption-per-capita": 10,
+    "population-density": 30.3,
+    "latitude": 58.648
   },
   "BGD": {
     "area-km2": 147570,
@@ -3369,7 +3739,9 @@
     "health-spending-pct": 2.17014575,
     "fdi-inflow": 1484418066.45822,
     "inflation-rate": 9.8835030377921,
-    "surface-area": 147570
+    "surface-area": 147570,
+    "population-density": 1161.94,
+    "latitude": 23.674
   },
   "UZB": {
     "area-km2": 447400,
@@ -3389,7 +3761,9 @@
     "health-spending-pct": 6.74312878,
     "fdi-inflow": 2156350918.89039,
     "inflation-rate": 9.95659071258018,
-    "surface-area": 448924
+    "surface-area": 448924,
+    "population-density": 79.69,
+    "latitude": 41.488
   },
   "GHA": {
     "area-km2": 238533,
@@ -3409,7 +3783,9 @@
     "fdi-inflow": 1319315614.67989,
     "inflation-rate": 38.1069656296501,
     "surface-area": 238533,
-    "beer-consumption-per-capita": 10.5
+    "beer-consumption-per-capita": 10.5,
+    "population-density": 141.65,
+    "latitude": 7.945
   },
   "NOR": {
     "area-km2": 386224,
@@ -3432,7 +3808,9 @@
     "surface-area": 624500,
     "beer-consumption-per-capita": 55.5,
     "coffee-consumption-per-capita": 9.9,
-    "wine-consumption-per-capita": 15
+    "wine-consumption-per-capita": 15,
+    "population-density": 14.29,
+    "latitude": 64.978
   },
   "SOM": {
     "area-km2": 637657,
@@ -3450,7 +3828,9 @@
     "education-spending-pct": 0.00000814262404011,
     "health-spending-pct": 3.74413586,
     "fdi-inflow": 676500000,
-    "surface-area": 637660
+    "surface-area": 637660,
+    "population-density": 28.79,
+    "latitude": 6.525
   },
   "BHS": {
     "area-km2": 13943,
@@ -3470,7 +3850,9 @@
     "health-spending-pct": 6.30260801,
     "fdi-inflow": 322456455.071094,
     "inflation-rate": 3.05291578969743,
-    "surface-area": 13880
+    "surface-area": 13880,
+    "population-density": 28.65,
+    "latitude": 24.722
   },
   "OMN": {
     "area-km2": 309500,
@@ -3490,7 +3872,9 @@
     "health-spending-pct": 3.49047446,
     "fdi-inflow": 12545383615.0845,
     "inflation-rate": 0.950782997762827,
-    "surface-area": 309500
+    "surface-area": 309500,
+    "population-density": 16.31,
+    "latitude": 20.724
   },
   "LUX": {
     "area-km2": 2586,
@@ -3510,7 +3894,9 @@
     "health-spending-pct": 5.78777981,
     "fdi-inflow": -9279442930,
     "inflation-rate": 3.74140361983136,
-    "surface-area": 2590
+    "surface-area": 2590,
+    "population-density": 257.71,
+    "latitude": 49.775
   },
   "IRQ": {
     "area-km2": 438317,
@@ -3528,7 +3914,9 @@
     "health-spending-pct": 5.53275251,
     "fdi-inflow": -5363500000,
     "inflation-rate": 4.35835351089586,
-    "surface-area": 435050
+    "surface-area": 435050,
+    "population-density": 102.83,
+    "latitude": 33.105
   },
   "VIR": {
     "area-km2": 347,
@@ -3543,7 +3931,9 @@
     "renewable-energy-pct": 5.9,
     "arable-land-pct": 2.57142857142857,
     "tourism-arrivals": 8612000,
-    "surface-area": 350
+    "surface-area": 350,
+    "population-density": 302.35,
+    "latitude": 17.738
   },
   "MRT": {
     "area-km2": 1030700,
@@ -3562,7 +3952,9 @@
     "health-spending-pct": 4.34333467,
     "fdi-inflow": 848351729.722353,
     "inflation-rate": 4.95305034506872,
-    "surface-area": 1030700
+    "surface-area": 1030700,
+    "population-density": 4.87,
+    "latitude": 20.467
   },
   "CAN": {
     "area-km2": 9984670,
@@ -3585,7 +3977,9 @@
     "surface-area": 15634410,
     "beer-consumption-per-capita": 66.2,
     "coffee-consumption-per-capita": 6.5,
-    "wine-consumption-per-capita": 14
+    "wine-consumption-per-capita": 14,
+    "population-density": 4.01,
+    "latitude": 57.55
   },
   "MMR": {
     "area-km2": 676578,
@@ -3605,7 +3999,9 @@
     "health-spending-pct": 4.45748425,
     "fdi-inflow": 1520172000,
     "inflation-rate": 8.82506696804558,
-    "surface-area": 676590
+    "surface-area": 676590,
+    "population-density": 80.01,
+    "latitude": 19.901
   },
   "MYS": {
     "area-km2": 330803,
@@ -3625,15 +4021,21 @@
     "health-spending-pct": 3.95760036,
     "fdi-inflow": 7918601050.23635,
     "inflation-rate": 2.48886560125754,
-    "surface-area": 330411
+    "surface-area": 330411,
+    "population-density": 106.18,
+    "latitude": 3.672
   },
   "CCK": {
     "area-km2": 14,
-    "population": 593
+    "population": 593,
+    "population-density": 42.36,
+    "latitude": -12.171
   },
   "BES": {
     "area-km2": 328,
-    "population": 31980
+    "population": 31980,
+    "population-density": 97.5,
+    "latitude": 17.492
   },
   "UGA": {
     "area-km2": 241550,
@@ -3653,7 +4055,9 @@
     "health-spending-pct": 4.23600149,
     "fdi-inflow": 2993518989,
     "inflation-rate": 5.35094804280395,
-    "surface-area": 241550
+    "surface-area": 241550,
+    "population-density": 201.43,
+    "latitude": 1.282
   },
   "IRN": {
     "area-km2": 1648195,
@@ -3673,7 +4077,9 @@
     "health-spending-pct": 6.02542305,
     "fdi-inflow": 1422333330,
     "inflation-rate": 44.5791857572797,
-    "surface-area": 1745150
+    "surface-area": 1745150,
+    "population-density": 54.97,
+    "latitude": 32.906
   },
   "CUW": {
     "area-km2": 444,
@@ -3689,7 +4095,9 @@
     "education-spending-pct": 5.30074159005788,
     "fdi-inflow": 136602563.648045,
     "inflation-rate": 2.62220783425059,
-    "surface-area": 444
+    "surface-area": 444,
+    "population-density": 348.32,
+    "latitude": 12.2
   },
   "ROU": {
     "area-km2": 238391,
@@ -3712,7 +4120,9 @@
     "surface-area": 238400,
     "beer-consumption-per-capita": 96.9,
     "coffee-consumption-per-capita": 2.4,
-    "wine-consumption-per-capita": 19.5
+    "wine-consumption-per-capita": 19.5,
+    "population-density": 79.96,
+    "latitude": 45.825
   },
   "SYR": {
     "area-km2": 185180,
@@ -3730,7 +4140,9 @@
     "tourism-arrivals": 2424000,
     "health-spending-pct": 2.70998812,
     "inflation-rate": 13.4175653228571,
-    "surface-area": 185180
+    "surface-area": 185180,
+    "population-density": 127.41,
+    "latitude": 35.098
   },
   "FJI": {
     "area-km2": 18272,
@@ -3750,7 +4162,9 @@
     "health-spending-pct": 3.61524153,
     "fdi-inflow": 90569882.8356575,
     "inflation-rate": 2.34408296633042,
-    "surface-area": 18270
+    "surface-area": 18270,
+    "population-density": 50.58,
+    "latitude": -17.822
   },
   "ABW": {
     "area-km2": 180,
@@ -3767,7 +4181,9 @@
     "education-spending-pct": 3.61855755636695,
     "fdi-inflow": -137459364.921322,
     "inflation-rate": 4.25746204335428,
-    "surface-area": 180
+    "surface-area": 180,
+    "population-density": 596.44,
+    "latitude": 12.516
   },
   "NLD": {
     "area-km2": 41865,
@@ -3790,7 +4206,9 @@
     "surface-area": 41540,
     "beer-consumption-per-capita": 79,
     "coffee-consumption-per-capita": 8.4,
-    "wine-consumption-per-capita": 20
+    "wine-consumption-per-capita": 20,
+    "population-density": 427.02,
+    "latitude": 52.134
   },
   "PER": {
     "area-km2": 1285216,
@@ -3813,11 +4231,15 @@
     "surface-area": 1285220,
     "beer-consumption-per-capita": 46,
     "coffee-consumption-per-capita": 1,
-    "wine-consumption-per-capita": 1.5
+    "wine-consumption-per-capita": 1.5,
+    "population-density": 26.33,
+    "latitude": -8.523
   },
   "REU": {
     "area-km2": 2511,
-    "population": 896175
+    "population": 896175,
+    "population-density": 356.9,
+    "latitude": -21.12
   },
   "BWA": {
     "area-km2": 582000,
@@ -3836,7 +4258,9 @@
     "health-spending-pct": 6.25574684,
     "fdi-inflow": 741532368.078646,
     "inflation-rate": 5.0676154934383,
-    "surface-area": 581730
+    "surface-area": 581730,
+    "population-density": 4.26,
+    "latitude": -22.237
   },
   "AFG": {
     "area-km2": 652230,
@@ -3854,7 +4278,9 @@
     "health-spending-pct": 14.9857626,
     "fdi-inflow": 20600980,
     "inflation-rate": -4.64470870797775,
-    "surface-area": 652860
+    "surface-area": 652860,
+    "population-density": 63.56,
+    "latitude": 34.134
   },
   "SRB": {
     "area-km2": 77589,
@@ -3877,7 +4303,9 @@
     "surface-area": 84990,
     "beer-consumption-per-capita": 60,
     "coffee-consumption-per-capita": 3.5,
-    "wine-consumption-per-capita": 14
+    "wine-consumption-per-capita": 14,
+    "population-density": 85.36,
+    "latitude": 44.027
   },
   "CZE": {
     "area-km2": 78865,
@@ -3900,7 +4328,9 @@
     "surface-area": 78871.47,
     "beer-consumption-per-capita": 184.1,
     "coffee-consumption-per-capita": 4.3,
-    "wine-consumption-per-capita": 18
+    "wine-consumption-per-capita": 18,
+    "population-density": 137.75,
+    "latitude": 49.749
   },
   "DMA": {
     "area-km2": 751,
@@ -3919,7 +4349,9 @@
     "health-spending-pct": 5.00757647,
     "fdi-inflow": 48015540.7407407,
     "inflation-rate": 5.08677483158112,
-    "surface-area": 750
+    "surface-area": 750,
+    "population-density": 88.56,
+    "latitude": 15.429
   },
   "POL": {
     "area-km2": 312679,
@@ -3942,7 +4374,9 @@
     "surface-area": 312720,
     "beer-consumption-per-capita": 97.7,
     "coffee-consumption-per-capita": 3.5,
-    "wine-consumption-per-capita": 8
+    "wine-consumption-per-capita": 8,
+    "population-density": 117.33,
+    "latitude": 52.068
   },
   "BEN": {
     "area-km2": 112622,
@@ -3962,7 +4396,9 @@
     "health-spending-pct": 3.33732462,
     "fdi-inflow": 442960064.385834,
     "inflation-rate": 2.73870078406075,
-    "surface-area": 114760
+    "surface-area": 114760,
+    "population-density": 125.3,
+    "latitude": 9.503
   },
   "MDA": {
     "area-km2": 33847,
@@ -3983,7 +4419,9 @@
     "fdi-inflow": 360895447.64,
     "inflation-rate": 13.4170104381299,
     "surface-area": 33850,
-    "wine-consumption-per-capita": 15
+    "wine-consumption-per-capita": 15,
+    "population-density": 72.61,
+    "latitude": 47.073
   },
   "RUS": {
     "area-km2": 17098246,
@@ -4006,11 +4444,15 @@
     "surface-area": 17125190,
     "beer-consumption-per-capita": 55,
     "coffee-consumption-per-capita": 1.7,
-    "wine-consumption-per-capita": 7
+    "wine-consumption-per-capita": 7,
+    "population-density": 8.41,
+    "latitude": 59.039
   },
   "BLM": {
     "area-km2": 21,
-    "population": 10562
+    "population": 10562,
+    "population-density": 502.95,
+    "latitude": 17.906
   },
   "IDN": {
     "area-km2": 1904569,
@@ -4032,7 +4474,9 @@
     "inflation-rate": 3.66938654859761,
     "surface-area": 1916906.77,
     "beer-consumption-per-capita": 0.8,
-    "coffee-consumption-per-capita": 1.2
+    "coffee-consumption-per-capita": 1.2,
+    "population-density": 147.64,
+    "latitude": 0.156
   },
   "NIC": {
     "area-km2": 130373,
@@ -4052,7 +4496,9 @@
     "health-spending-pct": 8.29879284,
     "fdi-inflow": 1113900000,
     "inflation-rate": 8.38765854872536,
-    "surface-area": 130370
+    "surface-area": 130370,
+    "population-density": 52.34,
+    "latitude": 12.894
   },
   "ARM": {
     "area-km2": 29743,
@@ -4072,7 +4518,9 @@
     "health-spending-pct": 9.32119179,
     "fdi-inflow": 580365079.307783,
     "inflation-rate": 1.98041877615554,
-    "surface-area": 29740
+    "surface-area": 29740,
+    "population-density": 99.66,
+    "latitude": 40.178
   },
   "BLR": {
     "area-km2": 207600,
@@ -4093,7 +4541,9 @@
     "fdi-inflow": 1992107728.25,
     "inflation-rate": 5.00059903091313,
     "surface-area": 207630,
-    "beer-consumption-per-capita": 42
+    "beer-consumption-per-capita": 42,
+    "population-density": 44.21,
+    "latitude": 53.468
   },
   "ETH": {
     "area-km2": 1104300,
@@ -4115,7 +4565,9 @@
     "inflation-rate": 30.2188278135278,
     "surface-area": 1136239.7,
     "beer-consumption-per-capita": 8,
-    "coffee-consumption-per-capita": 2.3
+    "coffee-consumption-per-capita": 2.3,
+    "population-density": 116.54,
+    "latitude": 8.729
   },
   "CRI": {
     "area-km2": 51100,
@@ -4137,7 +4589,9 @@
     "inflation-rate": 0.525193508693455,
     "surface-area": 51100,
     "beer-consumption-per-capita": 38,
-    "coffee-consumption-per-capita": 4
+    "coffee-consumption-per-capita": 4,
+    "population-density": 99.91,
+    "latitude": 9.863
   },
   "JOR": {
     "area-km2": 89342,
@@ -4157,7 +4611,9 @@
     "health-spending-pct": 7.66000605,
     "fdi-inflow": 2006338028.16901,
     "inflation-rate": 2.08486986327134,
-    "surface-area": 89318
+    "surface-area": 89318,
+    "population-density": 128.04,
+    "latitude": 31.387
   },
   "DEU": {
     "area-km2": 357114,
@@ -4180,7 +4636,9 @@
     "surface-area": 357600,
     "beer-consumption-per-capita": 99,
     "coffee-consumption-per-capita": 5.5,
-    "wine-consumption-per-capita": 24.5
+    "wine-consumption-per-capita": 24.5,
+    "population-density": 233.22,
+    "latitude": 51.083
   },
   "ECU": {
     "area-km2": 276841,
@@ -4202,7 +4660,9 @@
     "inflation-rate": 2.21568764237058,
     "surface-area": 256370,
     "beer-consumption-per-capita": 28,
-    "coffee-consumption-per-capita": 1.5
+    "coffee-consumption-per-capita": 1.5,
+    "population-density": 64.95,
+    "latitude": -1.564
   },
   "PRK": {
     "area-km2": 120538,
@@ -4214,7 +4674,9 @@
     "unemployment-rate": 3.463,
     "renewable-energy-pct": 14.7,
     "arable-land-pct": 19.0598787476123,
-    "surface-area": 120540
+    "surface-area": 120540,
+    "population-density": 219.17,
+    "latitude": 40.192
   },
   "ISL": {
     "area-km2": 103000,
@@ -4235,7 +4697,9 @@
     "fdi-inflow": 1886831669.28673,
     "inflation-rate": 8.73630299937298,
     "surface-area": 103000,
-    "coffee-consumption-per-capita": 9
+    "coffee-consumption-per-capita": 9,
+    "population-density": 3.74,
+    "latitude": 65.124
   },
   "SSD": {
     "area-km2": 619745,
@@ -4251,7 +4715,9 @@
     "health-spending-pct": 11.61002254,
     "fdi-inflow": -6335000,
     "inflation-rate": 2.38280434813754,
-    "surface-area": 646883
+    "surface-area": 646883,
+    "population-density": 18.53,
+    "latitude": 7.658
   },
   "MWI": {
     "area-km2": 118484,
@@ -4270,7 +4736,9 @@
     "health-spending-pct": 6.53459597,
     "fdi-inflow": 759847580,
     "inflation-rate": 28.7897428247298,
-    "surface-area": 118480
+    "surface-area": 118480,
+    "population-density": 178.12,
+    "latitude": -13.129
   },
   "BFA": {
     "area-km2": 272967,
@@ -4290,7 +4758,9 @@
     "health-spending-pct": 7.79943228,
     "fdi-inflow": 109438755.395966,
     "inflation-rate": 0.742910428668918,
-    "surface-area": 274200
+    "surface-area": 274200,
+    "population-density": 84.35,
+    "latitude": 12.109
   },
   "COD": {
     "area-km2": 2344858,
@@ -4308,7 +4778,9 @@
     "education-spending-pct": 2.84466514463005,
     "health-spending-pct": 3.68495083,
     "fdi-inflow": 2375258886.51998,
-    "surface-area": 2344860
+    "surface-area": 2344860,
+    "population-density": 45.12,
+    "latitude": -3.339
   },
   "VEN": {
     "area-km2": 916445,
@@ -4325,7 +4797,9 @@
     "education-spending-pct": 0.0031300000846386,
     "health-spending-pct": 3.77611423,
     "fdi-inflow": 13000000,
-    "surface-area": 912050
+    "surface-area": 912050,
+    "population-density": 30.88,
+    "latitude": 7.148
   },
   "BRN": {
     "area-km2": 5765,
@@ -4344,7 +4818,9 @@
     "health-spending-pct": 2.2286067,
     "fdi-inflow": -55927970.3793758,
     "inflation-rate": 0.35706431153689,
-    "surface-area": 5770
+    "surface-area": 5770,
+    "population-density": 79.61,
+    "latitude": 4.543
   },
   "PRY": {
     "area-km2": 406752,
@@ -4365,7 +4841,9 @@
     "fdi-inflow": 1111730623.98132,
     "inflation-rate": 4.63202285403356,
     "surface-area": 406752,
-    "beer-consumption-per-capita": 35
+    "beer-consumption-per-capita": 35,
+    "population-density": 16.83,
+    "latitude": -23.422
   },
   "BGR": {
     "area-km2": 110879,
@@ -4388,6 +4866,8 @@
     "surface-area": 111000,
     "beer-consumption-per-capita": 63,
     "coffee-consumption-per-capita": 2,
-    "wine-consumption-per-capita": 12
+    "wine-consumption-per-capita": 12,
+    "population-density": 58.14,
+    "latitude": 42.82
   }
 }

@@ -10,7 +10,7 @@
  */
 import { mulberry32 } from "@/lib/seeded-random";
 import { createGame, getCurrentCountry, isComplete, place, undo, canUndo } from "@/lib/game-logic/blind-pick/engine";
-import { LEGACY_BOARD_SIZE } from "@/lib/game-logic/blind-pick/generator";
+import { BOARD_SIZE, LEGACY_BOARD_SIZE } from "@/lib/game-logic/blind-pick/generator";
 import {
   BLIND_PICK_MAX_OVER,
   BLIND_PICK_PAR,
@@ -39,7 +39,14 @@ export interface BlindPickState {
 export type BlindPickAction = { t: "place"; s: number } | { t: "seen" } | { t: "undo" };
 
 export const PICK_COUNT = 8;
-export const BLIND_PICK_VERSION = 3;
+/** The rules version, written as `resultJson.v`: eight countries, one undo. */
+export const BLIND_PICK_RULES_VERSION = 3;
+/**
+ * The content version a signed session carries. 3 is the frozen nine-statistic pool, 4 adds
+ * the daily rotation (four anchors plus four rotating statistics) from BLIND_PICK_ROTATION_FROM.
+ */
+export const BLIND_PICK_VERSION = 4;
+export const BLIND_PICK_V3_VERSION = 3;
 
 /** How long the last flip stays on the board before the result takes over. */
 export const LAST_FLIP_MS = 900;
@@ -54,7 +61,7 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   contentVersion: BLIND_PICK_VERSION,
 
   create(seed, mode, dateKey) {
-    return { g: createGame(mulberry32(seed), mode, dateKey), seen: false, moves: 0 };
+    return { g: createGame(mulberry32(seed), mode, dateKey, BOARD_SIZE, "rotation"), seen: false, moves: 0 };
   },
 
   reduce(s, a) {
@@ -119,7 +126,7 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
       scoreSortValue: -r.over,
       scoreDisplay: overLabel(r.over),
       resultJson: {
-        v: cfg.countries.length === LEGACY_BOARD_SIZE ? 2 : BLIND_PICK_VERSION,
+        v: cfg.countries.length === LEGACY_BOARD_SIZE ? 2 : BLIND_PICK_RULES_VERSION,
         undoUsed: s.g.undoUsed === true,
         over: r.over,
         par: BLIND_PICK_PAR,
@@ -163,6 +170,15 @@ export const gameModule: GameModule<BlindPickState, BlindPickAction> = {
   submits: true,
 };
 
+/** Sessions signed before the rotation keep the nine-statistic board for their seed. */
+export const v3GameModule: GameModule<BlindPickState, BlindPickAction> = {
+  ...gameModule,
+  contentVersion: BLIND_PICK_V3_VERSION,
+  create(seed, mode, dateKey) {
+    return { g: createGame(mulberry32(seed), mode, dateKey, BOARD_SIZE, "v3"), seen: false, moves: 0 };
+  },
+};
+
 /** Existing signed practice sessions keep the original board for their seed. */
 export const legacyGameModule: GameModule<BlindPickState, BlindPickAction> = {
   ...gameModule,
@@ -171,3 +187,9 @@ export const legacyGameModule: GameModule<BlindPickState, BlindPickAction> = {
     return { g: createGame(mulberry32(seed), mode, dateKey, LEGACY_BOARD_SIZE), seen: false, moves: 0 };
   },
 };
+
+/** The module that deals a signed session's board: 4 the rotation, 3 the nine-statistic pool, anything else the six-country game. */
+export function blindPickModuleFor(contentVersion: number | undefined): GameModule<BlindPickState, BlindPickAction> {
+  if (contentVersion === BLIND_PICK_VERSION) return gameModule;
+  return contentVersion === BLIND_PICK_V3_VERSION ? v3GameModule : legacyGameModule;
+}

@@ -1,0 +1,74 @@
+{
+  "note": "Stand-in art copied from existing Clay objects until dedicated icons are made.",
+  "records": [
+    {
+      "slug": "population-density",
+      "standIn": true,
+      "from": "stat-urban-population-pct",
+      "reason": "Packed buildings for people per km²",
+      "outputs": [
+        {
+          "file": "public/clay/stat-population-density/rest.webp",
+          "source": "public/clay/stat-urban-population-pct/rest.webp",
+          "sha256": "b2cef4f92bfa851082bfdf1b8d611280e876738c203122278d638d69951adf72"
+        },
+        {
+          "file": "public/clay/stat-population-density/rest.256.webp",
+          "source": "public/clay/stat-urban-population-pct/rest.256.webp",
+          "sha256": "e9b056d35c069237bbf297114eb790620267ddad93c086b47f16b114c65bb9a9"
+        },
+        {
+          "file": "public/clay/stat-population-density/rest.128.webp",
+          "source": "public/clay/stat-urban-population-pct/rest.128.webp",
+          "sha256": "99e55a3a9c89e49b3e73f1f514a290f2223afca8898a4071a6d758190d81d1fe"
+        }
+      ]
+    },
+    {
+      "slug": "latitude",
+      "standIn": true,
+      "from": "cl-04",
+      "reason": "An upward arrow: north is up on the map",
+      "outputs": [
+        {
+          "file": "public/clay/stat-latitude/rest.webp",
+          "source": "public/clay/cl-04/rest.webp",
+          "sha256": "0fe439cba82e33d49f41bc280250d68d907a9f7b107c7a1b59d998e4221a4a10"
+        },
+        {
+          "file": "public/clay/stat-latitude/rest.256.webp",
+          "source": "public/clay/cl-04/rest.256.webp",
+          "sha256": "835d9c011ee2b51e0668ae83b4e2bd453a9af2e248db23ac016fdc03cf6cf238"
+        },
+        {
+          "file": "public/clay/stat-latitude/rest.128.webp",
+          "source": "public/clay/cl-04/rest.128.webp",
+          "sha256": "f158bac16d8936ba22cd4c58fc7b8e1843eea3ff6e69529d0ba43c1fa80f1458"
+        }
+      ]
+    },
+    {
+      "slug": "arable-land-pct",
+      "standIn": true,
+      "from": "stat-forest-coverage-pct",
+      "reason": "Growing plants for land used for crops",
+      "outputs": [
+        {
+          "file": "public/clay/stat-arable-land-pct/rest.webp",
+          "source": "public/clay/stat-forest-coverage-pct/rest.webp",
+          "sha256": "9878a756acc8282f43ec390858334356713d006ee8687d905bd1d8f5d4a7277a"
+        },
+        {
+          "file": "public/clay/stat-arable-land-pct/rest.256.webp",
+          "source": "public/clay/stat-forest-coverage-pct/rest.256.webp",
+          "sha256": "d0594163d57e79680cc25183a0e74eb754faee650f2821448a9dc41433b8a1b9"
+        },
+        {
+          "file": "public/clay/stat-arable-land-pct/rest.128.webp",
+          "source": "public/clay/stat-forest-coverage-pct/rest.128.webp",
+          "sha256": "6614aac2c9be5e87ee3db1e0d488d55ffb2a7a40c87d9dba2e935b6f5d682435"
+        }
+      ]
+    }
+  ]
+}

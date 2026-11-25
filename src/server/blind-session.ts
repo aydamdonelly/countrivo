@@ -1,15 +1,17 @@
 import "server-only";
 
-import { gameModule, legacyGameModule, BLIND_PICK_VERSION, type BlindPickState } from "@/games/blind-pick/module";
+import { gameModule, legacyGameModule, v3GameModule, BLIND_PICK_V3_VERSION, BLIND_PICK_VERSION, type BlindPickState } from "@/games/blind-pick/module";
 import { readRunTicket } from "./anonymous-identity";
 
 export const blindRemote = { ...gameModule, feedback: undefined };
+const v3Remote = { ...v3GameModule, feedback: undefined };
 const legacyRemote = { ...legacyGameModule, feedback: undefined };
 
+/** A signed practice session resumes on the board of the content version it was dealt under. */
 export function blindSessionModule(token?: string) {
   const ticket = token ? readRunTicket(token) : null;
-  return ticket?.slug === "blind-pick" && ticket.mode === "practice" && !ticket.archived && ticket.contentVersion !== BLIND_PICK_VERSION
-    ? legacyRemote : blindRemote;
+  if (ticket?.slug !== "blind-pick" || ticket.mode !== "practice" || ticket.archived || ticket.contentVersion === BLIND_PICK_VERSION) return blindRemote;
+  return ticket.contentVersion === BLIND_PICK_V3_VERSION ? v3Remote : legacyRemote;
 }
 
 export function blindView(state:BlindPickState):BlindPickState {

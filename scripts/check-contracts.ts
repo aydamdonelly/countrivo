@@ -23,6 +23,7 @@ import path from "node:path";
 
 import { dateSeed } from "../src/lib/daily-seed";
 import { blindPickShapeError, validateBlindPickResult } from "../src/lib/game-logic/blind-pick/server-validate";
+import { ANCHOR_STATS, BLIND_PICK_ROTATION_FROM } from "../src/lib/game-logic/blind-pick/rotation";
 import { validateCountryDraftResult } from "../src/lib/game-logic/country-draft/server-validate";
 import { checkStatGuesserShape, validateStatGuesserResult } from "../src/lib/game-logic/stat-guesser/server-validate";
 import { validateHigherOrLowerResult } from "../src/lib/game-logic/higher-or-lower/server-validate";
@@ -551,6 +552,22 @@ function runDailyValidators(): void {
   const bpp = bp.m.payload(bp.end, CTX);
   eq(validateBlindPickResult(DATE_KEY, bpp.scoreRaw, bpp.resultJson, EDITION).valid, true, "validateBlindPickResult accepts the honest run");
   eq(validateBlindPickResult(DATE_KEY, bpp.scoreRaw + 1, bpp.resultJson, EDITION).valid, false, "validateBlindPickResult refuses a changed score");
+
+  // The same contract holds on a board dealt from the daily rotation (four anchors plus four rotating stats).
+  const rotationCtx: PayloadContext = { ...CTX, dateKey: BLIND_PICK_ROTATION_FROM };
+  const rotationSeed = dateSeed(BLIND_PICK_ROTATION_FROM + EDITION);
+  const rotationLog: Action[] = [];
+  const rotationEnd = blindPickDriver.play(blindPick.create(rotationSeed, "daily", BLIND_PICK_ROTATION_FROM), (a) => rotationLog.push(a));
+  const rotationStats = rotationEnd.g.config.categories.map((c) => c.slug);
+  check(ANCHOR_STATS.every((s) => rotationStats.includes(s)) && new Set(rotationStats).size === 8, "a rotation board carries the four anchors and eight distinct stats");
+  const rp = blindPick.payload(rotationEnd, rotationCtx);
+  eq(blindPickShapeError(rp.scoreRaw, rp.scoreMax, rp.resultJson), null, "a rotation board's result passes the shape gate");
+  eq(validateBlindPickResult(BLIND_PICK_ROTATION_FROM, rp.scoreRaw, rp.resultJson, EDITION).valid, true, "validateBlindPickResult accepts an honest rotation run");
+  eq(validateBlindPickResult(BLIND_PICK_ROTATION_FROM, rp.scoreRaw + 1, rp.resultJson, EDITION).valid, false, "validateBlindPickResult refuses a changed rotation score");
+  const bm = blindPickDriver.module;
+  const rotationReplayed = bm.codec.dec(bm.codec.enc(rotationLog))
+    .reduce((s, a) => bm.reduce(s, a), bm.create(rotationSeed, "daily", BLIND_PICK_ROTATION_FROM));
+  eq(rotationReplayed, rotationEnd, "a rotation run replays to the same board");
 
   const sg = playOut("stat-guesser");
   const sgp = sg.m.payload(sg.end, CTX);

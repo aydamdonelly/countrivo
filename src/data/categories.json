@@ -250,5 +250,29 @@
     "sourceYear": 2022,
     "coveragePercent": 82,
     "clarifier": "USD inflow/year"
+  },
+  {
+    "slug": "population-density",
+    "label": "Population Density",
+    "shortLabel": "Density",
+    "unit": "people per km²",
+    "description": "Population divided by total area: how many people live on each square kilometer",
+    "direction": "neutral",
+    "source": "World Bank / REST Countries",
+    "sourceYear": 2023,
+    "coveragePercent": 100,
+    "clarifier": "people per km²"
+  },
+  {
+    "slug": "latitude",
+    "label": "Latitude",
+    "shortLabel": "Furthest North",
+    "unit": "° latitude",
+    "description": "Latitude of the country's geographic centre. North is positive, so the highest value lies furthest north",
+    "direction": "neutral",
+    "source": "World Countries Centroids",
+    "sourceYear": 2026,
+    "coveragePercent": 98,
+    "clarifier": "latitude of centre"
   }
 ]

@@ -6,12 +6,15 @@ export const STAT_WORDING: Readonly<Record<string, string>> = {
   "gdp-per-capita": "GDP per person", "urban-population-pct": "Urban population",
   "forest-coverage-pct": "Forest cover", "internet-users-pct": "Internet use",
   "life-expectancy": "Life expectancy", "fertility-rate": "Fertility rate",
+  "population-density": "Population density", latitude: "Furthest north", "arable-land-pct": "Farmland",
 };
 export const STAT_DEFINITIONS: Readonly<Record<string, string>> = {
   population: "Total people", "area-km2": "Area in km²", gdp: "Economic output in USD",
   "gdp-per-capita": "Output per person in USD", "urban-population-pct": "% of people living in cities",
   "forest-coverage-pct": "% of land covered by forest", "internet-users-pct": "% of people using the internet",
   "life-expectancy": "Expected years at birth", "fertility-rate": "Children per woman",
+  "population-density": "People per km²", latitude: "Latitude of the country's centre",
+  "arable-land-pct": "% of land used for crops",
 };
 const STAT_CAPTIONS: Readonly<Record<string, { label: string; unit: string }>> = {
   population: { label: "Population", unit: "People" },
@@ -23,6 +26,9 @@ const STAT_CAPTIONS: Readonly<Record<string, { label: string; unit: string }>> =
   "internet-users-pct": { label: "Internet use", unit: "% of people" },
   "life-expectancy": { label: "Life expectancy", unit: "Years" },
   "fertility-rate": { label: "Fertility", unit: "Children / woman" },
+  "population-density": { label: "Density", unit: "People / km²" },
+  latitude: { label: "Furthest north", unit: "Latitude" },
+  "arable-land-pct": { label: "Farmland", unit: "% of land" },
 };
 export const WORLD_RANK_LABEL = "World rank: #1 = highest value";
 export const WORLD_RANK_EXPLANATION = "Ranks compare countries with available data. Lower rank numbers are better.";

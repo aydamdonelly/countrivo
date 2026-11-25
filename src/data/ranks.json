@@ -1,7 +1,9 @@
 {
   "COK": {
     "population": 227,
-    "area-km2": 217
+    "area-km2": 217,
+    "population-density": 151,
+    "latitude": 222
   },
   "GIN": {
     "population": 75,
@@ -19,11 +21,15 @@
     "education-spending-pct": 176,
     "health-spending-pct": 162,
     "arable-land-pct": 41,
-    "fdi-inflow": 85
+    "fdi-inflow": 85,
+    "population-density": 159,
+    "latitude": 150
   },
   "CXR": {
     "population": 239,
-    "area-km2": 224
+    "area-km2": 224,
+    "population-density": 221,
+    "latitude": 199
   },
   "TGO": {
     "population": 98,
@@ -42,11 +48,14 @@
     "education-spending-pct": 92,
     "health-spending-pct": 101,
     "arable-land-pct": 7,
-    "fdi-inflow": 150
+    "fdi-inflow": 150,
+    "population-density": 81,
+    "latitude": 155
   },
   "TWN": {
     "population": 59,
-    "area-km2": 138
+    "area-km2": 138,
+    "population-density": 18
   },
   "KGZ": {
     "population": 107,
@@ -65,7 +74,9 @@
     "education-spending-pct": 14,
     "health-spending-pct": 138,
     "arable-land-pct": 121,
-    "fdi-inflow": 137
+    "fdi-inflow": 137,
+    "population-density": 181,
+    "latitude": 52
   },
   "SUR": {
     "population": 170,
@@ -83,7 +94,9 @@
     "education-spending-pct": 145,
     "health-spending-pct": 120,
     "arable-land-pct": 200,
-    "fdi-inflow": 182
+    "fdi-inflow": 182,
+    "population-density": 232,
+    "latitude": 173
   },
   "DOM": {
     "population": 85,
@@ -103,7 +116,9 @@
     "education-spending-pct": 108,
     "health-spending-pct": 134,
     "arable-land-pct": 54,
-    "fdi-inflow": 47
+    "fdi-inflow": 47,
+    "population-density": 65,
+    "latitude": 103
   },
   "GTM": {
     "population": 69,
@@ -123,7 +138,9 @@
     "education-spending-pct": 134,
     "health-spending-pct": 89,
     "arable-land-pct": 74,
-    "fdi-inflow": 76
+    "fdi-inflow": 76,
+    "population-density": 80,
+    "latitude": 123
   },
   "DZA": {
     "population": 33,
@@ -142,7 +159,9 @@
     "education-spending-pct": 35,
     "health-spending-pct": 145,
     "arable-land-pct": 153,
-    "fdi-inflow": 86
+    "fdi-inflow": 86,
+    "population-density": 204,
+    "latitude": 82
   },
   "UKR": {
     "population": 39,
@@ -164,7 +183,9 @@
     "education-spending-pct": 54,
     "health-spending-pct": 58,
     "arable-land-pct": 3,
-    "fdi-inflow": 50
+    "fdi-inflow": 50,
+    "population-density": 153,
+    "latitude": 27
   },
   "KNA": {
     "population": 212,
@@ -182,7 +203,9 @@
     "education-spending-pct": 119,
     "health-spending-pct": 110,
     "arable-land-pct": 56,
-    "fdi-inflow": 160
+    "fdi-inflow": 160,
+    "population-density": 76,
+    "latitude": 114
   },
   "HRV": {
     "population": 130,
@@ -204,7 +227,9 @@
     "education-spending-pct": 94,
     "health-spending-pct": 80,
     "arable-land-pct": 67,
-    "fdi-inflow": 56
+    "fdi-inflow": 56,
+    "population-density": 146,
+    "latitude": 39
   },
   "GNQ": {
     "population": 151,
@@ -221,7 +246,9 @@
     "inflation-rate": 152,
     "health-spending-pct": 167,
     "arable-land-pct": 172,
-    "fdi-inflow": 141
+    "fdi-inflow": 141,
+    "population-density": 149,
+    "latitude": 177
   },
   "PAN": {
     "population": 129,
@@ -242,7 +269,9 @@
     "education-spending-pct": 160,
     "health-spending-pct": 56,
     "arable-land-pct": 113,
-    "fdi-inflow": 62
+    "fdi-inflow": 62,
+    "population-density": 158,
+    "latitude": 157
   },
   "BEL": {
     "population": 81,
@@ -264,7 +293,9 @@
     "education-spending-pct": 20,
     "health-spending-pct": 19,
     "arable-land-pct": 33,
-    "fdi-inflow": 191
+    "fdi-inflow": 191,
+    "population-density": 34,
+    "latitude": 21
   },
   "RWA": {
     "population": 77,
@@ -283,7 +314,9 @@
     "education-spending-pct": 63,
     "health-spending-pct": 123,
     "arable-land-pct": 8,
-    "fdi-inflow": 123
+    "fdi-inflow": 123,
+    "population-density": 24,
+    "latitude": 188
   },
   "CPV": {
     "population": 175,
@@ -302,7 +335,9 @@
     "education-spending-pct": 80,
     "health-spending-pct": 107,
     "arable-land-pct": 85,
-    "fdi-inflow": 138
+    "fdi-inflow": 138,
+    "population-density": 94,
+    "latitude": 129
   },
   "KOR": {
     "population": 29,
@@ -324,7 +359,9 @@
     "education-spending-pct": 31,
     "health-spending-pct": 50,
     "arable-land-pct": 71,
-    "fdi-inflow": 21
+    "fdi-inflow": 21,
+    "population-density": 26,
+    "latitude": 65
   },
   "GUM": {
     "population": 191,
@@ -338,7 +375,9 @@
     "forest-coverage-pct": 50,
     "unemployment-rate": 93,
     "renewable-energy-pct": 162,
-    "arable-land-pct": 173
+    "arable-land-pct": 173,
+    "population-density": 45,
+    "latitude": 137
   },
   "AND": {
     "population": 204,
@@ -355,7 +394,9 @@
     "education-spending-pct": 170,
     "health-spending-pct": 67,
     "arable-land-pct": 179,
-    "fdi-inflow": 129
+    "fdi-inflow": 129,
+    "population-density": 79,
+    "latitude": 47
   },
   "SEN": {
     "population": 70,
@@ -373,7 +414,9 @@
     "education-spending-pct": 22,
     "health-spending-pct": 147,
     "arable-land-pct": 55,
-    "fdi-inflow": 46
+    "fdi-inflow": 46,
+    "population-density": 124,
+    "latitude": 133
   },
   "URY": {
     "population": 134,
@@ -394,7 +437,9 @@
     "education-spending-pct": 68,
     "health-spending-pct": 44,
     "arable-land-pct": 82,
-    "fdi-inflow": 192
+    "fdi-inflow": 192,
+    "population-density": 207,
+    "latitude": 233
   },
   "COG": {
     "population": 113,
@@ -412,7 +457,9 @@
     "education-spending-pct": 124,
     "health-spending-pct": 173,
     "arable-land-pct": 177,
-    "fdi-inflow": 113
+    "fdi-inflow": 113,
+    "population-density": 209,
+    "latitude": 186
   },
   "NAM": {
     "population": 138,
@@ -431,7 +478,9 @@
     "education-spending-pct": 4,
     "health-spending-pct": 35,
     "arable-land-pct": 184,
-    "fdi-inflow": 64
+    "fdi-inflow": 64,
+    "population-density": 235,
+    "latitude": 224
   },
   "SGP": {
     "population": 115,
@@ -450,7 +499,9 @@
     "education-spending-pct": 167,
     "health-spending-pct": 139,
     "arable-land-pct": 188,
-    "fdi-inflow": 2
+    "fdi-inflow": 2,
+    "population-density": 3,
+    "latitude": 178
   },
   "FIN": {
     "population": 117,
@@ -472,7 +523,9 @@
     "education-spending-pct": 18,
     "health-spending-pct": 23,
     "arable-land-pct": 116,
-    "fdi-inflow": 184
+    "fdi-inflow": 184,
+    "population-density": 212,
+    "latitude": 4
   },
   "EGY": {
     "population": 14,
@@ -492,7 +545,9 @@
     "coffee-consumption-per-capita": 55,
     "health-spending-pct": 129,
     "arable-land-pct": 154,
-    "fdi-inflow": 35
+    "fdi-inflow": 35,
+    "population-density": 105,
+    "latitude": 87
   },
   "PLW": {
     "population": 225,
@@ -509,7 +564,9 @@
     "education-spending-pct": 115,
     "health-spending-pct": 18,
     "arable-land-pct": 195,
-    "fdi-inflow": 149
+    "fdi-inflow": 149,
+    "population-density": 180,
+    "latitude": 162
   },
   "ASM": {
     "population": 211,
@@ -522,7 +579,9 @@
     "tourism-arrivals": 179,
     "forest-coverage-pct": 8,
     "renewable-energy-pct": 200,
-    "arable-land-pct": 134
+    "arable-land-pct": 134,
+    "population-density": 63,
+    "latitude": 209
   },
   "ATG": {
     "population": 202,
@@ -540,7 +599,9 @@
     "education-spending-pct": 135,
     "health-spending-pct": 157,
     "arable-land-pct": 109,
-    "fdi-inflow": 128
+    "fdi-inflow": 128,
+    "population-density": 72,
+    "latitude": 118
   },
   "SYC": {
     "population": 194,
@@ -558,7 +619,9 @@
     "education-spending-pct": 79,
     "health-spending-pct": 140,
     "arable-land-pct": 202,
-    "fdi-inflow": 132
+    "fdi-inflow": 132,
+    "population-density": 54,
+    "latitude": 191
   },
   "KWT": {
     "population": 128,
@@ -577,7 +640,9 @@
     "education-spending-pct": 59,
     "health-spending-pct": 128,
     "arable-land-pct": 198,
-    "fdi-inflow": 67
+    "fdi-inflow": 67,
+    "population-density": 52,
+    "latitude": 80
   },
   "GRC": {
     "population": 92,
@@ -599,7 +664,9 @@
     "education-spending-pct": 123,
     "health-spending-pct": 54,
     "arable-land-pct": 75,
-    "fdi-inflow": 48
+    "fdi-inflow": 48,
+    "population-density": 135,
+    "latitude": 58
   },
   "KIR": {
     "population": 193,
@@ -617,7 +684,9 @@
     "education-spending-pct": 1,
     "health-spending-pct": 17,
     "arable-land-pct": 163,
-    "fdi-inflow": 170
+    "fdi-inflow": 170,
+    "population-density": 82,
+    "latitude": 176
   },
   "CYP": {
     "population": 158,
@@ -636,7 +705,9 @@
     "education-spending-pct": 69,
     "health-spending-pct": 60,
     "arable-land-pct": 98,
-    "fdi-inflow": 196
+    "fdi-inflow": 196,
+    "population-density": 87,
+    "latitude": 68
   },
   "MLI": {
     "population": 57,
@@ -655,7 +726,9 @@
     "education-spending-pct": 90,
     "health-spending-pct": 158,
     "arable-land-pct": 120,
-    "fdi-inflow": 106
+    "fdi-inflow": 106,
+    "population-density": 206,
+    "latitude": 116
   },
   "BMU": {
     "population": 208,
@@ -670,7 +743,9 @@
     "renewable-energy-pct": 193,
     "education-spending-pct": 172,
     "arable-land-pct": 130,
-    "fdi-inflow": 139
+    "fdi-inflow": 139,
+    "population-density": 11,
+    "latitude": 75
   },
   "GRL": {
     "population": 209,
@@ -681,7 +756,9 @@
     "urban-population-pct": 38,
     "fertility-rate": 124,
     "forest-coverage-pct": 209,
-    "renewable-energy-pct": 136
+    "renewable-energy-pct": 136,
+    "population-density": 243,
+    "latitude": 2
   },
   "ERI": {
     "population": 133,
@@ -695,7 +772,9 @@
     "renewable-energy-pct": 15,
     "health-spending-pct": 164,
     "arable-land-pct": 128,
-    "fdi-inflow": 173
+    "fdi-inflow": 173,
+    "population-density": 186,
+    "latitude": 130
   },
   "TZA": {
     "population": 23,
@@ -715,7 +794,9 @@
     "education-spending-pct": 127,
     "health-spending-pct": 177,
     "arable-land-pct": 69,
-    "fdi-inflow": 77
+    "fdi-inflow": 77,
+    "population-density": 145,
+    "latitude": 192
   },
   "VNM": {
     "population": 16,
@@ -736,7 +817,9 @@
     "education-spending-pct": 144,
     "health-spending-pct": 135,
     "arable-land-pct": 52,
-    "fdi-inflow": 23
+    "fdi-inflow": 23,
+    "population-density": 46,
+    "latitude": 120
   },
   "TCD": {
     "population": 66,
@@ -755,7 +838,9 @@
     "education-spending-pct": 131,
     "health-spending-pct": 126,
     "arable-land-pct": 144,
-    "fdi-inflow": 95
+    "fdi-inflow": 95,
+    "population-density": 218,
+    "latitude": 127
   },
   "CIV": {
     "population": 50,
@@ -774,7 +859,9 @@
     "education-spending-pct": 120,
     "health-spending-pct": 169,
     "arable-land-pct": 70,
-    "fdi-inflow": 61
+    "fdi-inflow": 61,
+    "population-density": 118,
+    "latitude": 161
   },
   "GEO": {
     "population": 131,
@@ -794,7 +881,9 @@
     "education-spending-pct": 109,
     "health-spending-pct": 88,
     "arable-land-pct": 141,
-    "fdi-inflow": 68
+    "fdi-inflow": 68,
+    "population-density": 162,
+    "latitude": 48
   },
   "IMN": {
     "population": 203,
@@ -806,7 +895,9 @@
     "fertility-rate": 145,
     "forest-coverage-pct": 178,
     "renewable-energy-pct": 176,
-    "arable-land-pct": 12
+    "arable-land-pct": 12,
+    "population-density": 86,
+    "latitude": 14
   },
   "BOL": {
     "population": 79,
@@ -826,7 +917,9 @@
     "education-spending-pct": 6,
     "health-spending-pct": 86,
     "arable-land-pct": 135,
-    "fdi-inflow": 131
+    "fdi-inflow": 131,
+    "population-density": 222,
+    "latitude": 212
   },
   "DNK": {
     "population": 114,
@@ -848,7 +941,9 @@
     "education-spending-pct": 19,
     "health-spending-pct": 34,
     "arable-land-pct": 2,
-    "fdi-inflow": 36
+    "fdi-inflow": 36,
+    "population-density": 92,
+    "latitude": 12
   },
   "TKM": {
     "population": 105,
@@ -864,7 +959,9 @@
     "education-spending-pct": 154,
     "health-spending-pct": 119,
     "arable-land-pct": 151,
-    "fdi-inflow": 83
+    "fdi-inflow": 83,
+    "population-density": 217,
+    "latitude": 59
   },
   "NER": {
     "population": 56,
@@ -883,7 +980,9 @@
     "education-spending-pct": 95,
     "health-spending-pct": 154,
     "arable-land-pct": 77,
-    "fdi-inflow": 94
+    "fdi-inflow": 94,
+    "population-density": 201,
+    "latitude": 117
   },
   "FSM": {
     "population": 196,
@@ -900,11 +999,15 @@
     "inflation-rate": 102,
     "education-spending-pct": 3,
     "health-spending-pct": 7,
-    "arable-land-pct": 158
+    "arable-land-pct": 158,
+    "population-density": 83,
+    "latitude": 165
   },
   "JEY": {
     "population": 200,
-    "area-km2": 225
+    "area-km2": 225,
+    "population-density": 13,
+    "latitude": 25
   },
   "CYM": {
     "population": 205,
@@ -919,7 +1022,9 @@
     "renewable-energy-pct": 207,
     "education-spending-pct": 177,
     "arable-land-pct": 185,
-    "fdi-inflow": 41
+    "fdi-inflow": 41,
+    "population-density": 51,
+    "latitude": 101
   },
   "LIE": {
     "population": 216,
@@ -934,7 +1039,9 @@
     "forest-coverage-pct": 72,
     "renewable-energy-pct": 42,
     "health-spending-pct": 111,
-    "arable-land-pct": 97
+    "arable-land-pct": 97,
+    "population-density": 60,
+    "latitude": 31
   },
   "BIH": {
     "population": 136,
@@ -954,7 +1061,9 @@
     "education-spending-pct": 128,
     "health-spending-pct": 45,
     "arable-land-pct": 117,
-    "fdi-inflow": 89
+    "fdi-inflow": 89,
+    "population-density": 154,
+    "latitude": 40
   },
   "FRA": {
     "population": 22,
@@ -976,7 +1085,9 @@
     "education-spending-pct": 42,
     "health-spending-pct": 12,
     "arable-land-pct": 28,
-    "fdi-inflow": 25
+    "fdi-inflow": 25,
+    "population-density": 97,
+    "latitude": 36
   },
   "PYF": {
     "population": 187,
@@ -991,7 +1102,9 @@
     "unemployment-rate": 31,
     "renewable-energy-pct": 160,
     "arable-land-pct": 192,
-    "fdi-inflow": 178
+    "fdi-inflow": 178,
+    "population-density": 147,
+    "latitude": 214
   },
   "KAZ": {
     "population": 64,
@@ -1010,7 +1123,9 @@
     "education-spending-pct": 67,
     "health-spending-pct": 160,
     "arable-land-pct": 96,
-    "fdi-inflow": 42
+    "fdi-inflow": 42,
+    "population-density": 226,
+    "latitude": 28
   },
   "AGO": {
     "population": 41,
@@ -1029,7 +1144,9 @@
     "education-spending-pct": 159,
     "health-spending-pct": 186,
     "arable-land-pct": 143,
-    "fdi-inflow": 190
+    "fdi-inflow": 190,
+    "population-density": 187,
+    "latitude": 202
   },
   "NZL": {
     "population": 122,
@@ -1051,7 +1168,9 @@
     "education-spending-pct": 47,
     "health-spending-pct": 27,
     "arable-land-pct": 169,
-    "fdi-inflow": 51
+    "fdi-inflow": 51,
+    "population-density": 205,
+    "latitude": 236
   },
   "PRI": {
     "population": 135,
@@ -1067,7 +1186,9 @@
     "unemployment-rate": 81,
     "renewable-energy-pct": 177,
     "education-spending-pct": 85,
-    "arable-land-pct": 129
+    "arable-land-pct": 129,
+    "population-density": 36,
+    "latitude": 106
   },
   "SAU": {
     "population": 47,
@@ -1087,7 +1208,9 @@
     "education-spending-pct": 56,
     "health-spending-pct": 113,
     "arable-land-pct": 178,
-    "fdi-inflow": 18
+    "fdi-inflow": 18,
+    "population-density": 215,
+    "latitude": 92
   },
   "MNE": {
     "population": 171,
@@ -1106,7 +1229,9 @@
     "wine-consumption-per-capita": 32,
     "health-spending-pct": 32,
     "arable-land-pct": 194,
-    "fdi-inflow": 118
+    "fdi-inflow": 118,
+    "population-density": 171,
+    "latitude": 46
   },
   "ZAF": {
     "population": 24,
@@ -1128,7 +1253,9 @@
     "education-spending-pct": 23,
     "health-spending-pct": 46,
     "arable-land-pct": 104,
-    "fdi-inflow": 54
+    "fdi-inflow": 54,
+    "population-density": 165,
+    "latitude": 230
   },
   "PAK": {
     "population": 5,
@@ -1147,7 +1274,9 @@
     "education-spending-pct": 169,
     "health-spending-pct": 188,
     "arable-land-pct": 14,
-    "fdi-inflow": 69
+    "fdi-inflow": 69,
+    "population-density": 43,
+    "latitude": 79
   },
   "LKA": {
     "population": 61,
@@ -1166,7 +1295,9 @@
     "education-spending-pct": 174,
     "health-spending-pct": 165,
     "arable-land-pct": 48,
-    "fdi-inflow": 104
+    "fdi-inflow": 104,
+    "population-density": 40,
+    "latitude": 159
   },
   "CMR": {
     "population": 52,
@@ -1186,11 +1317,15 @@
     "education-spending-pct": 148,
     "health-spending-pct": 136,
     "arable-land-pct": 80,
-    "fdi-inflow": 98
+    "fdi-inflow": 98,
+    "population-density": 156,
+    "latitude": 169
   },
   "GGY": {
     "population": 207,
-    "area-km2": 228
+    "area-km2": 228,
+    "population-density": 15,
+    "latitude": 24
   },
   "LBR": {
     "population": 119,
@@ -1208,7 +1343,9 @@
     "education-spending-pct": 164,
     "health-spending-pct": 6,
     "arable-land-pct": 132,
-    "fdi-inflow": 127
+    "fdi-inflow": 127,
+    "population-density": 168,
+    "latitude": 167
   },
   "ARE": {
     "population": 91,
@@ -1227,7 +1364,9 @@
     "education-spending-pct": 103,
     "health-spending-pct": 127,
     "arable-land-pct": 193,
-    "fdi-inflow": 14
+    "fdi-inflow": 14,
+    "population-density": 98,
+    "latitude": 91
   },
   "CHE": {
     "population": 101,
@@ -1249,7 +1388,9 @@
     "education-spending-pct": 62,
     "health-spending-pct": 10,
     "arable-land-pct": 103,
-    "fdi-inflow": 198
+    "fdi-inflow": 198,
+    "population-density": 70,
+    "latitude": 35
   },
   "HUN": {
     "population": 97,
@@ -1271,7 +1412,9 @@
     "education-spending-pct": 105,
     "health-spending-pct": 97,
     "arable-land-pct": 9,
-    "fdi-inflow": 197
+    "fdi-inflow": 197,
+    "population-density": 111,
+    "latitude": 30
   },
   "LBY": {
     "population": 106,
@@ -1288,7 +1431,9 @@
     "inflation-rate": 162,
     "health-spending-pct": 64,
     "arable-land-pct": 183,
-    "fdi-inflow": 99
+    "fdi-inflow": 99,
+    "population-density": 230,
+    "latitude": 86
   },
   "VUT": {
     "population": 183,
@@ -1307,11 +1452,15 @@
     "education-spending-pct": 10,
     "health-spending-pct": 153,
     "arable-land-pct": 176,
-    "fdi-inflow": 168
+    "fdi-inflow": 168,
+    "population-density": 195,
+    "latitude": 210
   },
   "WLF": {
     "population": 229,
-    "area-km2": 223
+    "area-km2": 223,
+    "population-density": 130,
+    "latitude": 208
   },
   "LCA": {
     "population": 190,
@@ -1330,7 +1479,9 @@
     "education-spending-pct": 152,
     "health-spending-pct": 130,
     "arable-land-pct": 140,
-    "fdi-inflow": 136
+    "fdi-inflow": 136,
+    "population-density": 49,
+    "latitude": 134
   },
   "CAF": {
     "population": 124,
@@ -1349,7 +1500,9 @@
     "education-spending-pct": 173,
     "health-spending-pct": 22,
     "arable-land-pct": 157,
-    "fdi-inflow": 157
+    "fdi-inflow": 157,
+    "population-density": 225,
+    "latitude": 168
   },
   "TJK": {
     "population": 93,
@@ -1366,7 +1519,9 @@
     "education-spending-pct": 38,
     "health-spending-pct": 74,
     "arable-land-pct": 127,
-    "fdi-inflow": 142
+    "fdi-inflow": 142,
+    "population-density": 141,
+    "latitude": 62
   },
   "IRL": {
     "population": 121,
@@ -1388,7 +1543,9 @@
     "education-spending-pct": 142,
     "health-spending-pct": 94,
     "arable-land-pct": 125,
-    "fdi-inflow": 199
+    "fdi-inflow": 199,
+    "population-density": 138,
+    "latitude": 17
   },
   "NCL": {
     "population": 185,
@@ -1403,7 +1560,9 @@
     "unemployment-rate": 36,
     "renewable-energy-pct": 148,
     "arable-land-pct": 201,
-    "fdi-inflow": 107
+    "fdi-inflow": 107,
+    "population-density": 216,
+    "latitude": 223
   },
   "YEM": {
     "population": 38,
@@ -1417,7 +1576,9 @@
     "renewable-energy-pct": 170,
     "health-spending-pct": 31,
     "arable-land-pct": 168,
-    "fdi-inflow": 186
+    "fdi-inflow": 186,
+    "population-density": 139,
+    "latitude": 122
   },
   "FRO": {
     "population": 210,
@@ -1429,7 +1590,9 @@
     "fertility-rate": 115,
     "forest-coverage-pct": 206,
     "renewable-energy-pct": 158,
-    "arable-land-pct": 206
+    "arable-land-pct": 206,
+    "population-density": 179,
+    "latitude": 7
   },
   "CUB": {
     "population": 86,
@@ -1447,7 +1610,9 @@
     "beer-consumption-per-capita": 58,
     "education-spending-pct": 5,
     "health-spending-pct": 37,
-    "arable-land-pct": 34
+    "arable-land-pct": 34,
+    "population-density": 113,
+    "latitude": 97
   },
   "AZE": {
     "population": 95,
@@ -1466,7 +1631,9 @@
     "education-spending-pct": 111,
     "health-spending-pct": 149,
     "arable-land-pct": 39,
-    "fdi-inflow": 130
+    "fdi-inflow": 130,
+    "population-density": 102,
+    "latitude": 54
   },
   "SLB": {
     "population": 166,
@@ -1485,7 +1652,9 @@
     "education-spending-pct": 7,
     "health-spending-pct": 122,
     "arable-land-pct": 186,
-    "fdi-inflow": 151
+    "fdi-inflow": 151,
+    "population-density": 191,
+    "latitude": 198
   },
   "JAM": {
     "population": 140,
@@ -1505,7 +1674,9 @@
     "education-spending-pct": 33,
     "health-spending-pct": 69,
     "arable-land-pct": 95,
-    "fdi-inflow": 121
+    "fdi-inflow": 121,
+    "population-density": 56,
+    "latitude": 107
   },
   "MAR": {
     "population": 40,
@@ -1525,7 +1696,9 @@
     "education-spending-pct": 25,
     "health-spending-pct": 103,
     "arable-land-pct": 68,
-    "fdi-inflow": 93
+    "fdi-inflow": 93,
+    "population-density": 127,
+    "latitude": 81
   },
   "TTO": {
     "population": 157,
@@ -1544,15 +1717,21 @@
     "education-spending-pct": 139,
     "health-spending-pct": 71,
     "arable-land-pct": 138,
-    "fdi-inflow": 189
+    "fdi-inflow": 189,
+    "population-density": 53,
+    "latitude": 149
   },
   "MYT": {
     "population": 182,
-    "area-km2": 207
+    "area-km2": 207,
+    "population-density": 14,
+    "latitude": 204
   },
   "NIU": {
     "population": 240,
-    "area-km2": 215
+    "area-km2": 215,
+    "population-density": 227,
+    "latitude": 218
   },
   "BLZ": {
     "population": 177,
@@ -1571,7 +1750,9 @@
     "education-spending-pct": 89,
     "health-spending-pct": 152,
     "arable-land-pct": 139,
-    "fdi-inflow": 165
+    "fdi-inflow": 165,
+    "population-density": 210,
+    "latitude": 115
   },
   "CHN": {
     "population": 2,
@@ -1593,7 +1774,9 @@
     "education-spending-pct": 99,
     "health-spending-pct": 106,
     "arable-land-pct": 88,
-    "fdi-inflow": 6
+    "fdi-inflow": 6,
+    "population-density": 88,
+    "latitude": 63
   },
   "WSM": {
     "population": 189,
@@ -1612,7 +1795,9 @@
     "education-spending-pct": 24,
     "health-spending-pct": 90,
     "arable-land-pct": 150,
-    "fdi-inflow": 172
+    "fdi-inflow": 172,
+    "population-density": 136,
+    "latitude": 207
   },
   "VGB": {
     "population": 217,
@@ -1625,7 +1810,9 @@
     "renewable-energy-pct": 184,
     "education-spending-pct": 132,
     "arable-land-pct": 122,
-    "fdi-inflow": 10
+    "fdi-inflow": 10,
+    "population-density": 57,
+    "latitude": 104
   },
   "SDN": {
     "population": 30,
@@ -1642,11 +1829,15 @@
     "inflation-rate": 2,
     "health-spending-pct": 182,
     "arable-land-pct": 92,
-    "fdi-inflow": 116
+    "fdi-inflow": 116,
+    "population-density": 193,
+    "latitude": 124
   },
   "NFK": {
     "population": 238,
-    "area-km2": 233
+    "area-km2": 233,
+    "population-density": 155,
+    "latitude": 231
   },
   "SVK": {
     "population": 120,
@@ -1667,7 +1858,9 @@
     "education-spending-pct": 73,
     "health-spending-pct": 77,
     "arable-land-pct": 37,
-    "fdi-inflow": 117
+    "fdi-inflow": 117,
+    "population-density": 106,
+    "latitude": 26
   },
   "BDI": {
     "population": 78,
@@ -1685,7 +1878,9 @@
     "education-spending-pct": 66,
     "health-spending-pct": 43,
     "arable-land-pct": 6,
-    "fdi-inflow": 158
+    "fdi-inflow": 158,
+    "population-density": 28,
+    "latitude": 189
   },
   "MHL": {
     "population": 219,
@@ -1702,7 +1897,9 @@
     "education-spending-pct": 9,
     "health-spending-pct": 5,
     "arable-land-pct": 159,
-    "fdi-inflow": 174
+    "fdi-inflow": 174,
+    "population-density": 71,
+    "latitude": 163
   },
   "AUT": {
     "population": 100,
@@ -1724,7 +1921,9 @@
     "education-spending-pct": 46,
     "health-spending-pct": 14,
     "arable-land-pct": 65,
-    "fdi-inflow": 59
+    "fdi-inflow": 59,
+    "population-density": 108,
+    "latitude": 29
   },
   "MOZ": {
     "population": 48,
@@ -1743,7 +1942,9 @@
     "education-spending-pct": 26,
     "health-spending-pct": 51,
     "arable-land-pct": 118,
-    "fdi-inflow": 60
+    "fdi-inflow": 60,
+    "population-density": 177,
+    "latitude": 213
   },
   "VCT": {
     "population": 201,
@@ -1762,7 +1963,9 @@
     "education-spending-pct": 17,
     "health-spending-pct": 142,
     "arable-land-pct": 136,
-    "fdi-inflow": 153
+    "fdi-inflow": 153,
+    "population-density": 55,
+    "latitude": 139
   },
   "PNG": {
     "population": 94,
@@ -1781,7 +1984,9 @@
     "education-spending-pct": 182,
     "health-spending-pct": 181,
     "arable-land-pct": 191,
-    "fdi-inflow": 156
+    "fdi-inflow": 156,
+    "population-density": 200,
+    "latitude": 193
   },
   "TUR": {
     "population": 18,
@@ -1803,7 +2008,9 @@
     "education-spending-pct": 136,
     "health-spending-pct": 148,
     "arable-land-pct": 38,
-    "fdi-inflow": 33
+    "fdi-inflow": 33,
+    "population-density": 107,
+    "latitude": 60
   },
   "UNK": {
     "population": 153,
@@ -1814,7 +2021,8 @@
     "urban-population-pct": 154,
     "fertility-rate": 146,
     "inflation-rate": 110,
-    "fdi-inflow": 96
+    "fdi-inflow": 96,
+    "population-density": 84
   },
   "GRD": {
     "population": 195,
@@ -1832,7 +2040,9 @@
     "education-spending-pct": 55,
     "health-spending-pct": 132,
     "arable-land-pct": 111,
-    "fdi-inflow": 134
+    "fdi-inflow": 134,
+    "population-density": 39,
+    "latitude": 145
   },
   "KHM": {
     "population": 73,
@@ -1851,7 +2061,9 @@
     "education-spending-pct": 165,
     "health-spending-pct": 133,
     "arable-land-pct": 45,
-    "fdi-inflow": 53
+    "fdi-inflow": 53,
+    "population-density": 119,
+    "latitude": 142
   },
   "PRT": {
     "population": 89,
@@ -1873,7 +2085,9 @@
     "education-spending-pct": 76,
     "health-spending-pct": 28,
     "arable-land-pct": 102,
-    "fdi-inflow": 32
+    "fdi-inflow": 32,
+    "population-density": 104,
+    "latitude": 57
   },
   "GBR": {
     "population": 21,
@@ -1895,7 +2109,9 @@
     "education-spending-pct": 28,
     "health-spending-pct": 16,
     "arable-land-pct": 40,
-    "fdi-inflow": 28
+    "fdi-inflow": 28,
+    "population-density": 50,
+    "latitude": 15
   },
   "NGA": {
     "population": 6,
@@ -1915,11 +2131,15 @@
     "education-spending-pct": 184,
     "health-spending-pct": 151,
     "arable-land-pct": 13,
-    "fdi-inflow": 73
+    "fdi-inflow": 73,
+    "population-density": 61,
+    "latitude": 152
   },
   "AIA": {
     "population": 226,
-    "area-km2": 227
+    "area-km2": 227,
+    "population-density": 78,
+    "latitude": 105
   },
   "MNP": {
     "population": 214,
@@ -1932,7 +2152,9 @@
     "tourism-arrivals": 117,
     "forest-coverage-pct": 42,
     "renewable-energy-pct": 198,
-    "arable-land-pct": 204
+    "arable-land-pct": 204,
+    "population-density": 117,
+    "latitude": 128
   },
   "ISR": {
     "population": 96,
@@ -1953,11 +2175,15 @@
     "education-spending-pct": 27,
     "health-spending-pct": 82,
     "arable-land-pct": 83,
-    "fdi-inflow": 27
+    "fdi-inflow": 27,
+    "population-density": 30,
+    "latitude": 77
   },
   "GUF": {
     "population": 184,
-    "area-km2": 116
+    "area-km2": 116,
+    "population-density": 236,
+    "latitude": 174
   },
   "LBN": {
     "population": 116,
@@ -1978,7 +2204,9 @@
     "education-spending-pct": 178,
     "health-spending-pct": 115,
     "arable-land-pct": 79,
-    "fdi-inflow": 109
+    "fdi-inflow": 109,
+    "population-density": 23,
+    "latitude": 72
   },
   "JPN": {
     "population": 12,
@@ -2000,7 +2228,9 @@
     "education-spending-pct": 125,
     "health-spending-pct": 20,
     "arable-land-pct": 94,
-    "fdi-inflow": 20
+    "fdi-inflow": 20,
+    "population-density": 42,
+    "latitude": 64
   },
   "GMB": {
     "population": 141,
@@ -2019,7 +2249,9 @@
     "education-spending-pct": 150,
     "health-spending-pct": 180,
     "arable-land-pct": 10,
-    "fdi-inflow": 135
+    "fdi-inflow": 135,
+    "population-density": 59,
+    "latitude": 138
   },
   "MAF": {
     "population": 224,
@@ -2029,7 +2261,9 @@
     "life-expectancy": 50,
     "urban-population-pct": 1,
     "fertility-rate": 66,
-    "forest-coverage-pct": 119
+    "forest-coverage-pct": 119,
+    "population-density": 25,
+    "latitude": 109
   },
   "GNB": {
     "population": 148,
@@ -2047,7 +2281,9 @@
     "inflation-rate": 72,
     "health-spending-pct": 48,
     "arable-land-pct": 76,
-    "fdi-inflow": 162
+    "fdi-inflow": 162,
+    "population-density": 157,
+    "latitude": 147
   },
   "LAO": {
     "population": 103,
@@ -2066,7 +2302,9 @@
     "education-spending-pct": 180,
     "health-spending-pct": 193,
     "arable-land-pct": 131,
-    "fdi-inflow": 74
+    "fdi-inflow": 74,
+    "population-density": 183,
+    "latitude": 108
   },
   "MKD": {
     "population": 152,
@@ -2085,7 +2323,9 @@
     "wine-consumption-per-capita": 34,
     "health-spending-pct": 75,
     "arable-land-pct": 63,
-    "fdi-inflow": 111
+    "fdi-inflow": 111,
+    "population-density": 143,
+    "latitude": 50
   },
   "QAT": {
     "population": 142,
@@ -2104,7 +2344,9 @@
     "education-spending-pct": 129,
     "health-spending-pct": 187,
     "arable-land-pct": 174,
-    "fdi-inflow": 187
+    "fdi-inflow": 187,
+    "population-density": 67,
+    "latitude": 89
   },
   "ZMB": {
     "population": 63,
@@ -2123,7 +2365,9 @@
     "education-spending-pct": 96,
     "health-spending-pct": 105,
     "arable-land-pct": 137,
-    "fdi-inflow": 112
+    "fdi-inflow": 112,
+    "population-density": 192,
+    "latitude": 206
   },
   "BRB": {
     "population": 186,
@@ -2142,11 +2386,15 @@
     "education-spending-pct": 107,
     "health-spending-pct": 121,
     "arable-land-pct": 64,
-    "fdi-inflow": 133
+    "fdi-inflow": 133,
+    "population-density": 17,
+    "latitude": 140
   },
   "VAT": {
     "population": 241,
-    "area-km2": 243
+    "area-km2": 243,
+    "population-density": 7,
+    "latitude": 49
   },
   "ITA": {
     "population": 25,
@@ -2168,7 +2416,9 @@
     "education-spending-pct": 97,
     "health-spending-pct": 53,
     "arable-land-pct": 43,
-    "fdi-inflow": 9
+    "fdi-inflow": 9,
+    "population-density": 75,
+    "latitude": 44
   },
   "COM": {
     "population": 164,
@@ -2187,7 +2437,9 @@
     "education-spending-pct": 162,
     "health-spending-pct": 95,
     "arable-land-pct": 20,
-    "fdi-inflow": 169
+    "fdi-inflow": 169,
+    "population-density": 29,
+    "latitude": 201
   },
   "ALB": {
     "population": 146,
@@ -2207,7 +2459,9 @@
     "education-spending-pct": 137,
     "health-spending-pct": 84,
     "arable-land-pct": 51,
-    "fdi-inflow": 78
+    "fdi-inflow": 78,
+    "population-density": 129,
+    "latitude": 53
   },
   "GIB": {
     "population": 220,
@@ -2216,7 +2470,9 @@
     "urban-population-pct": 1,
     "fertility-rate": 114,
     "forest-coverage-pct": 210,
-    "renewable-energy-pct": 207
+    "renewable-energy-pct": 207,
+    "population-density": 5,
+    "latitude": 66
   },
   "MNG": {
     "population": 132,
@@ -2235,7 +2491,9 @@
     "education-spending-pct": 112,
     "health-spending-pct": 102,
     "arable-land-pct": 190,
-    "fdi-inflow": 65
+    "fdi-inflow": 65,
+    "population-density": 239,
+    "latitude": 32
   },
   "TON": {
     "population": 199,
@@ -2254,7 +2512,9 @@
     "education-spending-pct": 43,
     "health-spending-pct": 76,
     "arable-land-pct": 35,
-    "fdi-inflow": 171
+    "fdi-inflow": 171,
+    "population-density": 90,
+    "latitude": 221
   },
   "MDG": {
     "population": 49,
@@ -2273,15 +2533,21 @@
     "education-spending-pct": 138,
     "health-spending-pct": 170,
     "arable-land-pct": 133,
-    "fdi-inflow": 119
+    "fdi-inflow": 119,
+    "population-density": 163,
+    "latitude": 217
   },
   "SPM": {
     "population": 232,
-    "area-km2": 216
+    "area-km2": 216,
+    "population-density": 198,
+    "latitude": 34
   },
   "SHN": {
     "population": 233,
-    "area-km2": 205
+    "area-km2": 205,
+    "population-density": 219,
+    "latitude": 211
   },
   "MCO": {
     "population": 218,
@@ -2295,7 +2561,9 @@
     "tourism-arrivals": 145,
     "forest-coverage-pct": 210,
     "education-spending-pct": 175,
-    "health-spending-pct": 176
+    "health-spending-pct": 176,
+    "population-density": 2,
+    "latitude": 43
   },
   "BRA": {
     "population": 7,
@@ -2317,7 +2585,9 @@
     "education-spending-pct": 34,
     "health-spending-pct": 30,
     "arable-land-pct": 123,
-    "fdi-inflow": 5
+    "fdi-inflow": 5,
+    "population-density": 197,
+    "latitude": 200
   },
   "AUS": {
     "population": 54,
@@ -2339,7 +2609,9 @@
     "education-spending-pct": 57,
     "health-spending-pct": 24,
     "arable-land-pct": 148,
-    "fdi-inflow": 12
+    "fdi-inflow": 12,
+    "population-density": 237,
+    "latitude": 228
   },
   "GUY": {
     "population": 165,
@@ -2357,7 +2629,9 @@
     "inflation-rate": 153,
     "health-spending-pct": 189,
     "arable-land-pct": 196,
-    "fdi-inflow": 188
+    "fdi-inflow": 188,
+    "population-density": 232,
+    "latitude": 170
   },
   "SVN": {
     "population": 149,
@@ -2379,7 +2653,9 @@
     "education-spending-pct": 45,
     "health-spending-pct": 39,
     "arable-land-pct": 110,
-    "fdi-inflow": 81
+    "fdi-inflow": 81,
+    "population-density": 110,
+    "latitude": 37
   },
   "SMR": {
     "population": 221,
@@ -2396,11 +2672,15 @@
     "education-spending-pct": 143,
     "health-spending-pct": 93,
     "arable-land-pct": 24,
-    "fdi-inflow": 179
+    "fdi-inflow": 179,
+    "population-density": 22,
+    "latitude": 42
   },
   "TKL": {
     "population": 236,
-    "area-km2": 240
+    "area-km2": 240,
+    "population-density": 69,
+    "latitude": 197
   },
   "PSE": {
     "population": 123,
@@ -2419,7 +2699,9 @@
     "education-spending-pct": 39,
     "health-spending-pct": 21,
     "arable-land-pct": 119,
-    "fdi-inflow": 147
+    "fdi-inflow": 147,
+    "population-density": 16,
+    "latitude": 76
   },
   "BTN": {
     "population": 167,
@@ -2438,7 +2720,9 @@
     "education-spending-pct": 30,
     "health-spending-pct": 143,
     "arable-land-pct": 161,
-    "fdi-inflow": 167
+    "fdi-inflow": 167,
+    "population-density": 202,
+    "latitude": 85
   },
   "SXM": {
     "population": 215,
@@ -2452,7 +2736,9 @@
     "forest-coverage-pct": 164,
     "renewable-energy-pct": 207,
     "education-spending-pct": 102,
-    "fdi-inflow": 155
+    "fdi-inflow": 155,
+    "population-density": 10,
+    "latitude": 110
   },
   "PHL": {
     "population": 13,
@@ -2472,7 +2758,9 @@
     "education-spending-pct": 113,
     "health-spending-pct": 124,
     "arable-land-pct": 58,
-    "fdi-inflow": 37
+    "fdi-inflow": 37,
+    "population-density": 41,
+    "latitude": 125
   },
   "CHL": {
     "population": 65,
@@ -2494,11 +2782,15 @@
     "education-spending-pct": 64,
     "health-spending-pct": 26,
     "arable-land-pct": 171,
-    "fdi-inflow": 24
+    "fdi-inflow": 24,
+    "population-density": 196,
+    "latitude": 235
   },
   "MTQ": {
     "population": 181,
-    "area-km2": 185
+    "area-km2": 185,
+    "population-density": 44,
+    "latitude": 132
   },
   "HTI": {
     "population": 82,
@@ -2517,7 +2809,9 @@
     "education-spending-pct": 181,
     "health-spending-pct": 174,
     "arable-land-pct": 19,
-    "fdi-inflow": 163
+    "fdi-inflow": 163,
+    "population-density": 33,
+    "latitude": 102
   },
   "STP": {
     "population": 188,
@@ -2535,7 +2829,9 @@
     "education-spending-pct": 58,
     "health-spending-pct": 109,
     "arable-land-pct": 146,
-    "fdi-inflow": 181
+    "fdi-inflow": 181,
+    "population-density": 62,
+    "latitude": 181
   },
   "MAC": {
     "population": 168,
@@ -2551,7 +2847,8 @@
     "renewable-energy-pct": 141,
     "inflation-rate": 179,
     "education-spending-pct": 118,
-    "fdi-inflow": 88
+    "fdi-inflow": 88,
+    "population-density": 1
   },
   "MUS": {
     "population": 159,
@@ -2570,7 +2867,9 @@
     "education-spending-pct": 75,
     "health-spending-pct": 116,
     "arable-land-pct": 15,
-    "fdi-inflow": 101
+    "fdi-inflow": 101,
+    "population-density": 19,
+    "latitude": 219
   },
   "BHR": {
     "population": 154,
@@ -2589,7 +2888,9 @@
     "education-spending-pct": 171,
     "health-spending-pct": 155,
     "arable-land-pct": 160,
-    "fdi-inflow": 40
+    "fdi-inflow": 40,
+    "population-density": 6,
+    "latitude": 88
   },
   "MEX": {
     "population": 10,
@@ -2611,11 +2912,15 @@
     "education-spending-pct": 98,
     "health-spending-pct": 118,
     "arable-land-pct": 100,
-    "fdi-inflow": 13
+    "fdi-inflow": 13,
+    "population-density": 148,
+    "latitude": 93
   },
   "PCN": {
     "population": 243,
-    "area-km2": 232
+    "area-km2": 232,
+    "population-density": 240,
+    "latitude": 227
   },
   "ARG": {
     "population": 34,
@@ -2637,7 +2942,9 @@
     "education-spending-pct": 29,
     "health-spending-pct": 25,
     "arable-land-pct": 72,
-    "fdi-inflow": 16
+    "fdi-inflow": 16,
+    "population-density": 213,
+    "latitude": 234
   },
   "NPL": {
     "population": 51,
@@ -2656,7 +2963,9 @@
     "education-spending-pct": 101,
     "health-spending-pct": 100,
     "arable-land-pct": 81,
-    "fdi-inflow": 152
+    "fdi-inflow": 152,
+    "population-density": 73,
+    "latitude": 83
   },
   "SWE": {
     "population": 90,
@@ -2678,7 +2987,9 @@
     "education-spending-pct": 11,
     "health-spending-pct": 15,
     "arable-land-pct": 126,
-    "fdi-inflow": 22
+    "fdi-inflow": 22,
+    "population-density": 199,
+    "latitude": 6
   },
   "SLE": {
     "population": 102,
@@ -2697,7 +3008,9 @@
     "education-spending-pct": 156,
     "health-spending-pct": 131,
     "arable-land-pct": 49,
-    "fdi-inflow": 140
+    "fdi-inflow": 140,
+    "population-density": 100,
+    "latitude": 156
   },
   "SWZ": {
     "population": 160,
@@ -2716,7 +3029,9 @@
     "education-spending-pct": 60,
     "health-spending-pct": 72,
     "arable-land-pct": 101,
-    "fdi-inflow": 161
+    "fdi-inflow": 161,
+    "population-density": 144,
+    "latitude": 229
   },
   "ESP": {
     "population": 32,
@@ -2738,7 +3053,9 @@
     "education-spending-pct": 74,
     "health-spending-pct": 42,
     "arable-land-pct": 46,
-    "fdi-inflow": 7
+    "fdi-inflow": 7,
+    "population-density": 120,
+    "latitude": 84
   },
   "COL": {
     "population": 28,
@@ -2760,7 +3077,9 @@
     "education-spending-pct": 48,
     "health-spending-pct": 59,
     "arable-land-pct": 165,
-    "fdi-inflow": 26
+    "fdi-inflow": 26,
+    "population-density": 170,
+    "latitude": 172
   },
   "TCA": {
     "population": 213,
@@ -2775,7 +3094,9 @@
     "renewable-energy-pct": 197,
     "education-spending-pct": 155,
     "arable-land-pct": 182,
-    "fdi-inflow": 159
+    "fdi-inflow": 159,
+    "population-density": 169,
+    "latitude": 96
   },
   "DJI": {
     "population": 161,
@@ -2792,7 +3113,9 @@
     "inflation-rate": 174,
     "health-spending-pct": 190,
     "arable-land-pct": 205,
-    "fdi-inflow": 143
+    "fdi-inflow": 143,
+    "population-density": 167,
+    "latitude": 148
   },
   "NRU": {
     "population": 228,
@@ -2807,7 +3130,9 @@
     "renewable-energy-pct": 181,
     "education-spending-pct": 32,
     "health-spending-pct": 2,
-    "fdi-inflow": 175
+    "fdi-inflow": 175,
+    "population-density": 21,
+    "latitude": 183
   },
   "SLV": {
     "population": 112,
@@ -2826,15 +3151,20 @@
     "education-spending-pct": 133,
     "health-spending-pct": 40,
     "arable-land-pct": 21,
-    "fdi-inflow": 110
+    "fdi-inflow": 110,
+    "population-density": 48,
+    "latitude": 135
   },
   "ALA": {
     "population": 223,
-    "area-km2": 183
+    "area-km2": 183,
+    "population-density": 203
   },
   "GLP": {
     "population": 180,
-    "area-km2": 182
+    "area-km2": 182,
+    "population-density": 66,
+    "latitude": 121
   },
   "HND": {
     "population": 88,
@@ -2853,7 +3183,9 @@
     "education-spending-pct": 77,
     "health-spending-pct": 66,
     "arable-land-pct": 108,
-    "fdi-inflow": 92
+    "fdi-inflow": 92,
+    "population-density": 122,
+    "latitude": 131
   },
   "KEN": {
     "population": 26,
@@ -2874,7 +3206,9 @@
     "education-spending-pct": 100,
     "health-spending-pct": 144,
     "arable-land-pct": 91,
-    "fdi-inflow": 120
+    "fdi-inflow": 120,
+    "population-density": 121,
+    "latitude": 180
   },
   "MLT": {
     "population": 173,
@@ -2893,7 +3227,9 @@
     "education-spending-pct": 70,
     "health-spending-pct": 47,
     "arable-land-pct": 47,
-    "fdi-inflow": 17
+    "fdi-inflow": 17,
+    "population-density": 9,
+    "latitude": 67
   },
   "LVA": {
     "population": 150,
@@ -2915,7 +3251,9 @@
     "education-spending-pct": 81,
     "health-spending-pct": 79,
     "arable-land-pct": 50,
-    "fdi-inflow": 75
+    "fdi-inflow": 75,
+    "population-density": 188,
+    "latitude": 11
   },
   "GAB": {
     "population": 143,
@@ -2933,7 +3271,9 @@
     "education-spending-pct": 163,
     "health-spending-pct": 175,
     "arable-land-pct": 180,
-    "fdi-inflow": 87
+    "fdi-inflow": 87,
+    "population-density": 223,
+    "latitude": 185
   },
   "HKG": {
     "population": 104,
@@ -2950,11 +3290,14 @@
     "inflation-rate": 169,
     "education-spending-pct": 106,
     "arable-land-pct": 170,
-    "fdi-inflow": 3
+    "fdi-inflow": 3,
+    "population-density": 4
   },
   "SJM": {
     "population": 237,
-    "area-km2": 126
+    "area-km2": 126,
+    "population-density": 242,
+    "latitude": 1
   },
   "TUV": {
     "population": 231,
@@ -2970,7 +3313,9 @@
     "renewable-energy-pct": 167,
     "education-spending-pct": 2,
     "health-spending-pct": 1,
-    "fdi-inflow": 176
+    "fdi-inflow": 176,
+    "population-density": 35,
+    "latitude": 194
   },
   "TLS": {
     "population": 155,
@@ -2989,11 +3334,14 @@
     "education-spending-pct": 49,
     "health-spending-pct": 33,
     "arable-land-pct": 114,
-    "fdi-inflow": 145
+    "fdi-inflow": 145,
+    "population-density": 123,
+    "latitude": 196
   },
   "ESH": {
     "population": 172,
-    "area-km2": 78
+    "area-km2": 78,
+    "population-density": 238
   },
   "LSO": {
     "population": 147,
@@ -3012,7 +3360,9 @@
     "education-spending-pct": 12,
     "health-spending-pct": 8,
     "arable-land-pct": 87,
-    "fdi-inflow": 180
+    "fdi-inflow": 180,
+    "population-density": 137,
+    "latitude": 232
   },
   "USA": {
     "population": 3,
@@ -3034,7 +3384,9 @@
     "education-spending-pct": 40,
     "health-spending-pct": 3,
     "arable-land-pct": 62,
-    "fdi-inflow": 1
+    "fdi-inflow": 1,
+    "population-density": 182,
+    "latitude": 61
   },
   "THA": {
     "population": 20,
@@ -3054,7 +3406,9 @@
     "education-spending-pct": 158,
     "health-spending-pct": 137,
     "arable-land-pct": 29,
-    "fdi-inflow": 34
+    "fdi-inflow": 34,
+    "population-density": 91,
+    "latitude": 136
   },
   "IND": {
     "population": 1,
@@ -3076,7 +3430,9 @@
     "education-spending-pct": 93,
     "health-spending-pct": 171,
     "arable-land-pct": 5,
-    "fdi-inflow": 15
+    "fdi-inflow": 15,
+    "population-density": 31,
+    "latitude": 95
   },
   "LTU": {
     "population": 139,
@@ -3098,11 +3454,15 @@
     "education-spending-pct": 86,
     "health-spending-pct": 78,
     "arable-land-pct": 16,
-    "fdi-inflow": 55
+    "fdi-inflow": 55,
+    "population-density": 174,
+    "latitude": 13
   },
   "MSR": {
     "population": 234,
-    "area-km2": 226
+    "area-km2": 226,
+    "population-density": 175,
+    "latitude": 119
   },
   "ZWE": {
     "population": 74,
@@ -3121,11 +3481,15 @@
     "education-spending-pct": 183,
     "health-spending-pct": 179,
     "arable-land-pct": 99,
-    "fdi-inflow": 114
+    "fdi-inflow": 114,
+    "population-density": 178,
+    "latitude": 216
   },
   "FLK": {
     "population": 235,
-    "area-km2": 164
+    "area-km2": 164,
+    "population-density": 241,
+    "latitude": 237
   },
   "MDV": {
     "population": 174,
@@ -3144,7 +3508,9 @@
     "education-spending-pct": 53,
     "health-spending-pct": 41,
     "arable-land-pct": 78,
-    "fdi-inflow": 100
+    "fdi-inflow": 100,
+    "population-density": 8,
+    "latitude": 184
   },
   "TUN": {
     "population": 80,
@@ -3163,7 +3529,9 @@
     "education-spending-pct": 15,
     "health-spending-pct": 62,
     "arable-land-pct": 59,
-    "fdi-inflow": 105
+    "fdi-inflow": 105,
+    "population-density": 140,
+    "latitude": 71
   },
   "EST": {
     "population": 156,
@@ -3185,7 +3553,9 @@
     "education-spending-pct": 51,
     "health-spending-pct": 73,
     "arable-land-pct": 61,
-    "fdi-inflow": 43
+    "fdi-inflow": 43,
+    "population-density": 185,
+    "latitude": 9
   },
   "BGD": {
     "population": 8,
@@ -3204,7 +3574,9 @@
     "education-spending-pct": 166,
     "health-spending-pct": 192,
     "arable-land-pct": 1,
-    "fdi-inflow": 80
+    "fdi-inflow": 80,
+    "population-density": 12,
+    "latitude": 94
   },
   "UZB": {
     "population": 43,
@@ -3223,7 +3595,9 @@
     "education-spending-pct": 36,
     "health-spending-pct": 91,
     "arable-land-pct": 107,
-    "fdi-inflow": 66
+    "fdi-inflow": 66,
+    "population-density": 133,
+    "latitude": 51
   },
   "GHA": {
     "population": 46,
@@ -3242,7 +3616,9 @@
     "education-spending-pct": 141,
     "health-spending-pct": 178,
     "arable-land-pct": 53,
-    "fdi-inflow": 84
+    "fdi-inflow": 84,
+    "population-density": 89,
+    "latitude": 158
   },
   "NOR": {
     "population": 118,
@@ -3264,7 +3640,9 @@
     "education-spending-pct": 37,
     "health-spending-pct": 36,
     "arable-land-pct": 167,
-    "fdi-inflow": 29
+    "fdi-inflow": 29,
+    "population-density": 220,
+    "latitude": 5
   },
   "SOM": {
     "population": 68,
@@ -3281,7 +3659,9 @@
     "education-spending-pct": 186,
     "health-spending-pct": 161,
     "arable-land-pct": 175,
-    "fdi-inflow": 108
+    "fdi-inflow": 108,
+    "population-density": 189,
+    "latitude": 166
   },
   "BHS": {
     "population": 178,
@@ -3300,7 +3680,9 @@
     "education-spending-pct": 153,
     "health-spending-pct": 98,
     "arable-land-pct": 187,
-    "fdi-inflow": 126
+    "fdi-inflow": 126,
+    "population-density": 190,
+    "latitude": 90
   },
   "OMN": {
     "population": 126,
@@ -3319,7 +3701,9 @@
     "education-spending-pct": 84,
     "health-spending-pct": 168,
     "arable-land-pct": 203,
-    "fdi-inflow": 30
+    "fdi-inflow": 30,
+    "population-density": 214,
+    "latitude": 98
   },
   "LUX": {
     "population": 169,
@@ -3338,7 +3722,9 @@
     "education-spending-pct": 110,
     "health-spending-pct": 108,
     "arable-land-pct": 44,
-    "fdi-inflow": 194
+    "fdi-inflow": 194,
+    "population-density": 58,
+    "latitude": 22
   },
   "IRQ": {
     "population": 35,
@@ -3355,7 +3741,9 @@
     "inflation-rate": 121,
     "health-spending-pct": 117,
     "arable-land-pct": 90,
-    "fdi-inflow": 193
+    "fdi-inflow": 193,
+    "population-density": 112,
+    "latitude": 73
   },
   "VIR": {
     "population": 198,
@@ -3369,7 +3757,9 @@
     "forest-coverage-pct": 32,
     "unemployment-rate": 33,
     "renewable-energy-pct": 165,
-    "arable-land-pct": 162
+    "arable-land-pct": 162,
+    "population-density": 47,
+    "latitude": 112
   },
   "MRT": {
     "population": 127,
@@ -3387,7 +3777,9 @@
     "education-spending-pct": 71,
     "health-spending-pct": 146,
     "arable-land-pct": 199,
-    "fdi-inflow": 97
+    "fdi-inflow": 97,
+    "population-density": 228,
+    "latitude": 99
   },
   "CAN": {
     "population": 37,
@@ -3409,7 +3801,9 @@
     "education-spending-pct": 65,
     "health-spending-pct": 13,
     "arable-land-pct": 142,
-    "fdi-inflow": 8
+    "fdi-inflow": 8,
+    "population-density": 231,
+    "latitude": 10
   },
   "MMR": {
     "population": 27,
@@ -3428,7 +3822,9 @@
     "education-spending-pct": 168,
     "health-spending-pct": 141,
     "arable-land-pct": 60,
-    "fdi-inflow": 79
+    "fdi-inflow": 79,
+    "population-density": 131,
+    "latitude": 100
   },
   "MYS": {
     "population": 44,
@@ -3447,15 +3843,21 @@
     "education-spending-pct": 117,
     "health-spending-pct": 156,
     "arable-land-pct": 164,
-    "fdi-inflow": 39
+    "fdi-inflow": 39,
+    "population-density": 109,
+    "latitude": 175
   },
   "CCK": {
     "population": 242,
-    "area-km2": 239
+    "area-km2": 239,
+    "population-density": 176,
+    "latitude": 203
   },
   "BES": {
     "population": 222,
-    "area-km2": 210
+    "area-km2": 210,
+    "population-density": 116,
+    "latitude": 113
   },
   "UGA": {
     "population": 31,
@@ -3474,7 +3876,9 @@
     "education-spending-pct": 157,
     "health-spending-pct": 150,
     "arable-land-pct": 22,
-    "fdi-inflow": 58
+    "fdi-inflow": 58,
+    "population-density": 74,
+    "latitude": 179
   },
   "IRN": {
     "population": 17,
@@ -3493,7 +3897,9 @@
     "education-spending-pct": 149,
     "health-spending-pct": 104,
     "arable-land-pct": 105,
-    "fdi-inflow": 82
+    "fdi-inflow": 82,
+    "population-density": 161,
+    "latitude": 74
   },
   "CUW": {
     "population": 192,
@@ -3508,7 +3914,9 @@
     "renewable-energy-pct": 175,
     "inflation-rate": 156,
     "education-spending-pct": 44,
-    "fdi-inflow": 144
+    "fdi-inflow": 144,
+    "population-density": 38,
+    "latitude": 144
   },
   "ROU": {
     "population": 67,
@@ -3530,7 +3938,9 @@
     "education-spending-pct": 126,
     "health-spending-pct": 112,
     "arable-land-pct": 18,
-    "fdi-inflow": 38
+    "fdi-inflow": 38,
+    "population-density": 132,
+    "latitude": 38
   },
   "SYR": {
     "population": 58,
@@ -3547,7 +3957,9 @@
     "renewable-energy-pct": 187,
     "inflation-rate": 25,
     "health-spending-pct": 184,
-    "arable-land-pct": 42
+    "arable-land-pct": 42,
+    "population-density": 96,
+    "latitude": 69
   },
   "FJI": {
     "population": 162,
@@ -3566,7 +3978,9 @@
     "education-spending-pct": 87,
     "health-spending-pct": 166,
     "arable-land-pct": 145,
-    "fdi-inflow": 148
+    "fdi-inflow": 148,
+    "population-density": 166,
+    "latitude": 215
   },
   "ABW": {
     "population": 197,
@@ -3582,7 +3996,9 @@
     "inflation-rate": 124,
     "education-spending-pct": 114,
     "arable-land-pct": 93,
-    "fdi-inflow": 185
+    "fdi-inflow": 185,
+    "population-density": 20,
+    "latitude": 143
   },
   "NLD": {
     "population": 72,
@@ -3604,7 +4020,9 @@
     "education-spending-pct": 52,
     "health-spending-pct": 29,
     "arable-land-pct": 31,
-    "fdi-inflow": 200
+    "fdi-inflow": 200,
+    "population-density": 32,
+    "latitude": 18
   },
   "PER": {
     "population": 45,
@@ -3626,11 +4044,15 @@
     "education-spending-pct": 88,
     "health-spending-pct": 114,
     "arable-land-pct": 155,
-    "fdi-inflow": 52
+    "fdi-inflow": 52,
+    "population-density": 194,
+    "latitude": 195
   },
   "REU": {
     "population": 163,
-    "area-km2": 179
+    "area-km2": 179,
+    "population-density": 37,
+    "latitude": 220
   },
   "BWA": {
     "population": 144,
@@ -3648,7 +4070,9 @@
     "education-spending-pct": 8,
     "health-spending-pct": 99,
     "arable-land-pct": 197,
-    "fdi-inflow": 103
+    "fdi-inflow": 103,
+    "population-density": 229,
+    "latitude": 225
   },
   "AFG": {
     "population": 36,
@@ -3665,7 +4089,9 @@
     "inflation-rate": 184,
     "health-spending-pct": 4,
     "arable-land-pct": 86,
-    "fdi-inflow": 164
+    "fdi-inflow": 164,
+    "population-density": 152,
+    "latitude": 70
   },
   "SRB": {
     "population": 110,
@@ -3687,7 +4113,9 @@
     "education-spending-pct": 122,
     "health-spending-pct": 61,
     "arable-land-pct": 30,
-    "fdi-inflow": 45
+    "fdi-inflow": 45,
+    "population-density": 126,
+    "latitude": 41
   },
   "CZE": {
     "population": 87,
@@ -3709,7 +4137,9 @@
     "education-spending-pct": 83,
     "health-spending-pct": 52,
     "arable-land-pct": 25,
-    "fdi-inflow": 31
+    "fdi-inflow": 31,
+    "population-density": 93,
+    "latitude": 23
   },
   "DMA": {
     "population": 206,
@@ -3727,7 +4157,9 @@
     "education-spending-pct": 72,
     "health-spending-pct": 125,
     "arable-land-pct": 112,
-    "fdi-inflow": 154
+    "fdi-inflow": 154,
+    "population-density": 125,
+    "latitude": 126
   },
   "POL": {
     "population": 42,
@@ -3749,7 +4181,9 @@
     "education-spending-pct": 82,
     "health-spending-pct": 81,
     "arable-land-pct": 17,
-    "fdi-inflow": 11
+    "fdi-inflow": 11,
+    "population-density": 101,
+    "latitude": 19
   },
   "BEN": {
     "population": 76,
@@ -3768,7 +4202,9 @@
     "education-spending-pct": 130,
     "health-spending-pct": 172,
     "arable-land-pct": 27,
-    "fdi-inflow": 124
+    "fdi-inflow": 124,
+    "population-density": 99,
+    "latitude": 153
   },
   "MDA": {
     "population": 145,
@@ -3788,7 +4224,9 @@
     "education-spending-pct": 16,
     "health-spending-pct": 92,
     "arable-land-pct": 4,
-    "fdi-inflow": 125
+    "fdi-inflow": 125,
+    "population-density": 141,
+    "latitude": 33
   },
   "RUS": {
     "population": 9,
@@ -3810,11 +4248,15 @@
     "education-spending-pct": 91,
     "health-spending-pct": 85,
     "arable-land-pct": 115,
-    "fdi-inflow": 195
+    "fdi-inflow": 195,
+    "population-density": 224,
+    "latitude": 8
   },
   "BLM": {
     "population": 230,
-    "area-km2": 237
+    "area-km2": 237,
+    "population-density": 27,
+    "latitude": 111
   },
   "IDN": {
     "population": 4,
@@ -3835,7 +4277,9 @@
     "education-spending-pct": 179,
     "health-spending-pct": 185,
     "arable-land-pct": 106,
-    "fdi-inflow": 19
+    "fdi-inflow": 19,
+    "population-density": 85,
+    "latitude": 182
   },
   "NIC": {
     "population": 109,
@@ -3854,7 +4298,9 @@
     "education-spending-pct": 146,
     "health-spending-pct": 57,
     "arable-land-pct": 84,
-    "fdi-inflow": 90
+    "fdi-inflow": 90,
+    "population-density": 164,
+    "latitude": 141
   },
   "ARM": {
     "population": 137,
@@ -3873,7 +4319,9 @@
     "education-spending-pct": 161,
     "health-spending-pct": 38,
     "arable-land-pct": 66,
-    "fdi-inflow": 115
+    "fdi-inflow": 115,
+    "population-density": 115,
+    "latitude": 56
   },
   "BLR": {
     "population": 99,
@@ -3893,7 +4341,9 @@
     "education-spending-pct": 61,
     "health-spending-pct": 83,
     "arable-land-pct": 36,
-    "fdi-inflow": 71
+    "fdi-inflow": 71,
+    "population-density": 173,
+    "latitude": 16
   },
   "ETH": {
     "population": 11,
@@ -3914,7 +4364,9 @@
     "education-spending-pct": 140,
     "health-spending-pct": 183,
     "arable-land-pct": 73,
-    "fdi-inflow": 57
+    "fdi-inflow": 57,
+    "population-density": 103,
+    "latitude": 154
   },
   "CRI": {
     "population": 125,
@@ -3935,7 +4387,9 @@
     "education-spending-pct": 21,
     "health-spending-pct": 87,
     "arable-land-pct": 152,
-    "fdi-inflow": 49
+    "fdi-inflow": 49,
+    "population-density": 114,
+    "latitude": 151
   },
   "JOR": {
     "population": 84,
@@ -3954,7 +4408,9 @@
     "education-spending-pct": 116,
     "health-spending-pct": 68,
     "arable-land-pct": 166,
-    "fdi-inflow": 70
+    "fdi-inflow": 70,
+    "population-density": 95,
+    "latitude": 78
   },
   "DEU": {
     "population": 19,
@@ -3976,7 +4432,9 @@
     "education-spending-pct": 50,
     "health-spending-pct": 9,
     "arable-land-pct": 23,
-    "fdi-inflow": 4
+    "fdi-inflow": 4,
+    "population-density": 64,
+    "latitude": 20
   },
   "ECU": {
     "population": 71,
@@ -3997,7 +4455,9 @@
     "education-spending-pct": 104,
     "health-spending-pct": 70,
     "arable-land-pct": 147,
-    "fdi-inflow": 122
+    "fdi-inflow": 122,
+    "population-density": 150,
+    "latitude": 187
   },
   "PRK": {
     "population": 55,
@@ -4008,7 +4468,9 @@
     "forest-coverage-pct": 55,
     "unemployment-rate": 132,
     "renewable-energy-pct": 125,
-    "arable-land-pct": 57
+    "arable-land-pct": 57,
+    "population-density": 68,
+    "latitude": 55
   },
   "ISL": {
     "population": 179,
@@ -4028,7 +4490,9 @@
     "education-spending-pct": 13,
     "health-spending-pct": 49,
     "arable-land-pct": 181,
-    "fdi-inflow": 72
+    "fdi-inflow": 72,
+    "population-density": 234,
+    "latitude": 3
   },
   "SSD": {
     "population": 83,
@@ -4043,7 +4507,9 @@
     "inflation-rate": 161,
     "health-spending-pct": 11,
     "arable-land-pct": 149,
-    "fdi-inflow": 177
+    "fdi-inflow": 177,
+    "population-density": 208,
+    "latitude": 160
   },
   "MWI": {
     "population": 62,
@@ -4061,7 +4527,9 @@
     "education-spending-pct": 151,
     "health-spending-pct": 96,
     "arable-land-pct": 11,
-    "fdi-inflow": 101
+    "fdi-inflow": 101,
+    "population-density": 77,
+    "latitude": 205
   },
   "BFA": {
     "population": 60,
@@ -4080,7 +4548,9 @@
     "education-spending-pct": 41,
     "health-spending-pct": 65,
     "arable-land-pct": 32,
-    "fdi-inflow": 146
+    "fdi-inflow": 146,
+    "population-density": 128,
+    "latitude": 146
   },
   "COD": {
     "population": 15,
@@ -4097,7 +4567,9 @@
     "education-spending-pct": 147,
     "health-spending-pct": 163,
     "arable-land-pct": 124,
-    "fdi-inflow": 63
+    "fdi-inflow": 63,
+    "population-density": 172,
+    "latitude": 190
   },
   "VEN": {
     "population": 53,
@@ -4113,7 +4585,9 @@
     "education-spending-pct": 185,
     "health-spending-pct": 159,
     "arable-land-pct": 156,
-    "fdi-inflow": 166
+    "fdi-inflow": 166,
+    "population-density": 184,
+    "latitude": 164
   },
   "BRN": {
     "population": 176,
@@ -4131,7 +4605,9 @@
     "inflation-rate": 180,
     "health-spending-pct": 191,
     "arable-land-pct": 189,
-    "fdi-inflow": 183
+    "fdi-inflow": 183,
+    "population-density": 134,
+    "latitude": 171
   },
   "PRY": {
     "population": 108,
@@ -4151,7 +4627,9 @@
     "education-spending-pct": 121,
     "health-spending-pct": 55,
     "arable-land-pct": 89,
-    "fdi-inflow": 91
+    "fdi-inflow": 91,
+    "population-density": 211,
+    "latitude": 226
   },
   "BGR": {
     "population": 111,
@@ -4173,6 +4651,8 @@
     "education-spending-pct": 78,
     "health-spending-pct": 63,
     "arable-land-pct": 26,
-    "fdi-inflow": 44
+    "fdi-inflow": 44,
+    "population-density": 160,
+    "latitude": 45
   }
 }
