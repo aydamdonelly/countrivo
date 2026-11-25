@@ -12,8 +12,7 @@ import { Button } from "@/ui/button";
 import { KeyHint } from "@/ui/key-hint";
 import { NextDailies } from "@/ui/next-dailies";
 import { Progress } from "@/ui/progress";
-import { ResultPanel, failReasonText, type ResultRanks } from "@/ui/result-panel";
-import { ShareButton } from "@/ui/share-button";
+import { ResultPanel, failReasonText, runRank, type ResultRanks } from "@/ui/result-panel";
 import { Verdict } from "@/ui/verdict";
 import type { Action, BoardComponent, GameModule, HostProps, ResultComponent, SubmitGameRunInput, VerdictInfo } from "@/games/types";
 import { persistsByDefault } from "@/games/types";
@@ -273,18 +272,13 @@ function Session<S, A extends Action>(p: GameHostProps<S, A> & { onNewBoard: () 
             practiceHref={`/games/${slug}/play?mode=practice`}
             animateScore
             primaryAction={<ResultFollowup slug={slug} mode={mode} score={module.scoreLabel(state)} run={run} publishedName={publishedName} onPublished={setRun} />}
-            actions={
-              <>
-                {mode === "daily" ? null : (
-                  <Button variant="ink" onClick={p.onNewBoard}>
-                    New board
-                  </Button>
-                )}
-                <ShareButton text={shareText} onShare={() => trackPlay("share", slug, mode)} />
-              </>
-            }
+            slug={slug}
+            dateKey={mode === "daily" ? p.dateKey : undefined}
+            rank={runRank(run)}
+            share={{ text: shareText, onShare: () => trackPlay("share", slug, mode) }}
+            actions={mode === "daily" ? undefined : <Button onClick={p.onNewBoard} block>New board</Button>}
           >
-            {fail && payload ? <Button variant="quiet" onClick={() => void submit(payload)}>Try saving again</Button> : null}
+            {fail && payload ? <Button variant="secondary" onClick={() => void submit(payload)}>Try saving again</Button> : null}
             <Result state={state} mode={mode} run={run} />
           </ResultPanel>
           {nextRows ? <NextDailies rows={nextRows.rows} shot={nextRows.shot} total={nextRows.total} /> : null}

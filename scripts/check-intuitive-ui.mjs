@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 if (!process.env.PLAYWRIGHT_MODULE) throw new Error('Set PLAYWRIGHT_MODULE to an existing playwright-core/index.mjs.');
 const {chromium}=await import(pathToFileURL(process.env.PLAYWRIGHT_MODULE).href);
@@ -7,6 +7,7 @@ const base=process.env.COUNTRIVO_QA_BASE??'http://localhost:3290';
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM??'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const out='.check-render/intuitive';mkdirSync(out,{recursive:true});
 const results=[];let checks=0;
+const dailyCount=JSON.parse(readFileSync('src/data/game-registry.json','utf8')).filter(game=>game.availableModes?.includes('daily')).length;
 function check(ok,label){assert(ok,label);checks++;}
 function visibleWords(){
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let text='';
@@ -37,7 +38,7 @@ try {
    check(!await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),`${name}@${width} no overflow`);
    const words=await page.evaluate(visibleWords);
    check(words<110,`${name}@${width} must stay concise, got ${words} visible words`);
-   if(name==='home'){check(await page.locator('.game-tile-main').count()===6,'Home shows six direct game choices');check(await page.locator('.daily-game-grid .game-tile-actions a').count()===12,'Each daily game has Practice and Archive');}
+   if(name==='home'){check(await page.locator('.daily-game-grid .game-tile-main').count()===dailyCount,`Home shows one direct choice per daily (${dailyCount}, from the registry)`);check(await page.locator('.daily-game-grid .game-tile-actions a').count()===0,'Tiles carry no per-game Practice/Archive bars');check(await page.locator('.home-more a[href="/practice"]').count()===1&&await page.locator('.home-more a[href="/archive"]').count()===1,'Practice and Archive appear once, below the grid');check(await page.locator('.daily-game-grid .game-lead').count()===1&&await page.locator('.game-lead .lead-chip').textContent()==='Start here','A first visit sees one Start here card');check(await page.locator('.btn-primary:visible').count()===1,'Home has exactly one primary action');}
    if(name==='country-draft'){check(await page.locator('.dr-country-card').count()===3,'Draft immediately displays choices');check(await page.locator('.dr-help-details[open]').count()===0,'Draft rules do not block playing');}
    const help=page.locator('.game-help-trigger');
    if(await help.count()&&await help.isVisible()) {

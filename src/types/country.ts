@@ -13,3 +13,10 @@ export interface Country {
 }
 
 export type CountryMap = Record<string, Country>;
+
+/** A sovereign country a player may show next to a published name. */
+export interface FlagPlace {
+  iso3: string;
+  iso2: string;
+  name: string;
+}

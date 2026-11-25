@@ -46,22 +46,29 @@ try {
  await input.focus(); await input.press('Tab');
  check(await input.inputValue()==='con','Tab preserves partial country text');
  check(await input.evaluate(element=>document.activeElement!==element),'Tab moves focus onwards');
- await input.fill('France'); await page.getByRole('option',{name:'France',exact:true}).click();
- check(await input.inputValue()==='France','Pointer suggestion fills the input');
- check(posts===before,'Pointer suggestion does not commit a guess');
+ // 25 November 2026: choosing a suggestion IS the guess (check-geowordle-clarity: "Selecting a suggestion
+ // sends exactly one guess immediately"). Partial text alone never spends a guess; Tab, Shift+Tab and
+ // the arrow keys only move focus or the highlight.
  let geoState={answerIso3:'PRK',guesses:[],clueAt:null,phase:'playing'};
  handler=async(route,request)=>{
   const [{action}]=JSON.parse(request.postData());
   geoState=geo.reduce(geoState,action);
   return respond(route,{success:true,view:geoWordleView(geoState),revision:posts,sessionToken:'local-input-fixture'});
  };
- await input.press('Enter'); await page.locator('.gw-row:not(.gw-pending)').waitFor();
- check(posts===before+1,'Enter after choosing explicitly commits once');
+ await input.fill('con');
+ check(posts===before,'Partial text alone commits nothing');
+ await input.fill('Fran'); await input.press('ArrowDown');
+ check(await input.inputValue()==='Fran' && posts===before,'ArrowDown only highlights a suggestion');
+ await input.fill('France'); await page.getByRole('option',{name:'France',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelectorAll('.gw-row:not(.gw-pending)').length===1);
+ check(posts===before+1,'Pointer suggestion commits exactly one guess');
+ check(await input.inputValue()==='','The field clears after the chosen guess');
  await input.fill('Japan'); await input.press('ArrowDown'); await input.press('Enter');
- check(await input.inputValue()==='Japan' && posts===before+1,'Keyboard suggestion fills without committing');
- await page.getByRole('button',{name:'Guess',exact:true}).click();
  await page.waitForFunction(()=>document.querySelectorAll('.gw-row:not(.gw-pending)').length===2);
- check(posts===before+2,'Guess explicitly commits the selected country once');
+ check(posts===before+2,'Keyboard suggestion (ArrowDown, Enter) commits exactly one guess');
+ await input.fill('Chile'); await page.getByRole('button',{name:'Guess',exact:true}).click();
+ await page.waitForFunction(()=>document.querySelectorAll('.gw-row:not(.gw-pending)').length===3);
+ check(posts===before+3,'Guess explicitly commits a typed full name once');
  await page.screenshot({path:`${out}/geo-confirmed-selection.png`,fullPage:true});
 
  await open('/games/stat-guesser/play?mode=practice','[role=slider]');
@@ -92,7 +99,8 @@ try {
  await page.waitForFunction(()=>document.activeElement?.closest('.qr-call-controls')?.textContent==='Next');
  check(posts===before+1,'Native answer activation commits once');
  check(await page.locator('.qr-higher [role=status]').textContent()!=='','Higher/Lower announces its revealed outcome');
- check(await page.locator('.qr-info > p').isVisible(),'Comparison explanation is visible without opening details');
+ // Game clarity pass: the comparison is the reveal sentence under the cards ("You said higher. ..."), not a note beside the source.
+ check(await page.locator('.qr-verdict-line').isVisible() && /^You said (higher|lower)\./.test(await page.locator('.qr-verdict-line').textContent()),'Comparison explanation is visible without opening details');
  check(await page.getByRole('button',{name:'Next',exact:true}).evaluate(element=>document.activeElement===element),'Keyboard reveal focuses Next');
  await page.keyboard.press('Enter'); await page.getByRole('button',{name:'Higher',exact:true}).waitFor();
  await page.waitForFunction(()=>document.activeElement?.matches('.qr-call:not([disabled])'));
@@ -135,7 +143,8 @@ try {
  const longNames=['VCT','CAF','BIH','ATG'].map(iso3=>countries.find(country=>country.iso3===iso3).displayName);
  for(const slug of ['flag-quiz','speed-flags']) {
   await page.setViewportSize({width:320,height:568});
-  await open(`/games/${slug}/play?mode=practice`,slug==='flag-quiz'?'.fq-opt':'.sf-start');
+  // Flag Quiz practice is the twenty-second sprint (check-flag-sprint-ui covers its 320 px layout); the ten-flag answer buttons live on as the Europe flags practice.
+  await open(`/games/${slug}/play?mode=practice${slug==='flag-quiz'?'&region=europe':''}`,slug==='flag-quiz'?'.fq-opt':'.sf-start');
   if(slug==='speed-flags')await page.getByRole('button',{name:'Start',exact:true}).click();
   check(await page.getByAltText('Flag to identify',{exact:true}).isVisible(),`${slug} gives the quiz image a neutral accessible identity`);
   const selector=slug==='flag-quiz'?'.fq-opt':'.sf-opt';

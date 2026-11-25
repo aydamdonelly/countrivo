@@ -18,5 +18,12 @@ export async function GamesHub() {
   const registry = getDailyGames();
   const daily = TABLE_GAMES.filter((game)=>registry.some((g)=>g.slug===game.slug));
   const practice = TABLE_GAMES.filter((game)=>!daily.includes(game));
-  return <><PageTitle title="Daily games" /><div className="game-index">{daily.map((game, i)=><GameCard key={game.slug} game={game} score={done[game.slug]} active={i === 0} />)}</div><h2 className="t-h2 mt-12">Practice</h2><div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} active={false} practice />)}</div><SiteFoot /></>;
+  return <>
+    <PageTitle title="Daily games" />
+    <section className="hub-section" aria-labelledby="hub-daily"><h2 id="hub-daily" className="sr-only">Daily games</h2><p className="hub-lead">New boards every day at midnight Berlin time. Everyone gets the same puzzles.</p>
+      <div className="game-index">{daily.map((game, i)=><GameCard key={game.slug} game={game} score={done[game.slug]} active={i < 4} isNew={Boolean(game.newUntil && clock.dateKey <= game.newUntil && !done[game.slug])} />)}</div></section>
+    <section className="hub-section" aria-labelledby="hub-practice"><h2 id="hub-practice" className="t-h2">Practice only</h2><p className="hub-lead">Fresh boards whenever you like. No leaderboard.</p>
+      <div className="game-index">{practice.map((game)=><GameCard key={game.slug} game={game} active={false} practice />)}</div></section>
+    <SiteFoot />
+  </>;
 }

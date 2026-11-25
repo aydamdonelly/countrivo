@@ -105,6 +105,7 @@ export function CategoryPage({ category }: { category: Category }) {
           <div data-o="3" className="cat-facts">
             <FactRow facts={facts} />
           </div>
+          {guessable || comparable ? <section data-o="3" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"} state={guessable?"slide":"level"} tone="color"/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3>{guessable?<Button variant="primary" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="tertiary" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}</section> : null}
 
           <section data-o="5" className="src-block">
             <SectionHead title="Source" variant="strip" />
@@ -118,7 +119,6 @@ export function CategoryPage({ category }: { category: Category }) {
             {surprising.map((position)=>{const country=getCountryByIso3(position.iso3),comparison=getAllCategories().find(c=>c.slug===position.comparisonStat);return country ? <p className="t-body" key={position.iso3}><Link href={`/countries/${country.slug}`}>{country.displayName}</Link> ranks <b>{position.rank} of {position.count}</b> for {category.label.toLowerCase()}, and <b>{position.comparisonRank} of {position.comparisonCount}</b> for {comparison?.label.toLowerCase()}.</p> : null;})}
             <details className="info-disclosure"><summary>Method</summary><p className="t-meta text-mute">The three largest gaps in relative ranking position, compared with {category.slug==='population'?'total area':'population'}. Only sovereign countries with both values count. This describes position, not whether a country is better.</p></details>
           </section>
-          {guessable || comparable ? <section data-o="5" className="category-practice"><Clay object={guessable?"cl-06":"cl-04"}/><h3 className="t-h3">Try {category.label.toLowerCase()}</h3>{guessable?<Button variant="ink" href={`/games/stat-guesser/play?mode=practice&stat=${category.slug}`}>Guess this stat</Button>:null}{comparable?<Button variant="text" href={`/games/higher-or-lower/play?mode=practice&stat=${category.slug}`}>Higher or Lower</Button>:null}</section> : null}
           {category.slug === 'urban-population-pct' || category.slug === 'population' ? <p data-o="5" className="t-body mt-4"><Link href="/practice/urban-geography">Compare urban share and population in two quick examples</Link></p> : null}
 
           <section data-o="6" className="ls">

@@ -38,15 +38,15 @@ export function RerollButton() {
       <div className="acts">
         {confirming ? (
           <>
-            <Button variant="quiet" onClick={() => void reroll()} disabled={busy} pending={busy} pendingLabel="Rerolling">
+            <Button variant="secondary" onClick={() => void reroll()} disabled={busy} pending={busy} pendingLabel="Rerolling">
               Yes, reroll today
             </Button>
-            <Button variant="text" onClick={() => setConfirming(false)} disabled={busy}>
+            <Button variant="tertiary" onClick={() => setConfirming(false)} disabled={busy}>
               Cancel
             </Button>
           </>
         ) : (
-          <Button variant="quiet" onClick={() => setConfirming(true)}>
+          <Button variant="secondary" onClick={() => setConfirming(true)}>
             Reroll today
           </Button>
         )}

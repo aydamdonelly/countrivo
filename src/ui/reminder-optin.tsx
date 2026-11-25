@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { Button } from "@/ui/button";
+import { Sheet } from "@/ui/sheet";
+import { BellIcon } from "@/ui/icons/bell";
 import { savePushToken } from "@/app/actions/push";
+import { downloadReminder, validReminderTime } from "@/lib/reminder-calendar";
 
-type ReminderState = "hidden" | "offer" | "asking" | "on";
+type ReminderState = "web" | "offer" | "asking" | "on";
 
 /** Registers for notifications and stores the token; resolves once iOS hands one over or refuses. */
 async function registerForReminders(): Promise<boolean> {
@@ -27,11 +30,17 @@ async function registerForReminders(): Promise<boolean> {
 }
 
 /**
- * The opt-in daily reminder, shown only inside the iOS app after a finished daily.
- * Already allowed: the token is refreshed silently. Never shown on the web.
+ * The tertiary "Remind me" next to the countdown (25 November 2026). Inside the iOS app it
+ * asks for the one evening notification (already allowed: the token is refreshed silently
+ * and the control reads "Reminder on"). On the web, and when iOS notifications are off, it
+ * opens a small sheet that adds a daily event to the player's own calendar.
  */
-export function ReminderOptIn() {
-  const [state, setState] = useState<ReminderState>("hidden");
+export function RemindMe() {
+  const [state, setState] = useState<ReminderState>("web");
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState("18:00");
+  const [added, setAdded] = useState(false);
+  const title = useId();
   useEffect(() => {
     let active = true;
     void (async () => {
@@ -52,17 +61,25 @@ export function ReminderOptIn() {
     try {
       const { PushNotifications } = await import("@capacitor/push-notifications");
       const permission = await PushNotifications.requestPermissions();
-      if (permission.receive !== "granted") { setState("hidden"); return; }
+      if (permission.receive !== "granted") { setState("web"); return; }
       setState((await registerForReminders()) ? "on" : "offer");
     } catch {
       setState("offer");
     }
   }
 
-  if (state === "hidden") return null;
-  if (state === "on") return <p className="reminder-optin t-meta">Daily reminder on. One notification in the early evening on days you have not played.</p>;
-  return <div className="reminder-optin">
-    <Button variant="quiet" onClick={() => void turnOn()} pending={state === "asking"} pendingLabel="Asking…">Remind me tomorrow</Button>
-    <p className="t-meta">One notification in the early evening, only on days you have not played.</p>
-  </div>;
+  if (state === "on") return <span className="remind-me remind-on t-meta"><BellIcon size={16} />Reminder on</span>;
+  return <>
+    <button type="button" className="btn btn-tertiary remind-me" aria-busy={state === "asking" || undefined} disabled={state === "asking"}
+      onClick={() => { if (state === "offer") void turnOn(); else { setAdded(false); setOpen(true); } }}>
+      <BellIcon size={16} />{state === "asking" ? "Asking" : "Remind me"}
+    </button>
+    <Sheet open={open} onClose={() => setOpen(false)} labelledBy={title} className="remind-sheet">
+      <h2 id={title} className="t-h3">Daily reminder</h2>
+      <p className="t-body text-mute">Adds one short event a day to your own calendar. You can remove it there.</p>
+      <label className="remind-time t-body">Remind me at<input type="time" value={time} onChange={(event) => { setTime(event.target.value); setAdded(false); }} /></label>
+      <Button block onClick={() => { if (!validReminderTime(time)) return; downloadReminder(time); setAdded(true); }}>Add to calendar</Button>
+      <p className="t-meta text-mute" role="status">{added ? "Open the calendar file to save your reminder." : ""}</p>
+    </Sheet>
+  </>;
 }

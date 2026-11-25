@@ -25,7 +25,7 @@ export default function RouteError({ error, reset }: { error: Error & { digest?:
         </p>
         <div className="flex flex-wrap items-center gap-4 mt-6">
           <Button onClick={() => reset()}>Try again</Button>
-          <Button variant="text" href="/">
+          <Button variant="tertiary" href="/">
             Home
           </Button>
         </div>

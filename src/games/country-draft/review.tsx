@@ -9,7 +9,7 @@ export function DraftReviewDetails({ review }: { review: DraftReview | null }) {
   if (!review) return null;
   return <>
     <details className="dr-result-detail"><summary className="t-body">What you passed on</summary>
-      {!review.unlocked ? <p className="t-meta text-mute">Points unlock at midnight Berlin time.</p> : null}
+      {!review.unlocked ? <p className="t-meta text-mute">Their points unlock at midnight Berlin time, so today&apos;s board stays fair for everyone still playing.</p> : null}
       <div className="dr-review-rounds">{review.rounds.map((round) => <section key={round.round} className="dr-review-round">
         <h3 className="t-h3"><span className="t-meta">Round {round.round + 1}</span><Flag iso2={round.country.iso2} alt="" size="xs" /> {round.country.name}</h3>
         <p className="t-meta text-mute">You seated {round.seatedName}.</p>

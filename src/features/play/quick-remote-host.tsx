@@ -1,5 +1,4 @@
 "use client";
-import { DailyNext } from '@/ui/daily-next';
 import { dailyProgress } from '@/features/play/daily-progress';
 import { ChallengeResult } from "@/ui/challenge-result";
 import { DailyHabit } from '@/ui/daily-habit';
@@ -15,11 +14,11 @@ import { clayFlagSrc } from "@/lib/flag-assets";
 import { Button } from "@/ui/button";
 import { Progress } from "@/ui/progress";
 import { GameHelp } from "@/ui/game-help";
-import { ResultPanel } from "@/ui/result-panel";
-import { ShareButton } from "@/ui/share-button";
+import { ResultPanel, runRank } from "@/ui/result-panel";
 import { CheckIcon } from "@/ui/icons/check";
 import { CrossIcon } from "@/ui/icons/cross";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
+import { MinusIcon } from "@/ui/icons/minus";
 import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import { ResultFollowup, ResultFeedback } from "./result-followup";
 import { SessionNotice } from "./session-notice";
@@ -36,6 +35,41 @@ function clayFor(view: QuickView): string {
   if (isFlagSprint(view)) return `/clay/cl-05/${view.stage !== "finished" ? "rest" : view.correct >= view.target ? "rosette" : "droop"}.128.webp`;
   if (view.kind === "flag-quiz") return `/clay/cl-05/${view.phase === "playing" ? "rest" : view.phase === "finished" || view.picked === view.correctIndex ? "rosette" : "droop"}.128.webp`;
   return `/clay/cl-06/${view.phase === "playing" ? "rest" : "slide"}.128.webp`;
+}
+
+/** The card's verdict from the recap rows: `7 of 10 calls right`, `1 close, 1 near, 3 far`. */
+function quickOutcome(view: QuickView): string | undefined {
+  if (isFlagSprint(view) || !view.history.length) return undefined;
+  if (view.kind === "higher-or-lower" && view.mode === "practice") return undefined;
+  const right = view.history.filter((row) => row.correct).length;
+  if (view.kind === "stat-guesser") {
+    const tones = { right: 0, near: 0, wrong: 0 };
+    for (const row of view.history) tones[row.tone ?? (row.correct ? "right" : "wrong")] += 1;
+    return [tones.right ? `${tones.right} close` : "", tones.near ? `${tones.near} near` : "", tones.wrong ? `${tones.wrong} far` : ""].filter(Boolean).join(", ");
+  }
+  return `${right} of ${view.history.length} ${view.kind === "higher-or-lower" ? "calls" : "flags"} right`;
+}
+
+function toneOf(row: QuickView["history"][number]): "right" | "near" | "wrong" {
+  return row.tone ?? (row.correct ? "right" : "wrong");
+}
+
+/** Every round's answer, open under the score: what you said, what it was, and the points. */
+function QuickAnswers({ view }: { view: QuickView }) {
+  if (isFlagSprint(view)) return <FlagSprintResult view={view} />;
+  if (!view.history.length) return null;
+  const right = view.history.filter((row) => row.correct).length;
+  return <details className="qr-history" open>
+    <summary>Answers<span className="disclosure-count">{view.kind === "stat-guesser" ? `${view.history.length} numbers` : `${right} of ${view.history.length} right`}</span></summary>
+    {view.history.map((row, index) => {
+      const tone = toneOf(row);
+      return <div className="qr-history-row" data-tone={tone} key={`${index}-${row.label}`}>
+        <span className="qr-history-mark">{tone === "right" ? <CheckIcon size={18} title={view.kind === "stat-guesser" ? "Close" : "Right"} /> : tone === "near" ? <MinusIcon size={18} title="Near" /> : <CrossIcon size={18} title={view.kind === "stat-guesser" ? "Far" : "Wrong"} />}</span>
+        <span><b className="t-body">{row.label}{row.doubled ? <span className="qr-history-double t-meta" aria-label="counted double">×2</span> : null}</b>{row.note ? <small className="t-meta">{row.note}</small> : <small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small>}</span>
+        <b className="t-score num">+{row.points}</b>
+      </div>;
+    })}
+  </details>;
 }
 
 export function QuickRemoteHost(p: HostProps) {
@@ -123,9 +157,15 @@ function RemoteSession(p: HostProps & { initialView: QuickView; initialToken: st
     </header>
     <ChallengeResult challenge={challenge} run={run} />
     {view.phase === "finished" ? <div ref={resultRef} className="qr-result" tabIndex={-1} role="region" aria-label={`${p.title} result`}>
-      <ResultPanel feedback={<ResultFeedback slug={view.kind}/>} next={p.mode === "daily" ? <DailyNext {...dailyProgress(p, view.kind, run?.scoreDisplay ?? view.score)} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : undefined} mode={p.mode} game={p.title} outcome={sprint ? "Time’s up" : view.kind !== "stat-guesser" && view.history.length > 0 ? `${view.history.filter(row => row.correct).length} of ${view.history.length} correct` : undefined} score={view.score} primaryAction={<ResultFollowup slug={view.kind} mode={p.mode} score={view.score} run={run} publishedName={name} onPublished={setRun} />} animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`} actions={<>{p.mode === "practice" ? <Button variant="ink" onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button> : null}<ShareButton text={view.shareText} challengeUrl={run?.challengeUrl} onShare={() => trackPlay("share", view.kind, p.mode)} /></>}>
-        {p.mode === "daily" ? <><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} /></details></> : null}
-        {isFlagSprint(view) ? <FlagSprintResult view={view} /> : <details className="qr-history"><summary className="t-body">Answers</summary>{view.history.map((row, index) => <div className="qr-history-row" key={`${index}-${row.label}`}><span>{row.correct ? <CheckIcon size={18} /> : <CrossIcon size={18} />}</span><span><b className="t-body">{row.label}</b><small className="t-meta"><span className="sr-only">Your guess: </span>{row.guess}<ChevronRightIcon size={14} /><span className="sr-only">. Answer: </span>{row.answer}</small></span><b className="t-score num">+{row.points}</b></div>)}</details>}
+      <ResultPanel feedback={<ResultFeedback slug={view.kind}/>} slug={view.kind} dateKey={p.mode === "daily" ? p.dateKey : undefined}
+        daily={p.mode === "daily" ? { ...dailyProgress(p, view.kind, run?.scoreDisplay ?? view.score), resetAt: p.resetAt, serverNow: clockOrigin.serverNow, clientStartedAt: clockOrigin.clientNow } : undefined}
+        mode={p.mode} game={p.title} score={view.score} outcome={quickOutcome(view)} rank={runRank(run)}
+        review={<QuickAnswers view={view} />}
+        primaryAction={<ResultFollowup slug={view.kind} mode={p.mode} score={view.score} run={run} publishedName={name} onPublished={setRun} />}
+        animateScore={animate} practiceHref={`/games/${view.kind}/play?mode=practice`}
+        share={{ text: view.shareText, challengeUrl: run?.challengeUrl, onShare: () => trackPlay("share", view.kind, p.mode) }}
+        actions={p.mode === "practice" ? <Button onClick={() => void practice()} disabled={busy} pending={busy} pendingLabel="Opening" block>One more</Button> : undefined}>
+        {p.mode === "daily" ? <details className="result-week"><summary>Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} reminder={false} /></details> : null}
       </ResultPanel>
     </div> : isFlagSprint(stage) ? <FlagSprintBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <><Progress {...stage.progress} />{stage.kind === "higher-or-lower" ? <HigherBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "guess" ? pendingAction.c : null} send={send} /> : stage.kind === "flag-quiz" ? <FlagBoard view={stage} busy={busy} pendingChoice={pendingAction?.t === "answer" ? pendingAction.i : null} send={send} /> : <StatBoard key={stage.round} view={stage} busy={busy && !preview} commitBusy={busy} send={send} animate={animate} />}</>}
     <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "start" ? "Starting the clock…" : pendingAction?.t === "finish" ? "Opening your result…" : sprint ? "" : pendingAction?.t === "next" ? view.round + 1 >= view.total ? "Opening your result…" : "Opening the next round…" : "Confirming your choice…"} onRetry={failedAction ? () => void send(failedAction) : undefined} />

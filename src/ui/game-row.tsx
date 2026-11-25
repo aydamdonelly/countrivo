@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { NavigationLink as Link } from "@/ui/navigation-link";
 import { cn } from "@/lib/utils";
-import { Clay } from "@/ui/clay";
+import { Clay, gameClayFrame } from "@/ui/clay";
 import { gamePresentation } from "@/content/table";
 import { Flag } from "@/ui/flag";
 import { ChevronRightIcon } from "@/ui/icons/chevron-right";
@@ -10,6 +10,7 @@ import type { GameSlug } from "@/ui/types";
 export interface GameRowProps {
   /** Draws the game's mark as the lead unless `lead` is given. */
   slug?: GameSlug;
+  /** Kept for callers; every game row shows the colour clay now (25 November 2026). */
   dailyCompleted?: boolean;
   title: string;
   /** Server-computed meta (blueprint 10.4). */
@@ -31,11 +32,11 @@ export interface GameRowProps {
  * top, mark in a 42 px centred slot, meta under the title, chevron faint or an action
  * word. No hover background; pressed = title mute for 120 ms.
  */
-export function GameRow({ slug, dailyCompleted = false, title, meta, href, tag, action, lead, flags, prefetch, className }: GameRowProps) {
+export function GameRow({ slug, title, meta, href, tag, action, lead, flags, prefetch, className }: GameRowProps) {
   const game = slug ? gamePresentation(slug) : undefined;
   return (
     <Link href={href} prefetch={prefetch} className={cn("row t-list", className)} data-game={slug}>
-      <span className="lead">{lead ?? (game ? <Clay object={game.clay} state={slug === "speed-flags" ? "full" : dailyCompleted ? game.done : "rest"} tone={dailyCompleted ? "color" : "monochrome"} /> : null)}</span>
+      <span className="lead">{lead ?? (game ? <Clay object={game.clay} {...gameClayFrame(game.clay, game.done)} /> : null)}</span>
       <span className="body">
         <span className="title">{title}</span>
         {tag ? <em className="t-kicker">{tag}</em> : null}

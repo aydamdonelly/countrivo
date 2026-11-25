@@ -18,6 +18,8 @@ export interface SiteFeedbackProps {
   gameSlug?: GameSlug;
   context?: FeedbackContext;
   board?: boolean;
+  /** One quiet line (clay, question, tertiary "Give feedback"); the default on result pages. */
+  compact?: boolean;
   onSubmitted?: () => void;
 }
 
@@ -32,7 +34,7 @@ function FeedbackArt({ stamp = false }: { stamp?: boolean }) {
   </span>;
 }
 
-export function SiteFeedback({ gameSlug, context = "site", board = false, onSubmitted }: SiteFeedbackProps) {
+export function SiteFeedback({ gameSlug, context = "site", board = false, compact = context === "result", onSubmitted }: SiteFeedbackProps) {
   const id = useId();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -76,6 +78,11 @@ export function SiteFeedback({ gameSlug, context = "site", board = false, onSubm
     }
   }
 
+  function openSheet() {
+    trackUsage('feedback_open', { game: gameSlug, source: context === 'result' ? 'result' : 'other' });
+    setOpen(true);
+  }
+
   function editMessage(value: string) {
     setMessage(value);
     setReply(null);
@@ -88,15 +95,19 @@ export function SiteFeedback({ gameSlug, context = "site", board = false, onSubm
   }
 
   return <>
-    <div className={`site-feedback-invite${board ? ' site-feedback-board-invite' : ''}`} data-game={gameSlug}><button type="button" className={`site-feedback${context === "result" ? " site-feedback-result" : ""}`} data-game={gameSlug}
-      aria-label="Give feedback" aria-haspopup="dialog" onClick={() => { trackUsage('feedback_open', { game: gameSlug, source: context === 'result' ? 'result' : 'other' }); setOpen(true); }}>
+    {compact ? <button type="button" className="site-feedback-line" data-game={gameSlug} aria-label="Give feedback" aria-haspopup="dialog" onClick={openSheet}>
+      <Clay object="cl-13" sizes="36px" />
+      <span className="site-feedback-line-question">{context === "result" ? "How was this game?" : "Ideas for Countrivo?"}</span>
+      <span className="site-feedback-line-cta">Give feedback</span>
+    </button> : <div className={`site-feedback-invite${board ? ' site-feedback-board-invite' : ''}`} data-game={gameSlug}><button type="button" className={`site-feedback${context === "result" ? " site-feedback-result" : ""}`} data-game={gameSlug}
+      aria-label="Give feedback" aria-haspopup="dialog" onClick={openSheet}>
       <FeedbackArt />
       <span className="site-feedback-copy">
         <span className="site-feedback-title">{board ? 'Make Countrivo better.' : context === "result" ? "How was this game?" : "Help shape Countrivo"}</span>
         <span className="site-feedback-description">Share an idea anonymously. Vote on what matters to you.</span>
       </span>
       <span className="site-feedback-cta">Give feedback<ArrowUpRightIcon size={18} /></span>
-    </button></div>
+    </button></div>}
     <Sheet open={open} onClose={close} labelledBy={`${id}-title`} className="site-feedback-dialog">
       <div className="site-feedback-dialog-content" data-game={gameSlug}>
       <div className="site-feedback-dialog-topbar"><button type="button" className="site-feedback-close" aria-label="Close feedback" onClick={close}><CloseIcon size={20} /></button></div>
@@ -108,8 +119,8 @@ export function SiteFeedback({ gameSlug, context = "site", board = false, onSubm
           <p className="site-feedback-description">Your idea is now on the board below. Everyone can read it and vote.</p>
           </div>
           <div className="site-feedback-success-actions">
-            <Button variant="text" onClick={writeAnother}>Write another</Button>
-            {!board ? <Button variant="text" onClick={close}>Back to games</Button> : null}
+            <Button variant="tertiary" onClick={writeAnother}>Write another</Button>
+            {!board ? <Button variant="tertiary" onClick={close}>Back to games</Button> : null}
           </div>
         </div> : <>
           <header className="site-feedback-dialog-heading">
@@ -132,7 +143,7 @@ export function SiteFeedback({ gameSlug, context = "site", board = false, onSubm
               <label htmlFor={`${id}-website`}>Leave this blank</label>
               <input id={`${id}-website`} name="website" type="text" tabIndex={-1} autoComplete="off" />
             </div>
-            <Button className="site-feedback-submit" type="submit" variant="ink" icon="arrow-up-right" pending={pending} pendingLabel="Sending…" disabled={pending}>{error ? "Try again" : "Send feedback"}</Button>
+            <Button className="site-feedback-submit" type="submit" variant="primary" icon="arrow-up-right" pending={pending} pendingLabel="Sending…" disabled={pending}>{error ? "Try again" : "Send feedback"}</Button>
             <div className="site-feedback-status">
               <p role="status">{pending ? "Sending your feedback…" : ""}</p>
               {error ? <p role="alert" id={`${id}-error`}>{error.error}</p> : null}

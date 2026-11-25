@@ -71,7 +71,7 @@ export function Board({ state, dispatch, busy }: BoardProps<SpeedFlagsState, Spe
           </div>
         </div>
         <div className="sf-opts">
-          <Button variant="ink" block className="sf-start" onClick={() => dispatch({ t: "start", now: Date.now() })}>
+          <Button variant="primary" block className="sf-start" onClick={() => dispatch({ t: "start", now: Date.now() })}>
             Start
           </Button>
         </div>

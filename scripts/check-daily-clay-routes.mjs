@@ -1,6 +1,6 @@
 // Local route integration: completion arrives in first HTML; never submit a game.
 import assert from 'node:assert/strict';
-import {mkdirSync,writeFileSync} from 'node:fs';
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
 import {pathToFileURL} from 'node:url';
 
 const base=process.env.COUNTRIVO_QA_BASE??'http://localhost:3290';
@@ -14,7 +14,13 @@ const edition=initial.match(/"edition":"([^"\\]+)"/)?.[1];
 const day=initial.match(/"dateKey":"([^"\\]+)"/)?.[1];
 assert(edition&&day,'Live play route supplies the current date and edition');
 const scores={'country-draft':'140 / 195','geo-wordle':'3 guesses','pinpoint':'920 / 1,200','blind-pick':'+7','higher-or-lower':'11 / 13','stat-guesser':'440 / 600'};
-const order=['country-draft','geo-wordle','blind-pick','pinpoint','higher-or-lower','stat-guesser','flag-quiz','speed-flags'];
+// 25 November 2026: every tile shows its game's colour frame (unplayed games must look inviting);
+// a finished daily is marked by data-state="done" and its check badge, never by colour alone.
+const registry=JSON.parse(readFileSync('src/data/game-registry.json','utf8'));
+const order=registry.map(game=>game.slug);
+const dailyOrder=registry.filter(game=>game.availableModes?.includes('daily')).map(game=>game.slug);
+const noColourFrame=new Set(['flag-quiz','speed-flags']);
+const colourTiles=slugs=>slugs.filter(slug=>!noColourFrame.has(slug)).length;
 const out='.check-render/daily-clay';mkdirSync(out,{recursive:true});
 let checks=0,blockedPosts=0;
 const check=(value,label)=>{assert(value,label);checks++;};
@@ -30,7 +36,7 @@ try{
     {label:'fresh',g:{},expected:0},
     {label:'progress',g:{},progress:true,expected:0},
     {label:'zero score',g:{'country-draft':'0'},expected:1},
-    {label:'today',g:scores,expected:6},
+    {label:'today',g:scores,expected:Object.keys(scores).length},
     {label:'yesterday',g:scores,d:'2000-01-01',expected:0},
     {label:'old edition',g:scores,e:'old-color-test-edition',expected:0},
   ]){
@@ -40,12 +46,16 @@ try{
       for(const path of ['/','/games','/practice']){
         const response=await page.goto(base+path,{waitUntil:'domcontentloaded'});
         check(response.status()===200,`${fixture.label} ${path}: successful route`);
-        const colors=await page.locator('.game-tile [data-clay-tone="color"]').count();
-        check(colors===(path==='/practice'?0:fixture.expected),`${fixture.label} ${path}: daily completion color is correct in first HTML (${colors})`);
+        const finished=await page.locator('.game-tile[data-state="done"]').count();
+        check(finished===(path==='/practice'?0:fixture.expected),`${fixture.label} ${path}: daily completion state is correct in first HTML (${finished})`);
         const slugs=await page.locator('.game-tile').evaluateAll(tiles=>tiles.map(tile=>tile.dataset.game));
-        check(JSON.stringify(slugs)===JSON.stringify(path==='/'?order.slice(0,6):order),`${path}: cards follow the roster with Blind Pick third`);
+        const expectedOrder=path==='/'?dailyOrder:order;
+        check(path==='/'?JSON.stringify([...slugs].sort())===JSON.stringify([...expectedOrder].sort())&&JSON.stringify(slugs.slice(1))===JSON.stringify(expectedOrder.filter(slug=>slug!==slugs[0])):JSON.stringify(slugs)===JSON.stringify(expectedOrder),`${path}: cards follow the registry roster (the lead card first on home)`);
+        const colours=await page.locator('.game-tile [data-clay-tone="color"]').count();
+        check(colours===colourTiles(slugs),`${fixture.label} ${path}: every tile with a colour frame shows it, played or not (${colours})`);
+        check(await page.locator('.game-tile [data-clay-tone="monochrome"]').count()===0,`${path}: no tile is greyed out`);
         check(await page.locator('.game-tile [data-clay-tone="color"] img').evaluateAll(images=>images.every(image=>/-color\.webp$/.test(image.getAttribute('src')))),`${path}: completed first HTML references generated color artwork`);
-        if(fixture.progress&&path==='/')check((await page.locator('.game-tile[data-game="country-draft"] .tile-score').textContent())==='Continue','In-progress card remains Continue and monochrome');
+        if(fixture.progress&&path==='/')check((await page.locator('.game-tile[data-game="country-draft"] .lead-chip').textContent())==='Continue','The in-progress daily is the lead card and reads Continue');
       }
     }finally{await context.close();}
   }
@@ -61,10 +71,10 @@ try{
       page.on('console',message=>{if(message.type()==='error'&&/hydration|did not match|server rendered/i.test(message.text()))errors.push(message.text());});
       await page.goto(base+fixture.path,{waitUntil:'domcontentloaded'});
       await page.locator('.game-tile img').evaluateAll(images=>Promise.all(images.map(image=>image.decode())));
-      check(await page.locator('.game-tile [data-clay-tone="color"]').count()===fixture.expected,'Hydration retains the server completion state');
+      check(await page.locator('.game-tile[data-state="done"]').count()===fixture.expected,'Hydration retains the server completion state');
       check(await page.locator('.game-tile filter').count()===0,'Hydrated cards contain no SVG tint filter');
-      check(await page.locator('.game-tile [data-clay-tone="color"] img').evaluateAll(images=>images.every(image=>/-color(?:\.(?:128|256))?\.webp$/.test(new URL(image.currentSrc).pathname)&&getComputedStyle(image).filter==='none')),'Completed artwork uses decoded generated color files with no filter');
-      check(await page.locator('.game-tile [data-clay-tone="monochrome"] img').evaluateAll(images=>images.every(image=>!new URL(image.currentSrc).pathname.includes('-color')&&getComputedStyle(image).filter==='grayscale(1)')),'Unplayed and practice artwork retains the original monochrome frame');
+      check(await page.locator('.game-tile [data-clay-tone="color"] img').evaluateAll(images=>images.every(image=>/-color(?:\.(?:128|256))?\.webp$/.test(new URL(image.currentSrc).pathname)&&getComputedStyle(image).filter==='none')),'Tile artwork uses decoded generated color files with no filter');
+      check(await page.locator('.game-tile img').evaluateAll(images=>images.every(image=>getComputedStyle(image).filter==='none')),'No tile artwork is filtered to grey');
       if(fixture.width<768)check(await page.locator('.game-tile-main').evaluateAll(cards=>cards.every(card=>{
         const badge=card.querySelector('.tile-score');
         return !badge||badge.getBoundingClientRect().bottom+4<=card.querySelector('.clay-object').getBoundingClientRect().top;

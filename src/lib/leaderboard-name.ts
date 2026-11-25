@@ -16,3 +16,16 @@ export function rememberLeaderboardName(name: string): void {
   const safe = safeName(name);
   if (safe) setStorageItem(KEY, safe);
 }
+
+const FLAG_KEY = 'leaderboard_flag';
+/** "private" remembers an explicit choice to keep the flag hidden. */
+export type RememberedFlag = string | 'private' | null;
+
+export function rememberedLeaderboardFlag(): RememberedFlag {
+  const value = getStorageItem<unknown>(FLAG_KEY, null);
+  return typeof value === 'string' && (value === 'private' || /^[A-Z]{3}$/.test(value)) ? value : null;
+}
+
+export function rememberLeaderboardFlag(iso3: string): void {
+  setStorageItem(FLAG_KEY, iso3 && /^[A-Z]{3}$/.test(iso3) ? iso3 : 'private');
+}

@@ -40,12 +40,12 @@ export function DeleteAccount() {
             <Button onClick={() => void remove()} disabled={deleting} pending={deleting} pendingLabel="Deleting">
               Yes, permanently delete
             </Button>
-            <Button variant="text" onClick={() => setConfirming(false)} disabled={deleting}>
+            <Button variant="tertiary" onClick={() => setConfirming(false)} disabled={deleting}>
               Cancel
             </Button>
           </>
         ) : (
-          <Button variant="text" onClick={() => setConfirming(true)}>
+          <Button variant="tertiary" onClick={() => setConfirming(true)}>
             Delete my account
           </Button>
         )}

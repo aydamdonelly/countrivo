@@ -9,6 +9,8 @@
     .play-frame :is(.gw-map, .pp-map) { transform-origin:50% 55%; animation:game-map-arrive 440ms var(--ease-out); }
   }
   @media (min-width: 1024px) { .play-frame { max-width: 720px; padding-bottom: calc(48px + env(safe-area-inset-bottom)); } }
+  /* Once the two-column result opens at 1072, the game header widens with it so back, title and help line up with the card and the leaderboard. */
+  @media (min-width: 1024px) { .play-frame.play-frame:has(.a-split) :is(.pb, .qr-header, .dr-play-header) { width: min(1072px, calc(100vw - 80px)); max-width: none; margin-inline: calc((100% - min(1072px, calc(100vw - 80px))) / 2); } }
 
   /* the counting number: a hidden sizer holds the final value, the live copy sits on it */
   .cu { position: relative; display: inline-block; }

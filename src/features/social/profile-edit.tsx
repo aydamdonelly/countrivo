@@ -136,7 +136,7 @@ export function SignOutButton() {
   const { signOut } = useAuth();
   return (
     <div className="form">
-      <Button variant="quiet" className="act" onClick={() => void signOut()}>
+      <Button variant="secondary" className="act" onClick={() => void signOut()}>
         Sign out
       </Button>
     </div>

@@ -12,6 +12,6 @@ interface SessionNoticeProps {
 export function SessionNotice({busy, error, pendingLabel = 'Confirming your move…', onRetry}: SessionNoticeProps) {
   return <div className="session-notice" data-state={busy ? 'pending' : error ? 'error' : 'idle'}>
     <p className="session-status t-meta" role="status" aria-atomic="true" data-pending={busy || undefined}>{busy ? pendingLabel : ''}</p>
-    {error && !busy ? <div className="session-error"><p className="t-meta" role="alert">{error}</p>{onRetry ? <Button variant="quiet" onClick={onRetry}>Try again</Button> : null}</div> : null}
+    {error && !busy ? <div className="session-error"><p className="t-meta" role="alert">{error}</p>{onRetry ? <Button variant="secondary" onClick={onRetry}>Try again</Button> : null}</div> : null}
   </div>;
 }

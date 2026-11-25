@@ -40,7 +40,7 @@ for (const file of readdirSync('.next/static/chunks').filter(file=>file.endsWith
 
 const browser=await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM??'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'});
 const cases=[
-  ['home','/','.game-tile-main,.game-tile-actions,.table-top'],
+  ['home','/','.game-tile-main,.game-lead,.home-more-row,.table-top'],
   ['flag','/games/flag-quiz/play?mode=daily','.play-root,.qr-header,.fq-box,.fq-opt'],
   ['stat','/games/stat-guesser/play?mode=daily','.play-root,.qr-header,.sg-ruler,.sg-knob,.sg-cta'],
   ['draft','/games/country-draft/play?mode=daily','.play-root,.dr-game,.dr-country-card,.dr-cabinet-strip,.dr-header-score'],

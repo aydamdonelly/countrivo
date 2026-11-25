@@ -40,7 +40,7 @@ export default async function AddFriend({ params }: Props) {
           Player not found.
         </p>
         <div className="acts">
-          <Button variant="text" href="/friends">
+          <Button variant="tertiary" href="/friends">
             Go to friends
           </Button>
         </div>
@@ -71,7 +71,7 @@ export default async function AddFriend({ params }: Props) {
         <>
           <p className="ask t-body">You&apos;re already friends with {name}.</p>
           <div className="acts">
-            <Button variant="text" href="/friends">
+            <Button variant="tertiary" href="/friends">
               Go to friends
             </Button>
           </div>
@@ -80,7 +80,7 @@ export default async function AddFriend({ params }: Props) {
         <>
           <p className="ask t-body">Friend request already sent to {name}.</p>
           <div className="acts">
-            <Button variant="text" href="/friends">
+            <Button variant="tertiary" href="/friends">
               Go to friends
             </Button>
           </div>

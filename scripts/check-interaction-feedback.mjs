@@ -13,8 +13,10 @@ const cases = [
   { slug: "higher-or-lower", control: ".qr-call", feedback: '.qr-call[aria-pressed="true"]', protected: ".qr-verdict", unchanged: ".qr-value", retryKey: "h" },
   { slug: "flag-quiz", control: ".fq-opt", feedback: '.fq-opt[aria-pressed="true"]', protected: ".fq-family .t-body", unchanged: ".fq-family", retryKey: "2" },
   { slug: "stat-guesser", control: ".sg-cta", feedback: '.sg-cta[aria-busy="true"]', protected: ".sg-truth", unchanged: ".sg-live", retryKey: "Enter" },
-  { slug: "blind-pick", control: ".bp-slot.open", feedback: '.bp-slot[aria-pressed="true"]', protected: ".bp-slot.placed", unchanged: ".bp-count", retryKey: "2" },
+  { slug: "blind-pick", control: ".bp-slot.open", feedback: '.bp-slot[data-state="pending"]', protected: ".bp-slot.placed", unchanged: ".bp-count", retryKey: "2" },
 ];
+// Flag Quiz practice is the twenty-second sprint (check-flag-sprint-ui); the ten-flag quiz with
+// its Next step lives on as the Europe flags practice, so that is where these cases run.
 try {
   for (const scenario of cases) {
     const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
@@ -27,7 +29,7 @@ try {
       await new Promise(resolve => setTimeout(resolve, 1200));
       await route.abort("failed");
     });
-    await page.goto(`${base}/games/${scenario.slug}/play?mode=practice`, { waitUntil: "networkidle" });
+    await page.goto(`${base}/games/${scenario.slug}/play?mode=practice${scenario.slug === "flag-quiz" ? "&region=europe" : ""}`, { waitUntil: "networkidle" });
     const control = page.locator(scenario.control).first();
     const idlePresentation = await control.evaluate(element => ({ background: getComputedStyle(element).backgroundColor, label: element.textContent }));
     const before = await page.locator(scenario.unchanged).allTextContents();

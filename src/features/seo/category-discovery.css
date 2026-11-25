@@ -1,6 +1,7 @@
 @layer components {
  .category-surprises {margin-top:24px;display:flex;flex-direction:column;gap:16px;}
  .category-surprises a {text-decoration:underline;text-underline-offset:3px;}
- .category-practice {margin-top:32px;padding:24px;background:var(--color-card);border-radius:var(--radius-card);display:flex;flex-direction:column;align-items:flex-start;gap:16px;}
- .category-practice>.clay-object {width:80px;height:80px;}
+ .category-practice {margin-top:24px;padding:16px;background:var(--color-surface-sunk);border-radius:var(--radius-card);display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:8px 14px;}
+ .category-practice>.clay-object {width:56px;height:56px;}
+ .category-practice>:not(.clay-object):not(h3) {grid-column:1 / -1;justify-self:start;}
 }

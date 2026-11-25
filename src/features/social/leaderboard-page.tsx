@@ -10,10 +10,13 @@ import { getSimulatedRivals } from "@/server/leaderboard-bots";
 import { flagFormat } from "@/server/quick-sessions";
 import { LeaderboardEntryForm } from "@/features/play/leaderboard-entry";
 import { Flag } from "@/ui/flag";
-import { podiumPlace, RankMarker } from "@/ui/rank-marker";
+import { PlayerFlag } from "@/ui/player-flag";
+import { RankMarker } from "@/ui/rank-marker";
 import { BLIND_PICK_PAR } from "@/lib/game-logic/blind-pick/scoring";
 import { Button } from "@/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
+import { Clay, gameClayFrame } from "@/ui/clay";
+import { gamePresentation } from "@/content/table";
+import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from "@/ui/icons";
 import { BlockedPlayersSettings, LeaderboardRetry, ReportName } from "./report-name";
 import "./leaderboard.css";
 
@@ -50,12 +53,13 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
   const privatePreview = showOwn && !mine?.display_name && !!ownRun?.rankPreview;
   const hasNamedMine = mine?.display_name && !mine.moderation_hidden;
 
+  const presentation = gamePresentation(slug);
+  const clayFrame = presentation ? gameClayFrame(presentation.clay, presentation.done) : undefined;
   return <div className="new-leaderboard">
     <div className="lb-title">
-      {/* eslint-disable-next-line @next/next/no-img-element -- local clay still */}
-      <img src={`/clay/${slug}.png`} alt="" width={56} height={56} /><div><p className="t-meta text-mute">Leaderboard</p><h1 className="t-h1">{game.title}</h1></div>
+      <span className="lb-plate" data-game={slug} aria-hidden="true">{clayFrame && presentation ? <Clay object={presentation.clay} state={clayFrame.state} tone={clayFrame.tone} sizes="44px" loading="eager" /> : null}</span><div><p className="t-meta text-mute">Leaderboard</p><h1 className="t-h1">{game.title}</h1></div>
     </div>
-    <details className="lb-game-picker"><summary className="t-meta">Change game</summary><nav className="lb-games" aria-label="Pick a game's leaderboard">{getDailyGames().map(item => <Link key={item.slug} href={`/games/${item.slug}/leaderboard?date=${day}`} aria-current={item.slug === slug ? "page" : undefined}>
+    <details className="lb-game-picker"><summary className="t-meta">Change game<ChevronDownIcon size={16} className="lb-game-chevron" /></summary><nav className="lb-games" aria-label="Pick a game's leaderboard">{getDailyGames().map(item => <Link key={item.slug} href={`/games/${item.slug}/leaderboard?date=${day}`} aria-current={item.slug === slug ? "page" : undefined}>
       {/* eslint-disable-next-line @next/next/no-img-element -- local clay game object */}
       <img src={`/clay/${item.slug}.png`} width={40} height={40} alt="" /><span>{item.title}</span></Link>)}</nav></details>
     <div className="lb-board">
@@ -82,8 +86,8 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
             const shownRank = row.rankDaily + (privatePreview && ownRun && row.scoreSortValue < ownRun.scoreSortValue ? 1 : 0);
             const insert = own && !inserted && ownRun && row.scoreSortValue <= ownRun.scoreSortValue;
             if (insert) inserted = true;
-            const item = <li className={`lb-row podium-row${mine?.id === row.runId ? " mine" : ""}`} data-podium={podiumPlace(shownRank)} key={row.runId} id={!showOwn && mine?.id === row.runId ? "leaderboard-your-score" : undefined} aria-label={`${row.displayName}, place ${shownRank}, ${row.scoreDisplay}${mine?.id === row.runId ? ", you" : ""}`}>
-              <RankMarker className="rank" rank={shownRank} /><div className="lb-person"><div className="lb-player-name">{row.countryCode ? <Flag iso2={row.countryCode} size="xs" alt="" /> : null}<b>{row.displayName}</b>{mine?.id === row.runId ? <span className="lb-you">You</span> : null}</div></div><span className="score">{row.scoreDisplay}</span>{mine?.id !== row.runId ? <ReportName runId={row.runId} name={row.displayName} /> : <span aria-hidden="true" />}
+            const item = <li className={`lb-row${mine?.id === row.runId ? " mine" : ""}`} key={row.runId} id={!showOwn && mine?.id === row.runId ? "leaderboard-your-score" : undefined} aria-label={`${row.displayName}, place ${shownRank}, ${row.scoreDisplay}${mine?.id === row.runId ? ", you" : ""}`}>
+              <RankMarker className="rank" rank={shownRank} /><div className="lb-person"><div className="lb-player-name lb-player-grid"><PlayerFlag iso2={row.countryCode} /><span className="lb-name-text"><b>{row.displayName}</b>{mine?.id === row.runId ? <span className="lb-you">You</span> : null}</span></div></div><span className="score">{row.scoreDisplay}</span>{mine?.id !== row.runId ? <ReportName runId={row.runId} name={row.displayName} /> : <span aria-hidden="true" />}
             </li>;
             return insert ? [own, item] : [item];
           });
@@ -93,13 +97,13 @@ export async function LeaderboardPage({ slug, date, tab }: LeaderboardPageProps)
           }
           return rows;
         })()}</ol> : <div className="lb-empty"><p className="t-body">{blocked.ids.length ? "These players are hidden on your browser." : day === today ? "Set the first score today." : "No scores were published on this board."}</p></div>}
-        {day !== today && hasNamedMine && ownRun?.rankDaily && !top.some(row => row.runId === mine.id) ? <><p className="lb-gap t-meta">Your place</p><div className="lb-row mine lb-country-row podium-row" data-podium={podiumPlace(ownRun.rankDaily)} id="leaderboard-your-score"><RankMarker className="rank" rank={ownRun.rankDaily} /><div className="lb-player-name"><b>{mine.display_name}</b><span className="lb-you">You</span></div><span className="score">{ownRun.scoreDisplay}</span></div></> : null}
+        {day !== today && hasNamedMine && ownRun?.rankDaily && !top.some(row => row.runId === mine.id) ? <><p className="lb-gap t-meta">Your place</p><div className="lb-row mine lb-country-row" id="leaderboard-your-score"><RankMarker className="rank" rank={ownRun.rankDaily} /><div className="lb-player-name"><PlayerFlag iso2={ownRun.placeCountry ? getCountryByIso3(ownRun.placeCountry)?.iso2 : null} /><b>{mine.display_name}</b><span className="lb-you">You</span></div><span className="score">{ownRun.scoreDisplay}</span></div></> : null}
         {board.playerCount > 50 ? <p className="t-meta text-mute lb-caption">Top 50 of {board.playerCount.toLocaleString("en-US")} published players. Equal scores share a place.</p> : null}
       </>}
       {blocked.enabled ? <BlockedPlayersSettings /> : null}
       <p className="t-meta text-mute lb-caption">{slug === "geo-wordle" ? "Fewer guesses wins." : slug === "blind-pick" ? "Fewer extra rank points wins." : "More points wins."} Equal scores share a place.{day < today ? " This board is closed." : ""}</p>
-      <p className="t-meta text-mute lb-target">Daily target <b className="num">{target.label}</b><span>Par</span></p>
-      {practice.length ? <details className="lb-demo"><summary>Practice rivals <span className="t-meta text-mute">Simulated bots</span></summary><p className="t-meta text-mute mb-3">Computer opponents. Excluded from player counts and ranks.</p><ol aria-label="Simulated practice opponents">{practice.map((rival, index) => <li className="lb-row lb-country-row" key={rival.name}><span className="rank">{index + 1}</span><div className="lb-player-name">{rival.name}<span className="lb-you">Bot</span></div><span className="score">{rival.score}</span></li>)}</ol></details> : null}
+      <p className="t-meta text-mute lb-target">Daily target (Par) <b className="num">{target.label}</b></p>
+      {practice.length ? <details className="lb-demo"><summary>Practice rivals <span className="t-meta text-mute">Simulated bots</span></summary><p className="t-meta text-mute mb-3">Computer opponents. Excluded from player counts and ranks.</p><ol aria-label="Simulated practice opponents">{practice.map((rival, index) => <li className="lb-row lb-country-row" key={rival.name}><span className="rank">{index + 1}</span><div className="lb-player-name">{rival.name}<span className="lb-bot">Bot</span></div><span className="score">{rival.score}</span></li>)}</ol></details> : null}
     </div>
   </div>;
 }

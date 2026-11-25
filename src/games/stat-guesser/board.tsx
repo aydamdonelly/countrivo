@@ -18,8 +18,18 @@ function nearest(ruler: StatQuickView["ruler"], point: number): number {
 }
 function statValue(view: StatQuickView, value: number): string {
   if (view.ruler.kind === "percent") return `${Number(value.toFixed(1))}%`;
-  const n = formatNumber(value);
+  const n = formatNumber(value).replace(/\.0(?=[KMBT]?$)/, "");
   return view.stat.startsWith("GDP") ? `$${n}` : view.stat.startsWith("Area") ? `${n} km²` : n;
+}
+
+/** A scale label as a person reads it: `1K`, `1.4B`, `$250`, never `10.0K` or `$250.63`. */
+function scaleValue(view: StatQuickView, value: number): string {
+  if (view.ruler.kind === "percent") return `${Math.round(value)}%`;
+  const abs = Math.abs(value);
+  const tiers: [number, string][] = [[1e12, "T"], [1e9, "B"], [1e6, "M"], [1e3, "K"]];
+  const tier = tiers.find(([size]) => abs >= size);
+  const body = tier ? `${Number((value / tier[0]).toPrecision(2))}${tier[1]}` : String(Math.round(value));
+  return view.stat.startsWith("GDP") ? `$${body}` : body;
 }
 
 function fitReferenceLabels(box: HTMLDivElement): void {
@@ -79,14 +89,18 @@ export function Board({ view, busy, commitBusy = busy, send, animate = false }: 
   }
   return <div className={cn("sg qr-stat-game", reveal && "is-reveal")}>
     <div className="sg-q"><div className="sg-name"><Flag iso2={view.country.iso2} size="s" alt="" eager /><b className="t-h2">{view.country.name}</b></div><div className="qr-stage-title"><p className="sg-stat t-body">{view.stat}</p>{view.doubled ? <span className="qr-multiplier t-meta" aria-label="This round counts double">×2</span> : null}</div></div>
-    <div className="sg-live"><span className="cap t-meta">{reveal ? "Answer" : "Your guess"}</span><b className="t-big num">{statValue(view, view.actualValue ?? guessed)}</b></div>
+    {reveal && view.actualValue !== null ? <div className="sg-live sg-compare">
+      <span className="sg-you"><span className="cap t-meta"><i className="sg-key-pin" aria-hidden="true" />Your guess</span><b className="t-h2 num">{statValue(view, guessed)}</b></span>
+      <span className="sg-answer"><span className="cap t-meta"><i className="sg-key-truth" aria-hidden="true" />Answer</span><b className="t-big num">{statValue(view, view.actualValue)}</b></span>
+    </div> : <div className="sg-live"><span className="cap t-meta">Your guess</span><b className="t-big num">{statValue(view, guessed)}</b></div>}
+    {reveal ? null : <p className="sg-hint t-meta">{view.ruler.kind === "magnitude" ? "Drag the pin to your estimate. The scale grows by multiples, so each mark is far bigger than the last." : "Drag the pin to your estimate, from 0 to 100%."}</p>}
     <div className={cn("sg-ruler", !live && "done")} onPointerDown={startDrag} onPointerMove={(event) => { if (dragging.current && live) moveAt(event.clientX); }} onPointerUp={endDrag} onPointerCancel={endDrag}><div className="sg-box" data-scale={view.ruler.kind} ref={box}>
-      <span className="sg-line" aria-hidden="true" /><span className="sg-end lo t-meta">{statValue(view, view.ruler.min)}</span><span className="sg-end hi t-meta">{statValue(view, view.ruler.max)}</span>
-      {scaleMarks.map(value => <span className="sg-mark sg-scale-mark t-meta" key={value} style={{ left: `${position(view.ruler, value) * 100}%` }}>{statValue(view, value)}</span>)}
+      <span className="sg-line" aria-hidden="true" />{pinPos > 0.1 ? <span className="sg-end lo t-meta">{scaleValue(view, view.ruler.min)}</span> : null}{pinPos < 0.9 ? <span className="sg-end hi t-meta">{scaleValue(view, view.ruler.max)}</span> : null}
+      {scaleMarks.map(value => <span className="sg-mark sg-scale-mark t-meta" key={value} style={{ left: `${position(view.ruler, value) * 100}%` }}>{scaleValue(view, value)}</span>)}
       {view.refs.map((ref, i) => <span className="sg-mark sg-ref" key={ref.name} style={{ left: `${position(view.ruler, ref.value) * 100}%` }}><span className="sg-tick" /><span className={cn("qr-ref-label t-meta", i === 0 ? "left" : "right")}><Flag iso2={ref.iso2} size="xs" alt="" /><span>{ref.name}<small className="num">{statValue(view, ref.value)}</small></span></span></span>)}
       {actualPos !== null ? <span className={cn("sg-mark sg-truth", animate && "drop")} style={{ left: `${actualPos * 100}%` }} aria-hidden="true"><span className="sg-tick" /><span className="sg-dot" /></span> : null}
       <span className="sg-mark sg-pin" style={{ left: `${pinPos * 100}%` }}><span className="sg-tick" /><span className="sg-knob" role="slider" tabIndex={live ? 0 : -1} aria-label={`Your guess for ${view.country.name}`} aria-valuemin={0} aria-valuemax={view.ruler.steps.length - 1} aria-valuenow={pin} aria-valuetext={statValue(view, guessed)} aria-disabled={!live} onKeyDown={onKey}><i /></span></span>
     </div></div>
-    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={400} animate={animate} className="t-h1" /><span className="of t-body">/ {view.doubled ? 200 : 100}</span></span>{view.context ? <p className="ctx t-body">{view.context}</p> : null}</div><div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "Result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="ink" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={busy ? "Guess locked…" : "Opening round…"} onClick={(event) => { if (event.detail < 2) void send({ t: "lock", i: pin }); }}>Lock in</Button></div>}
+    {reveal ? <div className="sg-foot"><div className="sg-out"><p className="gap t-body">{view.gap}</p><span className="pts"><CountUp value={(view.points ?? 0) * (view.doubled ? 2 : 1)} duration={400} animate={animate} className="t-h1" /><span className="of t-body">/ {view.doubled ? 200 : 100}</span></span>{view.context ? <p className="ctx t-body">{view.context}</p> : null}</div><div className="sg-act"><Button variant="primary" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "Result" : "Next"}</Button></div></div> : <div className="sg-act"><Button variant="primary" className="sg-cta" disabled={commitBusy} pending={commitBusy} pendingLabel={busy ? "Guess locked…" : "Opening round…"} onClick={(event) => { if (event.detail < 2) void send({ t: "lock", i: pin }); }}>Lock in</Button></div>}
   </div>;
 }

@@ -30,6 +30,8 @@ export interface ResultLeaderboardEntry {
   scoreDisplay: string;
   scoreSortValue: number;
   rank: number;
+  /** ISO 3166-1 alpha-2 of the flag the player chose to show, if any. */
+  countryCode?: string | null;
 }
 
 export interface LeaderboardEntry {

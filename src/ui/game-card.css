@@ -1,25 +1,28 @@
 @layer components {
-  @media(max-width:767px) {
-    .game-tile .game-tile-main { min-height:188px; padding-top:40px; }
-  }
   @media(max-width:359px) {
-    .game-tile .game-tile-main { min-height:202px; }
+    .game-tile .game-tile-main { min-height:164px; padding-inline:8px; }
+    .game-tile .game-tile-main > .clay-object { width:72px; height:72px; }
   }
   @media(prefers-reduced-motion:no-preference) {
-    .game-tile-main { transition:transform 180ms var(--ease-out); }
+    .game-tile-main { transition:transform 180ms var(--ease-out), background-color var(--dur-fast); }
     .game-tile-main .clay-object { transition:transform 380ms var(--ease-out); transform-origin:center bottom; }
-    .game-tile-main .tile-play-mark, .game-tile-actions svg { transition:transform 220ms var(--ease-out); }
     .game-tile-main:active { transform:translateY(1px) scale(0.985); }
     .game-tile-main:active .clay-object { transform:translateY(2px) rotate(2deg) scale(1.04, 0.96); }
-    .game-tile-actions > a { transition:transform 140ms var(--ease-out); }
-    .game-tile-actions > a:active { transform:translateY(1px) scale(0.98); }
+    .game-lead .game-tile-main:active { transform:translateY(1px); }
     @media(hover:hover) and (pointer:fine) {
       .game-tile-main:is(:hover,:focus-visible) { transform:translateY(-3px); }
       .game-tile-main:is(:hover,:focus-visible) .clay-object { transform:translateY(-5px) rotate(-5deg) scale(1.035); }
-      .game-tile-main:is(:hover,:focus-visible) .tile-play-mark { transform:translateX(2px) rotate(-8deg); }
       .game-tile-main:active { transform:translateY(1px) scale(0.985); }
       .game-tile-main:active .clay-object { transform:translateY(2px) rotate(2deg) scale(1.04, 0.96); }
-      .game-tile-actions > a:is(:hover,:focus-visible) svg { transform:rotate(-8deg); }
+      .game-lead .game-tile-main:is(:hover,:focus-visible) { transform:translateY(-2px); }
     }
+    /* The lead card's clay bobs once on arrival so the eye lands on it. */
+    .game-lead .game-tile-main > .clay-object { animation:lead-arrive 900ms var(--ease-out) 200ms backwards; }
+  }
+  @keyframes lead-arrive {
+    0% { transform:translateY(0) rotate(0); }
+    30% { transform:translateY(-8px) rotate(-6deg); }
+    55% { transform:translateY(1px) rotate(2deg) scale(1.03, 0.97); }
+    100% { transform:none; }
   }
 }

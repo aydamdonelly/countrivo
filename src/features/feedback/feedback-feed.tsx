@@ -111,9 +111,9 @@ export function FeedbackFeed({ initial, refreshKey = 0, inDialog = false, paused
   return <section ref={section} aria-labelledby={`${id}-title`} className={`feedback-feed${inDialog ? ' feedback-feed-dialog' : ''}`}>
       <header className="feedback-feed-heading">
         <div><Heading id={`${id}-title`} className="t-h2" ref={heading} tabIndex={-1}>Community feedback</Heading><p className="t-meta">Newest first · updates automatically</p></div>
-        <Button variant="text" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void refresh(cursor, true)}>Refresh</Button>
+        <Button variant="tertiary" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void refresh(cursor, true)}>Refresh</Button>
       </header>
-      {error ? <div className="feedback-board-error" role="alert"><p>{error}</p><Button variant="text" disabled={paused || busy || pendingVote !== null} onClick={() => void refresh(cursor, true)}>Try again</Button></div> : null}
+      {error ? <div className="feedback-board-error" role="alert"><p>{error}</p><Button variant="tertiary" disabled={paused || busy || pendingVote !== null} onClick={() => void refresh(cursor, true)}>Try again</Button></div> : null}
       {!data && !error ? <p className="feedback-board-opening t-meta" role="status">Opening public feedback…</p> : null}
       {data && !data.items.length ? <div className="feedback-empty"><h2 className="t-h3">Be the first to share an idea.</h2><p>What would make your next game better? Share it above. Your idea will appear here anonymously.</p></div> : null}
       {data?.items.length ? <ol className="feedback-posts" aria-label="Public feedback">{data.items.map(item => <li key={item.id} className="feedback-post" id={`${id}-feedback-${item.id}`} data-feedback-id={item.id} aria-busy={pendingVote === item.id || undefined}>
@@ -135,11 +135,11 @@ export function FeedbackFeed({ initial, refreshKey = 0, inDialog = false, paused
       </li>)}</ol> : null}
       <p className="sr-only" role="status">{notice}</p>
       <nav className="feedback-pagination" aria-label="Feedback pages">
-        {cursor ? <Button variant="text" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void page()}>Back to newest</Button> : null}
-        {data?.nextBeforeId ? <Button variant="quiet" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void page(data.nextBeforeId ?? undefined)}>Older feedback</Button> : null}
+        {cursor ? <Button variant="tertiary" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void page()}>Back to newest</Button> : null}
+        {data?.nextBeforeId ? <Button variant="secondary" disabled={paused || busy || moderating || pendingVote !== null} onClick={() => void page(data.nextBeforeId ?? undefined)}>Older feedback</Button> : null}
       </nav>
       <p className="feedback-board-note t-meta">Ideas are public and anonymous. One vote per browser on each idea; you can change or remove it. Report harmful posts or block an author. For private concerns, email <a href="mailto:countrivo@gmail.com">countrivo@gmail.com</a>.</p>
-      <Button variant="text" disabled={paused || busy || moderating || pendingVote !== null} onClick={async () => {
+      <Button variant="tertiary" disabled={paused || busy || moderating || pendingVote !== null} onClick={async () => {
         if (writing.current) return;
         writing.current = true; generation.current++; setModerating(true); setError('');
         try {

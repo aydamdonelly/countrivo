@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { blockLeaderboardPublisher, reportLeaderboardName, unblockLeaderboardPublishers } from "@/app/actions/anonymous-games";
+import { MoreIcon } from "@/ui/icons/more";
 import "./report-name.css";
 
 export function ReportName({ runId, name, onBlocked }: { runId: number; name: string; onBlocked?: () => void }) {
@@ -28,7 +29,7 @@ export function ReportName({ runId, name, onBlocked }: { runId: number; name: st
     setError(null);
     trigger.current?.focus({ preventScroll: true });
   }
-  return <><button ref={trigger} type="button" className="lb-report" disabled={!!pending} aria-label={`Report or block ${name}`} aria-expanded={open} aria-controls={panelId} onClick={() => open ? close() : setOpen(true)}><span aria-hidden="true">⋯</span></button>
+  return <><button ref={trigger} type="button" className="lb-report" disabled={!!pending} aria-label={`Report or block ${name}`} aria-expanded={open} aria-controls={panelId} onClick={() => open ? close() : setOpen(true)}><MoreIcon size={20} /></button>
   {open ? <form ref={form} id={panelId} className="lb-report-form" data-confirm={confirm || undefined} tabIndex={-1} aria-label={`Report or block ${name}`} aria-busy={!!pending || undefined} onKeyDown={event => { if (event.key === "Escape" && !pending) { event.preventDefault(); event.stopPropagation(); close(); } }} onSubmit={async event => {
     event.preventDefault();
     if (pending || reported || confirm) return;
@@ -72,7 +73,7 @@ export function BlockedPlayersSettings() {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   return <div className="lb-block-settings"><span className="t-meta text-mute">Blocked players are hidden. Ranks include every published score.</span>
-    <button type="button" className="lb-report" disabled={pending} aria-busy={pending || undefined} onClick={async () => {
+    <button type="button" className="btn btn-secondary lb-unblock" disabled={pending} aria-busy={pending || undefined} onClick={async () => {
       setPending(true); setError(null);
       try {
         const result = await unblockLeaderboardPublishers();
@@ -88,5 +89,5 @@ export function BlockedPlayersSettings() {
 export function LeaderboardRetry() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  return <button type="button" className="btn btn-ink" aria-busy={pending || undefined} disabled={pending} onClick={() => startTransition(() => router.refresh())}>{pending ? "Opening board…" : "Try again"}</button>;
+  return <button type="button" className="btn btn-primary" aria-busy={pending || undefined} disabled={pending} onClick={() => startTransition(() => router.refresh())}>{pending ? "Opening board…" : "Try again"}</button>;
 }

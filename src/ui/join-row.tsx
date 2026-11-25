@@ -50,7 +50,7 @@ export function JoinRow({ daily, onJoin, onJoined, onSignIn, className }: JoinRo
       <p className="sub t-meta">Pick a name, no account needed.</p>
       <form onSubmit={submit}>
         <Field id="join-name" label="Your name" hideLabel placeholder="Your name" maxLength={30} autoCapitalize="words" enterKeyHint="go" value={name} onChange={(e) => setName(e.target.value)} disabled={pending} />
-        <Button type="submit" variant="ink" pending={pending} pendingLabel="Joining">
+        <Button type="submit" variant="primary" pending={pending} pendingLabel="Joining">
           Join
         </Button>
       </form>
@@ -60,7 +60,7 @@ export function JoinRow({ daily, onJoin, onJoined, onSignIn, className }: JoinRo
         </p>
       ) : null}
       <div className="alt">
-        <Button variant="text" onClick={onSignIn}>
+        <Button variant="tertiary" onClick={onSignIn}>
           Or sign in to keep your streak across devices
         </Button>
       </div>

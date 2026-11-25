@@ -150,7 +150,7 @@ export function Board(p: DraftBoardProps) {
     {reveal ? <section className={cn("dr-reveal", previousReveal && "previous")} tabIndex={-1} aria-labelledby="draft-reveal-title" aria-live="polite">
       <div className="dr-reveal-person"><Portrait slug={reveal.person.slug} name={reveal.person.name} has={reveal.person.portrait} size={72} /><div><p className="t-meta">{previousReveal ? `Round ${reveal.round + 1}` : "Appointed"} · {reveal.country.name}</p><h2 id="draft-reveal-title" className="t-h2">{reveal.person.name}</h2><p className="t-body">Your {JOB_NAMES[reveal.seat]}</p></div></div>
       <div className="dr-reveal-score"><b className={cn("t-score num", reveal.fit <= 6 && "text-ember")}>+{reveal.points}</b><span className="t-meta">{fitLabel(reveal.fit)} <b>{reveal.fit}</b> of {MAX_FIT} + fame <b>{reveal.fame}</b> of {MAX_FAME}</span></div>
-      <p className="dr-reveal-why t-body">{safeDraftWhy(reveal)}</p><a href={reveal.source} target="_blank" rel="noreferrer" className="dr-source">Why this score · source</a>
+      <p className="dr-reveal-why t-body">{safeDraftWhy(reveal)}</p>{reveal.better ? <p className="dr-reveal-better t-body">Better job for {reveal.person.name}: {JOB_NAMES[reveal.better.seat]}, fit {reveal.better.fit} of {MAX_FIT}.</p> : null}<a href={reveal.source} target="_blank" rel="noreferrer" className="dr-source">Why this score · source</a>
     </section> : null}
     <BonusMeters state={state} />
     {state.phase === "country" ? <>
@@ -164,12 +164,12 @@ export function Board(p: DraftBoardProps) {
           </button>;
         })}
       </div>
-      <small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small>{selectedCountry ? <div className="dr-pinned-action"><Button variant="ink" disabled={commitBusy} onClick={p.onOpen} pending={commitBusy} pendingLabel="Opening…" aria-describedby="draft-country-warning">Open {selectedCountry.name}</Button></div> : null}
+      <small className="dr-commit-note t-meta" id="draft-country-warning"><LockIcon size={14} />Country locks when opened</small>{selectedCountry ? <div className="dr-pinned-action"><Button variant="primary" disabled={commitBusy} onClick={p.onOpen} pending={commitBusy} pendingLabel="Opening…" aria-describedby="draft-country-warning">Open {selectedCountry.name}</Button></div> : null}
     </> : <>
       {state.country && state.phase === "people" ? <div className="dr-round"><Flag iso2={state.country.iso2} size="m" alt="" eager /><b className="t-h3">{state.country.name}</b><small className="t-meta">Round {state.round + 1} of {ROUNDS}</small></div> : null}
       {state.phase === "people" ? <div className="dr-person-prompt"><h2 className="t-h3">Pick a person</h2>{firstRound ? <p className="dr-step-hint t-meta">{DRAFT_GUIDE.people}</p> : null}</div> : null}
       {state.phase === "people" ? pool : <details className="dr-passed-pool"><summary className="t-meta">Other people this round</summary>{pool}</details>}
-      {state.phase === "seated" ? <div className="dr-pinned-action"><Button variant="ink" onClick={p.onNext} disabled={busy} pending={busy} pendingLabel="Continuing…">{state.round === 4 ? "Reveal my cabinet" : "Next country"}</Button></div> : null}
+      {state.phase === "seated" ? <div className="dr-pinned-action"><Button variant="primary" onClick={p.onNext} disabled={busy} pending={busy} pendingLabel="Continuing…">{state.round === 4 ? "Reveal my cabinet" : "Next country"}</Button></div> : null}
     </>}
     {p.notice}
     <Sheet open={held !== null} onClose={p.onDrop} labelledBy="draft-job-title" className="dr-job-sheet" scrimClassName="dr-job-scrim">
@@ -191,7 +191,7 @@ export function Board(p: DraftBoardProps) {
       </> : null}
     </Sheet>
     <Sheet open={detail !== null} onClose={() => p.onDetail(null)} labelledBy="draft-person-title" className="dr-detail-sheet">
-      {detail ? <><div className="dr-sheet-top"><Portrait slug={detail.slug} name={detail.name} has={detail.portrait} size={96} /><button type="button" className="dr-close" aria-label="Close person details" onClick={() => p.onDetail(null)}>×</button></div><h2 id="draft-person-title" className="t-h2">{detail.name}</h2><p className="t-meta">{personYears(detail)}</p><p className="t-body">{detail.identity}</p><p className="t-meta">{detail.era === "early" ? "Counts toward the before 1900 era." : detail.era === "recent" ? "Counts toward the after 1950 era." : "From the period between the two bonus eras."}</p><p className="t-meta">Image: <a href={detail.photoSource} target="_blank" rel="noreferrer">{detail.photoAuthor}</a>, {detail.photoLicence}.</p><Button block variant="ink" className="dr-choose" onClick={() => { if (selection.detail !== null) p.onPerson(selection.detail); p.onDetail(null); }} disabled={state.phase !== "people"}>Choose {detail.name}</Button></> : null}
+      {detail ? <><div className="dr-sheet-top"><Portrait slug={detail.slug} name={detail.name} has={detail.portrait} size={96} /><button type="button" className="dr-close" aria-label="Close person details" onClick={() => p.onDetail(null)}>×</button></div><h2 id="draft-person-title" className="t-h2">{detail.name}</h2><p className="t-meta">{personYears(detail)}</p><p className="t-body">{detail.identity}</p><p className="t-meta">{detail.era === "early" ? "Counts toward the before 1900 era." : detail.era === "recent" ? "Counts toward the after 1950 era." : "From the period between the two bonus eras."}</p><p className="t-meta">Image: <a href={detail.photoSource} target="_blank" rel="noreferrer">{detail.photoAuthor}</a>, {detail.photoLicence}.</p><Button block variant="primary" className="dr-choose" onClick={() => { if (selection.detail !== null) p.onPerson(selection.detail); p.onDetail(null); }} disabled={state.phase !== "people"}>Choose {detail.name}</Button></> : null}
     </Sheet>
     <span className="sr-only">Maximum score {MAX_SCORE}.</span>
   </div>;

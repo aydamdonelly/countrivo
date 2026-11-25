@@ -45,21 +45,29 @@ export function CountryPage({country}: {country: Country}) {
         {sizePeer && area!==null ? <div><p className="t-h3">About the size of {sizePeer.country.displayName}</p><p className="t-meta text-mute">{formatStat(area,'km²')} against {formatStat(sizePeer.area,'km²')}. Total area, REST Countries.</p></div> : null}
         {income!==null && median ? <div><p className="t-h3">{Math.round(income/median*100)}% of world median</p><p className="t-meta text-mute">GDP per person</p><details className="dossier-method t-meta"><summary>Method</summary><p>Median among {incomes.length} other countries with data. GDP per person is not household income.</p></details></div> : null}
       </div>
+      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Pinpoint" href="/games/pinpoint" /></section>
       <div className="dossier-grid">
         <div>
           <section className="dossier-section"><h2 className="t-h2">World rankings</h2><p className="t-meta text-mute mb-4">Sovereign states with data</p><p className="t-body">Highest rankings</p><StandingRows rows={nearTop} />{nearBottom.length ? <><p className="t-body mt-6">Lowest rankings</p><StandingRows rows={nearBottom} /></> : null}</section>
-          {neighbours.length ? <section className="dossier-section ls"><h2 className="t-h2">Neighbours</h2>{neighbours.map((neighbour)=><GameRow key={neighbour.iso3} href={`/countries/${neighbour.slug}`} title={neighbour.displayName} meta={neighbour.capital ? `Capital: ${neighbour.capital}` : neighbour.subregion} lead={<Flag iso2={neighbour.iso2} size="xs" alt="" />} />)}</section> : <section className="dossier-section"><h2 className="t-h2">Neighbours</h2><p className="t-body text-mute">No international land borders in this dataset.</p></section>}
         </div>
         <div>
-          {people.length ? <section className="dossier-section"><h2 className="t-h2">People from here</h2><div className="dossier-people">{people.map((person)=>{const credit=draftPortraitCredit(person.slug);return <div key={person.slug}><Portrait slug={person.slug} name={person.name} has={person.portrait} size={56} /><a className="t-body" href={person.biography} target="_blank" rel="noreferrer">{person.name}</a><p className="t-meta text-mute">{person.note}</p>{credit ? <small>Photo: {credit.author || 'Wikimedia Commons'}, {credit.licence}</small> : null}</div>;})}</div></section>:null}
+          {people.length ? <section className="dossier-section"><h2 className="t-h2">People from here</h2><div className="dossier-people">{people.map((person)=>{const credit=draftPortraitCredit(person.slug);return <div key={person.slug}><Portrait slug={person.slug} name={person.name} has={person.portrait} size={56} /><a className="t-body" href={person.biography} target="_blank" rel="noreferrer">{person.name}</a><p className="t-meta text-mute">{person.note}</p>{credit ? <small>Photo: {creditAuthor(credit.author)}, {credit.licence}</small> : null}</div>;})}</div></section>:null}
           {family ? <section className="dossier-section"><h2 className="t-h2">Its flag family</h2><div className="flag-family">{[...family.core,...family.kin].map(getCountryByIso3).filter((c):c is Country=>Boolean(c)).map((c)=><Link href={`/countries/${c.slug}`} key={c.iso3}><Flag iso2={c.iso2} size="m" alt="" /><span>{c.displayName}</span></Link>)}</div><p className="t-body">{family.line}</p><p className="t-meta text-mute">CIA World Factbook.</p></section>:null}
+          {neighbours.length ? <section className="dossier-section ls"><h2 className="t-h2">Neighbours</h2>{neighbours.map((neighbour)=><GameRow key={neighbour.iso3} href={`/countries/${neighbour.slug}`} title={neighbour.displayName} meta={neighbour.capital ? `Capital: ${neighbour.capital}` : neighbour.subregion} lead={<Flag iso2={neighbour.iso2} size="xs" alt="" />} />)}</section> : <section className="dossier-section"><h2 className="t-h2">Neighbours</h2><p className="t-body text-mute">No international land borders in this dataset.</p></section>}
         </div>
       </div>
-      <section className="dossier-play ls"><h2 className="t-h2 mb-4">Play with {name}</h2>{people.length>=6 ? <GameRow slug="country-draft" title={`Draft from ${name}`} meta="Practice" href={`/games/country-draft/play?mode=practice&country=${country.iso3}`} />:null}<GameRow slug="stat-guesser" title="Guess a stat" meta="Practice" href={`/games/stat-guesser/play?mode=practice&country=${country.iso3}`} /><GameRow slug="pinpoint" title="Put it on the map" meta="Pinpoint" href="/games/pinpoint" /></section>
       <section className="dossier-capsules"><h2 className="t-h2 mb-4">{name}, in short</h2><CapsuleList capsules={capsules} /></section>
     </div>
     <SiteFoot />
   </>;
+}
+
+/** A credit author as written once: the source data repeats some names (`Unknown authorUnknown author`). */
+function creditAuthor(author: string | undefined): string {
+  const text = (author ?? '').trim();
+  if (!text) return 'Wikimedia Commons';
+  const half = text.length / 2;
+  return Number.isInteger(half) && text.slice(0, half) === text.slice(half) ? text.slice(0, half) : text;
 }
 
 function StandingRows({rows}: {rows:WorldStanding[]}) {

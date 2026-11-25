@@ -4,11 +4,12 @@ import type { BlindPickState } from "./module";
 import { BoardOverlay } from "./overlay";
 
 /** The rows under the result card (R6): your board over the perfect one, and the swaps. */
-export function Result({ state }: ResultProps<BlindPickState>) {
+export function Result({ state, inPanel = false }: ResultProps<BlindPickState> & { inPanel?: boolean }) {
   const r = computeResult(state.g);
   const cfg = state.g.config;
   return (
     <BoardOverlay
+      inPanel={inPanel}
       d={{
         stats: cfg.categories.map((c) => c.slug),
         countries: cfg.countries.map((c) => ({ iso2: c.iso2, name: c.displayName })),

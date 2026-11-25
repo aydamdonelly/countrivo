@@ -11,7 +11,7 @@
   .game-tile-main:has(> .navigation-status[data-pending]) .game-tile-action { visibility:hidden; }
   .game-tile-main .navigation-status[data-pending] .navigation-status-label { inset:auto 12px 12px; width:auto; height:auto; margin:0; overflow:visible; clip-path:none; text-align:center; white-space:normal; font-size:13px; font-weight:650; line-height:1.4; }
   .game-tile-main .navigation-status-mark { top:12px; right:10px; bottom:auto; width:32px; height:16px; }
-  .game-tile-main:has(> .navigation-status[data-pending]) :is(.tile-play-mark,.tile-score) { visibility:hidden; }
+  .game-tile-main:has(> .navigation-status[data-pending]) .tile-score { visibility:hidden; }
   .next-game-link .navigation-status-mark { top:50%; right:16px; bottom:auto; margin-top:-8px; }
   .next-game-link:has(> .navigation-status[data-pending]) > .ic { visibility:hidden; }
   @media(prefers-reduced-motion:no-preference) {

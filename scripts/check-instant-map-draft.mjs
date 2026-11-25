@@ -38,7 +38,7 @@ try {
       page.on('pageerror', error => errors.push(error.message));
       let posts = 0;
       await page.route('**/*', async route => {
-        if (route.request().method() !== 'POST' || !route.request().headers()['next-action']) return route.continue();
+        if (route.request().method() !== 'POST') return route.continue(); if (!route.request().headers()['next-action']) return route.fulfill({status: 204});
         posts++;
         if (posts === 1) return respond(route, reveal, 1);
         if (posts === 3) return respond(route, next, 2);
@@ -114,7 +114,7 @@ try {
   const requests = [];
   const guessed = geoWordleView(geoModule.reduce(geoModule.create(31, 'practice', '2026-10-13'), { t: 'guess', iso3: 'NOR' }));
   await page.route('**/*', async route => {
-    if (route.request().method() !== 'POST' || !route.request().headers()['next-action']) return route.continue();
+    if (route.request().method() !== 'POST') return route.continue(); if (!route.request().headers()['next-action']) return route.fulfill({status: 204});
     requests.push(route.request().postData()); posts++;
     if (posts === 1) return route.abort('failed');
     return respond(route, guessed, 1);

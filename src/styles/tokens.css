@@ -15,7 +15,7 @@
   --color-down:   #8a8b85;   /* disabled text; tertiary meta */
   --color-ink:    #17181a;   /* text; anchor card; switch knob; crest circle; active tab underline; correct fills; GeoWordle "burning" */
   --color-ink-2:  #2b2c2e;   /* pressed/hover state of ink fills; chip fill on the ink card */
-  --color-ember:  #b8432a;   /* THE colour: flame, live counters, NEW, friends-link facts, me-crest ring, active tab seed, wrong verdicts, GeoWordle "hit" */
+  --color-ember:  #b8432a;   /* THE colour, meaning "you, now": flame and streak, your leaderboard row, the focus ring, live counters, wrong verdicts inside a board, GeoWordle "hit". Never a button, link or banner colour. */
 
   /* Game tiles: one recognisable colour per game. */
   --color-game-draft:  #f3cd83;
@@ -26,12 +26,23 @@
   --color-game-stat:   #efaec4;
   --color-game-blind:  #bec4f0;
   --color-game-speed:  #e6cf80;
+  --color-geo-cold:    #d0e8ec;   /* GeoWordle "cold" heat: the geo tile at 40% over paper (precomputed, no color-mix for old Safari) */
 
   /* text on ink (anchor card, result panel) */
   --color-on-ink:        #fbfaf6;
   --color-on-ink-body:   #c9c8c1;   /* how-text on the card */
   --color-on-ink-kicker: #a9aaa3;   /* kicker row and counter on the card; GeoWordle "warm" */
   --color-on-ink-chip:   #d9d8d1;   /* chip text on the card (chip fill is --color-ink-2) */
+
+  /* roles (25 November 2026 design pass): aliases of the values above, no new colours */
+  --color-action:       var(--color-ink);     /* the single primary action of a view */
+  --color-action-hover: var(--color-ink-2);
+  --color-on-action:    var(--color-paper);
+  --color-surface:      var(--color-paper);
+  --color-surface-sunk: var(--color-card);    /* result card, join panel, icon tiles */
+  --color-surface-raised: var(--color-bar);   /* day-complete card, sheets */
+  --color-you:          #f6ebe6;              /* your own row: ember 8% over paper (precomputed so old Safari needs no color-mix) */
+  --color-focus:        var(--color-ember);
 
   /* alphas: the only two allowed */
   --color-scrim: rgba(23, 24, 26, 0.45);   /* behind sheets; never derived from black */
@@ -48,6 +59,15 @@
   --radius-ctl:  6px;    /* buttons, me-row, week tiles, tiles, slots, option rows, toast, suggestion panel */
   --radius-chip: 4px;    /* category chips */
   --radius-flag: 3px;    /* flags */
+
+  --radius-btn:  var(--radius-note);   /* 10px: buttons and fields */
+
+  /* elevation: the only one, tappable cards only */
+  --lift: 0 3px 0 var(--color-edge);
+
+  /* control heights */
+  --ctl-h: 48px;           /* secondary buttons, fields, the flag button */
+  --ctl-h-primary: 52px;   /* primary buttons */
 
   /* spacing rhythm (phone) */
   --gutter: 20px;        /* side padding; content = 350 at 390 */

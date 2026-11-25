@@ -6,6 +6,7 @@ export { countries, categories, capitalsAccepted, centroids, sovereignIso3 } fro
 // gameRegistry now lives in the lightweight "@/lib/data/registry" module so
 // client components can access it without dragging in countries/categories JSON.
 export { gameRegistry } from "./registry";
+export { flagPlaces, flagPlaceByIso2, flagPlaceByIso3 } from "./flag-places";
 
 // These are loaded dynamically since they're large
 let _ranks: Record<string, Record<string, number>> | null = null;

@@ -39,12 +39,12 @@ export function Board({ state, dispatch, busy, pendingSlot, pendingUndo, feedbac
 
   return <div className="bp" data-feedback-revision={feedback?.revision}>
     <div className="bp-arrive">
-      {complete ? <div className="bp-card bp-complete"><Clay object="cl-07" state="flip" sizes="64px" loading="eager" /><span className="bp-who"><b>All countries placed</b><span>Ready to compare?</span></span><Button className="bp-mobile-result" variant="ink" disabled={busy} onClick={() => dispatch({t:'seen'})}>See result</Button></div> : <div className="bp-card">
+      {complete ? <div className="bp-card bp-complete"><Clay object="cl-07" state="flip" sizes="64px" loading="eager" /><span className="bp-who"><b>All countries placed</b><span>Ready to compare?</span></span><Button className="bp-mobile-result" variant="primary" disabled={busy} onClick={() => dispatch({t:'seen'})}>See result</Button></div> : <div className="bp-card">
         <BpFlag iso2={country.iso2} w={64} h={43} alt="" className={cn('bp-current-art', pendingSlot != null && 'bp-dealing', feedback?.type === 'place' && 'bp-arrived', feedback?.type === 'undo' && 'bp-returned')} />
         <span className="bp-who"><b key={country.iso2} className={country.displayName.length > 18 ? 'bp-long-name' : undefined}>{country.displayName}</b><span className="bp-instruction"><span className="bp-count">Country {idx + 1} of {count}</span><span className="bp-count-divider" aria-hidden="true"> · </span>Choose a category</span></span>
       </div>}
     </div>
-    {count === 8 ? <div className="bp-undo"><Button variant="ink" block aria-label="Undo last pick" aria-describedby="bp-undo-allowance" disabled={busy || !undoAvailable || state.seen} onClick={() => dispatch({t:'undo'})}><span className="bp-undo-label"><UndoIcon size={18} />{g.undoUsed ? 'Undo used' : 'Undo last pick'}</span><span className="bp-undo-allowance" id="bp-undo-allowance">{g.undoUsed ? '0 left' : '1 left'}</span></Button></div> : null}
+    {count === 8 ? <div className="bp-undo"><Button variant="secondary" block aria-label="Undo last pick" aria-describedby="bp-undo-allowance" disabled={busy || !undoAvailable || state.seen} onClick={() => dispatch({t:'undo'})}><span className="bp-undo-label"><UndoIcon size={18} />{g.undoUsed ? 'Undo used' : 'Undo last pick'}</span><span className="bp-undo-allowance" id="bp-undo-allowance">{g.undoUsed ? '0 left' : '1 left'}</span></Button></div> : null}
     <ScoringHelp stats={stats} />
     <p className="bp-rank-guide" id="bp-rank-guide">World rank · lower is better<span className="sr-only">. #1 is the highest value. Ranks compare countries with available data.</span></p>
     <div className="bp-slots" aria-label="Categories">
@@ -65,7 +65,7 @@ export function Board({ state, dispatch, busy, pendingSlot, pendingUndo, feedbac
       })}
     </div>
     <div className="bp-controls">
-      {complete ? <Button variant="ink" disabled={busy} onClick={() => dispatch({t:'seen'})}>See result</Button> : null}
+      {complete ? <Button variant="primary" disabled={busy} onClick={() => dispatch({t:'seen'})}>See result</Button> : null}
     </div>
     <p className="bp-announcement sr-only" aria-live="polite">{pendingSlot != null ? `Placing ${country.displayName} on ${statWording(cfg.categories[pendingSlot].slug)}.` : pendingUndo ? `Returning ${lastCountry?.displayName ?? 'your last country'}.` : feedback?.type === 'undo' ? `${feedback.countryName} returned. Choose a category again. Undo used.` : feedback?.type === 'place' ? `${feedback.countryName} placed on ${statWording(cfg.categories[feedback.slot].slug)}. ${g.placements.length} of ${count} placed.` : ''}</p>
   </div>;

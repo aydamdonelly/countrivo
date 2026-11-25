@@ -34,7 +34,7 @@ export function GamePlayLink({ slug, children, pendingLabel, ariaLabel, warmOnRe
     warmed.current = {href: props.href, at: now};
     void preloadGameHost(slug).catch(() => undefined);
   };
-  return <NavigationLink {...props} pendingLabel={pendingLabel} documentPending={documentPending} aria-label={ariaLabel} onMouseEnter={warm} onFocus={warm} onTouchStart={warm} onPointerDown={warm} onNavigate={event => {
+  return <NavigationLink {...props} pendingLabel={pendingLabel} documentPending={documentPending} shouldWarm={() => !nativeMapNavigation(slug)} aria-label={ariaLabel} onMouseEnter={warm} onFocus={warm} onTouchStart={warm} onPointerDown={warm} onNavigate={event => {
     if (nativeMapNavigation(slug)) {
       // iPad WKWebView can strand map-host client transitions; direct document loads work.
       event.preventDefault();

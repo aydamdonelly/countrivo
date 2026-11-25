@@ -38,7 +38,7 @@
   .feedback-feed-dialog .feedback-feed-heading { align-items:flex-start; gap:8px; }
   .feedback-feed-dialog .feedback-feed-heading h2 { font-family:var(--font-sans); font-size:20px; font-weight:650; line-height:1.3; }
   .feedback-feed-dialog .feedback-feed-heading .t-meta { font-size:12px; line-height:1.4; }
-  .feedback-feed-dialog .feedback-feed-heading .btn-text { min-width:64px; font-size:13px; color:var(--color-ink); }
+  .feedback-feed-dialog .feedback-feed-heading .btn-tertiary { min-width:64px; font-size:13px; color:var(--color-ink); }
   .feedback-feed-dialog .feedback-posts { gap:12px; }
   .feedback-feed-dialog .feedback-post { padding:16px; }
   .feedback-feed-dialog .feedback-post-message { font-size:15px; line-height:1.4; }

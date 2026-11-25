@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronRightIcon } from "@/ui/icons/chevron-right";
+import { ChevronDownIcon } from "@/ui/icons/chevron-down";
 
 export interface QaItem {
   q: string;
@@ -35,7 +35,7 @@ export function QaList({ items, open, className }: QaListProps) {
         <details key={it.q} id={it.id}>
           <summary className="t-list">
             <span>{it.q}</span>
-            <ChevronRightIcon size={18} className="chev" />
+            <ChevronDownIcon size={20} className="chev" />
           </summary>
           <div className="a t-body">{it.a}</div>
         </details>

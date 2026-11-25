@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { ChevronRightIcon } from '@/ui/icons/chevron-right';
 import { getGameBySlug } from '@/lib/data/games';
 import { getGameContent, relatedSlugs } from '@/content/games';
 import { CABINET_JOBS, gamePresentation } from '@/content/table';
 import { getGameCopy } from '@/lib/seo/game-copy';
 import { buildGameJsonLd } from '@/lib/seo/game-metadata';
-import { GameCard } from '@/ui/game-card';
+import { GameRow } from '@/ui/game-row';
+import { isGameSlug } from '@/ui/types';
 import { GamePlayLink } from '@/ui/game-play-link';
-import { Clay } from '@/ui/clay';
+import { Clay, gameClayFrame } from '@/ui/clay';
 import { QaList } from "@/ui/qa-list";
 import { SiteFoot } from "@/ui/site-foot";
 import { YesterdayAnswers } from '@/features/home/yesterday-answers';
@@ -48,6 +48,7 @@ export async function GameLanding({slug}: {slug:string}) {
   const content = getGameContent(slug);
   if(!game || !presentation || !content) return null;
   const daily = game.availableModes.includes('daily');
+  const hero = gameClayFrame(presentation.clay, presentation.done);
   const copy = getGameCopy(slug);
   const jsonLd = buildGameJsonLd(slug);
   const faq = [
@@ -62,27 +63,27 @@ export async function GameLanding({slug}: {slug:string}) {
     <script {...jsonLdProps(node(faqPage(faq)))} />
     <div className="game-landing-compact">
       <header className="landing-hero">
-        <Clay object={presentation.clay} state={presentation.clay === 'cl-08' ? 'full' : 'rest'} alternate={presentation.idle} sizes="160px" loading="eager" />
+        <span className="landing-plate" data-game={slug}><Clay object={presentation.clay} state={hero.state} tone={hero.tone} alternate={hero.tone === 'original' ? presentation.idle : undefined} sizes="160px" loading="eager" /></span>
         <h1 className="t-h1">{game.title}</h1>
         <p className="t-body text-mute">{presentation.promise}</p>
-        <GamePlayLink slug={slug} href={`/games/${slug}/play?mode=${daily ? 'daily' : 'practice'}`} prefetch className="btn btn-ink t-cta landing-play" pendingLabel="Opening…">Play</GamePlayLink>
-        <nav className="landing-links t-meta" aria-label={`${game.title} options`}>
+        <GamePlayLink slug={slug} href={`/games/${slug}/play?mode=${daily ? 'daily' : 'practice'}`} prefetch className="btn btn-primary t-cta landing-play" pendingLabel="Opening…">Play</GamePlayLink>
+        <nav className="landing-links" aria-label={`${game.title} options`}>
           {daily ? <><Link href={`/games/${slug}/play?mode=practice`}>Practice</Link><Link href={`/games/${slug}/leaderboard`}>Leaderboard</Link><Link href={`/games/${slug}/archive`}>Archive</Link></> : <Link href="/practice">More practice games</Link>}
         </nav>
       </header>
-      <details className="landing-details">
-        <summary>How to play<ChevronRightIcon size={18} /></summary>
+      <details className="landing-details disclose" open>
+        <summary>How to play</summary>
         <ol className="landing-steps">{presentation.steps.map((step, i)=>{const Icon=stepIcons[slug]?.[i] ?? CheckIcon;return <li key={step}><Icon size={28} /><span>{step}</span></li>;})}</ol>
-        <details className="landing-scoring"><summary>Scoring<ChevronRightIcon size={18} /></summary><ul>{content.rules.map((rule)=><li key={rule}>{rule}</li>)}</ul>
+        <details className="landing-scoring disclose"><summary>Scoring</summary><ul>{content.rules.map((rule)=><li key={rule}>{rule}</li>)}</ul>
           {slug === 'country-draft' ? <div className="job-guide">{CABINET_JOBS.map((job)=><div key={job.slug}><Clay object={job.clay} sizes="72px" /><span><b>{job.name}</b><small>{job.description}</small></span></div>)}</div> : null}
         </details>
       </details>
-      {slug === 'geo-wordle' ? <details className="landing-details"><summary>See an example<ChevronRightIcon size={18} /></summary><GeoWordleGuide /></details> : null}
-      {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details"><summary>About {game.title}<ChevronRightIcon size={18} /></summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p>}</div></details> : null}
-      <details className="landing-details"><summary>Questions<ChevronRightIcon size={18} /></summary><QaList open="details" items={faq} /></details>
-      {daily ? <details className="landing-details"><summary>Yesterday’s answers<ChevronRightIcon size={18} /></summary><YesterdayAnswers slug={slug} /></details> : null}
+      {slug === 'geo-wordle' ? <details className="landing-details disclose"><summary>See an example</summary><GeoWordleGuide /></details> : null}
+      {copy && (slug === 'geo-wordle' || slug === 'country-draft') ? <details className="landing-details disclose"><summary>About {game.title}</summary><div className="landing-about t-body"><p>{copy.about[0]}</p>{slug === 'country-draft' ? <p>One country, one person, one free job per round. You see the points after confirming. <Link href="/games/blind-pick">Prefer drafting countries onto statistics? Try Blind Pick.</Link></p> : <p><Link href="/countries">Explore countries and neighbours</Link> or <Link href="/games/pinpoint">find countries on a blank map</Link>.</p>}</div></details> : null}
+      <details className="landing-details disclose"><summary>Questions</summary><QaList open="details" items={faq} /></details>
+      {daily ? <details className="landing-details disclose"><summary>Yesterday’s answers</summary><YesterdayAnswers slug={slug} /></details> : null}
       {slug === 'flag-quiz' ? <p className="landing-topic t-body"><Link href="/practice/europe-flags">Practise just the flags of Europe</Link></p> : null}
-      <section className="landing-more"><h2 className="t-h2">More games</h2><div className="landing-game-grid">{relatedSlugs(slug).map((other)=>{const g=gamePresentation(other);return g ? <GameCard key={g.slug} game={g} active={false} practice={!getGameBySlug(g.slug)?.availableModes.includes('daily')} /> : null;})}</div></section>
+      <section className="landing-more ls"><h2 className="t-h2">More games</h2>{relatedSlugs(slug).map((other)=>{const g=gamePresentation(other);return g && isGameSlug(g.slug) ? <GameRow key={g.slug} slug={g.slug} title={g.title} meta={g.action} href={`/games/${g.slug}`} /> : null;})}</section>
     </div>
     <SiteFoot />
   </>;

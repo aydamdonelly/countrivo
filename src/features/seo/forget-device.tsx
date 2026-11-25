@@ -19,5 +19,5 @@ export function ForgetDevice(){
       router.replace('/');router.refresh();
     }catch{setError('Could not forget this device. Try again.');setBusy(false);}
   }
-  return <div className="mt-6">{confirm?<><p className="t-body mb-4">Remove this device&apos;s saved runs, public names and streak?</p><div className="flex gap-4"><Button onClick={()=>void forget()} disabled={busy}>Forget this device</Button><Button variant="quiet" onClick={()=>setConfirm(false)} disabled={busy}>Cancel</Button></div>{error?<p role="alert" className="t-body text-ember mt-3">{error}</p>:null}</>:<Button variant="text" onClick={()=>setConfirm(true)}>Forget this device</Button>}</div>;
+  return <div className="mt-6">{confirm?<><p className="t-body mb-4">Remove this device&apos;s saved runs, public names and streak?</p><div className="flex gap-4"><Button onClick={()=>void forget()} disabled={busy}>Forget this device</Button><Button variant="secondary" onClick={()=>setConfirm(false)} disabled={busy}>Cancel</Button></div>{error?<p role="alert" className="t-body text-ember mt-3">{error}</p>:null}</>:<Button variant="tertiary" onClick={()=>setConfirm(true)}>Forget this device</Button>}</div>;
 }

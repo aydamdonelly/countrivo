@@ -13,5 +13,5 @@
   .europe-practice-about > div { display: grid; gap: 12px; margin-bottom: 16px; line-height: 1.6; }
   .europe-practice-about a { text-decoration: underline; text-underline-offset: 3px; }
   .europe-practice-links { display: flex; flex-wrap: wrap; gap: 0 24px; color: var(--color-mute); margin-top: 16px; }
-  .europe-practice-links > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .europe-practice-links > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-wait); text-underline-offset: 4px; }
 }

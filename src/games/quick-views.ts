@@ -4,7 +4,15 @@ import type { Mode } from "@/ui/types";
 export type QuickSlug = "higher-or-lower" | "flag-quiz" | "stat-guesser";
 /** `start` and `finish` belong to the Flag Quiz sprint: the server stamps their time on receipt. */
 export type QuickAction = { t: "guess"; c: "higher" | "lower" } | { t: "answer"; i: number } | { t: "lock"; i: number } | { t: "next" } | { t: "start" } | { t: "finish" };
-export interface QuickHistory { label: string; guess: string; answer: string; points: number; correct: boolean }
+export interface QuickHistory {
+  label: string; guess: string; answer: string; points: number; correct: boolean;
+  /** A full sentence for the recap row in place of `guess > answer`. */
+  note?: string;
+  /** Three states where partial credit exists (Stat Guesser): close, near, far. */
+  tone?: "right" | "near" | "wrong";
+  /** The round counted double. */
+  doubled?: boolean;
+}
 export interface QuickBase {
   kind: QuickSlug;
   mode: Mode;
@@ -28,6 +36,8 @@ export interface HigherQuickView extends QuickBase {
   chosen: "higher" | "lower" | null;
   correct: boolean | null;
   comparison: string | null;
+  /** The question before the call, with the reference value. */
+  question: string;
   source: string;
   doubled: boolean;
 }

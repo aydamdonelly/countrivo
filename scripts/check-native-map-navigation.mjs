@@ -46,20 +46,21 @@ for (const engine of ['chromium', ...(process.env.PLAYWRIGHT_WEBKIT ? ['webkit']
         return route.continue();
       });
       try {
-        const home = await page.goto(base, {waitUntil: 'networkidle', timeout: 45000});
-        check(home?.status() === 200, 'The actual server renders Home successfully');
+        // 25 November 2026: practice tiles live on /practice (no per-tile bars on the home).
+        const home = await page.goto(`${base}/practice`, {waitUntil: 'networkidle', timeout: 45000});
+        check(home?.status() === 200, 'The actual server renders Practice successfully');
         if (native) await page.evaluate(() => Object.defineProperty(window, 'Capacitor', {configurable: true, value: {isNativePlatform: () => true}}));
         await page.evaluate(title => {
           const observer = new MutationObserver(() => {
-            const pending = document.querySelector(`a[aria-label="Practice ${title}"] [aria-busy="true"]`);
-            if (pending?.textContent !== 'Opening…') return;
+            const pending = document.querySelector(`a[aria-label="Play ${title}"] [aria-busy="true"]`);
+            if (pending?.textContent !== 'Opening') return;
             console.log(`COUNTRIVO_NAV_QA ${JSON.stringify({oldPageVisible: !!document.querySelector('.daily-game-grid')})}`);
             observer.disconnect();
           });
           observer.observe(document.body, {subtree: true, childList: true, attributes: true, characterData: true});
         }, title);
         armed = true;
-        const link = page.getByRole('link', {name: `Practice ${title}`, exact: true});
+        const link = page.getByRole('link', {name: `Play ${title}`, exact: true});
         check(await link.getAttribute('href') === `/games/${slug}/play?mode=practice`, 'The exact destination, including mode, is retained');
         await link.focus();
         await link.dispatchEvent('touchstart');
@@ -91,8 +92,8 @@ for (const engine of ['chromium', ...(process.env.PLAYWRIGHT_WEBKIT ? ['webkit']
         if (native) {
           armed = false;
           await page.goBack({waitUntil: 'domcontentloaded'});
-          await page.getByRole('heading', {name: 'Daily games', exact: true}).waitFor();
-          check(await page.getByText('Opening…', {exact: true}).count() === 0, 'History return does not retain the pending label');
+          await page.getByRole('heading', {name: 'Practice', exact: true}).waitFor();
+          check(await page.getByText('Opening', {exact: true}).count() === 0, 'History return does not retain the pending label');
         }
         check(posts === 0, 'No move or other mutation is submitted');
         check(errors.length === 0, 'No JavaScript exception occurs');
@@ -109,15 +110,16 @@ for (const engine of ['chromium', ...(process.env.PLAYWRIGHT_WEBKIT ? ['webkit']
       });
       try {
         const page = await context.newPage();
-        await page.goto(base, {waitUntil: 'networkidle', timeout: 45000});
+        // Practice lives on /practice since 25 November 2026 (no per-tile bars on the home).
+        await page.goto(`${base}/practice`, {waitUntil: 'networkidle', timeout: 45000});
         await page.evaluate(() => Object.defineProperty(window, 'Capacitor', {configurable: true, value: {isNativePlatform: () => true}}));
         const opened = context.waitForEvent('page');
-        await page.getByRole('link', {name: 'Practice GeoWordle', exact: true}).click({modifiers: [process.platform === 'darwin' ? 'Meta' : 'Control']});
+        await page.getByRole('link', {name: 'Play GeoWordle', exact: true}).click({modifiers: [process.platform === 'darwin' ? 'Meta' : 'Control']});
         const tab = await opened;
         await tab.waitForURL('**/games/geo-wordle/play?mode=practice');
         await tab.locator('.gw-map').waitFor();
-        check(new URL(page.url()).pathname === '/', 'A modified click keeps the original page');
-        check(await page.getByText('Opening…', {exact: true}).count() === 0, 'A modified click does not leave the original link pending');
+        check(new URL(page.url()).pathname === '/practice', 'A modified click keeps the original page');
+        check(await page.getByText('Opening', {exact: true}).count() === 0, 'A modified click does not leave the original link pending');
         check(posts === 0, 'A modified click submits no mutation');
         rows.push({engine, kind: 'modified-click', newTab: true, originalPageRetained: true, posts});
         console.log('chromium native branch modified-click: pass');

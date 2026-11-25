@@ -22,7 +22,8 @@ try{
   let state={answerIso3:'PRK',guesses:[],clueAt:null,phase:'playing'},posts=0;
   const sequence=['FRA','JPN','RUS','PRK'];
   await page.route('**/*',async route=>{
-   if(route.request().method()!=='POST'||!route.request().headers()['next-action'])return route.continue();
+   if(route.request().method()!=='POST')return route.continue();
+   if(!route.request().headers()['next-action'])return route.fulfill({status:204});
    const index=posts++;
    state=index<sequence.length?gameModule.reduce(state,{t:'guess',iso3:sequence[index]}):{answerIso3:'PRK',guesses:[],clueAt:null,phase:'playing'};
    await new Promise(resolve=>setTimeout(resolve,250));
@@ -45,6 +46,8 @@ try{
    await page.waitForFunction(count=>document.querySelectorAll('.gw-row:not(.gw-pending)').length===count,index+1);
    await page.locator('.gw-pending').waitFor({state:'detached'});
   }
+  check(await page.locator('.gw-input').evaluate(node=>!!(node.compareDocumentPosition(document.querySelector('.gw-rows'))&Node.DOCUMENT_POSITION_FOLLOWING)&&!!(document.querySelector('.gw-map').compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING)),'The input sits under the map, above the guess list');
+  check((await page.locator('.gw-row').first().textContent()).startsWith('Russia'),'The newest guess is listed first, next to the input');
   const neighbour=page.locator('.gw-neighbour');
   check(await neighbour.locator('b').textContent()==='Neighbour','Shared border gets an unambiguous primary verdict');
   check(await neighbour.textContent()==='NeighbourShared border · 0 km','Zero kilometres are secondary to shared-border meaning');
@@ -64,20 +67,24 @@ try{
   await page.locator('.gw-result').waitFor();
   await page.waitForFunction(()=>document.activeElement?.classList.contains('gw-result'));
   check((await page.locator('.gw-result').boundingBox()).y>=0,'Completion focuses the visible result');
-  check(!(await page.locator('.gw-history').getAttribute('open')),'Full route is collapsed after completion');
-  check(await page.locator('.gw-result-title').textContent()==='North Korea','Completed answer is revealed in result heading');
+  check(!(await page.locator('.gw-history').getAttribute('open')),'The guess list is collapsed after completion; the answer map is not');
+  check(await page.locator('.gw-answer-kicker').textContent()==='You found'&&(await page.locator('.gw-answer-name').textContent())==='North Korea','Completed answer is named in the result card with its flag');
+  check(await page.locator('.gw-answer-name img, .gw-answer-name .flag').count()>=1,'The answer carries its flag');
+  check(await page.locator('.a-card .gw-answer-map').isVisible()&&await page.locator('.gw-answer-map .gw-answer-land').count()===1,'The answer is highlighted on a visible map inside the card');
+  check(await page.locator('.gw-answer-map .gw-answer-label').textContent()==='North Korea','The map labels the answer by name');
+  check(await page.locator('.gw-answer-closest').count()===0,'A win needs no closest-guess line (a loss names it)');
   const bonus=page.getByRole('button',{name:'Bonus quiz, just for fun. Your score stays the same.',exact:true});
   const resultOrder=await bonus.evaluate(node=>{
    const before=selector=>Array.from(document.querySelectorAll(selector)).some(other=>!!(other.compareDocumentPosition(node)&Node.DOCUMENT_POSITION_FOLLOWING));
    const after=selector=>Array.from(document.querySelectorAll(selector)).every(other=>!!(node.compareDocumentPosition(other)&Node.DOCUMENT_POSITION_FOLLOWING));
-   const feedback=document.querySelector('.site-feedback-result');
+   const feedback=document.querySelector('.site-feedback-line');
    const standings=document.querySelector('.practice-standing');
-   const score=document.querySelector('.gw-result-panel .rp');
-   return {standingBefore:before('.practice-standing'),weeklyAfter:after('.daily-habit'),feedbackBefore:before('.site-feedback-result'),feedbackCount:document.querySelectorAll('.site-feedback-result').length,feedbackAfterScore:Boolean(score&&feedback&&(score.compareDocumentPosition(feedback)&Node.DOCUMENT_POSITION_FOLLOWING)),feedbackBeforeStandings:Boolean(feedback&&standings&&(feedback.compareDocumentPosition(standings)&Node.DOCUMENT_POSITION_FOLLOWING))};
+   const score=document.querySelector('.gw-result-panel .a-card');
+   return {standingBefore:before('.practice-standing'),weeklyAfter:after('.daily-habit'),feedbackAfter:after('.site-feedback-line'),feedbackCount:document.querySelectorAll('.site-feedback-line').length,feedbackAfterScore:Boolean(score&&feedback&&(score.compareDocumentPosition(feedback)&Node.DOCUMENT_POSITION_FOLLOWING)),feedbackAfterStandings:Boolean(feedback&&standings&&(standings.compareDocumentPosition(feedback)&Node.DOCUMENT_POSITION_FOLLOWING))};
   });
   check(resultOrder.standingBefore,'Daily standings appear before the optional bonus');
-  check(resultOrder.weeklyAfter&&resultOrder.feedbackBefore&&resultOrder.feedbackCount===1,'The single feedback invitation precedes the bonus, and weekly progress follows it');
-  check(resultOrder.feedbackAfterScore&&resultOrder.feedbackBeforeStandings,'Feedback is offered immediately after the score, before the standings');
+  check(resultOrder.weeklyAfter&&resultOrder.feedbackAfter&&resultOrder.feedbackCount===1,'Weekly progress and the single compact feedback line follow the bonus');
+  check(resultOrder.feedbackAfterScore&&resultOrder.feedbackAfterStandings,'The feedback line closes the result page, after the score and the standings');
   await bonus.scrollIntoViewIfNeeded();
   check(await bonus.isVisible(),'Bonus remains accessible after the standings');
   check(await bonus.evaluate(node=>{const box=node.getBoundingClientRect();return document.elementFromPoint(box.x+box.width/2,box.y+box.height/2)?.closest('button')===node;}),'Bonus control is not covered by another element');
@@ -91,8 +98,9 @@ try{
   await page.getByRole('button',{name:'Pyongyang',exact:true}).click();
   check(await page.getByRole('status').filter({hasText:'Correct.'}).isVisible(),'Capital reports correctness in words');
   await page.locator('.gw-history>summary').click();
-  check(await page.locator('.gw-map').isVisible(),'Route can still be explored after the result');
-  check(await page.locator('.gw-row').count()===4,'All committed attempts remain in route history');
+  check(await page.locator('.gw-history .gw-row').first().isVisible(),'The guess list can still be explored after the result');
+  check(await page.locator('.gw-row').count()===4,'All committed attempts remain in the guess list');
+  check(await page.locator('.gw-closest').count()===1,'The closest guess is tagged in the list');
   await page.getByRole('button',{name:'One more',exact:true}).click();
   await page.locator('.gw-start').waitFor();
   check(await page.locator('.gw-history').count()===0,'Replay starts a fresh playable view');

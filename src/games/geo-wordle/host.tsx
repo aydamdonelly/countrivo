@@ -1,5 +1,4 @@
 'use client';
-import {DailyNext} from '@/ui/daily-next';
 import { dailyProgress } from '@/features/play/daily-progress';
 import {ChallengeResult} from '@/ui/challenge-result';
 import {DailyHabit} from '@/ui/daily-habit';
@@ -11,13 +10,13 @@ import type {GeoCommitAction} from './module';
 import type {ServerGameRun} from '@/types/server';
 import {Button} from '@/ui/button';
 import {Progress} from '@/ui/progress';
-import {ResultPanel} from '@/ui/result-panel';
-import {ShareButton} from '@/ui/share-button';
+import {ResultPanel,runRank} from '@/ui/result-panel';
 import {ResultFollowup,ResultFeedback} from '@/features/play/result-followup';
 import {writeDone} from '@/features/play/persist';
 import {trackCompletedRun,trackPlay} from '@/lib/play-events';
 import {buildGeoWordleShareText} from '@/lib/share/geo-wordle';
-import {Board} from './board';
+import {AnswerMap,Board,closestGuess,closestLabel} from './board';
+import {Flag} from '@/ui/flag';
 import {GeoBonus} from './result';
 export function GeoWordleHost(p:HostProps){
  const [clockOrigin] = useState(() => ({serverNow:p.serverNow,clientNow:Date.now()}));
@@ -41,18 +40,28 @@ export function GeoWordleHost(p:HostProps){
  async function newBoard(){if(lock.current)return;lock.current=true;setBusy(true);setFailedAction(null);setError(null);try{const response=await startGeoWordlePractice();setView(response.view);setToken(response.sessionToken);setRevision(response.revision);setRun(null);setName(null);setError(null);setGeneration(n=>n+1);setChallenge(undefined);started.current=false;}catch{setError('Could not open a new board. Try again.');}finally{setBusy(false);lock.current=false;}}
  return <div ref={playRef} className="play-stack" data-phase={finished?'settled':'live'}>
   <ChallengeResult challenge={challenge} run={run}/>
-  <Progress done={used} total={6} label="" value={finished?score:`${used}/6`} current={finished?null:used}/>
+  {!finished?<Progress done={used} total={6} label="" value={`${used}/6`} current={used}/>:null}
   {!finished?<Board key={generation} state={view} dispatch={action=>void commit(action)} busy={busy} pendingGuess={pendingGuess}/>:null}
   <SessionNotice busy={false} error={error} onRetry={failedAction?()=>void commit(failedAction):undefined}/>
   {finished?<>
-   <div ref={resultRef} className="gw-result" tabIndex={-1} role="region" aria-label={`${view.phase==='won'?'Found':'Answer'}: ${view.answer?.name??'GeoWordle'}`}>
-    <h2 className="gw-result-title t-h2">{view.answer?.name}</h2>
-    <ResultPanel className="gw-result-panel" next={p.mode === "daily" ? <DailyNext {...dailyProgress(p, p.slug, run?.scoreDisplay ?? score)} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : undefined} feedback={<ResultFeedback slug="geo-wordle"/>} mode={p.mode} game="GeoWordle" outcome={view.phase==='won'?'Country found':'Out of guesses'} score={score} primaryAction={<ResultFollowup slug="geo-wordle" mode={p.mode} score={score} run={run} publishedName={name} onPublished={setRun}/>} kicker={p.mode==='daily'?'Today · GeoWordle':'Practice · GeoWordle'} counter="Par 4" actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton challengeUrl={run?.challengeUrl} text={buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey)} onShare={()=>trackPlay('share',p.slug,p.mode)}/></>}>
+   <div ref={resultRef} className="gw-result" tabIndex={-1} role="region" aria-label={`${view.phase==='won'?'You found':'The answer was'} ${view.answer?.name??'GeoWordle'}`}>
+    <ResultPanel className="gw-result-panel" slug="geo-wordle" dateKey={p.mode==='daily'?p.dateKey:undefined} daily={p.mode === "daily" ? {...dailyProgress(p, p.slug, run?.scoreDisplay ?? score), resetAt: p.resetAt, serverNow: clockOrigin.serverNow, clientStartedAt: clockOrigin.clientNow} : undefined} feedback={<ResultFeedback slug="geo-wordle"/>} mode={p.mode} game="GeoWordle" outcome={view.phase==='won'?`Found in ${used}`:'Not found this time'} answer={view.answer?<GeoAnswerBlock view={view}/>:undefined} score={score} rank={runRank(run)} primaryAction={<ResultFollowup slug="geo-wordle" mode={p.mode} score={score} run={run} publishedName={name} onPublished={setRun}/>} share={{text:buildGeoWordleShareText({won:view.phase==='won',guesses:view.guesses,clueAt:view.clueAt},p.dateKey),challengeUrl:run?.challengeUrl,onShare:()=>trackPlay('share',p.slug,p.mode)}} actions={p.mode==='practice'?<Button onClick={()=>void newBoard()} disabled={busy} pending={busy} pendingLabel="Opening" block>One more</Button>:undefined}>
+     <Board key={`route-${generation}`} state={view} dispatch={action=>void commit(action)} busy={busy}/>
      <GeoBonus key={generation} state={view}/>
-     {p.mode==='daily'?<><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity}/></details></>:null}
+     {p.mode==='daily'?<details className="result-week"><summary>Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} reminder={false}/></details>:null}
     </ResultPanel>
    </div>
-   <Board key={`route-${generation}`} state={view} dispatch={action=>void commit(action)} busy={busy}/>
   </>:null}
+ </div>;
+}
+/** The answer inside the result card: who it was, with its flag, how close you came, and where it is. */
+function GeoAnswerBlock({view}:{view:NonNullable<HostProps['geoWordleView']>}){
+ const answer=view.answer;if(!answer)return null;
+ const won=view.phase==='won',closest=won?null:closestGuess(view);
+ return <div className="gw-answer">
+  <p className="gw-answer-kicker t-meta">{won?'You found':'The answer was'}</p>
+  <p className="gw-answer-name"><Flag iso2={answer.iso2} size="m" alt="" eager/><b>{answer.name}</b></p>
+  {closest?<p className="gw-answer-closest t-meta">Closest guess: {closestLabel(closest)}</p>:null}
+  <AnswerMap state={view}/>
  </div>;
 }

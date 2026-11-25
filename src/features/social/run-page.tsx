@@ -67,7 +67,7 @@ export async function RunPage({ slug, runId }: RunPageProps) {
         actions={
           <>
             <Button href={`/games/${slug}`}>Play {title}</Button>
-            <Button variant="text" href={`/games/${slug}/leaderboard?date=${run.dailyDate}`}>
+            <Button variant="tertiary" href={`/games/${slug}/leaderboard?date=${run.dailyDate}`}>
               Board
             </Button>
           </>

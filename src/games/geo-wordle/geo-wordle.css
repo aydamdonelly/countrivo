@@ -5,7 +5,7 @@
  .gw-map>path:first-child {fill:var(--color-paper);stroke:var(--color-mute);stroke-width:1.25px;vector-effect:non-scaling-stroke;}
  .gw-map-live {cursor:pointer;touch-action:pan-y;}
  .gw-start {color:var(--color-mute);text-align:center;}
- .gw-heat-cold {--gw-heat:color-mix(in srgb,var(--color-game-geo) 40%,var(--color-paper));}
+ .gw-heat-cold {--gw-heat:var(--color-geo-cold);}
  .gw-heat-cool {--gw-heat:var(--color-game-geo);}
  .gw-heat-warm {--gw-heat:var(--color-game-draft);}
  .gw-heat-hot {--gw-heat:var(--color-game-pin);}
@@ -30,18 +30,35 @@
  .gw-input .suggest {flex:1;min-width:0;} .gw-input>button {height:52px;}
  .gw-input .field {height:52px;} .gw-input .field input {height:52px;}
  .gw-clue {display:flex;flex-direction:column;align-items:center;gap:8px;} .gw-clue svg {height:120px;width:120px;}
- .gw-clue-control .btn-text {color:var(--color-ink);}
+ .gw-clue-control .btn-tertiary {color:var(--color-ink);}
  .gw-clue-control {margin-top:4px;} .gw-clue-control button {min-height:44px;gap:10px;}
  .gw-confirm {padding:16px;border-radius:var(--radius-card);background:var(--color-card);} .gw-confirm>div {display:flex;gap:8px;} .gw-confirm>p+div {margin-top:12px;}
- .gw-source {line-height:1.45;color:var(--color-mute);} .gw-source summary {display:flex;align-items:center;gap:6px;min-height:44px;width:fit-content;cursor:pointer;list-style:none;} .gw-source summary::before {content:'+';font-size:18px;} .gw-source[open] summary::before {content:'−';} .gw-source summary:focus-visible {outline:2px solid var(--color-ink);outline-offset:2px;}
- .gw-history>summary {display:flex;align-items:center;gap:12px;min-height:48px;cursor:pointer;list-style:none;}
- .gw-history>summary::before {content:'+';font-size:20px;}
- .gw-history[open]>summary::before {content:'−';}
+ .gw-source {line-height:1.45;color:var(--color-mute);} .gw-source summary {display:flex;align-items:center;gap:6px;min-height:44px;width:fit-content;cursor:pointer;list-style:none;} .gw-source summary:focus-visible {outline:2px solid var(--color-ink);outline-offset:2px;}
  .gw-history>summary:focus-visible {outline:2px solid var(--color-ink);outline-offset:2px;}
+ .gw-history .gw-clue svg {height:80px;width:80px;}
  .gw-result {scroll-margin-top:16px;}
  .gw-result:focus {outline:none;box-shadow:none;}
- .gw-result-title {text-align:center;margin-bottom:12px;}
- .gw-bonus {display:flex;flex-direction:column;gap:16px;padding:12px 0;}
+ /* the answer inside the result card: kicker, flag and name, closest guess, map */
+ .gw-answer {display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;margin-top:14px;}
+ .gw-answer-kicker {color:var(--color-mute);}
+ .gw-answer-name {display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:12px;max-width:100%;}
+ .gw-answer-name b {font-family:var(--font-display);font-weight:600;font-size:32px;line-height:36px;overflow-wrap:anywhere;}
+ .gw-answer-closest {color:var(--color-ink);}
+ .gw-answer .gw-answer-map {height:190px;margin-top:6px;border-radius:var(--radius-ctl);box-shadow:inset 0 0 0 1px var(--color-wait);}
+ .gw-answer .gw-answer-map>path:first-child {stroke:var(--color-faint);stroke-width:1px;}
+ .gw-answer .gw-legend {flex-wrap:wrap;justify-content:center;margin-top:0;gap:4px 8px;}
+ .gw-answer-land {fill:var(--color-ink);stroke:var(--color-paper);stroke-width:1.5px;}
+ .gw-answer-dot {fill:var(--color-ink);stroke:var(--color-paper);stroke-width:1.5px;}
+ .gw-answer-label {font-family:var(--font-display);font-weight:600;fill:var(--color-ink);stroke:var(--color-paper);stroke-width:3px;stroke-linejoin:round;paint-order:stroke;pointer-events:none;}
+ .gw-answer-swatch {background:var(--color-ink);}
+ .gw-legend-heat {display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+ .gw-legend-answer {display:inline-flex;align-items:center;gap:4px;margin-right:8px;color:var(--color-ink);}
+ .gw-closest {margin-left:8px;padding:1px 8px;border-radius:var(--radius-chip);background:var(--color-surface-sunk);color:var(--color-ink);}
+ .gw-bonus {display:flex;flex-direction:column;gap:16px;padding:16px 0;}
+ .gw-bonus-offer {display:flex;flex-direction:column;gap:12px;}
+ .gw-bonus-offer p {display:flex;flex-direction:column;gap:2px;}
+ .gw-bonus-offer b {font-weight:500;}
+ .gw-bonus-actions {display:flex;align-items:center;gap:20px;}
  .gw-bonus-tiles {display:grid;grid-template-columns:1fr 1fr;gap:10px;}
  .gw-bonus-tile {display:flex;align-items:center;gap:8px;min-height:56px;padding:12px;background:var(--color-card);border-radius:var(--radius-ctl);text-align:left;}
  .gw-bonus-tile.selected {background:var(--color-ink);color:var(--color-paper);} .gw-bonus-tile.wrong {background:var(--color-ember);color:var(--color-paper);} .gw-bonus-tile.missed {outline:2px solid var(--color-ink);outline-offset:-2px;}

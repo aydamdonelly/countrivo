@@ -1,8 +1,9 @@
 import Link from 'next/link';
-import {useMemo,useRef,useState,type KeyboardEvent,type PointerEvent} from 'react';
+import {useEffect,useMemo,useRef,useState,type KeyboardEvent,type PointerEvent} from 'react';
 import {coastline} from '@/lib/data/coastline';
 import {projectPoint,unprojectPoint,type MapPoint} from '@/lib/game-logic/map-projection';
 import type {PinpointRoundResult,PinpointView} from '@/lib/game-logic/pinpoint/engine';
+import {pinpointBreakdown} from '@/lib/game-logic/pinpoint/scoring';
 import type {PinpointAction} from './module';
 import {Button} from '@/ui/button';
 import './pinpoint.css';
@@ -28,7 +29,8 @@ export function revealViewport(result:PinpointRoundResult):Viewport {
 export function pinpointExplanation(result:PinpointRoundResult):string {
  if(result.inside)return `Your pin landed inside ${result.name}.`;
  if(result.distanceKm<=25)return `Your pin was ${kmLabel(result.distanceKm)} from ${result.name}, within the 25 km full-score zone.`;
- return `Your pin was ${kmLabel(result.distanceKm)} from ${result.name}; ${result.away} ${result.away===1?'country was':'countries were'} closer.`;
+ if(result.away===0)return `Your pin was ${kmLabel(result.distanceKm)} from ${result.name}'s nearest border, and no other country was nearer.`;
+ return `Your pin was ${kmLabel(result.distanceKm)} from ${result.name}'s nearest border. ${result.away} ${result.away===1?'country was':'countries were'} nearer your pin.`;
 }
 
 function Pin({point,className,zoom}:{point:MapPoint;className?:string;zoom:number}) {
@@ -40,6 +42,8 @@ export function Board({state,dispatch,busy,commitBusy=busy}:BoardProps) {
  const [pin,setPin]=useState<MapPoint|null>(null),[crosshair,setCrosshair]=useState<MapPoint>({lat:15,lng:0});
  const [mapView,setMapView]=useState<MapView|null>(null),[placedRound,setPlacedRound]=useState(state.round);
  const svg=useRef<SVGSVGElement>(null),gesture=useRef<Gesture|null>(null);
+ const [pixelWidth,setPixelWidth]=useState(350);
+ useEffect(()=>{const node=svg.current;if(!node)return;const observer=new ResizeObserver(()=>setPixelWidth(node.clientWidth||350));observer.observe(node);return ()=>observer.disconnect();},[]);
  const pointers=useRef(new Map<number,{x:number;y:number}>()),pinch=useRef<{distance:number;viewport:Viewport}|null>(null);
  const reveal=state.current;
  const defaultView=useMemo(()=>reveal?revealViewport(reveal):WORLD_VIEW,[reveal]);
@@ -88,6 +92,11 @@ export function Board({state,dispatch,busy,commitBusy=busy}:BoardProps) {
   if(e.key==='-'){e.preventDefault();zoom(1/1.7);}
  }
  const w=720/viewport.zoom,h=360/viewport.zoom;
+ // Reveal labels: about 11 px on screen whatever the zoom.
+ const labelSize=11*w/Math.max(200,pixelWidth);
+ const visible=(p:{x:number;y:number})=>Math.abs(p.x-viewport.x)<w/2*0.92&&Math.abs(p.y-viewport.y)<h/2*0.9;
+ // In the reveal the controls sit under the map, so they never cover the pin or the route.
+ const zoomControls=<div className={`pp-zoom${reveal?' pp-zoom-below':''}`} role="group" aria-label="Map view"><button type="button" onClick={()=>zoom(1.7)} aria-label="Zoom in" disabled={viewport.zoom>=20}>+</button><button type="button" onClick={()=>zoom(1/1.7)} aria-label="Zoom out" disabled={viewport.zoom<=1}>−</button><button type="button" onClick={()=>setViewport(WORLD_VIEW)} aria-label="Reset world view"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M4 12h16M12 4c-5 5-5 11 0 16M12 4c5 5 5 11 0 16" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg></button>{reveal?<button type="button" onClick={()=>setViewport(defaultView)} aria-label="Fit country and your pin"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5M9 20H4v-5" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg></button>:null}</div>;
  const target=reveal?projectPoint(reveal.nearest):null,source=reveal?projectPoint(reveal):null;
  return <div className="pp-board">
   <div className="pp-heading"><p className="t-meta text-mute">{reveal?'Your result':'Find this country'}</p><h2 className="t-big">{state.country.name}</h2>{state.round===4?<span className="pp-multiplier t-meta" aria-label="This round counts double">×2</span>:null}</div>
@@ -97,16 +106,18 @@ export function Board({state,dispatch,busy,commitBusy=busy}:BoardProps) {
     {reveal?<g><path className="pp-answer-land" d={reveal.path} vectorEffect="non-scaling-stroke"/>
      {target&&source&&Math.abs(source.x-target.x)<360?<line className="pp-route" x1={source.x} y1={source.y} x2={target.x} y2={target.y} stroke="var(--color-ink)" strokeWidth={1.5/viewport.zoom} strokeDasharray={`${4/viewport.zoom} ${3/viewport.zoom}`}/>:null}
      {target&&!reveal.inside?<g className="pp-target" transform={`translate(${target.x} ${target.y})`}><circle r={6/viewport.zoom} fill="var(--color-paper)" stroke="var(--color-ember)" strokeWidth={2/viewport.zoom}/><circle r={2/viewport.zoom} fill="var(--color-ember)"/></g>:null}
+     {(reveal.neighbours??[]).filter(visible).map(n=><text key={n.name} className="pp-neighbour" x={n.x} y={n.y} fontSize={labelSize} textAnchor="middle">{n.name}</text>)}
      <Pin point={reveal} className="pp-dropped" zoom={viewport.zoom}/>
     </g>:currentPin?<Pin point={currentPin} zoom={viewport.zoom}/>:<g className="pp-crosshair" transform={`translate(${projectPoint(crosshair).x} ${projectPoint(crosshair).y})`} stroke="var(--color-ink)" strokeWidth={1/viewport.zoom}><path d={`M${-8/viewport.zoom} 0h${16/viewport.zoom}M0 ${-8/viewport.zoom}v${16/viewport.zoom}`}/></g>}
    </svg>
-   <div className="pp-zoom"><button type="button" onClick={()=>zoom(1.7)} aria-label="Zoom in" disabled={viewport.zoom>=20}>+</button><button type="button" onClick={()=>zoom(1/1.7)} aria-label="Zoom out" disabled={viewport.zoom<=1}>−</button><button type="button" onClick={()=>setViewport(WORLD_VIEW)} aria-label="Reset world view"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M4 12h16M12 4c-5 5-5 11 0 16M12 4c5 5 5 11 0 16" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg></button>{reveal?<button type="button" onClick={()=>setViewport(defaultView)} aria-label="Fit country and your pin"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5M9 20H4v-5" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg></button>:null}</div>
+   {reveal?null:zoomControls}
   </div>
+  {reveal?zoomControls:null}
   {reveal?<>
    <div className="pp-legend t-meta"><span><i className="pp-legend-pin" aria-hidden="true"/>Your pin</span><span><i className="pp-legend-land" aria-hidden="true"/>{state.country.name}</span>{!reveal.inside?<span><i className="pp-legend-border" aria-hidden="true"/>Nearest border</span>:null}</div>
-   <div className="pp-feedback" role="status"><div className="pp-score"><div><h3 className="t-h3">{reveal.inside?'Inside the country':reveal.distanceKm<=25?'Close enough for full points':`${kmLabel(reveal.distanceKm)} away`}</h3><p className="t-body">{pinpointExplanation(reveal)}</p></div><b className="t-score num">+{reveal.points}</b></div>{state.round===4?<p className="t-meta text-mute">{reveal.basePoints} points × 2 for the last round</p>:null}</div>
+   <div className="pp-feedback" role="status"><div className="pp-score"><div><h3 className="t-h3">{reveal.inside?'Inside the country':reveal.distanceKm<=25?'Close enough for full points':`${kmLabel(reveal.distanceKm)} away`}</h3>{reveal.where?<p className="pp-where t-body">{reveal.where}</p>:null}<p className="t-body text-mute">{pinpointBreakdown(reveal.distanceKm,reveal.away,reveal.name)??pinpointExplanation(reveal)}</p></div><b className="t-score num">+{reveal.points}</b></div>{state.round===4?<p className="t-meta text-mute">{reveal.basePoints} points × 2 for the last round</p>:null}</div>
   </>:<span className="sr-only" role="status">{currentPin?`Pin at ${currentPin.lat.toFixed(1)}°, ${currentPin.lng.toFixed(1)}°. Drag to adjust, then choose Drop pin.`:'Tap the map to place a pin.'}</span>}
-  <div className="pp-action">{reveal?<Button variant="ink" pending={commitBusy} pendingLabel="Next country…" onClick={e=>{if(e.detail>1)return;dispatch({t:'next'});setPin(null);}} disabled={commitBusy}>{state.round===4?'Result':'Next'}</Button>:<Button variant="ink" disabled={!currentPin||commitBusy} pending={commitBusy} pendingLabel={busy?'Pin dropped…':'Opening…'} onClick={e=>{if(e.detail<2&&currentPin)dispatch({t:'drop',lat:Math.round(currentPin.lat*10000)/10000,lng:Math.round(currentPin.lng*10000)/10000});}}>{currentPin?'Drop pin':'Tap to place pin'}</Button>}</div>
+  <div className="pp-action">{reveal?<Button variant="primary" pending={commitBusy} pendingLabel="Next country…" onClick={e=>{if(e.detail>1)return;dispatch({t:'next'});setPin(null);}} disabled={commitBusy}>{state.round===4?'Result':'Next'}</Button>:<Button variant="primary" disabled={!currentPin||commitBusy} pending={commitBusy} pendingLabel={busy?'Pin dropped…':'Opening…'} onClick={e=>{if(e.detail<2&&currentPin)dispatch({t:'drop',lat:Math.round(currentPin.lat*10000)/10000,lng:Math.round(currentPin.lng*10000)/10000});}}>{currentPin?'Drop pin':'Tap to place pin'}</Button>}</div>
   {reveal?<details className="pp-detail"><summary className="t-meta">About {state.country.name}</summary><p className="t-body">{reveal.fact}</p><a className="t-meta text-mute" href={reveal.sourceUrl} target="_blank" rel="noreferrer">Geography source</a><p className="t-meta text-mute">Approximate border distance · Natural Earth 1:50m</p></details>:<details className="pp-detail"><summary className="t-meta">Map controls</summary><p className="t-body">Tap to place. Drag to move the map or pin. Pinch or use + / − to zoom.</p><p className="t-meta text-mute">Keyboard: arrows to move, Enter to place and drop. Shift + arrows for a smaller step.</p></details>}
   <noscript><p className="t-body">Pinpoint needs JavaScript to place a pin.</p><Link href="/games">Try another geography game</Link></noscript>
  </div>;

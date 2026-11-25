@@ -21,7 +21,7 @@ export default function NotFound() {
           <Button href="/" prefetch>
             Home
           </Button>
-          <Button variant="text" href="/games" prefetch>
+          <Button variant="tertiary" href="/games" prefetch>
             All games
           </Button>
         </div>

@@ -164,7 +164,7 @@ export function AuthSheet({ open, onClose, onSignIn, onSignUp, onApple, hasApple
               onKeyDown={capsLock}
               onKeyUp={capsLock}
             />
-            <Button variant="text" className="show" tabIndex={-1} aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow((s) => !s)}>
+            <Button variant="tertiary" className="show" tabIndex={-1} aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow((s) => !s)}>
               {show ? "Hide" : "Show"}
             </Button>
           </div>
@@ -184,23 +184,23 @@ export function AuthSheet({ open, onClose, onSignIn, onSignUp, onApple, hasApple
             </p>
           ) : null}
           <div className="actions">
-            <Button type="submit" variant="ink" block disabled={!canSubmit} pending={submitting} pendingLabel={signup ? "Creating account" : "Signing in"}>
+            <Button type="submit" variant="primary" block disabled={!canSubmit} pending={submitting} pendingLabel={signup ? "Creating account" : "Signing in"}>
               {signup ? "Create account" : "Sign in"}
             </Button>
             {!signup ? (
-              <Button variant="text" href={forgotHref} onClick={onClose} className="forgot">
+              <Button variant="tertiary" href={forgotHref} onClick={onClose} className="forgot">
                 Forgot password?
               </Button>
             ) : null}
             {hasApple && onApple ? (
-              <Button variant="ink" block onClick={apple} disabled={submitting} className={cn("apple")}>
+              <Button variant="primary" block onClick={apple} disabled={submitting} className={cn("apple")}>
                 <svg viewBox="0 0 384 512" width="15" height="18" fill="currentColor" aria-hidden="true">
                   <path d={APPLE_PATH} />
                 </svg>
                 Sign in with Apple
               </Button>
             ) : null}
-            <Button variant="quiet" block onClick={onClose}>
+            <Button variant="secondary" block onClick={onClose}>
               Continue as guest
             </Button>
           </div>

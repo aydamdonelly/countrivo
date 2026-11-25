@@ -4,7 +4,7 @@
   .practice-standing header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
   .practice-standing header > span { color:var(--color-mute); }
   .practice-standing .standing-row { position:relative; }
-  .practice-standing ol { padding:0; margin:0; list-style:none; }
+  .practice-standing .standing-list { margin:0 -8px; }
   .practice-unranked { color:var(--color-mute); margin:12px 0; }
   .practice-standing .btn { display:flex; width:100%; min-height:48px; white-space:normal; text-align:center; line-height:1.4; }
 }

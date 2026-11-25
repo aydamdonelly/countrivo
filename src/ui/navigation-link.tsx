@@ -7,14 +7,16 @@ import "./navigation-link.css";
 interface NavigationLinkProps extends ComponentProps<typeof Link> {
   pendingLabel?: ReactNode;
   documentPending?: boolean;
+  /** Asked at intent time; false skips the prefetch and chunk warm-up (native map games load as a document). */
+  shouldWarm?: () => boolean;
 }
 
 /** Show a click's progress while Next keeps the current page usable. */
-export function NavigationLink({ children, pendingLabel = "Opening…", documentPending, className, ...props }: NavigationLinkProps) {
+export function NavigationLink({ children, pendingLabel = "Opening…", documentPending, shouldWarm, className, ...props }: NavigationLinkProps) {
   const [intentHref, setIntentHref] = useState<string | null>(null);
   const disabled = props["aria-disabled"] === true || props["aria-disabled"] === "true";
   const warm = () => {
-    if (disabled || typeof props.href !== "string" || intentHref === props.href) return;
+    if (disabled || shouldWarm?.() === false || typeof props.href !== "string" || intentHref === props.href) return;
     const target = new URL(props.href, window.location.href);
     if (target.origin !== window.location.origin || target.pathname + target.search === window.location.pathname + window.location.search) return;
     setIntentHref(props.href);

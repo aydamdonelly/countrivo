@@ -29,28 +29,46 @@ export function parLine(over: number, par: number = BLIND_PICK_PAR): string {
   return `Par +${par}. ${over - par} over par.`;
 }
 
-function joinMoves(parts: string[]): string {
-  if (parts.length <= 1) return parts.join("");
-  return `${parts.slice(0, -1).join(", ")} and ${parts[parts.length - 1]}`;
-}
-
 /**
  * R6 for Blind Pick: the head line ("+6 over perfect", the par line), then the player's board
  * laid over the perfect one, slot by slot (your country and rank beside the perfect country and
  * rank, a check where they agree), then the swaps that would have fixed it. No hooks, so the
  * live result (client) and the run page (server) render the same rows.
  */
-export function BoardOverlay({ d }: { d: OverlayData }) {
+export function BoardOverlay({ d, inPanel = false }: { d: OverlayData; inPanel?: boolean }) {
   const par = d.par ?? BLIND_PICK_PAR;
   const swaps = swapCycles(d.placements, d.perfect, d.ranks, d.perfectRanks);
   const name = (c: number) => d.countries[c]?.name ?? "Country";
+  // Per category: your country's rank there minus the best fit's rank there. The two
+  // costliest rows are marked; a negative row is the best fit giving a little back here.
+  const costs = d.stats.map((_, slot) => {
+    const mine = d.placements.indexOf(slot), best = d.perfect.indexOf(slot);
+    return (d.ranks[mine] ?? 0) - (d.perfectRanks[best] ?? 0);
+  });
+  const costly = new Set([...costs.keys()].filter((slot) => costs[slot] > 0).sort((a, b) => costs[b] - costs[a]).slice(0, 2));
+  const gives = costs.some((cost) => cost < 0);
+
+  const swapRows = swaps.map((s) => {
+            const text =
+              s.moves.length === 2
+                ? <>Swap {name(s.moves[0].countryIdx)} and {name(s.moves[1].countryIdx)}</>
+                : <ol className="bp-moves">{s.moves.map((m) => <li key={m.countryIdx}>Move {name(m.countryIdx)} to {statWording(d.stats[m.toSlot] ?? "")}</li>)}</ol>;
+            return (
+              <div key={s.moves.map((m) => m.countryIdx).join("-")} className="bp-swap">
+                <span className="t-body">{text}</span>
+                <span className="t-meta bp-saved">
+                  <b className="t-num num">{s.saved}</b> {s.saved === 1 ? "rank" : "ranks"}
+                </span>
+              </div>
+            );
+          });
 
   return (
     <div className="bp-ov">
-      <div className="rhead">
+      {inPanel ? (d.over === 0 ? null : <p className="t-body bp-ov-lead">The best fit places the same countries so their ranks add up lowest. The two rows that cost you most are marked.</p>) : <div className="rhead">
         <b className="t-h3">{d.over === 0 ? "Perfect board" : `${overLabel(d.over)} over perfect`}</b>
         <span className="rfacts t-body">{parLine(d.over, par)}</span>
-      </div>
+      </div>}
 
       <div className="rrows t-row">
         <div className="rrow bp-ovrow bp-ovhead">
@@ -58,6 +76,7 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
           <span />
           <span className="t-meta">You</span>
           <span className="t-meta">Best fit</span>
+          <span className="t-meta">Cost</span>
         </div>
         {d.stats.map((slug, slot) => {
           const mine = d.placements.indexOf(slot);
@@ -66,7 +85,7 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
           const mineC = d.countries[mine];
           const bestC = d.countries[best];
           return (
-            <div key={slug} className="rrow bp-ovrow">
+            <div key={slug} className="rrow bp-ovrow" data-costly={costly.has(slot) || undefined}>
               <CategoryArt slug={slug} size={32} />
               <span className="nm">{statLabel(slug)}<span className="bp-unit">{statUnit(slug)}</span></span>
               <span className="bp-cell">
@@ -85,29 +104,17 @@ export function BoardOverlay({ d }: { d: OverlayData }) {
                   </>
                 )}
               </span>
+              <b className={`bp-cost t-num num${costs[slot] > 0 ? " is-cost" : ""}`} aria-label={costs[slot] === 0 ? "No cost" : costs[slot] > 0 ? `${costs[slot]} ranks lost` : `${-costs[slot]} ranks better than the best fit`}>{costs[slot] > 0 ? `+${costs[slot]}` : costs[slot] < 0 ? `−${-costs[slot]}` : "0"}</b>
             </div>
           );
         })}
       </div>
+      {gives ? <p className="t-meta text-mute bp-ov-note">A minus row is fine: the best fit can be worse in one category to win more elsewhere.</p> : null}
       <ScoringHelp stats={d.stats} />
 
       {swaps.length > 0 ? (
-        <details className="bp-swaps">
-          <summary className="t-meta bp-swaps-h">Better swaps</summary>
-          {swaps.map((s) => {
-            const text =
-              s.moves.length === 2
-                ? `Swap ${name(s.moves[0].countryIdx)} and ${name(s.moves[1].countryIdx)}`
-                : `Move ${joinMoves(s.moves.map((m) => `${name(m.countryIdx)} to ${statWording(d.stats[m.toSlot] ?? "")}`))}`;
-            return (
-              <div key={s.moves.map((m) => m.countryIdx).join("-")} className="bp-swap">
-                <span className="t-body">{text}</span>
-                <span className="t-meta bp-saved">
-                  <b className="t-num num">{s.saved}</b> {s.saved === 1 ? "rank" : "ranks"}
-                </span>
-              </div>
-            );
-          })}
+        inPanel ? <div className="bp-swaps"><p className="t-meta bp-swaps-title">Better swaps</p>{swapRows}</div> : <details className="bp-swaps">
+          <summary className="t-meta bp-swaps-h">Better swaps</summary>{swapRows}
         </details>
       ) : null}
     </div>

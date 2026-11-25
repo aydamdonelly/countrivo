@@ -29,7 +29,7 @@ export function InviteRow({ username }: { username: string }) {
       <SectionHead title="Your invite link" />
       <div className="invite">
         <span className="url t-meta">countrivo.com/friends/add/{username}</span>
-        <Button variant="text" onClick={() => void copy()}>
+        <Button variant="tertiary" onClick={() => void copy()}>
           Copy
         </Button>
       </div>

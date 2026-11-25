@@ -7,6 +7,8 @@ import { gamePresentation } from "@/content/table";
 import { SiteFeedback } from "@/ui/site-feedback";
 import { GamePlayLink } from "@/ui/game-play-link";
 import { NavigationLink } from "@/ui/navigation-link";
+import { PlayerFlag } from "@/ui/player-flag";
+import { RankMarker } from "@/ui/rank-marker";
 import { LeaderboardEntryForm } from "./leaderboard-entry";
 import "./result-followup.css";
 
@@ -27,9 +29,9 @@ export function ResultFollowup({ slug, mode, score, run, publishedName, onPublis
   return <div className="result-followup">
     {mode === "daily" ? run ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={onPublished} /> : <p className="t-meta" role="status">Saving your result…</p> : <>{run ? <LeaderboardEntryForm run={run} publishedName={publishedName} onPublished={onPublished} /> : <p className="t-meta" role="status">Saving your result…</p>}<section className="practice-standing" aria-label="Daily leaderboard after practice">
       <header><h2 className="t-h3">{dailySlug === slug ? "Today’s leaderboard" : `${daily?.title ?? "Daily"} leaderboard`}</h2><span className="t-meta">Daily</span></header>
-      {board?.available && board.entries.length ? <ol aria-label="Published daily scores">{board.entries.filter(entry => !blockedRows.includes(entry.runId)).map(entry => <li className="standing-row" key={entry.runId}><span className="standing-rank num">{entry.rank}</span><span className="standing-name">{entry.displayName}</span><b className="standing-score num">{entry.scoreDisplay}</b><ReportName runId={entry.runId} name={entry.displayName} onBlocked={() => setBlockedRows(previous => [...previous, entry.runId])}/></li>)}</ol> : <p className="t-meta text-mute">{board?.available === false ? "The daily leaderboard couldn’t be opened." : "Today’s challenge is ready."}</p>}
+      {board?.available && board.entries.length ? <ol className="standing-list" aria-label="Published daily scores">{board.entries.filter(entry => !blockedRows.includes(entry.runId)).map(entry => <li className="standing-row" key={entry.runId}><RankMarker className="standing-rank" rank={entry.rank} /><span className="standing-name"><PlayerFlag iso2={entry.countryCode} className="standing-flag" /><span className="standing-label">{entry.displayName}</span></span><b className="standing-score num">{entry.scoreDisplay}</b><ReportName runId={entry.runId} name={entry.displayName} onBlocked={() => setBlockedRows(previous => [...previous, entry.runId])}/></li>)}</ol> : <p className="t-meta text-mute">{board?.available === false ? "The daily leaderboard couldn’t be opened." : "Today’s challenge is ready."}</p>}
       <p className="practice-unranked t-meta">Your practice score: <b>{score}</b> · unranked</p>
-      <GamePlayLink slug={dailySlug} href={`/games/${dailySlug}/play?mode=daily`} className="btn btn-ink t-cta" pendingLabel="Opening…">Play today’s {daily?.title ?? "game"} to join</GamePlayLink>
+      <GamePlayLink slug={dailySlug} href={`/games/${dailySlug}/play?mode=daily`} className="btn btn-secondary" pendingLabel="Opening">Play today’s {daily?.title ?? "game"} to join</GamePlayLink>
       <NavigationLink href={`/games/${dailySlug}/leaderboard`} className="standing-full t-meta">Full leaderboard<ChevronRightIcon size={16} /></NavigationLink>
     </section></>}
   </div>;

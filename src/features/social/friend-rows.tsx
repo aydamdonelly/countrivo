@@ -79,7 +79,7 @@ export function FriendRequests({ requests }: { requests: readonly RequestItem[] 
             <Button onClick={() => answer(r.friendshipId, true)} disabled={pending}>
               Accept
             </Button>
-            <Button variant="text" onClick={() => answer(r.friendshipId, false)} disabled={pending}>
+            <Button variant="tertiary" onClick={() => answer(r.friendshipId, false)} disabled={pending}>
               Decline
             </Button>
           </span>

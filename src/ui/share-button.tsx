@@ -16,24 +16,25 @@ export interface ShareButtonProps {
   /** Called on every press, before the share sheet or the clipboard. */
   onShare?: () => void;
   className?: string;
-  /** Text by default; ink where sharing is the screen's main action. */
+  /** Secondary by default; primary only where sharing is the screen's main action (the day). */
   variant?: ButtonVariant;
+  block?: boolean;
   /** Where the press happened, for usage events. Defaults to home for the day share. */
   source?: "home" | "result";
 }
 
 /**
- * Share (blueprint 3.29): a text button with the up-right arrow. Native share when the
+ * Share (blueprint 3.29, 25 November 2026): a button led by the share glyph. Native share when the
  * browser has it (silent on abort), else clipboard plus the "Copied" toast.
  * A selectable text sheet remains available when both APIs are unavailable.
  */
-export function ShareButton({ text, challengeUrl, label = "Share", onShare, className, variant = "text", source }: ShareButtonProps) {
+export function ShareButton({ text, challengeUrl, label = "Share result", onShare, className, variant = "secondary", block, source }: ShareButtonProps) {
   const toast = useToast();
   const [fallback, setFallback] = useState(false);
   const [sharing, setSharing] = useState(false);
   const title = useId();
   const shareText = challengeShareText(text, challengeUrl);
-  const shareKind = challengeUrl ? 'challenge' : label === 'Share your day' || label === 'Share my day' ? 'day' : 'result';
+  const shareKind = challengeUrl ? 'challenge' : label === 'Share your day' || label === 'Share my day' || label === 'Share so far' ? 'day' : 'result';
   const recordResult = (outcome: 'native' | 'clipboard' | 'cancelled' | 'manual') => {
     trackShareResult(outcome);
     trackUsage('share_result', { action: shareKind, outcome, source: source ?? (shareKind === 'day' ? 'home' : 'result') });
@@ -65,13 +66,13 @@ export function ShareButton({ text, challengeUrl, label = "Share", onShare, clas
     } finally { setSharing(false); }
   }
   return (
-    <><Button variant={variant} icon="arrow-up-right" onClick={share} className={className} disabled={sharing}>
-      {sharing ? 'Sharing…' : label}
+    <><Button variant={variant} icon="share" block={block} onClick={share} className={className} disabled={sharing} aria-busy={sharing || undefined}>
+      {sharing ? 'Sharing' : label}
     </Button><Sheet open={fallback} onClose={() => setFallback(false)} labelledBy={title}>
       <h2 id={title} className="t-h3">Share your result</h2>
       <p className="t-body text-mute">Select the text and copy it into a message.</p>
       <textarea className="share-fallback" aria-label="Result to share" value={shareText} readOnly rows={7} onFocus={(event) => event.target.select()} />
-      <Button variant="ink" onClick={() => setFallback(false)}>Done</Button>
+      <Button variant="primary" onClick={() => setFallback(false)}>Done</Button>
     </Sheet></>
   );
 }

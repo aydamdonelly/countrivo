@@ -1,21 +1,86 @@
+/* The primary block of a daily result (25 November 2026): progress, the ink next-game card
+   or the day-complete card, and the countdown row. Game pastels appear only on the plates. */
 @layer components {
-  .daily-result-next .daily-count { display: flex; align-items: center; gap: 10px; color: var(--color-mute); }
+  .daily-result-next { display: flex; flex-direction: column; min-width: 0; }
+  .daily-result-next .daily-count { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; color: var(--color-ink); font-size: 14px; line-height: 20px; font-weight: 500; }
   .daily-result-next .daily-dots { display: inline-flex; gap: 4px; }
-  .daily-result-next .daily-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--color-wait); }
+  .daily-result-next .daily-dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--color-wait); }
   .daily-result-next .daily-dots i.done { background: var(--color-ink); }
-  .daily-result-next .day-complete { display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 16px; border-radius: var(--radius-card); background: var(--color-card); }
-  .daily-result-next .day-complete > .btn-text { align-self: center; }
-  .daily-result-next .app-review-link { align-self: center; min-height: 44px; display: inline-flex; align-items: center; color: var(--color-mute); text-decoration: underline; }
-  .daily-result-next .reminder-optin { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; color: var(--color-mute); }
-  .daily-result-next .next-game-link { position: relative; padding: 12px 16px; border: 0; border-radius: var(--radius-card); background: var(--color-ink); color: var(--color-on-ink); }
-  .daily-result-next .next-game-link .t-meta { color: var(--color-on-ink); opacity: 0.75; }
-  @media(prefers-reduced-motion:no-preference) {
-    .daily-result-next .next-game-link { transition:transform 180ms var(--ease-out); }
-    .next-game-link > .ic, .next-game-link > .clay-object { transition:transform 300ms var(--ease-out); }
-    .daily-result-next .next-game-link:active { transform:translateY(1px) scale(0.99); }
-    @media(hover:hover) and (pointer:fine) {
-      .next-game-link:is(:hover,:focus-visible) > .ic { transform:translateX(4px); }
-      .next-game-link:is(:hover,:focus-visible) > .clay-object { transform:rotate(-5deg) scale(1.04); }
-    }
+
+  /* the next-game card: the view's single primary */
+  .next-card { display: grid; grid-template-columns: auto minmax(0, 1fr) 44px; align-items: center; gap: 14px; min-height: 92px; padding: 16px 16px 16px 14px; border-radius: var(--radius-card); background: var(--color-action); color: var(--color-on-action); box-shadow: var(--lift); }
+  .next-plate, .strip-plate, .rc-plate { display: inline-flex; align-items: center; justify-content: center; flex: none; border-radius: 50%; background: var(--game-accent, var(--color-card)); }
+  .next-plate { width: 56px; height: 56px; }
+  .next-plate .clay-object { width: 44px; height: 44px; }
+  .next-copy { display: flex; flex-direction: column; min-width: 0; }
+  .next-copy small { color: var(--color-on-ink-kicker); font-size: 13px; line-height: 18px; }
+  .next-copy b { font-family: var(--font-display); font-weight: 600; font-size: 23px; line-height: 28px; overflow-wrap: anywhere; }
+  .next-copy span { color: var(--color-on-ink-body); font-size: 14px; line-height: 20px; }
+  .next-go { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-paper); color: var(--color-ink); }
+  @media (hover: hover) { .next-card:hover { background: var(--color-action-hover); } }
+  .next-card .navigation-status-mark { display: none; }
+  .next-card:has(> .navigation-status[data-pending]) { outline: none; }
+  .next-card:has(> .navigation-status[data-pending]) .next-copy small { font-size: 0; }
+  .next-card:has(> .navigation-status[data-pending]) .next-copy small::after { content: "Opening"; font-size: 13px; }
+
+  /* the countdown row */
+  .daily-tomorrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; margin-top: 4px; }
+  .daily-tomorrow .cd { font-size: 13px; color: var(--color-mute); }
+  .daily-tomorrow .cd b { color: var(--color-ink); font-weight: 600; }
+  .remind-me { gap: 6px; }
+  .btn.btn-tertiary.remind-me { font-size: 15px; }
+  .remind-on { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--color-mute); }
+  .remind-sheet { display: flex; flex-direction: column; gap: 12px; }
+  .remind-time { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .remind-time input { min-height: var(--ctl-h); padding: 0 14px; border-radius: var(--radius-btn); background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-wait); border: 0; font-size: 16px; }
+
+  /* day complete */
+  .day-done { position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px 20px 8px; border-radius: var(--radius-card); background: var(--color-surface-raised); box-shadow: inset 0 0 0 1px var(--color-line), var(--lift); text-align: center; }
+  .day-done-art { position: relative; width: 104px; height: 104px; margin-bottom: -4px; }
+  .day-done-art .clay-object { position: absolute; inset: 0; width: 104px; height: 104px; }
+  .day-done-art .day-done-rest { visibility: hidden; }
+  .day-done-date { margin-top: 8px; color: var(--color-mute); font-size: 13px; line-height: 18px; }
+  .day-done-title { margin-top: 2px; font-family: var(--font-display); font-weight: 600; font-size: 32px; line-height: 38px; }
+  .day-done-sub { margin-top: 2px; color: var(--color-mute); font-size: 15px; line-height: 22px; }
+  .day-done-streak { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--color-ember); font-size: 15px; line-height: 20px; font-weight: 600; }
+  .day-strip { display: grid; gap: 2px; width: calc(100% + 12px); margin: 20px -6px; padding: 0; list-style: none; }
+  .day-strip a { display: flex; flex-direction: column; align-items: center; min-height: 44px; padding: 2px 0; border-radius: var(--radius-ctl); color: var(--color-ink); }
+  .strip-plate { width: 40px; height: 40px; margin-bottom: 6px; }
+  .strip-plate .clay-object { width: 34px; height: 34px; }
+  .day-strip b { font-family: var(--font-display); font-weight: 600; font-size: 15px; line-height: 18px; white-space: nowrap; }
+  .day-strip small { color: var(--color-mute); font-size: 11px; line-height: 14px; white-space: nowrap; }
+  .day-strip .navigation-status-mark { display: none; }
+  .day-done-share { width: 100%; }
+  .day-done .day-done-back { margin-top: 4px; }
+  .day-done-foot { width: calc(100% + 40px); margin: 12px -20px 0; padding: 4px 20px 0; border-top: 1px solid var(--color-line); }
+  .day-done-foot .daily-tomorrow { margin-top: 0; }
+  .daily-result-next.is-complete .app-review-link { align-self: center; display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; color: var(--color-ink); font-size: 15px; text-decoration: underline; text-decoration-color: var(--color-wait); text-underline-offset: 4px; }
+  @media (max-width: 389px) {
+    .day-strip { width: calc(100% + 28px); margin-inline: -14px; gap: 0; } /* seven 44 px cells fit from 360 */
+    .day-strip b { font-size: 14px; }
+    .day-strip small { font-size: 10px; }
+    .strip-plate { width: 36px; height: 36px; }
+    .strip-plate .clay-object { width: 30px; height: 30px; }
   }
+  @media (max-width: 359px) {
+    .day-done { padding-inline: 14px; }
+    .day-strip b { font-size: 13px; }
+    .strip-plate { width: 32px; height: 32px; }
+    .strip-plate .clay-object { width: 26px; height: 26px; }
+    .day-done-foot { width: calc(100% + 28px); margin-inline: -14px; padding-inline: 14px; }
+    .next-card { gap: 12px; padding-inline: 12px; }
+  }
+  @media (min-width: 1024px) {
+    .day-done { padding: 32px 32px 8px; }
+    .day-done-foot { width: calc(100% + 64px); margin-inline: -32px; padding-inline: 32px; }
+    .day-strip { gap: 8px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    /* One stop-motion swap: the trophy stands at rest, then tips once. */
+    .day-done-art .day-done-rest { animation: day-done-swap 420ms steps(1, end) both; }
+    .next-card { transition: background-color var(--dur-fast); }
+    .next-card .next-go { transition: transform 300ms var(--ease-out); }
+    @media (hover: hover) and (pointer: fine) { .next-card:is(:hover, :focus-visible) .next-go { transform: translateX(3px); } }
+  }
+  @keyframes day-done-swap { 0% { visibility: visible; } 100% { visibility: hidden; } }
 }

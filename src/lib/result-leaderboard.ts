@@ -8,7 +8,7 @@ export function resultLeaderboardWindow(entries: readonly LeaderboardEntry[], ow
   return {
     entries: others.slice(start, start + (truncated ? 2 : 4)).map(entry => ({
       runId: entry.runId, displayName: entry.displayName, scoreDisplay: entry.scoreDisplay,
-      scoreSortValue: entry.scoreSortValue, rank: entry.rankDaily,
+      scoreSortValue: entry.scoreSortValue, rank: entry.rankDaily, countryCode: entry.countryCode ?? null,
     })),
     gapBeforeYou: truncated,
   };

@@ -88,6 +88,36 @@ export function comparisonLine(g: HoLGame, i: number): string {
   return `${r.name}: ${lineValue(g.stat, r.value)}. ${l.name}: ${lineValue(g.stat, l.value)}.`;
 }
 
+function possessive(name: string): string {
+  return /s$/i.test(name) ? `${name}’` : `${name}’s`;
+}
+
+/** The question on screen before a call: `Is Peru’s population higher or lower than Chile’s 19.6 million?` */
+export function questionLine(g: HoLGame, i: number): string {
+  const l = g.chain[i];
+  const r = g.chain[i + 1];
+  return `Is ${possessive(r.name)} ${statMeta(g.stat).noun} higher or lower than ${possessive(l.name)} ${lineValue(g.stat, l.value)}?`;
+}
+
+/** The reveal in one sentence: `You said higher. Peru is lower: 34.4 million against 19.6 million.` */
+export function verdictLine(g: HoLGame, i: number): string {
+  const l = g.chain[i];
+  const r = g.chain[i + 1];
+  const answer = answerAt(g, i);
+  const call = g.calls[i];
+  const values = `${lineValue(g.stat, r.value)} against ${lineValue(g.stat, l.value)}`;
+  return call === answer ? `Right. ${r.name} is ${answer}: ${values}.` : `You said ${call}. ${r.name} is ${answer}: ${values}.`;
+}
+
+/** A recap row: `34.4 million against 19.6 million · you said lower, it was higher`. */
+export function recapLine(g: HoLGame, i: number): string {
+  const l = g.chain[i];
+  const r = g.chain[i + 1];
+  const answer = answerAt(g, i);
+  const call = g.calls[i];
+  return `${lineValue(g.stat, r.value)} against ${lineValue(g.stat, l.value)} · ${call === answer ? `${answer}, as you said` : `you said ${call}, it was ${answer}`}`;
+}
+
 /** `Source: World Bank, 2023`. */
 export function sourceLine(g: HoLGame): string {
   const t = statTable(g.stat);

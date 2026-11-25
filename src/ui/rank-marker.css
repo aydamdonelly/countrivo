@@ -1,9 +1,7 @@
 @layer components {
-  .rank-marker { display:inline-flex; flex-direction:column; align-items:center; justify-content:center; min-width:0; max-width:100%; font:600 14px/20px var(--font-sans); font-variant-numeric:tabular-nums; }
+  /* Leaderboard rank cell: numeral right-aligned in 18 px, medal 26 px after it. No row fills. */
+  .rank-marker { display:inline-grid; grid-template-columns:minmax(18px,auto) 26px; align-items:center; column-gap:4px; min-width:0; color:var(--color-mute); font:400 17px/22px var(--font-display); font-variant-numeric:tabular-nums lining-nums; }
   .rank-marker[data-podium] { color:var(--color-ink); }
-  .rank-marker img { display:block; flex:none; width:28px; height:28px; max-width:100%; object-fit:contain; }
-  .podium-row[data-podium="1"] { --podium-color:var(--color-game-draft); }
-  .podium-row[data-podium="2"] { --podium-color:var(--color-game-geo); }
-  .podium-row[data-podium="3"] { --podium-color:var(--color-game-pin); }
-  .podium-row[data-podium] { background:var(--podium-color); color:var(--color-ink); border-radius:var(--radius-ctl); }
+  .rank-num { grid-column:1; justify-self:end; white-space:nowrap; }
+  .rank-medal { grid-column:2; display:block; width:26px; height:26px; object-fit:contain; }
 }

@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { commitBlindSession, startBlindPractice } from "@/app/actions/blind-session";
-import { computeResult, overLabel, placementMark } from "@/lib/game-logic/blind-pick/scoring";
+import { computeResult, overLabel, placementMark, swapCycles } from "@/lib/game-logic/blind-pick/scoring";
 import { canUndo, isComplete } from "@/lib/game-logic/blind-pick/display";
 import { buildBlindPickShareText } from "@/lib/share";
 import { trackCompletedRun, trackPlay } from "@/lib/play-events";
@@ -10,10 +10,8 @@ import { writeDone } from "@/features/play/persist";
 import { NavigationLink } from "@/ui/navigation-link";
 import { Button } from "@/ui/button";
 import { Progress } from "@/ui/progress";
-import { ResultPanel } from "@/ui/result-panel";
-import { ShareButton } from "@/ui/share-button";
+import { ResultPanel, runRank } from "@/ui/result-panel";
 import { ChallengeResult } from "@/ui/challenge-result";
-import { DailyNext } from "@/ui/daily-next";
 import { dailyProgress } from '@/features/play/daily-progress';
 import { DailyHabit } from "@/ui/daily-habit";
 import { ResultFollowup, ResultFeedback } from "@/features/play/result-followup";
@@ -94,16 +92,18 @@ function BlindSession(p: HostProps & { initialView: BlindPickState; initialToken
   }
 
   const result = finished ? computeResult(state.g) : null;
+  const fixes = result ? swapCycles(result.placements, result.perfect, result.ranks, result.perfectRanks).length : 0;
   const shareText = result ? buildBlindPickShareText({over:result.over,marks:result.placements.map((slot,country)=>placementMark(slot,result.ranks[country],result.perfect[country],result.perfectRanks[country])),practice:p.mode==='practice'},p.dateKey) : '';
   return <div className="play-stack blind-remote" aria-busy={busy} data-phase={finished?'settled':'live'}>
     <ChallengeResult challenge={challenge} run={run}/>
     {finished && result ? <div ref={resultRef} tabIndex={-1} className="bp-result" aria-label="Blind Pick result">
-      <ResultPanel feedback={<ResultFeedback slug="blind-pick"/>} next={p.mode === "daily" ? <DailyNext {...dailyProgress(p, p.slug, run?.scoreDisplay ?? overLabel(result.over))} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : undefined} mode={p.mode} game="Blind Pick" score={overLabel(result.over)} primaryAction={<ResultFollowup slug="blind-pick" mode={p.mode} score={overLabel(result.over)} run={run} publishedName={name} onPublished={setRun}/>} actions={<>{p.mode==='practice'?<Button variant="ink" onClick={()=>void practice()} disabled={busy} pending={busy} pendingLabel="Opening…">One more</Button>:null}<ShareButton text={shareText} challengeUrl={run?.challengeUrl} onShare={()=>trackPlay('share','blind-pick',p.mode)}/></>}>
-        <Result state={state} mode={p.mode} run={run}/>
-        {p.mode==='daily'?<><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity}/></details></>:null}
+      <ResultPanel feedback={<ResultFeedback slug="blind-pick"/>} slug="blind-pick" dateKey={p.mode==='daily'?p.dateKey:undefined} daily={p.mode === "daily" ? {...dailyProgress(p, p.slug, run?.scoreDisplay ?? overLabel(result.over)), resetAt: p.resetAt, serverNow: clockOrigin.serverNow, clientStartedAt: clockOrigin.clientNow} : undefined} mode={p.mode} game="Blind Pick" score={overLabel(result.over)} rank={runRank(run)} primaryAction={<ResultFollowup slug="blind-pick" mode={p.mode} score={overLabel(result.over)} run={run} publishedName={name} onPublished={setRun}/>} share={{text:shareText,challengeUrl:run?.challengeUrl,onShare:()=>trackPlay('share','blind-pick',p.mode)}} actions={p.mode==='practice'?<Button onClick={()=>void practice()} disabled={busy} pending={busy} pendingLabel="Opening" block>One more</Button>:undefined}
+        outcome={fixes===0?'Perfect board':`${fixes} ${fixes===1?'fix':'fixes'} from the best fit`}
+        review={<details className="bp-answers" open><summary>Your board and the best fit<span className="disclosure-count">{result.over===0?'all matched':`${result.over} ranks apart`}</span></summary><Result state={state} mode={p.mode} run={run} inPanel/></details>}>
+        {p.mode==='daily'?<details className="result-week"><summary>Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} reminder={false}/></details>:null}
       </ResultPanel>
     </div> : <><Progress className="bp-progress" done={state.g.placements.length} total={count} label="placed" value={`${state.g.placements.length} of ${count}`}/><Board state={state} dispatch={action=>void send(action)} busy={busy} pendingSlot={pendingAction?.t==='place'?pendingAction.s:null} pendingUndo={pendingAction?.t==='undo'} feedback={moveFeedback} mode={p.mode} viewer={p.viewer} seed={0}/></>}
     <span className="sr-only" role="status">{busy ? pendingAction?.t==='seen'?'Saving your result.':'Confirming your move.':''}</span>
-    {error ? <div className="bp-error"><p className="t-body" role="alert">{error}</p>{failedAction?<Button variant="quiet" onClick={()=>void send(failedAction)}>Try again</Button>:null}</div>:null}
+    {error ? <div className="bp-error"><p className="t-body" role="alert">{error}</p>{failedAction?<Button variant="secondary" onClick={()=>void send(failedAction)}>Try again</Button>:null}</div>:null}
   </div>;
 }

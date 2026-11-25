@@ -10,32 +10,38 @@
   .qr-header small { margin-left: auto; color: var(--color-mute); flex: none; }
   .qr-clay-reveal { animation: qr-plop 480ms var(--ease-out); }
   .quick-remote > .prog { max-width: 720px; width: 100%; margin: 0 auto; }
-  .qr-higher { display: flex; flex-direction: column; gap: 20px; padding-bottom: 96px; }
+  .play-root[data-game="higher-or-lower"] .quick-remote > .prog { max-width: none; }
+  @media (min-width: 1024px) { .play-root:is([data-game="flag-quiz"], [data-game="stat-guesser"]) .qr-header { width: 100%; max-width: 720px; margin-inline: auto; } } /* the header lines up with the 720 board (the result widens it again, play.css) */ /* the pips and score span the two country cards */
+  .qr-higher { display: flex; flex-direction: column; gap: 20px; }
+  /* the question sits between the cards and the two calls, so the calls have a subject */
+  .qr-question { text-align: center; text-wrap: balance; overflow-wrap: anywhere; }
+  .qr-verdict-line { text-align: center; font-weight: 600; text-wrap: balance; overflow-wrap: anywhere; }
+  .qr-verdict-line.is-wrong { color: var(--color-ember); }
+  .qr-direction { display: inline-flex; vertical-align: middle; margin-left: 6px; color: var(--color-mute); }
   .qr-stage-title { display: flex; justify-content: center; align-items: center; gap: 10px; }
   .qr-multiplier { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; min-height: 26px; padding: 2px 8px; border-radius: var(--radius-chip); background: var(--color-card); font-weight: 600; }
   .qr-info { color: var(--color-mute); }
-  .qr-info summary { display: flex; align-items: center; gap: 6px; width: fit-content; min-height: 44px; cursor: pointer; list-style: none; }
-  .qr-info summary::before { content: "+"; font-size: 18px; }
-  .qr-info[open] summary::before { content: "−"; }
+  .qr-info summary { display: flex; align-items: center; gap: 6px; width: fit-content; min-width: 44px; min-height: 44px; cursor: pointer; list-style: none; }
   .qr-info summary:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
   .qr-info p { margin: 4px 0 8px; }
   .qr-stat { font-weight: 500; }
   .qr-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .qr-country { display: flex; flex-direction: column; gap: 4px; min-height: 208px; padding: 16px; background: var(--color-card); border-radius: var(--radius-card); }
+  .qr-country { display: flex; flex-direction: column; gap: 4px; min-height: 176px; padding: 16px; background: var(--color-card); border-radius: var(--radius-card); }
   .qr-country > div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   .qr-country > div > .t-h3 { min-width: 0; }
   .qr-verdict { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; flex: none; }
   .qr-value { font-family: var(--font-display); font-size: clamp(32px, 7vw, 48px); line-height: 1.1; margin-top: auto; padding-top: 12px; overflow-wrap: anywhere; }
   .qr-country > .t-meta { color: var(--color-mute); }
   .qr-country-reveal { animation: qr-stamp 420ms var(--ease-out); }
-  .qr-call-controls { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; display: flex; gap: 8px; padding: 12px var(--gutter) max(20px, env(safe-area-inset-bottom)); background: var(--color-paper); }
+  .qr-call-controls { display: flex; gap: 8px; }
   .qr-call-controls > * { width: 100%; max-width: 640px; margin: 0 auto; min-height: 56px; }
-  .qr-call { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; border-radius: var(--radius-ctl); background: var(--color-card); color: var(--color-ink); font-size: 16px; font-weight: 600; }
+  .qr-call { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 56px; border-radius: var(--radius-btn); background: var(--color-surface); box-shadow: inset 0 0 0 1px var(--color-wait), var(--lift); color: var(--color-ink); font-size: 17px; font-weight: 600; }
+  .qr-call:enabled:active { background: var(--color-line); }
   .qr-call > span { display: inline-flex; }
   .qr-call > .up { transform: rotate(-45deg); }
   .qr-call > .down { transform: rotate(135deg); }
-  .qr-call:disabled { color: var(--color-mute); }
-  .qr-call[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); }
+  .qr-call:disabled { color: var(--color-mute); box-shadow: inset 0 0 0 1px var(--color-line); }
+  .qr-call[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); box-shadow: none; }
   .qr-flag { max-width: 720px; width: 100%; margin: 0 auto; }
   .qr-flag .fq-opt { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .qr-flag .fq-opt:disabled { cursor: default; opacity: 1; }
@@ -50,6 +56,11 @@
   .qr-ref-label .flag { max-width: 16px; max-height: 12px; flex: none; }
   .qr-stat-game .sg-knob:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
   .qr-history { margin-top: 24px; text-align: left; }
+  .a-review > .qr-history { margin-top: 0; }
+  .qr-history-mark { display: inline-flex; color: var(--color-ink); }
+  .qr-history-row[data-tone="near"] .qr-history-mark { color: var(--color-mute); }
+  .qr-history-row[data-tone="wrong"] .qr-history-mark { color: var(--color-ember); }
+  .qr-history-double { display: inline-flex; align-items: center; margin-left: 8px; padding: 0 6px; border-radius: var(--radius-chip); background: var(--color-card); color: var(--color-ink); font-weight: 600; vertical-align: 2px; }
   .qr-history summary { cursor: pointer; min-height: 44px; font-weight: 500; }
   .qr-history-row { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 10px; align-items: center; border-top: 1px solid var(--color-line); padding: 12px 0; }
   .qr-history-row > span:nth-child(2) { display: flex; flex-direction: column; gap: 4px; }
@@ -60,10 +71,8 @@
   .qr-next small { color: var(--color-mute); }
   .qr-play { background: var(--color-ink); color: var(--color-on-ink); padding: 10px 16px; border-radius: var(--radius-ctl); }
   .qr-error { margin-top: 12px; }
-  @media (hover: hover) { .qr-call:enabled:hover { background: var(--color-line); } }
-  @media (min-width: 1024px) { .qr-header { min-height: 64px; } .qr-pair { gap: 40px; } .qr-country { min-height: 220px; padding: 24px; } .qr-value { font-size: 64px; } .qr-higher { padding-bottom: 0; } .qr-call-controls { position: static; width: calc(50% - 20px); margin-left: auto; padding: 0; } .qr-stat-game .t-big { font-size: 56px; } }
-  /* A fixed bottom bar covers the comparison values on short landscape screens. */
-  @media (max-width: 1023px) and (max-height: 500px) { .qr-higher { padding-bottom: 0; } .qr-call-controls { position: static; padding: 0; } }
+  @media (hover: hover) { .qr-call:enabled:hover { background: var(--color-surface-raised); box-shadow: inset 0 0 0 1px var(--color-faint), var(--lift); } .qr-call:enabled:active { background: var(--color-line); } }
+  @media (min-width: 1024px) { .qr-header { min-height: 64px; } .qr-pair { gap: 40px; } .qr-country { min-height: 220px; padding: 24px; } .qr-value { font-size: 64px; } .qr-call-controls { width: 100%; max-width: 640px; margin-inline: auto; } .qr-stat-game .t-big { font-size: 56px; } }
   @media (max-width: 359px) { .qr-header { gap: 8px; } .qr-header > img { width: 32px; height: 32px; } .qr-header h1 { font-size: 18px; } .qr-country { padding: 12px; } .qr-country > div > .t-h3 { font-size: 18px; } .qr-value { font-size: 30px; } .qr-stat-game .t-big { font-size: 36px; } .qr-ref-label { font-size: 11px; } }
   @keyframes qr-plop { 0% { transform: scale(1.05, 0.86); } 32% { transform: scale(0.94, 1.08); } 68% { transform: scale(1.03, 0.98); } 100% { transform: none; } }
   @keyframes qr-stamp {

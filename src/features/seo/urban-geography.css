@@ -24,9 +24,9 @@
   .urban-source-content { display: grid; gap: 12px; line-height: 1.6; padding-bottom: 16px; }
   .urban-source-content a, .urban-value a { text-decoration: underline; text-underline-offset: 3px; }
   .urban-links { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 24px; color: var(--color-mute); }
-  .urban-links > a { display: inline-flex; align-items: center; min-height: 44px; }
-  .practice-topics { max-width: 720px; margin: 32px auto 0; }
-  .practice-topics > .row { margin-top: 12px; }
+  .urban-links > a { display: inline-flex; align-items: center; min-height: 44px; color: var(--color-ink); text-decoration: underline; text-decoration-color: var(--color-wait); text-underline-offset: 4px; }
+  .practice-topics { margin: 32px 0 0; }
+
   @media (max-width: 399px) {
     .urban-comparison { padding: 16px; }
     .urban-pair > div { flex-direction: column; align-items: flex-start; }

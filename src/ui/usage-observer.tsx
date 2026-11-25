@@ -38,13 +38,13 @@ export function UsageObserver() {
         return;
       }
       if (element.closest('.site-feedback-dialog,.site-feedback')) return;
-      if (element.matches('.name-management > summary')) {
-        trackUsage('entry_manage', { source, outcome: element.parentElement?.hasAttribute('open') ? 'closed' : 'opened' });
+      if (element.matches('.join-flag')) {
+        trackUsage('disclosure', { source, action: 'country_flag', outcome: 'opened' });
         return;
       }
       // Match known controls locally; no DOM text or player-entered value is sent.
       const label = (element.textContent ?? '').trim();
-      const entries: Record<string, UsageAction> = { 'Save name': 'save_name', 'Change name': 'change_name', 'Remove name': 'restore_guest', 'Keep it': 'cancel' };
+      const entries: Record<string, UsageAction> = { 'Save': 'save_name', 'Save name': 'save_name', 'Change': 'change_name', 'Change name': 'change_name', 'Remove name': 'restore_guest', 'Keep it': 'cancel' };
       if (entries[label] && element.closest('.leaderboard-entry,.result-followup')) {
         trackUsage('entry_action', { source, action: entries[label] }); return;
       }

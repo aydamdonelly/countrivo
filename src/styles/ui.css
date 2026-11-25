@@ -57,7 +57,7 @@
   .anc .res > span { color: var(--color-on-ink-kicker); line-height: 1.5; }
   .anc .res em { color: var(--color-on-ink); font-weight: 600; }
   .anc .note { margin-top: 12px; color: var(--color-on-ink-kicker); }
-  .anc .note a, .rp .note a { color: var(--color-on-ink); text-decoration: underline; text-underline-offset: 3px; }
+  .anc .note a { color: var(--color-on-ink); text-decoration: underline; text-underline-offset: 3px; }
   .anc .map { margin-top: 12px; width: 100%; height: 120px; }
   .anc.prac { background: var(--color-card); color: var(--color-ink); }
   .anc.prac .k, .anc.prac .how, .anc.prac .note { color: var(--color-mute); }
@@ -75,22 +75,35 @@
   .on-ink .chip { background: var(--color-ink-2); color: var(--color-on-ink-chip); }
   button.chip { min-height: 44px; display: inline-flex; align-items: center; }
 
-  /* ── button ──────────────────────────────────────────────────────────── */
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 11px 16px; border-radius: var(--radius-ctl); cursor: pointer; white-space: nowrap; transition: background-color var(--dur-fast); }
-  .btn-shoot { background: var(--color-paper); color: var(--color-ink); }
-  .btn-ink { background: var(--color-ink); color: var(--color-paper); }
-  .btn-quiet { background: var(--color-card); color: var(--color-ink); font-weight: 500; }
-  .btn-text { background: none; color: var(--color-ember); padding: 11px 0; }
+  /* ── button (25 November 2026: primary / secondary / tertiary / on-ink, plus icon) ── */
+  /* Ink is the single primary action of a view; secondary is paper with a wait ring;
+     tertiary is an underlined ink text link. Ember and game pastels are never buttons. */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 0 18px; border-radius: var(--radius-btn); cursor: pointer; white-space: nowrap; text-align: center; transition: background-color var(--dur-fast), box-shadow var(--dur-fast), transform var(--dur-fast); }
+  .btn > svg { flex: none; }
+  .btn.btn-primary { min-height: var(--ctl-h-primary); padding: 0 22px; background: var(--color-action); color: var(--color-on-action); font-size: 17px; line-height: 20px; font-weight: 600; }
+  .btn.btn-secondary { min-height: var(--ctl-h); background: var(--color-surface); color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-wait); font-size: 16px; line-height: 20px; font-weight: 600; }
+  .btn.btn-tertiary { min-width: 0; padding: 0; background: none; color: var(--color-ink); font-size: 15px; line-height: 20px; font-weight: 500; text-decoration: underline; text-decoration-thickness: 1px; text-decoration-color: var(--color-wait); text-underline-offset: 4px; border-radius: 2px; }
+  .btn.btn-on-ink { min-height: var(--ctl-h); background: var(--color-paper); color: var(--color-ink); font-size: 16px; line-height: 20px; font-weight: 600; }
+  .btn.btn-icon { width: 44px; height: 44px; min-height: 44px; padding: 0; border-radius: var(--radius-ctl); color: var(--color-faint); background: none; }
   @media (hover: hover) {
-    .btn-shoot:hover { background: var(--color-card); }
-    .btn-ink:hover { background: var(--color-ink-2); }
-    .btn-quiet:hover { background: var(--color-line); }
+    .btn-primary:enabled:hover, a.btn-primary:hover { background: var(--color-action-hover); }
+    .btn-secondary:enabled:hover, a.btn-secondary:hover { background: var(--color-surface-raised); box-shadow: inset 0 0 0 1px var(--color-faint); }
+    .btn-tertiary:enabled:hover, a.btn-tertiary:hover { text-decoration-color: var(--color-ink); }
+    .btn-on-ink:enabled:hover, a.btn-on-ink:hover { background: var(--color-card); }
+    .btn-icon:enabled:hover { color: var(--color-ink); background: var(--color-card); }
   }
-  .btn:disabled, .btn[aria-disabled="true"] { cursor: default; }
-  .btn-shoot:disabled, .btn-ink:disabled, .btn-quiet:disabled { background: var(--color-wait); color: var(--color-mute); }
-  .btn-text:disabled { color: var(--color-down); }
+  .btn-primary:enabled:active, a.btn-primary:active { background: var(--color-action-hover); transform: translateY(1px); }
+  .btn-secondary:enabled:active, a.btn-secondary:active { background: var(--color-line); transform: translateY(1px); }
+  .btn-tertiary:enabled:active, a.btn-tertiary:active { color: var(--color-mute); }
+  .btn-on-ink:enabled:active, a.btn-on-ink:active { background: var(--color-line); }
+  .btn-icon:enabled:active { color: var(--color-ink); background: var(--color-line); }
+  .btn:disabled, .btn[aria-disabled="true"] { cursor: default; transform: none; }
+  .btn-primary:disabled, .btn-primary[aria-disabled="true"], .btn-secondary:disabled, .btn-secondary[aria-disabled="true"], .btn-on-ink:disabled { background: var(--color-line); color: var(--color-down); box-shadow: none; }
+  .btn-tertiary:disabled, .btn-tertiary[aria-disabled="true"] { color: var(--color-down); text-decoration-color: var(--color-line); }
+  .btn-icon:disabled { color: var(--color-wait); background: none; }
   .btn[aria-busy="true"] { pointer-events: none; }
   .btn-block { display: flex; width: 100%; }
+  @media (prefers-reduced-motion: reduce) { .btn, .btn:active { transition: none; transform: none; } }
 
   /* ── flag, crest, mark ───────────────────────────────────────────────── */
   .flag { display:inline-block; flex:none; position:relative; }
@@ -137,6 +150,7 @@
 
   /* ── game rows and lists ─────────────────────────────────────────────── */
   .ls { margin-bottom: var(--stack); }
+  .ls + .ls { margin-top: 32px; }
   .ls .row { display: flex; align-items: center; gap: 12px; padding: var(--list-y) 0; border-top: 1px solid var(--color-line); color: var(--color-ink); }
   .ls .row .lead { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 42px; }
   .ls .row .body { flex: 1; min-width: 0; }
@@ -285,17 +299,7 @@
   @keyframes num-pop { from { transform: scale(0.88); } to { transform: scale(1); } }
 
   /* ── result panel, join row ──────────────────────────────────────────── */
-  .rp { background: var(--color-ink); color: var(--color-on-ink); border-radius: var(--radius-card); padding: 20px; }
-  .rp .k { display: flex; justify-content: space-between; gap: 12px; color: var(--color-on-ink-kicker); }
-  .rp .score { display: block; margin-top: 10px; }
-  .rp .ranks { margin-top: 8px; color: var(--color-on-ink-kicker); line-height: 1.5; }
-  .rp .ranks b { color: var(--color-on-ink); font-weight: 600; }
-  .rp .note { margin-top: 12px; color: var(--color-on-ink-kicker); }
-  .rp .next { margin-top: 4px; color: var(--color-on-ink-kicker); }
-  .rp .pb-line { margin-top: 8px; color: var(--color-on-ink); font-weight: 600; }
   .rp-fail { margin-top: 8px; color: var(--color-ember); }
-  .rp-actions { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
-  .rp-rows { margin-top: 16px; }
   .join { background: var(--color-card); border-radius: var(--radius-card); padding: 16px; }
   .join h3 { font-weight: 600; }
   .join .sub { color: var(--color-mute); margin-top: 2px; }
@@ -411,8 +415,32 @@
   .qa details:first-child { border-top: 0; }
   .qa summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; padding: 12px 0; list-style: none; cursor: pointer; font-weight: 500; color: var(--color-ink); }
   .qa summary::-webkit-details-marker { display: none; }
-  .qa summary .chev { color: var(--color-faint); transition: transform 160ms; flex: none; }
-  .qa details[open] summary .chev { transform: rotate(90deg); }
+  .qa summary .chev { color: var(--color-mute); flex: none; }
+  .qa details[open] summary .chev { transform: rotate(180deg); }
+
+  /* ── disclosure (25 November 2026): one marker everywhere, a chevron-down that turns over when
+     open. Right chevrons are kept for real navigation. ─────────────────────────────────────── */
+  :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more) > summary { display: flex; align-items: center; gap: 8px; min-height: 52px; cursor: pointer; list-style: none; color: var(--color-ink); font-size: 16px; line-height: 22px; font-weight: 500; }
+  :is(.info-disclosure, .dossier-method) > summary { min-height: 44px; font-size: 14px; line-height: 20px; }
+  .site-foot-more > summary { min-height: 44px; font-size: inherit; font-weight: inherit; }
+  :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more) > summary::-webkit-details-marker { display: none; }
+  :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more) > summary::marker { content: ""; }
+  :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more) > summary::after { content: ""; flex: none; width: 20px; height: 20px; margin-left: auto; background: var(--color-mute); mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 20px no-repeat; }
+  :is(.info-disclosure, .dossier-method, .site-foot-more) > summary::after { margin-left: 0; width: 18px; height: 18px; mask-size: 18px; }
+  :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more)[open] > summary::after { transform: rotate(180deg); }
+  /* In-game "more" toggles (source, map controls, distance and direction, other people, better
+     swaps): the same chevron, small and quiet, after the label instead of a plus sign. */
+  :is(.qr-info details, .pp-detail, .gw-source, .dr-passed-pool) > summary, .bp-swaps-h { list-style: none; }
+  :is(.qr-info details, .pp-detail, .gw-source, .dr-passed-pool) > summary::-webkit-details-marker, .bp-swaps-h::-webkit-details-marker { display: none; }
+  :is(.qr-info details, .pp-detail, .gw-source, .dr-passed-pool) > summary::marker, .bp-swaps-h::marker { content: ""; }
+  .dr-passed-pool > summary { display: flex; align-items: center; gap: 6px; width: fit-content; }
+  :is(.qr-info details, .pp-detail, .gw-source, .dr-passed-pool) > summary::after, .bp-swaps-h::after { content: ""; flex: none; width: 16px; height: 16px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px no-repeat; }
+  :is(.qr-info details, .pp-detail, .gw-source, .dr-passed-pool)[open] > summary::after, .bp-swaps[open] .bp-swaps-h::after { transform: rotate(180deg); }
+  .disclose { border-top: 1px solid var(--color-line); }
+  .disclose > :not(summary) { margin-bottom: 20px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .qa summary .chev, :is(.disclose, .info-disclosure, .lb-demo, .dossier-method, .site-foot-more) > summary::after { transition: transform var(--dur-base) var(--ease-out); }
+  }
   .qa details .a { padding-bottom: 14px; margin-top: 0; }
   /* A fact row is a comparison row, so the value line, the label and the third line sit on ONE
      shared set of rows across every tile, whatever the copy does (the law's misaligned-parallel-

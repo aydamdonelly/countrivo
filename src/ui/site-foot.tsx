@@ -4,7 +4,7 @@ import { SiteFeedback } from './site-feedback';
 import './site-foot.css';
 export function SiteFoot({ className, feedback = true }: { className?: string; feedback?: boolean }) {
   return <footer className={cn('table-foot', 'site-foot-compact', className)}>
-    {feedback ? <SiteFeedback context="site" /> : null}
+    {feedback ? <SiteFeedback context="site" compact /> : null}
     <nav className="site-foot-links" aria-label="Footer">
       <Link href="/practice">Practice</Link><Link href="/archive">Archive</Link><Link href="/countries">Countries</Link><Link href="/feedback">Feedback</Link>
       <details className="site-foot-more"><summary>More</summary><div><Link href="/categories">Stats</Link><Link href="/lists">Lists</Link><Link href="/sources">Sources</Link><Link href="/about">About</Link><Link href="/credits">Credits</Link><Link href="/terms">Terms</Link><Link href="/support">Support</Link></div></details>

@@ -32,13 +32,14 @@ import { LockIcon } from "./lock";
 import { PinIcon } from "./pin";
 import { TimerIcon } from "./timer";
 import { HashIcon } from "./hash";
+import { MoreIcon } from "./more";
 
 export type { GlyphProps, IconColor } from "./glyph";
 export {
   HomeIcon, TrophyIcon, UsersIcon, UserIcon, GlobeIcon, ClockIcon, CrownIcon, BoltIcon, PlayIcon, TargetIcon,
   MedalIcon, ChevronRightIcon, ChevronLeftIcon, ChevronDownIcon, ArrowUpIcon, ArrowDownIcon, ArrowUpRightIcon,
   CheckIcon, CrossIcon, UndoIcon, SearchIcon, CopyIcon, PlusIcon, MinusIcon, CloseIcon, SoundIcon, SoundOffIcon,
-  LockIcon, PinIcon, TimerIcon, HashIcon,
+  LockIcon, PinIcon, TimerIcon, HashIcon, MoreIcon,
 };
 
 /** The flame is the only filled icon; it is always ember with a paper core, so colour props are ignored. */

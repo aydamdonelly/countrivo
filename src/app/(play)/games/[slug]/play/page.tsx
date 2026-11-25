@@ -11,7 +11,6 @@ import { prepareGameSession } from "@/server/game-sessions";
 import { getClock } from "@/server/clock";
 import { getEdition } from "@/server/edition";
 import { readProgress, readDone } from "@/server/progress";
-import { Button } from "@/ui/button";
 import { NextDailies } from "@/ui/next-dailies";
 import { ResultPanel } from "@/ui/result-panel";
 import { GUEST_VIEWER, type Mode } from "@/ui/types";
@@ -117,12 +116,10 @@ export default async function PlayPage({ params, searchParams }: Props) {
     const done = new Set([...shotToday, slug]);
     const rows = dailies.filter((d) => !done.has(d.slug)).map((d) => ({ slug: d.slug, title: d.title, meta: nextDailyMeta(metas[d.slug]) }));
     return <PlayFrame slug={slug} title={game.title} mode="daily">
-      <ResultPanel mode="lockout" game={game.title} score={run?.scoreDisplay ?? oldDone ?? "Finished"}
+      <ResultPanel mode="lockout" game={game.title} slug={slug} dateKey={dateKey} score={run?.scoreDisplay ?? oldDone ?? "Finished"}
         ranks={run?.rankDaily ? {globalRank:run.rankDaily,globalShots:summary.playerCount,friendRank:null,friendCount:0} : undefined}
         primaryAction={run ? <LeaderboardEntryForm run={run} publishedName={saved?.display_name} /> : undefined}
-        practiceHref={`/games/${slug}/play?mode=practice`} clock={{ resetAt: clock.resetAt, serverNow: clock.now }}
-        actions={<><Button variant="ink" href={`/games/${slug}/leaderboard`}>Today’s leaderboard</Button><Button variant="text" href={`/games/${slug}/play?mode=practice`}>Practice another board</Button></>}>
-      </ResultPanel>
+        practiceHref={`/games/${slug}/play?mode=practice`} clock={{ resetAt: clock.resetAt, serverNow: clock.now }} />
       <NextDailies rows={rows} shot={done.size} total={dailies.length} />
     </PlayFrame>;
   }

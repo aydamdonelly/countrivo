@@ -120,7 +120,7 @@ export function ResetPasswordForm() {
           onChange={(e) => setPassword(e.target.value)}
           hint="At least 8 characters. Anything goes."
         />
-        <Button variant="text" className="show" tabIndex={-1} aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow((s) => !s)}>
+        <Button variant="tertiary" className="show" tabIndex={-1} aria-label={show ? "Hide password" : "Show password"} onClick={() => setShow((s) => !s)}>
           {show ? "Hide" : "Show"}
         </Button>
       </div>

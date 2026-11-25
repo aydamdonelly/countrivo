@@ -1,6 +1,6 @@
 "use client";
 
-import { DailyNext } from '@/ui/daily-next';
+import { runRank } from '@/ui/result-panel';
 import { dailyProgress } from '@/features/play/daily-progress';
 import { ChallengeResult } from "@/ui/challenge-result";
 import { DailyHabit } from '@/ui/daily-habit';
@@ -29,7 +29,6 @@ import { DRAFT_GUIDE } from "./presentation";
 import "./draft.css";
 
 const Result = dynamic(() => import("./result").then(module => module.Result));
-const DraftResultDetails = dynamic(() => import("./result").then(module => module.DraftResultDetails));
 
 const EMPTY_SELECTION: DraftSelection = { country: null, person: null, seat: null, detail: null, revealSeat: null };
 
@@ -160,13 +159,13 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
   const shareText = buildCountryDraftShareText({ score: state.score, band: bandOf(state.score).word, fits: state.seats.flatMap((seat) => seat ? [seat.fit] : []), rank: run?.rankDaily ?? null, practice: p.mode === "practice" }, p.dateKey);
   const notice = <SessionNotice busy={busy} error={error} pendingLabel={pendingAction?.t === "next" ? "Opening the next country…" : pendingAction?.t === "open" ? "Opening your country…" : "Confirming your choice…"} onRetry={failedAction ? () => void commit(failedAction) : undefined} />;
   return <div className="dr-game" ref={playRef}>
-    <header className="dr-play-header"><Link href={p.mode === "daily" ? "/" : "/practice"} prefetch pendingLabel="Opening your games…" aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
+    <header className={cn("dr-play-header", state.phase === "done" && "is-done")}><Link href={p.mode === "daily" ? "/" : "/practice"} prefetch pendingLabel="Opening your games…" aria-label="Back to games" className="dr-back"><ChevronLeftIcon size={24} /></Link>
       <span className={cn("dr-header-clay", state.phase === "done" && "finished")} aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- fixed-size clay object */}
         <img src={`/clay/cl-01/${state.phase === 'done' ? 'coins' : 'rest'}.128.webp`} width={32} height={32} alt="" />
       </span>
-      <h1 className="t-h3">Country Draft</h1><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
-      <b className="dr-header-score t-score"><span className="num">{state.score}</span> <small>/ 195</small></b>
+      <h1 className="t-h3">Country Draft</h1>{state.phase !== "done" ? <><span className="dr-pips" aria-label={`${filled} of 5 seats filled`}>{[0, 1, 2, 3, 4].map((index) => <i key={index} className={index < filled ? "filled" : undefined} />)}</span>
+      <b className="dr-header-score t-score"><span className="num">{state.score}</span> <small>/ 195</small></b></> : null}
       <details className="dr-help-details" onKeyDown={(event) => { if (event.key === "Escape" && event.currentTarget.open) { event.currentTarget.open = false; event.currentTarget.querySelector("summary")?.focus(); } }}><summary className="dr-help" aria-label="How to play Country Draft"><span>?</span></summary><div className="dr-help-panel" role="group" aria-labelledby="draft-help-title">
         <button type="button" className="dr-close dr-help-close" aria-label="Close how to play" onClick={(event) => { const details = event.currentTarget.closest("details"); if (details) { details.open = false; details.querySelector("summary")?.focus(); } }}>×</button>
         <h2 className="t-h3" id="draft-help-title">How to play</h2>
@@ -184,11 +183,10 @@ function DraftSession(p: HostProps & { initialView: DraftView; initialToken: str
     {p.mode === "practice" ? <p className="dr-mode-label t-meta">Practice</p> : null}
     <ChallengeResult challenge={challenge} run={run} />
     {state.phase !== "done" ? <Board state={stage} selection={selection} busy={busy && !preview} commitBusy={busy} animate={animate} guide={guide} notice={notice} onCountry={onCountry} onOpenCountry={onOpenCountry} onOpen={onOpen} onPerson={onPerson} onCommit={onCommit} onDrop={onDrop} onNext={onNext} onDetail={onDetail} onReveal={onReveal} /> : <div className="dr-final" ref={resultRef} tabIndex={-1} role="region" aria-label="Country Draft result">
-      <Result state={state} feedback={<ResultFeedback slug="country-draft" />} next={p.mode === "daily" ? <DailyNext {...dailyProgress(p, "country-draft", run?.scoreDisplay ?? String(state.score))} resetAt={p.resetAt} serverNow={clockOrigin.serverNow} clientStartedAt={clockOrigin.clientNow} /> : undefined} primaryAction={<ResultFollowup slug="country-draft" mode={p.mode} score={`${state.score} / 195`} run={run} publishedName={publishedName} onPublished={setRun} />} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
-        {p.mode === "daily" ? <><details className="result-week"><summary className="t-meta">Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} /></details></> : null}
+      <Result state={state} mode={p.mode} dateKey={p.mode === "daily" ? p.dateKey : undefined} rank={runRank(run)} feedback={<ResultFeedback slug="country-draft" />} daily={p.mode === "daily" ? { ...dailyProgress(p, "country-draft", run?.scoreDisplay ?? String(state.score)), resetAt: p.resetAt, serverNow: clockOrigin.serverNow, clientStartedAt: clockOrigin.clientNow } : undefined} primaryAction={<ResultFollowup slug="country-draft" mode={p.mode} score={`${state.score} / 195`} run={run} publishedName={publishedName} onPublished={setRun} />} shareText={shareText} challengeUrl={run?.challengeUrl} reveal={reveal} onRevealEnd={finishReveal} onReplay={p.mode === "practice" ? () => void newPractice() : undefined} replayBusy={busy} onShare={() => trackPlay("share", "country-draft", p.mode)}>
+        {p.mode === "daily" ? <details className="result-week"><summary>Your week</summary><DailyHabit dateKey={p.dateKey} activity={p.activity} reminder={false} /></details> : null}
       </Result>
       {!run && p.mode === "daily" ? <p className="t-meta">Your score is saved on this device. Reload to restore the leaderboard option.</p> : null}
-      <DraftResultDetails state={state} />
     </div>}
     {state.phase === "done" ? notice : null}
   </div>;

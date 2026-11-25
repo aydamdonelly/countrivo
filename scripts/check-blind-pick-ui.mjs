@@ -138,11 +138,12 @@ async function prominentUndo(page){
     const button=el.querySelector('button').getBoundingClientRect(),country=document.querySelector('.bp-card').getBoundingClientRect(),grid=document.querySelector('.bp-slots').getBoundingClientRect();
     return button.height>=44&&button.width>=44&&button.top>=country.bottom-1&&button.bottom<=grid.top+1;
   }),'Undo retains a 44px target between the current country and category grid');
+  // 25 November 2026 visual QA: Undo is a secondary button (paper with a ring, ink text), so See result stays the view's one primary and no action takes the lavender accent.
   await page.waitForFunction(()=>{
     const button=document.querySelector('.bp-undo button');
-    return button.disabled||getComputedStyle(button).backgroundColor===getComputedStyle(document.querySelector('.bp-who')).color;
+    return button.disabled||getComputedStyle(button).backgroundColor===getComputedStyle(document.body).backgroundColor;
   });
-  check(await page.locator('.bp-undo button').evaluate(button=>button.disabled||getComputedStyle(button).backgroundColor===getComputedStyle(document.querySelector('.bp-who')).color),'Available Undo settles to ink contrast instead of inheriting the lavender game accent');
+  check(await page.locator('.bp-undo button').evaluate(button=>button.disabled||(button.matches('.btn-secondary')&&getComputedStyle(button).backgroundColor===getComputedStyle(document.body).backgroundColor&&getComputedStyle(button).color===getComputedStyle(document.querySelector('.bp-who')).color)),'Available Undo is a secondary paper button with ink text, never the lavender game accent');
 }
 
 async function scenario(viewport,{legacy=false,finalUndo=false,mode='practice'}={}){
@@ -230,11 +231,11 @@ async function scenario(viewport,{legacy=false,finalUndo=false,mode='practice'}=
   }
   await page.getByRole('button',{name:'See result',exact:true}).click();await page.locator('.bp-result').waitFor();
   check((await page.locator('.leaderboard-entry').textContent()).includes('Saved automatically as guest-a12bc345'),'Result saves under the guest name');
-  check(await page.locator('.site-feedback-result').isVisible(),'Result keeps the prominent feedback invitation');
+  check(await page.locator('.site-feedback-line').isVisible(),'Result keeps the compact feedback line');
   check(await page.locator('.bp-ov .bp-unit').count()===size,'Result retains each category and its short unit');
   check(await page.locator('.bp-cell-name').count()===size*2,'Result explicitly names both chosen and best-fit countries');
   await assets(page,'.bp-ovrow');await scoring(page,size);await noOverflow(page,'Result has no horizontal overflow');
-  check(await page.evaluate(()=>document.querySelector('.rp-feedback').compareDocumentPosition(document.querySelector('.rp-primary'))&Node.DOCUMENT_POSITION_FOLLOWING),'Feedback precedes the entry form');
+  check(await page.evaluate(()=>document.querySelector('.rp-primary').compareDocumentPosition(document.querySelector('.rp-feedback'))&Node.DOCUMENT_POSITION_FOLLOWING),'The feedback line follows the entry form');
   await page.screenshot({path:`${out}/${legacy?'legacy-6':finalUndo?'final-undo':mode}-${key}.png`,fullPage:true});
   await f.close();
 }

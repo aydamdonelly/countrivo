@@ -37,7 +37,7 @@ export function GeoWordleGuide() {
         <p>Germany shows 0 km because it shares a border with Poland. Zero can mean a neighbour; only the correct country solves the puzzle.</p>
         <p><Link href="/games/geo-wordle/play?mode=practice">Try a practice round</Link> or <Link href="/countries">explore countries and neighbours</Link>.</p>
       </Prose>
-      <details className="landing-scoring"><summary>How distance is measured</summary><Prose><p>Nearest mapped borders, approximated from Natural Earth 1:50m. Territories without mapped borders use reference centres and say so. Arrows point from the guessed country’s reference centre toward the answer’s reference centre.</p></Prose></details>
+      <details className="landing-scoring disclose"><summary>How distance is measured</summary><Prose><p>Nearest mapped borders, approximated from Natural Earth 1:50m. Territories without mapped borders use reference centres and say so. Arrows point from the guessed country’s reference centre toward the answer’s reference centre.</p></Prose></details>
     </section>
   );
 }

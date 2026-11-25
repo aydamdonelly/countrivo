@@ -1,5 +1,6 @@
 import type { DailyRef, HostProps } from "@/games/types";
 import { buildDayShareText } from "@/lib/share";
+import type { DailyActivity } from "@/lib/daily-activity";
 
 export interface DailyProgress {
   /** The first daily in table order this device has not finished yet. */
@@ -11,13 +12,19 @@ export interface DailyProgress {
   dayShare?: string;
   /** Today's Berlin board date. */
   dateKey: string;
+  /** Today's dailies in table order, for the day-complete score strip. */
+  dailies: DailyRef[];
+  /** This device's displayed scores today by slug, counting the one just played. */
+  scores: Record<string, string>;
+  /** This browser's daily record, for the streak line. */
+  activity?: DailyActivity;
 }
 
 /** Where the viewer stands in today's set right after finishing `slug`. */
-export function dailyProgress(p: Pick<HostProps, "dailies" | "shotToday" | "dayScores" | "dateKey">, slug: string, score: string | undefined): DailyProgress {
+export function dailyProgress(p: Pick<HostProps, "dailies" | "shotToday" | "dayScores" | "dateKey" | "activity">, slug: string, score: string | undefined): DailyProgress {
   const finished = new Set([...p.shotToday, slug]);
   const next = p.dailies.find((daily) => !finished.has(daily.slug));
   const scores: Record<string, string> = { ...p.dayScores, ...(score ? { [slug]: score } : {}) };
   const dayShare = next ? undefined : buildDayShareText(p.dateKey, p.dailies.flatMap((daily) => scores[daily.slug] ? [{ title: daily.title, score: scores[daily.slug] }] : []));
-  return { next, done: p.dailies.filter((daily) => finished.has(daily.slug)).length, total: p.dailies.length, dayShare, dateKey: p.dateKey };
+  return { next, done: p.dailies.filter((daily) => finished.has(daily.slug)).length, total: p.dailies.length, dayShare, dateKey: p.dateKey, dailies: p.dailies, scores, activity: p.activity };
 }

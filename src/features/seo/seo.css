@@ -38,7 +38,7 @@
   .under p + p { margin-top: 6px; }
   /* Padding on an INLINE link grows the touch target to 44 px without moving a line:
      an inline box's padding does not enter the line box (the law's 44 px rule). */
-  .ilink { color: var(--color-ember); font-weight: 600; padding: 14px 0; }
+  .ilink { color: var(--color-ink); font-weight: 600; padding: 14px 0; text-decoration: underline; text-decoration-color: var(--color-wait); text-underline-offset: 4px; }
   .rail-board { margin-bottom: 24px; }
   /* The public board's me-row is one link to the leaderboard, so it takes the full 44 px
      target here (the home's 40 px K3 row is a row of text, not a control). */
@@ -97,7 +97,7 @@
   /* ── 44 px targets in the editorial tables ───────────────────────────── */
   /* The row height is the blueprint's (7 and 10 px), so the link takes its target from
      padding that a matching negative margin gives straight back to the grid cell. */
-  .rank .nm a { padding: 13px 0; margin: -13px 0; }
+  .rank .nm a { display: inline-block; min-width: 44px; padding: 13px 0; margin: -13px 0; }
   .split .rank .nm, .split .rank .nm a { white-space: normal; overflow: visible; overflow-wrap: anywhere; }
   .stat-rows .lbl a { padding: 13px 0; margin: -13px 0; }
 

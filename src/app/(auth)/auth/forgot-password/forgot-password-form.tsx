@@ -42,7 +42,7 @@ export function ForgotPasswordForm() {
           If an account exists for <b>{sent}</b>, you&apos;ll get a reset link within a minute.
         </p>
         <Button
-          variant="text"
+          variant="tertiary"
           className="act"
           onClick={() => {
             setSent(null);

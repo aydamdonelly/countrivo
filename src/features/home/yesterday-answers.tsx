@@ -3,6 +3,10 @@ import { getAllGames, getDailyGames } from "@/lib/data/games";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { getTodayDateKey } from "@/lib/daily-seed";
 import { getArchivedBoard } from "@/server/board-snapshots";
+import { isHoLStat, lineValue, statMeta } from "@/lib/game-logic/higher-or-lower/stats";
+import { Flag } from "@/ui/flag";
+import { boardDate } from "@/ui/result-format";
+import "./yesterday-answers.css";
 
 function record(value:unknown):value is Record<string,unknown> {
   return !!value&&typeof value==='object'&&!Array.isArray(value);
@@ -10,18 +14,42 @@ function record(value:unknown):value is Record<string,unknown> {
 function rows(value:unknown):Record<string,unknown>[] {return Array.isArray(value)?value.filter(record):[];}
 function names(value:unknown,key='name'):string[] {return rows(value).map(r=>typeof r[key]==='string'?r[key]:'').filter(Boolean);}
 
-function answerSummary(slug:string,solution:unknown):string {
-  if(!record(solution))return 'The board and its answers are ready to explore.';
-  if(slug==='geo-wordle'&&typeof solution.answerIso3==='string')return getCountryByIso3(solution.answerIso3)?.displayName??solution.answerIso3;
-  if(slug==='pinpoint')return names(solution.countries).join(' · ');
-  if(slug==='stat-guesser')return rows(solution.rounds).map(round=>{
+interface Answer {
+  /** A single answer country, shown with its flag (GeoWordle). */
+  country?: { iso2: string; name: string };
+  /** What the list is: `Population`, `Best cabinet`. */
+  label?: string;
+  items: string[];
+}
+
+const EXPLORE: Answer = { items: [], label: 'Open the board to see every answer.' };
+
+function statLine(stat: unknown, value: unknown): string | null {
+  if (typeof stat !== 'string' || !isHoLStat(stat) || typeof value !== 'number') return null;
+  return lineValue(stat, value);
+}
+
+function answerSummary(slug:string,solution:unknown):Answer {
+  if(!record(solution))return EXPLORE;
+  if(slug==='geo-wordle'&&typeof solution.answerIso3==='string'){
+    const country=getCountryByIso3(solution.answerIso3);
+    return country?{label:'The answer was',country:{iso2:country.iso2,name:country.displayName},items:[]}:{label:'The answer was',items:[solution.answerIso3]};
+  }
+  if(slug==='pinpoint')return {label:'Five places',items:names(solution.countries)};
+  if(slug==='stat-guesser')return {items:rows(solution.rounds).flatMap(round=>{
     const country=record(round.country)?round.country.name:null;
-    return typeof country==='string'&&typeof round.actualValue==='number'?`${country}: ${round.actualValue.toLocaleString('en-US')}`:'';
-  }).filter(Boolean).join(' · ');
-  if(slug==='flag-quiz'&&solution.kind==='sprint')return `First flags: ${rows(solution.flags).slice(0,10).flatMap(flag=>typeof flag.iso3==='string'?[getCountryByIso3(flag.iso3)?.displayName??flag.iso3]:[]).join(' · ')}`;
+    const value=statLine(round.stat,round.actualValue);
+    const label=typeof round.stat==='string'&&isHoLStat(round.stat)?statMeta(round.stat).label:null;
+    return typeof country==='string'&&value?[`${country}: ${label ? `${label} ` : ''}${value}`]:[];
+  })};
+  if(slug==='flag-quiz'&&solution.kind==='sprint')return {label:'The first flags',items:rows(solution.flags).slice(0,10).flatMap(flag=>typeof flag.iso3==='string'?[getCountryByIso3(flag.iso3)?.displayName??flag.iso3]:[])};
   if(record(solution.g)) {
-    if(slug==='flag-quiz')return rows(solution.g.questions).flatMap(q=>record(q.country)&&typeof q.country.displayName==='string'?[q.country.displayName]:[]).join(' · ');
-    if(slug==='higher-or-lower')return rows(solution.g.chain).map(c=>typeof c.name==='string'&&typeof c.value==='number'?`${c.name}: ${c.value.toLocaleString('en-US')}`:'').filter(Boolean).join(' · ');
+    if(slug==='flag-quiz')return {label:'The flags',items:rows(solution.g.questions).flatMap(q=>record(q.country)&&typeof q.country.displayName==='string'?[q.country.displayName]:[])};
+    if(slug==='higher-or-lower'){
+      const stat=solution.g.stat;
+      const label=typeof stat==='string'&&isHoLStat(stat)?statMeta(stat).label:undefined;
+      return {label,items:rows(solution.g.chain).flatMap(c=>{const value=statLine(stat,c.value);return typeof c.name==='string'&&value?[`${c.name}: ${value}`]:[];})};
+    }
   }
   if(slug==='country-draft'&&record(solution.board)) {
     const rounds=rows(solution.board.rounds);
@@ -31,21 +59,26 @@ function answerSummary(slug:string,solution:unknown):string {
       const person=rows(country?.pool)[pick.poolIdx];
       return typeof person?.name==='string'?[person.name]:[];
     });
-    if(cabinet.length)return `Best cabinet: ${cabinet.join(' · ')}`;
+    if(cabinet.length)return {label:'Best cabinet',items:cabinet};
   }
-  return 'The board and its answers are ready to explore.';
+  return EXPLORE;
 }
 
+/** Yesterday's closed boards, one row per game (25 November 2026: readable values, the GeoWordle
+ *  answer with its flag, a 44 px Explore link). Rendered inside a "Yesterday's answers" disclosure. */
 export async function YesterdayAnswers({dateKey=getTodayDateKey(),slug}:{dateKey?:string;slug?:string}) {
   const yesterday=new Date(`${dateKey}T12:00:00Z`);yesterday.setUTCDate(yesterday.getUTCDate()-1);
   const day=yesterday.toISOString().slice(0,10);
   const games=(slug?getAllGames():getDailyGames()).filter(g=>g.availableModes.includes('daily')&&(!slug||g.slug===slug));
   const boards=await Promise.all(games.map(async game=>({game,board:await getArchivedBoard(game.slug,day)})));
   const available=boards.filter(({board})=>board!==null);
-  return <section className="home-yesterday" aria-labelledby="yesterday-title">
-    <h2 className="t-h2" id="yesterday-title">Yesterday’s answers</h2>
-    {available.length?<><p className="t-meta text-mute">{day} · The daily boards have closed, so the answers are open.</p><div className="yesterday-answers-grid">{available.map(({game,board})=><article className="yesterday-answer" key={game.slug}>
-      <h3 className="t-h3">{game.title}</h3><p className="t-body">{answerSummary(game.slug,board?.solution)}</p><Link className="t-meta" href={`/games/${game.slug}/play?mode=practice&date=${day}`}>Explore this board</Link>
-    </article>)}</div></>:<p className="t-body text-mute">The new archive starts with today’s games. Come back tomorrow for their answers.</p>}
+  const date=boardDate(day).replace(/^\S+\s/,'');
+  return <section className="home-yesterday" aria-label="Yesterday’s answers">
+    {available.length?<><p className="yesterday-note">{date}. The boards have closed, so the answers are open.</p><ul className="yesterday-list">{available.map(({game,board})=>{const answer=answerSummary(game.slug,board?.solution);return <li className="yesterday-answer" key={game.slug} data-game={game.slug}>
+      <div className="yesterday-head"><span className="yesterday-dot" aria-hidden="true" /><h3>{game.title}</h3><Link href={`/games/${game.slug}/play?mode=practice&date=${day}`} prefetch={false} aria-label={`Explore yesterday’s ${game.title} board`}>Explore</Link></div>
+      {answer.label?<p className="yesterday-label">{answer.label}</p>:null}
+      {answer.country?<p className="yesterday-country"><Flag iso2={answer.country.iso2} size="m" alt="" /><b>{answer.country.name}</b></p>:null}
+      {answer.items.length?<p className="yesterday-items">{answer.items.join(' · ')}</p>:null}
+    </li>;})}</ul></>:<p className="t-body text-mute">The new archive starts with today’s games. Come back tomorrow for their answers.</p>}
   </section>;
 }

@@ -195,7 +195,7 @@ export function ListArticle({ list }: { list: ListContent }) {
   if (!built) return null;
 
   const sourceCategory = list.source.kind === "stat" ? getCategoryBySlug(list.source.category) : null;
-  const territoryRows: RankRow[] = list.source.kind === "continent" ? getCountriesByContinent(list.source.continent).filter(c=>!sovereignIso3.includes(c.iso3)).map((c,i)=>({rank:i+1,iso2:c.iso2,name:c.displayName,href:`/countries/${c.slug}`,capital:c.capital,value:"Other place"})) : [];
+  const territoryRows: RankRow[] = list.source.kind === "continent" ? getCountriesByContinent(list.source.continent).filter(c=>!sovereignIso3.includes(c.iso3)).map((c,i)=>({rank:i+1,iso2:c.iso2,name:c.displayName,href:`/countries/${c.slug}`,capital:c.capital,value:"",unit:"Other place"})) : [];
   const intro = list.source.kind === "continent" ? [`The list includes ${built.rows.length} sovereign countries in ${list.source.continent === "Americas" ? "the Americas" : list.source.continent}, sorted by population. Territories and other places appear separately and do not count in the practice quiz. Population and area values use the source years shown with their datasets.`] : list.intro.map((p) => p.replace("{n}", String(built.rows.length)));
   const seeAlso = list.seeAlso
     .map((slug) => LISTS.find((l) => l.slug === slug))
@@ -226,13 +226,14 @@ export function ListArticle({ list }: { list: ListContent }) {
             <PageTitle title={list.h1} meta={built.meta} />
           </div>
 
-          <div data-o="2" className="figure">
+          {/* A continent list leads with its quiz; the count is already in the title meta. */}
+          {list.source.kind === "continent" ? null : <div data-o="2" className="figure">
             <b className="t-score-xl num">
               {built.number.value}
               {built.number.unit ? <span className="unit">{built.number.unit}</span> : null}
             </b>
             <span className="t-body">{built.number.caption}</span>
-          </div>
+          </div>}
 
           {list.source.kind === "continent" ? <NameThemAll continent={list.source.continent} /> : null}
           {list.source.kind === 'continent' && list.source.continent === 'Europe' ? <p className="t-body mb-4"><Link href="/practice/europe-flags">Test yourself on the flags of Europe</Link></p> : null}

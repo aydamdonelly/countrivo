@@ -135,7 +135,7 @@ export function AnchorCard({
       ) : null}
 
       {cta ? (
-        <Button variant={practice ? "ink" : "shoot"} href={cta.href} prefetch className="cta">
+        <Button variant={practice ? "primary" : "on-ink"} href={cta.href} prefetch className="cta">
           {cta.label}
         </Button>
       ) : null}

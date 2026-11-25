@@ -88,7 +88,7 @@ export function Board({ view, busy, pendingChoice, send }: { view: FlagSprintVie
         </div>
         <div className="fs-start">
           {view.mode === "daily" ? <p className="t-meta text-mute">One run a day. The clock starts when you press Start.</p> : null}
-          <Button block variant="ink" className="fs-start-button" disabled={busy} pending={busy} pendingLabel="Starting…" onClick={(event) => { if (event.detail < 2) void send({ t: "start" }); }}>Start</Button>
+          <Button block variant="primary" className="fs-start-button" disabled={busy} pending={busy} pendingLabel="Starting…" onClick={(event) => { if (event.detail < 2) void send({ t: "start" }); }}>Start</Button>
         </div>
       </div>
     );

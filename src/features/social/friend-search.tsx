@@ -78,7 +78,7 @@ export function FriendSearch() {
           {sent.includes(p.id) ? (
             <span className="sent t-meta">Sent</span>
           ) : (
-            <Button variant="text" onClick={() => add(p.id)} disabled={pending}>
+            <Button variant="tertiary" onClick={() => add(p.id)} disabled={pending}>
               Add
             </Button>
           )}

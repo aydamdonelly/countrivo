@@ -30,6 +30,11 @@ export interface DraftAppointmentView {
   points: number;
   why: string;
   source: string;
+  /**
+   * Only for a committed appointment: the job that was free when this person was seated and
+   * fits them better, so a low pick explains itself. Never another person's fit.
+   */
+  better?: { seat: SeatIdx; fit: number };
 }
 export interface DraftPassedPerson {
   name: string;
@@ -79,7 +84,23 @@ function publicPerson(person: DraftFigure): DraftPersonView {
 function appointmentView(state: DraftState, pick: DraftPick): DraftAppointmentView {
   const selectedCountry = countryAt(state.board, pick);
   const person = figureAt(state.board, pick);
-  return { round: pick.round, seat: pick.seat, person: publicPerson(person), country: { iso3: selectedCountry.iso3, iso2: selectedCountry.iso2, slug: draftCountrySlug(selectedCountry.iso3), name: selectedCountry.name, region: selectedCountry.region }, fit: pick.fit, fame: pick.standingPoints, points: pick.points, why: whyLine(person, pick.seat, pick.fit), source: whySource(person, pick.seat) };
+  const view: DraftAppointmentView = { round: pick.round, seat: pick.seat, person: publicPerson(person), country: { iso3: selectedCountry.iso3, iso2: selectedCountry.iso2, slug: draftCountrySlug(selectedCountry.iso3), name: selectedCountry.name, region: selectedCountry.region }, fit: pick.fit, fame: pick.standingPoints, points: pick.points, why: whyLine(person, pick.seat, pick.fit), source: whySource(person, pick.seat) };
+  const better = betterOpenSeat(state, pick, person);
+  if (better) view.better = better;
+  return view;
+}
+
+/** The free job at the time of this appointment that fits this person best, when it beats the job chosen. */
+function betterOpenSeat(state: DraftState, pick: DraftPick, person: DraftFigure): { seat: SeatIdx; fit: number } | undefined {
+  const taken = new Set(state.seats.flatMap((other) => other && other.round < pick.round ? [other.seat] : []));
+  let best: { seat: SeatIdx; fit: number } | undefined;
+  for (let index = 0; index < 5; index += 1) {
+    const seat = seatIndex(index);
+    if (seat === null || taken.has(seat) || seat === pick.seat) continue;
+    const fit = figureFit(person, seat);
+    if (fit > pick.fit && (!best || fit > best.fit)) best = { seat, fit };
+  }
+  return best;
 }
 
 function reviewOf(state: DraftState, unlocked: boolean): DraftReview | null {

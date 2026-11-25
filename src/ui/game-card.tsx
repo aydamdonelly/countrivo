@@ -1,6 +1,6 @@
-import { NavigationLink as Link } from '@/ui/navigation-link';
 import type { GamePresentation } from '@/content/table';
-import { Clay } from '@/ui/clay';
+import { gameLengthLine } from '@/content/table';
+import { Clay, gameClayFrame } from '@/ui/clay';
 import { cn } from '@/lib/utils';
 import { GamePlayLink } from '@/ui/game-play-link';
 import { CheckIcon } from '@/ui/icons/check';
@@ -12,26 +12,55 @@ export interface GameCardProps {
   practice?: boolean;
   score?: string;
   progress?: string;
-  heading?: 'h1' | 'h2';
+  heading?: 'h1' | 'h2' | 'h3';
+  /** The card the server opens first: its artwork loads eagerly. */
   active?: boolean;
+  /** The home's lead card: chip, promise, length and the page's one primary "Play". */
+  lead?: 'start' | 'next';
+  /** Marks a recently launched game New until it has been played. */
+  isNew?: boolean;
   className?: string;
 }
 
-export function GameCard({ game, practice, score, progress, heading = 'h2', active = true, className }: GameCardProps) {
+/**
+ * A game tile (25 November 2026 design pass). The game's pastel is its identity; the clay shows
+ * its colour frame whether or not it has been played, so nothing looks switched off. A finished
+ * daily carries a check and its score, a started one "Continue". No per-tile action bars: Practice
+ * and Archive live once, below the grid. The `lead` variant is the card to play next, spanning
+ * the grid with a full-width ink "Play <Game>". Practice tiles prefetch on intent only (eight
+ * viewport prefetches would compete with the one the player chooses).
+ */
+export function GameCard({ game, practice, score, progress, heading = 'h2', active = true, lead, isNew, className }: GameCardProps) {
   const Heading = heading;
   const href = `/games/${game.slug}/play?mode=${practice ? 'practice' : 'daily'}`;
-  const dailyComplete = !practice && Boolean(score);
-  const state = game.clay === 'cl-08' ? 'full' : dailyComplete ? game.done : 'rest';
-  return <article className={cn('game-tile', className)} data-game={game.slug}>
-    <GamePlayLink slug={game.slug} href={href} prefetch className="game-tile-main" pendingLabel={score ? 'Opening result…' : 'Opening…'} ariaLabel={`${score ? 'See result for' : progress ? 'Continue' : 'Play'} ${game.title}${score ? `, ${score}` : ''}`}>
-      <Clay object={game.clay} state={state} tone={dailyComplete ? 'color' : 'monochrome'} alternate={active && !score && !progress ? game.idle : undefined} sizes="(min-width: 768px) 128px, 88px" loading={active ? 'eager' : 'lazy'} />
+  const done = !practice && Boolean(score);
+  const frame = gameClayFrame(game.clay, game.done);
+  const state = done ? 'done' : progress ? 'progress' : 'open';
+  const verb = done ? 'See result for' : progress ? 'Continue' : 'Play';
+  const label = `${verb} ${game.title}${score ? `, ${score}` : ''}`;
+  const badge = done ? <span className="tile-score"><CheckIcon size={14} /><b>{score}</b></span>
+    : progress ? <span className="tile-score">Continue</span>
+    : isNew ? <span className="tile-score tile-new">New</span> : null;
+  if (lead && !done) {
+    return <article className={cn('game-tile game-lead', className)} data-game={game.slug} data-state={state}>
+      <GamePlayLink slug={game.slug} href={href} prefetch warmOnRender className="game-tile-main" pendingLabel="Opening" ariaLabel={label}>
+        <span className="lead-copy">
+          <span className="lead-chip">{progress ? 'Continue' : lead === 'start' ? 'Start here' : 'Next'}</span>
+          <Heading className="game-tile-title">{game.title}</Heading>
+          <span className="lead-promise">{game.promise}</span>
+          <span className="lead-length">{gameLengthLine(game)}</span>
+        </span>
+        <Clay object={game.clay} state={frame.state} tone={frame.tone} alternate={frame.tone === 'original' ? game.idle : undefined} sizes="(min-width: 1024px) 160px, 124px" loading="eager" />
+        <span className="btn btn-primary btn-block lead-play"><PlayIcon size={18} />{progress ? 'Continue' : 'Play'} {game.title}</span>
+      </GamePlayLink>
+    </article>;
+  }
+  return <article className={cn('game-tile', className)} data-game={game.slug} data-state={state}>
+    <GamePlayLink slug={game.slug} href={href} prefetch={!practice} className="game-tile-main" pendingLabel={score ? 'Opening result' : 'Opening'} ariaLabel={label}>
+      <Clay object={game.clay} state={frame.state} tone={frame.tone} sizes="(min-width: 1024px) 104px, 84px" loading={active ? 'eager' : 'lazy'} />
       <Heading className="game-tile-title">{game.title}</Heading>
-      {game.action ? <span className="game-tile-action">{game.action}</span> : null}
-      {score ? <span className="tile-score"><CheckIcon size={14} /><b>{score}</b></span> : progress ? <span className="tile-score">Continue</span> : <span className="tile-play-mark" aria-hidden="true"><PlayIcon size={18} /></span>}
+      {game.action ? <span className="game-tile-action">{done ? 'See your result' : game.action}</span> : null}
+      {badge}
     </GamePlayLink>
-    {!practice ? <nav className="game-tile-actions" aria-label={`${game.title} modes`}>
-      <GamePlayLink slug={game.slug} href={`/games/${game.slug}/play?mode=practice`} prefetch={false} ariaLabel={`Practice ${game.title}`}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M3 7h3c5 0 7 10 12 10h3m-4-4 4 4-4 4M3 17h3c2 0 4-2 5-4m2-2c2-3 3-4 5-4h3m-4-4 4 4-4 4" /></svg>Practice</GamePlayLink>
-      <Link href={`/games/${game.slug}/archive`} prefetch={false} aria-label={`Archive for ${game.title}`}><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2" /><path d="M8 2v6m8-6v6M4 11h16" /></svg>Archive</Link>
-    </nav> : null}
   </article>;
 }

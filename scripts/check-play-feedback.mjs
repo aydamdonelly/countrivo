@@ -65,8 +65,9 @@ try {
     const guess = page.getByRole('button', {name: 'Guess', exact: true});
     await guess.evaluate(button => button.addEventListener('click', () => { document.documentElement.dataset.moveClickedAt = String(performance.now()); }, {once: true}));
     await guess.click();
+    // GeoWordle acknowledges a guess in its own list: the pending row with the country and the clay, not the shared status line.
     await page.waitForFunction(() => {
-      const status = document.querySelector('.session-status[data-pending]');
+      const status = document.querySelector('.gw-pending');
       if (!status?.textContent || getComputedStyle(status).opacity !== '1') return false;
       document.documentElement.dataset.feedbackLatency = String(performance.now() - Number(document.documentElement.dataset.moveClickedAt));
       return true;
@@ -75,7 +76,7 @@ try {
     check(latency < 150, `Pending status is immediately visible (${latency.toFixed(1)}ms, ${reducedMotion})`);
     check((await notice.boundingBox()).height === idleHeight, 'Pending feedback uses the existing reserved row');
     check(await page.locator('.gw-pending .gw-readout').count() === 0, 'No answer or direction appears before acknowledgement');
-    await input.fill('Japan');
+    check(await input.getAttribute('readonly') !== null, 'The field is read-only while the first move is pending');
     await input.press('Enter');
     check(posts === 1, 'Repeated input cannot commit twice while the first move is pending');
     await page.screenshot({path: `${out}/pending-${reducedMotion}.png`, fullPage: true});
@@ -83,7 +84,7 @@ try {
     await notice.getByRole('alert').waitFor();
     check(await notice.getByRole('button', {name: 'Try again', exact: true}).isEnabled(), 'An offline move has a usable retry');
     check(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Long recovery copy fits the phone');
-    check(await input.inputValue() === 'Japan', 'Pending next input survives a network failure');
+    check(await input.inputValue() === 'France', 'The unconfirmed guess stays in the field after a network failure');
     await page.screenshot({path: `${out}/recovery-${reducedMotion}.png`, fullPage: true});
     measurements.push({reducedMotion, feedbackMs: latency, idleStatusHeight: idleHeight, posts});
     await context.close();

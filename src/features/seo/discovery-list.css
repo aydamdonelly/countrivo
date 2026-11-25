@@ -7,4 +7,7 @@
  .discovery-list a {text-decoration:underline;text-underline-offset:3px;}
  .discovery-routes {display:flex;flex-direction:column;gap:16px;list-style:none;padding:0;}
  .discovery-play {display:flex;align-items:center;gap:16px;margin:24px 0;flex-wrap:wrap;}.discovery-play>div{flex:1;min-width:180px;}.discovery-play .clay-object{width:64px;height:64px;}
+ /* 44 px targets: source lines and the country names in example headings */
+ .discovery-list a.t-meta {display:inline-flex;align-items:center;min-height:44px;align-self:flex-start;}
+ .discovery-examples h2 a {display:inline-block;padding-block:9px;margin-block:-9px;}
 }

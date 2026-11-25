@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
 if (!process.env.PLAYWRIGHT_MODULE) throw new Error('Set PLAYWRIGHT_MODULE to an existing playwright-core/index.mjs.');
@@ -9,6 +9,7 @@ const out = '.check-render/performance';
 mkdirSync(out, { recursive: true });
 const browser = await chromium.launch({ headless: true, executablePath: process.env.PLAYWRIGHT_CHROMIUM ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' });
 const measurements = [];
+const dailyCount = JSON.parse(readFileSync('src/data/game-registry.json', 'utf8')).filter(game => game.availableModes?.includes('daily')).length;
 try {
   for (const width of [390, 1440]) {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
@@ -25,11 +26,11 @@ try {
     await warmed;
     console.log(`${width}px: active game prefetch observed`);
     const tiles = page.locator('.daily-game-grid .game-tile');
-    assert.equal(await tiles.count(), 6, 'All six daily games must be present');
+    assert.equal(await tiles.count(), dailyCount, `All ${dailyCount} daily games must be present (from the registry)`);
     const columns = await page.locator('.daily-game-grid').evaluate(grid => getComputedStyle(grid).gridTemplateColumns.split(' ').length);
-    assert.equal(columns, width < 768 ? 2 : 3, 'Games use two phone columns and three desktop columns');
+    assert.equal(columns, width < 768 ? 2 : width < 1024 ? 3 : 4, 'Games use two phone columns and four desktop columns');
     const firstRowVisible = await tiles.first().evaluate(tile => tile.getBoundingClientRect().bottom <= innerHeight);
-    assert(firstRowVisible, 'The feedback invitation leaves the first game row visible');
+    assert(firstRowVisible, 'The lead game card is fully visible in the first viewport');
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'The page fits its viewport');
     const openedAt = performance.now();
     await page.getByRole('link', {name:'Play Country Draft', exact:true}).click();
@@ -39,14 +40,15 @@ try {
     assert.equal(await page.locator('.dr-country-card').count(), 3, 'Country Draft starts directly on its three country choices');
     assert.equal(await page.locator('.dr-help-details[open]').count(), 0, 'Rules are optional and closed on entry');
     measurements.push({width, columns, navigationMs, blockedPosts});
-    console.log(`${width}px: six games, ${columns} columns; game opened in ${navigationMs}ms; no rulewall or moves sent`);
+    console.log(`${width}px: ${dailyCount} games, ${columns} columns; game opened in ${navigationMs}ms; no rulewall or moves sent`);
     await context.close();
   }
   const context = await browser.newContext({viewport:{width:390,height:844}});
   const page = await context.newPage();
   await page.route('**/*', route => route.request().method() === 'POST' ? route.abort('blockedbyclient') : route.continue());
-  await page.goto(base, {waitUntil:'networkidle'});
-  const practice = page.getByRole('link', {name:'Practice GeoWordle', exact:true});
+  // 25 November 2026: practice lives once, on /practice, not as a bar under every home tile.
+  await page.goto(`${base}/practice`, {waitUntil:'networkidle'});
+  const practice = page.getByRole('link', {name:'Play GeoWordle', exact:true});
   const prefetched = page.waitForResponse(response => {
     const url = new URL(response.url());
     return url.pathname === '/games/geo-wordle/play' && url.searchParams.get('mode') === 'practice' && response.request().headers().rsc === '1' && !response.request().headers()['next-router-prefetch'];

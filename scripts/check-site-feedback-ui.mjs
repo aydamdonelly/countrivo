@@ -43,12 +43,13 @@ try {
     await page.goto(base, { waitUntil: 'networkidle' });
     const invitation = page.getByRole('button', { name: 'Give feedback', exact: true });
     check(await invitation.count() === 1, 'Home has one clear feedback invitation');
-    const invitationBox = await invitation.boundingBox();
-    check(invitationBox && invitationBox.y >= 0 && invitationBox.y + invitationBox.height <= viewport.height, 'The complete feedback invitation is visible in the first viewport');
+    // 25 November 2026: feedback is one quiet line below the games, never a tinted banner above them.
     check(await invitation.evaluate(node => {
       const games = document.querySelector('.daily-game-grid');
-      return games && Boolean(node.compareDocumentPosition(games) & Node.DOCUMENT_POSITION_FOLLOWING);
-    }), 'Feedback is offered before the game grid');
+      return games && Boolean(node.compareDocumentPosition(games) & Node.DOCUMENT_POSITION_PRECEDING);
+    }), 'Feedback is offered after the game grid');
+    check(await invitation.evaluate(node => node.classList.contains('site-feedback-line') && getComputedStyle(node).backgroundColor === 'rgba(0, 0, 0, 0)' && getComputedStyle(node).boxShadow === 'none'), 'The feedback line has no fill and no lift');
+    await invitation.scrollIntoViewIfNeeded();
     check(await invitation.locator('img').evaluate(image => image.complete && image.naturalWidth > 0), 'The invitation shows the existing clay artwork');
     check(await invitation.evaluate(node => node.getAnimations({ subtree: true }).every(animation => animation.playState !== 'running' || Number(animation.effect.getTiming().duration) <= 1)), 'Reduced motion leaves the invitation static');
     check(await page.getByRole('dialog').count() === 0, 'The invitation leaves the home page playable until opened');
@@ -170,9 +171,9 @@ try {
       for (const animation of animations) { animation.pause(); animation.currentTime = 250; }
       return animations.length;
     });
-    check(invitationAnimations > 0, 'Normal motion animates the megaphone invitation');
+    check(invitationAnimations === 0, 'The quiet feedback line stays still, even with normal motion');
     await invitation.locator('img').evaluate(image => image.decode());
-    check(await invitation.locator('.site-feedback-copy').evaluate(node => node.getAnimations({ subtree: true }).length === 0), 'Invitation text stays still while the artwork moves');
+    check(await invitation.locator('.site-feedback-line-question').evaluate(node => node.getAnimations({ subtree: true }).length === 0), 'Invitation text stays still');
     await invitation.screenshot({ path: `${out}/motion-invitation-250ms.png` });
     await invitation.click();
     const composer = page.getByRole('dialog', { name: 'We’re listening.', exact: true });

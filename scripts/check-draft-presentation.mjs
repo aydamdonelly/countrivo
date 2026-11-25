@@ -101,7 +101,7 @@ try {
     page.on('pageerror', error => errors.push(error.message));
     let posts = 0;
     await page.route('**/*', async route => {
-      if (route.request().method() !== 'POST' || !route.request().headers()['next-action']) return route.continue();
+      if (route.request().method() !== 'POST') return route.continue(); if (!route.request().headers()['next-action']) return route.fulfill({status: 204});
       const view = [people, seated, done, draftView(initial)][Math.min(posts++, 3)];
       return route.fulfill({ status: 200, contentType: 'text/x-component', body: `0:{"a":"$@1","f":""}\n1:${JSON.stringify({ success: true, view, revision: posts, sessionToken: `presentation-${posts}` })}\n` });
     });
@@ -115,7 +115,7 @@ try {
     await options.getByRole('button', { name: /^Seat as Leader/ }).click();
     await page.getByRole('button', { name: 'Reveal my cabinet', exact: true }).click();
     await page.locator('.dr-result-card').first().waitFor();
-    check(await page.getByRole('button', { name: 'Share my cabinet', exact: true }).isEnabled(), 'Share is available during the reveal');
+    check(await page.getByRole('button', { name: /^(Share result|Challenge a friend)$/ }).isEnabled(), 'The one share is available during the reveal');
     check(await page.getByRole('button', { name: 'One more draft', exact: true }).isEnabled(), 'Replay is available during the reveal');
     if (reducedMotion === 'no-preference') {
       const skip = page.getByRole('button', { name: 'Skip animation', exact: true });
@@ -127,7 +127,7 @@ try {
     }
     check(await page.locator('.dr-campaign-pick').count() === 2, 'The completed cabinet identifies two different appointments');
     check((await page.locator('.dr-campaign-highlights').innerText()).includes(story.strongest.person.name), 'Standout is derived from this cabinet');
-    check(await page.locator('.dr-result-number .cu-live').innerText() === String(done.score), 'Final result retains the canonical score');
+    check(await page.locator('.a-card .score .sr-only').innerText() === `Country Draft result: ${done.score} / 195`, 'Final result retains the canonical score');
     check(await page.locator('.dr-map').getAttribute('aria-label') === `${done.score} of 195 countries taken`, 'Map has an accurate accessible final count');
     check(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), `No horizontal overflow at ${width}`);
     await page.screenshot({ path: `${output}/result-${width}-${reducedMotion}.png`, fullPage: true });
@@ -143,7 +143,7 @@ try {
   let moves = 0;
   let resetNext = false;
   await fullPage.route('**/*', async route => {
-    if (route.request().method() !== 'POST' || !route.request().headers()['next-action']) return route.continue();
+    if (route.request().method() !== 'POST') return route.continue(); if (!route.request().headers()['next-action']) return route.fulfill({status: 204});
     const [input] = route.request().postDataJSON();
     const action = input?.action;
     moves++;
@@ -176,10 +176,11 @@ try {
     check(/ \d+ of 25 \+ fame \d+ of 10$/.test(await fullPage.locator('.dr-reveal-score > .t-meta').innerText()), 'The reveal shows fit and fame against their maximums');
     await fullPage.getByRole('button', { name: round === 4 ? 'Reveal my cabinet' : 'Next country', exact: true }).click(); clicks++;
     await fullPage.waitForFunction(() => document.querySelector('.dr-game .session-notice')?.getAttribute('data-state') === 'idle');
-    check(await fullPage.locator('.dr-header-score .num').innerText() === String(draftView(simulated).score), 'Early Next cannot freeze an intermediate score');
+    // The header HUD leaves once the cabinet is complete; the result card then holds the score.
+    check(round === 4 ? await fullPage.locator('.dr-header-score').count() === 0 : await fullPage.locator('.dr-header-score .num').innerText() === String(draftView(simulated).score), 'Early Next cannot freeze an intermediate score');
   }
   check(clicks === 20 && moves === 15, 'Complete draft needs exactly 20 intentional clicks and 15 canonical commits');
-  check(await fullPage.locator('.dr-result-number .cu-live').innerText() === String(draftView(simulated).score), 'Complete flow shows the actual simulated score');
+  check(await fullPage.locator('.a-card .score .sr-only').innerText() === `Country Draft result: ${draftView(simulated).score} / 195`, 'Complete flow shows the actual simulated score');
   check((await fullContext.cookies()).some(cookie => cookie.name === 'cv_draft_rules_seen' && cookie.value === '1'), 'Finishing a draft remembers that the instructions were seen');
   await fullPage.getByRole('button', { name: 'One more draft', exact: true }).click();
   await fullPage.getByRole('heading', { name: 'Pick a country', exact: true }).waitFor();

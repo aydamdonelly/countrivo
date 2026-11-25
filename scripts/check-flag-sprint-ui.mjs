@@ -58,7 +58,7 @@ function engineServer(mode, { finishAfter = Infinity, onPost } = {}) {
   const handler = async (route) => {
     const request = route.request();
     if (request.method() !== 'POST') return route.continue();
-    if (!request.headers()['next-action']) return route.abort('blockedbyclient');
+    if (!request.headers()['next-action']) return route.fulfill({ status: 204 });
     const body = JSON.parse(request.postData() ?? '[]');
     const action = body[0]?.action ?? { t: '?' };
     posts.push(action.t);
@@ -171,8 +171,10 @@ try {
     await page.locator('.rp').waitFor();
     const score = await page.locator('.rp .score').innerText();
     check(/flags/.test(score), `daily: the result reads in flags (${score.replace(/\s+/g, ' ')})`);
-    check((await page.locator('.result-benchmarks').innerText()).includes('8'), 'daily: the daily target is 8');
-    check(await page.locator('.rp-wrap > .rp').evaluate(node => !!node.nextElementSibling?.matches('.daily-result-next')), 'daily: the next daily follows the score card');
+    check((await page.locator('.rc-facts').innerText()).includes('8'), 'daily: the facts row shows the daily target of 8');
+    check((await page.locator('.rp-score-label').innerText()).trim() === 'flags', 'daily: the unit line reads flags');
+    check(await page.locator('.rp-wrap > .a-card').evaluate(node => !!node.nextElementSibling?.matches('.a-next') && !!node.nextElementSibling.querySelector(':scope > .daily-result-next')), 'daily: the next daily follows the score card');
+    check(await page.evaluate(() => [...document.querySelectorAll('button, a')].filter(node => node.checkVisibility() && /^share/i.test(node.textContent.trim())).length) === 1, 'daily: exactly one share action');
     shots.push(await shot(page, 'daily-result'));
     await page.locator('.fs-seen').scrollIntoViewIfNeeded();
     shots.push(await shot(page, 'daily-result-flags'));

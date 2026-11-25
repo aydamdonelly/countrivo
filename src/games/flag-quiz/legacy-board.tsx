@@ -15,7 +15,7 @@ export function Board({ view, busy, pendingChoice, send }: { view: FlagQuickView
       return <button type="button" className="opt fq-opt t-list" key={`${view.round}-${option}`} disabled={busy || reveal} aria-pressed={pendingChoice === i} data-state={status} onClick={(event) => { if (event.detail < 2) void send({ t: "answer", i }); }}><span className="lbl">{option}</span>{status === "right" || status === "answer" ? <CheckIcon size={20} /> : status === "wrong" ? <CrossIcon size={20} /> : null}</button>;
     })}</div>
     <span className="sr-only" role="status">{reveal ? view.picked === view.correctIndex ? "Correct." : `The answer is ${view.correctIndex === null ? "" : view.options[view.correctIndex]}.` : ""}</span>
-    {reveal ? <Button block variant="ink" className="qr-flag-next" disabled={busy} pending={busy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "Result" : "Next"}</Button> : null}
+    {reveal ? <Button block variant="primary" className="qr-flag-next" disabled={busy} pending={busy} pendingLabel={view.round + 1 === view.total ? "Opening result…" : "Next…"} onClick={(event) => { if (event.detail < 2) void send({ t: "next" }); }}>{view.round + 1 === view.total ? "Result" : "Next"}</Button> : null}
     {reveal && view.fact ? <div className="qr-info"><p className="t-body">{view.fact}</p>{view.source ? <details><summary className="t-meta">Source</summary><p className="t-meta text-mute">{view.source}</p></details> : null}</div> : null}
   </div>;
 }

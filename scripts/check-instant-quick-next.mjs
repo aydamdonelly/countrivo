@@ -29,6 +29,8 @@ function respond(route, view, revision, success = true) {
 
 let checks = 0;
 const latencies = [];
+// Flag Quiz practice is the twenty-second sprint (check-flag-sprint-ui); the ten-flag quiz with
+// its Next step lives on as the Europe flags practice, so that is where these cases run.
 try {
   for (const scenario of cases) {
     for (const outcome of ["success", "failure", "stale", "network"]) {
@@ -42,14 +44,15 @@ try {
       let requests = 0;
       await page.route("**/*", async route => {
         const request = route.request();
-        if (request.method() !== "POST" || !request.headers()["next-action"]) return route.continue();
+        if (request.method() !== "POST") return route.continue();
+        if (!request.headers()["next-action"]) return route.fulfill({ status: 204 });
         requests++;
         if (requests === 1) return respond(route, reveal, 1);
         await new Promise(resolve => setTimeout(resolve, 1200));
         if (outcome === "network") return route.abort("failed");
         return outcome === "success" ? respond(route, next, 2) : respond(route, reveal, 1, outcome === "stale");
       });
-      await page.goto(`${base}/games/${scenario.slug}/play?mode=practice`, { waitUntil: "networkidle" });
+      await page.goto(`${base}/games/${scenario.slug}/play?mode=practice${scenario.slug === "flag-quiz" ? "&region=europe" : ""}`, { waitUntil: "networkidle" });
       await page.locator(scenario.answer).first().click();
       const button = page.getByRole("button", { name: scenario.next, exact: true });
       try { await button.waitFor({ timeout: 5000 }); }
@@ -112,13 +115,14 @@ try {
     const finished = { ...reveal, phase: "finished", shareText: "A finished practice flag quiz." };
     let requests = 0;
     await page.route("**/*", async route => {
-      if (route.request().method() !== "POST" || !route.request().headers()["next-action"]) return route.continue();
+      if (route.request().method() !== "POST") return route.continue();
+      if (!route.request().headers()["next-action"]) return route.fulfill({ status: 204 });
       requests++;
       if (requests === 1) return respond(route, reveal, 1);
       await new Promise(resolve => setTimeout(resolve, 1200));
       return respond(route, final ? finished : fixture("flag-quiz", "playing", 1), 2);
     });
-    await page.goto(`${base}/games/flag-quiz/play?mode=practice`, { waitUntil: "networkidle" });
+    await page.goto(`${base}/games/flag-quiz/play?mode=practice&region=europe`, { waitUntil: "networkidle" });
     await page.locator(".fq-opt").first().click();
     const button = page.getByRole("button", { name: final ? "Result" : "Next", exact: true });
     await button.click();

@@ -194,7 +194,7 @@ async function resultStanding(row: AnonymousRunRow, slug: string, day: string, b
   const board = loaded.board;
   const visible = board.entries.filter(entry => !blocked.ids.includes(entry.runId));
   const window = row.mode === "daily" ? resultLeaderboardWindow(visible, row.id, Number(row.score_sort_value ?? 0), board.playerCount) : {
-    entries: visible.slice(0, 3).map(entry => ({ runId: entry.runId, displayName: entry.displayName, scoreDisplay: entry.scoreDisplay, scoreSortValue: entry.scoreSortValue, rank: entry.rankDaily })), gapBeforeYou: false,
+    entries: visible.slice(0, 3).map(entry => ({ runId: entry.runId, displayName: entry.displayName, scoreDisplay: entry.scoreDisplay, scoreSortValue: entry.scoreSortValue, rank: entry.rankDaily, countryCode: entry.countryCode ?? null })), gapBeforeYou: false,
   };
   return { board, mine: board.entries.find(entry => entry.runId === row.id), rankPreview: loaded.rankPreview,
     leaderboard: { available: true, entries: window.entries, playerCount: board.playerCount, gameSlug: slug, dateKey: day, gapBeforeYou: window.gapBeforeYou } };

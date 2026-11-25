@@ -14,10 +14,19 @@
   .sg-live { display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 28px; text-align: center; }
   .sg-live .cap { color: var(--color-mute); }
   .sg-live .t-big { white-space: nowrap; }
+  .sg-hint { margin: 12px auto 0; max-width: 34ch; text-align: center; color: var(--color-mute); text-wrap: balance; }
+  /* the reveal: your guess beside the answer, each with the key of its mark on the ruler */
+  /* Two columns, captions on one row and the two numbers on one shared baseline. */
+  .sg-compare { display: grid; grid-auto-flow: column; grid-template-rows: auto auto; justify-content: center; justify-items: center; align-items: baseline; gap: 6px 28px; }
+  .sg-compare > span { display: contents; }
+  .sg-compare .cap { display: inline-flex; align-items: center; gap: 6px; }
+  .sg-compare .sg-you b { color: var(--color-mute); white-space: nowrap; }
+  .sg-key-pin { display: inline-block; width: 12px; height: 12px; border: 2px solid var(--color-mute); border-radius: 50%; }
+  .sg-key-truth { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--color-ink); }
 
   /* the ruler: 350 on a phone, 640 on desktop; the marks sit in an inset box so the knob's
      44 px hit area and the hanging labels never leave the column */
-  .sg-ruler { position: relative; width: 100%; max-width: 640px; margin: 24px auto 0; padding: 0 14px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
+  .sg-ruler { position: relative; width: 100%; max-width: 640px; margin: 24px auto 0; padding: 0 22px; touch-action: none; user-select: none; -webkit-user-select: none; cursor: pointer; }
   .sg-ruler.done { cursor: default; touch-action: auto; }
   .sg-box { position: relative; height: 104px; }
   .sg-box[data-scale="magnitude"] { height: 128px; }
@@ -26,8 +35,8 @@
 
   .sg-line { position: absolute; left: 0; right: 0; top: 57px; height: 12px; border-radius: var(--radius-ctl); background: var(--color-wait); }
   .sg-end { position: absolute; top: 72px; color: var(--color-mute); white-space: nowrap; }
-  .sg-end.lo { left: -14px; }
-  .sg-end.hi { right: -14px; }
+  .sg-end.lo { left: -22px; }
+  .sg-end.hi { right: -22px; }
 
   /* a mark is a zero-width anchor at its position; its parts hang off it */
   .sg-mark { position: absolute; top: 0; bottom: 0; width: 0; }
@@ -52,7 +61,10 @@
   /* your pin: an ink stem through the track and the 44 px knob below it */
   .sg-pin .sg-tick { top: 52px; height: 22px; background: var(--color-ink); }
   .sg-knob { position: absolute; z-index: 3; left: -22px; top: 42px; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--color-ink); border-radius: var(--radius-ctl); background: var(--color-paper); cursor: grab; }
-  .sg-ruler.done .sg-knob { cursor: default; }
+  /* once locked the knob is a static pin: a ring on the stem, nothing left to grab */
+  .sg-ruler.done .sg-knob { cursor: default; border-color: transparent; background: transparent; }
+  .sg-ruler.done .sg-knob > i { width: 14px; height: 14px; border: 2px solid var(--color-mute); border-radius: 50%; background: var(--color-paper); }
+  .sg-ruler.done .sg-pin .sg-tick { background: var(--color-mute); }
   .sg-knob > i { display: block; width: 10px; height: 16px; border-left: 2px solid var(--color-ink); border-right: 2px solid var(--color-ink); }
   .sg-ruler:not(.done) .sg-knob:active > i { background: var(--color-ink-2); }
   .sg-knob:focus-visible { box-shadow: none; }

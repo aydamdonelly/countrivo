@@ -40,7 +40,7 @@ export default async function ChallengePage({ params }: Props) {
       <p className="t-kicker text-mute">{game.title} · {challenge.dateKey}</p>
       <h1 className="t-h1">Can you beat this?</h1>
       <p className="challenge-big-score">{challenge.scoreDisplay}</p>
-      {board.href ? <GamePlayLink slug={game.slug} href={board.href} className="btn btn-ink t-cta" pendingLabel={ownRun ? "Opening your comparison…" : "Opening the same board…"}>{ownRun ? "See your result" : "Take the challenge"}</GamePlayLink> : <><p className="t-body">This version of the board is no longer available.</p><GamePlayLink slug={game.slug} href={`/games/${game.slug}/play?mode=daily`} className="btn btn-ink t-cta" pendingLabel="Opening today’s board…">Play today’s board</GamePlayLink></>}
+      {board.href ? <GamePlayLink slug={game.slug} href={board.href} className="btn btn-primary t-cta" pendingLabel={ownRun ? "Opening your comparison…" : "Opening the same board…"}>{ownRun ? "See your result" : "Take the challenge"}</GamePlayLink> : <><p className="t-body">This version of the board is no longer available.</p><GamePlayLink slug={game.slug} href={`/games/${game.slug}/play?mode=daily`} className="btn btn-primary t-cta" pendingLabel="Opening today’s board…">Play today’s board</GamePlayLink></>}
     </div>
     {ownRun ? <ChallengeResult challenge={challenge} run={ownRun} /> : null}
     <p className="challenge-privacy t-meta text-mute">{board.past ? "Archived board · practice · no leaderboard changes" : "Same daily board · one result per browser"}<br />No account. No answers revealed.</p>

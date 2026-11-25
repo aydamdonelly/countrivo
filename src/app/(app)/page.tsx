@@ -35,7 +35,6 @@ export default async function Home({searchParams}: Props) {
   const jsonLd = {'@context':'https://schema.org','@type':'ItemList',name:'Countrivo Geography Games',itemListElement:getAllGames().map((game,i)=>({'@type':'ListItem',position:i+1,name:game.title,url:`https://countrivo.com${game.route}`}))};
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}} />
-    <h1 className="sr-only">Countrivo: daily geography games</h1>
     <TableHome games={games} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} activity={readActivity(store.get('cv_activity')?.value, clock.dateKey)} atlas={discoveredCountries(runs).size ? <DayAtlas key="day-atlas" runs={runs} /> : null} yesterday={<YesterdayAnswers key="yesterday" />} />
     <SiteFoot feedback={false} />
   </>;

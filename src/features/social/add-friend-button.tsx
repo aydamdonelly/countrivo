@@ -24,7 +24,7 @@ export function AddFriendButton({ profileId, name }: { profileId: string; name: 
       <>
         <p className="ask t-body">Request sent. {name} will see it.</p>
         <div className="acts">
-          <Button variant="text" href="/friends">
+          <Button variant="tertiary" href="/friends">
             Go to friends
           </Button>
         </div>
@@ -39,7 +39,7 @@ export function AddFriendButton({ profileId, name }: { profileId: string; name: 
         <Button onClick={() => void send()} disabled={state === "sending"} pending={state === "sending"} pendingLabel="Sending">
           Send request
         </Button>
-        <Button variant="text" href="/friends">
+        <Button variant="tertiary" href="/friends">
           Cancel
         </Button>
       </div>
