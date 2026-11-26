@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { countries, sovereignIso3 } from "../src/lib/data/loader";
 import { mulberry32 } from "../src/lib/seeded-random";
 import {
+  answerPool,
   centroidFor,
   createGeoWordle,
   guessableCountries,
@@ -119,6 +120,16 @@ assert.equal(won.guesses[5].sharedBorder,false,"the exact country uses the solve
 assert(northEast.bearingDeg >= 0 && northEast.bearingDeg < 360);
 assert(guess(fresh("DEU"), "Poland").guesses[0].proximityPct > guess(fresh("DEU"), "Japan").guesses[0].proximityPct);
 
+// 26 November 2026: arrows follow the flat board map, and obscure microstates never hide.
+{
+  const palau = submitGuess(fresh("PLW"), countries.find(c => c.iso3 === "DEU")!).guesses[0];
+  assert(palau.bearingDeg > 90 && palau.bearingDeg < 180, `Germany points south-east of itself towards Palau on the map, got ${palau.bearingDeg}`);
+  const hidden = new Set(answerPool().map(c => c.iso3));
+  for (const iso3 of ["PLW", "NRU", "TUV", "MHL", "KIR", "VAT", "MCO", "SMR", "LIE", "KNA"]) assert(!hidden.has(iso3), `${iso3} is never the hidden country`);
+  for (const iso3 of ["DEU", "BRA", "ISL", "GUY", "SGP", "MNG"]) assert(hidden.has(iso3), `${iso3} can be the hidden country`);
+  assert(hidden.size >= 150, `answer pool stays broad: ${hidden.size}`);
+  for (let seed = 0; seed < 400; seed++) assert(hidden.has(createGeoWordle(mulberry32(seed)).answerIso3), "every daily draw comes from the answer pool");
+}
 console.log(`check-geo-wordle: ${pool.length} countries, ${aliases.length} aliases, search, seeds, replay, six-guess outcomes and bearings passed`);
 
 const missTwo=guess(guess(fresh("BTN"),"ITA"),"KAZ");

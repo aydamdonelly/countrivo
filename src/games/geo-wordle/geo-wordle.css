@@ -12,6 +12,16 @@
  .gw-heat-burning {--gw-heat:var(--color-ember);}
  .gw-heat-hit {--gw-heat:var(--color-ink);}
  .gw-land {fill:var(--gw-heat);}
+ /* Direction arrows on the map (26 November 2026): ink on a paper halo, the latest one larger. */
+ .gw-map-arrow path {fill:none;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;}
+ .gw-map-arrow-halo {stroke:var(--color-paper);stroke-width:5px;}
+ .gw-map-arrow-line {stroke:var(--color-ink);stroke-width:2px;}
+ .gw-map-arrow-dot {fill:var(--color-ink);stroke:var(--color-paper);stroke-width:1.5px;vector-effect:non-scaling-stroke;}
+ .gw-map-arrow:not(.gw-map-arrow-latest) {opacity:.55;}
+ .gw-map-arrow-latest .gw-map-arrow-halo {stroke-width:6px;}
+ .gw-map-arrow-latest .gw-map-arrow-line {stroke-width:2.5px;}
+ .gw-direction {display:inline-flex;align-items:center;gap:4px;color:var(--color-ink);}
+ .gw-arrow {flex:none;}
  .gw-pending-land {fill:var(--color-game-geo);stroke:var(--color-ink);stroke-width:2;stroke-dasharray:4 3;}
  .gw-board .gw-row.gw-pending {flex-direction:row;align-items:center;justify-content:space-between;background:var(--color-game-geo);padding-inline:12px;border-radius:var(--radius-ctl);border-bottom-color:transparent;}
  .gw-pending-art .clay-object {width:40px;height:40px;}
@@ -48,6 +58,7 @@
  .gw-answer .gw-answer-map>path:first-child {stroke:var(--color-faint);stroke-width:1px;}
  .gw-answer .gw-legend {flex-wrap:wrap;justify-content:center;margin-top:0;gap:4px 8px;}
  .gw-answer-land {fill:var(--color-ink);stroke:var(--color-paper);stroke-width:1.5px;}
+ .gw-answer-ring {fill:none;stroke:var(--color-ember);stroke-width:2px;}
  .gw-answer-dot {fill:var(--color-ink);stroke:var(--color-paper);stroke-width:1.5px;}
  .gw-answer-label {font-family:var(--font-display);font-weight:600;fill:var(--color-ink);stroke:var(--color-paper);stroke-width:3px;stroke-linejoin:round;paint-order:stroke;pointer-events:none;}
  .gw-answer-swatch {background:var(--color-ink);}

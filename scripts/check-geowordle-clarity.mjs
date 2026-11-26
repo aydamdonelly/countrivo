@@ -56,7 +56,7 @@ try{
   check(new Set(fills).size>=2,'Confirmed cold and close guesses have distinct map colours');
   check(await page.locator('.gw-band').filter({hasText:'Cold'}).count()===1,'Heat feedback also has text');
   await page.getByText('Distance & direction',{exact:true}).click();
-  check(await page.getByText(/Arrows point towards the country’s centre/).isVisible(),'Optional explanation discloses mixed geographic reference');
+  check(await page.getByText(/points from your guess towards the hidden country as it lies on this map/).isVisible(),'Optional explanation says what the arrow and the kilometres each measure');
   await page.getByText('Distance & direction',{exact:true}).click();
   await page.getByRole('button',{name:'Outline · −1 guess',exact:true}).click();
   await page.getByRole('button',{name:'Not now',exact:true}).click();

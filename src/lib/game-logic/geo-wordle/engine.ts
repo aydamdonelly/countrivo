@@ -23,7 +23,7 @@ export interface GeoGuess {
   name: string;
   iso2: string;
   distanceKm: number; // nearest-border km, or centre distance when no mapped border exists
-  bearingDeg: number; // 0..360 compass bearing FROM guess TO answer (0 if correct)
+  bearingDeg: number; // 0..360 direction FROM guess TO answer as drawn on the board map (0 if correct)
   arrow: string; // 8-way direction emoji; 🎯 when correct — share text + a11y fallback
   direction: string; // spelled-out bearing ("north-east"); "" when correct
   proximityPct: number; // 0..100, 100 when correct
@@ -85,16 +85,14 @@ function haversineKm(aLat: number, aLng: number, bLat: number, bLng: number): nu
   return 2 * 6371 * Math.asin(Math.min(1, Math.sqrt(s)));
 }
 
-/** Initial compass bearing FROM a TO b, normalised to 0..360. */
-function bearingDeg(aLat: number, aLng: number, bLat: number, bLng: number): number {
-  const phi1 = toRad(aLat);
-  const phi2 = toRad(bLat);
-  const dLambda = toRad(bLng - aLng);
-  const y = Math.sin(dLambda) * Math.cos(phi2);
-  const x =
-    Math.cos(phi1) * Math.sin(phi2) -
-    Math.sin(phi1) * Math.cos(phi2) * Math.cos(dLambda);
-  return (toDeg(Math.atan2(y, x)) + 360) % 360;
+/**
+ * Direction FROM a TO b as it looks on the board's flat world map, normalised to 0..360
+ * (26 November 2026). The great-circle bearing it replaced sent Germany "north-east" to Palau,
+ * which sits south-east of it on every map a player looks at. The board map is equirectangular
+ * and does not wrap, so the arrow follows plain longitude and latitude differences.
+ */
+function mapBearingDeg(aLat: number, aLng: number, bLat: number, bLng: number): number {
+  return (toDeg(Math.atan2(bLng - aLng, bLat - aLat)) + 360) % 360;
 }
 
 function compassIndex(bearing: number): number {
@@ -155,12 +153,27 @@ export function answerCountry(state: GeoWordleState): Country | undefined {
 }
 
 /**
+ * Countries that can be the hidden answer (26 November 2026): sovereign, mapped, and known
+ * enough to find. Microstates and remote island states such as Palau, Nauru or Tuvalu stay
+ * guessable but never hide: at least a million people, or a large country (Iceland, Guyana).
+ */
+export const ANSWER_MIN_POPULATION = 1_000_000;
+export const ANSWER_LARGE_AREA_KM2 = 100_000;
+export function answerPool(): Country[] {
+  const sovereign = new Set(sovereignIso3);
+  return guessableCountries().filter(c => {
+    if (!sovereign.has(c.iso3) || !geography.countries[c.iso3]) return false;
+    const population = getStatValue(c.iso3, "population") ?? 0, area = getStatValue(c.iso3, "area-km2") ?? 0;
+    return population >= ANSWER_MIN_POPULATION || area >= ANSWER_LARGE_AREA_KM2;
+  });
+}
+
+/**
  * Seeded, deterministic: consumes EXACTLY one seededPick draw so the same
  * getDailyRng(dateKey, edition) yields the same answer worldwide. No Math.random.
  */
 export function createGeoWordle(rng: () => number): GeoWordleState {
-  const sovereign = new Set(sovereignIso3);
-  const pool = guessableCountries().filter(c => sovereign.has(c.iso3) && geography.countries[c.iso3]);
+  const pool = answerPool();
   const [answer] = seededPick(pool, 1, rng);
   return { answerIso3: answer.iso3, guesses: [], clueAt: null, phase: "playing" };
 }
@@ -177,7 +190,7 @@ export function submitGuess(state: GeoWordleState, country: Country): GeoWordleS
   const touching = country.borders.includes(answer.iso3) || answer.borders.includes(country.iso3);
   const borderKm = geography.countries[country.iso3] ? (touching ? 0 : borderDistanceKm(country.iso3, answer.iso3)) : null;
   const distanceKm = correct ? 0 : borderKm ?? Math.round(haversineKm(gC[0], gC[1], aC[0], aC[1]));
-  const bearing = correct ? 0 : bearingDeg(gC[0], gC[1], aC[0], aC[1]);
+  const bearing = correct ? 0 : mapBearingDeg(gC[0], gC[1], aC[0], aC[1]);
   const proximityPct = correct ? 100 : proximityFor(distanceKm);
 
   const guess: GeoGuess = {

@@ -15,7 +15,9 @@ import './geo-wordle.css';
 interface GeoBoardProps {state:GeoWordleView;dispatch:(action:GeoCommitAction)=>void;busy:boolean;pendingGuess?:string|null}
 function kmLabel(km:number):string{return `${String(Math.max(0,Math.round(km))).replace(/\B(?=(\d{3})+(?!\d))/g,' ')} km`;}
 function bandLabel(g:GeoGuess):string {return g.correct?'Found it':g.sharedBorder?'Neighbour':g.distanceKm===0?'Very close':g.band[0].toUpperCase()+g.band.slice(1);}
-function Arrow({bearing,direction}:{bearing:number;direction:string}){return <svg viewBox="0 0 24 24" width="22" height="22" role="img" aria-label={`Country centre to the ${direction}`} style={{transform:`rotate(${Math.round(bearing-90)}deg)`}}><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+function Arrow({bearing}:{bearing:number}){return <svg className="gw-arrow" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style={{transform:`rotate(${Math.round(bearing-90)}deg)`}}><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+/** "north-east" → "North-east": the word under the arrow, so the direction never depends on reading an angle. */
+function directionWord(direction:string):string{return direction?direction[0].toUpperCase()+direction.slice(1):'';}
 /** The projected bounding box of an SVG path's absolute M/L points. */
 function pathBox(path:string):{x:number;y:number;w:number;h:number}|null{
  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
@@ -48,20 +50,25 @@ function GuessMap({state,onPick,pendingIso3,className}:{state:GeoWordleView;onPi
    if(g.correct&&state.answerPath)return null;
    const d=state.guessPaths[g.iso3],box=d?pathBox(d):null,centre=centroidPoint(g.iso3);
    const small=!box||Math.max(box.w,box.h)<frameWidth/60;
-   const outline=!finished&&g===latest;
-   return <g key={g.iso3}>{d?<path d={d} className={`gw-land gw-heat-${g.band}`} stroke={outline?'var(--color-ink)':'var(--color-paper)'} strokeWidth={outline?1.25:0.75} vectorEffect="non-scaling-stroke"/>:null}
-    {small&&centre?<circle className={`gw-land gw-dot gw-heat-${g.band}`} cx={centre.x} cy={centre.y} r={4*k} stroke={outline?'var(--color-ink)':'var(--color-paper)'} strokeWidth="1" vectorEffect="non-scaling-stroke"/>:null}</g>;
+   // The fill carries the heat colour; an ink outline drowned small archipelagos (the Philippines read black).
+   return <g key={g.iso3}>{d?<path d={d} className={`gw-land gw-heat-${g.band}`} stroke="var(--color-paper)" strokeWidth={0.5} vectorEffect="non-scaling-stroke"/>:null}
+    {small&&centre?<circle className={`gw-land gw-dot gw-heat-${g.band}`} cx={centre.x} cy={centre.y} r={4*k} stroke="var(--color-paper)" strokeWidth="1" vectorEffect="non-scaling-stroke"/>:null}</g>;
   })}
+  {/* While playing, every miss points from its centre towards the hidden country, the same direction as its row. */}
+  {!finished?state.guesses.filter(g=>!g.correct).map(g=>{const c=centroidPoint(g.iso3);if(!c)return null;const isLatest=g===latest;
+   return <g key={`arrow-${g.iso3}`} className={`gw-map-arrow${isLatest?' gw-map-arrow-latest':''}`} transform={`translate(${c.x} ${c.y}) rotate(${Math.round(g.bearingDeg-90)}) scale(${k*(isLatest?2.8:2.3)})`}>
+    <path d="M0 0h22m-7-7 7 7-7 7" className="gw-map-arrow-halo"/><path d="M0 0h22m-7-7 7 7-7 7" className="gw-map-arrow-line"/><circle r="3" className="gw-map-arrow-dot"/></g>;}):null}
   {pendingIso3&&mapCountryPaths[pendingIso3]?<path className="gw-pending-land" d={mapCountryPaths[pendingIso3]} vectorEffect="non-scaling-stroke"/>:null}
   {answer?state.guesses.filter(g=>!g.correct).map(g=>{const a=centroidPoint(g.iso3);if(!a)return null;return Math.abs(a.x-answer.x)<360?<line key={`route-${g.iso3}`} className="gw-route" x1={a.x} y1={a.y} x2={answer.x} y2={answer.y} stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="4 3" vectorEffect="non-scaling-stroke"/>:null;}):null}
   {state.answerPath?<path className="gw-answer-land" d={state.answerPath} vectorEffect="non-scaling-stroke"/>:null}
+  {answer&&finished?<circle className="gw-answer-ring" cx={answer.x} cy={answer.y} r={11*k} vectorEffect="non-scaling-stroke"/>:null}
   {answer?<circle className="gw-answer-dot" cx={answer.x} cy={answer.y} r={4.5*k} vectorEffect="non-scaling-stroke"/>:null}
   {answer&&state.answer?<text className="gw-answer-label" x={answer.x} y={answer.y-frameWidth/60} fontSize={frameWidth/24} textAnchor="middle">{state.answer.name}</text>:null}
  </svg>;
 }
 /** The finished map for the result card: the answer, your guesses and the routes. */
 export function AnswerMap({state}:{state:GeoWordleView}){
- return <><GuessMap state={state} className="gw-answer-map"/><div className="gw-legend t-meta text-mute" aria-hidden="true"><span className="gw-legend-answer"><i className="gw-heat-dot gw-answer-swatch"/>Answer</span><span className="gw-legend-heat">Guesses: cold<span className="gw-legend-colours">{['cold','cool','warm','hot','burning'].map(band=><i key={band} className={`gw-heat-dot gw-heat-${band}`}/>)}</span>close</span></div></>;
+ return <><GuessMap state={state} className="gw-answer-map"/><div className="gw-legend t-meta text-mute" aria-hidden="true"><span className="gw-legend-answer"><i className="gw-heat-dot gw-answer-swatch"/>Answer</span><span className="gw-legend-heat">6,000+ km<span className="gw-legend-colours">{['cold','cool','warm','hot','burning'].map(band=><i key={band} className={`gw-heat-dot gw-heat-${band}`}/>)}</span>under 500 km</span></div></>;
 }
 /** The guess that came closest: the smallest distance, a neighbour counting as 0 km. */
 export function closestGuess(state:GeoWordleView):GeoGuess|null{
@@ -99,11 +106,11 @@ export function Board({state,dispatch,busy,pendingGuess}:GeoBoardProps){
  function submit(raw:string){if(busy||!raw.trim())return;const country=resolveGuess(raw);if(!country){setError('No country by that name. Try another spelling.');return;}guess(country.iso3);}
  const used=state.guesses.length+(state.clueAt===null?0:1);
  const pending=pendingGuess?countries.find(country=>country.iso3===pendingGuess):null;
- const source=<details className="gw-source"><summary className="t-meta">Distance &amp; direction</summary><p className="t-meta text-mute">Kilometres measure the nearest borders. Neighbours share a border; they are not the answer. Arrows point towards the country’s centre, so they may differ from the nearest border. Unmapped territories use centre distance. Natural Earth 1:50m.</p></details>;
+ const source=<details className="gw-source"><summary className="t-meta">Distance &amp; direction</summary><p className="t-meta text-mute">Kilometres measure the gap between the nearest borders. The arrow, on the map and in each row, points from your guess towards the hidden country as it lies on this map. Neighbours share a border; they are not the answer. Colours run from cold (over 6,000 km) through cool, warm and hot to burning (under 500 km). Unmapped territories use centre distance. Natural Earth 1:50m.</p></details>;
  const closest=live?null:closestGuess(state);
  const map=<>
   <GuessMap state={state} onPick={pickMap} pendingIso3={pendingGuess}/>
-  {state.guesses.length?<div className="gw-legend t-meta text-mute" aria-label="Map colours run from cold blue to close red"><span>Cold</span><span className="gw-legend-colours" aria-hidden="true">{['cold','cool','warm','hot','burning'].map(band=><i key={band} className={`gw-heat-dot gw-heat-${band}`}/>)}</span><span>Close</span></div>:null}
+  {state.guesses.length?<div className="gw-legend t-meta text-mute" aria-label="Map colours run from blue, over 6,000 km away, to red, under 500 km away"><span>6,000+ km</span><span className="gw-legend-colours" aria-hidden="true">{['cold','cool','warm','hot','burning'].map(band=><i key={band} className={`gw-heat-dot gw-heat-${band}`}/>)}</span><span>under 500 km</span></div>:null}
   {mapChoice&&live?<div className="gw-confirm"><div><Button variant="primary" disabled={busy} pending={busy} pendingLabel="Checking…" onClick={e=>{if(e.detail<2)guess(mapChoice.iso3);}}>Guess {mapChoice.name}</Button><Button variant="tertiary" onClick={()=>setMapChoice(null)}>Not now</Button></div></div>:null}
  </>;
  const clue=state.clue?<div className="gw-clue">{state.clue.label?<p className="t-h3">{state.clue.label}</p>:<svg viewBox={state.clue.viewBox} role="img" aria-label="Outline clue of the hidden country"><path d={state.clue.path} fill="var(--color-ink)"/></svg>}<p className="t-meta text-mute">Outline · −1 guess</p></div>:null;
@@ -113,7 +120,7 @@ export function Board({state,dispatch,busy,pendingGuess}:GeoBoardProps){
    if(!g&&i===used&&pending)return <div className="gw-row gw-pending" key={pending.iso3}><div className="gw-country"><Flag iso2={pending.iso2} size="xs" alt="" eager/><span className="t-body">{pending.displayName}</span></div><span className="gw-pending-art"><Clay object="cl-02" sizes="40px" loading="eager"/><span className="sr-only">Confirming your guess</span></span></div>;
    if(!g)return null;
    return <div key={g.iso3} className={`gw-row gw-heat-${g.band}`}><div className="gw-country"><Flag iso2={g.iso2} size="xs" alt="" eager/><span className="t-body">{g.name}</span>{closest===g?<span className="gw-closest t-meta">Closest</span>:null}</div><div className={`gw-readout${g.sharedBorder?' gw-neighbour':''}`}>
-    {g.correct?<><CheckIcon size={24}/><span className="t-meta">Found it</span></>:g.sharedBorder?<><b className="t-body">Neighbour</b><span className="t-meta text-mute">Shared border · 0 km</span></>:<><b className="t-score num">{g.distanceKm===0?'Very close':kmLabel(g.distanceKm)}</b><Arrow bearing={g.bearingDeg} direction={g.direction}/><span className="gw-band t-meta text-mute"><i className="gw-heat-dot" aria-hidden="true"/>{g.distanceKm===0?'Under 1 km':bandLabel(g)}</span>{g.distanceBasis==='centres'?<small className="t-meta text-mute">centre</small>:null}</>}
+    {g.correct?<><CheckIcon size={24}/><span className="t-meta">Found it</span></>:g.sharedBorder?<><b className="t-body">Neighbour</b><span className="t-meta text-mute">Shared border · 0 km</span></>:<><b className="t-score num">{g.distanceKm===0?'Very close':kmLabel(g.distanceKm)}</b><span className="gw-direction t-meta"><Arrow bearing={g.bearingDeg}/>{directionWord(g.direction)}</span><span className="gw-band t-meta text-mute"><i className="gw-heat-dot" aria-hidden="true"/>{g.distanceKm===0?'Under 1 km':bandLabel(g)}</span>{g.distanceBasis==='centres'?<small className="t-meta text-mute">centre</small>:null}</>}
    </div></div>;
   }).filter(row=>row!==null);
  // While playing the newest row sits next to the input; the finished list reads as a route.
