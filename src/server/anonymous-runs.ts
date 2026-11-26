@@ -10,6 +10,7 @@ import { getTodayDateKey } from "@/lib/daily-seed";
 import { getCountryByIso3 } from "@/lib/data/countries";
 import { getArchivedBoard } from "./board-snapshots";
 import { getEdition } from "./edition";
+import { guestFlagIso2, isGuestName } from "@/lib/guest-flag";
 import { challengeUrlForRun } from "./challenges";
 import { resultLeaderboardWindow } from "@/lib/result-leaderboard";
 import { getGameBySlug } from "@/lib/data/games";
@@ -117,7 +118,7 @@ export async function anonymousBoard(slug: string, dateKey: string, options: { e
       entries: board.entries.map(row => ({
         runId: row.id, userId: `run-${row.id}`, username: row.display_name, displayName: row.display_name, avatarUrl: null,
         scoreRaw: Number(row.score_raw), scoreMax: Number(row.score_max), scoreSortValue: Number(row.score_sort_value), scoreDisplay: row.score_display,
-        countryCode: row.place_country_code ? getCountryByIso3(row.place_country_code)?.iso2 ?? null : null,
+        countryCode: row.place_country_code ? getCountryByIso3(row.place_country_code)?.iso2 ?? null : isGuestName(row.display_name) ? guestFlagIso2(Number(row.id)) : null,
         rankDaily: Number(row.rank_daily), percentile: Number(board.count) >= 20 ? Number(row.percentile) : 0,
       })) };
   } catch { return unavailableBoard(); }
