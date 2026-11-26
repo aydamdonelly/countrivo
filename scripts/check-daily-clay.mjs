@@ -54,22 +54,24 @@ const day = '2026-10-28', edition = 'daily-clay-test';
 const scores = Object.fromEntries(games.map(game => [game.slug, '0']));
 const done = (date = day, e = edition) => readDone({get:() => ({value:encodeURIComponent(JSON.stringify({d:date,e,g:scores}))})},day,edition);
 for (const game of games) {
+  // 25 November 2026 design pass: every tile shows its generated colour frame, played or not;
+  // a finished daily is marked by its score badge, never by colour alone.
   for (const [kind, props, expected] of [
-    ['fresh', {}, 'monochrome'],
-    ['in progress', {progress:'Board in progress'}, 'monochrome'],
+    ['fresh', {}, 'color'],
+    ['in progress', {progress:'Board in progress'}, 'color'],
     ['complete, including zero score', {score:done()[game.slug]}, 'color'],
-    ['practice with daily score', {practice:true,score:done()[game.slug]}, 'monochrome'],
-    ['yesterday', {score:done('2026-10-27')[game.slug]}, 'monochrome'],
-    ['another edition', {score:done(day,'old-edition')[game.slug]}, 'monochrome'],
+    ['practice with daily score', {practice:true,score:done()[game.slug]}, 'color'],
+    ['yesterday', {score:done('2026-10-27')[game.slug]}, 'color'],
+    ['another edition', {score:done(day,'old-edition')[game.slug]}, 'color'],
   ]) {
     const html = render(GameCard, {game,...props});
     check(html.includes(`data-clay-tone="${expected}"`), `${game.slug}: ${kind} has ${expected} in first HTML`);
     check(!html.includes('<filter')&&!html.includes('filter:'), `${game.slug}: no SVG tint or inline filter`);
-    check(html.includes(`/${game.done}-color.webp`) === (expected === 'color'), `${game.slug}: ${kind} selects the dedicated generated bitmap only when completed today`);
+    check(html.includes(`/${game.done}-color.webp`) === (expected === 'color'), `${game.slug}: ${kind} shows the generated colour bitmap`);
   }
   const row=render(GameRow,{slug:game.slug,title:game.title,href:`/games/${game.slug}/play?mode=daily`,dailyCompleted:true});
   check(row.includes('data-clay-tone="color"')&&row.includes(`/${game.done}-color.webp`), 'Daily rows share the generated completed artwork');
-  check(render(GameRow,{slug:game.slug,title:game.title,href:`/games/${game.slug}/play?mode=practice`}).includes('data-clay-tone="monochrome"'), 'Practice rows stay monochrome');
+  check(render(GameRow,{slug:game.slug,title:game.title,href:`/games/${game.slug}/play?mode=practice`}).includes('data-clay-tone="color"'), 'Practice rows show the colour artwork too');
 }
 const allHtml = renderToStaticMarkup(React.createElement('div',null,...games.map(game => React.createElement(GameCard,{key:game.slug,game,score:'0'}))));
 check(!allHtml.includes('<filter')&&!allHtml.includes('clay-material'), 'The full completed set contains no procedural SVG material');
@@ -121,7 +123,7 @@ for (const [name, browserType] of [['chromium',chromium],['webkit',webkit]]) {
       }
       check(neutralVisible>2000&&colorVisible>2000, `${name} ${game.slug}: both original and generated objects are visible`);
       check(edgeAlpha<=1, `${name} ${game.slug}: color artwork keeps transparent padding without clipping`);
-      check(neutralChroma/neutralVisible<1, `${name} ${game.slug}: unplayed artwork is monochrome`);
+      check(neutralChroma/neutralVisible<1, `${name} ${game.slug}: the original artwork is monochrome, the generated frame carries the colour`);
       check(colorChroma/colorVisible>25&&strongColor/colorVisible>0.4, `${name} ${game.slug}: solid visible color, not a faint tint (${colorChroma/colorVisible})`);
       pixelReports.push({browser:name,game:game.slug,edgeAlpha,meanChroma:colorChroma/colorVisible,strongColorFraction:strongColor/colorVisible});
     }

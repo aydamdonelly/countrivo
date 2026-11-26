@@ -634,8 +634,11 @@ entity recognition" timeline is a single-vendor anecdote with no measurement.
 to Wikipedia articles yourself is an explicit COI violation that gets reverted and can flag the domain.
 
 **#13 — Reddit, labelled honestly.** Warm an account with 2–4 weeks of genuine participation, then make
-~six posts to subs that explicitly permit sharing free web games (r/WebGames, r/InternetIsBeautiful,
-r/playmygame, r/geography, r/dailygames), leading with the game rather than a pitch. **Then stop.**
+~six posts to subs that explicitly permit sharing free web games (r/WebGames, r/playmygame, r/SideProject,
+r/IndieGaming, Lemmy !dailygames@lemmy.zip, Show HN), leading with the game rather than a pitch. **Then stop.**
+(Corrected 26 November 2026: r/InternetIsBeautiful bans web games, r/dailygames is for comment-thread
+games on Reddit, and r/geography bans unapproved self-promotion for 30 days. Rules and drafts:
+reports/2026-11-26/producthunt/community-drafts.md.)
 
 Ranked last because of the recurring-work violation *and* live risk. `reddit.com/robots.txt` is now a
 blanket `User-agent: * / Disallow: /` with no named exceptions, so Reddit reaches AI systems **only
