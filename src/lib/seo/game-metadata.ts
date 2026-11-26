@@ -40,7 +40,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "country-draft": {
-    title: "Country Draft: Daily World Draft Game, Conquer 195 Countries | Countrivo",
+    title: "Country Draft: World Draft Game, Conquer 195 Countries | Countrivo",
     description:
       "A free world draft game: draft 5 people and conquer the world. Choose countries, fill five cabinet jobs and score out of 195. New daily board, no account.",
     genre: "Geography Strategy",
@@ -79,7 +79,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "higher-or-lower": {
-    title: "Higher or Lower Geography Game: Which Country Ranks Higher? | Countrivo",
+    title: "Higher or Lower Geography Game: Which Ranks Higher? | Countrivo",
     description:
       "Is the next country higher or lower? Ten calls a day on one stat, from population to area and GDP. A wrong call doesn't end it. Free daily geography game, no signup.",
     genre: "Geography Ranking",
@@ -92,7 +92,7 @@ const GAME_SEO: Record<string, GameSeo> = {
     ],
   },
   "stat-guesser": {
-    title: "Stat Guesser: Guess Country Statistics, Daily Geography Trivia | Countrivo",
+    title: "Stat Guesser: Guess Country Statistics, Daily Trivia | Countrivo",
     description:
       "What is the population of Brazil or the GDP of Norway? Slide a pin to your guess across 5 rounds: closer scores more. Free daily geography trivia.",
     genre: "Geography Trivia",

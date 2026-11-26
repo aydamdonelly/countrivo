@@ -4,7 +4,7 @@ import { buildTopicMetadata } from '@/lib/seo/page-metadata';
 
 export const metadata: Metadata = buildTopicMetadata({
   path: '/games-like-worldle',
-  title: 'Games Like Worldle: Globle, Travle, Seterra and More Compared | Countrivo',
+  title: 'Games Like Worldle: Globle, Travle, Seterra Compared | Countrivo',
   description: 'Games like Worldle compared: Globle, Travle, Seterra and Countrivo’s GeoWordle, Pinpoint and Country Draft. Daily or unlimited, account, platform. Checked 25 November 2026.',
   ogTitle: 'Games like Worldle: seven geography games compared',
 });

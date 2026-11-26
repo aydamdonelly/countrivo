@@ -352,7 +352,7 @@ const LIST_CONTENT: readonly ListContent[] = [
   },
   {
     slug: "countries-in-americas",
-    metaTitle: "Countries in the Americas: All {n}, with Capitals and Population",
+    metaTitle: "Countries in the Americas: All {n}, with Capitals",
     description:
       "Complete list of every country in North and South America with flag, capital, population, and area. From the US and Brazil to small Caribbean nations.",
     shortName: "Countries in the Americas",

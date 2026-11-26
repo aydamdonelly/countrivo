@@ -12,6 +12,7 @@ import { SiteFoot } from '@/ui/site-foot';
 import { YesterdayAnswers } from '@/features/home/yesterday-answers';
 import { readActivity } from '@/lib/daily-activity';
 import { FLAG_SPRINT_FIRST_DAY } from '@/lib/game-logic/flag-quiz/sprint';
+import { PRODUCT_HUNT_URL, productHuntLive } from '@/content/launch';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -38,7 +39,7 @@ export default async function Home({searchParams}: Props) {
   const jsonLd = {'@context':'https://schema.org','@type':'ItemList',name:'Countrivo Geography Games',itemListElement:getAllGames().map((game,i)=>({'@type':'ListItem',position:i+1,name:game.title,url:`https://countrivo.com${game.route}`}))};
   return <>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}} />
-    <TableHome games={games} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} activity={readActivity(store.get('cv_activity')?.value, clock.dateKey)} atlas={discoveredCountries(runs).size ? <DayAtlas key="day-atlas" runs={runs} /> : null} yesterday={<YesterdayAnswers key="yesterday" />} />
+    <TableHome games={games} done={done} progress={progress} opening={first?.slug ?? 'country-draft'} dateKey={clock.dateKey} resetAt={clock.resetAt} serverNow={clock.now} activity={readActivity(store.get('cv_activity')?.value, clock.dateKey)} atlas={discoveredCountries(runs).size ? <DayAtlas key="day-atlas" runs={runs} /> : null} yesterday={<YesterdayAnswers key="yesterday" />} launchUrl={productHuntLive(clock.now) ? PRODUCT_HUNT_URL : undefined} />
     <SiteFoot feedback={false} />
   </>;
 }

@@ -105,6 +105,9 @@
   .job-guide > div { display:flex; align-items:center; gap:16px; }
   .job-guide .clay-object { width:40px; height:40px; }
   .job-guide small { display:block; color:var(--color-mute); font-size:13px; }
+  .ph-launch { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:4px 12px; min-height:48px; margin-bottom:16px; padding:10px 14px; border-radius:var(--radius-card); background:var(--color-card); box-shadow:inset 0 0 0 1px var(--color-line); color:var(--color-ink); font-size:15px; line-height:20px; text-decoration:none; }
+  .ph-launch b { font-weight:600; }
+  .ph-launch span { display:inline-flex; align-items:center; gap:2px; text-decoration:underline; text-decoration-color:var(--color-wait); text-underline-offset:4px; }
   .rollover { display:flex; align-items:center; justify-content:space-between; gap:12px; background:var(--color-card); padding:12px; border-radius:var(--radius-card); margin-bottom:16px; }
   .par-row { display:flex; align-items:center; justify-content:space-between; min-height:48px; color:var(--color-mute); border-block:1px solid var(--color-line); }
   .table-board-row { display:grid; grid-template-columns:24px 24px minmax(0,1fr) auto; gap:12px; align-items:center; min-height:48px; border-bottom:1px solid var(--color-line); }

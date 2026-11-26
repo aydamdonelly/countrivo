@@ -31,6 +31,8 @@ interface TableHomeProps {
   yesterday?: ReactNode;
   atlas?: ReactNode;
   activity?: DailyActivity;
+  /** The Product Hunt launch day: one line above the heading. */
+  launchUrl?: string;
 }
 
 function capitalised(word: string): string {
@@ -43,7 +45,7 @@ function capitalised(word: string): string {
  * primary in its own place in the fixed order, the other games as tiles, then Practice and Archive once, quietly, below the grid.
  * After the last daily the lead card becomes the day-complete card with the one "Share your day".
  */
-export function TableHome({games, done, progress, opening, dateKey, resetAt, serverNow, practice, yesterday, atlas, activity}: TableHomeProps) {
+export function TableHome({games, done, progress, opening, dateKey, resetAt, serverNow, practice, yesterday, atlas, activity, launchUrl}: TableHomeProps) {
   const finished = games.filter(game => Boolean(done[game.slug])).length;
   const fullSet = !practice && finished === games.length;
   const returning = !practice && (finished > 0 || Boolean(activity?.played));
@@ -61,6 +63,7 @@ export function TableHome({games, done, progress, opening, dateKey, resetAt, ser
   const streak = activity?.current ?? 0;
   const dailies: DailyRef[] = games.flatMap(game => isGameSlug(game.slug) ? [{ slug: game.slug, title: game.title }] : []);
   return <div className={practice ? 'table-home visual-home practice-home' : 'table-home visual-home'}>
+    {launchUrl && !practice ? <a className="ph-launch" href={launchUrl} target="_blank" rel="noopener"><b>Countrivo is on Product Hunt today.</b><span>Tell us what to fix<ChevronRightIcon size={16} /></span></a> : null}
     {dayClosed && !practice ? <div className="rollover"><p>New games are ready.</p><Link href="/" className="btn btn-secondary">Open today</Link></div> : null}
     <header className="games-heading">
       <h1 className="t-h1">{practice ? 'Unlimited geography games' : 'Daily games'}</h1>
