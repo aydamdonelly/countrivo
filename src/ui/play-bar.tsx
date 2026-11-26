@@ -4,7 +4,7 @@ import { ChevronLeftIcon } from "@/ui/icons/chevron-left";
 import type { GameSlug, Mode } from "@/ui/types";
 import { gamePresentation } from '@/content/table';
 import { GameHelp } from '@/ui/game-help';
-import { restFrame } from '@/ui/clay';
+import { gameClayFrame, restFrame } from '@/ui/clay';
 
 export interface PlayBarProps {
   slug: GameSlug;
@@ -18,6 +18,14 @@ export interface PlayBarProps {
  * the game's clay object at 32 (concept 4.2, rest still), the title in Erode 18, and the
  * mode at the right. Nothing else.
  */
+/** The header still (26 November 2026): the game's colour frame where one exists, like its home tile. */
+function headerClay(slug: string): string {
+  const game = gamePresentation(slug);
+  const object = game?.clay ?? 'cl-01';
+  const frame = game ? gameClayFrame(object, game.done) : { state: restFrame(object), tone: 'original' as const };
+  return `/clay/${object}/${frame.tone === 'color' ? `${frame.state}-color` : frame.state}.128.webp`;
+}
+
 export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
   return (
     <div className={cn("pb", className)}>
@@ -26,7 +34,7 @@ export function PlayBar({ slug, title, mode, className }: PlayBarProps) {
       </Link>
       <span className="clay" aria-hidden="true">
         {/* eslint-disable-next-line @next/next/no-img-element -- pre-sized local header still */}
-        <img src={`/clay/${gamePresentation(slug)?.clay ?? 'cl-01'}/${restFrame(gamePresentation(slug)?.clay ?? 'cl-01')}.128.webp`} width={32} height={32} alt="" decoding="async" />
+        <img src={headerClay(slug)} width={32} height={32} alt="" decoding="async" />
       </span>
       <h1 className="t-h3">{title}</h1>
       <span className={cn("mode t-meta", mode)}>
