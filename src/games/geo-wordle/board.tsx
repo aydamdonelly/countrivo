@@ -15,7 +15,9 @@ import './geo-wordle.css';
 interface GeoBoardProps {state:GeoWordleView;dispatch:(action:GeoCommitAction)=>void;busy:boolean;pendingGuess?:string|null}
 function kmLabel(km:number):string{return `${String(Math.max(0,Math.round(km))).replace(/\B(?=(\d{3})+(?!\d))/g,' ')} km`;}
 function bandLabel(g:GeoGuess):string {return g.correct?'Found it':g.sharedBorder?'Neighbour':g.distanceKm===0?'Very close':g.band[0].toUpperCase()+g.band.slice(1);}
-function Arrow({bearing}:{bearing:number}){return <svg className="gw-arrow" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style={{transform:`rotate(${Math.round(bearing-90)}deg)`}}><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
+/** Arrows snap to the same eight directions as the word beside them, so an arrow never says more or less than its label. */
+function compass(bearing:number):number{return (Math.round(bearing/45)%8)*45;}
+function Arrow({bearing}:{bearing:number}){return <svg className="gw-arrow" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style={{transform:`rotate(${compass(bearing)-90}deg)`}}><path d="M4 12h16m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
 /** "north-east" → "North-east": the word under the arrow, so the direction never depends on reading an angle. */
 function directionWord(direction:string):string{return direction?direction[0].toUpperCase()+direction.slice(1):'';}
 /** The projected bounding box of an SVG path's absolute M/L points. */
@@ -56,7 +58,7 @@ function GuessMap({state,onPick,pendingIso3,className}:{state:GeoWordleView;onPi
   })}
   {/* While playing, every miss points from its centre towards the hidden country, the same direction as its row. */}
   {!finished?state.guesses.filter(g=>!g.correct).map(g=>{const c=centroidPoint(g.iso3);if(!c)return null;const isLatest=g===latest;
-   return <g key={`arrow-${g.iso3}`} className={`gw-map-arrow${isLatest?' gw-map-arrow-latest':''}`} transform={`translate(${c.x} ${c.y}) rotate(${Math.round(g.bearingDeg-90)}) scale(${k*(isLatest?2.8:2.3)})`}>
+   return <g key={`arrow-${g.iso3}`} className={`gw-map-arrow${isLatest?' gw-map-arrow-latest':''}`} transform={`translate(${c.x} ${c.y}) rotate(${compass(g.bearingDeg)-90}) scale(${k*(isLatest?2.8:2.3)})`}>
     <path d="M0 0h22m-7-7 7 7-7 7" className="gw-map-arrow-halo"/><path d="M0 0h22m-7-7 7 7-7 7" className="gw-map-arrow-line"/><circle r="3" className="gw-map-arrow-dot"/></g>;}):null}
   {pendingIso3&&mapCountryPaths[pendingIso3]?<path className="gw-pending-land" d={mapCountryPaths[pendingIso3]} vectorEffect="non-scaling-stroke"/>:null}
   {answer?state.guesses.filter(g=>!g.correct).map(g=>{const a=centroidPoint(g.iso3);if(!a)return null;return Math.abs(a.x-answer.x)<360?<line key={`route-${g.iso3}`} className="gw-route" x1={a.x} y1={a.y} x2={answer.x} y2={answer.y} stroke="var(--color-ink)" strokeWidth="1" strokeDasharray="4 3" vectorEffect="non-scaling-stroke"/>:null;}):null}
