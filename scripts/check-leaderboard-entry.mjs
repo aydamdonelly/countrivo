@@ -85,8 +85,10 @@ try{
   await finish();
   await page.waitForFunction(()=>document.querySelector('input[name=displayName]')?.value==='Previous Name');
   check(await input.isVisible(),'Name input is immediately visible in the private own row');
-  check(await own.locator('form').count()===0&&await entry.locator('.join-panel form').count()===1,'The join form sits in the panel under the list, not inside the score row');
-  check(await own.getByText('Not on the public board yet',{exact:true}).isVisible(),'The private own row says it is not public yet');
+  check(await own.locator('form').count()===0&&await entry.locator('.join-panel form').count()===1,'The join form sits in its panel, not inside the score row');
+  check(await entry.evaluate(node=>!!(node.querySelector('.join-panel').compareDocumentPosition(node.querySelector('.standing-list'))&Node.DOCUMENT_POSITION_FOLLOWING)),'The join panel sits above the list');
+  check(await own.locator('.standing-label > b').textContent()==='Previous Name','The own row previews the remembered name before saving');
+  check(await own.getByText('Not saved yet, tap Save',{exact:true}).isVisible(),'The private own row says it is not saved and how to save');
   check(await entry.locator('.join-row').evaluate(row=>{const [flag,name,save]=['.join-flag','.join-name','.standing-join'].map(s=>row.querySelector(s).getBoundingClientRect());return flag.right<=name.left&&name.right<=save.left&&Math.abs(flag.top-name.top)<2&&Math.abs(name.top-save.top)<2&&flag.width>=44&&flag.height>=44;}),'Flag button, name and Save share one compact line with the flag first');
   check(await ownIndex()===2,'Own ghost row is between strictly better scores and equal/lower scores');
   check(await entry.locator('.standing-row').count()===4,'Real named neighbours are shown once');
@@ -155,7 +157,9 @@ try{
   check(await entry.locator('.join-done .btn-tertiary').count()===2,'Change and Remove are quiet tertiary actions');
   await manage();await entry.getByRole('button',{name:'Change',exact:true}).click();
   check(await input.inputValue()==='New Name','Rename starts with current public name');
-  await input.fill('Unsent Name');await entry.getByRole('button',{name:'Cancel',exact:true}).click();
+  await input.fill('Unsent Name');
+  check(await own.locator('.standing-label > b').textContent()==='Unsent Name'&&await own.getByText('Not saved yet, tap Save',{exact:true}).isVisible(),'The own row mirrors a rename live and says it is not saved');
+  await entry.getByRole('button',{name:'Cancel',exact:true}).click();
   check(await own.locator('.standing-label > b').textContent()==='New Name','Cancelling rename preserves the public name');
   check(publishes===2,'Cancelling rename sends no request');
   await manage();await entry.getByRole('button',{name:'Change',exact:true}).click();

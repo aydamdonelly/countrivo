@@ -30,8 +30,9 @@ export function LeaderboardEntryForm(props: LeaderboardEntryProps) {
 
 /**
  * Today's leaderboard on a result (design pass 25 November 2026, section 4): neutral rows,
- * clay medals for places 1 to 3, your row tinted ember with a "You" marker, and the join panel
- * under the list with a flag button, the name field and Save on one line.
+ * clay medals for places 1 to 3, your row tinted ember with a "You" marker. The join panel sits
+ * above the list (26 November 2026) so it is never buried under a long board, and your own row
+ * mirrors the name and flag while you type, so you see yourself on the board before saving.
  */
 function Entry({ run, publishedName, onPublished, onBoard = false }: LeaderboardEntryProps) {
   const router = useRouter();
@@ -141,36 +142,19 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
   const onPublicBoard = !!published && !currentRun.moderationHidden;
   const count = currentRun.dailyNameCount;
   const empty = daily && currentRun.leaderboard?.available !== false && !neighbours.length && !onBoard && (count ?? 0) === 0;
+  const typed = name.normalize("NFKC").trim().replace(/\s+/g, " ");
+  const draftName = editing ? typed || (onPublicName(published) ? published : "") : "";
+  const ownName = editing ? draftName : published;
+  const ownSub = currentRun.moderationHidden ? "Name under review"
+    : editing && daily ? (!draftName ? "Add your name above" : draftName !== published ? "Not saved yet, tap Save" : null)
+    : !published && daily ? "Not on the public board yet" : null;
+  function onPublicName(value: string | null): value is string { return !!value && !value.startsWith("guest-"); }
+  const focusName = () => nameInput.current?.focus({ preventScroll: true });
 
-  return <section className={`leaderboard-entry name-entry${published && !editing ? " name-published" : ""}${onBoard ? " name-on-board" : ""}`} aria-labelledby={`${id}-heading`}>
-    {!onBoard ? <div className="name-heading">
-      <h2 id={`${id}-heading`} className="standing-title">{daily ? "Today’s leaderboard" : "Your saved result"}</h2>
-      {daily && count !== undefined ? <span className="standing-count">{count.toLocaleString("en-US")} {count === 1 ? "player" : "players"}</span> : null}
-    </div> : <h2 id={`${id}-heading`} className="sr-only">Your leaderboard entry</h2>}
-    <ol ref={list} className={`standing-list${longList ? " standing-scroll" : ""}`} aria-label={onBoard || !daily ? "Your score" : "Today’s leaderboard with your result"} tabIndex={longList ? 0 : undefined}>
-      {before.flatMap(publicRow)}
-      {currentRun.leaderboard?.gapBeforeYou && before.length ? <li className="standing-gap" aria-label="Other places omitted"><span aria-hidden="true">···</span></li> : null}
-      <li ref={ownRow} className="standing-you" tabIndex={-1}>
-        {confirmation > 0 && published && !editing && !currentRun.moderationHidden ? <span key={confirmation} className="standing-confirmation" aria-hidden="true" /> : null}
-        <RankMarker className="standing-rank" rank={daily ? ownRank : null} />
-        <span className="standing-name"><PlayerFlag iso2={shownFlag} className="standing-flag" /><span className="standing-label">
-          {published ? <><b>{published}</b><small className="standing-you-label">You{confirmation > 0 && onPublicBoard ? <CheckIcon key={confirmation} size={14} className="standing-confirmed-check" /> : null}</small></> : <b>You</b>}
-          {currentRun.moderationHidden ? <small className="standing-sub">Name under review</small> : !published && daily ? <small className="standing-sub">Not on the public board yet</small> : null}
-        </span></span>
-        <b className="standing-score num">{currentRun.scoreDisplay}</b>
-        <span aria-hidden="true" />
-      </li>
-      {after.flatMap(publicRow)}
-    </ol>
-    {empty && !published ? <p className="standing-preview">Be the first on today’s board. Equal scores share a place.</p> : null}
-    {daily && currentRun.leaderboard?.available === false ? <div className="standing-unavailable"><span>The leaderboard couldn’t be opened. Your score is saved.</span><button type="button" className="btn btn-secondary" disabled={busy} onClick={async () => {
-      setPending("refresh"); setError(null);
-      try { const fresh = await refreshResultStanding(run.id); if (fresh) { setCurrentRun(fresh); onPublished?.(fresh); } else setError("Could not refresh. Try again."); }
-      catch { setError("Connection lost. Try again."); } finally { setPending(null); }
-    }}>{pending === "refresh" ? "Opening leaderboard" : "Try again"}</button></div> : null}
-    {editing ? <div className="join-panel">
+  const controls = <>
+    {editing ? <div className={`join-panel${onBoard ? "" : " join-top"}`}>
       <h3 className="join-title">{daily ? "Put your name on the board" : "Add your name"}</h3>
-      <p id={privateNote} className="join-note">{published?.startsWith("guest-") ? `Optional. Saved automatically as ${published}.` : daily ? "Optional. Only your name and flag are shown." : "Optional. Leave blank for a guest name."}</p>
+      <p id={privateNote} className="join-note">{published?.startsWith("guest-") ? `Optional. Saved automatically as ${published}.` : daily ? "Optional. Your row below shows how it will look." : "Optional. Leave blank for a guest name."}</p>
       <form className={`join-row${daily ? "" : " join-row-plain"}`} onSubmit={async event => {
         event.preventDefault();
         if (busy) return;
@@ -205,7 +189,7 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
       </button> : null}
       {renaming ? <button type="button" className="btn btn-tertiary join-cancel" disabled={busy} onClick={() => { setEditing(false); setRenaming(false); setError(null); requestAnimationFrame(() => changeButton.current?.focus({ preventScroll: true })); }}>Cancel</button> : null}
       {daily ? <CountryPicker open={picking} onClose={() => setPicking(false)} value={place} onChange={choosePlace} lastUsed={lastFlag} /> : null}
-    </div> : published ? <div className="join-done">
+    </div> : published ? <div className={`join-done${onBoard ? "" : " join-top"}`}>
       <p className="join-done-line">{currentRun.moderationHidden ? <>Your name <b>{published}</b> is under review</> : <>{daily ? "On the board as" : "Saved as"} <b>{published}</b></>}</p>
       <span className="join-done-actions">
         <button ref={changeButton} type="button" className="btn btn-tertiary" onClick={editName} disabled={busy}>Change</button>
@@ -217,5 +201,35 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
       </div></div> : null}
     </div> : null}
     <p id={`${id}-feedback`} className="name-feedback" role={error ? "alert" : "status"}>{error ?? notice}</p>
+  </>;
+
+  return <section className={`leaderboard-entry name-entry${published && !editing ? " name-published" : ""}${onBoard ? " name-on-board" : ""}`} aria-labelledby={`${id}-heading`}>
+    {!onBoard ? <div className="name-heading">
+      <h2 id={`${id}-heading`} className="standing-title">{daily ? "Today’s leaderboard" : "Your saved result"}</h2>
+      {daily && count !== undefined ? <span className="standing-count">{count.toLocaleString("en-US")} {count === 1 ? "player" : "players"}</span> : null}
+    </div> : <h2 id={`${id}-heading`} className="sr-only">Your leaderboard entry</h2>}
+    {onBoard ? null : controls}
+    <ol ref={list} className={`standing-list${longList ? " standing-scroll" : ""}`} aria-label={onBoard || !daily ? "Your score" : "Today’s leaderboard with your result"} tabIndex={longList ? 0 : undefined}>
+      {before.flatMap(publicRow)}
+      {currentRun.leaderboard?.gapBeforeYou && before.length ? <li className="standing-gap" aria-label="Other places omitted"><span aria-hidden="true">···</span></li> : null}
+      <li ref={ownRow} className={`standing-you${editing ? " standing-you-draft" : ""}`} tabIndex={-1} onClick={editing ? focusName : undefined}>
+        {confirmation > 0 && published && !editing && !currentRun.moderationHidden ? <span key={confirmation} className="standing-confirmation" aria-hidden="true" /> : null}
+        <RankMarker className="standing-rank" rank={daily ? ownRank : null} />
+        <span className="standing-name"><PlayerFlag iso2={shownFlag} className="standing-flag" /><span className="standing-label">
+          {ownName ? <><b>{ownName}</b><small className="standing-you-label">You{confirmation > 0 && onPublicBoard && !editing ? <CheckIcon key={confirmation} size={14} className="standing-confirmed-check" /> : null}</small></> : <b>You</b>}
+          {ownSub ? <small className="standing-sub">{ownSub}</small> : null}
+        </span></span>
+        <b className="standing-score num">{currentRun.scoreDisplay}</b>
+        <span aria-hidden="true" />
+      </li>
+      {after.flatMap(publicRow)}
+    </ol>
+    {empty && !published ? <p className="standing-preview">Be the first on today’s board. Equal scores share a place.</p> : null}
+    {daily && currentRun.leaderboard?.available === false ? <div className="standing-unavailable"><span>The leaderboard couldn’t be opened. Your score is saved.</span><button type="button" className="btn btn-secondary" disabled={busy} onClick={async () => {
+      setPending("refresh"); setError(null);
+      try { const fresh = await refreshResultStanding(run.id); if (fresh) { setCurrentRun(fresh); onPublished?.(fresh); } else setError("Could not refresh. Try again."); }
+      catch { setError("Connection lost. Try again."); } finally { setPending(null); }
+    }}>{pending === "refresh" ? "Opening leaderboard" : "Try again"}</button></div> : null}
+    {onBoard ? controls : null}
   </section>;
 }

@@ -103,7 +103,8 @@ try {
         check(await page.locator('.a-next').evaluate(node => !!node.nextElementSibling?.matches('.a-review')), `${scenario.slug}: the answers follow the next daily directly`);
       }
       const input = entry.getByRole('textbox', {name: 'Your name on the board (optional)', exact: true});
-      check(await input.evaluate(node => !!node.closest('.join-panel form') && !node.closest('.standing-you')), 'The name field sits in the join panel under the list, not inside the own row');
+      check(await input.evaluate(node => !!node.closest('.join-panel form') && !node.closest('.standing-you')), 'The name field sits in the join panel, not inside the own row');
+      check(await entry.evaluate(node => !!(node.querySelector('.join-panel').compareDocumentPosition(node.querySelector('.standing-list')) & Node.DOCUMENT_POSITION_FOLLOWING)), 'The join panel sits above the list, so a long board never buries it');
       check(await entry.locator('.standing-you').evaluate(node => Array.from(node.parentElement.children).indexOf(node) === 2), 'The own score row sits between better and lower scores');
       // Section 4: neutral podium rows, distinct medals, your row ember, flag button before the name.
       const board = await entry.evaluate(node => {
