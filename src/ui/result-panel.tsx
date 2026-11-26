@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Countdown } from "@/ui/countdown";
 import { CountUp } from "@/ui/count-up";
 import { DailyNext, type DailyNextProps } from "@/ui/daily-next";
+import { JoinNudge } from "@/ui/join-nudge";
 import { ShareButton } from "@/ui/share-button";
 import { boardDate, ordinal } from "@/ui/result-format";
 import "./result-panel.css";
@@ -26,6 +27,8 @@ export interface ResultRanks {
 export interface ResultRank {
   rank: number;
   of: number;
+  /** False while the run is saved under a guest name, so the card invites you onto the board. */
+  named?: boolean;
 }
 
 /** The one share action of a result screen. */
@@ -103,8 +106,9 @@ export function failReasonText(code: string): string {
 /** Today's place from a saved run: published rank, else the private preview. */
 export function runRank(run: ServerGameRun | null | undefined): ResultRank | null {
   if (!run || run.moderationHidden || run.mode !== "daily") return null;
-  if (run.rankDaily) return { rank: run.rankDaily, of: Math.max(run.rankDaily, run.dailyNameCount ?? 0, run.leaderboard?.playerCount ?? 0) };
-  if (run.rankPreview) return { rank: run.rankPreview.rank, of: Math.max(run.rankPreview.rank, run.rankPreview.playerCount) };
+  const named = !!run.displayName && !run.displayName.startsWith("guest-");
+  if (run.rankDaily) return { rank: run.rankDaily, of: Math.max(run.rankDaily, run.dailyNameCount ?? 0, run.leaderboard?.playerCount ?? 0), named };
+  if (run.rankPreview) return { rank: run.rankPreview.rank, of: Math.max(run.rankPreview.rank, run.rankPreview.playerCount), named };
   return null;
 }
 
@@ -131,6 +135,8 @@ export interface ResultCardProps {
   note?: string;
   clay: { object: string; state?: string; tone?: "original" | "color" };
   answer?: ReactNode;
+  /** Under the facts: the invitation to put your name on today's board. */
+  join?: ReactNode;
   share?: ResultShare;
   /** The day-complete state: plate, kicker, score and one summary line in a row. */
   compact?: { kicker: string; line: string };
@@ -140,7 +146,7 @@ export interface ResultCardProps {
 }
 
 /** The result card: clay plate, kicker, verdict, score, facts and the single share. */
-export function ResultCard({ slug, kicker, verdict, value, max, unit, facts, note, clay, answer, share, compact, animate, label, srScore }: ResultCardProps) {
+export function ResultCard({ slug, kicker, verdict, value, max, unit, facts, note, clay, answer, join, share, compact, animate, label, srScore }: ResultCardProps) {
   const plate = <span className="rc-plate" data-game={slug} aria-hidden="true"><Clay object={clay.object} state={clay.state} tone={clay.tone ?? "color"} className="result-clay" sizes="64px" loading="eager" /></span>;
   if (compact) {
     return <section className={cn("rp a-card rc compact", animate && "rp-arrived")} aria-label={label}>
@@ -164,6 +170,7 @@ export function ResultCard({ slug, kicker, verdict, value, max, unit, facts, not
     {unit ? <p className="rp-score-label">{unit}</p> : null}
     {facts.length ? <dl className="rc-facts" style={{ gridTemplateColumns: `repeat(${facts.length}, minmax(0, 1fr))` }}>{facts.map((fact) => <div key={fact.label}><dt>{fact.label}</dt><dd className="num">{fact.value}</dd></div>)}</dl> : null}
     {note ? <p className="pb-line">{note}</p> : null}
+    {join}
     {share ? <div className="rc-foot"><ShareButton block text={share.text} challengeUrl={share.challengeUrl} onShare={share.onShare} label={share.label ?? "Share result"} source="result" /></div> : null}
   </section>;
 }
@@ -223,6 +230,7 @@ export function ResultPanel({ mode, game, slug: slugProp, score, outcome, kicker
     <div className={cn("rp-wrap a-page", !!primaryAction && "a-split", className)}>
       <ResultCard slug={slug} kicker={kickerLine} verdict={outcome} value={value} max={fraction} unit={unit} facts={facts}
         note={personalBest ? "New personal best" : undefined} clay={plate} answer={answer}
+        join={mode === "daily" && rank && rank.named === false && primaryAction ? <JoinNudge /> : undefined}
         share={share && !dayComplete ? share : undefined} compact={dayComplete ? { kicker: `${game} · today`, line: compactLine } : undefined}
         animate={animateScore} label={`${game} result`} srScore={`${game} result: ${score}`} />
       {failReason ? <p className="rp-fail t-meta" role="alert">Not saved: {failReason}.</p> : null}

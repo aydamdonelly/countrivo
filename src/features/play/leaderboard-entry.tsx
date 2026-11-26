@@ -15,6 +15,7 @@ import { GlobeIcon } from "@/ui/icons/globe";
 import { PlayerFlag } from "@/ui/player-flag";
 import { RankMarker } from "@/ui/rank-marker";
 import { ReportName } from "@/features/social/report-name";
+import { ordinal } from "@/ui/result-format";
 import "./leaderboard-entry.css";
 
 export interface LeaderboardEntryProps {
@@ -146,15 +147,15 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
   const draftName = editing ? typed || (onPublicName(published) ? published : "") : "";
   const ownName = editing ? draftName : published;
   const ownSub = currentRun.moderationHidden ? "Name under review"
-    : editing && daily ? (!draftName ? "Add your name above" : draftName !== published ? "Not saved yet, tap Save" : null)
+    : editing && daily ? (!draftName ? "Tap to add your name" : draftName !== published ? `Not saved yet, tap ${renaming ? "Save" : "Add me"}` : null)
     : !published && daily ? "Not on the public board yet" : null;
   function onPublicName(value: string | null): value is string { return !!value && !value.startsWith("guest-"); }
   const focusName = () => nameInput.current?.focus({ preventScroll: true });
 
   const controls = <>
     {editing ? <div className={`join-panel${onBoard ? "" : " join-top"}`}>
-      <h3 className="join-title">{daily ? "Put your name on the board" : "Add your name"}</h3>
-      <p id={privateNote} className="join-note">{published?.startsWith("guest-") ? `Optional. Saved automatically as ${published}.` : daily ? "Optional. Your row below shows how it will look." : "Optional. Leave blank for a guest name."}</p>
+      <h3 className="join-title">{renaming ? "Change your name" : daily && ownRank ? `You’re ${ordinal(ownRank)} today. Add your name.` : daily ? "Put your name on the board" : "Add your name"}</h3>
+      <p id={privateNote} className="join-note">{published?.startsWith("guest-") ? `Your score is saved automatically as ${published}. Add a name and flag to show who you are.` : daily ? "No account needed. Only your name and flag are shown." : "Leave blank for a guest name."}</p>
       <form className={`join-row${daily ? "" : " join-row-plain"}`} onSubmit={async event => {
         event.preventDefault();
         if (busy) return;
@@ -182,7 +183,7 @@ function Entry({ run, publishedName, onPublished, onBoard = false }: Leaderboard
         <label className="sr-only" htmlFor={id}>{daily ? "Your name on the board (optional)" : "Your name (optional)"}</label>
         <input ref={nameInput} id={id} className="join-name" name="displayName" type="text" minLength={2} maxLength={20} autoComplete="nickname" enterKeyHint="done" placeholder="Your name" value={name}
           onChange={event => { touched.current = true; setName(event.target.value); setError(null); }} aria-invalid={invalidName || undefined} aria-describedby={`${privateNote} ${id}-feedback`} disabled={busy} />
-        <button ref={joinButton} className="btn btn-secondary standing-join" type="submit" disabled={busy} aria-busy={pending === "publish" || undefined}>{pending === "publish" ? "Saving" : "Save"}</button>
+        <button ref={joinButton} className={`btn ${daily && !renaming ? "btn-primary" : "btn-secondary"} standing-join`} type="submit" disabled={busy} aria-busy={pending === "publish" || undefined}>{pending === "publish" ? "Saving" : renaming ? "Save" : "Add me"}</button>
       </form>
       {daily && !place && suggestion ? <button type="button" className="join-suggest" disabled={busy} onClick={() => choosePlace(suggestion.iso3)}>
         <Flag iso2={suggestion.iso2} size="xs" alt="" eager /><span>{suggestion.name}? <u>Use this flag</u></span>

@@ -78,7 +78,8 @@ try {
         const pastels = ['draft', 'geo', 'pin', 'flag', 'higher', 'stat', 'blind', 'speed'].map(name => { const probe = document.createElement('span'); probe.style.backgroundColor = `var(--color-game-${name})`; document.body.append(probe); const colour = getComputedStyle(probe).backgroundColor; probe.remove(); return colour; });
         return {
           shares: visible.filter(node => /^share/i.test(node.textContent.trim())).length,
-          primaries: visible.filter(node => node.matches('.btn-primary, .next-card')).length,
+          // 26 November 2026: joining today's board ("Add me") is a primary ask of its own, beside the next game.
+          primaries: visible.filter(node => node.matches('.btn-primary, .next-card') && !node.matches('.standing-join')).length,
           pastelButtons: visible.filter(node => node.matches('.btn') && pastels.includes(getComputedStyle(node).backgroundColor)).length,
         };
       });
@@ -129,7 +130,7 @@ try {
       await input.fill(longName);
       check(await input.inputValue() === longName, 'A20-character nickname remains editable');
       check(await input.getAttribute('maxlength') === '20', 'Nickname length matches the public limit');
-      const submit = entry.getByRole('button', {name: 'Save', exact: true});
+      const submit = entry.getByRole('button', {name: 'Add me', exact: true});
       check(await submit.evaluate(node => node.scrollWidth <= node.clientWidth + 1), 'Publishing CTA remains fully readable');
       await fits(page, `${scenario.slug} ${viewport.width}x${viewport.height}`);
       check(posts === 1, 'Result fixture uses one intercepted action and sends no publish/report action');
@@ -190,7 +191,7 @@ try {
     check((await done.locator('.day-done-sub').textContent()) === `All ${words[total]} done today`, `The sub line counts the ${total} dailies from the registry`);
     check(await done.locator('.day-strip li').count() === total, 'The score strip has one cell per daily');
     check(await page.locator('.a-card.compact').count() === 1, 'The result card turns compact beside the day-complete card');
-    const visible = await page.evaluate(() => [...document.querySelectorAll('button, a')].filter(node => node.checkVisibility()).map(node => ({text: node.textContent.trim(), primary: node.matches('.btn-primary, .next-card')})));
+    const visible = await page.evaluate(() => [...document.querySelectorAll('button, a')].filter(node => node.checkVisibility()).map(node => ({text: node.textContent.trim(), primary: node.matches('.btn-primary, .next-card') && !node.matches('.standing-join')})));
     check(visible.filter(node => /^share/i.test(node.text)).map(node => node.text).join() === 'Share your day', 'Share your day is the only share');
     check(visible.filter(node => node.primary).length === 1 && visible.find(node => node.primary)?.text === 'Share your day', 'Share your day is the only primary');
     check(await done.getByRole('link', {name: 'Back to today', exact: true}).evaluate(node => getComputedStyle(node).color !== 'rgb(184, 67, 42)'), 'Back to today is a quiet ink link, not ember');

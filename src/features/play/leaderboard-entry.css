@@ -58,7 +58,8 @@
   .join-suggest u { text-decoration-thickness:1px; text-decoration-color:var(--color-wait); text-underline-offset:4px; }
   .join-cancel { margin-top:4px; }
   /* Above the list (26 November 2026): the form is the first thing under the title, never below a long board. */
-  .join-panel.join-top { margin:8px 0 16px; }
+  .join-panel.join-top { margin:8px 0 16px; background:var(--color-you); box-shadow:inset 3px 0 0 var(--color-ember); border-radius:0 var(--radius-card) var(--radius-card) 0; }
+  .standing-you-draft .standing-sub { color:var(--color-ember); font-weight:500; }
   .join-done.join-top { margin:0 0 8px; }
   .join-top ~ .name-feedback:not(:empty) { margin:-8px 0 12px; }
   .standing-you-draft { cursor:text; }

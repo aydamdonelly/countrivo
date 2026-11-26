@@ -34,10 +34,10 @@ try{
   const input=entry.locator('input[name=displayName]');
   check(await input.isVisible(),'Guest can immediately enter an optional name');
   check(await input.getAttribute('required')===null,'No mandatory name');
-  check((await entry.textContent()).includes('Saved automatically as guest-a12bc345'),'Automatic persistence is explicit');
+  check((await entry.textContent()).includes('saved automatically as guest-a12bc345'),'Automatic persistence is explicit');
   check(posts===1,'Result UI does not need another publication request');
   check(mode==='daily'?(await entry.locator('.standing-you .rank-num').textContent())==='1':!(await entry.textContent()).includes('You’re #'),'Only daily results have a rank');
-  await entry.getByRole('button',{name:'Save',exact:true}).click();
+  await entry.getByRole('button',{name:'Add me',exact:true}).click();
   await entry.locator('.standing-label b').getByText('guest-a12bc345',{exact:true}).waitFor();
   check((await entry.textContent()).includes('guest-a12bc345'),'Blank name keeps the saved guest');
   await entry.getByRole('button',{name:'Change',exact:true}).click();

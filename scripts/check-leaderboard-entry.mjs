@@ -29,10 +29,11 @@ try{
   let posts=0,publishes=0,removals=0,countryReads=0,refreshes=0;
   let initialName=null,variant='normal',slug='higher-or-lower',nextId=991234,refreshing=false;
   const publicationIds=[];
+  const publishedNames=[];
   function runFor(published=false){
    const available=variant!=='unavailable',hidden=variant==='moderated',empty=variant==='empty';
    const count=empty?published?1:0:published?5:4;
-   return{id:nextId,gameSlug:slug,mode:'daily',dailyDate:dateKey,scoreRaw:10,scoreMax:13,scoreSortValue:10,scoreNormalized:10/13,scoreDisplay:'10 / 13',rankDaily:published&&available&&!hidden?empty?1:3:null,percentile:null,isPersonalBest:false,resultJson:{qaFixture:true},completedAt:new Date().toISOString(),dailyNameCount:available?count:undefined,moderationHidden:hidden,
+   return{id:nextId,gameSlug:slug,mode:'daily',dailyDate:dateKey,scoreRaw:10,scoreMax:13,scoreSortValue:10,scoreNormalized:10/13,scoreDisplay:'10 / 13',displayName:published?(publishedNames.at(-1)??initialName??'New Name'):null,rankDaily:published&&available&&!hidden?empty?1:3:null,percentile:null,isPersonalBest:false,resultJson:{qaFixture:true},completedAt:new Date().toISOString(),dailyNameCount:available?count:undefined,moderationHidden:hidden,
     rankPreview:!published&&available?{rank:empty?1:3,playerCount:empty?1:5}:undefined,
     leaderboard:{available,entries:available&&!empty?neighbours.map(row=>({...row,rank:published&&row.scoreSortValue<10?5:row.rank})):[],playerCount:count,gameSlug:slug,dateKey}};
   }
@@ -46,7 +47,7 @@ try{
    if(args[0]&&typeof args[0]==='object')response={success:true,view:viewFor(),run:runFor(!!initialName),publishedName:initialName,sessionToken:'local-standing-fixture',revision:1};
    else if(args.length===3){
     publishes++;publicationIds.push(args[0]);await new Promise(resolve=>setTimeout(resolve,200));
-    response=publishes===1?{success:false,error:'Connection interrupted. Try again.'}:{success:true,run:runFor(true),publishedName:args[1].trim()};
+    if(publishes!==1)publishedNames.push(args[1].trim());response=publishes===1?{success:false,error:'Connection interrupted. Try again.'}:{success:true,run:runFor(true),publishedName:args[1].trim()};
    }else if(args.length===1){
     if(refreshing){refreshes++;variant='normal';refreshing=false;response=runFor();}
     else{removals++;response={success:true,run:runFor()};}
@@ -88,7 +89,7 @@ try{
   check(await own.locator('form').count()===0&&await entry.locator('.join-panel form').count()===1,'The join form sits in its panel, not inside the score row');
   check(await entry.evaluate(node=>!!(node.querySelector('.join-panel').compareDocumentPosition(node.querySelector('.standing-list'))&Node.DOCUMENT_POSITION_FOLLOWING)),'The join panel sits above the list');
   check(await own.locator('.standing-label > b').textContent()==='Previous Name','The own row previews the remembered name before saving');
-  check(await own.getByText('Not saved yet, tap Save',{exact:true}).isVisible(),'The private own row says it is not saved and how to save');
+  check(await own.getByText('Not saved yet, tap Add me',{exact:true}).isVisible(),'The private own row says it is not saved and how to save');
   check(await entry.locator('.join-row').evaluate(row=>{const [flag,name,save]=['.join-flag','.join-name','.standing-join'].map(s=>row.querySelector(s).getBoundingClientRect());return flag.right<=name.left&&name.right<=save.left&&Math.abs(flag.top-name.top)<2&&Math.abs(name.top-save.top)<2&&flag.width>=44&&flag.height>=44;}),'Flag button, name and Save share one compact line with the flag first');
   check(await ownIndex()===2,'Own ghost row is between strictly better scores and equal/lower scores');
   check(await entry.locator('.standing-row').count()===4,'Real named neighbours are shown once');
@@ -127,14 +128,19 @@ try{
   check(await entry.getByText('4 players',{exact:true}).isVisible(),'Existing published count does not include the private player');
   check(await own.locator('.standing-score').textContent()==='10 / 13','Own score stays beside the editable name');
   check(!(await input.evaluate(node=>document.activeElement===node)),'Result does not autofocus the input');
+  const nudge=page.locator('.rc-join');
+  check(await nudge.count()===1&&(await nudge.textContent()).includes('Put your name on the board'),'The result card invites a nameless player onto the board');
+  await nudge.click();await page.waitForFunction(()=>document.activeElement?.classList.contains('join-name'));
+  check(true,'The card invitation focuses the name field');
+  await input.evaluate(node=>node.blur());
   check(publishes===0,'Remembered name is never published automatically');
   check(countryReads===0,'No country request before the picker opens');
   const full=page.locator('.a-links').getByRole('link',{name:'Full leaderboard',exact:true});
   check((await full.getAttribute('href')).endsWith('#leaderboard-your-score'),'Full leaderboard (tertiary link row under the result) targets the own score');
   check(await entry.getByRole('link',{name:'Full leaderboard',exact:true}).count()===0,'The leaderboard preview carries no second Full leaderboard link');
-  check(await entry.locator('.standing-join').evaluate(node=>node.matches('.btn-secondary')),'Save is a secondary button, so the next game stays the only primary');
+  check(await entry.locator('.standing-join').evaluate(node=>node.matches('.btn-primary')),'Add me is a primary button: joining the board is the main ask of the result');
   await fits(`Private ${width}px`);await page.screenshot({path:`${out}/join-${width}.png`,fullPage:true});
-  await input.fill('New Name');const join=entry.getByRole('button',{name:'Save',exact:true});
+  await input.fill('New Name');const join=entry.getByRole('button',{name:'Add me',exact:true});
   await join.click();await entry.getByRole('button',{name:'Saving',exact:true}).waitFor();
   check(await entry.getByRole('button',{name:'Saving',exact:true}).isDisabled(),'Pending publication cannot be clicked twice');
   await input.evaluate(node=>node.form.requestSubmit());
@@ -146,6 +152,7 @@ try{
   await join.click();await entry.getByText('Saved. You’re #3 of 5.',{exact:true}).waitFor();
   check(await ownIndex()===2,'Publication keeps the same ordinal position between neighbours');
   check(await entry.locator('.standing-you').count()===1&&await entry.locator('.join-panel').count()===0,'Publication replaces the form once without duplicating a player');
+  check(await page.locator('.rc-join').count()===0,'Once named, the card stops inviting you onto the board');
   check(await own.locator('.standing-label > b').textContent()==='New Name','Confirmed own name occupies the published row');
   check(await entry.locator('.join-done').getByText('New Name',{exact:true}).isVisible(),'The panel collapses to one line naming the public entry');
   check((await own.locator('.standing-you-label').textContent()).includes('You'),'Own identity remains explicit inside a podium row');

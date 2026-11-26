@@ -71,7 +71,7 @@ try{
   const scoreEvents=()=>page.evaluate(()=>window.motionEvents.filter(event=>event.name==='result-score-settle').length);
   if(reducedMotion==='no-preference')await page.waitForFunction(()=>window.motionEvents.some(event=>event.name==='result-score-settle'));
   const before=await scoreEvents();
-  await input.fill('Motion Player');await page.getByRole('button',{name:'Save',exact:true}).click();
+  await input.fill('Motion Player');await page.getByRole('button',{name:'Add me',exact:true}).click();
   await page.locator('.standing-you .standing-label > b').waitFor();
   check(publishes===1,'Only an explicit intercepted publication triggers confirmation');
   if(reducedMotion==='no-preference')await page.waitForFunction(()=>window.motionEvents.some(event=>event.name==='standing-confirm'));

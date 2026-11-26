@@ -29,6 +29,15 @@
   .rc-facts > div:first-child { border-left: 0; }
   .rc-facts dd { font-family: var(--font-display); font-weight: 600; font-size: 20px; line-height: 24px; color: var(--color-ink); }
   .rc-facts dt { color: var(--color-mute); font-size: 12px; line-height: 16px; }
+  /* Join invitation (26 November 2026): the own-row ember tint, full card width, under your place. */
+  .rc-join { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; margin-top: 14px; padding: 10px 14px; border-radius: var(--radius-ctl); background: var(--color-you); box-shadow: inset 3px 0 0 var(--color-ember); color: var(--color-ink); text-align: left; cursor: pointer; }
+  .rc-join-icon { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--color-ember); color: var(--color-paper); }
+  .rc-join-copy { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+  .rc-join-copy b { font-size: 16px; line-height: 22px; font-weight: 600; }
+  .rc-join-copy small { color: var(--color-mute); font-size: 13px; line-height: 18px; }
+  .rc-join-arrow { flex: none; color: var(--color-ember); }
+  .rc-join:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+  @media (hover: hover) { .rc-join:hover .rc-join-arrow { transform: translateY(2px); } }
   .rp-wrap .rc .pb-line { margin-top: 10px; color: var(--color-ink); font-size: 14px; font-weight: 600; }
   .rc-foot { width: 100%; margin-top: 20px; }
   .rc-foot .btn { width: 100%; white-space: normal; }
