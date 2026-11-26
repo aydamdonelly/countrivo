@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { gamePresentation } from '@/content/table';
-import { Clay, restFrame } from '@/ui/clay';
+import { gamePresentation, stepPicture } from '@/content/table';
+import { Clay, gameClayFrame } from '@/ui/clay';
 import { CloseIcon } from '@/ui/icons/close';
 import './game-help.css';
 
@@ -52,9 +52,16 @@ export function GameHelp({slug, title}: {slug: string; title: string}) {
       if (event.newState === 'closed' && (document.activeElement === document.body || event.currentTarget.contains(document.activeElement))) trigger.current?.focus({preventScroll: true});
     }}>
       <button ref={close} type="button" className="game-help-close" popoverTarget={fallback ? undefined : id} popoverTargetAction="hide" aria-label="Close help" onClick={() => { if (fallback) setOpen(false); }}><CloseIcon size={22} /></button>
-      <Clay object={game.clay} state={restFrame(game.clay)} sizes="64px" />
+      {(() => { const frame = gameClayFrame(game.clay, game.done); return <Clay object={game.clay} state={frame.state} tone={frame.tone} sizes="64px" />; })()}
       <h2 className="t-h2" id={`${id}-title`}>{title}</h2>
-      <ol>{game.steps.map((step, index) => <li key={step}><span aria-hidden="true">{index + 1}</span>{step}</li>)}</ol>
+      <ol>{game.steps.map((step, index) => {
+        const picture = stepPicture(slug, index);
+        return <li key={step} className={picture ? 'has-pic' : undefined}>
+          {/* eslint-disable-next-line @next/next/no-img-element -- small pre-sized step picture, loaded only when the sheet opens */}
+          {picture ? <img className="step-pic" src={picture} width={600} height={450} alt="" loading="lazy" decoding="async" /> : null}
+          <span className="step-line"><span className="step-n" aria-hidden="true">{index + 1}</span>{step}</span>
+        </li>;
+      })}</ol>
     </div>
   </>;
 }

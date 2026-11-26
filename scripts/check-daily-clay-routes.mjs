@@ -19,7 +19,7 @@ const scores={'country-draft':'140 / 195','geo-wordle':'3 guesses','pinpoint':'9
 const registry=JSON.parse(readFileSync('src/data/game-registry.json','utf8'));
 const order=registry.map(game=>game.slug);
 const dailyOrder=registry.filter(game=>game.availableModes?.includes('daily')).map(game=>game.slug);
-const noColourFrame=new Set(['flag-quiz','speed-flags','capital-quiz']);
+const noColourFrame=new Set(['capital-quiz']);
 const colourTiles=slugs=>slugs.filter(slug=>!noColourFrame.has(slug)).length;
 const out='.check-render/daily-clay';mkdirSync(out,{recursive:true});
 let checks=0,blockedPosts=0;

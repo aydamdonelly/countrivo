@@ -14,6 +14,15 @@
   .landing-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; list-style: none; }
   .landing-steps li { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 8px; text-align: center; font-size: 14px; line-height: 20px; background: var(--color-card); border-radius: var(--radius-card); }
   .landing-steps li .ic { flex: none; }
+  /* Step pictures (26 November 2026): a crop of the real screen above each step; one column on a phone. */
+  .landing-steps.has-pics { grid-template-columns: 1fr; gap: 12px; }
+  .landing-steps.has-pics li { flex-direction: row; align-items: center; gap: 14px; padding: 8px; text-align: left; font-size: 15px; line-height: 21px; }
+  .landing-steps .step-pic { display: block; flex: none; width: 44%; height: auto; aspect-ratio: 4 / 3; border-radius: var(--radius-ctl); box-shadow: 0 0 0 1px var(--color-line); background: var(--color-paper); }
+  @media (min-width: 768px) {
+    .landing-steps.has-pics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .landing-steps.has-pics li { flex-direction: column; align-items: stretch; text-align: left; padding: 8px 8px 14px; }
+    .landing-steps.has-pics .step-pic { width: 100%; }
+  }
   .landing-scoring { color: var(--color-mute); margin-bottom: 12px; }
   .landing-scoring ul { display: grid; gap: 8px; padding-left: 20px; list-style: disc; font-size: 14px; line-height: 22px; margin-bottom: 16px; }
   .landing-scoring .job-guide { color: var(--color-ink); }

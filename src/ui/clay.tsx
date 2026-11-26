@@ -13,7 +13,7 @@ interface ClayProps {
 
 export const COLOR_FRAMES: ReadonlySet<string> = new Set([
   'cl-01/coins', 'cl-02/pressed', 'cl-03/deep',
-  'cl-07/flip', 'cl-04/level', 'cl-06/slide',
+  'cl-07/flip', 'cl-04/level', 'cl-06/slide', 'cl-05/rosette', 'cl-08/empty',
 ]);
 
 export function Clay({ object, state = "rest", alternate, className, sizes = '(min-width: 1024px) 200px, 120px', loading = 'lazy', tone = 'original' }: ClayProps) {

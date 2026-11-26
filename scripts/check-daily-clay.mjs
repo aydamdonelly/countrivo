@@ -34,12 +34,13 @@ try {
   const {getAllGames,getDailyGames}=tsxRequire('../src/lib/data/registry.ts',import.meta.url);
   const {mainDailies,practiceGames}=tsxRequire('../src/features/home/lists.ts',import.meta.url);
   const {dailyRefs}=tsxRequire('../src/features/play/server.ts',import.meta.url);
-  const order=['country-draft','geo-wordle','blind-pick','pinpoint','higher-or-lower','stat-guesser','flag-quiz','speed-flags'];
+  // 25 November 2026: registry order, Flag Quiz last among the seven dailies, then the practice drills.
+  const order=['country-draft','geo-wordle','higher-or-lower','pinpoint','stat-guesser','blind-pick','flag-quiz','speed-flags','capital-quiz'];
   const slugs=items=>items.map(item=>item.slug);
-  check(JSON.stringify(slugs(getAllGames()))===JSON.stringify(order),'Central roster puts Blind Pick third');
+  check(JSON.stringify(slugs(getAllGames()))===JSON.stringify(order),'Central roster follows the registry order');
   check(JSON.stringify(slugs(all))===JSON.stringify(order),'All visual presentations follow the complete central roster');
   check(JSON.stringify(slugs(dailyRefs()))===JSON.stringify(slugs(getDailyGames())),'Next-game choices follow the central daily order');
-  check(JSON.stringify(slugs(mainDailies()))===JSON.stringify(order.slice(1,6)),'Daily list follows registry order after its Draft anchor');
+  check(JSON.stringify(slugs(mainDailies()))===JSON.stringify(order.slice(1,7)),'Daily list follows registry order after its Draft anchor');
   check(JSON.stringify(slugs(practiceGames()))===JSON.stringify(order.slice(1)),'Practice list follows the same central order');
   games = all.filter(game => getDailyGames().some(daily=>daily.slug===game.slug));
 } finally {

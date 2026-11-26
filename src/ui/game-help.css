@@ -1,7 +1,7 @@
 @layer components {
   .game-help-trigger, .game-help-close { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; flex:none; color:var(--color-ink); border-radius:var(--radius-ctl); }
   .game-help-trigger:hover, .game-help-close:hover { background:var(--color-card); }
-  .game-help-panel { display:none; width:min(360px, calc(100vw - 40px)); max-height:calc(100vh - 40px); max-height:calc(100dvh - 40px); overflow-y:auto; overscroll-behavior:contain; margin:auto; padding:28px; background:var(--color-paper); color:var(--color-ink); border:1px solid var(--color-line); border-radius:var(--radius-card); }
+  .game-help-panel { display:none; width:min(400px, calc(100vw - 32px)); max-height:calc(100vh - 40px); max-height:calc(100dvh - 40px); overflow-y:auto; overscroll-behavior:contain; margin:auto; padding:28px; background:var(--color-paper); color:var(--color-ink); border:1px solid var(--color-line); border-radius:var(--radius-card); }
   .game-help-panel:popover-open { display:block; }
   .game-help-scrim { position:fixed; inset:0; z-index:121; background:var(--color-scrim); }
   .game-help-panel.fallback-open { display:block; position:fixed; top:50%; left:50%; z-index:122; margin:0; transform:translate(-50%, -50%); }
@@ -11,5 +11,8 @@
   .game-help-panel h2 { margin:8px 0 20px; }
   .game-help-panel ol { display:flex; flex-direction:column; gap:16px; }
   .game-help-panel li { display:flex; align-items:center; gap:12px; font-size:16px; line-height:24px; }
-  .game-help-panel li > span { display:inline-flex; width:28px; height:28px; flex:none; align-items:center; justify-content:center; border-radius:50%; background:var(--color-card); font-size:13px; font-weight:600; }
+  .game-help-panel li.has-pic { flex-direction:column; align-items:stretch; gap:10px; }
+  .game-help-panel .step-pic { display:block; width:100%; height:auto; aspect-ratio:4 / 3; border-radius:var(--radius-ctl); box-shadow:0 0 0 1px var(--color-line); background:var(--color-card); }
+  .game-help-panel .step-line { display:flex; align-items:center; gap:12px; }
+  .game-help-panel .step-n { display:inline-flex; width:28px; height:28px; flex:none; align-items:center; justify-content:center; border-radius:50%; background:var(--color-card); font-size:13px; font-weight:600; }
 }

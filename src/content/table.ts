@@ -62,3 +62,13 @@ export function outcomeClay(game: string, score: string): string {
   const band=bands[game];
   return !band || !Number.isFinite(value) ? 'cl-22' : value >= band[0] ? 'cl-20' : value >= band[1] ? 'cl-21' : 'cl-22';
 }
+
+/**
+ * Step pictures for "How to play" (26 November 2026): one crop of the real screen per step, built by
+ * scripts/build-howto-images.mjs into public/howto/{slug}-{n}.webp (600 x 450).
+ */
+const STEP_PICTURE_GAMES: ReadonlySet<string> = new Set(["country-draft", "geo-wordle", "pinpoint", "flag-quiz", "higher-or-lower", "stat-guesser", "blind-pick"]);
+
+export function stepPicture(slug: string, index: number): string | null {
+  return STEP_PICTURE_GAMES.has(slug) && index >= 0 && index < 3 ? `/howto/${slug}-${index + 1}.webp` : null;
+}

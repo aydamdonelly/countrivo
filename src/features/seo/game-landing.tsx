@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { getGameBySlug } from '@/lib/data/games';
 import { getGameContent, relatedSlugs } from '@/content/games';
-import { CABINET_JOBS, gamePresentation } from '@/content/table';
+import { CABINET_JOBS, gamePresentation, stepPicture } from '@/content/table';
 import { getGameCopy } from '@/lib/seo/game-copy';
 import { buildGameJsonLd } from '@/lib/seo/game-metadata';
 import { GameRow } from '@/ui/game-row';
@@ -99,7 +99,10 @@ export async function GameLanding({slug}: {slug:string}) {
       {flagQuizBeforeSprint ? <p className="landing-lead t-meta text-mute">Today’s daily board still runs the earlier ten-flag quiz. The twenty-second sprint starts with the 26 November board at midnight Berlin time.</p> : null}
       <details className="landing-details disclose" open>
         <summary>How to play</summary>
-        <ol className="landing-steps">{presentation.steps.map((step, i)=>{const Icon=stepIcons[slug]?.[i] ?? CheckIcon;return <li key={step}><Icon size={28} /><span>{step}</span></li>;})}</ol>
+        <ol className={stepPicture(slug, 0) ? 'landing-steps has-pics' : 'landing-steps'}>{presentation.steps.map((step, i)=>{const Icon=stepIcons[slug]?.[i] ?? CheckIcon;const picture=stepPicture(slug, i);return <li key={step}>{picture
+          // eslint-disable-next-line @next/next/no-img-element -- small pre-sized step picture
+          ? <img className="step-pic" src={picture} width={600} height={450} alt="" loading="lazy" decoding="async" />
+          : <Icon size={28} />}<span>{step}</span></li>;})}</ol>
         <details className="landing-scoring disclose"><summary>Scoring</summary><ul>{content.rules.map((rule)=><li key={rule}>{rule}</li>)}</ul>
           {slug === 'country-draft' ? <div className="job-guide">{CABINET_JOBS.map((job)=><div key={job.slug}><Clay object={job.clay} sizes="72px" /><span><b>{job.name}</b><small>{job.description}</small></span></div>)}</div> : null}
         </details>
